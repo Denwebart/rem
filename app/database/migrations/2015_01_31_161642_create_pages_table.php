@@ -16,7 +16,7 @@ class CreatePagesTable extends Migration {
 			$table->boolean('is_container')->default(0);
 			$table->boolean('show_submenu')->default(0);
 			$table->string('menu_title', 200);
-			$table->string('title', 500);
+			$table->string('title', 500)->nullable();
 			$table->string('image', 300)->nullable();
 			$table->string('image_alt', 1000)->nullable();
 			$table->integer('views')->default(0);

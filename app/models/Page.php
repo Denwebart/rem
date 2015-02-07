@@ -71,4 +71,49 @@ class Page extends \Eloquent
 		'meta_desc',
 		'meta_key',
 	];
+
+	public static $rules = [
+		'parent_id' => 'integer',
+		'user_id' => 'required|integer',
+		'is_published' => 'integer',
+		'alias' => 'max:300',
+		'menu_title' => 'max:200',
+		'is_container' => 'integer',
+		'show_submenu' => 'integer',
+		'image' => 'max:300',
+		'image_alt' => 'max:1000',
+		'title' => 'max:500',
+		'introtext' => 'max:2000',
+		'views' => 'integer',
+		'votes' => 'integer',
+		'voters' => 'integer',
+		'meta_title' => 'max:600',
+		'meta_desc' => 'max:1500',
+		'meta_key' => 'max:1500',
+	];
+
+	public function parent()
+	{
+		return $this->belongsTo('Page', 'parent_id');
+	}
+
+	public function children()
+	{
+		return $this->hasMany('Page', 'parent_id');
+	}
+
+	public function publishedChildren()
+	{
+		return $this->hasMany('Page', 'parent_id')->whereIsPublished(1);
+	}
+
+	public function getTitle()
+	{
+		return ($this->menu_title) ? $this->menu_title : $this->title;
+	}
+
+	public static function getContainer()
+	{
+		return [0 => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
+	}
 }
