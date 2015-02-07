@@ -124,6 +124,7 @@ return array(
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Zofe\Rapyd\RapydServiceProvider',
+		'Way\Generators\GeneratorsServiceProvider',
 
 	),
 

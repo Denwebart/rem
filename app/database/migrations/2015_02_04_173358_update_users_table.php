@@ -13,6 +13,7 @@ class UpdateUsersTable extends Migration {
 			$table->string('activationCode');
 			$table->string('remember_token', 100)->nullable()->index();
 			$table->string('password', 100);
+			$table->string('avatar', 300)->nullable();
 			$table->dropColumn('user_id');
 		});
 	}
@@ -25,6 +26,7 @@ class UpdateUsersTable extends Migration {
 			$table->dropColumn('activationCode');
 			$table->dropColumn('remember_token');
 			$table->dropColumn('password');
+			$table->dropColumn('avatar');
 			$table->integer('user_id')->nullable();
 		});
 	}
