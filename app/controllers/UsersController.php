@@ -71,7 +71,8 @@ class UsersController extends BaseController
 		// Пытаемся авторизовать пользователя
 		if (Auth::attempt($creds, Input::has('remember'))) {
 			Log::info("User [{$name}] successfully logged in.");
-			return Redirect::intended();
+//			return Redirect::intended();
+			return Redirect::to('admin');
 		} else {
 			Log::info("User [{$name}] failed to login.");
 		}

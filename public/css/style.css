@@ -2,3 +2,22 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
+
+header {
+    height: 125px;
+}
+
+/* Navbar */
+.navbar {
+    min-height: 30px;
+}
+.navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+}
+#navbar-top .navbar-nav > li > a {
+    padding: 5px 15px;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
