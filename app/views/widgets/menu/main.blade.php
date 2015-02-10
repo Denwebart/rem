@@ -11,12 +11,12 @@
         <div id="navbar-main" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 @foreach($pages as $page)
-                    <li class="dropdown">
+                    <li class="dropdown {{ (URL::current() != URL::to($page->alias)) ? '' : 'active' }}">
                         <a href="{{ URL::to($page->alias) }}">{{ $page->menu_title }}</a>
                         @if($page->show_submenu && count($page->publishedChildren))
                         <ul class="dropdown-menu" role="menu">
                             @foreach($page->publishedChildren as $child)
-                                <li><a href="{{ URL::to($child->alias) }}">{{ $child->menu_title }}</a></li>
+                                <li><a href="{{ URL::to($page->alias . '/' . $child->alias) }}">{{ $child->menu_title }}</a></li>
                             @endforeach
                         </ul>
                         @endif

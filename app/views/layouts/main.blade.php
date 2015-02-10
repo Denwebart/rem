@@ -2,8 +2,20 @@
 <!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Новый шаблон</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ $page->meta_title }}</title>
+
+    <meta name="description" content="{{ $page->meta_desc }}"/>
+    <meta name="keywords" content="{{ $page->meta_key }}"/>
+    <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
+    <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
+    <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
+
+    <link rel="icon" href="{{ URL::to('favicon.ico') }}">
+
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
 </head>
@@ -35,7 +47,21 @@
 
 {{ $menuWidget->mainMenu() }}
 
-@yield('content')
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3" style="background: gray">
+            <p>Ширина блока в 3 колонки</p>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+            @yield('content')
+        </div>
+
+        <div class="col-lg-3 col-md-3" style="background: gray">
+            <p>Ширина блока в 3 колонки</p>
+        </div>
+    </div>
+</div>
 
 <footer class="container">
     <div class="row">

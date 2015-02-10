@@ -3,10 +3,6 @@
 @section('content')
 <div class="page-head">
     <h1>Административная панель сайта  <small></small></h1>
-    <ol class="breadcrumb">
-        <li>Вы находитесь здесь:</li>
-        <li>Главная</li>
-    </ol>
 </div>
 
 <div class="content">

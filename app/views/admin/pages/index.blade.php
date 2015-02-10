@@ -4,7 +4,6 @@
 <div class="page-head">
     <h1>Страницы  <small>все страницы сайта</small></h1>
     <ol class="breadcrumb">
-        <li>Вы находитесь здесь:</li>
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
         <li class="active">Страницы</li>
     </ol>
@@ -85,6 +84,9 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <div class="pull-left">
+                        {{ $pages->links() }}
+                    </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div>

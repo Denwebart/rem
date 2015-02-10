@@ -125,6 +125,7 @@ return array(
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Zofe\Rapyd\RapydServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
+		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 
 	),
 

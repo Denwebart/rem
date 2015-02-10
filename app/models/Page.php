@@ -116,4 +116,11 @@ class Page extends \Eloquent
 	{
 		return [0 => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
 	}
+
+	public static function getPageByAlias($alias = '/') {
+		return self::whereAlias($alias)
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->first();
+	}
 }
