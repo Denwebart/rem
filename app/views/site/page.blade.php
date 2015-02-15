@@ -2,9 +2,13 @@
 
 @section('content')
 	<section id="content">
-		<h2>{{ $page->title }}</h2>
-		<div class="content">
-			{{ $page->content }}
-		</div>
+		@if($page->title)
+			<h2>{{ $page->title }}</h2>
+		@endif
+		@if($page->content)
+			<div class="content">
+				{{ $page->content }}
+			</div>
+		@endif
 	</section>
 @stop

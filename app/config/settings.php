@@ -8,4 +8,6 @@ return [
 	'adminEmail' => 'denwebart@yandex.ua',
 	'adminName' => 'Admin',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
+
+	'defaultImage' => '/images/default-image.jpg',
 ];

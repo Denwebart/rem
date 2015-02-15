@@ -1,6 +1,6 @@
 <?php
 
-class AdminPagesController extends \AdminController {
+class AdminPagesController extends \BaseController {
 
 	/**
 	 * Display a listing of pages
@@ -9,9 +9,9 @@ class AdminPagesController extends \AdminController {
 	 */
 	public function index()
 	{
-		$pages = Page::all();
+		$pages = Page::paginate(10);
 
-		return View::make('pages.index', compact('pages'));
+		return View::make('admin.pages.index', compact('pages'));
 	}
 
 	/**
@@ -21,7 +21,9 @@ class AdminPagesController extends \AdminController {
 	 */
 	public function create()
 	{
-		return View::make('pages.create');
+		$page = new Page();
+
+		return View::make('admin.pages.create', compact('page'));
 	}
 
 	/**
@@ -31,7 +33,10 @@ class AdminPagesController extends \AdminController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Page::$rules);
+		$data = Input::all();
+		$data['user_id'] = Auth::user()->id;
+
+		$validator = Validator::make($data, Page::$rules);
 
 		if ($validator->fails())
 		{
@@ -40,7 +45,7 @@ class AdminPagesController extends \AdminController {
 
 		Page::create($data);
 
-		return Redirect::route('pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 	/**
@@ -53,7 +58,7 @@ class AdminPagesController extends \AdminController {
 	{
 		$page = Page::findOrFail($id);
 
-		return View::make('pages.show', compact('page'));
+		return View::make('admin.pages.show', compact('page'));
 	}
 
 	/**
@@ -66,7 +71,7 @@ class AdminPagesController extends \AdminController {
 	{
 		$page = Page::find($id);
 
-		return View::make('pages.edit', compact('page'));
+		return View::make('admin.pages.edit', compact('page'));
 	}
 
 	/**
@@ -79,7 +84,10 @@ class AdminPagesController extends \AdminController {
 	{
 		$page = Page::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Page::$rules);
+		$data = Input::all();
+		$data['user_id'] = Auth::user()->id;
+
+		$validator = Validator::make($data, Page::$rules);
 
 		if ($validator->fails())
 		{
@@ -88,7 +96,7 @@ class AdminPagesController extends \AdminController {
 
 		$page->update($data);
 
-		return Redirect::route('pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 	/**
@@ -101,7 +109,7 @@ class AdminPagesController extends \AdminController {
 	{
 		Page::destroy($id);
 
-		return Redirect::route('pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 }

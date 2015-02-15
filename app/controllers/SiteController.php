@@ -11,7 +11,7 @@ class SiteController extends BaseController {
 	public function firstLevel($alias)
 	{
 		View::share('page', Page::getPageByAlias($alias));
-		return View::make('site.page');
+		return View::make('site.firstLevel');
 	}
 
 	public function secondLevel($categoryAlias, $alias)

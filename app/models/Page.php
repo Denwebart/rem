@@ -112,6 +112,11 @@ class Page extends \Eloquent
 		return ($this->menu_title) ? $this->menu_title : $this->title;
 	}
 
+	public function getIntrotext()
+	{
+		return ($this->introtext) ? $this->introtext : Str::limit($this->content, 500, '...');
+	}
+
 	public static function getContainer()
 	{
 		return [0 => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');

@@ -1,20 +1,9 @@
 <?php
 
-class AdminController extends Controller
+class AdminController extends \BaseController
 {
-	protected function setupLayout()
+	public function index()
 	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = View::make($this->layout);
-		}
-	}
-
-	protected function getMessage($message, $redirect = false)
-	{
-		return View::make('message', array(
-			'message'   => $message,
-			'redirect'  => $redirect,
-		));
+		return View::make('admin.index');
 	}
 }

@@ -2,20 +2,26 @@
 
 @section('content')
 	<section id="content">
-		<h2>{{ $page->title }}</h2>
-		<div class="content">
-			{{ $page->content }}
+		@if($page->title)
+			<h2>{{ $page->title }}</h2>
+		@endif
+		@if($page->content)
+			<div class="content">
+				{{ $page->content }}
+			</div>
+		@endif
 
+		<section id="contact-form-area">
 			@if(Session::has('successMessage'))
 				{{ Session::get('successMessage') }}
 			@endif
 
 			{{ Form::open([
-                  'action' => ['SiteController@contactPost'],
-                  'id' => 'contact-form',
-                  'class' => 'form-horizontal'
-                  ])
-            }}
+				  'action' => ['SiteController@contactPost'],
+				  'id' => 'contact-form',
+				  'class' => 'form-horizontal'
+				  ])
+			}}
 			<fieldset>
 
 				<!-- Form Name -->
@@ -72,6 +78,6 @@
 
 			</fieldset>
 			{{ Form::close() }}
-		</div>
+		</section><!--contact-form-area-->
 	</section>
 @stop
