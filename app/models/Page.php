@@ -77,12 +77,12 @@ class Page extends \Eloquent
 		'user_id' => 'required|integer',
 		'is_published' => 'integer',
 		'alias' => 'max:300',
-		'menu_title' => 'max:200',
+		'menu_title' => 'required_without_all:title|max:200',
 		'is_container' => 'integer',
 		'show_submenu' => 'integer',
 		'image' => 'max:300',
 		'image_alt' => 'max:1000',
-		'title' => 'max:500',
+		'title' => 'required_without_all:menu_title|max:500',
 		'introtext' => 'max:2000',
 		'views' => 'integer',
 		'votes' => 'integer',
@@ -105,6 +105,17 @@ class Page extends \Eloquent
 	public function publishedChildren()
 	{
 		return $this->hasMany('Page', 'parent_id')->whereIsPublished(1);
+	}
+
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($model)
+		{
+			AliasGenerator::generate($model);
+		});
+
 	}
 
 	public function getTitle()
