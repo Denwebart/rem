@@ -45,9 +45,9 @@
                                         <span class="label label-warning">Не опубликован</span>
                                     @endif
                                 </td>
-                                <td>{{ $page->created_at }}</td>
-                                <td>{{ $page->updated_at }}</td>
-                                <td>{{ $page->published_at }}</td>
+                                <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
+                                <td>{{ DateHelper::dateFormat($page->updated_at) }}</td>
+                                <td>{{ DateHelper::dateFormat($page->published_at) }}</td>
                                 <td>
                                     {{--<a class="btn btn-success btn-sm" href="{{ URL::route('admin.pages.show', $page->id) }}">--}}
                                         {{--<i class="fa fa-search-plus "></i>--}}

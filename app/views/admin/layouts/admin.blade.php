@@ -198,12 +198,12 @@
             </div>
             <ul class="sidebar-menu">
                 <li class="title">Навигация</li>
-                <li class="active">
+                <li class="{{ (URL::to('admin') != URL::current()) ? '' : 'active'}}">
                     <a href="{{ URL::to('admin') }}">
                         <i class="fa fa-home"></i> <span>Главная</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ (URL::to('admin/pages') != URL::current()) ? '' : 'active'}}">
                     <a href="{{ URL::to('admin/pages') }}">
                         <i class="fa fa-file"></i> <span>Страницы</span>
                     </a>
