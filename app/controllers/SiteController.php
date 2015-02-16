@@ -2,6 +2,22 @@
 
 class SiteController extends BaseController {
 
+	public function __construct()
+	{
+		$this->beforeFilter(function()
+		{
+			$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+
+			if(URL::current() != URL::previous())
+			{
+				$page = Page::getPageByAlias($alias);
+				$page->views = $page->views + 1;
+				$page->save();
+			}
+
+		}, ['except' => ['contactPost', 'sitemapXml']]);
+	}
+
 	public function index()
 	{
 		View::share('page', Page::getPageByAlias());
