@@ -91,12 +91,23 @@
                 <div class="row">
                     <div class="col-sm-6">
                         {{ Form::label('is_published', 'Опубликован') }}
-                        {{ Form::hidden('is_published', 0) }}
-                        {{ Form::checkbox('is_published', 1, ['id' => 'is_published_check']) }}
+                        {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
+                        {{ Form::checkbox('is_published', 1) }}
                     </div>
                     <div class="col-sm-6">
                         {{ Form::label('published_at', 'Дата публикации') }}
-                        {{ Form::text('published_at', $page->published_at, ['class' => 'form-control datepicker-input']) }}
+
+                        <div class="input-group">
+                            {{ Form::text('published_at',
+                                ('0000-00-00 00:00:00' != $page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
+                                ['class' => 'form-control datepicker-input'])
+                            }}
+                            <span id="published_at_time" class="input-group-addon">
+                                {{ Form::hidden('publishedTime', ('0000-00-00 00:00:00' != $page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
+                                {{ ('0000-00-00 00:00:00' != $page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
+                            </span>
+                        </div>
+
                         {{ $errors->first('published_at') }}
                     </div>
                 </div>
@@ -152,7 +163,11 @@
     <!-- Date picker -->
     <script src="/backend/js/plugins/datepicker/datepicker.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $('.datepicker-input').datepicker();
+        $('.datepicker-input').datepicker({
+            format: "dd-mm-yyyy"
+        }).on('changeDate', function(ev){
+            $("#published_at_time").text("<?php echo Config::get('settings.defaultPublishedTime')?>");
+        });
     </script>
 
     <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
@@ -163,9 +178,40 @@
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $("input[type='checkbox'], input[type='radio']").iCheck({
-            checkboxClass: 'icheckbox_minimal',
-            radioClass: 'iradio_minimal'
+        $(document).ready(function() {
+            $("input[type='checkbox'], input[type='radio']").iCheck({
+                checkboxClass: 'icheckbox_minimal',
+                radioClass: 'iradio_minimal'
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#is_published').on('ifChecked', function(event){
+//                var nowTemp = new Date();
+//                var nowDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+//                var nowTime = nowTemp.getHours() + ':' + nowTemp.getMinutes() + ':' + nowTemp.getSeconds();
+
+//                $('#published_at').datepicker('setValue', nowDate);
+//                $('#published_at_time').text(nowTime);
+            });
+            $('#is_published').on('ifUnchecked', function(event){
+                $('#published_at').val('');
+                $('#published_at_time').text('');
+            });
+
+            $('#published_at').on('change', function(){
+                if(this.value == ''){
+                    $('#published_at_time').text('');
+                }
+            });
+
+            $('#published_at').datepicker().on('changeDate', function(ev){
+                $('#is_published').iCheck('check');
+            });
+
         });
     </script>
 

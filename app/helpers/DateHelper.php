@@ -37,7 +37,7 @@ class DateHelper
 		$timestamp = strtotime($date);
 		$month = ($isShortMonth) ?
 			self::$shortMonths[date('n', $timestamp)] : self::$sonths[date('n', $timestamp)];
-		return date("d $month Y", $timestamp);
+		return date("d $month Y H:i", $timestamp);
 	}
 
 //	public static function getRelativeTime($timestamp, $headText = 'about ')

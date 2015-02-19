@@ -32,6 +32,9 @@ form.destroy {
 .table > thead > tr > th.button-column {
     padding: 3px 0;
 }
+#published_at_time {
+    width: 90px;
+}
 
 /* Header==================================================*/
 header {

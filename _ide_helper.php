@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.17 on 2015-02-16.
+ * Generated for Laravel 4.2.17 on 2015-02-17.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12816,6 +12816,24 @@ namespace {
          *
          * @static 
          */
+        public static function scripts(){
+            return \Zofe\Rapyd\Rapyd::scripts();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function styles(){
+            return \Zofe\Rapyd\Rapyd::styles();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
         public static function js($js){
             return \Zofe\Rapyd\Rapyd::js($js);
         }
@@ -12845,6 +12863,60 @@ namespace {
          */
         public static function style($style){
             return \Zofe\Rapyd\Rapyd::style($style);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function pop_script(){
+            return \Zofe\Rapyd\Rapyd::pop_script();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function pop_style(){
+            return \Zofe\Rapyd\Rapyd::pop_style();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function qs($value, $default = false){
+            return \Zofe\Rapyd\Rapyd::qs($value, $default);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function url($set = ''){
+            return \Zofe\Rapyd\Rapyd::url($set);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function setForm($form){
+            return \Zofe\Rapyd\Rapyd::setForm($form);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function getForm(){
+            return \Zofe\Rapyd\Rapyd::getForm();
         }
         
     }
@@ -13001,6 +13073,34 @@ namespace {
         /**
          * 
          *
+         * @param string $action
+         * @param string $name
+         * @param array $parameters
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function linkAction($action, $name, $parameters = array(), $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::linkAction($action, $name, $parameters, $position, $attributes);
+        }
+        
+        /**
+         * 
+         *
+         * @param $label
+         * @return $this 
+         * @static 
+         */
+        public static function label($label){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::label($label);
+        }
+        
+        /**
+         * 
+         *
          * @param string $url
          * @param string $name
          * @param string $position
@@ -13011,6 +13111,57 @@ namespace {
         public static function message($message){
             //Method inherited from \Zofe\Rapyd\Widget            
             return \Zofe\Rapyd\DataSet::message($message);
+        }
+        
+        /**
+         * set attributes for widget
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attributes($attributes){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::attributes($attributes);
+        }
+        
+        /**
+         * add an attribute, or shortcut for attributes()
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attr($attribute, $value = null){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::attr($attribute, $value);
+        }
+        
+        /**
+         * return a attributes in string format
+         *
+         * @return string 
+         * @static 
+         */
+        public static function buildAttributes(){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::buildAttributes();
+        }
+        
+        /**
+         * return a form with a nested action button
+         *
+         * @param $url
+         * @param $method
+         * @param $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function formButton($url, $method, $name, $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataSet::formButton($url, $method, $name, $position, $attributes);
         }
         
     }
@@ -13038,6 +13189,15 @@ namespace {
          */
         public static function build($view = ''){
             return \Zofe\Rapyd\DataGrid\DataGrid::build($view);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function buildCSV($file = '', $timestamp = '', $sanitize = true, $del = array()){
+            return \Zofe\Rapyd\DataGrid\DataGrid::buildCSV($file, $timestamp, $sanitize, $del);
         }
         
         /**
@@ -13083,24 +13243,6 @@ namespace {
          */
         public static function row($callable){
             return \Zofe\Rapyd\DataGrid\DataGrid::row($callable);
-        }
-        
-        /**
-         * 
-         *
-         * @static 
-         */
-        public static function attributes($attributes){
-            return \Zofe\Rapyd\DataGrid\DataGrid::attributes($attributes);
-        }
-        
-        /**
-         * 
-         *
-         * @static 
-         */
-        public static function buildAttributes(){
-            return \Zofe\Rapyd\DataGrid\DataGrid::buildAttributes();
         }
         
         /**
@@ -13252,6 +13394,34 @@ namespace {
         /**
          * 
          *
+         * @param string $action
+         * @param string $name
+         * @param array $parameters
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function linkAction($action, $name, $parameters = array(), $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::linkAction($action, $name, $parameters, $position, $attributes);
+        }
+        
+        /**
+         * 
+         *
+         * @param $label
+         * @return $this 
+         * @static 
+         */
+        public static function label($label){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::label($label);
+        }
+        
+        /**
+         * 
+         *
          * @param string $url
          * @param string $name
          * @param string $position
@@ -13262,6 +13432,57 @@ namespace {
         public static function message($message){
             //Method inherited from \Zofe\Rapyd\Widget            
             return \Zofe\Rapyd\DataGrid\DataGrid::message($message);
+        }
+        
+        /**
+         * set attributes for widget
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attributes($attributes){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::attributes($attributes);
+        }
+        
+        /**
+         * add an attribute, or shortcut for attributes()
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attr($attribute, $value = null){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::attr($attribute, $value);
+        }
+        
+        /**
+         * return a attributes in string format
+         *
+         * @return string 
+         * @static 
+         */
+        public static function buildAttributes(){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::buildAttributes();
+        }
+        
+        /**
+         * return a form with a nested action button
+         *
+         * @param $url
+         * @param $method
+         * @param $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function formButton($url, $method, $name, $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataGrid\DataGrid::formButton($url, $method, $name, $position, $attributes);
         }
         
     }
@@ -13295,7 +13516,7 @@ namespace {
         }
         
         /**
-         * remove field where type==$type from list
+         * remove field where type==$type from field list and button container
          *
          * @param $type
          * @return $this 
@@ -13327,17 +13548,32 @@ namespace {
          * @return $this 
          * @static 
          */
-        public static function reset($name, $position = 'BL', $options = array()){
-            return \Zofe\Rapyd\DataForm\DataForm::reset($name, $position, $options);
+        public static function reset($name = '', $position = 'BL'){
+            return \Zofe\Rapyd\DataForm\DataForm::reset($name, $position);
         }
         
         /**
-         * 
+         * get field instance from fields array
          *
+         * @param $field_name
+         * @param array $ttributes
+         * @return \Zofe\Rapyd\DataForm\Field $field
          * @static 
          */
-        public static function field($field_name){
-            return \Zofe\Rapyd\DataForm\DataForm::field($field_name);
+        public static function field($field_name, $attributes = array()){
+            return \Zofe\Rapyd\DataForm\DataForm::field($field_name, $attributes);
+        }
+        
+        /**
+         * get entire field output (label, output, and messages)
+         *
+         * @param $field_name
+         * @param array $ttributes
+         * @return string 
+         * @static 
+         */
+        public static function render($field_name, $attributes = array()){
+            return \Zofe\Rapyd\DataForm\DataForm::render($field_name, $attributes);
         }
         
         /**
@@ -13362,6 +13598,20 @@ namespace {
         }
         
         /**
+         * append error (to be used in passed/saved closure)
+         *
+         * @param string $url
+         * @param string $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function error($error){
+            return \Zofe\Rapyd\DataForm\DataForm::error($error);
+        }
+        
+        /**
          * 
          *
          * @param string $process_status
@@ -13374,6 +13624,17 @@ namespace {
         
         /**
          * 
+         *
+         * @static 
+         */
+        public static function prepareForm(){
+            return \Zofe\Rapyd\DataForm\DataForm::prepareForm();
+        }
+        
+        /**
+         * build form output and prepare form partials (header / footer / .
+         * 
+         * .)
          *
          * @param string $view
          * @static 
@@ -13416,8 +13677,8 @@ namespace {
         /**
          * 
          *
-         * @param $viewname
-         * @param array $array
+         * @param string $viewname
+         * @param array $array of values for view
          * @return \Zofe\Rapyd\DataForm\View|\Zofe\Rapyd\DataForm\Redirect 
          * @static 
          */
@@ -13429,7 +13690,6 @@ namespace {
          * build form and check if process status is "success" then execute a callable
          *
          * @param callable $callable
-         * @return callable 
          * @static 
          */
         public static function saved($callable){
@@ -13437,107 +13697,27 @@ namespace {
         }
         
         /**
-         * 
+         * alias for saved
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\File 
+         * @param callable $callable
          * @static 
          */
-        public static function addFile($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addFile($name, $label, $validation);
+        public static function passed($callable){
+            return \Zofe\Rapyd\DataForm\DataForm::passed($callable);
         }
         
         /**
-         * 
+         * Set a value to model without show anything (it appends an auto-field)
+         * It set value on insert and update (but is configurable)
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Redactor 
+         * @param $field
+         * @param $value
+         * @param bool $insert
+         * @param bool $update
          * @static 
          */
-        public static function addRedactor($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addRedactor($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Select 
-         * @static 
-         */
-        public static function addSelect($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addSelect($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Submit 
-         * @static 
-         */
-        public static function addSubmit($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addSubmit($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Text 
-         * @static 
-         */
-        public static function addText($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addText($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Textarea 
-         * @static 
-         */
-        public static function addTextarea($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addTextarea($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Checkbox 
-         * @static 
-         */
-        public static function addCheckbox($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addCheckbox($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Radiogroup 
-         * @static 
-         */
-        public static function addRadiogroup($name, $label, $validation = ''){
-            return \Zofe\Rapyd\DataForm\DataForm::addRadiogroup($name, $label, $validation);
+        public static function set($field, $value = null, $insert = true, $update = true){
+            return \Zofe\Rapyd\DataForm\DataForm::set($field, $value, $insert, $update);
         }
         
         /**
@@ -13588,6 +13768,34 @@ namespace {
         /**
          * 
          *
+         * @param string $action
+         * @param string $name
+         * @param array $parameters
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function linkAction($action, $name, $parameters = array(), $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::linkAction($action, $name, $parameters, $position, $attributes);
+        }
+        
+        /**
+         * 
+         *
+         * @param $label
+         * @return $this 
+         * @static 
+         */
+        public static function label($label){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::label($label);
+        }
+        
+        /**
+         * 
+         *
          * @param string $url
          * @param string $name
          * @param string $position
@@ -13600,14 +13808,79 @@ namespace {
             return \Zofe\Rapyd\DataForm\DataForm::message($message);
         }
         
+        /**
+         * set attributes for widget
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attributes($attributes){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::attributes($attributes);
+        }
+        
+        /**
+         * add an attribute, or shortcut for attributes()
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attr($attribute, $value = null){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::attr($attribute, $value);
+        }
+        
+        /**
+         * return a attributes in string format
+         *
+         * @return string 
+         * @static 
+         */
+        public static function buildAttributes(){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::buildAttributes();
+        }
+        
+        /**
+         * return a form with a nested action button
+         *
+         * @param $url
+         * @param $method
+         * @param $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function formButton($url, $method, $name, $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataForm\DataForm::formButton($url, $method, $name, $position, $attributes);
+        }
+        
     }
 
 
     class DataEdit extends \Zofe\Rapyd\Facades\DataEdit{
         
         /**
-         * 
+         * enable auto-back feature on given actions
          *
+         * @param string $actions
+         * @param string $uri
+         * @return $this 
+         * @static 
+         */
+        public static function back($actions = 'insert|update|do_delete', $url = ''){
+            return \Zofe\Rapyd\DataEdit\DataEdit::back($actions, $url);
+        }
+        
+        /**
+         * just an alias for getForm()
+         *
+         * @param string $view
+         * @return string the form output
          * @static 
          */
         public static function getEdit($view = ''){
@@ -13642,7 +13915,7 @@ namespace {
         }
         
         /**
-         * remove field where type==$type from list
+         * remove field where type==$type from field list and button container
          *
          * @param $type
          * @return $this 
@@ -13676,19 +13949,35 @@ namespace {
          * @return $this 
          * @static 
          */
-        public static function reset($name, $position = 'BL', $options = array()){
+        public static function reset($name = '', $position = 'BL'){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::reset($name, $position, $options);
+            return \Zofe\Rapyd\DataEdit\DataEdit::reset($name, $position);
         }
         
         /**
-         * 
+         * get field instance from fields array
          *
+         * @param $field_name
+         * @param array $ttributes
+         * @return \Zofe\Rapyd\DataForm\Field $field
          * @static 
          */
-        public static function field($field_name){
+        public static function field($field_name, $attributes = array()){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::field($field_name);
+            return \Zofe\Rapyd\DataEdit\DataEdit::field($field_name, $attributes);
+        }
+        
+        /**
+         * get entire field output (label, output, and messages)
+         *
+         * @param $field_name
+         * @param array $ttributes
+         * @return string 
+         * @static 
+         */
+        public static function render($field_name, $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataEdit\DataEdit::render($field_name, $attributes);
         }
         
         /**
@@ -13715,6 +14004,21 @@ namespace {
         }
         
         /**
+         * append error (to be used in passed/saved closure)
+         *
+         * @param string $url
+         * @param string $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function error($error){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataEdit\DataEdit::error($error);
+        }
+        
+        /**
          * 
          *
          * @param string $process_status
@@ -13728,6 +14032,18 @@ namespace {
         
         /**
          * 
+         *
+         * @static 
+         */
+        public static function prepareForm(){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataEdit\DataEdit::prepareForm();
+        }
+        
+        /**
+         * build form output and prepare form partials (header / footer / .
+         * 
+         * .)
          *
          * @param string $view
          * @static 
@@ -13774,8 +14090,8 @@ namespace {
         /**
          * 
          *
-         * @param $viewname
-         * @param array $array
+         * @param string $viewname
+         * @param array $array of values for view
          * @return \Zofe\Rapyd\DataForm\View|\Zofe\Rapyd\DataForm\Redirect 
          * @static 
          */
@@ -13788,7 +14104,6 @@ namespace {
          * build form and check if process status is "success" then execute a callable
          *
          * @param callable $callable
-         * @return callable 
          * @static 
          */
         public static function saved($callable){
@@ -13797,115 +14112,29 @@ namespace {
         }
         
         /**
-         * 
+         * alias for saved
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\File 
+         * @param callable $callable
          * @static 
          */
-        public static function addFile($name, $label, $validation = ''){
+        public static function passed($callable){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addFile($name, $label, $validation);
+            return \Zofe\Rapyd\DataEdit\DataEdit::passed($callable);
         }
         
         /**
-         * 
+         * Set a value to model without show anything (it appends an auto-field)
+         * It set value on insert and update (but is configurable)
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Redactor 
+         * @param $field
+         * @param $value
+         * @param bool $insert
+         * @param bool $update
          * @static 
          */
-        public static function addRedactor($name, $label, $validation = ''){
+        public static function set($field, $value = null, $insert = true, $update = true){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addRedactor($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Select 
-         * @static 
-         */
-        public static function addSelect($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addSelect($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Submit 
-         * @static 
-         */
-        public static function addSubmit($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addSubmit($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Text 
-         * @static 
-         */
-        public static function addText($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addText($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Textarea 
-         * @static 
-         */
-        public static function addTextarea($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addTextarea($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Checkbox 
-         * @static 
-         */
-        public static function addCheckbox($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addCheckbox($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Radiogroup 
-         * @static 
-         */
-        public static function addRadiogroup($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataEdit\DataEdit::addRadiogroup($name, $label, $validation);
+            return \Zofe\Rapyd\DataEdit\DataEdit::set($field, $value, $insert, $update);
         }
         
         /**
@@ -13956,6 +14185,34 @@ namespace {
         /**
          * 
          *
+         * @param string $action
+         * @param string $name
+         * @param array $parameters
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function linkAction($action, $name, $parameters = array(), $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::linkAction($action, $name, $parameters, $position, $attributes);
+        }
+        
+        /**
+         * 
+         *
+         * @param $label
+         * @return $this 
+         * @static 
+         */
+        public static function label($label){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::label($label);
+        }
+        
+        /**
+         * 
+         *
          * @param string $url
          * @param string $name
          * @param string $position
@@ -13966,6 +14223,57 @@ namespace {
         public static function message($message){
             //Method inherited from \Zofe\Rapyd\Widget            
             return \Zofe\Rapyd\DataEdit\DataEdit::message($message);
+        }
+        
+        /**
+         * set attributes for widget
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attributes($attributes){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::attributes($attributes);
+        }
+        
+        /**
+         * add an attribute, or shortcut for attributes()
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attr($attribute, $value = null){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::attr($attribute, $value);
+        }
+        
+        /**
+         * return a attributes in string format
+         *
+         * @return string 
+         * @static 
+         */
+        public static function buildAttributes(){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::buildAttributes();
+        }
+        
+        /**
+         * return a form with a nested action button
+         *
+         * @param $url
+         * @param $method
+         * @param $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function formButton($url, $method, $name, $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataEdit\DataEdit::formButton($url, $method, $name, $position, $attributes);
         }
         
     }
@@ -14012,7 +14320,7 @@ namespace {
         }
         
         /**
-         * remove field where type==$type from list
+         * remove field where type==$type from field list and button container
          *
          * @param $type
          * @return $this 
@@ -14046,19 +14354,35 @@ namespace {
          * @return $this 
          * @static 
          */
-        public static function reset($name, $position = 'BL', $options = array()){
+        public static function reset($name = '', $position = 'BL'){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::reset($name, $position, $options);
+            return \Zofe\Rapyd\DataFilter\DataFilter::reset($name, $position);
         }
         
         /**
-         * 
+         * get field instance from fields array
          *
+         * @param $field_name
+         * @param array $ttributes
+         * @return \Zofe\Rapyd\DataForm\Field $field
          * @static 
          */
-        public static function field($field_name){
+        public static function field($field_name, $attributes = array()){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::field($field_name);
+            return \Zofe\Rapyd\DataFilter\DataFilter::field($field_name, $attributes);
+        }
+        
+        /**
+         * get entire field output (label, output, and messages)
+         *
+         * @param $field_name
+         * @param array $ttributes
+         * @return string 
+         * @static 
+         */
+        public static function render($field_name, $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataFilter\DataFilter::render($field_name, $attributes);
         }
         
         /**
@@ -14070,6 +14394,21 @@ namespace {
         public static function create(){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
             return \Zofe\Rapyd\DataFilter\DataFilter::create();
+        }
+        
+        /**
+         * append error (to be used in passed/saved closure)
+         *
+         * @param string $url
+         * @param string $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function error($error){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataFilter\DataFilter::error($error);
         }
         
         /**
@@ -14086,6 +14425,18 @@ namespace {
         
         /**
          * 
+         *
+         * @static 
+         */
+        public static function prepareForm(){
+            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
+            return \Zofe\Rapyd\DataFilter\DataFilter::prepareForm();
+        }
+        
+        /**
+         * build form output and prepare form partials (header / footer / .
+         * 
+         * .)
          *
          * @param string $view
          * @static 
@@ -14132,8 +14483,8 @@ namespace {
         /**
          * 
          *
-         * @param $viewname
-         * @param array $array
+         * @param string $viewname
+         * @param array $array of values for view
          * @return \Zofe\Rapyd\DataForm\View|\Zofe\Rapyd\DataForm\Redirect 
          * @static 
          */
@@ -14146,7 +14497,6 @@ namespace {
          * build form and check if process status is "success" then execute a callable
          *
          * @param callable $callable
-         * @return callable 
          * @static 
          */
         public static function saved($callable){
@@ -14155,115 +14505,29 @@ namespace {
         }
         
         /**
-         * 
+         * alias for saved
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\File 
+         * @param callable $callable
          * @static 
          */
-        public static function addFile($name, $label, $validation = ''){
+        public static function passed($callable){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addFile($name, $label, $validation);
+            return \Zofe\Rapyd\DataFilter\DataFilter::passed($callable);
         }
         
         /**
-         * 
+         * Set a value to model without show anything (it appends an auto-field)
+         * It set value on insert and update (but is configurable)
          *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Redactor 
+         * @param $field
+         * @param $value
+         * @param bool $insert
+         * @param bool $update
          * @static 
          */
-        public static function addRedactor($name, $label, $validation = ''){
+        public static function set($field, $value = null, $insert = true, $update = true){
             //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addRedactor($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Select 
-         * @static 
-         */
-        public static function addSelect($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addSelect($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Submit 
-         * @static 
-         */
-        public static function addSubmit($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addSubmit($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Text 
-         * @static 
-         */
-        public static function addText($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addText($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Textarea 
-         * @static 
-         */
-        public static function addTextarea($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addTextarea($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Checkbox 
-         * @static 
-         */
-        public static function addCheckbox($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addCheckbox($name, $label, $validation);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $name
-         * @param string $label
-         * @param string $validation
-         * @return \Zofe\Rapyd\DataForm\Radiogroup 
-         * @static 
-         */
-        public static function addRadiogroup($name, $label, $validation = ''){
-            //Method inherited from \Zofe\Rapyd\DataForm\DataForm            
-            return \Zofe\Rapyd\DataFilter\DataFilter::addRadiogroup($name, $label, $validation);
+            return \Zofe\Rapyd\DataFilter\DataFilter::set($field, $value, $insert, $update);
         }
         
         /**
@@ -14314,6 +14578,34 @@ namespace {
         /**
          * 
          *
+         * @param string $action
+         * @param string $name
+         * @param array $parameters
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function linkAction($action, $name, $parameters = array(), $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::linkAction($action, $name, $parameters, $position, $attributes);
+        }
+        
+        /**
+         * 
+         *
+         * @param $label
+         * @return $this 
+         * @static 
+         */
+        public static function label($label){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::label($label);
+        }
+        
+        /**
+         * 
+         *
          * @param string $url
          * @param string $name
          * @param string $position
@@ -14324,6 +14616,57 @@ namespace {
         public static function message($message){
             //Method inherited from \Zofe\Rapyd\Widget            
             return \Zofe\Rapyd\DataFilter\DataFilter::message($message);
+        }
+        
+        /**
+         * set attributes for widget
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attributes($attributes){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::attributes($attributes);
+        }
+        
+        /**
+         * add an attribute, or shortcut for attributes()
+         *
+         * @param $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function attr($attribute, $value = null){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::attr($attribute, $value);
+        }
+        
+        /**
+         * return a attributes in string format
+         *
+         * @return string 
+         * @static 
+         */
+        public static function buildAttributes(){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::buildAttributes();
+        }
+        
+        /**
+         * return a form with a nested action button
+         *
+         * @param $url
+         * @param $method
+         * @param $name
+         * @param string $position
+         * @param array $attributes
+         * @return $this 
+         * @static 
+         */
+        public static function formButton($url, $method, $name, $position = 'BL', $attributes = array()){
+            //Method inherited from \Zofe\Rapyd\Widget            
+            return \Zofe\Rapyd\DataFilter\DataFilter::formButton($url, $method, $name, $position, $attributes);
         }
         
     }

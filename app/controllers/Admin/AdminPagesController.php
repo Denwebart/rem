@@ -34,6 +34,16 @@ class AdminPagesController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
+
+		if(Input::get('is_published') && Input::get('published_at')) {
+			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
+			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
+		} elseif(Input::get('is_published') && !Input::get('published_at')) {
+			$data['published_at'] = date('Y:m:d H:i:s');
+		} else {
+			$data['published_at'] = '0000-00-00 00:00:00';
+		}
+
 		$data['user_id'] = Auth::user()->id;
 
 		$validator = Validator::make($data, Page::$rules);
@@ -85,6 +95,16 @@ class AdminPagesController extends \BaseController {
 		$page = Page::findOrFail($id);
 
 		$data = Input::all();
+
+		if(Input::get('is_published') && Input::get('published_at')) {
+			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
+			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
+		} elseif(Input::get('is_published') && !Input::get('published_at')) {
+			$data['published_at'] = date('Y:m:d H:i:s');
+		} else {
+			$data['published_at'] = '0000-00-00 00:00:00';
+		}
+
 		$data['user_id'] = Auth::user()->id;
 
 		$validator = Validator::make($data, Page::$rules);

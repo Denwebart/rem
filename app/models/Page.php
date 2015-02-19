@@ -53,6 +53,8 @@ class Page extends \Eloquent
 {
 	protected $table = 'pages';
 
+	public $publishedTime;
+
 	protected $fillable = [
 		'parent_id',
 		'user_id',
