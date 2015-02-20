@@ -1,4 +1,5 @@
 <?php $menuWidget = app('MenuWidget') ?>
+<?php $sidebarWidget = app('SidebarWidget') ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -35,11 +36,11 @@
     {{--</ul>--}}
 @endif
 
-{{ $menuWidget->topMenu() }}
-
 <header class="container">
     <div class="row">
         <div class="col-xs-12">
+            {{ $menuWidget->topMenu() }}
+
             Шапка
         </div>
     </div>
@@ -49,8 +50,12 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-3" style="background: gray">
-            <p>Ширина блока в 3 колонки</p>
+        <div class="col-lg-3 col-md-3">
+
+            {{ $sidebarWidget->popular() }}
+
+            {{ $sidebarWidget->best() }}
+
         </div>
 
         <div class="col-lg-6 col-md-6">
@@ -58,8 +63,14 @@
             @yield('content')
         </div>
 
-        <div class="col-lg-3 col-md-3" style="background: gray">
-            <p>Ширина блока в 3 колонки</p>
+        <div class="col-lg-3 col-md-3">
+
+            {{ $sidebarWidget->comments() }}
+
+            {{ $sidebarWidget->latest() }}
+
+            {{ $sidebarWidget->unpopular() }}
+
         </div>
     </div>
 </div>

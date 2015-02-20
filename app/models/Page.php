@@ -106,7 +106,9 @@ class Page extends \Eloquent
 
 	public function publishedChildren()
 	{
-		return $this->hasMany('Page', 'parent_id')->whereIsPublished(1);
+		return $this->hasMany('Page', 'parent_id')
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
 	public static function boot()
@@ -123,6 +125,11 @@ class Page extends \Eloquent
 	public function getTitle()
 	{
 		return ($this->menu_title) ? $this->menu_title : $this->title;
+	}
+
+	public function getRating()
+	{
+		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
 	}
 
 	public function getIntrotext()

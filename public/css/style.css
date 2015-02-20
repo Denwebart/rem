@@ -1,5 +1,5 @@
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
     padding-bottom: 20px;
 }
 
@@ -21,3 +21,12 @@ header {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+/*-- Sidebar Widget --*/
+
+.sidebar-widget .item {
+    margin: 0 0 10px;
+    border-bottom: 1px solid #cccccc;
+}
+
+/*-- End Sidebar Widget --*/
