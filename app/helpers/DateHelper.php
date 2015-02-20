@@ -32,37 +32,56 @@ class DateHelper
 		'12' => 'дек.',
 	];
 
-	public static function dateFormat($date, $isShortMonth = true)
+	/**
+	 * Формат даты для всего сайта
+	 *
+	 * @param $date Дата
+	 * @param bool $withTime Если нужно время
+	 * @param bool $isShortMonth Месяц сокращен
+	 * @return string
+	 */
+	public static function dateFormat($date, $withTime = true, $isShortMonth = true)
 	{
 		$timestamp = strtotime($date);
 		$month = ($isShortMonth) ?
 			self::$shortMonths[date('n', $timestamp)] : self::$sonths[date('n', $timestamp)];
-		return date("d $month Y H:i", $timestamp);
+		$time = ($withTime) ? " H:i" : "";
+		return date("d $month Y" . $time, $timestamp);
 	}
 
-//	public static function getRelativeTime($timestamp, $headText = 'about ')
-//	{
-//		$delta = (time() - $timestamp);
-//		if ($delta < 0) {
-//			return $headText . '0 seconds ago';
-//		}
-//		$r = '';
-//		if ($delta < 60) {
-//			$r = round($delta, 0) . ' seconds ago';
-//		} else if ($delta < 120) {
-//			$r = 'a minute ago';
-//		} else if ($delta < (45 * 60)) {
-//			$r = round(($delta / 60), 0) . ' minutes ago';
-//		} else if ($delta < (2 * 60 * 60)) {
-//			$r = 'an hour ago';
-//		} else if ($delta < (24 * 60 * 60)) {
-//			$r = '' . round(($delta / 3600), 0) . ' hours ago';
-//		} else if ($delta < (48 * 60 * 60)) {
-//			$r = 'a day ago';
-//		} else {
-//			$r = round(($delta / 86400), 0) . ' days ago';
-//		}
-//		return $headText . $r;
-//	}
+	/**
+	 * Время в формате "1 мин. наазд" и т.д
+	 *
+	 * @param $date Дата
+	 * @return string
+	 */
+	public static function getRelativeTime($date)
+	{
+		$delta = (time() - strtotime($date));
+
+		if ($delta < 0) {
+			return '0 сек.';
+		}
+		if ($delta < 60) {
+			$result = round($delta, 0) . ' сек.';
+		} elseif ($delta < 120) {
+			$result = '1 мин.';
+		} elseif ($delta < (45 * 60)) {
+			$result = round(($delta / 60), 0) . ' мин.';
+		} elseif ($delta < (2 * 60 * 60)) {
+			$result = '1 час';
+		} elseif ($delta < (5 * 60 * 60)) {
+			$result = round(($delta / 3600), 0) . ' часа';
+		} elseif ($delta < (24 * 60 * 60)) {
+			$result = round(($delta / 3600), 0) . ' часов';
+		} elseif ($delta < (48 * 60 * 60)) {
+			$result = '1 день';
+		} elseif ($delta < (24 * 5 * 60 * 60)) {
+			$result = round(($delta / 86400), 0) . ' дня';
+		} else {
+			$result = round(($delta / 86400), 0) . ' дней';
+		}
+		return $result;
+	}
 
 }
