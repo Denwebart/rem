@@ -1,3 +1,4 @@
+<?php $adminWidget = app('AdminWidget') ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -66,50 +67,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown dropdown-messages">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope"></i><span class="label label-success">6</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header"><i class="fa fa-envelope"></i> You have 6 messages</li>
-                        <li>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left"><img src="/backend/img/avatar2.jpg" class="img-rounded" alt="image"/></div>
-                                        <h4>Jill Doe<small><i class="fa fa-clock-o"></i> 1 mins</small></h4>
-                                        <p>Can we meet somewhere?</p>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left"><img src="/backend/img/avatar.jpg" class="img-rounded" alt="image"/></div>
-                                        <h4>John Doe<small><i class="fa fa-clock-o"></i> 2 mins</small></h4>
-                                        <p>Please send me a new email.</p>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left"><img src="/backend/img/avatar3.jpg" class="img-rounded" alt="image"/></div>
-                                        <h4>Jeremy Doe<small><i class="fa fa-clock-o"></i> 30 mins</small></h4>
-                                        <p>Don't forget to subscribe to...</p>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left"><img src="/backend/img/avatar4.jpg" class="img-rounded" alt="image"/></div>
-                                        <h4>Jean Doe<small><i class="fa fa-clock-o"></i> 2 hours</small></h4>
-                                        <p>I sent you a mail about me.</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all messages</a></li>
-                    </ul>
-                </li>
+                {{ $adminWidget->letters() }}
 
                 <li class="dropdown dropdown-tasks">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

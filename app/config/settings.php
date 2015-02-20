@@ -10,5 +10,6 @@ return [
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
 	'defaultImage' => '/images/default-image.jpg',
+	'defaultAvatar' => '/images/default-avatar.jpg',
 	'defaultPublishedTime' => '10:00:00',
 ];
