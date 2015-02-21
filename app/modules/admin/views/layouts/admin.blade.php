@@ -120,7 +120,7 @@
                 <li class="dropdown widget-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/backend/img/avatar.jpg" class="pull-left" alt="image" />
-                        <span>{{ Auth::user()->name }} <i class="fa fa-caret-down"></i></span>
+                        <span>{{ Auth::user()->login }} <i class="fa fa-caret-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
@@ -149,7 +149,7 @@
                     <img src="/backend/img/avatar.jpg" alt="" />
                 </div>
                 <div class="details">
-                    <p>{{ Auth::user()->name }}</p>
+                    <p>{{ Auth::user()->login }}</p>
                     <span class="position">Superadmin</span>
                 </div>
                 <div class="button">

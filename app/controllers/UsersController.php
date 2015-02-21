@@ -58,23 +58,22 @@ class UsersController extends BaseController
 			'is_active'  => 1,
 		);
 
-		// В зависимости от того, что пользователь указал в поле name,
+		// В зависимости от того, что пользователь указал в поле login,
 		// дополняем авторизационные данные
-		$name = Input::get('name');
-//		dd($name);
-		if (strpos($name, '@')) {
-			$creds['email'] = $name;
+		$login = Input::get('login');
+		if (strpos($login, '@')) {
+			$creds['email'] = $login;
 		} else {
-			$creds['name'] = $name;
+			$creds['login'] = $login;
 		}
 
 		// Пытаемся авторизовать пользователя
 		if (Auth::attempt($creds, Input::has('remember'))) {
-			Log::info("User [{$name}] successfully logged in.");
+			Log::info("User [{$login}] successfully logged in.");
 //			return Redirect::intended();
 			return Redirect::to('admin');
 		} else {
-			Log::info("User [{$name}] failed to login.");
+			Log::info("User [{$login}] failed to login.");
 		}
 
 		$alert = "Неверная комбинация имени (email) и пароля, либо учетная запись еще не активирована.";

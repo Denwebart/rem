@@ -7,6 +7,12 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::resource('letters', 'AdminLettersController');
 });
 
+/* Личный кабинет */
+Route::group(['prefix' => 'users'], function(){
+	Route::get('/', 'CabinetController@index');
+	Route::get('{login}', 'CabinetUserController@index');
+});
+
 /* Пользователи */
 Route::controller('users', 'UsersController');
 Route::controller('password', 'RemindersController');

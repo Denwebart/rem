@@ -6,6 +6,9 @@ body {
 header {
     height: 125px;
 }
+#cabinet header {
+    height: 25px;
+}
 
 /* Navbar */
 .navbar {

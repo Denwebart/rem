@@ -11,8 +11,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property integer $id
  * @property integer $user_id
  * @property boolean $is_published
- * @property string $name
+ * @property string $login
  * @property string $email
+ * @property string $firstname
+ * @property string $lastname
+ * @property integer $role
  * @property string $ip
  * @property string $description
  * @property string $car_brand
@@ -24,8 +27,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIsPublished($value)
- * @method static \Illuminate\Database\Query\Builder|\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereLogin($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereFirstname($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereLastname($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereRole($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIp($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereCarBrand($value)
@@ -47,6 +53,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	use UserTrait, RemindableTrait;
 
 	protected $table = 'users';
+
+	const ROLE_ADMIN = 1;
+	const ROLE_MANAGER = 2;
+	const ROLE_USER = 3;
+
+	public static $roles = [
+		self::ROLE_ADMIN => 'Администратор',
+		self::ROLE_MANAGER => 'Модератор',
+		self::ROLE_USER => 'Пользователь',
+	];
 
 	protected $fillable = [
 		'user_id',

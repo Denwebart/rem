@@ -23,8 +23,8 @@
             }}
             <h2 class="form-signin-heading">Ваши данные</h2>
 
-            {{ Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Email или имя*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
-            @if ($errors->has('name')) <p class="text-danger">{{ $errors->first('name') }}</p> @endif
+            {{ Form::text('login', '', ['class' => 'form-control', 'placeholder' => 'Email или имя*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
+            @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
 
             {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Пароль*', 'required'=>'required']); }}
             @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
