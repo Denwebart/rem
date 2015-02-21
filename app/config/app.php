@@ -123,7 +123,6 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
-		'Zofe\Rapyd\RapydServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 

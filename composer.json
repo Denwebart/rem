@@ -9,7 +9,6 @@
 		"barryvdh/laravel-ide-helper": "~1.11",
 		"barryvdh/laravel-debugbar": "~1.8",
 	  	"doctrine/dbal": "~2.3",
-	    "zofe/rapyd": "1.3.*",
 	    "anhskohbo/no-captcha": "1.*"
 	},
 	"require-dev": {
@@ -35,7 +34,6 @@
 		"post-update-cmd": [
 		  "php artisan clear-compiled",
 		  "php artisan ide-helper:generate",
-		  "php artisan asset:publish zofe/rapyd",
 		  "php artisan optimize"
 		],
 		"post-create-project-cmd": [

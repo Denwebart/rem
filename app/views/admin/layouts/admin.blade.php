@@ -168,7 +168,7 @@
                         <i class="fa fa-file"></i> <span>Страницы</span>
                     </a>
                 </li>
-                <li class="{{ (URL::to('admin/pages') != URL::current()) ? '' : 'active'}}">
+                <li class="{{ (URL::to('admin/letters') != URL::current()) ? '' : 'active'}}">
                     <a href="{{ URL::route('admin.letters.index') }}">
                         <i class="fa fa-envelope"></i> <span>Письма</span>
                         <small class="label pull-right">{{ $adminWidget->newLetters }}</small>
