@@ -8,7 +8,7 @@
             <ul>
                 @foreach($letters as $letter)
                 <li>
-                    <a href="#">
+                    <a href="{{ URL::route('admin.letters.show', ['id' => $letter->id]) }}">
                         <div class="pull-left">
                             {{ HTML::image(Config::get('settings.defaultAvatar'), $letter->name, ['class' => 'img-rounded']) }}
                         </div>
@@ -27,7 +27,6 @@
                 @endforeach
             </ul>
         </li>
-        {{--URL::route('admin.letters.index')--}}
-        <li class="footer"><a href="">Показать все письма</a></li>
+        <li class="footer"><a href="{{ URL::route('admin.letters.index') }}">Показать все письма</a></li>
     </ul>
 </li>
