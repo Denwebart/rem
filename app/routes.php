@@ -4,6 +4,7 @@
 Route::group(['prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index');
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
+	Route::resource('letters', 'AdminLettersController');
 });
 
 /* Пользователи */

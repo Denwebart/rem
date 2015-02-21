@@ -2611,6 +2611,9 @@ header .logo i {
 .mailbox .table tr > td > a {
     color: #444;
 }
+.mailbox .table tr > td > .btn {
+    color: #fff;
+}
 
 /* ------ Pace ------ */
 .pace .pace-progress {

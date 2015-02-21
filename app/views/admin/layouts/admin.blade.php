@@ -164,14 +164,14 @@
                     </a>
                 </li>
                 <li class="{{ (URL::to('admin/pages') != URL::current()) ? '' : 'active'}}">
-                    <a href="{{ URL::to('admin/pages') }}">
+                    <a href="{{ URL::route('admin.pages.index') }}">
                         <i class="fa fa-file"></i> <span>Страницы</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
+                <li class="{{ (URL::to('admin/pages') != URL::current()) ? '' : 'active'}}">
+                    <a href="{{ URL::route('admin.letters.index') }}">
                         <i class="fa fa-envelope"></i> <span>Письма</span>
-                        <small class="label pull-right">10</small>
+                        <small class="label pull-right">{{ $adminWidget->newLetters }}</small>
                     </a>
                 </li>
             </ul>
