@@ -11,7 +11,7 @@ class AdminPagesController extends \BaseController {
 	{
 		$pages = Page::paginate(10);
 
-		return View::make('admin.pages.index', compact('pages'));
+		return View::make('admin::pages.index', compact('pages'));
 	}
 
 	/**
@@ -23,7 +23,7 @@ class AdminPagesController extends \BaseController {
 	{
 		$page = new Page();
 
-		return View::make('admin.pages.create', compact('page'));
+		return View::make('admin::pages.create', compact('page'));
 	}
 
 	/**
@@ -55,7 +55,7 @@ class AdminPagesController extends \BaseController {
 
 		Page::create($data);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::route('admin::pages.index');
 	}
 
 	/**
@@ -68,7 +68,7 @@ class AdminPagesController extends \BaseController {
 	{
 		$page = Page::findOrFail($id);
 
-		return View::make('admin.pages.show', compact('page'));
+		return View::make('admin::pages.show', compact('page'));
 	}
 
 	/**
@@ -81,7 +81,7 @@ class AdminPagesController extends \BaseController {
 	{
 		$page = Page::find($id);
 
-		return View::make('admin.pages.edit', compact('page'));
+		return View::make('admin::pages.edit', compact('page'));
 	}
 
 	/**
@@ -116,7 +116,7 @@ class AdminPagesController extends \BaseController {
 
 		$page->update($data);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::route('admin::pages.index');
 	}
 
 	/**
@@ -129,7 +129,7 @@ class AdminPagesController extends \BaseController {
 	{
 		Page::destroy($id);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::route('admin::pages.index');
 	}
 
 }

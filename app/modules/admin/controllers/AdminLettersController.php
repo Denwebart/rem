@@ -11,7 +11,7 @@ class AdminLettersController extends \BaseController {
 	{
 		$letters = Letter::orderBy('created_at', 'DESC')->paginate(10);
 
-		return View::make('admin.letters.index', compact('letters'));
+		return View::make('admin::letters.index', compact('letters'));
 	}
 
 	/**
@@ -26,7 +26,7 @@ class AdminLettersController extends \BaseController {
 		$letter->read_at = date('Y:m:d H:i:s');
 		$letter->save();
 
-		return View::make('admin.letters.show', compact('letter'));
+		return View::make('admin::letters.show', compact('letter'));
 	}
 
 	/**
@@ -39,7 +39,7 @@ class AdminLettersController extends \BaseController {
 	{
 		Letter::destroy($id);
 
-		return Redirect::route('admin.letters.index');
+		return Redirect::route('admin::letters.index');
 	}
 
 }

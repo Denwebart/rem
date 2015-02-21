@@ -19,6 +19,7 @@
 			"app/commands",
 			"app/controllers",
 			"app/models",
+			"app/modules",
 			"app/widgets",
 			"app/helpers",
 			"app/database/migrations",

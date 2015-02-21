@@ -79,3 +79,5 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+View::addNamespace('admin', app('path'). '/modules/admin/views');
