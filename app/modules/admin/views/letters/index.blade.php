@@ -1,5 +1,7 @@
 @extends('admin::layouts.admin')
 
+<?php $adminWidget = app('AdminWidget') ?>
+{{ dd($adminWidget->newLetters) }}
 @section('content')
     <div class="page-head">
         <h1>Письма  <small>отправленные через контактную форму</small></h1>
@@ -25,20 +27,19 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-4">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label pull-right">15</span></a></li>
-                                    <li><a href="#"><i class="fa fa-envelope"></i> Sent mail</a></li>
-                                    <li><a href="#"><i class="fa fa-trash-o"></i> Draft <span class="label label-danger pull-right">4</span></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i> Important</a></li>
-                                    <li><a href="#"><i class="fa fa-folder"></i> Spam</a></li>
+                                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Входящие письма <span class="label pull-right">3</span></a></li>
+                                    <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
+                                    <li><a href="#"><i class="fa fa-trash-o"></i> Удаленные письма <span class="label label-danger pull-right">4</span></a></li>
+                                    <li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>
                                 </ul>
 
                                 <div class="mailbox-buttons">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-primary no-radius dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-paper-plane"></i></button>
+                                        <button type="button" class="btn btn-primary no-radius dropdown-toggle" data-toggle="dropdown">Выбрать действие <i class="fa fa-paper-plane"></i></button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#">Mark as read</a></li>
-                                            <li><a href="#">Mark as unread</a></li>
-                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Отметить как прочитанное</a></li>
+                                            <li><a href="#">Отметить как непрочитанное</a></li>
+                                            <li><a href="#">Удалить</a></li>
                                         </ul>
                                     </div>
                                     <button type="button" class="btn btn-success no-radius"><i class="fa fa-plus"></i></button>
@@ -46,11 +47,11 @@
                                 </div>
 
                                 <div class="box-bordered clearfix">
-                                    <input type="text" class="form-control" placeholder="To" />
+                                    <input type="text" class="form-control" placeholder="Тема" />
                                     <input type="text" class="form-control" placeholder="Email" />
-                                    <textarea class="form-control" placeholder="Message" rows="8"></textarea>
-                                    <button type="submit" class="btn btn-danger no-radius pull-left">Reset</button>
-                                    <button type="submit" class="btn btn-success no-radius pull-right">Send</button>
+                                    <textarea class="form-control" placeholder="Сообщение" rows="8"></textarea>
+                                    <button type="submit" class="btn btn-danger no-radius pull-left">Отмена</button>
+                                    <button type="submit" class="btn btn-success no-radius pull-right">Отправить</button>
                                 </div>
                             </div>
                             <div class="col-md-9 col-sm-8">
@@ -58,11 +59,11 @@
                                 <div class="mailbox-tools clearfix">
                                     <div class="pull-left">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-info no-radius dropdown-toggle" data-toggle="dropdown">Actions <i class="fa fa-paper-plane"></i></button>
+                                            <button type="button" class="btn btn-info no-radius dropdown-toggle" data-toggle="dropdown">Выбрать действие <i class="fa fa-paper-plane"></i></button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#">Mark as read</a></li>
-                                                <li><a href="#">Mark as unread</a></li>
-                                                <li><a href="#">Delete</a></li>
+                                                <li><a href="#">Отметить как прочитанное</a></li>
+                                                <li><a href="#">Отметить как непрочитанное</a></li>
+                                                <li><a href="#">Удалить</a></li>
                                             </ul>
                                         </div>
                                         <button type="button" class="btn btn-success no-radius"><i class="fa fa-plus"></i></button>
