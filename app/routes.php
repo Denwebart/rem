@@ -8,7 +8,7 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 /* Личный кабинет */
-Route::group(['prefix' => 'users'], function(){
+Route::group(['prefix' => 'user'], function(){
 	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', 'CabinetUserController@index');
 });
@@ -16,6 +16,7 @@ Route::group(['prefix' => 'users'], function(){
 /* Пользователи */
 Route::controller('users', 'UsersController');
 Route::controller('password', 'RemindersController');
+
 
 /* Фронт */
 Route::get('/', 'SiteController@index');

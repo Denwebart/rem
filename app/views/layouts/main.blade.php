@@ -1,5 +1,6 @@
 <?php $menuWidget = app('MenuWidget') ?>
 <?php $sidebarWidget = app('SidebarWidget') ?>
+<?php $headerWidget = app('HeaderWidget') ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -20,7 +21,7 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
 </head>
-<body>
+<body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if (!Auth::check())
     {{--<form class="navbar-form navbar-right" role="form" action="{{ action('UsersController@postLogin') }}" method="post">--}}
@@ -36,15 +37,18 @@
     {{--</ul>--}}
 @endif
 
-<header class="container">
+@if(Auth::check())
+    {{ $headerWidget->show() }}
+@endif
+
+<div class="container">
     <div class="row">
         <div class="col-xs-12">
             {{ $menuWidget->topMenu() }}
-            {{ Auth::user()->login }}
             Шапка
         </div>
     </div>
-</header>
+</div>
 
 {{ $menuWidget->mainMenu() }}
 

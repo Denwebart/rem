@@ -1,3 +1,4 @@
+<?php $headerWidget = app('HeaderWidget') ?>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -18,16 +19,9 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
 </head>
-<body id="cabinet">
+<body id="cabinet" class="fixed{{ (Auth::check()) ? ' margin-top-50' : ''}}">
 
-<header class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            {{ Auth::user()->login }}
-            Шапка
-        </div>
-    </div>
-</header>
+{{ $headerWidget->show() }}
 
 <div class="container">
     <div class="row">
@@ -55,5 +49,7 @@
 
 {{HTML::script('js/jquery-1.11.2.min.js')}}
 {{HTML::script('js/bootstrap.min.js')}}
+{{HTML::script('js/custom.js')}}
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
-class MenuWidget {
+class MenuWidget
+{
 
 	public function topMenu()
 	{
