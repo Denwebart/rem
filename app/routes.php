@@ -11,6 +11,7 @@ Route::group(['prefix' => 'admin'], function(){
 Route::group(['prefix' => 'user'], function(){
 	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
+	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
 	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);

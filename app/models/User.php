@@ -154,4 +154,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		return true;
 	}
+
+	public function getFullName()
+	{
+		$separator = ($this->firstname && $this->lastname) ? ' ' : '';
+		return $this->firstname . $separator . $this->lastname;
+	}
 }

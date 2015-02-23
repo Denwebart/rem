@@ -52,13 +52,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-comment"></span>
                         <span>Мои комментарии</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-send"></span>
                         <span>Личные сообщения</span>
                     </a>

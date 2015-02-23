@@ -9,6 +9,12 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.index');
 	}
 
+	public function edit($login)
+	{
+		View::share('user', User::whereLogin($login)->firstOrFail());
+		return View::make('cabinet::user.edit');
+	}
+
 	public function gallery($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());

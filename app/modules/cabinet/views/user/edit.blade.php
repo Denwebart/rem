@@ -6,7 +6,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">Мой профиль</a></li>
-                <li>Мои комментарии</li>
+                <li>Редактирование профиля</li>
             </ol>
         </div>
 
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <h2>Комментарии {{ $user->login }}</h2>
+            <h2>Редактирование профиля {{ $user->login }}</h2>
 
         </div>
     </div>
