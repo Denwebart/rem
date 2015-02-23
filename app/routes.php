@@ -10,7 +10,12 @@ Route::group(['prefix' => 'admin'], function(){
 /* Личный кабинет */
 Route::group(['prefix' => 'user'], function(){
 	Route::get('/', 'CabinetController@index');
-	Route::get('{login}', 'CabinetUserController@index');
+	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
+	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
+	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
+	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
+	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
+	Route::get('{login}/friends', ['as' => 'user.friends', 'uses' => 'CabinetUserController@friends']);
 });
 
 /* Пользователи */

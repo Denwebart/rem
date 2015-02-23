@@ -1,5 +1,5 @@
 <header id="header-widget">
-    <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-bolt"></i> <span>Админка</span></a>
+    <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
     <nav class="navbar navbar-static-top">
         @if(Request::is('admin*'))
             <a href="#" class="navbar-btn sidebar-toggle">
