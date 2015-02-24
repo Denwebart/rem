@@ -55,7 +55,7 @@
                                     <a class="btn btn-info btn-sm" href="{{ URL::route('admin.pages.edit', $page->id) }}">
                                         <i class="fa fa-edit "></i>
                                     </a>
-                                    {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'destroy')) }}
+                                    {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'as-button')) }}
                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                             <i class='fa fa-trash-o'></i>
                                         </button>

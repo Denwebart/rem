@@ -12,43 +12,98 @@
 
     <div class="content">
         <!-- Main row -->
-        <div class="row">
-
-            <div class="col-md-12">
-                <h4 class="no-margin-top">Отправитель: {{ $letter->name }} ({{ $letter->email }})</h4>
-            </div>
-
-            <div class="col-md-6">
+        <div class="mailbox row">
+            <div class="col-lg-12">
                 <div class="box">
                     <div class="box-title">
-                        <h3>{{ $letter->subject }}</h3>
+                        <i class="fa fa-inbox"></i>
+                        <h3>Почтовый ящик</h3>
+                        <div class="pull-right box-toolbar">
+                            <a href="#" class="btn btn-link btn-xs"><i class="fa fa-cog"></i></a>
+                        </div>
                     </div>
                     <div class="box-body">
-                        <p>{{ $letter->message }}</p>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="active"><a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
+                                            @if(count($headerWidget->newLetters()))
+                                                <span class="label pull-right">
+                                                    {{ count($headerWidget->newLetters()) }}
+                                                </span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
+                                    <li><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
+                                            @if(count($headerWidget->deletedLetters()))
+                                                <span class="label label-danger pull-right">
+                                                    {{ count($headerWidget->deletedLetters()) }}
+                                                </span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>
+                                </ul>
+
+                                <div class="mailbox-buttons">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary no-radius dropdown-toggle" data-toggle="dropdown">Выбрать действие <i class="fa fa-paper-plane"></i></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Отметить как прочитанное</a></li>
+                                            <li><a href="#">Отметить как непрочитанное</a></li>
+                                            <li><a href="#">Удалить</a></li>
+                                        </ul>
+                                    </div>
+                                    <button type="button" class="btn btn-success no-radius"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-danger no-radius"><i class="fa fa-trash-o"></i></button>
+                                </div>
+
+                                <div class="box-bordered clearfix">
+                                    <input type="text" class="form-control" placeholder="Тема" />
+                                    <input type="text" class="form-control" placeholder="Email" />
+                                    <textarea class="form-control" placeholder="Сообщение" rows="8"></textarea>
+                                    <button type="submit" class="btn btn-danger no-radius pull-left">Отмена</button>
+                                    <button type="submit" class="btn btn-success no-radius pull-right">Отправить</button>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-8">
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <h4 class="no-margin-top">Отправитель: {{ $letter->name }} ({{ $letter->email }})</h4>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-title">
+                                                <h3>{{ $letter->subject }}</h3>
+                                            </div>
+                                            <div class="box-body">
+                                                <p>{{ $letter->message }}</p>
+                                            </div>
+                                        </div>
+                                    </div><!-- ./col -->
+                                    <div class="col-md-6">
+
+                                    </div><!-- ./col -->
+                                </div><!-- /.row -->
+
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div>
+                    <div class="box-footer">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Поиск письма..."/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-success"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div><!-- ./col -->
-            <div class="col-md-6">
-                {{--<div class="box">--}}
-                    {{--<div class="box-title">--}}
-                        {{--<h3>Addresses</h3>--}}
-                    {{--</div>--}}
-                    {{--<div class="box-body clearfix">--}}
-                        {{--<address>--}}
-                            {{--<strong>Twitter, Inc.</strong><br>--}}
-                            {{--795 Folsom Ave, Suite 600<br>--}}
-                            {{--San Francisco, CA 94107<br>--}}
-                            {{--<abbr title="Phone">P:</abbr> (123) 456-7890--}}
-                        {{--</address>--}}
-
-                        {{--<address>--}}
-                            {{--<strong>Full Name</strong><br>--}}
-                            {{--<a href="mailto:#">first.last@example.com</a>--}}
-                        {{--</address>--}}
-                    {{--</div>--}}
-                {{--</div><!-- /.box -->--}}
-            </div><!-- ./col -->
-        </div><!-- /.row -->
+            </div>
+        </div>
     </div>
 
 @stop

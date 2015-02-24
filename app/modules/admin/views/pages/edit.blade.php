@@ -16,7 +16,7 @@
                 <h4 class="no-margin-top">{{ $page->getTitle() }}</h4>
             </div>
             {{ Form::model($page, array('method' => 'PUT', 'route' => array('admin.pages.update', $page->id)), ['id' => 'registerForm']) }}
-                @include('admin.pages._form')
+                @include('admin::pages._form')
             {{ Form::close() }}
         </div>
     </div>

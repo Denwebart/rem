@@ -4,6 +4,7 @@ class HeaderWidget
 {
 	public $newLetters;
 	public $deletedLetters;
+	public $newUsers;
 
 	public function show()
 	{
@@ -22,6 +23,14 @@ class HeaderWidget
 		$this->newLetters = count($letters);
 
 		return $letters;
+	}
+
+	public function newUsers() {
+		$users = User::all();
+
+		$this->newUsers = count($users);
+
+		return $users;
 	}
 
 	public function deletedLetters() {

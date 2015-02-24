@@ -54,11 +54,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $table = 'users';
 
+	const ROLE_NONE = 0;
 	const ROLE_ADMIN = 1;
 	const ROLE_MANAGER = 2;
 	const ROLE_USER = 3;
 
 	public static $roles = [
+		self::ROLE_NONE => 'Не назначена',
 		self::ROLE_ADMIN => 'Администратор',
 		self::ROLE_MANAGER => 'Модератор',
 		self::ROLE_USER => 'Пользователь',

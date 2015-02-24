@@ -39,7 +39,7 @@
                 </div>
                 <div class="details">
                     <p>{{ Auth::user()->login }}</p>
-                    <span class="position">Superadmin</span>
+                    <span class="position">{{ User::$roles[Auth::user()->role] }}</span>
                 </div>
                 <div class="button">
                     <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i></a>
@@ -52,15 +52,21 @@
                         <i class="fa fa-home"></i> <span>Главная</span>
                     </a>
                 </li>
-                <li class="{{ (URL::to('admin/pages') != URL::current()) ? '' : 'active'}}">
+                <li class="{{ Request::is('admin/pages*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.pages.index') }}">
                         <i class="fa fa-file"></i> <span>Страницы</span>
                     </a>
                 </li>
-                <li class="{{ (URL::to('admin/letters') != URL::current()) ? '' : 'active'}}">
+                <li class="{{ Request::is('admin/letters*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.letters.index') }}">
                         <i class="fa fa-envelope"></i> <span>Письма</span>
                         <small class="label pull-right">{{ $headerWidget->newLetters }}</small>
+                    </a>
+                </li>
+                <li class="{{ Request::is('admin/users*') ? 'active' : ''}}">
+                    <a href="{{ URL::route('admin.users.index') }}">
+                        <i class="fa fa-users"></i> <span>Пользователи</span>
+                        <small class="label pull-right">{{ $headerWidget->newUsers }}</small>
                     </a>
                 </li>
             </ul>
