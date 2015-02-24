@@ -2,10 +2,11 @@
 
 @section('content')
     <div class="page-head">
-        <h1>Письма  <small>отправленные через контактную форму</small></h1>
+        <h1>Корзина  <small>удаленные письма</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">Письма</li>
+            <li class="active"><a href="{{ URL::to('admin.letters.index') }}">Письма</a></li>
+            <li class="active">Корзина</li>
         </ol>
     </div>
 
@@ -25,7 +26,7 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-4">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
+                                    <li><a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
                                             @if(count($headerWidget->newLetters()))
                                                 <span class="label pull-right">
                                                     {{ count($headerWidget->newLetters()) }}
@@ -34,7 +35,7 @@
                                         </a>
                                     </li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
-                                    <li><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
+                                    <li class="active"><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
                                             @if(count($headerWidget->deletedLetters()))
                                                 <span class="label label-danger pull-right">
                                                     {{ count($headerWidget->deletedLetters()) }}
@@ -94,7 +95,7 @@
                                             <th>Имя</th>
                                             <th>Email</th>
                                             <th>Дата создания</th>
-                                            <th>Дата прочтения</th>
+                                            <th>Дата удаления</th>
                                             <th class="button-column"></th>
                                         </tr>
                                         </thead>
@@ -108,12 +109,17 @@
                                                     <td class="name">{{ $letter->name }}</td>
                                                     <td class="name">{{ $letter->email }}</td>
                                                     <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
-                                                    <td class="time">{{ ($letter->read_at) ? DateHelper::dateFormat($letter->read_at) : '-'}}</td>
+                                                    <td class="time">{{ DateHelper::dateFormat($letter->deleted_at) }}</td>
                                                     <td>
                                                         <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
-                                                            <i class="fa fa-search-plus"></i>
+                                                            <i class="fa fa-search-plus "></i>
                                                         </a>
-                                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.markAsDeleted', $letter->id), 'class' => 'destroy as-button')) }}
+                                                        {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsNew', $letter->id), 'class' => 'as-button')) }}
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class='fa fa-reply'></i>
+                                                        </button>
+                                                        {{ Form::close() }}
+                                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.destroy', $letter->id), 'class' => 'destroy as-button')) }}
                                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                                             <i class='fa fa-trash-o'></i>
                                                         </button>
@@ -127,7 +133,7 @@
                                                                         <h4 class="modal-title">Удаление</h4>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <p>Вы уверены, что хотите переместить письмо в корзину?</p>
+                                                                        <p>Вы уверены, что хотите окончательно удалить письмо?</p>
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>

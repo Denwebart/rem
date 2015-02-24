@@ -26,7 +26,7 @@ a:hover, a:active, a:focus {
 }
 
 /* Our style==================================================*/
-form.destroy {
+form.as-button {
     display: inline;
 }
 .table > thead > tr > th.button-column {

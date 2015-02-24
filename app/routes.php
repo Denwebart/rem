@@ -6,6 +6,8 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
 	Route::resource('letters', 'AdminLettersController');
 	Route::delete('admin/letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
+	Route::post('admin/letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
+	Route::get('admin/letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 });
 
 /* Личный кабинет */

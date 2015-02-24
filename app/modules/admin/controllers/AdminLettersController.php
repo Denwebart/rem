@@ -20,6 +20,18 @@ class AdminLettersController extends \BaseController {
 	}
 
 	/**
+	 * Display a listing of deleted letters
+	 *
+	 * @return Response
+	 */
+	public function trash()
+	{
+		$letters = Letter::orderBy('deleted_at', 'DESC')->whereNotNull('deleted_at')->paginate(10);
+
+		return View::make('admin::letters.trash', compact('letters'));
+	}
+
+	/**
 	 * Display the specified letter.
 	 *
 	 * @param  int  $id
@@ -60,6 +72,21 @@ class AdminLettersController extends \BaseController {
 		$letter->save();
 
 		return Redirect::route('admin.letters.index');
+	}
+
+	/**
+	 * Перемещение письма из корзины во входящие
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function markAsNew($id)
+	{
+		$letter = Letter::findOrFail($id);
+		$letter->deleted_at = null;
+		$letter->save();
+
+		return Redirect::route('admin.letters.trash');
 	}
 
 }
