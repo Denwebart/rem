@@ -2,6 +2,11 @@
 
 class AdminPagesController extends \BaseController {
 
+	public function __construct(){
+		$headerWidget = app('HeaderWidget');
+		View::share('headerWidget', $headerWidget);
+	}
+
 	/**
 	 * Display a listing of pages
 	 *

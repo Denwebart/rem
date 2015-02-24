@@ -2,6 +2,11 @@
 
 class AdminLettersController extends \BaseController {
 
+	public function __construct(){
+		$headerWidget = app('HeaderWidget');
+		View::share('headerWidget', $headerWidget);
+	}
+
 	/**
 	 * Display a listing of letters
 	 *
@@ -9,7 +14,7 @@ class AdminLettersController extends \BaseController {
 	 */
 	public function index()
 	{
-		$letters = Letter::orderBy('created_at', 'DESC')->paginate(10);
+		$letters = Letter::orderBy('created_at', 'DESC')->whereNull('deleted_at')->paginate(10);
 
 		return View::make('admin::letters.index', compact('letters'));
 	}
@@ -39,7 +44,22 @@ class AdminLettersController extends \BaseController {
 	{
 		Letter::destroy($id);
 
-		return Redirect::route('admin::letters.index');
+		return Redirect::route('admin.letters.index');
+	}
+
+	/**
+	 * Перемещение письма в корзину (отметить как удаленное)
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function markAsDeleted($id)
+	{
+		$letter = Letter::findOrFail($id);
+		$letter->deleted_at = date('Y:m:d H:i:s');
+		$letter->save();
+
+		return Redirect::route('admin.letters.index');
 	}
 
 }

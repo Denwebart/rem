@@ -1,4 +1,3 @@
-<?php $headerWidget = app('HeaderWidget') ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>

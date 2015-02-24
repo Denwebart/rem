@@ -1,7 +1,5 @@
 @extends('admin::layouts.admin')
 
-<?php $adminWidget = app('AdminWidget') ?>
-{{ dd($adminWidget->newLetters) }}
 @section('content')
     <div class="page-head">
         <h1>Письма  <small>отправленные через контактную форму</small></h1>
@@ -27,9 +25,23 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-4">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Входящие письма <span class="label pull-right">3</span></a></li>
+                                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Входящие письма
+                                            @if(count($headerWidget->newLetters()))
+                                                <span class="label pull-right">
+                                                    {{ count($headerWidget->newLetters()) }}
+                                                </span>
+                                            @endif
+                                        </a>
+                                    </li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
-                                    <li><a href="#"><i class="fa fa-trash-o"></i> Удаленные письма <span class="label label-danger pull-right">4</span></a></li>
+                                    <li><a href="#"><i class="fa fa-trash-o"></i> Удаленные письма
+                                            @if(count($headerWidget->deletedLetters()))
+                                                <span class="label label-danger pull-right">
+                                                    {{ count($headerWidget->deletedLetters()) }}
+                                                </span>
+                                            @endif
+                                        </a>
+                                    </li>
                                     <li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>
                                 </ul>
 
@@ -101,7 +113,7 @@
                                                         <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
                                                             <i class="fa fa-search-plus "></i>
                                                         </a>
-                                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.destroy', $letter->id), 'class' => 'destroy')) }}
+                                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.markAsDeleted', $letter->id), 'class' => 'destroy')) }}
                                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                                             <i class='fa fa-trash-o'></i>
                                                         </button>
