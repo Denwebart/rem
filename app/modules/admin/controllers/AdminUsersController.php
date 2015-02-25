@@ -36,7 +36,7 @@ class AdminUsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), User::$rules);
+		$validator = Validator::make($data = Input::all(), User::$rules['create']);
 
 		if ($validator->fails())
 		{
@@ -84,7 +84,7 @@ class AdminUsersController extends \BaseController {
 	{
 		$user = User::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), User::$rules);
+		$validator = Validator::make($data = Input::all(), User::$rules['edit']);
 
 		if ($validator->fails())
 		{

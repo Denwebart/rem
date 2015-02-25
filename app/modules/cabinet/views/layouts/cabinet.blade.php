@@ -33,37 +33,37 @@
 
         <div class="col-lg-1 col-md-3" id="users-menu">
             <ul>
-                <li>
+                <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-user"></span>
                         <span>Мой профиль</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-picture"></span>
                         <span>Мои фотографии</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         <span>Мои вопросы</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-comment"></span>
                         <span>Мои комментарии</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Route::is('user.messages') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-send"></span>
                         <span>Личные сообщения</span>
                     </a>
                 </li>
-                <li>
+                <li class="{{ Route::is('user.friends') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.friends', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         <span>Мои друзья</span>
@@ -84,6 +84,8 @@
 {{HTML::script('js/jquery-1.11.2.min.js')}}
 {{HTML::script('js/bootstrap.min.js')}}
 {{HTML::script('js/custom.js')}}
+
+@yield('script')
 
 </body>
 </html>

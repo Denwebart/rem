@@ -70,6 +70,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'user_id',
 		'is_active',
 		'name',
+		'firstname',
+		'lastname',
 		'email',
 		'password',
 		'description',
@@ -79,18 +81,45 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'country',
 	];
 
-	public static $validation = [
-		// Поле email является обязательным, также это должен быть допустимый адрес
-		// электронной почты и быть уникальным в таблице users
-		'email'     => 'required|email|unique:users',
+	public function getValidationRules()
+	{
+		return [
+			'email' => 'required|email|unique:users,id,' . $this->id . '|max:150',
+			'login' => 'required|unique:users,id,' . $this->id . '|max:150',
+			'firstname' => 'max:100',
+			'lastname' => 'max:100',
+			'role' => 'integer',
+			'avatar' => 'max:300',
+			'description' => 'max:3000',
+			'car_brand' => 'max:150',
+			'profession' => 'max:150',
+			'city' => 'max:150',
+			'country' => 'max:150',
+			'is_active' => 'integer',
+		];
+	}
 
-		// Поле username является обязательным, содержать только латинские символы и цифры, и
-		// также быть уникальным в таблице users
-		'name'  => 'required|alpha_num|unique:users',
-
-		// Поле password является обязательным, должно быть длиной не меньше 6 символов, а
-		// также должно быть повторено (подтверждено) в поле password_confirmation
-		'password'  => 'required|confirmed|min:6',
+	public static $rules = [
+		'registration' => [
+			'email'     => 'required|email|unique:users|max:150',
+			'login'  => 'required|unique:users|max:150',
+			'password'  => 'required|confirmed|min:6|max:100',
+		],
+		'create' => [
+			'password'  => 'required|confirmed|min:6|max:100',
+			'email' => 'required|email|unique:users|max:150',
+			'login' => 'required|unique:users|max:150',
+			'firstname' => 'max:100',
+			'lastname' => 'max:100',
+			'role' => 'integer',
+			'avatar' => 'max:300',
+			'description' => 'max:3000',
+			'car_brand' => 'max:150',
+			'profession' => 'max:150',
+			'city' => 'max:150',
+			'country' => 'max:150',
+			'is_active' => 'integer',
+		]
 	];
 
 	public function register()

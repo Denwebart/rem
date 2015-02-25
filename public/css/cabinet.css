@@ -41,6 +41,12 @@ body {
     background: none;
     border-bottom: none;
 }
+#users-menu ul > li.active {
+    background: #ffffff;
+}
+#users-menu ul > li.active a {
+    color: rgb(42, 70, 120);
+}
 #users-menu ul > li > a {
     color: #ffffff;
     padding: 10px 10px;

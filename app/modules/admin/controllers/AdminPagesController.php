@@ -60,7 +60,7 @@ class AdminPagesController extends \BaseController {
 
 		Page::create($data);
 
-		return Redirect::route('admin::pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 	/**
@@ -121,7 +121,7 @@ class AdminPagesController extends \BaseController {
 
 		$page->update($data);
 
-		return Redirect::route('admin::pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 	/**
@@ -134,7 +134,7 @@ class AdminPagesController extends \BaseController {
 	{
 		Page::destroy($id);
 
-		return Redirect::route('admin::pages.index');
+		return Redirect::route('admin.pages.index');
 	}
 
 }

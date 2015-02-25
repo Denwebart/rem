@@ -15,29 +15,30 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <a href="{{ URL::route('user.edit', ['login' => $user->login]) }}" class="pull-right">
+
+            <a href="{{{ URL::route('user.edit', ['login' => $user->login]) }}}" class="pull-right">
                 <span class="glyphicon glyphicon-edit"></span>
                 Редактировать
             </a>
-            <h2>{{ $user->login }}</h2>
+            <h2>{{{ $user->login }}}</h2>
             @if($user->getFullName())
-                <h3>{{ $user->getFullName() }}</h3>
+                <h3>{{{ $user->getFullName() }}}</h3>
             @endif
 
             @if($user->country)
-                <p>{{ $user->country }}</p>
+                <p>{{{ $user->country }}}</p>
             @endif
 
             @if($user->city)
-                <p>{{ $user->city }}</p>
+                <p>{{{ $user->city }}}</p>
             @endif
 
             @if($user->car_brand)
-                <p>{{ $user->car_brand }}</p>
+                <p>{{{ $user->car_brand }}}</p>
             @endif
 
             @if($user->profession)
-                <p>{{ $user->profession }}</p>
+                <p>{{{ $user->profession }}}</p>
             @endif
 
             @if($user->profession)

@@ -9,7 +9,7 @@ class UsersController extends BaseController
 	public function postRegister()
 	{
 		// Проверка входных данных
-		$rules = User::$validation;
+		$rules = User::$rules['registration'];
 		$validation = Validator::make(Input::all(), $rules);
 		if ($validation->fails()) {
 			// В случае провала, редиректим обратно с ошибками и самими введенными данными

@@ -15,6 +15,24 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.edit');
 	}
 
+	public function postEdit($id)
+	{
+		$user = User::findOrFail($id);
+
+		$data = Input::all();
+
+		$validator = Validator::make($data, $user->getValidationRules());
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$user->update($data);
+
+		return Redirect::route('user.profile', ['login' => $user->login]);
+	}
+
 	public function gallery($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());
