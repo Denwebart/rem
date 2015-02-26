@@ -67,12 +67,6 @@ body {
 #header-widget .navbar-right {
     margin-right: 0 !important;
 }
-
-body > #header-widget .navbar .nav > li > a:hover, body > .navbar .nav > li > a:active, body > .navbar .nav > li > a:focus, body > .navbar .nav .open > a, body > .navbar .nav .open > a:hover, body > .navbar .nav .open > a:focus {
-    background: #ffffff;
-    color: #999999;
-}
-
 #header-widget .navbar .sidebar-toggle {
     float: left;
     padding: 9px 5px;

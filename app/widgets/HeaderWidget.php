@@ -4,6 +4,7 @@ class HeaderWidget
 {
 	public $newLetters;
 	public $deletedLetters;
+	public $newMessages;
 	public $newUsers;
 
 	public function show()
@@ -11,7 +12,10 @@ class HeaderWidget
 		$letters = $this->newLetters();
 		$letters = (string) View::make('widgets.header.letters', compact('letters'));
 
-		return (string) View::make('widgets.header.index', compact('letters'))->render();
+		$messages = $this->newMessages();
+		$messages = (string) View::make('widgets.header.messages', compact('messages'));
+
+		return (string) View::make('widgets.header.index', compact('letters', 'messages'))->render();
 	}
 
 
@@ -23,6 +27,16 @@ class HeaderWidget
 		$this->newLetters = count($letters);
 
 		return $letters;
+	}
+
+	public function newMessages() {
+		$messages = Message::whereUserIdRecipient(Auth::user()->id)
+			->orderBy('created_at', 'DESC')
+			->get();
+
+		$this->newMessages = count($messages);
+
+		return $messages;
 	}
 
 	public function newUsers() {
