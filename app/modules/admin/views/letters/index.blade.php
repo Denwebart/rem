@@ -42,7 +42,7 @@
                                             @endif
                                         </a>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>
+                                    {{--<li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>--}}
                                 </ul>
 
                                 <div class="mailbox-buttons">

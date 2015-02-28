@@ -35,7 +35,7 @@
         <div class="sidebar">
             <div class="user-box">
                 <div class="avatar">
-                    <img src="/backend/img/avatar.jpg" alt="" />
+                    {{ HTML::image(Config::get('settings.defaultAvatar'), Auth::user()->login, ['class' => 'pull-left']) }}
                 </div>
                 <div class="details">
                     <p>{{ Auth::user()->login }}</p>

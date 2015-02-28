@@ -38,7 +38,7 @@
 @endif
 
 @if(Auth::check())
-    {{ $headerWidget->show() }}
+    {{ $headerWidget->show($page) }}
 @endif
 
 <div class="header">
@@ -46,7 +46,9 @@
         <div class="row">
             <div class="col-md-5">
                 <div id="logo">
-                    {{ HTML::image('images/logo.png') }}
+                    <a href="{{ URL::to('/') }}">
+                        {{ HTML::image('images/logo.png') }}
+                    </a>
                 </div>
             </div>
             <div class="col-md-5">
@@ -61,6 +63,9 @@
             </div>
             <div class="col-md-2">
                 {{ $menuWidget->topMenu() }}
+                @if (!Auth::check())
+                    <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-50 pull-right">Войти</a>
+                @endif
             </div>
         </div>
     </div>

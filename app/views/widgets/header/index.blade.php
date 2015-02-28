@@ -1,5 +1,7 @@
 <header id="header-widget">
-    <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
+    @if(Request::is('admin*'))
+        <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
+    @endif
     <nav class="navbar navbar-static-top">
         @if(Request::is('admin*'))
             <a href="#" class="navbar-btn sidebar-toggle">
@@ -21,6 +23,18 @@
         @endif
         <div class="navbar-right">
             <ul class="nav navbar-nav">
+
+                @if(!is_null($page))
+                    <li style="margin-right: 10px">
+                        <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id]) }}" class="">
+                            <span>
+                                <i class="fa fa-edit"></i>
+                                Редактировать
+                            </span>
+                        </a>
+                    </li>
+                @endif
+
                 {{--<li class="dropdown dropdown-notifications">--}}
                     {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}
                         {{--<i class="fa fa-bell"></i><span class="label label-warning">5</span>--}}

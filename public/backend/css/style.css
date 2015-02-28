@@ -31,6 +31,7 @@ form.as-button {
 }
 .table > thead > tr > th.button-column {
     padding: 3px 0;
+    width: 130px;
 }
 #published_at_time {
     width: 90px;
