@@ -94,7 +94,7 @@
 
                 <li class="dropdown widget-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/backend/img/avatar.jpg" class="pull-left" alt="image" />
+                        {{ HTML::image(Config::get('settings.defaultAvatar'), Auth::user()->login, ['class' => 'pull-left']) }}
                         <span>{{ Auth::user()->login }} <i class="fa fa-caret-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">

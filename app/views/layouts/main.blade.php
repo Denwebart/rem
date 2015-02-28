@@ -41,22 +41,26 @@
     {{ $headerWidget->show() }}
 @endif
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div id="logo">
-                {{ HTML::image('images/logo.png') }}
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="logo">
+                    {{ HTML::image('images/logo.png') }}
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            {{ $menuWidget->topMenu() }}
-            <div id="site-title">
-                <h1>
-                    Школа авторемонта
-                    <span class="slogan">
-                        Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками
-                    </span>
-                </h1>
+            <div class="col-md-5">
+                <div id="site-title">
+                    <h1>
+                        Школа авторемонта
+                        <span class="slogan">
+                            Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками
+                        </span>
+                    </h1>
+                </div>
+            </div>
+            <div class="col-md-2">
+                {{ $menuWidget->topMenu() }}
             </div>
         </div>
     </div>
@@ -93,9 +97,8 @@
 
 <footer class="container">
     <div class="row">
-        <div class="col-xs-12" style="background: gray">
+        <div class="col-xs-12">
             {{ $menuWidget->bottomMenu() }}
-            Футер
         </div>
     </div>
 </footer>

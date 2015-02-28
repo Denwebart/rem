@@ -23,8 +23,15 @@ body {
 /*}*/
 
 /*-- Logo --*/
+.header {
+    /*background: #DDDDDD;*/
+}
+#logo img {
+    margin: 20px 0;
+}
 #site-title h1 {
     font-size: 30px;
+    margin-top: 15px;
 }
 #site-title h1 .slogan {
     font-size: 20px;
@@ -32,11 +39,82 @@ body {
 /*-- End Logo --*/
 
 /*-- Navbar --*/
+/*-- Top menu --*/
 #navbar-top .navbar-nav > li > a {
-    padding: 5px 15px;
+    padding: 5px 5px;
+}
+#navbar-top .navbar-nav > li > a:hover,
+#navbar-top .navbar-nav > li > a:focus,
+#navbar-top .navbar-nav > li.active > a {
+    text-decoration: underline;
+    background: none;
+}
+/*-- Main menu --*/
+#navbar-main {
+    padding: 0;
 }
 #navbar-main .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+.navbar-custom {
+    min-height: 40px;
+    border-radius: 0;
+
+    background: #3d5a82; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#284173', endColorstr='#355e91'); /* для IE6-9 */
+    background: -webkit-linear-gradient(bottom, #284173, #355e91 98%, #284173); /* для webkit-браузеров */
+    background: -moz-linear-gradient(bottom,  #284173, #355e91 98%, #284173); /* для firefox 3.6+ */
+    background: -o-linear-gradient(bottom,  #284173, #355e91 98%, #284173); /* для Opera 11.10+ */
+    background: -ms-linear-gradient(bottom,  #284173, #355e91 98%, #284173); /* для IE10+ */
+}
+.navbar-custom ul > li {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px 7px 5px 0;
+}
+.navbar-custom ul > li:last-child {
+    border: none;
+}
+.navbar-custom ul > li:first-child > a {
+    margin-left: 0;
+}
+.navbar-custom ul > li > a {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 7px;
+
+    color: #F2F2F2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.navbar-custom ul > li > a:hover,
+.navbar-custom ul > li > a:focus,
+.navbar-custom ul > li.active > a {
+    background: #F2F2F2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    color: #232323;
+    text-shadow: none;
+}
+.navbar-custom .navbar-nav > li > .dropdown-menu > li {
+    margin-left: 7px;
+}
+.navbar-custom .navbar-nav > li > .dropdown-menu > li > a {
+    color: #232323;
+    text-shadow: none;
+}
+.navbar-custom .navbar-nav > li > .dropdown-menu > li > a:hover {
+    color: #F2F2F2;
+    background: #3d5a82; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#284173', endColorstr='#355e91'); /* для IE6-9 */
+    background: -webkit-linear-gradient(left, #284173, #355e91 98%, #284173); /* для webkit-браузеров */
+    background: -moz-linear-gradient(left,  #284173, #355e91 98%, #284173); /* для firefox 3.6+ */
+    background: -o-linear-gradient(left,  #284173, #355e91 98%, #284173); /* для Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #284173, #355e91 98%, #284173); /* для IE10+ */
+}
+.navbar-custom .navbar-collapse {
+    padding: 0 7px;
+}
+.navbar-custom #navbar-bottom a {
+    padding: 7px 10px;
 }
 
 /*-- Sidebar Widget --*/

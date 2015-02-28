@@ -8,7 +8,6 @@ body {
     padding: 0;
 
     background: #3d5a82; /* for non-css3 browsers */
-
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#284173', endColorstr='#355e91'); /* для IE6-9 */
     background: -webkit-linear-gradient(left, #284173, #355e91 98%, #284173); /* для webkit-браузеров */
     background: -moz-linear-gradient(left,  #284173, #355e91 98%, #284173); /* для firefox 3.6+ */
@@ -28,18 +27,22 @@ body {
     background: none;
     border-bottom: none;
 }
+#users-menu ul > li:hover,
+#users-menu ul > li:focus,
 #users-menu ul > li.active {
     background: #F2F2F2;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
+#users-menu ul > li:hover a,
+#users-menu ul > li:focus a,
 #users-menu ul > li.active a {
-    color: #5A5A5A;
+    color: #232323;
     text-shadow: none;
 }
 #users-menu ul > li > a {
     color: #F2F2F2;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-    padding: 5px 10px;
+    padding: 5px 3px;
     width: 100%;
     display: inline-block;
     text-align: center;
@@ -53,6 +56,7 @@ body {
     font-size: 30px;
     margin-bottom: 3px;
 }
+
 
 /*-- End Меню пользователя (справа) --*/
 
