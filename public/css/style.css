@@ -22,7 +22,16 @@ body {
     /*height: 25px;*/
 /*}*/
 
-/* Navbar */
+/*-- Logo --*/
+#site-title h1 {
+    font-size: 30px;
+}
+#site-title h1 .slogan {
+    font-size: 20px;
+}
+/*-- End Logo --*/
+
+/*-- Navbar --*/
 #navbar-top .navbar-nav > li > a {
     padding: 5px 15px;
 }

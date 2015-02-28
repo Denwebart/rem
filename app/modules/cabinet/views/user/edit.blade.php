@@ -13,7 +13,7 @@
         {{ Form::model($user, array('method' => 'POST', 'route' => array('user.update', $user->id)), ['id' => 'editProfile']) }}
         <div class="col-lg-3">
             <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive']) }}
+                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
             </div>
             <div class="form-group">
                 {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary file-inputs']) }}

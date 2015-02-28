@@ -43,9 +43,21 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-6">
+            <div id="logo">
+                {{ HTML::image('images/logo.png') }}
+            </div>
+        </div>
+        <div class="col-md-6">
             {{ $menuWidget->topMenu() }}
-            Шапка
+            <div id="site-title">
+                <h1>
+                    Школа авторемонта
+                    <span class="slogan">
+                        Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками
+                    </span>
+                </h1>
+            </div>
         </div>
     </div>
 </div>
