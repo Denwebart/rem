@@ -14,6 +14,7 @@
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $published_at
+ * @property string $read_at
  * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value) 
@@ -24,7 +25,8 @@
  * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereReadAt($value)
  */
 
 class Comment extends \Eloquent

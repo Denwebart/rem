@@ -57,10 +57,19 @@
                         <i class="fa fa-file"></i> <span>Страницы</span>
                     </a>
                 </li>
+                <li class="{{ Request::is('admin/comments*') ? 'active' : ''}}">
+                    <a href="{{ URL::route('admin.comments.index') }}">
+                        <i class="fa fa-comment"></i> <span>Комментарии</span>
+                    </a>
+                </li>
                 <li class="{{ Request::is('admin/letters*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.letters.index') }}">
                         <i class="fa fa-envelope"></i> <span>Письма</span>
-                        <small class="label pull-right">{{ $headerWidget->newLetters }}</small>
+                        @if($headerWidget->newLetters)
+                            <small class="label pull-right">
+                                {{ $headerWidget->newLetters }}
+                            </small>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Request::is('admin/users*') ? 'active' : ''}}">

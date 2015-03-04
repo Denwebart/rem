@@ -11,10 +11,11 @@
 			</div>
 		@endif
 
-		{{--Комментарии--}}
-		<?php $commentWidget = app('CommentWidget') ?>
-
-		{{ $commentWidget->show($page) }}
+		@if($page->show_comments)
+			{{--Комментарии--}}
+			<?php $commentWidget = app('CommentWidget') ?>
+			{{ $commentWidget->show($page) }}
+		@endif
 
 	</section>
 @stop

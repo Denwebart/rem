@@ -10,6 +10,7 @@
  * @property string $alias
  * @property boolean $is_container
  * @property boolean $show_submenu
+ * @property boolean $show_comments
  * @property string $menu_title
  * @property string $title
  * @property string $image
@@ -32,7 +33,8 @@
  * @method static \Illuminate\Database\Query\Builder|\Page whereAlias($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereIsContainer($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereShowSubmenu($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereMenuTitle($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Page whereShowComments($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereMenuTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereTitle($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereImage($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereImageAlt($value) 

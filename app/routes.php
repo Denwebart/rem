@@ -4,6 +4,7 @@
 Route::group(['prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index');
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
+	Route::resource('comments', 'AdminCommentsController', ['except' => ['show']]);
 	Route::resource('users', 'AdminUsersController');
 	Route::resource('letters', 'AdminLettersController');
 	Route::delete('admin/letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);

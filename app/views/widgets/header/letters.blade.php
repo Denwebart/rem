@@ -1,6 +1,11 @@
 <li class="dropdown dropdown-messages">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-envelope"></i><span class="label label-success">{{ count($letters) }}</span>
+        <i class="fa fa-envelope"></i>
+        @if(count($letters))
+            <span class="label label-success">
+                {{ count($letters) }}
+            </span>
+        @endif
     </a>
     <ul class="dropdown-menu">
         <li class="header"><i class="fa fa-envelope"></i> Новые письма: {{ count($letters) }}</li>

@@ -1,6 +1,11 @@
 <li class="dropdown dropdown-messages">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-send"></i><span class="label label-info">{{ count($messages) }}</span>
+        <i class="fa fa-send"></i>
+        @if(count($messages))
+            <span class="label label-info">
+                {{ count($messages) }}
+            </span>
+        @endif
     </a>
     <ul class="dropdown-menu">
         <li class="header"><i class="fa fa-envelope"></i> Новые личные сообщения: {{ count($messages) }}</li>
