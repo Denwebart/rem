@@ -46,6 +46,7 @@ class UsersController extends BaseController
 	}
 
 	public function getLogin() {
+		Session::put('previousUrl', URL::previous());
 		return View::make('users/login');
 	}
 
@@ -70,8 +71,17 @@ class UsersController extends BaseController
 		// Пытаемся авторизовать пользователя
 		if (Auth::attempt($creds, Input::has('remember'))) {
 			Log::info("User [{$login}] successfully logged in.");
-//			return Redirect::intended();
-			return Redirect::to('admin');
+
+			// Редирект в админку (если админ) или на предыдущую (для остальных)
+			if(Auth::user()->isAdmin()){
+				return Redirect::to('admin');
+			} else {
+				if(Session::has('previousUrl')) {
+					return Redirect::to(Session::get('previousUrl'));
+				} else {
+					return Redirect::to('/');
+				}
+			}
 		} else {
 			Log::info("User [{$login}] failed to login.");
 		}

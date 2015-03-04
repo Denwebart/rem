@@ -39,4 +39,37 @@ class Comment extends \Eloquent
 		'comment',
 		'published_at',
 	];
+
+	public static $rules = [
+		'page_id' => 'required|numeric',
+		'parent_id' => 'required|numeric',
+		'user_id' => 'required|numeric',
+		'is_published' => 'boolean',
+		'comment' => 'required',
+	];
+
+	public function children()
+	{
+		return $this->hasMany('Comment', 'parent_id');
+	}
+
+	public function publishedChildren()
+	{
+		return $this->hasMany('Comment', 'parent_id')->whereIsPublished(1);
+	}
+
+	public function parent()
+	{
+		return $this->belongsTo('Comment', 'parent_id');
+	}
+
+	public function page()
+	{
+		return $this->belongsTo('Page', 'page_id');
+	}
+
+	public function user()
+	{
+		return $this->belongsTo('User', 'user_id');
+	}
 }

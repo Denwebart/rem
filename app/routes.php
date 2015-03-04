@@ -34,6 +34,8 @@ Route::get('/', 'SiteController@index');
 Route::get('{contactAlias}', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', 'SiteController@contactPost');
 
+Route::post('add_comment/{id}', 'CommentsController@addComment');
+
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
 

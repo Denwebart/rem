@@ -10,5 +10,11 @@
 				{{ $page->content }}
 			</div>
 		@endif
+
+		{{--Комментарии--}}
+		<?php $commentWidget = app('CommentWidget') ?>
+
+		{{ $commentWidget->show($page) }}
+
 	</section>
 @stop

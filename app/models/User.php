@@ -95,7 +95,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'profession' => 'max:150',
 			'city' => 'max:150',
 			'country' => 'max:150',
-			'is_active' => 'integer',
+			'is_active' => 'boolean',
 		];
 	}
 
@@ -118,7 +118,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'profession' => 'max:150',
 			'city' => 'max:150',
 			'country' => 'max:150',
-			'is_active' => 'integer',
+			'is_active' => 'boolean',
 		]
 	];
 
@@ -190,5 +190,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		$separator = ($this->firstname && $this->lastname) ? ' ' : '';
 		return $this->firstname . $separator . $this->lastname;
+	}
+
+	public function hasRole()
+	{
+		return (self::ROLE_NONE != $this->role) ? true : false;
+	}
+
+	public function isAdmin()
+	{
+		return (self::ROLE_ADMIN == $this->role) ? true : false;
+	}
+
+	public function isManager()
+	{
+		return (self::ROLE_MANAGER == $this->role) ? true : false;
+	}
+
+	public function isUser()
+	{
+		return (self::ROLE_USER == $this->role) ? true : false;
 	}
 }

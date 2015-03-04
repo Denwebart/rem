@@ -5,8 +5,8 @@ class Message extends \Eloquent {
 	protected $table = 'messages';
 
 	public static $rules = [
-		'user_id_sender' => '',
-		'user_id_recipient' => '',
+		'user_id_sender' => 'numeric',
+		'user_id_recipient' => 'numeric',
 		'message' => '',
 	];
 
