@@ -2,41 +2,30 @@
     <h3>Комментарии ({{ count($page->publishedComments) }})</h3>
 
     <div class="comments">
-        <hr class="small">
 
-        <!-- First level comment -->
-        <ul>
-            @foreach($comments as $comment)
-                <li id="comment-{{ $comment->id }}">
-                    <a href="javascript:void(0)" class="pull-left close-comment">-</a>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <div class="thumb">
-                                <img src="/images/fire-fox-ava.jpg" alt="commenter" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            <div>
-                                {{ $comment->comment }}
-                            </div>
-                            <p>
-                                <a href="" class="author">{{ $comment->user->login }}</a>
-                                <span>{{ $comment->created_at }}</span>
-                                <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
-                            </p>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="pull-right">
-                                <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                                <br/>
-                                <span>2</span>
-                                <br/>
-                                <a href=""><span class="glyphicon glyphicon-arrow-down"></span></a>
-                            </div>
-                        </div>
+        @foreach($comments as $comment)
+            <!-- Comment -->
+            <div id="comment-{{ $comment->id }}" class="media">
+                <a href="javascript:void(0)" class="pull-left close-comment">-</a>
+                <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}">
+                    {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '60px']) }}
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}" class="author">{{ $comment->user->login }}</a>
+                        <small>{{ DateHelper::dateFormat($comment->created_at) }}</small>
+                    </h4>
+                    <div>{{ $comment->comment }}</div>
+
+                    <div class="pull-right">
+                        <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <span class="result">2</span>
+                        <a href=""><span class="glyphicon glyphicon-arrow-down"></span></a>
                     </div>
 
-                    <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
+                    <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
+
+                    <div class="reply-comment-form well" id="reply-comment-form-{{$comment->id}}" style="display: none;">
 
                         @if(Auth::check())
                             <div id="successMessage"></div>
@@ -49,10 +38,14 @@
 
                             {{ Form::hidden('parent_id', $comment->id); }}
 
-                            {{ Auth::user()->login }}
-                            <div class="comment-input">
-                                {{ Form::textarea('comment', '', ['class' => 'form-input', 'placeholder' => 'Комментарий*']); }}
-                                <div id ="comment_error"></div>
+                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
+                                {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                                <span>{{  Auth::user()->login }}</span>
+                            </a>
+
+                            <div class="form-group">
+                                {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                <div id="comment_error"></div>
                             </div>
 
                             {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
@@ -65,40 +58,41 @@
                         @endif
                     </div>
 
-                    <hr class="small">
+                    <!-- Nested Comment -->
                     @if(count($comment->publishedChildren))
-                        <ul class="children-comments">
+                        <div class="children-comments">
                             @foreach($comment->publishedChildren as $commentLevel2)
-                                <li>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="thumb">
-                                                <img src="/images/ava_cat.jpg" alt="commenter" class="img-responsive">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-20">
-                                            <div>
-                                                {{ $commentLevel2->comment }}
-                                            </div>
-                                            <p>
-                                                <a href="" class="author">{{ $commentLevel2->login }}</a>
-                                                <span>{{ $commentLevel2->created_at }}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <hr class="small">
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                                <div class="media" id="comment-{{ $commentLevel2->id }}" >
+                                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->login]) }}">
+                                        {{ HTML::image(Config::get('settings.defaultAvatar'), $commentLevel2->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->login]) }}" class="author">{{ $commentLevel2->user->login }}</a>
+                                            <small>{{ DateHelper::dateFormat($commentLevel2->created_at) }}</small>
+                                        </h4>
+                                        <div>{{ $commentLevel2->comment }}</div>
 
-                </li>
-            @endforeach
-        </ul>
+                                        <div class="pull-right">
+                                            <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                                            <span class="result">2</span>
+                                            <a href=""><span class="glyphicon glyphicon-arrow-down"></span></a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                    <!-- End Nested Comment -->
+                </div>
+            </div>
+        @endforeach
+
     </div>
     <!-- end of .comments -->
 
-    <div class="comment-form">
+    <div class="comment-form well">
         <h3>Оставить комментарий</h3>
 
         @if(Auth::check())
@@ -112,13 +106,17 @@
 
             {{ Form::hidden('parent_id', 0); }}
 
-            {{ Auth::user()->login }}
-            <div class="comment-input">
-                {{ Form::textarea('comment', '', ['class' => 'form-input', 'placeholder' => 'Комментарий*']); }}
+            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
+                {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                <span>{{  Auth::user()->login }}</span>
+            </a>
+
+            <div class="form-group">
+                {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                 <div id="comment_error"></div>
             </div>
 
-            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
+            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
 
             {{ Form::close() }}
 
@@ -135,16 +133,17 @@
     @parent
 
     <script type="text/javascript">
+
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),
                 data = $form.serialize(),
-                url = $form.attr("action");
+                url = $form.attr('action');
             var posting = $.post(url, { formData: data });
             posting.done(function(data) {
                 if(data.fail) {
                     $.each(data.errors, function(index, value) {
-                        var errorDiv = '#'+index+'_error';
+                        var errorDiv = '#' + index + '_error';
                         $(errorDiv).addClass('required');
                         $(errorDiv).empty().append(value);
                     });
@@ -159,23 +158,26 @@
         });
 
         // Раскрытие формы для ответа на комментарий
-        $(".reply").on('click', function() {
-            var formContainer = "#reply-comment-form-" + $(this).data('commentId');
+        $('.reply').on('click', function() {
+            var formContainer = '#reply-comment-form-' + $(this).data('commentId');
             if ($(formContainer).is(':visible')) {
                 $(formContainer).slideUp();
             } else {
+                $("[id^='reply-comment-form']").slideUp();
                 $(formContainer).slideDown();
             }
         });
 
         // Сворачивание/разворачивание дочерних комментариев
-        $(".close-comment").on('click', function() {
+        $('.close-comment').on('click', function() {
             var commentsContainer = $(this).parent();
             var childrenCommentsContainer = $(commentsContainer).find('.children-comments');
             if ($(childrenCommentsContainer).is(':visible')) {
                 $(childrenCommentsContainer).slideUp();
+                $(this).text('+');
             } else {
                 $(childrenCommentsContainer).slideDown();
+                $(this).text('-');
             }
         });
     </script>

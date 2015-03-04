@@ -111,6 +111,17 @@ class Page extends \Eloquent
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
+	public function comments()
+	{
+		return $this->hasMany('Comment', 'page_id');
+	}
+
+	public function publishedComments()
+	{
+		return $this->hasMany('Comment', 'page_id')
+			->whereIsPublished(1);
+	}
+
 	public static function boot()
 	{
 		parent::boot();
