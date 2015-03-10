@@ -37,7 +37,11 @@
                             @foreach($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">{{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive', 'width' => '50px']) }}</a></td>
+                                    <td>
+                                        <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                                            {{ $user->getAvatar('mini') }}
+                                        </a>
+                                    </td>
                                     <td>{{ User::$roles[$user->role] }}</td>
                                     <td>{{ $user->login }}</td>
                                     <td>{{ $user->getFullName() }}</td>

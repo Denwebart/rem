@@ -13,8 +13,10 @@
         {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->id], 'files' => true], ['id' => 'editProfile']) }}
         <div class="col-lg-3">
             <div class="avatar">
+
+                {{ $user->getAvatar() }}
+
                 @if($user->avatar)
-                    {{ HTML::image('/uploads/' . $user->login . '/' . $user->avatar, $user->login, ['class' => 'img-responsive']) }}
                     <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
                     @section('script')
                         @parent
@@ -38,8 +40,6 @@
                             });
                         </script>
                     @stop
-                @else
-                    {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
                 @endif
             </div>
             <div class="form-group">

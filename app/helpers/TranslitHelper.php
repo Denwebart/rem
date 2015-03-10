@@ -1,6 +1,6 @@
 <?php
 
-class AliasGenerator
+class TranslitHelper
 {
 	protected static $translitArray = [
 		'ый' => 'y',
@@ -46,21 +46,31 @@ class AliasGenerator
 		' '=>'-',
 	];
 
-	public static function generate($model)
+	public static function generateAlias($model)
 	{
 		if(!$model->alias)
 		{
-			$text = preg_replace('/[^a-zа-яёіїєґ0-9- ]+/iu', '', preg_replace('/\s+/', ' ', trim(strip_tags(html_entity_decode(mb_strtolower($model->getTitle()))))));
-
-			foreach(self::$translitArray as $from => $to) {
-				$text = mb_eregi_replace($from, $to, $text);
-			}
-
-			$model->alias = $text;
+			$model->alias = self::make($model->getTitle());
 
 			return true;
 		}
 
 		return false;
+	}
+
+	public static function generateFileName($fileName)
+	{
+		return self::make($fileName, '/[^a-zа-яёіїєґ0-9-. ]+/iu');
+	}
+
+	public static function make($string, $pattern = '/[^a-zа-яёіїєґ0-9- ]+/iu')
+	{
+		$text = preg_replace($pattern, '', preg_replace('/\s+/', ' ', trim(strip_tags(html_entity_decode(mb_strtolower($string))))));
+
+		foreach(self::$translitArray as $from => $to) {
+			$text = mb_eregi_replace($from, $to, $text);
+		}
+
+		return $text;
 	}
 }

@@ -8,7 +8,7 @@
             <div id="comment-{{ $comment->id }}" class="media">
                 <a href="javascript:void(0)" class="pull-left close-comment">-</a>
                 <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}">
-                    {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '60px']) }}
+                    {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading">
@@ -39,7 +39,7 @@
                             {{ Form::hidden('parent_id', $comment->id); }}
 
                             <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
-                                {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
                                 <span>{{  Auth::user()->login }}</span>
                             </a>
 
@@ -64,7 +64,7 @@
                             @foreach($comment->publishedChildren as $commentLevel2)
                                 <div class="media" id="comment-{{ $commentLevel2->id }}" >
                                     <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->login]) }}">
-                                        {{ HTML::image(Config::get('settings.defaultAvatar'), $commentLevel2->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                                        {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object']) }}
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading">
@@ -107,7 +107,7 @@
             {{ Form::hidden('parent_id', 0); }}
 
             <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $comment->user->login, ['class' => 'media-object avatar-default', 'width' => '50px']) }}
+                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
                 <span>{{  Auth::user()->login }}</span>
             </a>
 

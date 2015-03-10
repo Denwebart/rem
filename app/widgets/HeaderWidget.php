@@ -15,7 +15,7 @@ class HeaderWidget
 		$messages = $this->newMessages();
 		$messages = (string) View::make('widgets.header.messages', compact('messages'));
 
-		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'page'))->render();
+		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'page'))->with('user', Auth::user())->render();
 	}
 
 

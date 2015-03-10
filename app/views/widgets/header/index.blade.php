@@ -108,15 +108,15 @@
 
                 <li class="dropdown widget-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ HTML::image(Config::get('settings.defaultAvatar'), Auth::user()->login, ['class' => 'pull-left']) }}
-                        <span>{{ Auth::user()->login }} <i class="fa fa-caret-down"></i></span>
+                        {{ $user->getAvatar('mini', ['class' => 'pull-left']) }}
+                        <span>{{ $user->login }} <i class="fa fa-caret-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
                         {{--<li>--}}
                             {{--<a href="#"><i class="fa fa-cog"></i>Настройки</a>--}}
                         {{--</li>--}}
                         <li>
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login ]) }}"><i class="fa fa-user"></i>Профиль</a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->login ]) }}"><i class="fa fa-user"></i>Профиль</a>
                         </li>
                         <li class="footer">
                             <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i>Выход</a>

@@ -130,7 +130,7 @@ class Page extends \Eloquent
 
 		static::saving(function($model)
 		{
-			AliasGenerator::generate($model);
+			TranslitHelper::generateAlias($model);
 		});
 
 	}

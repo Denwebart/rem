@@ -89,7 +89,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'firstname' => 'max:100',
 			'lastname' => 'max:100',
 			'role' => 'integer',
-			'avatar' => 'max:300',
+			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150',
 			'profession' => 'max:150',
@@ -112,7 +112,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'firstname' => 'max:100',
 			'lastname' => 'max:100',
 			'role' => 'integer',
-			'avatar' => 'max:300',
+			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150',
 			'profession' => 'max:150',
@@ -186,12 +186,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return true;
 	}
 
-	public function getFullName()
-	{
-		$separator = ($this->firstname && $this->lastname) ? ' ' : '';
-		return $this->firstname . $separator . $this->lastname;
-	}
-
 	public function hasRole()
 	{
 		return (self::ROLE_NONE != $this->role) ? true : false;
@@ -211,4 +205,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return (self::ROLE_USER == $this->role) ? true : false;
 	}
+
+	public function getFullName()
+	{
+		$separator = ($this->firstname && $this->lastname) ? ' ' : '';
+		return $this->firstname . $separator . $this->lastname;
+	}
+
+	public function getAvatar($prefix = null, $options = [])
+	{
+		$class = isset($options['class']) ? ' ' . $options['class'] : '';
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		if($this->avatar){
+			return HTML::image('/uploads/' . $this->login . '/' . $prefix . $this->avatar, $this->login, ['class' => 'img-responsive' . $class]);
+		} else {
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $this->login, ['class' => 'img-responsive avatar-default' . $class]);
+		}
+	}
+
+
 }
