@@ -153,6 +153,7 @@
 @stop
 
 @section('script')
+    @parent
 
     <!-- File Input -->
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>

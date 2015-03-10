@@ -15,9 +15,15 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.edit');
 	}
 
-	public function postEdit($id)
+	/**
+	 * Обновление профиля
+	 *
+	 * @param $userId
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 */
+	public function postEdit($userId)
 	{
-		$user = User::findOrFail($id);
+		$user = User::findOrFail($userId);
 
 		$data = Input::all();
 
@@ -28,9 +34,57 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		// загрузка изображения
+		if(isset($data['avatar'])){
+			$fileName = $data['avatar']->getClientOriginalName();
+
+			$imagePath = public_path() . '/uploads/' . $data['login'] . '/';
+			$image = Image::make($data['avatar']->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+			$image->save($imagePath . 'origin_' . $fileName)
+				->resize(225, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})
+				->save($imagePath . $fileName);
+
+			if(File::exists($imagePath . $user->avatar)) {
+				File::delete($imagePath . $user->avatar);
+			}
+
+			$user->avatar = $fileName;
+		}
+		// загрузка изображения
+
 		$user->update($data);
 
 		return Redirect::route('user.profile', ['login' => $user->login]);
+	}
+
+	/**
+	 * Удаление изображения
+	 *
+	 * @param $userId
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteAvatar($userId) {
+		if(Request::ajax())
+		{
+			$user = User::findOrFail($userId);
+			$imagePath = public_path() . '/uploads/' . $user->login . '/';
+
+			if(File::exists($imagePath . $user->avatar)) {
+				File::delete($imagePath . $user->avatar);
+				File::delete($imagePath . 'origin_' . $user->avatar);
+			}
+
+			$user->avatar = null;
+			$user->save();
+
+			return Response::json([
+				'success' => true,
+				'imageUrl' => Config::get('settings.defaultAvatar'),
+			]);
+		}
 	}
 
 	public function gallery($login)

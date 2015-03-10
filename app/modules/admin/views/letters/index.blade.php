@@ -237,6 +237,7 @@
 @stop
 
 @section('script')
+    @parent
 
     <!-- Confirm for delete -->
     <script type="text/javascript">

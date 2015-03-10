@@ -125,6 +125,7 @@ return array(
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
+		'Intervention\Image\ImageServiceProvider'
 
 	),
 
@@ -192,7 +193,8 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		'Debugbar'          => 'Barryvdh\Debugbar\Facade',
+		'Image'             => 'Intervention\Image\Facades\Image'
 
 	),
 

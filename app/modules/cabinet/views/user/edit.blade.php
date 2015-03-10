@@ -10,10 +10,37 @@
             </ol>
         </div>
 
-        {{ Form::model($user, array('method' => 'POST', 'route' => array('user.update', $user->id)), ['id' => 'editProfile']) }}
+        {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->id], 'files' => true], ['id' => 'editProfile']) }}
         <div class="col-lg-3">
             <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
+                @if($user->avatar)
+                    {{ HTML::image('/uploads/' . $user->login . '/' . $user->avatar, $user->login, ['class' => 'img-responsive']) }}
+                    <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
+                    @section('script')
+                        @parent
+
+                        <script type="text/javascript">
+                            $('#delete-avatar').click(function(){
+                                if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                                    $.ajax({
+                                        url: '<?php echo URL::route('user.deleteAvatar', ['id' => $user->id]) ?>',
+                                        dataType: "text json",
+                                        type: "POST",
+                                        data: {field: 'avatar'},
+                                        success: function(response) {
+                                            if(response.success){
+                                                $('#delete-avatar').css('display', 'none');
+                                                $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        </script>
+                    @stop
+                @else
+                    {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
+                @endif
             </div>
             <div class="form-group">
                 {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary file-inputs']) }}
@@ -98,6 +125,8 @@
 @stop
 
 @section('script')
+    @parent
+
     <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script type="text/javascript">
         CKEDITOR.replace('description', {

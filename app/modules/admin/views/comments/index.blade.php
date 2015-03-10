@@ -95,6 +95,8 @@
 @stop
 
 @section('script')
+    @parent
+
     <script type="text/javascript">
         $('button[name="destroy"]').on('click', function(e){
             var $form=$(this).closest('form');

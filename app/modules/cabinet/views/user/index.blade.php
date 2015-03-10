@@ -11,7 +11,11 @@
 
         <div class="col-lg-3">
             <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
+                @if($user->avatar)
+                    {{ HTML::image('/uploads/' . $user->login . '/' . $user->avatar, $user->login, ['class' => 'img-responsive']) }}
+                @else
+                    {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
+                @endif
             </div>
         </div>
         <div class="col-lg-9">
