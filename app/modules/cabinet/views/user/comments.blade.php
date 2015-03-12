@@ -18,6 +18,10 @@
         <div class="col-lg-9">
             <h2>Комментарии {{ $user->login }}</h2>
 
+            <div id="comments" class="row">
+
+
+            </div>
         </div>
     </div>
 @stop

@@ -101,4 +101,11 @@ class DateHelper
 		return $result;
 	}
 
+    public static function dateForMessage($date)
+    {
+	    $timestamp = strtotime($date);
+
+	    return date('H:i', $timestamp);
+    }
+
 }

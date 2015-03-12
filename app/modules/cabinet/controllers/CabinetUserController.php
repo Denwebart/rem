@@ -126,14 +126,71 @@ class CabinetUserController extends \BaseController
 
 	public function comments($login)
 	{
-		View::share('user', User::whereLogin($login)->firstOrFail());
+		View::share('user', User::whereLogin($login)->with('comments')->firstOrFail());
 		return View::make('cabinet::user.comments');
 	}
 
 	public function messages($login)
 	{
-		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.messages');
+		$user = User::whereLogin($login)->firstOrFail();
+
+		/*
+		SELECT * FROM
+		(select * from `messages` WHERE user_id_sender = 2 OR user_id_recipient = 2 ORDER BY `created_at` DESC) t
+		GROUP BY user_id_sender, user_id_recipient ORDER BY `created_at` DESC
+		*/
+
+		/*
+		 Для вывода последнего сообщения конкретного пользователя
+		SELECT * FROM `messages` WHERE ((user_id_sender = 2 OR user_id_recipient = 2) AND (user_id_sender = 1 OR user_id_recipient = 1))
+			ORDER BY created_at DESC
+		*/
+
+		$dialogs = Message::whereUserIdSender($user->id)
+			->orWhere('user_id_recipient', $user->id)
+			->groupBy('user_id_sender')
+			->orderBy('created_at', 'DESC')
+			->get();
+
+//		echo '<pre>';
+//		dd($dialogs);
+
+//		$dialogs = Message::where(function($query) use ($user){
+//			$query->from('messages')->whereUserIdSender($user->id)
+//				->orWhere('user_id_recipient', $user->id)
+//				->orderBy('created_at', 'DESC');
+//		})->groupBy(['user_id_sender', 'user_id_recipient'])->orderBy('created_at', 'DESC')->get();
+
+//		echo '<pre>';
+//		dd($dialogs);
+
+		View::share('user', $user);
+		return View::make('cabinet::user.messages')->with('dialogs', $dialogs);
+	}
+
+	public function dialog($login, $companion)
+	{
+		$user = User::whereLogin($login)->firstOrFail();
+		$companion = User::whereLogin($companion)->firstOrFail();
+
+		/*
+		Для вывода переписки с отдельным пользователем
+		SELECT * FROM `messages` WHERE ((user_id_sender = 2 OR user_id_recipient = 2) AND (user_id_sender = 1 OR user_id_recipient = 1))
+			ORDER BY created_at DESC
+		*/
+		$messages = Message::query()
+			->whereNested(function($q) use ($user) {
+				$q->where('user_id_sender', $user->id)->orWhere('user_id_recipient', $user->id);
+			})
+			->whereNested(function($q) use ($companion) {
+				$q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
+			})
+			->with(['userSender', 'userRecipient'])
+			->orderBy('created_at', 'DESC')
+			->get();
+
+		View::share('user', $user);
+		return View::make('cabinet::user.dialog', compact(['companion', 'messages']));
 	}
 
 	public function friends($login)

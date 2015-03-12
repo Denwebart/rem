@@ -11,12 +11,21 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
-            </div>
+            <h3>Люди</h3>
         </div>
         <div class="col-lg-9">
-            <h2>Сообщения {{ $user->login }}</h2>
+            <h2>Сообщения</h2>
+
+            <div id="messages" class="row">
+
+                <div class="col-md-1">
+                    {{--<img src="/images/default-avatar.jpg" alt=""/>--}}
+                </div>
+                <div class="col-md-6">
+
+                </div>
+
+            </div>
 
         </div>
     </div>
