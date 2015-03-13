@@ -223,9 +223,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 	}
 
-	public function messages()
+	/**
+	 * Отправленные сообщения
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function receivedMessages()
 	{
-		return $this->hasMany('Message', 'parent_id');
+		return $this->hasMany('Message', 'user_id_recipient');
+	}
+
+	/**
+	 * Полученные сообщения
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function sentMessages()
+	{
+		return $this->hasMany('Message', 'user_id_sender');
 	}
 
 

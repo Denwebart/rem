@@ -12,9 +12,12 @@
 
         <div class="col-lg-3">
             <h3>Люди</h3>
+
+
+
         </div>
         <div class="col-lg-9">
-            <h2>Сообщения</h2>
+            <h2>Личные сообщения</h2>
 
             <div id="messages" class="row">
 

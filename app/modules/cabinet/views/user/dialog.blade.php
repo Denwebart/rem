@@ -6,7 +6,8 @@
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">Мой профиль</a></li>
-                <li>Личные сообщения</li>
+                <li><a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">Личные сообщения</a></li>
+                <li>Сообщения от пользователя {{ $companion->login }}</li>
             </ol>
         </div>
 
@@ -27,6 +28,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         @if($user->id == $message->userSender->id)
+                            {{ $message->userSender->getAvatar('mini') }}
                             {{ $message->userSender->login }}
                             {{ DateHelper::dateForMessage($message->created_at) }}
                         @endif
@@ -40,7 +42,7 @@
                     </div>
                     @else
                         <div class="col-md-7 col-md-offset-1">
-                            <div class="well">
+                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}">
                                 {{ $message->message }}
                             </div>
                         </div>
@@ -48,6 +50,7 @@
 
                     <div class="col-md-2">
                         @if($companion->id == $message->userSender->id)
+                            {{ $message->userSender->getAvatar('mini') }}
                             {{ $message->userSender->login }}
                             {{ DateHelper::dateForMessage($message->created_at) }}
                         @endif

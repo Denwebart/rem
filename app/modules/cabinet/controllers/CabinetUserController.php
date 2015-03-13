@@ -146,14 +146,10 @@ class CabinetUserController extends \BaseController
 			ORDER BY created_at DESC
 		*/
 
-		$dialogs = Message::whereUserIdSender($user->id)
-			->orWhere('user_id_recipient', $user->id)
-			->groupBy('user_id_sender')
+		$companions = User::with(['sentMessages', 'receivedMessages'])
+			->where()
 			->orderBy('created_at', 'DESC')
 			->get();
-
-//		echo '<pre>';
-//		dd($dialogs);
 
 //		$dialogs = Message::where(function($query) use ($user){
 //			$query->from('messages')->whereUserIdSender($user->id)
@@ -161,11 +157,11 @@ class CabinetUserController extends \BaseController
 //				->orderBy('created_at', 'DESC');
 //		})->groupBy(['user_id_sender', 'user_id_recipient'])->orderBy('created_at', 'DESC')->get();
 
-//		echo '<pre>';
-//		dd($dialogs);
+		echo '<pre>';
+		dd($companions);
 
 		View::share('user', $user);
-		return View::make('cabinet::user.messages')->with('dialogs', $dialogs);
+		return View::make('cabinet::user.messages', compact('companions'));
 	}
 
 	public function dialog($login, $companion)
