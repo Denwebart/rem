@@ -146,10 +146,10 @@ class CabinetUserController extends \BaseController
 			ORDER BY created_at DESC
 		*/
 
-		$companions = User::with(['sentMessages', 'receivedMessages'])
-			->where()
-			->orderBy('created_at', 'DESC')
-			->get();
+//		$companions = User::with(['sentMessages', 'receivedMessages'])
+//			->where()
+//			->orderBy('created_at', 'DESC')
+//			->get();
 
 //		$dialogs = Message::where(function($query) use ($user){
 //			$query->from('messages')->whereUserIdSender($user->id)
@@ -157,8 +157,8 @@ class CabinetUserController extends \BaseController
 //				->orderBy('created_at', 'DESC');
 //		})->groupBy(['user_id_sender', 'user_id_recipient'])->orderBy('created_at', 'DESC')->get();
 
-		echo '<pre>';
-		dd($companions);
+//		echo '<pre>';
+//		dd($companions);
 
 		View::share('user', $user);
 		return View::make('cabinet::user.messages', compact('companions'));
@@ -187,6 +187,27 @@ class CabinetUserController extends \BaseController
 
 		View::share('user', $user);
 		return View::make('cabinet::user.dialog', compact(['companion', 'messages']));
+	}
+
+	/**
+	 * Отметить сообщение как прочитанное
+	 */
+	public function markMessageAsRead()
+	{
+		if(Request::ajax()) {
+
+			$messageId = Input::get('messageId');
+
+			$message = Message::find($messageId);
+			$message->read_at = date('Y:m:d H:i:s');
+
+			if ($message->save())
+			{
+				return Response::json(array(
+					'success' => true,
+				));
+			}
+		}
 	}
 
 	public function friends($login)

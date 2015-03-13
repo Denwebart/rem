@@ -42,7 +42,7 @@
                     </div>
                     @else
                         <div class="col-md-7 col-md-offset-1">
-                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}">
+                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
                                 {{ $message->message }}
                             </div>
                         </div>
@@ -63,4 +63,26 @@
 
         </div>
     </div>
+@stop
+
+@section('script')
+    @parent
+
+    {{-- Отметить сообщение как прочитанное --}}
+    <script type="text/javascript">
+        $('.new-message').click(function(){
+            var messageId = $(this).data('messageId');
+            $.ajax({
+                url: '<?php echo URL::route('user.markMessageAsRead') ?>',
+                dataType: "text json",
+                type: "POST",
+                data: {messageId: messageId},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-message-id= ' + messageId + ']').removeClass('new-message');
+                    }
+                }
+            });
+        });
+    </script>
 @stop
