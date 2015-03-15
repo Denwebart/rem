@@ -3,6 +3,11 @@
 
 class CabinetUserController extends \BaseController
 {
+	public function __construct(){
+		$headerWidget = app('HeaderWidget');
+		View::share('headerWidget', $headerWidget);
+	}
+
 	public function index($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());
@@ -43,7 +48,7 @@ class CabinetUserController extends \BaseController
 			$image = Image::make($data['avatar']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 
-			if(225 < $image->width()) {
+			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
 					->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
@@ -56,7 +61,7 @@ class CabinetUserController extends \BaseController
 
 			$image->crop($cropSize, $cropSize)
 				->resize(50, null, function ($constraint) {
-				$constraint->aspectRatio();
+					$constraint->aspectRatio();
 			})->save($imagePath . 'mini_' . $fileName);
 
 			// delete old avatar
@@ -203,8 +208,14 @@ class CabinetUserController extends \BaseController
 
 			if ($message->save())
 			{
+				$messages = Message::whereUserIdRecipient(Auth::user()->id)
+					->whereNull('read_at')
+					->orderBy('created_at', 'DESC')
+					->get();
+
 				return Response::json(array(
 					'success' => true,
+					'newMessages' => count($messages),
 				));
 			}
 		}

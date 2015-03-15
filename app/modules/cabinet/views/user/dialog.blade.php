@@ -80,9 +80,21 @@
                 success: function(response) {
                     if(response.success){
                         $('[data-message-id= ' + messageId + ']').removeClass('new-message');
+                        if(response.newMessages != 0) {
+                            $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.newMessages);
+                            $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.newMessages);
+                            $('#header-widget .dropdown-messages .dropdown-menu [data-message-id= ' + messageId + ']').remove();
+                        } else {
+                            $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
+                            $('#header-widget .dropdown-messages .dropdown-menu').remove();
+                            // как ссылка
+                            $('#header-widget .dropdown-messages .dropdown-toggle').remove();
+                            $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->login]) ?>"><i class="fa fa-send"></i></a>');
+                        }
                     }
                 }
             });
         });
     </script>
+
 @stop

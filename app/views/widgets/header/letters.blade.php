@@ -1,4 +1,4 @@
-<li class="dropdown dropdown-messages">
+<li class="dropdown dropdown-letters">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-envelope"></i>
         @if(count($letters))
@@ -8,14 +8,14 @@
         @endif
     </a>
     <ul class="dropdown-menu">
-        <li class="header"><i class="fa fa-envelope"></i> Новые письма: {{ count($letters) }}</li>
+        <li class="header"><i class="fa fa-envelope"></i> Новые письма: <span>{{ count($letters) }}</span></li>
         <li>
             <ul>
                 @foreach($letters as $letter)
                 <li>
                     <a href="{{ URL::route('admin.letters.show', ['id' => $letter->id]) }}">
                         <div class="pull-left">
-                            {{ HTML::image(Config::get('settings.defaultAvatar'), $letter->name, ['class' => 'img-rounded']) }}
+                            {{ HTML::image(Config::get('settings.mini_defaultAvatar'), $letter->name, ['class' => 'img-responsive avatar-default img-rounded']) }}
                         </div>
                         <h4>{{ $letter->name }}
                             <small>

@@ -32,6 +32,7 @@ class HeaderWidget
 
 	public function newMessages() {
 		$messages = Message::whereUserIdRecipient(Auth::user()->id)
+			->whereNull('read_at')
 			->orderBy('created_at', 'DESC')
 			->get();
 
