@@ -44,6 +44,7 @@ class TranslitHelper
 		'є' => 'e',
 		'ґ' => 'g',
 		' '=>'-',
+		'_' => '-',
 	];
 
 	public static function generateAlias($model)
@@ -60,10 +61,10 @@ class TranslitHelper
 
 	public static function generateFileName($fileName)
 	{
-		return self::make($fileName, '/[^a-zа-яёіїєґ0-9-. ]+/iu');
+		return self::make($fileName, '/[^a-zа-яёіїєґ0-9-._ ]+/iu');
 	}
 
-	public static function make($string, $pattern = '/[^a-zа-яёіїєґ0-9- ]+/iu')
+	public static function make($string, $pattern = '/[^a-zа-яёіїєґ0-9-_ ]+/iu')
 	{
 		$text = preg_replace($pattern, '', preg_replace('/\s+/', ' ', trim(strip_tags(html_entity_decode(mb_strtolower($string))))));
 
