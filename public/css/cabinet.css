@@ -85,5 +85,35 @@ body {
     background: #dff0d8 !important;
 }
 
+#companions .body {
+    border-right: 1px #E3E3E3 solid;
+}
+#companions .companion {
+    padding: 10px;
+    height: 70px;
+    /*border-bottom: 1px #E3E3E3 solid;*/
+}
+#companions .companion.active  {
+    background: #E3E3E3;
+}
+#companions .companion:hover  {
+    background: #F5F5F5;
+}
+#companions .companion:last-child {
+    border-bottom: none;
+}
+#companions .companion a {
+    display: inline-block;
+    width: 100%;
+}
+#companions .companion img {
+    float: left;
+    width: 50px;
+}
+#companions .companion a span {
+    float: left;
+    margin: 10px 0 0 10px;
+}
+
 /*-- End Профиль пользователя --*/
 

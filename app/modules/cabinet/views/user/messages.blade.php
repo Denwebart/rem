@@ -12,16 +12,19 @@
 
         <div class="col-lg-3">
             <div id="companions">
-                <h3>Собеседники</h3>
-
-                @foreach($companions as $item)
-                    <div class="companion">
-                        <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
-                            {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
-                            {{ $item->login }}
-                        </a>
-                    </div>
-                @endforeach
+                <div class="header">
+                    <h3>Собеседники</h3>
+                </div>
+                <div class="body">
+                    @foreach($companions as $item)
+                        <div class="companion">
+                            <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
+                                {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
+                                <span>{{ $item->login }}</span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
 

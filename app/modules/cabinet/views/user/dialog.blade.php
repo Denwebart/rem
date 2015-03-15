@@ -13,16 +13,19 @@
 
         <div class="col-lg-3">
             <div id="companions">
-                <h3>Собеседники</h3>
-
-                @foreach($companions as $item)
-                    <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}">
-                        <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
-                            {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
-                            {{ $item->login }}
-                        </a>
-                    </div>
-                @endforeach
+                <div class="header">
+                    <h3>Собеседники</h3>
+                </div>
+                <div class="body">
+                    @foreach($companions as $item)
+                        <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}">
+                            <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
+                                {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
+                                <span>{{ $item->login }}</span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
         <div class="col-lg-9">
@@ -39,8 +42,12 @@
                 <div class="row">
                     <div class="col-md-2">
                         @if($user->id == $message->userSender->id)
-                            {{ $message->userSender->getAvatar('mini') }}
-                            {{ $message->userSender->login }}
+                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}" class="pull-right">
+                                {{ $message->userSender->getAvatar('mini') }}
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                {{ $message->userSender->login }}
+                            </a>
                             {{ DateHelper::dateForMessage($message->created_at) }}
                         @endif
                     </div>
@@ -61,8 +68,12 @@
 
                     <div class="col-md-2">
                         @if($companion->id == $message->userSender->id)
-                            {{ $message->userSender->getAvatar('mini') }}
-                            {{ $message->userSender->login }}
+                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                {{ $message->userSender->getAvatar('mini') }}
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                {{ $message->userSender->login }}
+                            </a>
                             {{ DateHelper::dateForMessage($message->created_at) }}
                         @endif
                     </div>
