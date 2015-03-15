@@ -12,7 +12,18 @@
         </div>
 
         <div class="col-lg-3">
-            <h3>Люди</h3>
+            <div id="companions">
+                <h3>Собеседники</h3>
+
+                @foreach($companions as $item)
+                    <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}">
+                        <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
+                            {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
+                            {{ $item->login }}
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
         <div class="col-lg-9">
             <h2>Сообщения от пользователя {{ $companion->login }}

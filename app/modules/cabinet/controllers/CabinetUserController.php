@@ -140,30 +140,20 @@ class CabinetUserController extends \BaseController
 		$user = User::whereLogin($login)->firstOrFail();
 
 		/*
-		SELECT * FROM
-		(select * from `messages` WHERE user_id_sender = 2 OR user_id_recipient = 2 ORDER BY `created_at` DESC) t
-		GROUP BY user_id_sender, user_id_recipient ORDER BY `created_at` DESC
-		*/
-
-		/*
 		 Для вывода последнего сообщения конкретного пользователя
 		SELECT * FROM `messages` WHERE ((user_id_sender = 2 OR user_id_recipient = 2) AND (user_id_sender = 1 OR user_id_recipient = 1))
 			ORDER BY created_at DESC
 		*/
 
-//		$companions = User::with(['sentMessages', 'receivedMessages'])
-//			->where()
-//			->orderBy('created_at', 'DESC')
-//			->get();
-
-//		$dialogs = Message::where(function($query) use ($user){
-//			$query->from('messages')->whereUserIdSender($user->id)
-//				->orWhere('user_id_recipient', $user->id)
-//				->orderBy('created_at', 'DESC');
-//		})->groupBy(['user_id_sender', 'user_id_recipient'])->orderBy('created_at', 'DESC')->get();
-
-//		echo '<pre>';
-//		dd($companions);
+		$companions = User::whereHas('sentMessages', function($q) use ($user)
+			{
+				$q->where('user_id_recipient', '=', $user->id);
+			})
+			->orWhereHas('receivedMessages', function($q) use ($user)
+			{
+				$q->where('user_id_sender', '=', $user->id);
+			})
+			->get();
 
 		View::share('user', $user);
 		return View::make('cabinet::user.messages', compact('companions'));
@@ -187,11 +177,21 @@ class CabinetUserController extends \BaseController
 				$q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
 			})
 			->with(['userSender', 'userRecipient'])
-			->orderBy('created_at', 'DESC')
+			->orderBy('created_at', 'ASC')
+			->get();
+
+		$companions = User::whereHas('sentMessages', function($q) use ($user)
+		{
+			$q->where('user_id_recipient', '=', $user->id);
+		})
+			->orWhereHas('receivedMessages', function($q) use ($user)
+			{
+				$q->where('user_id_sender', '=', $user->id);
+			})
 			->get();
 
 		View::share('user', $user);
-		return View::make('cabinet::user.dialog', compact(['companion', 'messages']));
+		return View::make('cabinet::user.dialog', compact(['companion', 'messages', 'companions']));
 	}
 
 	/**
