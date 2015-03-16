@@ -37,12 +37,36 @@
 
             <div id="messages" class="row">
 
-                <div class="col-md-1">
-                    {{--<img src="/images/default-avatar.jpg" alt=""/>--}}
-                </div>
-                <div class="col-md-6">
+                @foreach($companions as $item)
 
-                </div>
+                    <?php $message = $item->sentMessages()->orderBy('created_at')->first(); ?>
+
+                    @if(is_object($message))
+                        <div class="row">
+                            <div class="col-md-2">
+
+                            </div>
+
+                            <div class="col-md-7 col-md-offset-1">
+                                <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                    {{ $message->message }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                    {{ $message->userSender->getAvatar('mini') }}
+                                </a>
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                    {{ $message->userSender->login }}
+                                </a>
+                                <span class="date">
+                                    {{ DateHelper::dateForMessage($message->created_at) }}
+                                </span>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
 
             </div>
 
