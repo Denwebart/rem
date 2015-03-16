@@ -5,9 +5,9 @@ class Message extends \Eloquent {
 	protected $table = 'messages';
 
 	public static $rules = [
-		'user_id_sender' => 'numeric',
-		'user_id_recipient' => 'numeric',
-		'message' => '',
+		'user_id_sender' => 'required|numeric',
+		'user_id_recipient' => 'required|numeric',
+		'message' => 'required',
 	];
 
 	protected $fillable = [

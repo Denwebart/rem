@@ -57,10 +57,13 @@
                         <span>Мои комментарии</span>
                     </a>
                 </li>
-                <li class="{{ Route::is('user.messages') ? 'active' : '' }}">
+                <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-send"></span>
                         <span>Личные сообщения</span>
+                        @if(count($headerWidget->newMessages()))
+                            <small class="label label-info">{{ count($headerWidget->newMessages()) }}</small>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Route::is('user.friends') ? 'active' : '' }}">

@@ -20,6 +20,7 @@ body {
 }
 
 #users-menu ul > li {
+    position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin: 7px;
 }
@@ -55,6 +56,17 @@ body {
 #users-menu ul > li > a .glyphicon {
     font-size: 30px;
     margin-bottom: 3px;
+}
+#users-menu li a .label {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    font-size: 10px;
+    width: 18px;
+    height: 16px;
+    line-height: 1em;
+    text-align: center;
+    padding: 2px;
 }
 
 

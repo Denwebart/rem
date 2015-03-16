@@ -24,7 +24,7 @@
         <div class="navbar-right">
             <ul class="nav navbar-nav">
 
-                @if(!is_null($page))
+                @if(!is_null($page) && Auth::user()->isAdmin())
                     <li style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id]) }}" class="">
                             <span>

@@ -25,6 +25,7 @@ Route::group(['prefix' => 'user'], function(){
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
 	Route::post('messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);
+	Route::post('messages/addMessage/{id}', ['as' => 'user.addMessage', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/friends', ['as' => 'user.friends', 'uses' => 'CabinetUserController@friends']);
 });
 

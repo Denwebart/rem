@@ -17,10 +17,14 @@
                 </div>
                 <div class="body">
                     @foreach($companions as $item)
-                        <div class="companion">
+                        <div class="companion" data-user-id="{{ $item->id }}">
                             <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
                                 {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
                                 <span>{{ $item->login }}</span>
+                                <?php $numberOfMessages = count($item->sentMessages()->whereNull('read_at')->where('user_id_recipient', '=', $user->id)->get()); ?>
+                                @if($numberOfMessages)
+                                    <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
+                                @endif
                             </a>
                         </div>
                     @endforeach

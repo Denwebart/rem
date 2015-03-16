@@ -221,6 +221,44 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	/**
+	 * Отправить личное сообщение
+	 */
+	public function addMessage($id)
+	{
+		if(Request::ajax()) {
+
+			$inputData = Input::get('formData');
+			parse_str($inputData, $formFields);
+
+			$messageData = array(
+				'user_id_sender' => Auth::user()->id,
+				'user_id_recipient' => $id,
+				'message' => $formFields['message'],
+			);
+
+			$validator = Validator::make($messageData, Message::$rules);
+
+			if ($validator->fails())
+				return Response::json(array(
+					'fail' => true,
+					'errors' => $validator->getMessageBag()->toArray()
+				));
+			else {
+				//save to DB user details
+				if ($message = Message::create($messageData)) {
+					//return success message
+					return Response::json(array(
+						'success' => true,
+						'message' => $message->message,
+						'messageId' => $message->id,
+						'messageCreadedAt' => DateHelper::dateForMessage($message->created_at),
+					));
+				}
+			}
+		}
+	}
+
 	public function friends($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());
