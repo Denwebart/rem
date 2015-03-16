@@ -53,7 +53,8 @@ body {
     float: left;
     font-size: 13px;
 }
-#users-menu ul > li > a .glyphicon {
+#users-menu ul > li > a .glyphicon,
+#users-menu ul > li > a .fa {
     font-size: 30px;
     margin-bottom: 3px;
 }

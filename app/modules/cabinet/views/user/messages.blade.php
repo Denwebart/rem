@@ -49,7 +49,9 @@
 
                             <div class="col-md-7 col-md-offset-1">
                                 <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                    {{ $message->message }}
+                                    <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $message->userSender->login]) }}">
+                                        {{ $message->message }}
+                                    </a>
                                 </div>
                             </div>
 

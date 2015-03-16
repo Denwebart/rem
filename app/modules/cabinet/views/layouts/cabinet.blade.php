@@ -19,6 +19,7 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
     {{ HTML::style('css/cabinet.css') }}
+    <link rel="stylesheet" href="/backend/css/font-awesome.min.css" />
 </head>
 <body id="cabinet" class="fixed{{ (Auth::check()) ? ' margin-top-50' : ''}}">
 
@@ -41,8 +42,8 @@
                 </li>
                 <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">
-                        <span class="glyphicon glyphicon-picture"></span>
-                        <span>Мои фотографии</span>
+                        <span class="fa fa-car"></span>
+                        <span>Мой автомобиль</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
@@ -69,7 +70,7 @@
                 <li class="{{ Route::is('user.friends') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.friends', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-heart-empty"></span>
-                        <span>Мои друзья</span>
+                        <span>Мои подписки</span>
                     </a>
                 </li>
             </ul>
