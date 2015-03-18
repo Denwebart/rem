@@ -3,7 +3,7 @@
 
     @foreach($pages as $page)
         <div class="item">
-            <a href="{{ URL::to($page->alias) }}">
+            <a href="{{ URL::to($page->getUrl()) }}">
                 {{ $page->title }}
             </a>
             <div class="views">Оценка: {{ $page->getRating() }}</div>

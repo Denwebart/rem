@@ -11,15 +11,35 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
-            </div>
+
         </div>
         <div class="col-lg-9">
             <h2>Мои комментарии</h2>
 
-            <div id="comments" class="row">
+            <div id="comments">
 
+                @foreach($user->comments as $comment)
+
+                    <div data-comment-id="{{ $comment->id }}" class="col-md-12">
+                        <div class="well">
+                            <div class="date date-create">{{ $comment->created_at }}</div>
+                            {{ $comment->comment }}
+                            <div class="status">
+                                Статус:
+                                {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                            </div>
+                            <div class="on-page">
+                                На странице:
+                                @if(($comment->is_published))
+                                    <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                @else
+                                    <a href="{{ URL::to($comment->page->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                @endforeach
 
             </div>
         </div>

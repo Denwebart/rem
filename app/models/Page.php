@@ -135,6 +135,13 @@ class Page extends \Eloquent
 
 	}
 
+	public function getUrl()
+	{
+		$parent = ($this->parent) ? $this->parent->alias . '/' : '';
+		$parentParent = ($this->parent->parent) ? $this->parent->parent->alias . '/' : '';
+		return $parentParent . $parent . $this->alias;
+	}
+
 	public function getTitle()
 	{
 		return ($this->menu_title) ? $this->menu_title : $this->title;

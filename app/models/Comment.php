@@ -74,4 +74,9 @@ class Comment extends \Eloquent
 	{
 		return $this->belongsTo('User', 'user_id');
 	}
+
+	public function getUrl()
+	{
+		return URL::to($this->page->getUrl() . '#comment-' . $this->id);
+	}
 }

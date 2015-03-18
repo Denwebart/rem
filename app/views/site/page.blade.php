@@ -7,7 +7,7 @@
 			<li><a href="{{ URL::to('/') }}">Главная</a></li>
 			@if($page->parent)
 				<li>
-					<a href="{{ URL::to($page->parent->alias . '/' . $page->alias) }}">
+					<a href="{{ URL::to($page->parent->alias) }}">
 						{{ $page->parent->getTitle() }}
 					</a>
 				</li>

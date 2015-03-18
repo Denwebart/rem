@@ -8,7 +8,7 @@
                 {{ $comment->user->login }}
             </a>
             <div class="created-date">{{ DateHelper::dateFormat($comment->created_at) }}</div>
-            <a href="#">
+            <a href="{{ URL::to($comment->getUrl()) }}">
                 {{ $comment->comment }}
             </a>
         </div>
