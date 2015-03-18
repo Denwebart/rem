@@ -56,7 +56,9 @@
 
                 {{ $messages }}
 
-                {{ $letters }}
+                @if(Auth::user()->isAdmin())
+                    {{ $letters }}
+                @endif
 
                 {{--<li class="dropdown dropdown-tasks">--}}
                     {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}}

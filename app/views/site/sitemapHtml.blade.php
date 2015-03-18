@@ -2,6 +2,12 @@
 
 @section('content')
 <section id="content">
+
+	<ol class="breadcrumb">
+		<li><a href="{{ URL::to('/') }}">Главная</a></li>
+		<li>{{ $page->getTitle() }}</li>
+	</ol>
+
 	@if($page->title)
 		<h2>{{ $page->title }}</h2>
 	@endif
