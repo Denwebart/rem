@@ -6,16 +6,21 @@ class SiteController extends BaseController {
 	{
 		$this->beforeFilter(function()
 		{
-			$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+			$urlPrevious = (Session::has('urlPrevious')) ? Session::get('urlPrevious') : URL::previous();
 
-			if(URL::current() != URL::previous())
+			if(URL::current() != $urlPrevious)
 			{
+				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+
 				$page = Page::getPageByAlias($alias);
 				$page->views = $page->views + 1;
 				$page->save();
 			}
 
+			Session::put('urlPrevious', URL::current());
+
 		}, ['except' => ['contactPost', 'sitemapXml']]);
+
 	}
 
 	public function index()

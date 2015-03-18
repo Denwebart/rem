@@ -20,6 +20,7 @@ Route::group(['prefix' => 'user'], function(){
 	Route::post('{id}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
 	Route::post('{id}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);
 	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
+	Route::post('gallery/uploadPhoto', ['as' => 'user.gallery.uploadPhoto', 'uses' => 'CabinetUserController@uploadPhoto']);
 	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
@@ -40,6 +41,8 @@ Route::get('{contactAlias}', 'SiteController@contact')->where('contactAlias', 'k
 Route::post('contact_request', 'SiteController@contactPost');
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
+
+Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');

@@ -32,14 +32,13 @@
                     {{--<span class="glyphicon glyphicon-plus"></span>--}}
                 {{--</a>--}}
 
-                {{ Form::model($user, ['method' => 'POST', 'route' => ['user.uploadPhoto', $user->id], 'files' => true], ['id' => 'uploadPhoto']) }}
+                {{ Form::model($user, ['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->id], 'files' => true], ['id' => 'uploadPhoto']) }}
 
 
 
                 {{ Form::close() }}
 
             </div>
-
 
         </div>
     </div>
