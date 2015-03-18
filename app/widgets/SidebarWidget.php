@@ -86,15 +86,13 @@ class SidebarWidget
 	 */
 	public function comments($limit = 9)
 	{
-		$pages = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIn('parent_id', [5, 6])
-//			->orderBy('votes_like', 'DESC')
+		$comments = Comment::whereIsPublished(1)
 			->limit($limit)
-			->with(['parent'])
-			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title']);
+			->with(['parent', 'user'])
+			->orderBy('created_at', 'DESC')
+			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
 
-		return (string) View::make('widgets.sidebar.comments', compact('pages'))->render();
+		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
 	}
 
 }

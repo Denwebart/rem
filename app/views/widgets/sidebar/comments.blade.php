@@ -1,12 +1,17 @@
 <div id="comments-sidebar-widget" class="sidebar-widget">
     <h4>Комментарии</h4>
 
-    {{--@foreach($pages as $page)--}}
-        {{--<div class="item">--}}
-            {{--<a href="{{ URL::to($page->alias) }}">--}}
-                {{--{{ $page->title }}--}}
-            {{--</a>--}}
-        {{--</div>--}}
-    {{--@endforeach--}}
+    @foreach($comments as $comment)
+        <div class="item">
+            <a href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}">
+                {{ $comment->user->getAvatar('mini') }}
+                {{ $comment->user->login }}
+            </a>
+            <div class="created-date">{{ DateHelper::dateFormat($comment->created_at) }}</div>
+            <a href="#">
+                {{ $comment->comment }}
+            </a>
+        </div>
+    @endforeach
 
 </div>
