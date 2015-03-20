@@ -33,10 +33,30 @@ class UserImage extends \Eloquent
 
 	protected $fillable = [
 		'is_published',
+		'user_id',
 		'title',
 		'image',
 		'image_alt',
 		'description',
 		'published_at',
 	];
+
+	public static $rules = [
+		'user_id' => 'required|integer',
+		'is_published' => 'boolean',
+		'title' => 'max:300',
+		'image' => 'required|mimes:jpeg,bmp,png|max:3072',
+		'desctiption' => 'max:2000',
+		'votes_like' => 'integer',
+		'votes_dislike' => 'integer',
+	];
+
+	public function user()
+	{
+		return $this->belongsTo('User', 'user_id');
+	}
+
+	public function getImageUrl() {
+		return URL::to('/uploads/'. $this->table . '/' . $this->user->login . '/' . $this->image);
+	}
 }

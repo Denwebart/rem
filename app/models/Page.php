@@ -84,7 +84,7 @@ class Page extends \Eloquent
 		'menu_title' => 'required_without_all:title|max:200',
 		'is_container' => 'boolean',
 		'show_submenu' => 'boolean',
-		'image' => 'max:300',
+		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'image_alt' => 'max:1000',
 		'title' => 'required_without_all:menu_title|max:500',
 		'introtext' => 'max:2000',

@@ -128,5 +128,11 @@ body {
     margin: 10px 0 0 10px;
 }
 
+/*-- Галерея --*/
+.carousel-control.right,
+.carousel-control.left {
+    background: none;
+}
+
 /*-- End Профиль пользователя --*/
 

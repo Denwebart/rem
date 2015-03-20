@@ -119,8 +119,111 @@ class CabinetUserController extends \BaseController
 
 	public function gallery($login)
 	{
-		View::share('user', User::whereLogin($login)->firstOrFail());
+		$user = User::whereLogin($login)->firstOrFail();
+
+		View::share('user', $user);
 		return View::make('cabinet::user.gallery');
+	}
+
+	public function uploadPhoto($login)
+	{
+		$user = User::whereLogin($login)->firstOrFail();
+		$data = Input::all();
+		$data['user_id'] = $user->id;
+		$validator = Validator::make($data, UserImage::$rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$usersImage = new UserImage();
+
+		// загрузка изображения
+		$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+		$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
+		$image = Image::make($data['image']->getRealPath());
+
+		File::exists(public_path() . '/uploads/' . $usersImage->getTable()) or File::makeDirectory(public_path() . '/uploads/' . $usersImage->getTable());
+		File::exists($imagePath) or File::makeDirectory($imagePath);
+
+		$image->save($imagePath . $fileName);
+
+		// delete old image
+		if(File::exists($imagePath . $usersImage->image)) {
+			File::delete($imagePath . $usersImage->image);
+		}
+		$data['image'] = $fileName;
+		// загрузка изображения
+
+		$usersImage->fill($data);
+		$usersImage->save();
+
+		return Redirect::route('user.gallery', ['login' => $user->login]);
+
+	}
+
+	public function deletePhoto($login)
+	{
+		if(Request::ajax())
+		{
+			$image = UserImage::findOrFail(Input::get('imageId'));
+			$imagePath = public_path() . '/uploads/' . $image->getTable() . '/' . $login . '/';
+
+			if(File::exists($imagePath . $image->image)) {
+				File::delete($imagePath . $image->image);
+			}
+
+			$image->delete();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
+	}
+
+	public function editPhoto($login, $id)
+	{
+		$user = User::whereLogin($login)->firstOrFail();
+
+		$usersImage = UserImage::findOrFail($id);
+
+		if($data = Input::all()) {
+			$data['user_id'] = $user->id;
+			$validator = Validator::make($data, UserImage::$rules);
+
+			if ($validator->fails())
+			{
+				return Redirect::back()->withErrors($validator)->withInput();
+			}
+
+			// загрузка изображения
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
+
+			$image = Image::make($data['image']->getRealPath());
+
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+
+			$image->save($imagePath . $fileName);
+
+			// delete old image
+			if(File::exists($imagePath . $usersImage->image)) {
+				File::delete($imagePath . $usersImage->image);
+			}
+			$data['image'] = $fileName;
+			// загрузка изображения
+
+			$usersImage->fill($data);
+
+			if($usersImage->save()) {
+				return Redirect::route('user.gallery', ['login' => $user->login]);
+			}
+		}
+
+		return View::make('cabinet::user.galleryEdit', compact('user'))->with('image', $usersImage);
 	}
 
 	public function questions($login)
