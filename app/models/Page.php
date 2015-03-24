@@ -159,7 +159,7 @@ class Page extends \Eloquent
 
 	public static function getContainer()
 	{
-		return [0 => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
+		return ['' => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
 	}
 
 	public static function getPageByAlias($alias = '/') {

@@ -77,7 +77,7 @@
 
 		@if(count($page->publishedChildren))
 			<section id="blog-area">
-				@foreach($page->children as $child)
+				@foreach($page->publishedChildren()->orderBy('published_at', 'DESC')->get() as $child)
 					<div class="row">
 						<div class="col-md-12">
 							<h3>
