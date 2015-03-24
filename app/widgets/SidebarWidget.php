@@ -16,7 +16,7 @@ class SidebarWidget
 			->orderBy('published_at', 'DESC')
 			->limit($limit)
 			->with(['parent'])
-			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title']);
+			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title']);
 
 		return (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
 	}
@@ -35,7 +35,7 @@ class SidebarWidget
 			->orderBy('votes', 'DESC')
 			->limit($limit)
 			->with(['parent'])
-			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'votes', 'voters']);
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
 	}
@@ -54,7 +54,7 @@ class SidebarWidget
 			->orderBy('views', 'DESC')
 			->limit($limit)
 			->with(['parent'])
-			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'views']);
+			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
 
 		return (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
 	}
@@ -73,7 +73,7 @@ class SidebarWidget
 			->orderBy('views', 'ASC')
 			->limit($limit)
 			->with(['parent'])
-			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'views']);
+			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
 
 		return (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
 	}

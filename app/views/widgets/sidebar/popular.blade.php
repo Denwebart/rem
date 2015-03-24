@@ -4,7 +4,7 @@
     @foreach($pages as $page)
         <div class="item">
             <a href="{{ URL::to($page->getUrl()) }}">
-                {{ $page->title }}
+                {{ $page->getTitle() }}
             </a>
             <div class="views">Просмотры: {{ $page->views }}</div>
         </div>

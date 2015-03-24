@@ -5,7 +5,7 @@
         <div class="item">
             <div class="published-date">{{ DateHelper::dateFormat($page->published_at) }}</div>
             <a href="{{ URL::to($page->getUrl()) }}">
-                {{ $page->title }}
+                {{ $page->getTitle() }}
             </a>
         </div>
     @endforeach
