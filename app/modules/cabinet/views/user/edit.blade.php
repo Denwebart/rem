@@ -102,7 +102,7 @@
             </div>
 
             <div class="form-group">
-                {{ Form::label('car_brand', 'Марка автомобиля') }}
+                {{ Form::label('car_brand', 'Марка автомобиля / модель') }}
                 {{ Form::text('car_brand', $user->car_brand, ['class' => 'form-control']) }}
                 {{ $errors->first('car_brand') }}
             </div>

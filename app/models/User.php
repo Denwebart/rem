@@ -85,16 +85,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return [
 			'email' => 'required|email|unique:users,id,' . $this->id . '|max:150',
-			'login' => 'required|unique:users,id,' . $this->id . '|max:150',
-			'firstname' => 'max:100',
-			'lastname' => 'max:100',
+			'login' => 'required|unique:users,id,' . $this->id . '|max:150|regex:/^[A-Za-z0-9\-]+$/',
+			'firstname' => 'max:100|regex:/^[A-Za-zа-яА-Я \-\']+$/',
+			'lastname' => 'max:100|regex:/^[A-Za-zа-яА-Я \-\']+$/',
 			'role' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150',
-			'profession' => 'max:150',
-			'city' => 'max:150',
-			'country' => 'max:150',
+			'profession' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
+			'city' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
+			'country' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
 			'is_active' => 'boolean',
 		];
 	}
