@@ -39,15 +39,15 @@ Route::controller('password', 'RemindersController');
 
 /* Фронт */
 Route::get('/', 'SiteController@index');
+
 Route::get('{contactAlias}', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', 'SiteController@contactPost');
 
-Route::post('add_comment/{id}', 'CommentsController@addComment');
-
-Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
-
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
+
+Route::post('add_comment/{id}', 'CommentsController@addComment');
+Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');

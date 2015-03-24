@@ -165,7 +165,6 @@ class Page extends \Eloquent
 	public static function getPageByAlias($alias = '/') {
 		return self::whereAlias($alias)
 			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->first();
+			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 }

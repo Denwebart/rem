@@ -51,6 +51,16 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e)
+{
+	return Response::view('errors/404', [], 404);
+});
+
+//App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e)
+//{
+//	return Response::view('404');
+//});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

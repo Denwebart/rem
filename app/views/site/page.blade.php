@@ -47,8 +47,6 @@
 								startColor: '#84BCE6',
 								endColor: '#2D4C7F',
 
-	//							readOnly: true,
-
 								// onSet, onChange
 								onSet: function(rating) {
 									$.ajax({
@@ -75,6 +73,32 @@
 
 				{{ $page->content }}
 			</div>
+		@endif
+
+		@if(count($page->publishedChildren))
+			<section id="blog-area">
+				@foreach($page->children as $child)
+					<div class="row">
+						<div class="col-md-12">
+							<h3>
+								<a href="{{ URL::to($child->getUrl()) }}">
+									{{ $child->title }}
+								</a>
+							</h3>
+						</div>
+						<div class="col-md-5">
+							<a href="{{ URL::to($child->getUrl()) }}">
+								{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
+							</a>
+						</div>
+						<div class="col-md-7">
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
+							<a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
+						</div>
+					</div>
+					<hr/>
+				@endforeach
+			</section><!--blog-area-->
 		@endif
 
 		@if($page->show_comments)

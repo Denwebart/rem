@@ -4,46 +4,66 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter(function()
-		{
-			$urlPrevious = (Session::has('urlPrevious')) ? Session::get('urlPrevious') : URL::previous();
-
-			if(URL::current() != $urlPrevious)
-			{
-				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
-
-				$page = Page::getPageByAlias($alias);
-				$page->views = $page->views + 1;
-				$page->save();
-			}
-
-			Session::put('urlPrevious', URL::current());
-
-		}, ['except' => ['contactPost', 'sitemapXml']]);
+//		$this->beforeFilter(function()
+//		{
+//			$urlPrevious = (Session::has('urlPrevious')) ? Session::get('urlPrevious') : URL::previous();
+//
+//			if(URL::current() != $urlPrevious)
+//			{
+//				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+//
+//				$page = Page::getPageByAlias($alias)->firstOrFail();
+//				$page->views = $page->views + 1;
+//				$page->save();
+//			}
+//
+//			Session::put('urlPrevious', URL::current());
+//
+//		}, ['except' => ['contactPost', 'sitemapXml']]);
 
 	}
 
 	public function index()
 	{
-		View::share('page', Page::getPageByAlias());
+		View::share('page', Page::getPageByAlias()->firstOrFail());
 		return View::make('site.index');
 	}
 
 	public function firstLevel($alias)
 	{
-		View::share('page', Page::getPageByAlias($alias));
-		return View::make('site.firstLevel');
+		View::share('page', Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail());
+		return View::make('site.page');
 	}
 
 	public function secondLevel($categoryAlias, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias));
+		$page = Page::getPageByAlias($alias)
+//			->with('parent')
+//			->whereHas('parent', function($q)
+//			{
+//				$q->where('alias', '=', 'statji');
+//
+//			})
+			->firstOrFail();
+
+		View::share('page', $page);
 		return View::make('site.page');
 	}
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias));
+		$page = Page::getPageByAlias($alias)
+//			->with('parent')
+//			->whereHas('parent', function($query)
+//			{
+//				$query->whereHas('parent', function($q)
+//				{
+//					$q->whereAlias('statji');
+//				});
+//			})
+			->firstOrFail();
+
+		View::share('page', $page);
 		return View::make('site.page');
 	}
 
@@ -55,7 +75,7 @@ class SiteController extends BaseController {
 			->with(['children'])
 			->get(['id', 'parent_id', 'alias', 'menu_title', 'title']);
 
-		View::share('page', Page::getPageByAlias($alias));
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('site.sitemapHtml', compact('pages'));
 	}
 
@@ -73,7 +93,7 @@ class SiteController extends BaseController {
 
 	public function contact($alias)
 	{
-		View::share('page', Page::getPageByAlias($alias));
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('site.contact');
 	}
 

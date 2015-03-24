@@ -54,7 +54,7 @@
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
-                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="fa fa-comment"></span>
                         <span>Мои комментарии</span>
                     </a>
                 </li>

@@ -114,11 +114,23 @@
                         <span>{{ $user->login }} <i class="fa fa-caret-down"></i></span>
                     </a>
                     <ul class="dropdown-menu">
-                        {{--<li>--}}
-                            {{--<a href="#"><i class="fa fa-cog"></i>Настройки</a>--}}
-                        {{--</li>--}}
                         <li>
-                            <a href="{{ URL::route('user.profile', ['login' => $user->login ]) }}"><i class="fa fa-user"></i>Профиль</a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->login ]) }}"><i class="fa fa-user"></i>Мой профиль</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.gallery', ['login' => $user->login ]) }}"><i class="fa fa-car"></i>Мой автомобиль</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.questions', ['login' => $user->login ]) }}"><i class="fa fa-question"></i>Мои вопросы</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.comments', ['login' => $user->login ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.messages', ['login' => $user->login ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.friends', ['login' => $user->login ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
                         </li>
                         <li class="footer">
                             <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i>Выход</a>
