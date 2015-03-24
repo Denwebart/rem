@@ -99,12 +99,12 @@
 
                         <div class="input-group">
                             {{ Form::text('published_at',
-                                ('0000-00-00 00:00:00' != $page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
+                                !is_null($page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
                                 ['class' => 'form-control datepicker-input'])
                             }}
                             <span id="published_at_time" class="input-group-addon">
-                                {{ Form::hidden('publishedTime', ('0000-00-00 00:00:00' != $page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
-                                {{ ('0000-00-00 00:00:00' != $page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
+                                {{ Form::hidden('publishedTime', !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
+                                {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
                             </span>
                         </div>
 

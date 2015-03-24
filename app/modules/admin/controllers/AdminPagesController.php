@@ -46,7 +46,7 @@ class AdminPagesController extends \BaseController {
 		} elseif(Input::get('is_published') && !Input::get('published_at')) {
 			$data['published_at'] = date('Y:m:d H:i:s');
 		} else {
-			$data['published_at'] = '0000-00-00 00:00:00';
+			$data['published_at'] = null;
 		}
 
 		$data['user_id'] = Auth::user()->id;
