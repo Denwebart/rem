@@ -94,7 +94,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                            {{ $errors->first('avatar') }}
+                            {{ $errors->first('image') }}
                         </div>
                     </div>
                     <div class="col-lg-8">

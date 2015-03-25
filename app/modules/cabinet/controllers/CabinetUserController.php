@@ -140,21 +140,23 @@ class CabinetUserController extends \BaseController
 		$usersImage = new UserImage();
 
 		// загрузка изображения
-		$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+		if(isset($data['image'])) {
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
 
-		$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
-		$image = Image::make($data['image']->getRealPath());
+			$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
+			$image = Image::make($data['image']->getRealPath());
 
-		File::exists(public_path() . '/uploads/' . $usersImage->getTable()) or File::makeDirectory(public_path() . '/uploads/' . $usersImage->getTable());
-		File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists(public_path() . '/uploads/' . $usersImage->getTable()) or File::makeDirectory(public_path() . '/uploads/' . $usersImage->getTable());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
 
-		$image->save($imagePath . $fileName);
+			$image->save($imagePath . $fileName);
 
-		// delete old image
-		if(File::exists($imagePath . $usersImage->image)) {
-			File::delete($imagePath . $usersImage->image);
+			// delete old image
+			if (File::exists($imagePath . $usersImage->image)) {
+				File::delete($imagePath . $usersImage->image);
+			}
+			$data['image'] = $fileName;
 		}
-		$data['image'] = $fileName;
 		// загрузка изображения
 
 		$usersImage->fill($data);
