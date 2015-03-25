@@ -199,26 +199,28 @@ class CabinetUserController extends \BaseController
 			}
 
 			// загрузка изображения
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+			if(isset($data['image'])) {
+				$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
+				$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
 
-			$image = Image::make($data['image']->getRealPath());
+				$image = Image::make($data['image']->getRealPath());
 
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+				File::exists($imagePath) or File::makeDirectory($imagePath);
 
-			$image->save($imagePath . $fileName);
+				$image->save($imagePath . $fileName);
 
-			// delete old image
-			if(File::exists($imagePath . $usersImage->image)) {
-				File::delete($imagePath . $usersImage->image);
+				// delete old image
+				if (File::exists($imagePath . $usersImage->image)) {
+					File::delete($imagePath . $usersImage->image);
+				}
+				$data['image'] = $fileName;
+			} else {
+				$data['image'] = is_null($data['image']) ? $usersImage->image : $data['image'];
 			}
-			$data['image'] = $fileName;
 			// загрузка изображения
 
-			$usersImage->fill($data);
-
-			if($usersImage->save()) {
+			if($usersImage->update($data)) {
 				return Redirect::route('user.gallery', ['login' => $user->login]);
 			}
 		}

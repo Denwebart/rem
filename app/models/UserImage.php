@@ -42,13 +42,15 @@ class UserImage extends \Eloquent
 	];
 
 	public static $rules = [
-		'user_id' => 'required|integer',
-		'is_published' => 'boolean',
-		'title' => 'max:300',
-		'image' => 'required|mimes:jpeg,bmp,png|max:3072',
-		'desctiption' => 'max:2000',
-		'votes_like' => 'integer',
-		'votes_dislike' => 'integer',
+		'create' => [
+			'user_id' => 'required|integer',
+			'is_published' => 'boolean',
+			'title' => 'max:300',
+			'image' => 'required|mimes:jpeg,bmp,png|max:3072',
+			'desctiption' => 'max:2000',
+			'votes_like' => 'integer',
+			'votes_dislike' => 'integer',
+		],
 	];
 
 	public function user()

@@ -28,7 +28,7 @@
 
                 <h3>Редактирование информации о фотографии</h3>
 
-                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->login, 'id' => $image->id], 'files' => true], ['id' => 'uploadPhoto']) }}
+                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->login, 'id' => $image->id], 'files' => true], ['id' => 'editPhoto']) }}
 
                 <div class="row">
                     <div class="col-lg-4">
