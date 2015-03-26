@@ -86,15 +86,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return [
 			'email' => 'required|email|unique:users,id,' . $this->id . '|max:150',
 			'login' => 'required|unique:users,id,' . $this->id . '|max:150|regex:/^[A-Za-z0-9\-]+$/',
-			'firstname' => 'max:100|regex:/^[A-Za-zа-яА-Я \-\']+$/',
-			'lastname' => 'max:100|regex:/^[A-Za-zа-яА-Я \-\']+$/',
+			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
-			'car_brand' => 'max:150',
-			'profession' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
-			'city' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
-			'country' => 'max:150|regex:/^[A-Za-zа-яА-Я \-\']+$/',
+			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє0-9 \-\']+$/u',
+			'profession' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'city' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
 		];
 	}
@@ -102,22 +102,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $rules = [
 		'registration' => [
 			'email'     => 'required|email|unique:users|max:150',
-			'login'  => 'required|unique:users|max:150',
+			'login'  => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
 			'password'  => 'required|confirmed|min:6|max:100',
 		],
 		'create' => [
 			'password'  => 'required|confirmed|min:6|max:100',
 			'email' => 'required|email|unique:users|max:150',
-			'login' => 'required|unique:users|max:150',
-			'firstname' => 'max:100',
-			'lastname' => 'max:100',
+			'login' => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
+			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
-			'car_brand' => 'max:150',
-			'profession' => 'max:150',
-			'city' => 'max:150',
-			'country' => 'max:150',
+			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє0-9 \-\']+$/u',
+			'profession' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'city' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
 		]
 	];
@@ -217,7 +217,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$class = isset($options['class']) ? ' ' . $options['class'] : '';
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->avatar){
-			return HTML::image('/uploads/' . $this->login . '/' . $prefix . $this->avatar, $this->login, ['class' => 'img-responsive' . $class]);
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->login . '/' . $prefix . $this->avatar, $this->login, ['class' => 'img-responsive' . $class]);
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $this->login, ['class' => 'img-responsive avatar-default' . $class]);
 		}

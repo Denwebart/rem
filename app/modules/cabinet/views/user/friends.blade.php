@@ -12,7 +12,7 @@
 
         <div class="col-lg-3">
             <div class="avatar">
-                {{ HTML::image(Config::get('settings.defaultAvatar'), $user->login, ['class' => 'img-responsive avatar-default']) }}
+                {{ $user->getAvatar() }}
             </div>
         </div>
         <div class="col-lg-9">

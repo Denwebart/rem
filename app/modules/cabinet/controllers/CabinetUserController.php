@@ -44,7 +44,7 @@ class CabinetUserController extends \BaseController
 
 			$fileName = TranslitHelper::generateFileName($data['avatar']->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $data['login'] . '/';
+			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $data['login'] . '/';
 			$image = Image::make($data['avatar']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 
@@ -94,7 +94,7 @@ class CabinetUserController extends \BaseController
 		if(Request::ajax())
 		{
 			$user = User::findOrFail($userId);
-			$imagePath = public_path() . '/uploads/' . $user->login . '/';
+			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
 
 			// delete old avatar
 			if(File::exists($imagePath . $user->avatar)) {
