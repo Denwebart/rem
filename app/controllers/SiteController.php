@@ -4,22 +4,24 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
-//		$this->beforeFilter(function()
-//		{
-//			$urlPrevious = (Session::has('urlPrevious')) ? Session::get('urlPrevious') : URL::previous();
-//
-//			if(URL::current() != $urlPrevious)
-//			{
-//				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
-//
-//				$page = Page::getPageByAlias($alias)->firstOrFail();
-//				$page->views = $page->views + 1;
-//				$page->save();
-//			}
-//
-//			Session::put('urlPrevious', URL::current());
-//
-//		}, ['except' => ['contactPost', 'sitemapXml']]);
+		$this->beforeFilter(function()
+		{
+			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
+
+			if(URL::current() != $urlPrevious)
+			{
+				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+
+				$page = Page::getPageByAlias($alias)->first();
+				if(is_object($page)) {
+					$page->views = $page->views + 1;
+					$page->save();
+				}
+			}
+
+			Session::put('user.urlPrevious', URL::current());
+
+		}, ['except' => ['contactPost', 'sitemapXml']]);
 
 	}
 
@@ -35,16 +37,35 @@ class SiteController extends BaseController {
 		return View::make('site.page');
 	}
 
-	public function secondLevel($categoryAlias, $alias)
-	{
-		$page = Page::getPageByAlias($alias)
-//			->with('parent')
+//				with(array('parent' => function($query)
+//			{
+//				$query->where('parent_id', '=', 0);
+//
+//			}))
+//		getPageByAlias($alias)
 //			->whereHas('parent', function($q)
 //			{
-//				$q->where('alias', '=', 'statji');
+//				return $q->where('parent_id', '=', 0);
 //
 //			})
+	public function secondLevel($categoryAlias, $alias)
+	{
+//		$page = new Page;
+//		$page->setTable('pages AS p');
+//		$page = $page->where('alias', '=', $alias)
+//			->whereHas('parent', function($query)
+//			{
+//				$query->table('pages AS parent')->where('parent_id', '=', 0);
+//			})
+//			->firstOrFail();
+//			->toSql();
+//		dd($page);
+//		dd(DB::getQueryLog());
+
+		$page = Page::getPageByAlias($alias)
 			->firstOrFail();
+
+//		dd($page->parent->parent_id, $page->parent->title);
 
 		View::share('page', $page);
 		return View::make('site.page');

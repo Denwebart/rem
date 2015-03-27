@@ -72,6 +72,8 @@ class UsersController extends BaseController
 		if (Auth::attempt($creds, Input::has('remember'))) {
 			Log::info("User [{$login}] successfully logged in.");
 
+			// Вытираем предыдущую сессию
+			Session::forget('user');
 			// Редирект в админку (если админ) или на предыдущую (для остальных)
 			if(Auth::user()->isAdmin()){
 				return Redirect::to('admin');
@@ -95,6 +97,7 @@ class UsersController extends BaseController
 
 	public function getLogout() {
 		Auth::logout();
+		Session::forget('user');
 		if(preg_match('#^'.Config::get('app.url').'user/#', URL::previous()) || preg_match('#^'.Config::get('app.url').'admin/#', URL::previous()))
 		{
 			return Redirect::to('/');

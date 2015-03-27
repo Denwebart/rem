@@ -6,7 +6,7 @@ class RatingController extends BaseController {
 	{
 		if(Request::ajax()) {
 
-			$isVote = Session::has('rating.page') ? (in_array($id, Session::get('rating.page')) ? 1 : 0) : 0;
+			$isVote = Session::has('user.rating.page') ? (in_array($id, Session::get('user.rating.page')) ? 1 : 0) : 0;
 
 			if (!$isVote) {
 				$rating = Input::get('rating');
@@ -17,10 +17,10 @@ class RatingController extends BaseController {
 
 				if ($page->save()) {
 
-					$sessionArray = Session::get('rating.page');
+					$sessionArray = Session::get('user.rating.page');
 					$sessionArray[] = $page->id;
 
-					Session::put('rating.page', $sessionArray);
+					Session::put('user.rating.page', $sessionArray);
 
 					//return success message
 					return Response::json(array(

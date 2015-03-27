@@ -12,7 +12,7 @@ class SidebarWidget
 	{
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIn('parent_id', [5, 6])
+			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('published_at', 'DESC')
 			->limit($limit)
 			->with(['parent'])
@@ -31,7 +31,7 @@ class SidebarWidget
 	{
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIn('parent_id', [5, 6])
+			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('votes', 'DESC')
 			->limit($limit)
 			->with(['parent'])
@@ -50,7 +50,7 @@ class SidebarWidget
 	{
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIn('parent_id', [5, 6])
+			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('views', 'DESC')
 			->limit($limit)
 			->with(['parent'])
@@ -69,7 +69,7 @@ class SidebarWidget
 	{
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIn('parent_id', [5, 6])
+			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('views', 'ASC')
 			->limit($limit)
 			->with(['parent'])
