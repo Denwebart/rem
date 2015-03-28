@@ -129,20 +129,20 @@
                     });
         });
 
-
-        //смена роли
+        // смена роли
+        // показать кнопки после выбора роли
         $("form[id^='changeRole-form'] select").on('change', function(){
             $(this).parent().find('.buttons').html(
                 '<button type="submit" class="btn btn-success btn-circle" name="changeRole"><i class="fa fa-check"></i></button>' +
                 '<button type="button" class="btn btn-danger btn-circle" name="cancelChangeRole" data-role="' + $(this).data('role') + '"><i class="glyphicon glyphicon-remove"></i></button>'
             );
         });
-
+        // отменить изменение роли
         $("form[id^='changeRole-form'] .buttons").on('click', 'button[name="cancelChangeRole"]', function() {
             $(this).parent().parent().find('select').val($(this).data('role'));
             $(this).parent().html('');
         });
-
+        // сохранить новую роль
         $("form[id^='changeRole-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),

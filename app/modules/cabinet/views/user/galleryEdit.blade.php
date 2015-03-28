@@ -1,13 +1,26 @@
 @extends('cabinet::layouts.cabinet')
 
+<?php
+$title = (Auth::user()->is($user)) ? 'Редактирование информации о фотографии' : 'Редактирование информации о фотографии пользователя ' . $user->login;
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">Мой профиль</a></li>
-                <li><a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">Мой автомобиль</a></li>
-                <li>Редактирование информации о фотографии</li>
+                <li>
+                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">
+                        {{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}
+                    </a>
+                </li>
+                <li>{{ $title }}</li>
             </ol>
         </div>
 
@@ -17,12 +30,12 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <h2>Мой автомобиль</h2>
+            <h2>{{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}</h2>
 
             {{--Загрузка новой фотографии--}}
             <div id="new-photo">
 
-                <h3>Редактирование информации о фотографии</h3>
+                <h3>{{ $title }}</h3>
 
                 {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->login, 'id' => $image->id], 'files' => true], ['id' => 'editPhoto']) }}
 

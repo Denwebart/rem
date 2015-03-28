@@ -185,6 +185,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return true;
 	}
 
+	public function is($user)
+	{
+		return ($user->id == $this->id) ? true : false;
+	}
+
 	public function hasRole()
 	{
 		return (self::ROLE_NONE != $this->role) ? true : false;

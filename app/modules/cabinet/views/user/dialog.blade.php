@@ -1,13 +1,26 @@
 @extends('cabinet::layouts.cabinet')
 
+<?php
+$title = (Auth::user()->is($user)) ? 'Сообщения от пользователя ' . $companion->login : 'Сообщения пользователю '. $user->login .' от пользователя ' . $companion->login;
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">Мой профиль</a></li>
-                <li><a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">Личные сообщения</a></li>
-                <li>Сообщения от пользователя {{ $companion->login }}</li>
+                <li>
+                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
+                        {{ (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login }}
+                    </a>
+                </li>
+                <li>{{ $title }}</li>
             </ol>
         </div>
 
@@ -33,7 +46,8 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <h2>Сообщения от пользователя {{ $companion->login }}
+            <h2>
+                {{ $title }}
                 @if($companion->getFullName())
                     ({{ $companion->getFullName() }})
                 @endif
@@ -91,26 +105,29 @@
 
             </div>
 
-            <div id="message-form-container well">
-                <h3>Отправить сообщение</h3>
+            {{--Отправка нового сообщения--}}
+            @if(Auth::user()->is($user))
+                <div id="message-form-container well">
+                    <h3>Отправить сообщение</h3>
 
-                {{ Form::open([
-                      'action' => ['CabinetUserController@addMessage', $companion->id],
-                      'id' => 'message-form',
-                    ])
-                }}
+                    {{ Form::open([
+                          'action' => ['CabinetUserController@addMessage', $companion->id],
+                          'id' => 'message-form',
+                        ])
+                    }}
 
-                <div class="form-group">
-                    {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
-                    <div id="message_error"></div>
+                    <div class="form-group">
+                        {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
+                        <div id="message_error"></div>
+                    </div>
+
+                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+
+                    {{ Form::close() }}
+
                 </div>
-
-                {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-
-                {{ Form::close() }}
-
-            </div>
             <!-- end of #message-form -->
+            @endif
 
         </div>
     </div>
@@ -118,80 +135,80 @@
 
 @section('script')
     @parent
-
-    {{-- Отметить сообщение как прочитанное --}}
-    <script type="text/javascript">
-        $('.new-message').click(function(){
-            var messageId = $(this).data('messageId');
-            $.ajax({
-                url: '<?php echo URL::route('user.markMessageAsRead') ?>',
-                dataType: "text json",
-                type: "POST",
-                data: {messageId: messageId},
-                success: function(response) {
-                    if(response.success){
-                        $('[data-message-id= ' + messageId + ']').removeClass('new-message');
-                        if(response.newMessages != 0) {
-                            $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.newMessages);
-                            $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.newMessages);
-                            $('#header-widget .dropdown-messages .dropdown-menu [data-message-id= ' + messageId + ']').remove();
-                            $('#companions small').text(response.newMessages);
-                            $('#users-menu .messages small').text(response.newMessages);
-                        } else {
-                            $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
-                            $('#header-widget .dropdown-messages .dropdown-menu').remove();
-                            $('#companions small').remove();
-                            $('#users-menu .messages small').remove();
-                            // как ссылка
-                            $('#header-widget .dropdown-messages .dropdown-toggle').remove();
-                            $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->login]) ?>"><i class="fa fa-send"></i></a>');
+    @if(Auth::user()->is($user))
+        {{-- Отметить сообщение как прочитанное --}}
+        <script type="text/javascript">
+            $('.new-message').click(function(){
+                var messageId = $(this).data('messageId');
+                $.ajax({
+                    url: '<?php echo URL::route('user.markMessageAsRead') ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {messageId: messageId},
+                    success: function(response) {
+                        if(response.success){
+                            $('[data-message-id= ' + messageId + ']').removeClass('new-message');
+                            if(response.newMessages != 0) {
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.newMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.newMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu [data-message-id= ' + messageId + ']').remove();
+                                $('#companions small').text(response.newMessages);
+                                $('#users-menu .messages small').text(response.newMessages);
+                            } else {
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-messages .dropdown-menu').remove();
+                                $('#companions small').remove();
+                                $('#users-menu .messages small').remove();
+                                // как ссылка
+                                $('#header-widget .dropdown-messages .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->login]) ?>"><i class="fa fa-send"></i></a>');
+                            }
                         }
                     }
-                }
+                });
             });
-        });
 
-        $("#message-form").submit(function(event) {
-            event.preventDefault ? event.preventDefault() : event.returnValue = false;
-            var $form = $(this),
-                    data = $form.serialize(),
-                    url = $form.attr('action');
-            var posting = $.post(url, { formData: data });
-            posting.done(function(response) {
-                if(response.fail) {
-                    $.each(response.errors, function(index, value) {
-                        var errorDiv = '#' + index + '_error';
-                        $(errorDiv).addClass('required');
-                        $(errorDiv).empty().append(value);
-                    });
-                    $('#successMessage').empty();
-                }
-                if(response.success) {
-                    var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
-                            '<div class="col-md-2">' +
-                                '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>" class="pull-right">' +
-                                '<?php echo Auth::user()->getAvatar('mini')?></a>' +
-                                '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>">' +
-                                '<?php echo Auth::user()->login ?>' +
-                                '</a>' +
-                                '<br><span class="date">' + response.messageCreadedAt + '</span>' +
-                            '</div>' +
-                            '<div class="col-md-7">' +
-                                '<div class="well new-message">' +
-                                    response.message
+            $("#message-form").submit(function(event) {
+                event.preventDefault ? event.preventDefault() : event.returnValue = false;
+                var $form = $(this),
+                        data = $form.serialize(),
+                        url = $form.attr('action');
+                var posting = $.post(url, { formData: data });
+                posting.done(function(response) {
+                    if(response.fail) {
+                        $.each(response.errors, function(index, value) {
+                            var errorDiv = '#' + index + '_error';
+                            $(errorDiv).addClass('required');
+                            $(errorDiv).empty().append(value);
+                        });
+                        $('#successMessage').empty();
+                    }
+                    if(response.success) {
+                        var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
+                                '<div class="col-md-2">' +
+                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>" class="pull-right">' +
+                                    '<?php echo Auth::user()->getAvatar('mini')?></a>' +
+                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>">' +
+                                    '<?php echo Auth::user()->login ?>' +
+                                    '</a>' +
+                                    '<br><span class="date">' + response.messageCreadedAt + '</span>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class="col-md-2"></div>' +
-                        '</div>';
+                                '<div class="col-md-7">' +
+                                    '<div class="well new-message">' +
+                                        response.message
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="col-md-2"></div>' +
+                            '</div>';
 
-                    $("#messages").append(newMessage);
-                    setTimeout(function(){
-                        $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
-                    }, 300);
-                    $($form).trigger('reset');
-                } //success
-            }); //done
-        });
-    </script>
-
+                        $("#messages").append(newMessage);
+                        setTimeout(function(){
+                            $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
+                        }, 300);
+                        $($form).trigger('reset');
+                    } //success
+                }); //done
+            });
+        </script>
+    @endif
 @stop

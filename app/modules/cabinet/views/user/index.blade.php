@@ -1,11 +1,16 @@
 @extends('cabinet::layouts.cabinet')
 
+<?php
+$title = (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login;
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>Мой профиль</li>
+                <li>{{ $title }}</li>
             </ol>
         </div>
 
@@ -16,10 +21,13 @@
         </div>
         <div class="col-lg-9">
 
-            <a href="{{{ URL::route('user.edit', ['login' => $user->login]) }}}" class="pull-right">
-                <span class="glyphicon glyphicon-edit"></span>
-                Редактировать
-            </a>
+            @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                <a href="{{{ URL::route('user.edit', ['login' => $user->login]) }}}" class="pull-right">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Редактировать
+                </a>
+            @endif
+
             <h2>{{{ $user->login }}}</h2>
             @if($user->getFullName())
                 <h3>{{{ $user->getFullName() }}}</h3>

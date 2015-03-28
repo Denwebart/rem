@@ -1,12 +1,21 @@
 @extends('cabinet::layouts.cabinet')
 
+<?php
+$title = (Auth::user()->is($user)) ? 'Мои подписки' : 'Подписки пользователя ' . $user->login;
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li><a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">Мой профиль</a></li>
-                <li>Мои друзья</li>
+                <li>
+                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                    </a>
+                </li>
+                <li>{{ $title }}</li>
             </ol>
         </div>
 
@@ -16,7 +25,7 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <h2>Друзья {{ $user->login }}</h2>
+            <h2>{{ $title }}</h2>
 
         </div>
     </div>

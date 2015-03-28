@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title></title>
+    <title>{{ $title }}</title>
 
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
@@ -37,40 +37,42 @@
                 <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-user"></span>
-                        <span>Мой профиль</span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">
                         <span class="fa fa-car"></span>
-                        <span>Мой автомобиль</span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Aвтомобиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-question-sign"></span>
-                        <span>Мои вопросы</span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мои вопросы' : 'Вопросы' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
                         <span class="fa fa-comment"></span>
-                        <span>Мои комментарии</span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мои комментарии' : 'Комментарии' }}</span>
                     </a>
                 </li>
-                <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
-                    <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
-                        <span class="glyphicon glyphicon-send"></span>
-                        <span>Личные сообщения</span>
-                        @if(count($headerWidget->newMessages()))
-                            <small class="label label-info">{{ count($headerWidget->newMessages()) }}</small>
-                        @endif
-                    </a>
-                </li>
+                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                    <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
+                        <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
+                            <span class="glyphicon glyphicon-send"></span>
+                            <span>Личные сообщения</span>
+                            @if(count($headerWidget->newMessages()) && Auth::user()->is($user))
+                                <small class="label label-info">{{ count($headerWidget->newMessages()) }}</small>
+                            @endif
+                        </a>
+                    </li>
+                @endif
                 <li class="{{ Route::is('user.friends') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.friends', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-heart-empty"></span>
-                        <span>Мои подписки</span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мои подписки' : 'Подписки' }}</span>
                     </a>
                 </li>
             </ul>
