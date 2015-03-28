@@ -98,12 +98,11 @@ class UsersController extends BaseController
 	public function getLogout() {
 		Auth::logout();
 		Session::forget('user');
-		if(preg_match('#^'.Config::get('app.url').'user/#', URL::previous()) || preg_match('#^'.Config::get('app.url').'admin/#', URL::previous()))
+		if(preg_match('#^'.Config::get('app.url').'user#', URL::previous()) || preg_match('#^'.Config::get('app.url').'admin#', URL::previous()))
 		{
 			return Redirect::to('/');
 		}
-		else
-		{
+		else {
 			return Redirect::to(URL::previous());
 		}
 

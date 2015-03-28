@@ -12,9 +12,15 @@
     <div class="container">
         @if (Session::has('alert'))
             <div class="alert alert-danger">
-                <p>{{ Session::get('alert') }}
+                <p>{{ Session::get('alert') }}</p>
             </div>
         @endif
+
+            @if(Session::has('message'))
+                <div class="alert alert-danger">
+                    <p>{{ Session::get('message') }}</p>
+                </div>
+            @endif
 
             {{ Form::open([
                   'action' => ['UsersController@postLogin'],

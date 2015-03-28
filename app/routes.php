@@ -1,7 +1,7 @@
 <?php
 
 /* Админка */
-Route::group(['prefix' => 'admin'], function(){
+Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('/', 'AdminController@index');
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['show']]);
@@ -13,7 +13,7 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 /* Личный кабинет */
-Route::group(['prefix' => 'user'], function(){
+Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);

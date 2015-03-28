@@ -43,11 +43,28 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('login');
+			return Redirect::guest('users/login')->with('message', 'Профиль пользователя доступен для просмотра только зарегистрированным пользователям.');
 		}
 	}
 });
 
+Route::filter('authInAdminPanel', function()
+{
+	if (Auth::guest())
+	{
+		if (Request::ajax()) {
+			return Response::make('Unauthorized', 401);
+		}
+		else {
+			return Redirect::guest('users/login');
+		}
+	}
+	else {
+		if(!Auth::user()->isAdmin()) {
+			return Redirect::to('/');
+		}
+	}
+});
 
 Route::filter('auth.basic', function()
 {
