@@ -46,6 +46,10 @@ Route::post('contact_request', 'SiteController@contactPost');
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
 
+Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'voprosotvet');
+Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'voprosotvet');
+Route::get('{questionsAlias}/{categoryAlias}/{alias}', 'SiteController@question')->where('questionsAlias', 'voprosotvet');
+
 Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 

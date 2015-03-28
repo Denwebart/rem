@@ -37,6 +37,9 @@ class SiteController extends BaseController {
 		return View::make('site.page');
 	}
 
+	public function secondLevel($categoryAlias, $alias)
+	{
+
 //				with(array('parent' => function($query)
 //			{
 //				$query->where('parent_id', '=', 0);
@@ -48,8 +51,7 @@ class SiteController extends BaseController {
 //				return $q->where('parent_id', '=', 0);
 //
 //			})
-	public function secondLevel($categoryAlias, $alias)
-	{
+
 //		$page = new Page;
 //		$page->setTable('pages AS p');
 //		$page = $page->where('alias', '=', $alias)
@@ -73,19 +75,34 @@ class SiteController extends BaseController {
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
-		$page = Page::getPageByAlias($alias)
-//			->with('parent')
-//			->whereHas('parent', function($query)
-//			{
-//				$query->whereHas('parent', function($q)
-//				{
-//					$q->whereAlias('statji');
-//				});
-//			})
-			->firstOrFail();
+		$page = Page::getPageByAlias($alias)->firstOrFail();
 
 		View::share('page', $page);
 		return View::make('site.page');
+	}
+
+	public function questions($alias)
+	{
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+
+		View::share('page', $page);
+		return View::make('site.questions');
+	}
+
+	public function questionsCategory($questionsAlias, $alias)
+	{
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+
+		View::share('page', $page);
+		return View::make('site.questionsCategory');
+	}
+
+	public function question($questionsAlias, $categoryAlias, $alias)
+	{
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+
+		View::share('page', $page);
+		return View::make('site.question');
 	}
 
 	public function sitemapHtml($alias)
