@@ -42,7 +42,22 @@
                                             {{ $user->getAvatar('mini') }}
                                         </a>
                                     </td>
-                                    <td>{{ User::$roles[$user->role] }}</td>
+                                    <td>
+                                        @if($user->isAdmin())
+                                            {{ User::$roles[$user->role] }}
+                                        @else
+                                            {{ Form::open([
+                                                'action' => ['AdminUsersController@changeRole', $user->id],
+                                                'id' => 'changeRole-form-' . $user->id,
+                                            ]) }}
+
+                                            {{ Form::select('role', ($user->hasRole()) ? User::$roles : [User::ROLE_NONE => 'Не назначена'] + User::$roles, $user->role, ['data-role' => $user->role]) }}
+
+                                            <div class="buttons pull-right"></div>
+
+                                            {{ Form::close() }}
+                                        @endif
+                                    </td>
                                     <td>{{ $user->login }}</td>
                                     <td>{{ $user->getFullName() }}</td>
                                     <td>{{ $user->email }}</td>
@@ -104,6 +119,7 @@
     @parent
 
     <script type="text/javascript">
+        // удаление пользователя
         $('button[name="destroy"]').on('click', function(e){
             var $form=$(this).closest('form');
             e.preventDefault();
@@ -111,6 +127,34 @@
                     .one('click', '#delete', function() {
                         $form.trigger('submit'); // submit the form
                     });
+        });
+
+
+        //смена роли
+        $("form[id^='changeRole-form'] select").on('change', function(){
+            $(this).parent().find('.buttons').html(
+                '<button type="submit" class="btn btn-success btn-circle" name="changeRole"><i class="fa fa-check"></i></button>' +
+                '<button type="button" class="btn btn-danger btn-circle" name="cancelChangeRole" data-role="' + $(this).data('role') + '"><i class="glyphicon glyphicon-remove"></i></button>'
+            );
+        });
+
+        $("form[id^='changeRole-form'] .buttons").on('click', 'button[name="cancelChangeRole"]', function() {
+            $(this).parent().parent().find('select').val($(this).data('role'));
+            $(this).parent().html('');
+        });
+
+        $("form[id^='changeRole-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    role = $form.find('select').val(),
+                    url = $form.attr('action');
+            var posting = $.post(url, { role: role });
+            posting.done(function(data) {
+                if(data.success) {
+                    $form.find('.buttons').html('');
+                    $form.find("select option[value='0']").remove();
+                } //success
+            }); //done
         });
     </script>
 @stop

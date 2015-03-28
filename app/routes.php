@@ -6,6 +6,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['show']]);
 	Route::resource('users', 'AdminUsersController');
+	Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
 	Route::resource('letters', 'AdminLettersController');
 	Route::delete('admin/letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
 	Route::post('admin/letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);

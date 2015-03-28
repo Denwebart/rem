@@ -109,4 +109,19 @@ class AdminUsersController extends \BaseController {
 		return Redirect::route('admin.users.index');
 	}
 
+	public function changeRole($id)
+	{
+		if(Request::ajax()) {
+			$role = Input::get('role');
+
+			$user = User::find($id);
+			$user->role = $role;
+			if($user->save()) {
+				return Response::json(array(
+					'success' => true,
+				));
+			}
+		}
+	}
+
 }
