@@ -3,6 +3,9 @@
         <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
     @endif
     <nav class="navbar navbar-static-top">
+        @if(!Request::is('admin*') && Auth::user()->isAdmin())
+            <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
+        @endif
         @if(Request::is('admin*'))
             <a href="#" class="navbar-btn sidebar-toggle">
                 <span class="sr-only">Навигация</span>
