@@ -48,18 +48,25 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
+	if(403 == $code) {
+		return Response::view('errors/403', ['user' => Auth::user()], 403);
+	}
 	Log::error($exception);
 });
 
-App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e)
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
 {
+	Log::error($exception);
 	return Response::view('errors/404', [], 404);
 });
 
-//App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException  $e)
-//{
-//	return Response::view('404');
-//});
+// 405 (если попытаться зайти по роуту типа post)
+App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
+{
+	Log::error($exception);
+	return Response::view('errors/404', [], 404);
+});
+
 
 /*
 |--------------------------------------------------------------------------

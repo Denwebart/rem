@@ -69,8 +69,8 @@
                         </a>
                     </li>
                 @endif
-                <li class="{{ Route::is('user.friends') ? 'active' : '' }}">
-                    <a href="{{ URL::route('user.friends', ['login' => $user->login]) }}">
+                <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
+                    <a href="{{ URL::route('user.subscriptions', ['login' => $user->login]) }}">
                         <span class="glyphicon glyphicon-heart-empty"></span>
                         <span>{{ (Auth::user()->is($user)) ? 'Мои подписки' : 'Подписки' }}</span>
                     </a>

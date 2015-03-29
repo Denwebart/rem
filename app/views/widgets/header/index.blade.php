@@ -133,7 +133,7 @@
                             <a href="{{ URL::route('user.messages', ['login' => $user->login ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.friends', ['login' => $user->login ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
+                            <a href="{{ URL::route('user.subscriptions', ['login' => $user->login ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
                         </li>
                         <li class="footer">
                             <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i>Выход</a>

@@ -3,9 +3,20 @@
 
 class CabinetUserController extends \BaseController
 {
-	public function __construct(){
+	public function __construct()
+	{
 		$headerWidget = app('HeaderWidget');
 		View::share('headerWidget', $headerWidget);
+
+		$this->beforeFilter(function()
+		{
+			$login = Route::current()->getParameter('login');
+
+			if(Auth::user()->login != $login && !Auth::user()->isAdmin()) {
+				App::abort(403, 'Unauthorized action.');
+			}
+
+		}, ['except' => ['index', 'gallery', 'questions', 'comments', 'subscriptions']]);
 	}
 
 	public function index($login)
@@ -366,9 +377,9 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
-	public function friends($login)
+	public function subscriptions($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.friends');
+		return View::make('cabinet::user.subscriptions');
 	}
 }
