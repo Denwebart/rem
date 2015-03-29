@@ -1,6 +1,8 @@
 <header id="header-widget">
     @if(Request::is('admin*'))
         <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
+    @else
+        <div class="logo"></div>
     @endif
     <nav class="navbar navbar-static-top">
         @if(!Request::is('admin*') && Auth::user()->isAdmin())
@@ -24,6 +26,18 @@
                 </form>
             </div>
         @endif
+        <div class="navbar-left">
+            <ul class="nav navbar-nav">
+                <li style="margin-right: 10px">
+                    <a href="{{ URL::route('users') }}" class="">
+                        <span>
+                            <i class="fa fa-users"></i>
+                            Все пользователи
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <div class="navbar-right">
             <ul class="nav navbar-nav">
 

@@ -14,8 +14,9 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 });
 
 /* Личный кабинет */
+Route::get('users', ['as' => 'users', 'uses' => 'CabinetController@index']);
 Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
-	Route::get('/', 'CabinetController@index');
+//	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::post('{id}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
