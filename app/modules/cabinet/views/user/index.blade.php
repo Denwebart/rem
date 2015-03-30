@@ -22,7 +22,7 @@ View::share('title', $title);
         <div class="col-lg-9">
 
             @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-                <a href="{{{ URL::route('user.edit', ['login' => $user->login]) }}}" class="pull-right">
+                <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
                     <span class="glyphicon glyphicon-edit"></span>
                     Редактировать
                 </a>

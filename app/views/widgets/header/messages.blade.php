@@ -7,7 +7,7 @@
             </span>
         </a>
     @else
-        <a href="{{ URL::route('user.messages', ['login' => Auth::user()->login]) }}">
+        <a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">
             <i class="fa fa-send"></i>
         </a>
     @endif
@@ -18,7 +18,7 @@
                 <ul>
                     @foreach($messages as $message)
                     <li data-message-id="{{ $message->id }}">
-                        <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->login, 'companion' => $message->userSender->login]) }}">
+                        <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
                             <div class="pull-left">
                                 {{ $message->userSender->getAvatar('mini', ['class' => 'img-rounded']) }}
                             </div>
@@ -34,7 +34,7 @@
                     @endforeach
                 </ul>
             </li>
-            <li class="footer"><a href="{{ URL::route('user.messages', ['login' => Auth::user()->login]) }}">Показать все сообщения</a></li>
+            <li class="footer"><a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">Показать все сообщения</a></li>
         </ul>
     @endif
 </li>

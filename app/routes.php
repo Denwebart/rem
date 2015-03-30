@@ -19,8 +19,8 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 //	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
-	Route::post('{id}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
-	Route::post('{id}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);
+	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
+	Route::post('{login}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);
 	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
 	Route::post('{login}/gallery/uploadPhoto', ['as' => 'user.gallery.uploadPhoto', 'uses' => 'CabinetUserController@uploadPhoto']);
 	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'uses' => 'CabinetUserController@deletePhoto']);

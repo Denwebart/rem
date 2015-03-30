@@ -3,7 +3,7 @@
 
     @foreach($comments as $comment)
         <div class="item">
-            <a href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}">
+            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
                 {{ $comment->user->getAvatar('mini') }}
                 {{ $comment->user->login }}
             </a>

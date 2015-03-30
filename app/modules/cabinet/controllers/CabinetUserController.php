@@ -11,8 +11,8 @@ class CabinetUserController extends \BaseController
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');
-
-			if(Auth::user()->login != $login && !Auth::user()->isAdmin()) {
+//			dd($login, Auth::user()->getLoginForUrl());
+			if(Auth::user()->getLoginForUrl() != $login && !Auth::user()->isAdmin()) {
 				App::abort(403, 'Unauthorized action.');
 			}
 
@@ -34,12 +34,12 @@ class CabinetUserController extends \BaseController
 	/**
 	 * Обновление профиля
 	 *
-	 * @param $userId
+	 * @param $login
 	 * @return $this|\Illuminate\Http\RedirectResponse
 	 */
-	public function postEdit($userId)
+	public function postEdit($login)
 	{
-		$user = User::findOrFail($userId);
+		$user = User::whereLogin($login)->firstOrFail();
 
 		$data = Input::all();
 
@@ -98,13 +98,13 @@ class CabinetUserController extends \BaseController
 	/**
 	 * Удаление изображения
 	 *
-	 * @param $userId
+	 * @param $login
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function deleteAvatar($userId) {
+	public function deleteAvatar($login) {
 		if(Request::ajax())
 		{
-			$user = User::findOrFail($userId);
+			$user = User::whereLogin($login)->firstOrFail();
 			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
 
 			// delete old avatar

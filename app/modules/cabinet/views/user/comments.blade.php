@@ -11,7 +11,7 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>

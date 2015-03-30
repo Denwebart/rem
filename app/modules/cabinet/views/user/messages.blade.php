@@ -11,7 +11,7 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
@@ -27,7 +27,7 @@ View::share('title', $title);
                 <div class="body">
                     @foreach($companions as $item)
                         <div class="companion" data-user-id="{{ $item->id }}">
-                            <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
+                            <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->login]) }}">
                                 {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
                                 <span>{{ $item->login }}</span>
                                 <?php $numberOfMessages = count($item->sentMessages()->whereNull('read_at')->where('user_id_recipient', '=', $user->id)->get()); ?>
@@ -58,17 +58,17 @@ View::share('title', $title);
 
                             <div class="col-md-7 col-md-offset-1">
                                 <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                    <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $message->userSender->login]) }}">
+                                    <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
                                         {{ $message->message }}
                                     </a>
                                 </div>
                             </div>
 
                             <div class="col-md-2">
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                     {{ $message->userSender->getAvatar('mini') }}
                                 </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                     {{ $message->userSender->login }}
                                 </a>
                                 <span class="date">

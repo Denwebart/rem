@@ -1,12 +1,12 @@
 <header id="header-widget">
     @if(Request::is('admin*'))
         <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
-    @else
-        <div class="logo"></div>
     @endif
     <nav class="navbar navbar-static-top">
         @if(!Request::is('admin*') && Auth::user()->isAdmin())
             <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
+        @elseif(!Request::is('admin*') && !Auth::user()->isAdmin())
+            <div class="logo"></div>
         @endif
         @if(Request::is('admin*'))
             <a href="#" class="navbar-btn sidebar-toggle">
@@ -132,22 +132,22 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{{ URL::route('user.profile', ['login' => $user->login ]) }}"><i class="fa fa-user"></i>Мой профиль</a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-user"></i>Мой профиль</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.gallery', ['login' => $user->login ]) }}"><i class="fa fa-car"></i>Мой автомобиль</a>
+                            <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-car"></i>Мой автомобиль</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.questions', ['login' => $user->login ]) }}"><i class="fa fa-question"></i>Мои вопросы</a>
+                            <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-question"></i>Мои вопросы</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.comments', ['login' => $user->login ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>
+                            <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.messages', ['login' => $user->login ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
+                            <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.subscriptions', ['login' => $user->login ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
+                            <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
                         </li>
                         <li class="footer">
                             <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i>Выход</a>

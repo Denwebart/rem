@@ -210,6 +210,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return (self::ROLE_USER == $this->role) ? true : false;
 	}
 
+	public function getLoginForUrl()
+	{
+		return strtolower($this->login);
+	}
+
 	public function getFullName()
 	{
 		$separator = ($this->firstname && $this->lastname) ? ' ' : '';

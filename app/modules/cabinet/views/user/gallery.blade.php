@@ -11,7 +11,7 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
@@ -36,7 +36,7 @@ View::share('title', $title);
                             </div>
                             <div class="col-md-7">
                                 <a href="javascript:void(0)" class="btn btn-danger delete-photo" data-id="{{ $image->id }}">Удалить</a>
-                                <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->login,'id' => $image->id]) }}" class="btn btn-info">Редактировать</a>
+                                <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="btn btn-info">Редактировать</a>
                                 <h3>{{ $image->title }}</h3>
                                 {{ $image->description }}
                             </div>
@@ -44,44 +44,46 @@ View::share('title', $title);
                     @endforeach
                 </div>
             @else
-                <div id="carousel-users-images" class="carousel slide" data-ride="carousel">
+                @if(count($user->images))
+                    <div id="carousel-users-images" class="carousel slide" data-ride="carousel">
 
-                    <!-- Карусель -->
-                    <div class="carousel-inner" role="listbox">
+                        <!-- Карусель -->
+                        <div class="carousel-inner" role="listbox">
 
-                        @foreach($user->images as $key => $image)
+                            @foreach($user->images as $key => $image)
 
-                            <div class="item{{ (0 == $key) ? ' active': '' }}">
-                                {{ Html::image($image->getImageUrl()) }}
-                                <div class="carousel-caption">
-                                    <h3>{{ $image->title }}</h3>
-                                    {{ $image->desctiption }}
+                                <div class="item{{ (0 == $key) ? ' active': '' }}">
+                                    {{ Html::image($image->getImageUrl()) }}
+                                    <div class="carousel-caption">
+                                        <h3>{{ $image->title }}</h3>
+                                        {{ $image->desctiption }}
+                                    </div>
                                 </div>
-                            </div>
 
-                        @endforeach
+                            @endforeach
 
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-users-images" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-users-images" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+
+                        <!-- Controls -->
+                        <div style="text-align: center; margin-top: 10px">
+                            @foreach($user->images as $key => $image)
+                                <a href="javascript:void(0)" data-target="#carousel-users-images" data-slide-to="{{ $key }}" class="{{ (0 == $key) ? ' active': '' }}">
+                                    {{ Html::image($image->getImageUrl(), $image->description, ['style' => 'width: 100px']) }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-users-images" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-users-images" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-
-                    <!-- Controls -->
-                    <div style="text-align: center; margin-top: 10px">
-                        @foreach($user->images as $key => $image)
-                            <a href="javascript:void(0)" data-target="#carousel-users-images" data-slide-to="{{ $key }}" class="{{ (0 == $key) ? ' active': '' }}">
-                                {{ Html::image($image->getImageUrl(), $image->description, ['style' => 'width: 100px']) }}
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
+                @endif
             @endif
 
             {{--Загрузка новой фотографии--}}
@@ -94,7 +96,7 @@ View::share('title', $title);
                         {{--<span class="glyphicon glyphicon-plus"></span>--}}
                     {{--</a>--}}
 
-                    {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->login], 'files' => true], ['id' => 'uploadPhoto']) }}
+                    {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
                     <div class="row">
                         <div class="col-lg-4">
@@ -157,7 +159,7 @@ View::share('title', $title);
                 var imageId = $(this).data('id');
                 if(confirm('Вы уверены, что хотите удалить фотографию?')) {
                     $.ajax({
-                        url: '<?php echo URL::route('user.gallery.deletePhoto', ['login' => $user->login]) ?>',
+                        url: '<?php echo URL::route('user.gallery.deletePhoto', ['login' => $user->getLoginForUrl()]) ?>',
                         dataType: "text json",
                         type: "POST",
                         data: {imageId: imageId},

@@ -11,12 +11,12 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.messages', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login }}
                     </a>
                 </li>
@@ -32,7 +32,7 @@ View::share('title', $title);
                 <div class="body">
                     @foreach($companions as $item)
                         <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}" data-user-id="{{ $item->id }}">
-                            <a href="{{ URL::route('user.dialog', ['login' => $user->login, 'companion' => $item->login]) }}">
+                            <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->getLoginForUrl()]) }}">
                                 {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
                                 <span>{{ $item->login }}</span>
                                 <?php $numberOfMessages = count($item->sentMessages()->whereNull('read_at')->where('user_id_recipient', '=', $user->id)->get()); ?>
@@ -60,10 +60,10 @@ View::share('title', $title);
                 <div class="row">
                         <div class="col-md-2">
                             @if($user->id == $message->userSender->id)
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}" class="pull-right">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
                                     {{ $message->userSender->getAvatar('mini') }}
                                 </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                     {{ $message->userSender->login }}
                                 </a>
                                 <span class="date">
@@ -88,10 +88,10 @@ View::share('title', $title);
 
                         <div class="col-md-2">
                             @if($companion->id == $message->userSender->id)
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                     {{ $message->userSender->getAvatar('mini') }}
                                 </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->login]) }}">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                     {{ $message->userSender->login }}
                                 </a>
                                 <span class="date">
@@ -161,7 +161,7 @@ View::share('title', $title);
                                 $('#users-menu .messages small').remove();
                                 // как ссылка
                                 $('#header-widget .dropdown-messages .dropdown-toggle').remove();
-                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->login]) ?>"><i class="fa fa-send"></i></a>');
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="fa fa-send"></i></a>');
                             }
                         }
                     }
@@ -186,9 +186,9 @@ View::share('title', $title);
                     if(response.success) {
                         var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
                                 '<div class="col-md-2">' +
-                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>" class="pull-right">' +
+                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +
                                     '<?php echo Auth::user()->getAvatar('mini')?></a>' +
-                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->login]) ?>">' +
+                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>">' +
                                     '<?php echo Auth::user()->login ?>' +
                                     '</a>' +
                                     '<br><span class="date">' + response.messageCreadedAt + '</span>' +

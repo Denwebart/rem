@@ -11,7 +11,7 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
@@ -19,7 +19,7 @@ View::share('title', $title);
             </ol>
         </div>
 
-        {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->id], 'files' => true], ['id' => 'editProfile']) }}
+        {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->getLoginForUrl()], 'files' => true], ['id' => 'editProfile']) }}
         <div class="col-lg-3">
             <div class="avatar">
 
@@ -34,7 +34,7 @@ View::share('title', $title);
                             $('#delete-avatar').click(function(){
                                 if(confirm('Вы уверены, что хотите удалить изображение?')) {
                                     $.ajax({
-                                        url: '<?php echo URL::route('user.deleteAvatar', ['id' => $user->id]) ?>',
+                                        url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
                                         dataType: "text json",
                                         type: "POST",
                                         data: {field: 'avatar'},
@@ -69,7 +69,7 @@ View::share('title', $title);
                 </div>
                 <div class="col-lg-6">
                     <div class="button-group">
-                        <a href="{{{ URL::route('user.profile', ['login' => $user->login]) }}}" class="btn btn-primary">
+                        <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary">
                             <span class="glyphicon glyphicon-arrow-left"></span>
                             Назад
                         </a>

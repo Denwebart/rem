@@ -11,12 +11,12 @@ View::share('title', $title);
             <ol class="breadcrumb">
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.gallery', ['login' => $user->login]) }}">
+                    <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
                         {{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}
                     </a>
                 </li>
@@ -37,7 +37,7 @@ View::share('title', $title);
 
                 <h3>{{ $title }}</h3>
 
-                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->login, 'id' => $image->id], 'files' => true], ['id' => 'editPhoto']) }}
+                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true], ['id' => 'editPhoto']) }}
 
                 <div class="row">
                     <div class="col-lg-4">

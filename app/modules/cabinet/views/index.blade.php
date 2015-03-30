@@ -22,12 +22,12 @@ View::share('page', $title);
 
                 <div class="row margin-bottom-20">
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                             {{ $user->getAvatar('mini') }}
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                             {{ $user->login }}
                         </a>
                         @if($user->getFullName())
@@ -38,7 +38,7 @@ View::share('page', $title);
                     <div class="col-md-2"></div>
                     <div class="col-md-2"></div>
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.comments', ['login' => $user->login]) }}">
+                        <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                             {{ count($user->publishedСomments) }}
                         </a>
                     </div>

@@ -7,12 +7,12 @@
             <!-- Comment -->
             <div id="comment-{{ $comment->id }}" class="media">
                 <a href="javascript:void(0)" class="pull-left close-comment">-</a>
-                <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}">
+                <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
                     {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
                 </a>
                 <div class="media-body">
                     <h4 class="media-heading">
-                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->login]) }}" class="author">{{ $comment->user->login }}</a>
+                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author">{{ $comment->user->login }}</a>
                         <small>{{ DateHelper::dateFormat($comment->created_at) }}</small>
                     </h4>
                     <div>{{ $comment->comment }}</div>
@@ -38,7 +38,7 @@
 
                             {{ Form::hidden('parent_id', $comment->id); }}
 
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
+                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
                                 {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
                                 <span>{{  Auth::user()->login }}</span>
                             </a>
@@ -63,12 +63,12 @@
                         <div class="children-comments">
                             @foreach($comment->publishedChildren as $commentLevel2)
                                 <div class="media" id="comment-{{ $commentLevel2->id }}" >
-                                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->login]) }}">
+                                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
                                         {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object']) }}
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading">
-                                            <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->login]) }}" class="author">{{ $commentLevel2->user->login }}</a>
+                                            <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}" class="author">{{ $commentLevel2->user->login }}</a>
                                             <small>{{ DateHelper::dateFormat($commentLevel2->created_at) }}</small>
                                         </h4>
                                         <div>{{ $commentLevel2->comment }}</div>
@@ -106,7 +106,7 @@
 
             {{ Form::hidden('parent_id', 0); }}
 
-            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->login]) }}">
+            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
                 {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
                 <span>{{  Auth::user()->login }}</span>
             </a>
