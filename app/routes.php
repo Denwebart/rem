@@ -44,6 +44,8 @@ Route::controller('password', 'RemindersController');
 /* Фронт */
 Route::get('/', 'SiteController@index');
 
+Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
+
 Route::get('{contactAlias}', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', 'SiteController@contactPost');
 

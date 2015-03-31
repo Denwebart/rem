@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $page->meta_title }}</title>
+    <title>{{ $title }}</title>
 
-    <meta name="description" content="{{ $page->meta_desc }}"/>
-    <meta name="keywords" content="{{ $page->meta_key }}"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
     <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
     <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
     <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
@@ -25,9 +25,8 @@
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if(Auth::check())
-    {{ $headerWidget->show($page) }}
+    {{ $headerWidget->show() }}
 @endif
-
 <div class="header">
     <div class="container">
         <div class="row">
@@ -53,7 +52,7 @@
 
                     <div class="col-md-10">
                         <div class="form-group">
-                            {{ Form::text('search', null, ['class' => 'form-control', 'id' => 'name']) }}
+                            {{ Form::text('search', $search, ['class' => 'form-control', 'id' => 'name']) }}
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -91,7 +90,6 @@
         </div>
 
         <div class="col-lg-6 col-md-6">
-            Количество просмотров: {{ $page->views }}
             @yield('content')
         </div>
 
@@ -104,6 +102,23 @@
             {{ $sidebarWidget->latest() }}
 
             {{ $sidebarWidget->unpopular() }}
+
+        </div>
+    </div>
+</div>
+
+{{ $menuWidget->mainMenu() }}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-8 col-md-8">
+            @yield('content')
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+
+            Правая колонка
 
         </div>
     </div>

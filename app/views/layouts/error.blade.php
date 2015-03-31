@@ -44,6 +44,21 @@
                         </span>
                     </h1>
                 </div>
+                <!--Search-->
+                <div id="search">
+                    {{ Form::open(['method' => 'GET', 'route' => ['search']], ['id' => 'search-form']) }}
+
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            {{ Form::text('search', null, ['class' => 'form-control', 'id' => 'name']) }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
+                    </div>
+
+                    {{ Form::close() }}
+                </div>
             </div>
             <div class="col-md-2">
                 {{ $menuWidget->topMenu() }}
