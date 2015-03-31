@@ -21,7 +21,7 @@
 		@if($page->content)
 			<div class="content">
 
-				@if($page->show_rating)
+				@if($page->showRating())
 					{{-- Рейтинг --}}
 
 					<div id="rating">
@@ -116,7 +116,7 @@
 			</section><!--blog-area-->
 		@endif
 
-		@if($page->show_comments)
+		@if($page->showComments())
 			{{-- Комментарии --}}
 			<?php $commentWidget = app('CommentWidget') ?>
 			{{ $commentWidget->show($page) }}

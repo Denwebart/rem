@@ -57,6 +57,9 @@ class Page extends \Eloquent
 
 	public $publishedTime;
 
+	public $show_rating;
+	public $show_comments;
+
 	protected $fillable = [
 		'parent_id',
 		'user_id',
@@ -160,6 +163,14 @@ class Page extends \Eloquent
 	public static function getContainer()
 	{
 		return ['' => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
+	}
+
+	public function showComments() {
+		return ($this->show_comments) ? $this->show_comments : ((!$this->is_container) ? true : false);
+	}
+
+	public function showRating() {
+		return ($this->show_rating) ? $this->show_rating : ((!$this->is_container) ? true : false);
 	}
 
 	public function scopeGetPageByAlias($query, $alias = '/')
