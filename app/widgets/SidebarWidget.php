@@ -95,4 +95,13 @@ class SidebarWidget
 		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
 	}
 
+	/**
+	 * Добавление в закладки браузера
+	 *
+	 * @return array
+	 */
+	public function addToFavorites() {
+		return (string) View::make('widgets.sidebar.addToFavorites')->render();
+	}
+
 }
