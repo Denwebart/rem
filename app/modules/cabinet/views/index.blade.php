@@ -9,6 +9,19 @@ View::share('page', $title);
     <section id="content">
         <h2>{{ $title }}</h2>
 
+        {{ Form::open(['method' => 'GET', 'route' => ['users'], 'files' => true], ['id' => 'search-users-form']) }}
+
+        <div class="col-md-10">
+            <div class="form-group">
+                {{ Form::text('name', $name, ['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-md-2">
+            {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
+        </div>
+
+        {{ Form::close() }}
+
         <div id="users">
             <div class="row">
                 <div class="col-md-2"></div>
@@ -50,4 +63,27 @@ View::share('page', $title);
 
         </div>
     </section>
+@stop
+
+@section('script')
+    @parent
+
+    {{--<script type="text/javascript">--}}
+
+        {{--$("form[id^='search-users-form']").submit(function(event) {--}}
+            {{--event.preventDefault ? event.preventDefault() : event.returnValue = false;--}}
+            {{--var $form = $(this),--}}
+                    {{--data = $form.serialize(),--}}
+                    {{--url = $form.attr('action');--}}
+            {{--var posting = $.post(url, { formData: data });--}}
+            {{--posting.done(function(data) {--}}
+                {{--if(data.success) {--}}
+                    {{--var successContent = '<div class="message"><h3>Ваш комментарий успешно отправлен!</h3></div>';--}}
+                    {{--$('#successMessage').html(successContent);--}}
+                    {{--$($form).trigger('reset');--}}
+                {{--} //success--}}
+            {{--}); //done--}}
+        {{--});--}}
+
+    {{--</script>--}}
 @stop
