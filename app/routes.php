@@ -15,6 +15,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 
 /* Личный кабинет */
 Route::get('users', ['before' => 'auth', 'as' => 'users', 'uses' => 'CabinetController@index']);
+Route::get('users/autocomplete', ['before' => 'auth', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
 //Route::get('users/search', ['as' => 'users.search', 'uses' => 'CabinetController@search']);
 Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 //	Route::get('/', 'CabinetController@index');

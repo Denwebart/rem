@@ -20,6 +20,24 @@ class CabinetController extends \BaseController
 		return View::make('cabinet::index', compact('users'))->with('name', $name);
 	}
 
+	public function autocomplete() {
+		$term = Input::get('term');
+
+		$resultWithLogin = User::whereIsActive(1)
+			->where('login', 'like', "$term%")
+			->lists('login', 'id');
+
+		$resultWithFullName = User::whereIsActive(1)
+			->select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
+			->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$term%")
+			->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$term%")
+			->lists('fullname', 'id');
+
+		$result = array_merge($resultWithLogin, $resultWithFullName);
+
+		return Response::json($result);
+	}
+
 //	public function search()
 //	{
 //		$name = trim(Input::get('name'));

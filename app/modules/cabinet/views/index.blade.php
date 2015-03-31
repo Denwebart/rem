@@ -13,7 +13,8 @@ View::share('page', $title);
 
         <div class="col-md-10">
             <div class="form-group">
-                {{ Form::text('name', $name, ['class' => 'form-control']) }}
+                {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
+                {{ Form::hidden('rsponse', $name, ['class' => 'form-control', 'id' => 'rsponse']) }}
             </div>
         </div>
         <div class="col-md-2">
@@ -65,8 +66,26 @@ View::share('page', $title);
     </section>
 @stop
 
+@section('style')
+    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+@stop
+
 @section('script')
     @parent
+
+    <script src="/js/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+
+        $("#name").autocomplete({
+            source: "<?php echo URL::route('users.autocomplete') ?>",
+            minLength: 1,
+            select: function(e, ui) {
+//                console.log('selectd');
+            }
+        });
+
+    </script>
 
     {{--<script type="text/javascript">--}}
 
