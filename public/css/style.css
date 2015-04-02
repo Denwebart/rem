@@ -23,7 +23,10 @@ body {
     float: right;
     margin: 23px 0 0;
 }
-
+.mark, mark {
+    padding: 0.2em 0.1em;
+    background-color: #67FF5E;
+}
 /*header {*/
     /*height: 125px;*/
 /*}*/

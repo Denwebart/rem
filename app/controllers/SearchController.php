@@ -17,4 +17,7 @@ class SearchController extends BaseController {
 		return View::make('search.index', compact('results'));
 	}
 
+
+
+
 }

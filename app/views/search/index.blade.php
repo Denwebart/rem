@@ -11,16 +11,23 @@ View::share('title', $title);
 
 	<div class="content">
 
-		@foreach($results as $result)
+		@if(count($results))
+			@foreach($results as $result)
 
-			<div>
-				{{ $result->getTitle() }}
-			</div>
-			<hr/>
+				<div>
+					<a href="{{ URL::to($result->getUrl()) }}">
+						{{ StringHelper::getFragment($result->getTitle(), $search) }}
+					</a>
+					<p>{{ StringHelper::getFragment($result->content, $search) }}</p>
+				</div>
+				<hr/>
 
-		@endforeach
+			@endforeach
+		@else
+			<p>Ничего не найдено.</p>
+		@endif
 
-		{{ $results->links() }}
+		{{ $results->appends(array('search' => $search))->links() }}
 
 	</div>
 </section>

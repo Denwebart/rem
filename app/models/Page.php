@@ -141,7 +141,11 @@ class Page extends \Eloquent
 	public function getUrl()
 	{
 		$parent = ($this->parent) ? $this->parent->alias . '/' : '';
-		$parentParent = ($this->parent->parent) ? $this->parent->parent->alias . '/' : '';
+		if($parent) {
+			$parentParent = ($this->parent->parent) ? $this->parent->parent->alias . '/' : '';
+		} else {
+			$parentParent = '';
+		}
 		return $parentParent . $parent . $this->alias;
 	}
 
