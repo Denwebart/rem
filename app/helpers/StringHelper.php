@@ -15,7 +15,7 @@ class StringHelper
 		if ($word) {
 			$pos = max(mb_stripos(strip_tags($text), $word, null, 'UTF-8') - 100, 0);
 			$fragment = mb_substr(strip_tags($text), $pos, 200, 'UTF-8');
-			$highlighted = preg_replace("/({$word})/iu", '<mark>$1</mark>', $fragment);
+			$highlighted = preg_replace("[(".quotemeta($word).")]iu", '<mark>$1</mark>', $fragment);
 		} else {
 			$highlighted = mb_substr(strip_tags($text), 0, 200, 'UTF-8');
 		}

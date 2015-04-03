@@ -50,7 +50,7 @@
 
                     <div class="col-md-10">
                         <div class="form-group">
-                            {{ Form::text('search', null, ['class' => 'form-control', 'id' => 'name']) }}
+                            {{ Form::input('search', 'query', null, ['class' => 'form-control', 'id' => 'name']) }}
                         </div>
                     </div>
                     <div class="col-md-2">

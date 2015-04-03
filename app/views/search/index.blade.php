@@ -7,7 +7,7 @@ View::share('title', $title);
 
 @section('content')
 <section id="content">
-	<h2>Результаты поиска по фразе "{{ $search }}"</h2>
+	<h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
 
 	<div class="content">
 
@@ -16,18 +16,20 @@ View::share('title', $title);
 
 				<div>
 					<a href="{{ URL::to($result->getUrl()) }}">
-						{{ StringHelper::getFragment($result->getTitle(), $search) }}
+						{{ StringHelper::getFragment($result->getTitle(), $query) }}
 					</a>
-					<p>{{ StringHelper::getFragment($result->content, $search) }}</p>
+					<p>
+						{{ StringHelper::getFragment($result->content, $query) }}
+					</p>
 				</div>
 				<hr/>
 
 			@endforeach
+
+			{{ $results->appends(array('query' => $query))->links() }}
 		@else
 			<p>Ничего не найдено.</p>
 		@endif
-
-		{{ $results->appends(array('search' => $search))->links() }}
 
 	</div>
 </section>

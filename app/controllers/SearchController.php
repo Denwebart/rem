@@ -4,16 +4,22 @@ class SearchController extends BaseController {
 
 	public function index()
 	{
-		$search = Input::get('search');
+		$query = trim(Input::get('query'));
 
-		$results = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-		    ->where('title', 'LIKE', "%$search%")
-			->orWhere('menu_title', 'LIKE', "%$search%")
-			->orWhere('content', 'LIKE', "%$search%")
-			->paginate(10);
+		if($query) {
+			$results = Page::whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->where('title', 'LIKE', "%$query%")
+				->orWhere('menu_title', 'LIKE', "%$query%")
+				->orWhere('content', 'LIKE', "%$query%")
+				->paginate(10);
+		} else {
+			$results = Page::whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->paginate(10);
+		}
 
-		View::share('search', $search);
+		View::share('query', $query);
 		return View::make('search.index', compact('results'));
 	}
 
