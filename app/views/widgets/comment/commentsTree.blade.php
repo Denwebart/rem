@@ -17,10 +17,11 @@
                     </h4>
                     <div>{{ $comment->comment }}</div>
 
-                    <div class="pull-right">
-                        <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                        <span class="result">2</span>
-                        <a href=""><span class="glyphicon glyphicon-arrow-down"></span></a>
+                    <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}">
+                        <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
+                        <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <div class="vote-message"></div>
                     </div>
 
                     <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
@@ -73,10 +74,11 @@
                                         </h4>
                                         <div>{{ $commentLevel2->comment }}</div>
 
-                                        <div class="pull-right">
-                                            <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
-                                            <span class="result">2</span>
-                                            <a href=""><span class="glyphicon glyphicon-arrow-down"></span></a>
+                                        <div class="vote pull-right" data-vote-comment-id="{{ $commentLevel2->id }}">
+                                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                                            <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
+                                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                                            <div class="vote-message"></div>
                                         </div>
 
                                     </div>
@@ -180,5 +182,26 @@
                 $(this).text('-');
             }
         });
+
+        // Голосование за комментарий
+        $(".vote-like").on('click', function() {
+            var commentId = $(this).parent().data('voteCommentId');
+            $.ajax({
+                url: '/comment/vote/' + commentId,
+                dataType: "text json",
+                type: "POST",
+                data: {vote: 'like'},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                    } else {
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                    }
+                }
+            });
+
+        });
     </script>
 @stop
+

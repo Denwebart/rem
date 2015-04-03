@@ -57,6 +57,7 @@ Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->wher
 Route::get('{questionsAlias}/{categoryAlias}/{alias}', 'SiteController@question')->where('questionsAlias', 'voprosotvet');
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
+Route::post('comment/vote/{id}', 'CommentsController@vote');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}', 'SiteController@firstLevel');

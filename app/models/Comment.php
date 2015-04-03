@@ -31,6 +31,9 @@
 
 class Comment extends \Eloquent
 {
+	const VOTE_LIKE = 'like';
+	const VOTE_DISLIKE = 'dislike';
+
 	protected $table = 'comments';
 
 	protected $fillable = [
