@@ -20,6 +20,12 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
     <link rel="stylesheet" href="/backend/css/font-awesome.min.css" />
+
+    {{HTML::script('js/jquery-1.11.2.min.js')}}
+    {{HTML::script('js/bootstrap.min.js')}}
+
+    @yield('style')
+
 </head>
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
@@ -82,8 +88,7 @@
     </div>
 </footer>
 
-{{HTML::script('js/jquery-1.11.2.min.js')}}
-{{HTML::script('js/bootstrap.min.js')}}
+<!-- JS -->
 
 @yield('script')
 

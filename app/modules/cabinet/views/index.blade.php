@@ -9,7 +9,7 @@ View::share('page', $title);
     <section id="content">
         <h2>{{ $title }}</h2>
 
-        {{ Form::open(['method' => 'GET', 'route' => ['users']], ['id' => 'search-users-form']) }}
+        {{ Form::open(['method' => 'GET', 'route' => ['users'], 'id' => 'search-users-form']) }}
 
         <div class="col-md-10">
             <div class="form-group">
@@ -66,24 +66,22 @@ View::share('page', $title);
 @stop
 
 @section('style')
+    @parent
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <script src="/js/jquery-ui.min.js"></script>
 @stop
 
 @section('script')
     @parent
 
-    <script src="/js/jquery-ui.min.js"></script>
-
     <script type="text/javascript">
-
         $("#name").autocomplete({
             source: "<?php echo URL::route('users.autocomplete') ?>",
             minLength: 1,
             select: function(e, ui) {
-//                console.log('selectd');
+                $("#search-users-form").submit();
             }
         });
-
     </script>
 
 @stop

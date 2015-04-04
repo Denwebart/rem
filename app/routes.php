@@ -16,9 +16,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 /* Личный кабинет */
 Route::get('users', ['before' => 'auth', 'as' => 'users', 'uses' => 'CabinetController@index']);
 Route::get('users/autocomplete', ['before' => 'auth', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
-//Route::get('users/search', ['as' => 'users.search', 'uses' => 'CabinetController@search']);
 Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
-//	Route::get('/', 'CabinetController@index');
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);

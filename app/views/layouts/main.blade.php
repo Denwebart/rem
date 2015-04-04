@@ -21,6 +21,9 @@
     {{ HTML::style('css/bootstrap.min.css') }}
     {{ HTML::style('css/style.css') }}
     <link rel="stylesheet" href="/backend/css/font-awesome.min.css" />
+
+    @yield('style')
+
 </head>
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 

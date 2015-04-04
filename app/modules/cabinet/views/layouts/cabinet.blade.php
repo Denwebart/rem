@@ -20,6 +20,9 @@
     {{ HTML::style('css/style.css') }}
     {{ HTML::style('css/cabinet.css') }}
     <link rel="stylesheet" href="/backend/css/font-awesome.min.css" />
+
+    @yield('style')
+
 </head>
 <body id="cabinet" class="fixed{{ (Auth::check()) ? ' margin-top-50' : ''}}">
 
