@@ -12,7 +12,42 @@
 <div class="content">
     <!-- Main row -->
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-3">
+            <div id="pages-tree">
+                <ul class="nav nav-pages-tree nav-stacked">
+                    <li class="active">
+                        <a href="{{ URL::route('admin.pages.index') }}">
+                            <i class="fa fa-clipboard"></i>
+                            Страницы сайта
+                            <span class="label pull-right">
+                                {{ count(Page::all()) }}
+                            </span>
+                        </a>
+                    </li>
+                    @foreach(Page::whereParentId(0)->get() as $page)
+                        <li>
+                            @if(count($page->children))
+                                <a href="#открыть-дерево">
+                                    <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
+                                </a>
+                                <a href="#ссылка-на-подпункты" class="title">
+                                    {{ $page->getTitle() }}
+                                </a>
+                            @else
+                                <i class="fa fa-file-text-o" style="color: #293C4E"></i>
+                                <span class="title">
+                                    {{ $page->getTitle() }}
+                                </span>
+                            @endif
+                            <a href="#ссылка-на-редактирование-страницы" class="label pull-right">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-9">
             <div class="box">
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover table-striped">

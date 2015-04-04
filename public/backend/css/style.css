@@ -2487,7 +2487,6 @@ header .logo i {
 .nav.nav-pills {
     margin-bottom: 10px;
 }
-
 .nav.nav-pills > li > a {
     border-top: 3px solid transparent;
     -webkit-border-radius: 0;
@@ -2521,10 +2520,65 @@ header .logo i {
 .nav.nav-pills > li > a:hover {
     background-color: #FFF;
 }
-
 .nav.nav-pills.nav-stacked > li.active > a, .nav.nav-pills.nav-stacked > li.active > a:hover {
     background-color: #27ae60;
     color: #FFF;
+}
+
+/* Pages Tree */
+
+.nav.nav-pages-tree {
+    margin-bottom: 10px;
+}
+.nav.nav-pages-tree > li {
+    padding: 7px 10px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border-top: 3px solid transparent;
+}
+.nav.nav-pages-tree > li > a {
+    color: #444;
+    padding: 0;
+    display: inline-block;
+}
+.nav.nav-pages-tree > li > a.title:hover {
+    text-decoration: underline;
+}
+.nav.nav-pages-tree > li > a:hover {
+    background: none;
+}
+.nav.nav-pages-tree > li > a > i {
+    margin-right: 5px;
+}
+.nav.nav-pages-tree > li.active > a {
+     font-weight: 600;
+}
+.nav.nav-pages-tree > li.active > li,
+.nav.nav-pages-tree > li.active > li:hover {
+    background-color: #f6f6f6;
+    border-top-color: #3c8dbc;
+    color: #444;
+}
+.nav.nav-pages-tree.nav-stacked > li {
+    border-top: 0;
+    background-color: #f6f6f6;
+    border-left: 3px solid transparent;
+}
+.nav.nav-pages-tree.nav-stacked > li > a {
+    color: #444;
+}
+.nav.nav-pages-tree > li:hover {
+    background-color: #FFF;
+}
+.nav.nav-pages-tree.nav-stacked > li.active,
+.nav.nav-pages-tree.nav-stacked > li.active:hover {
+    background-color: #293C4E;
+}
+.nav.nav-pages-tree.nav-stacked > li.active > a,
+.nav.nav-pages-tree.nav-stacked > li.active > a:hover {
+    color: #FFF;
+    background: none;
 }
 
 /* Mailbox */

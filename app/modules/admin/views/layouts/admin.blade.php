@@ -108,7 +108,7 @@
 <!-- Interface -->
 <script src="/backend/js/plugins/jquery-countTo/jquery.countTo.js" type="text/javascript"></script>
 <script src="/backend/js/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<script src="/backend/js/plugins/pace/pace.min.js" type="text/javascript"></script>
+{{--<script src="/backend/js/plugins/pace/pace.min.js" type="text/javascript"></script> Полоса загрузки --}}
 
 <!-- Forms -->
 <script src="/backend/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
