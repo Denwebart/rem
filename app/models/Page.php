@@ -161,7 +161,7 @@ class Page extends \Eloquent
 
 	public function getIntrotext()
 	{
-		return ($this->introtext) ? $this->introtext : Str::limit($this->content, 500, '...');
+		return ($this->introtext) ? $this->introtext : StringHelper::closeTags(Str::limit($this->content, 500, '...'));
 	}
 
 	public static function getContainer()
