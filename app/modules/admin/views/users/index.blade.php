@@ -43,7 +43,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if($user->isAdmin())
+                                        @if($user->isAdmin() && 1 == $user->id)
                                             {{ User::$roles[$user->role] }}
                                         @else
                                             {{ Form::open([
