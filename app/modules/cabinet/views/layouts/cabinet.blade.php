@@ -52,6 +52,12 @@
                         <span>{{ (Auth::user()->is($user)) ? 'Мои вопросы' : 'Вопросы' }}</span>
                     </a>
                 </li>
+                <li class="{{ Route::is('user.articles') ? 'active' : '' }}">
+                    <a href="{{ URL::route('user.articles', ['login' => $user->getLoginForUrl()]) }}">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мои статьи' : 'Статьи' }}</span>
+                    </a>
+                </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="fa fa-comment"></span>
