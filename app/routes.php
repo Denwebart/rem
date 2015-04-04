@@ -26,7 +26,7 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'uses' => 'CabinetUserController@deletePhoto']);
 	Route::any('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'uses' => 'CabinetUserController@editPhoto']);
 	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
-	Route::get('{login}/articles', ['as' => 'user.articles', 'uses' => 'CabinetUserController@articles']);
+	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
@@ -50,6 +50,8 @@ Route::post('contact_request', 'SiteController@contactPost');
 
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
+
+Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'voprosotvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'voprosotvet');

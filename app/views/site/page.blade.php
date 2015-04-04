@@ -78,6 +78,19 @@
 											});
 										} else {
 											$('#rate-message').text(response.message);
+                                            $('#jRate').remove();
+                                            $('#rate-stars').append('<div id="jRate"></div>');
+                                            $("#jRate").jRate({
+                                                rating: "<?php echo $page->getRating(); ?>",
+                                                precision: 0, // целое число
+                                                width: 30,
+                                                height: 30,
+                                                startColor: '#84BCE6',
+                                                endColor: '#2D4C7F',
+                                                onSet: function(rating) {
+                                                    sendAjaxRating();
+                                                }
+                                            });
 										}
 									}
 								});

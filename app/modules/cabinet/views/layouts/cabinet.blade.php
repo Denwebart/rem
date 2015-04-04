@@ -55,10 +55,10 @@
                         <span>{{ (Auth::user()->is($user)) ? 'Мои вопросы' : 'Вопросы' }}</span>
                     </a>
                 </li>
-                <li class="{{ Route::is('user.articles') ? 'active' : '' }}">
-                    <a href="{{ URL::route('user.articles', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мои статьи' : 'Статьи' }}</span>
+                <li class="{{ Route::is('user.journal') ? 'active' : '' }}">
+                    <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                        <span class="glyphicon glyphicon-book"></span>
+                        <span>{{ (Auth::user()->is($user)) ? 'Мой журнал' : 'Бортовой журнал' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">

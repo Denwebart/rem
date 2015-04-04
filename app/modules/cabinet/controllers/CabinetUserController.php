@@ -247,10 +247,10 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.questions');
 	}
 
-	public function articles($login)
+	public function journal($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.articles');
+		return View::make('cabinet::user.journal');
 	}
 
 	public function comments($login)

@@ -56,12 +56,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	const ROLE_NONE = 0;
 	const ROLE_ADMIN = 1;
-	const ROLE_MANAGER = 2;
+	const ROLE_MODERATOR = 2;
 	const ROLE_USER = 3;
 
 	public static $roles = [
 		self::ROLE_ADMIN => 'Администратор',
-		self::ROLE_MANAGER => 'Модератор',
+		self::ROLE_MODERATOR => 'Модератор',
 		self::ROLE_USER => 'Пользователь',
 	];
 
@@ -200,9 +200,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return (self::ROLE_ADMIN == $this->role) ? true : false;
 	}
 
-	public function isManager()
+	public function isModerator()
 	{
-		return (self::ROLE_MANAGER == $this->role) ? true : false;
+		return (self::ROLE_MODERATOR == $this->role) ? true : false;
 	}
 
 	public function isUser()

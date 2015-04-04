@@ -3,9 +3,9 @@
         <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
     @endif
     <nav class="navbar navbar-static-top">
-        @if(!Request::is('admin*') && Auth::user()->isAdmin())
+        @if(!Request::is('admin*') && (Auth::user()->isAdmin() || Auth::user()->isModerator()))
             <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
-        @elseif(!Request::is('admin*') && !Auth::user()->isAdmin())
+        @elseif(!Request::is('admin*') && (!Auth::user()->isAdmin() || !Auth::user()->isModerator()))
             <div class="logo"></div>
         @endif
         @if(Request::is('admin*'))
@@ -139,6 +139,9 @@
                         </li>
                         <li>
                             <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-question"></i>Мои вопросы</a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-book"></i>Мой журнал</a>
                         </li>
                         <li>
                             <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>
