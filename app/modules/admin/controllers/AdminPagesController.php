@@ -146,16 +146,14 @@ class AdminPagesController extends \BaseController {
 		if(Request::ajax()) {
 			$parentId = Input::get('pageId');
 
-			$children = Page::whereParentId($parentId)
-				->with('parent')
+			$pages = Page::whereParentId($parentId)
+				->with(['parent', 'children'])
 				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
 
-//			return (string) View::
-
-//			return Response::json(array(
-//				'success' => true,
-//				'children' => json_encode($children),
-//			));
+			return Response::json(array(
+				'success' => true,
+				'children' => (string) View::make('admin::pages._children', compact('pages'))->render(),
+			));
 
 		}
 	}

@@ -2569,7 +2569,15 @@ header .logo i {
     background-color: #f6f6f6;
     border-left: 3px solid transparent;
 }
-.nav.nav-pages-tree.nav-stacked > li > a {
+.nav.nav-pages-tree.nav-stacked .children {
+    list-style: none;
+    padding-left: 27px;
+}
+.nav.nav-pages-tree.nav-stacked .children li {
+    padding: 2px 0;
+}
+.nav.nav-pages-tree.nav-stacked > li > a,
+.nav.nav-pages-tree.nav-stacked .children li > a {
     color: #444;
 }
 .nav.nav-pages-tree > li:hover {

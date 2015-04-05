@@ -26,7 +26,7 @@
                     </li>
                     @foreach(Page::whereParentId(0)->get() as $page)
                         <li class="{{ !$page->is_published ? 'not-published' : ''}}">
-                            @if($page->is_container)
+                            @if($page->is_container && count($page->children))
                                 <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">
                                     <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
                                 </a>
@@ -43,7 +43,6 @@
                                 <i class="fa fa-edit"></i>
                             </a>
 
-
                         </li>
                     @endforeach
 
@@ -54,23 +53,35 @@
 
                             // Открытие дерева
                             $("#pages-tree .open").on('click', function(){
-                                var pageId = $(this).data('pageId');
-                                $.ajax({
-                                    url: '<?php echo URL::route('admin.pages.openTree') ?>',
-                                    dataType: "text json",
-                                    type: "POST",
-                                    data: {pageId: pageId},
-                                    success: function(response) {
-                                        if(response.success) {
-                                            console.log(response.children);
-//                                            $('#rate-votes').text(response.rating);
-//                                            $('#rate-voters span').text(response.voters);
-//                                            $('#rate-message').text(response.message);
-                                        }
+
+                                var link = $(this);
+
+                                if (link.parent().find('.children').length) {
+                                    if (link.parent().find('.children').is(':visible')) {
+                                        link.parent().find('.children').slideUp();
+                                        link.find('i').removeClass('fa-folder-open').addClass('fa-folder');
+                                    } else {
+                                        link.parent().find('.children').slideDown();
+                                        link.find('i').removeClass('fa-folder').addClass('fa-folder-open');
                                     }
-                                });
+                                } else {
+                                    $.ajax({
+                                        url: '<?php echo URL::route('admin.pages.openTree') ?>',
+                                        dataType: "text json",
+                                        type: "POST",
+                                        data: {pageId: link.data('pageId')},
+                                        success: function(response) {
+                                            if(response.success) {
+                                                link.parent().append(response.children);
+                                                link.parent().find('.children').slideDown();
+                                                link.find('i').removeClass('fa-folder').addClass('fa-folder-open');
+                                            }
+                                        }
+                                    });
+                                }
                             });
 
+                            /*$('body').on('click', '.g_del', function()*/
                         </script>
 
                     @endsection
