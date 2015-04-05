@@ -25,9 +25,9 @@
                         </a>
                     </li>
                     @foreach(Page::whereParentId(0)->get() as $page)
-                        <li>
-                            @if(count($page->children))
-                                <a href="#открыть-дерево">
+                        <li class="{{ !$page->is_published ? 'not-published' : ''}}">
+                            @if($page->is_container)
+                                <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">
                                     <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
                                 </a>
                                 <a href="#ссылка-на-подпункты" class="title">
@@ -39,11 +39,41 @@
                                     {{ $page->getTitle() }}
                                 </span>
                             @endif
-                            <a href="#ссылка-на-редактирование-страницы" class="label pull-right">
+                            <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id]) }}" class="label pull-right">
                                 <i class="fa fa-edit"></i>
                             </a>
+
+
                         </li>
                     @endforeach
+
+                    @section('script')
+                        @parent
+
+                        <script type="text/javascript">
+
+                            // Открытие дерева
+                            $("#pages-tree .open").on('click', function(){
+                                var pageId = $(this).data('pageId');
+                                $.ajax({
+                                    url: '<?php echo URL::route('admin.pages.openTree') ?>',
+                                    dataType: "text json",
+                                    type: "POST",
+                                    data: {pageId: pageId},
+                                    success: function(response) {
+                                        if(response.success) {
+                                            console.log(response.children);
+//                                            $('#rate-votes').text(response.rating);
+//                                            $('#rate-voters span').text(response.voters);
+//                                            $('#rate-message').text(response.message);
+                                        }
+                                    }
+                                });
+                            });
+
+                        </script>
+
+                    @endsection
                 </ul>
             </div>
         </div>

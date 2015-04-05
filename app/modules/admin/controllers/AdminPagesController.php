@@ -14,7 +14,7 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$pages = Page::paginate(10);
+		$pages = Page::orderBy('created_at', 'DESC')->paginate(10);
 
 		return View::make('admin::pages.index', compact('pages'));
 	}
@@ -135,6 +135,28 @@ class AdminPagesController extends \BaseController {
 		Page::destroy($id);
 
 		return Redirect::route('admin.pages.index');
+	}
+
+	/**
+	 * Открытие дерева
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function openTree() {
+		if(Request::ajax()) {
+			$parentId = Input::get('pageId');
+
+			$children = Page::whereParentId($parentId)
+				->with('parent')
+				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
+//				->toJson();
+
+			return Response::json(array(
+				'success' => true,
+				'children' => json_encode($children),
+			));
+
+		}
 	}
 
 }

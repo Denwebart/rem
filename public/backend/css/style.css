@@ -2537,6 +2537,10 @@ header .logo i {
     border-radius: 0;
     border-top: 3px solid transparent;
 }
+.nav.nav-pages-tree > li.not-published .title {
+    font-style: italic;
+    color: #888;
+}
 .nav.nav-pages-tree > li > a {
     color: #444;
     padding: 0;
