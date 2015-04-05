@@ -149,12 +149,13 @@ class AdminPagesController extends \BaseController {
 			$children = Page::whereParentId($parentId)
 				->with('parent')
 				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
-//				->toJson();
 
-			return Response::json(array(
-				'success' => true,
-				'children' => json_encode($children),
-			));
+//			return (string) View::
+
+//			return Response::json(array(
+//				'success' => true,
+//				'children' => json_encode($children),
+//			));
 
 		}
 	}
