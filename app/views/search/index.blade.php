@@ -26,7 +26,7 @@ View::share('title', $title);
 
 			@endforeach
 
-			{{ $results->appends(array('query' => $query))->links() }}
+			{{ $results->appends(['query' => $query])->links() }}
 		@else
 			<p>Ничего не найдено.</p>
 		@endif

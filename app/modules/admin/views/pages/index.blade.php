@@ -107,14 +107,26 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'ID', 'id') }}
+                                </th>
                                 <th></th>
-                                <th width="30%">Заголовок</th>
+                                <th width="30%">
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Заголовок', 'title') }}
+                                </th>
                                 <th>Родитель</th>
-                                <th>Статус публикации</th>
-                                <th>Дата создания</th>
-                                <th>Дата обновления</th>
-                                <th>Дата публикации</th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Статус публикации', 'is_published') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата создания', 'created_at') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата обновления', 'updated_at') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата публикации', 'published_at') }}
+                                </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.pages.create') }}">
                                         <i class="fa fa-plus "></i> Создать
@@ -182,7 +194,7 @@
                         </tbody>
                     </table>
                     <div class="pull-left">
-                        {{ $pages->links() }}
+                        {{ SortingHelper::paginationLinks($pages) }}
                     </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->

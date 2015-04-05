@@ -14,7 +14,13 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$pages = Page::orderBy('created_at', 'DESC')->paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$pages = Page::orderBy($sortBy, $direction)->paginate(10);
+		} else {
+			$pages = Page::orderBy('created_at', 'DESC')->paginate(10);
+		}
 
 		return View::make('admin::pages.index', compact('pages'));
 	}
