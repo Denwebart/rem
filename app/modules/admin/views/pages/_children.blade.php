@@ -5,7 +5,7 @@
                 <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">
                     <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
                 </a>
-                <a href="#ссылка-на-подпункты" class="title">
+                <a href="{{ URL::route('admin.pages.children', ['id' => $page->id]) }}" class="title">
                     {{ $page->getTitle() }}
                 </a>
             @else

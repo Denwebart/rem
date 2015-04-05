@@ -154,8 +154,21 @@ class AdminPagesController extends \BaseController {
 				'success' => true,
 				'children' => (string) View::make('admin::pages._children', compact('pages'))->render(),
 			));
-
 		}
+	}
+
+	/**
+	 * Таблица с подпунктами страницы
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function children($id)
+	{
+		$page = Page::find($id);
+		$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
+
+		return View::make('admin::pages.index', compact('page', 'pages'));
 	}
 
 }

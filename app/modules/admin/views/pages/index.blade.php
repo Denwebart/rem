@@ -2,10 +2,23 @@
 
 @section('content')
 <div class="page-head">
-    <h1>Страницы  <small>все страницы сайта</small></h1>
+    <h1>Страницы
+        <small>@if(isset($page)) подпункты страницы "{{ $page->getTitle() }}" @else все страницы сайта @endif</small>
+    </h1>
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        <li class="active">Страницы</li>
+        @if(isset($page))
+            <li class="active">
+                <a href="{{ URL::route('admin.pages.index') }}">
+                    Страницы
+                </a>
+            </li>
+            <li>
+                Подпункты страницы "{{ $page->getTitle() }}"
+            </li>
+        @else
+            <li class="active">Страницы</li>
+        @endif
     </ol>
 </div>
 
@@ -30,7 +43,7 @@
                                 <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">
                                     <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
                                 </a>
-                                <a href="#ссылка-на-подпункты" class="title">
+                                <a href="{{ URL::route('admin.pages.children', ['id' => $page->id]) }}" class="title">
                                     {{ $page->getTitle() }}
                                 </a>
                             @else
@@ -95,8 +108,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Родитель</th>
+                                <th></th>
                                 <th width="30%">Заголовок</th>
+                                <th>Родитель</th>
                                 <th>Статус публикации</th>
                                 <th>Дата создания</th>
                                 <th>Дата обновления</th>
@@ -112,8 +126,15 @@
                         @foreach($pages as $page)
                             <tr>
                                 <td>{{ $page->id }}</td>
-                                <td>{{ ($page->parent) ? $page->parent->getTitle() : 'Нет'}}</td>
+                                <td>
+                                    @if($page->is_container && count($page->children))
+                                        <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
+                                    @else
+                                        <i class="fa fa-file-text-o" style="color: #293C4E"></i>
+                                    @endif
+                                </td>
                                 <td>{{ $page->getTitle() }}</td>
+                                <td>{{ ($page->parent) ? $page->parent->getTitle() : 'Нет'}}</td>
                                 <td>
                                     @if($page->is_published)
                                         <span class="label label-success">Опубликован</span>
