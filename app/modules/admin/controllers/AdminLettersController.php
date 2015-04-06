@@ -14,7 +14,13 @@ class AdminLettersController extends \BaseController {
 	 */
 	public function index()
 	{
-		$letters = Letter::orderBy('created_at', 'DESC')->whereNull('deleted_at')->paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$letters = Letter::orderBy($sortBy, $direction)->whereNull('deleted_at')->paginate(10);
+		} else {
+			$letters = Letter::orderBy('created_at', 'DESC')->whereNull('deleted_at')->paginate(10);
+		}
 
 		return View::make('admin::letters.index', compact('letters'));
 	}
@@ -26,7 +32,13 @@ class AdminLettersController extends \BaseController {
 	 */
 	public function trash()
 	{
-		$letters = Letter::orderBy('deleted_at', 'DESC')->whereNotNull('deleted_at')->paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$letters = Letter::orderBy($sortBy, $direction)->whereNotNull('deleted_at')->paginate(10);
+		} else {
+			$letters = Letter::orderBy('deleted_at', 'DESC')->whereNotNull('deleted_at')->paginate(10);
+		}
 
 		return View::make('admin::letters.trash', compact('letters'));
 	}

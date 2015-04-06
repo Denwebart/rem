@@ -171,10 +171,17 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function children($id)
 	{
-		$page = Page::find($id);
-		$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
+		$parentPage = Page::find($id);
 
-		return View::make('admin::pages.index', compact('page', 'pages'));
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$pages = Page::whereParentId($id)->orderBy($sortBy, $direction)->paginate(10);
+		} else {
+			$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
+		}
+
+		return View::make('admin::pages.index', compact('parentPage', 'pages'));
 	}
 
 }

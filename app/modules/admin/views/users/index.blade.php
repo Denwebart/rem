@@ -18,14 +18,30 @@
                         <table class="table table-hover table-striped">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Фото</th>
-                                <th>Роль</th>
-                                <th>Логин</th>
-                                <th>Имя</th>
-                                <th>Email</th>
-                                <th>Статус</th>
-                                <th>Дата регистрации</th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'ID', 'id') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Фото', 'avatar') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Роль', 'role') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Логин', 'login') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Имя', 'fullname') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Email', 'email') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Статус', 'is_active') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Дата регистрации', 'created_at') }}
+                                </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">
                                         <i class="fa fa-plus "></i> Создать
@@ -106,7 +122,7 @@
                             </tbody>
                         </table>
                         <div class="pull-left">
-                            {{ $users->links() }}
+                            {{ SortingHelper::paginationLinks($users) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->

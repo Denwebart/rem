@@ -88,14 +88,26 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
+                                            </th>
                                             <th></th>
                                             <th></th>
-                                            <th>Тема</th>
-                                            <th>Имя</th>
-                                            <th>Email</th>
-                                            <th>Дата создания</th>
-                                            <th>Дата удаления</th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Имя', 'name') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Email', 'email') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата создания', 'created_at') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата удаления', 'deleted_at') }}
+                                            </th>
                                             <th class="button-column"></th>
                                         </tr>
                                         </thead>

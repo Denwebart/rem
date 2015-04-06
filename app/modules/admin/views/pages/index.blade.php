@@ -1,20 +1,22 @@
 @extends('admin::layouts.admin')
 
+<?php $params = isset($parentPage) ? ['id' => $parentPage->id] : []; ?>
+
 @section('content')
 <div class="page-head">
     <h1>Страницы
-        <small>@if(isset($page)) подпункты страницы "{{ $page->getTitle() }}" @else все страницы сайта @endif</small>
+        <small>@if(isset($parentPage)) подпункты страницы "{{ $parentPage->getTitle() }}" @else все страницы сайта @endif</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        @if(isset($page))
+        @if(isset($parentPage))
             <li class="active">
                 <a href="{{ URL::route('admin.pages.index') }}">
                     Страницы
                 </a>
             </li>
             <li>
-                Подпункты страницы "{{ $page->getTitle() }}"
+                Подпункты страницы "{{ $parentPage->getTitle() }}"
             </li>
         @else
             <li class="active">Страницы</li>
@@ -107,24 +109,24 @@
                         <thead>
                             <tr>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'ID', 'id') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id', $params) }}
                                 </th>
                                 <th></th>
                                 <th width="30%">
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Заголовок', 'title') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
                                 <th>Родитель</th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Статус публикации', 'is_published') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата создания', 'created_at') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата обновления', 'updated_at') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата обновления', 'updated_at', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.pages.index', 'Дата публикации', 'published_at') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at', $params) }}
                                 </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.pages.create') }}">

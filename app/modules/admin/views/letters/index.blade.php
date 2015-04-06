@@ -87,14 +87,26 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'ID', 'id') }}
+                                            </th>
                                             <th></th>
                                             <th></th>
-                                            <th>Тема</th>
-                                            <th>Имя</th>
-                                            <th>Email</th>
-                                            <th>Дата создания</th>
-                                            <th>Дата прочтения</th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Тема', 'subject') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Имя', 'name') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Email', 'email') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Дата создания', 'created_at') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Дата прочтения', 'read_at') }}
+                                            </th>
                                             <th class="button-column"></th>
                                         </tr>
                                         </thead>
@@ -143,7 +155,7 @@
                                         </tbody>
                                     </table>
                                     <div class="pull-left">
-                                        {{ $letters->links() }}
+                                        {{ SortingHelper::paginationLinks($letters) }}
                                     </div>
                                 </div><!-- /.table-responsive -->
                             </div><!-- /.col -->

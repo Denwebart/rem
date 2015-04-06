@@ -14,7 +14,17 @@ class AdminUsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		$users = User::paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			if ($sortBy == 'fullname') {
+				$users = User::orderBy('firstname', $direction)->orderBy('lastname', $direction)->paginate(10);
+			} else {
+				$users = User::orderBy($sortBy, $direction)->paginate(10);
+			}
+		} else {
+			$users = User::orderBy('role', 'ASC')->paginate(10);
+		}
 
 		return View::make('admin::users.index', compact('users'));
 	}
