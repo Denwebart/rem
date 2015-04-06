@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     @foreach(Page::whereParentId(0)->get() as $page)
-                        <li class="{{ !$page->is_published ? 'not-published' : ''}}">
+                        <li{{ !$page->is_published ? ' class="not-published"' : ''}}>
                             @if($page->is_container && count($page->children))
                                 <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">
                                     <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
@@ -65,16 +65,15 @@
                         <script type="text/javascript">
 
                             // Открытие дерева
-                            $("#pages-tree .open").on('click', function(){
-
+                            $("#pages-tree").on('click', '.open', function(e){
                                 var link = $(this);
-
                                 if (link.parent().find('.children').length) {
-                                    if (link.parent().find('.children').is(':visible')) {
-                                        link.parent().find('.children').slideUp();
+                                    var children = link.parent().find('.children');
+                                    if (children.is(':visible')) {
+                                        children.slideUp();
                                         link.find('i').removeClass('fa-folder-open').addClass('fa-folder');
                                     } else {
-                                        link.parent().find('.children').slideDown();
+                                        children.slideDown();
                                         link.find('i').removeClass('fa-folder').addClass('fa-folder-open');
                                     }
                                 } else {
@@ -94,7 +93,7 @@
                                 }
                             });
 
-                            /*$('body').on('click', '.g_del', function()*/
+
                         </script>
 
                     @endsection
