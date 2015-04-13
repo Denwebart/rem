@@ -3,18 +3,18 @@
 class DateHelper
 {
     protected static $months = [
-		'1' => 'января',
-		'2' => 'февраля',
-		'3' => 'марта',
-		'4' => 'апреля',
-		'5' => 'мая',
-		'6' => 'июня',
-		'7' => 'июля',
-		'8' => 'августа',
-		'9' => 'сентября',
-		'10' => 'октября',
-		'11' => 'ноября',
-		'12' => 'декабря',
+		'1' => 'Января',
+		'2' => 'Февраля',
+		'3' => 'Марта',
+		'4' => 'Апреля',
+		'5' => 'Мая',
+		'6' => 'Июня',
+		'7' => 'Июля',
+		'8' => 'Августа',
+		'9' => 'Сентября',
+		'10' => 'Октября',
+		'11' => 'Ноября',
+		'12' => 'Декабря',
 	];
 
 	protected static $shortMonths = [
@@ -35,7 +35,7 @@ class DateHelper
 	/**
 	 * Формат даты для всего сайта
 	 *
-	 * @param $date Дата
+	 * @param string $date Дата
 	 * @param bool $withTime Если нужно время
 	 * @param bool $isShortMonth Месяц сокращен
 	 * @return string
@@ -44,15 +44,32 @@ class DateHelper
 	{
 		$timestamp = strtotime($date);
 		$month = ($isShortMonth) ?
-			self::$shortMonths[date('n', $timestamp)] : self::$sonths[date('n', $timestamp)];
+			self::$shortMonths[date('n', $timestamp)] : self::$months[date('n', $timestamp)];
 		$time = ($withTime) ? " H:i" : "";
 		return date("d $month Y" . $time, $timestamp);
 	}
 
 	/**
+	 * Формат даты для всего сайта
+	 *
+	 * @param string $date Дата
+	 * @param bool $withTime Если нужно время
+	 * @param bool $isShortMonth Месяц сокращен
+	 * @return string
+	 */
+	public static function date($format, $date)
+	{
+		$timestamp = strtotime($date);
+		if('M' == $format) {
+			return self::$months[date('n', $timestamp)];
+		}
+		return date($format, $timestamp);
+	}
+
+	/**
 	 * Время в формате "1 мин. наазд" и т.д
 	 *
-	 * @param $date Дата
+	 * @param string $date Дата
 	 * @return string
 	 */
 	public static function getRelativeTime($date)

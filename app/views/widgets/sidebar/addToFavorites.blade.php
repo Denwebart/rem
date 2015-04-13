@@ -1,10 +1,8 @@
 <div id="favorites-widget" class="sidebar-widget">
-    <h4>Добавить в закладки</h4>
-
-    <a href="javascript:void(0)" onclick="return addFavorite(this);">
-        Добавить сайт в закладки
+    <a href="javascript:void(0)" onclick="return addFavorite(this);" class="btn btn-default btn-raised">
+        <i class="mdi-action-grade"></i>
+        <span>Добавить сайт в закладки</span>
     </a>
-
 </div>
 @section('script')
     @parent
@@ -15,17 +13,14 @@
 //            var url = document.location;
             var title = "Школа авторемонта - Ремонт автомобиля своими руками";
             var url = "<?php echo Config::get('app.url')?>";
-
             try {
                 // Internet Explorer
                 window.external.AddFavorite(url, title);
-            }
-            catch (e) {
+            } catch (e) {
                 try {
                     // Mozilla
                     window.sidebar.addPanel(title, url, "");
-                }
-                catch (e) {
+                } catch (e) {
                     // Opera
                     if (typeof(opera)=="object" || window.sidebar) {
                         a.rel="sidebar";
@@ -33,8 +28,7 @@
                         a.url=url;
                         a.href=url;
                         return true;
-                    }
-                    else {
+                    } else {
                         // Unknown
                         alert('Нажмите Ctrl-D чтобы добавить страницу в закладки');
                     }

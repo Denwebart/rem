@@ -21,6 +21,10 @@
 		@if($page->content)
 			<div class="content">
 
+                @if($page->showViews())
+                    Количество просмотров: {{ $page->views }}
+                @endif
+
 				@if($page->showRating())
 					{{-- Рейтинг --}}
 

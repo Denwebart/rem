@@ -1,13 +1,24 @@
-<div id="unpopulars-sidebar-widget" class="sidebar-widget">
+<div id="unpopular-sidebar-widget" class="list-group sidebar-widget">
     <h4>Аутсайдеры</h4>
 
     @foreach($pages as $page)
-        <div class="item">
-            <a href="{{ URL::to($page->getUrl()) }}">
-                {{ $page->getTitle() }}
-            </a>
-            <div class="views">Просмотры: {{ $page->views }}</div>
+        <div class="list-group-item">
+            <div class="row-picture">
+                <img class="circle" src="/images/mini_default-image.jpg" alt="icon">
+                <div class="views">
+                    <i class="mdi-image-remove-red-eye"></i>
+                    <span>{{ $page->views }}</span>
+                </div>
+            </div>
+            <div class="row-content">
+                <p class="list-group-item-text">
+                    <a href="{{ URL::to($page->getUrl()) }}">
+                        {{ $page->getTitle() }}
+                    </a>
+                </p>
+            </div>
         </div>
+        <div class="list-group-separator"></div>
     @endforeach
 
 </div>
