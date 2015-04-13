@@ -11,6 +11,13 @@ View::share('title', $title);
 
 	<div class="content">
 
+		<div>
+			<h4>Сортировка</h4>
+			<a href="">по дате</a>
+			<a href="">по алфавиту</a>
+		</div>
+		<hr/>
+
 		@if(count($results))
 			@foreach($results as $result)
 
