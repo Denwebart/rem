@@ -9,6 +9,7 @@
                     <span class="day">{{ DateHelper::date('j', $page->published_at) }}</span>
                     <span class="month">{{ DateHelper::date('M', $page->published_at) }}</span>
                     <span class="year">{{ DateHelper::date('Y', $page->published_at) }}</span>
+                    <span class="time">{{ DateHelper::date('H:i', $page->published_at) }}</span>
                 </div>
             </div>
             <div class="row-content">

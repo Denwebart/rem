@@ -1,11 +1,12 @@
 @extends('layouts.main')
 
 @section('content')
-	<section id="content">
-		<ol class="breadcrumb">
-			<li><a href="{{ URL::to('/') }}">Главная</a></li>
-			<li>{{ $page->getTitle() }}</li>
-		</ol>
+	<ol class="breadcrumb">
+		<li><a href="{{ URL::to('/') }}">Главная</a></li>
+		<li>{{ $page->getTitle() }}</li>
+	</ol>
+	
+	<section id="content" class="well">
 
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>

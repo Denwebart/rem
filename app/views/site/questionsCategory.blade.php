@@ -1,19 +1,19 @@
 @extends('layouts.main')
 
 @section('content')
-    <section id="content">
+    <ol class="breadcrumb">
+        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        @if($page->parent)
+            <li>
+                <a href="{{ URL::to($page->parent->alias) }}">
+                    {{ $page->parent->getTitle() }}
+                </a>
+            </li>
+        @endif
+        <li>{{ $page->getTitle() }}</li>
+    </ol>
 
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('/') }}">Главная</a></li>
-            @if($page->parent)
-                <li>
-                    <a href="{{ URL::to($page->parent->alias) }}">
-                        {{ $page->parent->getTitle() }}
-                    </a>
-                </li>
-            @endif
-            <li>{{ $page->getTitle() }}</li>
-        </ol>
+    <section id="content" class="well">
 
         @if($page->title)
             <h2>{{ $page->title }}</h2>

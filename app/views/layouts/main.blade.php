@@ -158,7 +158,7 @@
     </div>
 </footer>
 
-
+<!-- JS -->
 {{HTML::script('js/jquery-1.10.2.min.js')}}
 {{HTML::script('js/bootstrap.min.js')}}
 

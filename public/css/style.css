@@ -2,6 +2,9 @@ body {
     padding: 0 0 20px !important;
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
 }
+.container {
+    width: 1270px;
+}
 a {
     color: #337AB7;
 }
@@ -64,23 +67,35 @@ a:focus {
 /*-- End Content --*/
 
 /*-- Navbar --*/
-/*-- Top menu --*/
-/*#navbar-top .navbar-nav > li > a {*/
-    /*padding: 5px 5px;*/
-/*}*/
-/*#navbar-top .navbar-nav > li > a:hover,*/
-/*#navbar-top .navbar-nav > li > a:focus,*/
-/*#navbar-top .navbar-nav > li.active > a {*/
-    /*text-decoration: underline;*/
-    /*background: none;*/
-/*}*/
+
+#navbar-top .navbar-nav > li > a {
+    padding: 5px 5px;
+}
+#navbar-top .navbar-nav > li > a:hover,
+#navbar-top .navbar-nav > li > a:focus,
+#navbar-top .navbar-nav > li.active > a {
+    text-decoration: underline;
+    background: none;
+}
+/*-- Bottom menu --*/
+footer #navbar-bottom li {
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+}
 /*-- Main menu --*/
 .navbar .navbar-nav > li > a {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
+    font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+.navbar #navbar-main .navbar-nav > li > a {
+    font-size: 16px;
+    color: #ffffff !important;
 }
 .navbar #navbar-main .navbar-nav > li > a:hover,
-.navbar #navbar-main .navbar-nav > li > a:focus {
+.navbar #navbar-main .navbar-nav > li > a:focus,
+.navbar #navbar-bottom .navbar-nav > li > a:hover,
+.navbar #navbar-bottom .navbar-nav > li > a:focus {
     color: inherit;
     background-color: rgba(255, 255, 255, 0.1) !important;
 }

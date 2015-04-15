@@ -12,7 +12,12 @@
             <ul class="nav navbar-nav">
                 @foreach($pages as $page)
                     <li class="dropdown {{ (Request::is($page->alias . '/*') || Request::is($page->alias)) ? 'active' : '' }}">
-                        <a href="{{ URL::to($page->alias) }}">{{ $page->getTitle() }}</a>
+                        <a href="{{ URL::to($page->alias) }}">
+                            {{ $page->getTitle() }}
+                            @if($page->show_submenu && count($page->publishedChildren))
+                                <b class="caret"></b>
+                            @endif
+                        </a>
                         @if($page->show_submenu && count($page->publishedChildren))
                             <ul class="dropdown-menu">
                                 @foreach($page->publishedChildren as $child)

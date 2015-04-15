@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-	<section id="content">
+	<section id="content" class="well">
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>
 		@endif
