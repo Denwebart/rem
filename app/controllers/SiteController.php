@@ -141,7 +141,7 @@ class SiteController extends BaseController {
 		$data = Input::all();
 		//Validation rules
 		$rules = [
-			'name' => 'required|min:3',
+			'name' => 'required|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u|min:3',
 			'email' => 'required|email',
 			'subject' => 'max:500',
 			'message' => 'required|min:5',

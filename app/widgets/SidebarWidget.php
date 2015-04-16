@@ -29,7 +29,7 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
-		$pages = Page::select([DB::raw('title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
+		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])

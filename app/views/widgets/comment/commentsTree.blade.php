@@ -29,13 +29,14 @@
                     <div class="reply-comment-form well" id="reply-comment-form-{{$comment->id}}" style="display: none;">
 
                         @if(Auth::check())
-                            <div id="successMessage"></div>
 
                             {{ Form::open([
                                   'action' => ['CommentsController@addComment', $page->id],
                                   'id' => 'comment-form-' . $comment->id,
                                 ])
                             }}
+
+                            <div class="successMessage"></div>
 
                             {{ Form::hidden('parent_id', $comment->id); }}
 
@@ -46,7 +47,7 @@
 
                             <div class="form-group">
                                 {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                <div id="comment_error"></div>
+                                <div class="comment_error error text-danger"></div>
                             </div>
 
                             {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
@@ -98,13 +99,14 @@
         <h3>Оставить комментарий</h3>
 
         @if(Auth::check())
-            <div id="successMessage"></div>
 
             {{ Form::open([
                   'action' => ['CommentsController@addComment', $page->id],
                   'id' => 'comment-form-0',
                 ])
             }}
+
+            <div class="successMessage"></div>
 
             {{ Form::hidden('parent_id', 0); }}
 
@@ -115,7 +117,7 @@
 
             <div class="form-group">
                 {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                <div id="comment_error"></div>
+                <div class="comment_error error text-danger"></div>
             </div>
 
             {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
@@ -145,16 +147,17 @@
             posting.done(function(data) {
                 if(data.fail) {
                     $.each(data.errors, function(index, value) {
-                        var errorDiv = '#' + index + '_error';
-                        $(errorDiv).addClass('required');
-                        $(errorDiv).empty().append(value);
+                        var errorDiv = '.' + index + '_error';
+                        $form.find(errorDiv).parent().addClass('has-error');
+                        $form.find(errorDiv).empty().append(value);
                     });
-                    $('#successMessage').empty();
+                    $form.find('.successMessage').empty();
                 }
                 if(data.success) {
                     var successContent = '<div class="message"><h3>Ваш комментарий успешно отправлен!</h3></div>';
-                    $('#successMessage').html(successContent);
-                    $($form).trigger('reset');
+                    $form.find('.successMessage').html(successContent);
+                    $form.trigger('reset');
+                    $form.find('.error').empty();
                 } //success
             }); //done
         });

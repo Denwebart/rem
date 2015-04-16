@@ -140,13 +140,14 @@ class Page extends \Eloquent
 
 	public function getUrl()
 	{
-		$parent = ($this->parent) ? $this->parent->alias . '/' : '';
-		if($parent) {
-			$parentParent = ($this->parent->parent) ? $this->parent->parent->alias . '/' : '';
-		} else {
-			$parentParent = '';
-		}
-		return $parentParent . $parent . $this->alias;
+		$parentUrl = ($this->parent) ? $this->parent->getUrl() . '/' : '';
+//		if($this->parent) {
+//			$parent = $this->parent;
+//			$parentParentUrl = ($parent->parent) ? $parent->parent->alias . '/' : '';
+//		} else {
+//			$parentParentUrl = '';
+//		}
+		return /*$parentParentUrl . */ $parentUrl . $this->alias;
 	}
 
 	public function getTitle()
