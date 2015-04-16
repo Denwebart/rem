@@ -79,6 +79,7 @@ View::share('page', $title);
             source: "<?php echo URL::route('users.autocomplete') ?>",
             minLength: 1,
             select: function(e, ui) {
+                $("#search-users-form #name").val(ui.item.value);
                 $("#search-users-form").submit();
             }
         });

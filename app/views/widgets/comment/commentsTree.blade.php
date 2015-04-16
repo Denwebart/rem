@@ -26,7 +26,7 @@
 
                     <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
 
-                    <div class="reply-comment-form well" id="reply-comment-form-{{$comment->id}}" style="display: none;">
+                    <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
 
                         @if(Auth::check())
 
@@ -95,7 +95,7 @@
     </div>
     <!-- end of .comments -->
 
-    <div class="comment-form well">
+    <div class="comment-form">
         <h3>Оставить комментарий</h3>
 
         @if(Auth::check())
