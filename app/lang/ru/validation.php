@@ -85,11 +85,11 @@ return array(
 	*/
 
 	'custom' => array(
-		'attribute-name' => array(
-			'rule-name' => 'custom-message',
-		),
 		'name' => array(
 			'regex' => 'Поле может содержать только буквы и пробелы',
+		),
+		'parent_id' => array(
+			'required' => 'Выбор категории обязателен',
 		),
 	),
 

@@ -4,13 +4,20 @@
 	<ol class="breadcrumb">
 		<li><a href="{{ URL::to('/') }}">Главная</a></li>
 		@if($page->parent)
+			@if($page->parent->parent)
+				<li>
+					<a href="{{ URL::to($page->parent->parent->getUrl()) }}">
+						{{ $page->parent->parent->getTitle() }}
+					</a>
+				</li>
+			@endif
 			<li>
-				<a href="{{ URL::to($page->parent->alias) }}">
+				<a href="{{ URL::to($page->parent->getUrl()) }}">
 					{{ $page->parent->getTitle() }}
 				</a>
 			</li>
 		@endif
-		<li>{{ $page->getTitle() }}</li>
+		<li>{{ $page->getTitleForBreadcrumbs() }}</li>
 	</ol>
 
 	<section id="content" class="well">

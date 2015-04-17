@@ -55,12 +55,23 @@ class Page extends \Eloquent
 {
 	protected $table = 'pages';
 
+	const TYPE_PAGE = 1;
+	const TYPE_QUESTION = 2;
+	const TYPE_ARTICLE = 3;
+
+	public static $types = [
+		self::TYPE_PAGE => 'Страница',
+		self::TYPE_QUESTION => 'Вопрос',
+		self::TYPE_ARTICLE => 'Статья',
+	];
+
 	public $publishedTime;
 
 	public $show_rating;
 	public $show_comments;
 
 	protected $fillable = [
+		'type',
 		'parent_id',
 		'user_id',
 		'is_published',
@@ -80,6 +91,7 @@ class Page extends \Eloquent
 	];
 
 	public static $rules = [
+		'type' => 'integer',
 		'parent_id' => 'integer',
 		'user_id' => 'required|integer',
 		'is_published' => 'boolean',
@@ -97,6 +109,15 @@ class Page extends \Eloquent
 		'meta_title' => 'max:600',
 		'meta_desc' => 'max:1500',
 		'meta_key' => 'max:1500',
+	];
+
+	public static $rulesForUsers = [
+		'type' => 'integer',
+		'parent_id' => 'required|integer',
+		'user_id' => 'required|integer',
+		'image' => 'mimes:jpeg,bmp,png|max:3072',
+		'title' => 'required|max:500',
+		'content' => 'required'
 	];
 
 	public function parent()
@@ -141,18 +162,24 @@ class Page extends \Eloquent
 	public function getUrl()
 	{
 		$parentUrl = ($this->parent) ? $this->parent->getUrl() . '/' : '';
-//		if($this->parent) {
-//			$parent = $this->parent;
-//			$parentParentUrl = ($parent->parent) ? $parent->parent->alias . '/' : '';
-//		} else {
-//			$parentParentUrl = '';
-//		}
-		return /*$parentParentUrl . */ $parentUrl . $this->alias;
+		return $parentUrl . $this->alias;
 	}
 
 	public function getTitle()
 	{
 		return ($this->menu_title) ? $this->menu_title : $this->title;
+	}
+
+	public function getTitleForBreadcrumbs()
+	{
+		$maxLength = 65;
+		if($this->parent) {
+			$parentLength = Str::length($this->parent->getTitle());
+			$length = $maxLength - $parentLength;
+		} else {
+			$length = $maxLength;
+		}
+		return Str::limit($this->getTitle(), $length);
 	}
 
 	public function getRating()

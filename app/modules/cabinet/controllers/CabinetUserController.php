@@ -11,7 +11,6 @@ class CabinetUserController extends \BaseController
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');
-//			dd($login, Auth::user()->getLoginForUrl());
 			if(Auth::user()->getLoginForUrl() != $login && !Auth::user()->isAdmin()) {
 				App::abort(403, 'Unauthorized action.');
 			}
@@ -243,8 +242,90 @@ class CabinetUserController extends \BaseController
 
 	public function questions($login)
 	{
+		$user = User::whereLogin($login)->firstOrFail();
+
+		if(Auth::user()->getLoginForUrl() == $login) {
+			$questions = Page::whereType(Page::TYPE_QUESTION)
+				->whereUserId($user->id)
+				->paginate(10);
+		} else {
+			$questions = Page::whereType(Page::TYPE_QUESTION)
+				->whereUserId($user->id)
+				->whereIsPublished(1)
+				->paginate(10);
+		}
+		View::share('user', $user);
+		return View::make('cabinet::user.questions', compact('questions'));
+	}
+
+	public function createQuestion($login)
+	{
+		$question = new Page();
+
 		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.questions');
+		return View::make('cabinet::user.createQuestion', compact('question'));
+	}
+
+	public function storeQuestion()
+	{
+		$data = Input::all();
+
+		$data['type'] = Page::TYPE_QUESTION;
+		$data['user_id'] = Auth::user()->id;
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		Page::create($data);
+
+		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
+	}
+
+	public function editQuestion($login, $id)
+	{
+		$question = Page::findOrFail($id);
+
+		View::share('user', User::whereLogin($login)->firstOrFail());
+		return View::make('cabinet::user.editQuestion', compact('question'));
+	}
+
+	public function updateQuestion($login, $id)
+	{
+		$page = Page::findOrFail($id);
+
+		$data = Input::all();
+
+		$data['type'] = Page::TYPE_QUESTION;
+		$data['user_id'] = Auth::user()->id;
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$page->update($data);
+
+		return Redirect::route('user.questions', ['login' => $login]);
+	}
+
+	public function deleteQuestion($login)
+	{
+		if(Request::ajax())
+		{
+			$question = Page::findOrFail(Input::get('questionId'));
+
+			$question->delete();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
 	}
 
 	public function journal($login)
