@@ -1,6 +1,9 @@
 <?php
 
 return [
+	// Url сайта без "http://"
+	'siteUrl' => 'avtorem.dev',
+
 	'metaAuthor' => '',
 	'metaRobots' => 'noindex, nofollow',
 	'metaCopyright' => '',

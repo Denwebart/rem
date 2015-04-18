@@ -81,9 +81,9 @@ View::share('title', $title);
     <script type="text/javascript">
         CKEDITOR.replace('description', {
             toolbar: [
-                [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
-                { name: 'links', items: [ 'Link', 'Unlink'] },
+                {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
+                {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
+                {name: 'links', items: ['Link', 'Unlink']},
             ]
         })
     </script>

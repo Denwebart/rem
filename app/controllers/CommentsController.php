@@ -12,7 +12,7 @@ class CommentsController extends BaseController
 				'page_id' => $id,
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::user()->id,
-				'comment' => $formFields['comment'],
+				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 			);
 
 			$validator = Validator::make($userData, Comment::$rules);

@@ -83,7 +83,8 @@ footer #navbar-bottom li {
     margin-right: 0 !important;
 }
 /*-- Main menu --*/
-.navbar #navbar-main .navbar-nav {
+.navbar #navbar-main .navbar-nav,
+.navbar #navbar-bottom .navbar-nav {
     float: none;
     display: inline-block;
 }
@@ -103,9 +104,11 @@ footer #navbar-bottom li {
     color: inherit;
     background-color: rgba(255, 255, 255, 0.1) !important;
 }
-#navbar-main {
+#navbar-main,
+#navbar-bottom {
     padding: 0;
     text-align: center;
+    height: 50px !important;
 }
 #navbar-main .dropdown:hover .dropdown-menu {
     display: block;

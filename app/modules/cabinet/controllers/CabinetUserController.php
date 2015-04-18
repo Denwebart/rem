@@ -89,6 +89,7 @@ class CabinetUserController extends \BaseController
 		}
 		// загрузка изображения
 
+		$data['description'] = StringHelper::nofollowLinks($data['description']);
 		$user->update($data);
 
 		return Redirect::route('user.profile', ['login' => $user->login]);
@@ -203,7 +204,7 @@ class CabinetUserController extends \BaseController
 
 		if($data = Input::all()) {
 			$data['user_id'] = $user->id;
-			$validator = Validator::make($data, UserImage::$rules);
+			$validator = Validator::make($data, UserImage::$rulesEdit);
 
 			if ($validator->fails())
 			{
@@ -231,6 +232,8 @@ class CabinetUserController extends \BaseController
 				$data['image'] = is_null($data['image']) ? $usersImage->image : $data['image'];
 			}
 			// загрузка изображения
+
+			$data['description'] = StringHelper::nofollowLinks($data['description']);
 
 			if($usersImage->update($data)) {
 				return Redirect::route('user.gallery', ['login' => $user->login]);
@@ -272,6 +275,7 @@ class CabinetUserController extends \BaseController
 
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = Auth::user()->id;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -301,6 +305,7 @@ class CabinetUserController extends \BaseController
 
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = Auth::user()->id;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -439,7 +444,7 @@ class CabinetUserController extends \BaseController
 			$messageData = array(
 				'user_id_sender' => Auth::user()->id,
 				'user_id_recipient' => $id,
-				'message' => $formFields['message'],
+				'message' => StringHelper::nofollowLinks($formFields['message']),
 			);
 
 			$validator = Validator::make($messageData, Message::$rules);

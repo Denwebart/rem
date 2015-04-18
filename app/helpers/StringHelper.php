@@ -3,8 +3,7 @@
 class StringHelper
 {
 	/**
-	 * Поиск фрагмента текста с искомым словом,
-	 * подсветка искомого слова
+	 * Searching text fragment with concrete word and marking it
 	 *
 	 * @param string $text
 	 * @param string $word
@@ -23,12 +22,13 @@ class StringHelper
 	}
 
 	/**
-	 * Закрытие html тегов
+	 * Closing html tags which not closed
 	 *
 	 * @param string $html
 	 * @return string
 	 */
-	public static function closeTags($html) {
+	public static function closeTags($html)
+	{
 		preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
 		$openedtags = $result[1];
 		preg_match_all('#</([a-z]+)>#iU', $html, $result);
@@ -47,4 +47,36 @@ class StringHelper
 		}
 		return $html;
 	}
+
+	/**
+	 * Adding attribute rel=nofollow to the links
+	 *
+	 * @param string $html
+	 * @return string
+	 */
+	public static function nofollowLinks($html)
+	{
+		// ~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~
+		$html = preg_replace("~<a.*?</a>(*SKIP)(*F)|(http|https|ftp|ftps)://(\S+)~", '<a href="$1://$2">$1://$2</a>',$html);
+
+		return preg_replace_callback('/<a href="(.*?)"(.*?)>/', [new StringHelper(), 'checkLinksAndReplace'], $html);
+	}
+
+	/**
+	 * Checking links for adding attribute
+	 * rel="nofollow" and target="_blank" if link is referal
+	 *
+	 * @param $link
+	 * @return string
+	 */
+    public function checkLinksAndReplace($link)
+    {
+	    if($link[1][0]=='/' || (strpos($link[1], Config::get('settings.siteUrl'))!==false) ) {
+		    return $link[0];
+	    }
+	    else {
+		    return '<a href="'.$link[1].'" rel="nofollow" target="_blank">';
+	    }
+	}
+
 }

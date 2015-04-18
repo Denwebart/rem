@@ -51,6 +51,16 @@ class UserImage extends \Eloquent
 		'votes_dislike' => 'integer',
 	];
 
+	public static $rulesEdit = [
+		'user_id' => 'required|integer',
+		'is_published' => 'boolean',
+		'title' => 'max:300',
+		'image' => 'mimes:jpeg,bmp,png|max:3072',
+		'desctiption' => 'max:2000',
+		'votes_like' => 'integer',
+		'votes_dislike' => 'integer',
+	];
+
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id');

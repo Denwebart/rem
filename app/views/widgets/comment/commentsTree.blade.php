@@ -46,7 +46,7 @@
                             </a>
 
                             <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                                 <div class="comment_error error text-danger"></div>
                             </div>
 
@@ -116,7 +116,7 @@
             </a>
 
             <div class="form-group">
-                {{ Form::textarea('comment', '', ['class' => 'form-control', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                 <div class="comment_error error text-danger"></div>
             </div>
 
@@ -136,10 +136,26 @@
 @section('script')
     @parent
 
+    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        CKEDITOR.config.toolbar = [
+            {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
+            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
+            {name: 'links', items: ['Link', 'Unlink']},
+            {name: 'image', items: ['Image']}
+        ];
+        CKEDITOR.replaceAll('editor');
+
+    </script>
+
+
     <script type="text/javascript">
 
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
@@ -158,6 +174,9 @@
                     $form.find('.successMessage').html(successContent);
                     $form.trigger('reset');
                     $form.find('.error').empty();
+                    for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].setData('');
+                    }
                 } //success
             }); //done
         });
