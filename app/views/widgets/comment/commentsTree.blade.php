@@ -1,5 +1,5 @@
 <section id="comments-widget">
-    <h3>Комментарии ({{ count($page->publishedComments) }})</h3>
+    <h3>{{ $title }} ({{ count($page->publishedComments) }})</h3>
 
     <div class="comments">
 
@@ -96,7 +96,7 @@
     <!-- end of .comments -->
 
     <div class="comment-form">
-        <h3>Оставить комментарий</h3>
+        <h3>{{ $formTitle }}</h3>
 
         @if(Auth::check())
 
@@ -170,7 +170,7 @@
                     $form.find('.successMessage').empty();
                 }
                 if(data.success) {
-                    var successContent = '<div class="message"><h3>Ваш комментарий успешно отправлен!</h3></div>';
+                    var successContent = '<div class="message"><h3>{{ $successMessage }}</h3></div>';
                     $form.find('.successMessage').html(successContent);
                     $form.trigger('reset');
                     $form.find('.error').empty();

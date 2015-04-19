@@ -30,14 +30,23 @@
         @endif
 
         @if(Auth::check())
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="" class="btn btn-success pull-right">Ответить</a>
-                </div>
-            </div>
+            {{--<div class="row">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<a href="" class="btn btn-success pull-right">Ответить</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         @endif
 
-
+        <div id="answers">
+            {{-- Комментарии --}}
+            <?php
+                $commentWidget = app('CommentWidget');
+                $commentWidget->title = 'Ответы';
+                $commentWidget->formTitle = 'Написать ответ';
+                $commentWidget->successMessage = 'Спасибо за ответ!';
+            ?>
+            {{ $commentWidget->show($page) }}
+        </div>
 
     </section>
 @stop

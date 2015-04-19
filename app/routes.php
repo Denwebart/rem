@@ -60,9 +60,9 @@ Route::get('sitemap.xml', 'SiteController@sitemapXml');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 
-Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'voprosotvet');
-Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'voprosotvet');
-Route::get('{questionsAlias}/{categoryAlias}/{alias}', 'SiteController@question')->where('questionsAlias', 'voprosotvet');
+Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias}/{categoryAlias}/{alias}', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('comment/vote/{id}', 'CommentsController@vote');

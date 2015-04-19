@@ -83,18 +83,26 @@ class SiteController extends BaseController {
 
 	public function questions($alias)
 	{
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$questions = Page::whereType(Page::TYPE_QUESTION)
+			->whereIsPublished(1)
+			->orderBy('published_at', 'DESC')
+			->paginate(10);
 
-		View::share('page', $page);
-		return View::make('site.questions');
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		return View::make('site.questions', compact('questions'));
 	}
 
 	public function questionsCategory($questionsAlias, $alias)
 	{
 		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$questions = Page::whereType(Page::TYPE_QUESTION)
+			->whereParentId($page->id)
+			->whereIsPublished(1)
+			->orderBy('published_at', 'DESC')
+			->paginate(10);
 
 		View::share('page', $page);
-		return View::make('site.questionsCategory');
+		return View::make('site.questionsCategory', compact('questions'));
 	}
 
 	public function question($questionsAlias, $categoryAlias, $alias)

@@ -4,6 +4,7 @@
  * Page
  *
  * @property integer $id
+ * @property integer $type
  * @property integer $parent_id
  * @property integer $user_id
  * @property boolean $is_published
@@ -27,7 +28,8 @@
  * @property string $meta_desc
  * @property string $meta_key
  * @method static \Illuminate\Database\Query\Builder|\Page whereId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereParentId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Page whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereParentId($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereUserId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereIsPublished($value) 
  * @method static \Illuminate\Database\Query\Builder|\Page whereAlias($value) 
@@ -146,6 +148,11 @@ class Page extends \Eloquent
 	{
 		return $this->hasMany('Comment', 'page_id')
 			->whereIsPublished(1);
+	}
+
+	public function user()
+	{
+		return $this->belongsTo('User', 'user_id');
 	}
 
 	public static function boot()

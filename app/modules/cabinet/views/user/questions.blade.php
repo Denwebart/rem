@@ -39,14 +39,16 @@ View::share('title', $title);
 
                     <div data-question-id="{{ $question->id }}" class="col-md-12">
                         <div class="well">
-                            <div class="pull-right">
-                                <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
-                                    Редактировать
-                                </a>
-                                <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
-                                    Удалить
-                                </a>
-                            </div>
+                            @if(Auth::user()->is($user))
+                                <div class="pull-right">
+                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
+                                        Редактировать
+                                    </a>
+                                    <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
+                                        Удалить
+                                    </a>
+                                </div>
+                            @endif
                             <h3>
                                 <a href="{{ URL::to($question->getUrl()) }}">
                                     {{ $question->title }}
