@@ -56,9 +56,7 @@ class StringHelper
 	 */
 	public static function nofollowLinks($html)
 	{
-		// ~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~
-		$html = preg_replace("~<a.*?</a>(*SKIP)(*F)|(http|https|ftp|ftps)://(\S+)~", '<a href="$1://$2">$1://$2</a>',$html);
-
+		$html = preg_replace("~<a.*?</a>(*SKIP)(*F)|(http|https|ftp|ftps)://([^\s\[<]+)~i", '<a href="$1://$2">$1://$2</a>', $html);
 		return preg_replace_callback('/<a href="(.*?)"(.*?)>/', [new StringHelper(), 'checkLinksAndReplace'], $html);
 	}
 
