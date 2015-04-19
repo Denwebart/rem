@@ -168,6 +168,12 @@
                             @endif
                         </a>
                     </li>
+                    <li class="messages {{ Route::is('user.savedPages') ? 'active' : '' }}">
+                        <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl()]) }}">
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            <span>Сохранённое</span>
+                        </a>
+                    </li>
                 @endif
                 <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">

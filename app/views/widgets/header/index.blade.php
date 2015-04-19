@@ -150,6 +150,9 @@
                             <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
                         </li>
                         <li>
+                            <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl() ]) }}"><i class="glyphicon glyphicon-floppy-disk"></i>Сохранённое</a>
+                        </li>
+                        <li>
                             <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
                         </li>
                         <li class="footer">

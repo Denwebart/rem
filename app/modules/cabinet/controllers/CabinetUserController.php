@@ -469,6 +469,42 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	public function savedPages($login)
+	{
+		$user = User::whereLogin($login)->with('savedPages')->firstOrFail();
+		$pages = UserPage::whereUserId($user->id)
+			->orderBy('created_at', 'DESC')
+			->paginate(10);
+		View::share('user', $user);
+
+		return View::make('cabinet::user.savedPages', compact('pages'));
+	}
+
+	public function savePage($login)
+	{
+		if(Request::ajax()) {
+
+			$userId = Auth::user()->id;
+			$pageId = Input::get('pageId');
+
+			$userPage = UserPage::whereUserId($userId)->wherePageId($pageId)->find();
+			dd($userPage);
+
+			$userPage = new UserPage();
+			$userPage->user_id = Auth::user()->id;
+			$userPage->page_id = $pageId;
+
+			if($userPage->save()) {
+				return Response::json(array(
+					'success' => true,
+					'message' => 'Страница сохранена'
+				));
+			} else {
+				dd('error');
+			}
+		}
+	}
+
 	public function subscriptions($login)
 	{
 		View::share('user', User::whereLogin($login)->firstOrFail());

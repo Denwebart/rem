@@ -110,6 +110,12 @@
 					@endsection
 				@endif
 
+                @if(Auth::check() && $page->isLastLevel())
+                    <a href="#" class="">
+                        <i class="glyphicon glyphicon-floppy-save"></i>
+                    </a>
+                @endif
+
 				{{ $page->content }}
 			</div>
 		@endif

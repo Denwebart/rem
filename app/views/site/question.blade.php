@@ -23,6 +23,37 @@
         @if($page->title)
             <h2>{{ $page->title }}</h2>
         @endif
+
+        @if(Auth::check())
+            <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}">
+                <i class="glyphicon glyphicon-floppy-save"></i>
+            </a>
+
+            @section('script')
+                <script type="text/javascript">
+                    $("#save-page").on('click', function() {
+                        var pageId = $(this).data('pageId');
+                        $.ajax({
+                            url: "{{ URL::route('user.savePage', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                            dataType: "text json",
+                            type: "POST",
+                            data: {pageId: 'pageId'},
+                            success: function(response) {
+                                alert('done');
+//                                if(response.success){
+//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
+//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+//                                } else {
+//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+//                                }
+                            }
+                        });
+
+                    });
+                </script>
+            @endsection
+        @endif
+
         @if($page->content)
             <div class="content">
                 {{ $page->content }}
@@ -30,11 +61,11 @@
         @endif
 
         @if(Auth::check())
-            {{--<div class="row">--}}
-                {{--<div class="col-md-12">--}}
-                    {{--<a href="" class="btn btn-success pull-right">Ответить</a>--}}
-                {{--</div>--}}
-            {{--</div>--}}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="" class="btn btn-success pull-right">Подписаться на вопрос</a>
+                </div>
+            </div>
         @endif
 
         <div id="answers">

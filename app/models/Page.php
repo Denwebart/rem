@@ -212,6 +212,10 @@ class Page extends \Eloquent
 		return ($this->show_rating) ? $this->show_rating : ((!$this->is_container) ? true : false);
 	}
 
+	public function isLastLevel() {
+		return (!$this->is_container && $this->parent) ? true : false;
+	}
+
 	public function showViews() {
 		return ($this->show_rating) ? $this->show_rating : ((!$this->is_container) ? true : false);
 	}

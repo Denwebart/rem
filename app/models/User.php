@@ -292,5 +292,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION);
 	}
 
+	/**
+	 * Сохраненные страницы пользователя ("Сохраненное")
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function savedPages()
+	{
+		return $this->belongsToMany('Page', 'users_pages');
+	}
+
 
 }
