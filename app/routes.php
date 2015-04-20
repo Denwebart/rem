@@ -41,6 +41,7 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::post('messages/addMessage/{id}', ['as' => 'user.addMessage', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'uses' => 'CabinetUserController@savePage']);
+	Route::post('{login}/removePage', ['as' => 'user.removePage', 'uses' => 'CabinetUserController@removePage']);
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
 });
 

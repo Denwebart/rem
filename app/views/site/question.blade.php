@@ -24,34 +24,9 @@
             <h2>{{ $page->title }}</h2>
         @endif
 
-        @if(Auth::check())
-            <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}">
-                <i class="glyphicon glyphicon-floppy-save"></i>
-            </a>
-
-            @section('script')
-                <script type="text/javascript">
-                    $("#save-page").on('click', function() {
-                        var pageId = $(this).data('pageId');
-                        $.ajax({
-                            url: "{{ URL::route('user.savePage', ['login' => Auth::user()->getLoginForUrl()]) }}",
-                            dataType: "text json",
-                            type: "POST",
-                            data: {pageId: 'pageId'},
-                            success: function(response) {
-                                alert('done');
-//                                if(response.success){
-//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
-//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
-//                                } else {
-//                                    $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
-//                                }
-                            }
-                        });
-
-                    });
-                </script>
-            @endsection
+        @if(Auth::check() && $page->isLastLevel())
+            <!-- Сохранение страницы в избранное ("Сохраненное") -->
+            @include('site._savedPages')
         @endif
 
         @if($page->content)

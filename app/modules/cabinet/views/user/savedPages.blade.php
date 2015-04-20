@@ -28,30 +28,50 @@ View::share('title', $title);
             <h2>{{ $title }}</h2>
 
             <div id="saved-pages">
-
                 @foreach($pages as $page)
+                    @if($page->page)
+                        <div data-page-id="{{ $page->page->id }}" class="col-md-12">
+                            <div class="well">
+                                <div class="pull-right">
+                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page->id }}">
+                                        <i class="glyphicon glyphicon-floppy-remove"></i>
+                                    </a>
+                                </div>
+                                <h3>
+                                    <a href="{{ URL::to($page->page->getUrl()) }}">
+                                        {{ $page->page->getTitle() }}
+                                    </a>
+                                </h3>
+                                <div class="date date-create">
+                                    <i>
+                                        Добавлена {{ DateHelper::dateFormat($page->created_at) }}
+                                    </i>
+                                </div>
+                                <div>
+                                    {{ $page->page->getIntrotext() }}
+                                </div>
 
-                    <div data-question-id="{{ $page->page->id }}" class="col-md-12">
-                        <div class="well">
-                            <div class="pull-right">
-                                <a href="#" class="">
-                                    <i class="glyphicon glyphicon-floppy-remove"></i>
-                                </a>
                             </div>
-                            <h3>
-                                <a href="{{ URL::to($page->page->getUrl()) }}">
-                                    {{ $page->page->title }}
-                                </a>
-                            </h3>
-                            <div class="date date-create">{{ $page->page->created_at }}</div>
-
-                            <div>
-                                {{ $page->page->content }}
-                            </div>
-
                         </div>
-                    </div>
-
+                    @else
+                        <div data-page-id="{{ $page->page_id }}" class="col-md-12">
+                            <div class="well">
+                                <div class="pull-right">
+                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
+                                        <i class="glyphicon glyphicon-floppy-remove"></i>
+                                    </a>
+                                </div>
+                                <div class="date date-create">
+                                    <i>
+                                        Добавлена {{ DateHelper::dateFormat($page->created_at) }}
+                                    </i>
+                                </div>
+                                <div>
+                                    Страница была удалена
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
 
                 <div>
@@ -63,3 +83,23 @@ View::share('title', $title);
         </div>
     </div>
 @stop
+
+@section('script')
+    <script type="text/javascript">
+        $("#remove-page").on('click', function() {
+            var $link = $(this);
+            var pageId = $link.data('id');
+            $.ajax({
+                url: "{{ URL::route('user.removePage', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                dataType: "text json",
+                type: "POST",
+                data: {pageId: pageId},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-page-id=' + pageId + ']').remove();
+                    }
+                }
+            });
+        });
+    </script>
+@endsection

@@ -25,6 +25,7 @@
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>
 		@endif
+
 		@if($page->content)
 			<div class="content">
 
@@ -111,9 +112,8 @@
 				@endif
 
                 @if(Auth::check() && $page->isLastLevel())
-                    <a href="#" class="">
-                        <i class="glyphicon glyphicon-floppy-save"></i>
-                    </a>
+					<!-- Сохранение страницы в избранное ("Сохраненное") -->
+					@include('site._savedPages')
                 @endif
 
 				{{ $page->content }}

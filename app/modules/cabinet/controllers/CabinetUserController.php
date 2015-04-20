@@ -483,24 +483,44 @@ class CabinetUserController extends \BaseController
 	public function savePage($login)
 	{
 		if(Request::ajax()) {
-
-			$userId = Auth::user()->id;
 			$pageId = Input::get('pageId');
 
-			$userPage = UserPage::whereUserId($userId)->wherePageId($pageId)->find();
-			dd($userPage);
+			if(!Auth::user()->hasInSaved($pageId)) {
+				$userPage = new UserPage();
+				$userPage->user_id = Auth::user()->id;
+				$userPage->page_id = $pageId;
 
-			$userPage = new UserPage();
-			$userPage->user_id = Auth::user()->id;
-			$userPage->page_id = $pageId;
+				if($userPage->save()) {
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Страница сохранена.'
+					));
+				}
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Страница уже сохранена.'
+				));
+			}
+		}
+	}
 
-			if($userPage->save()) {
+	public function removePage($login)
+	{
+		if(Request::ajax()) {
+			$pageId = Input::get('pageId');
+
+			if(UserPage::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
+				UserPage::whereUserId(Auth::user()->id)->wherePageId($pageId)->delete();
 				return Response::json(array(
 					'success' => true,
-					'message' => 'Страница сохранена'
+					'message' => 'Страница удалена из сохраненных.'
 				));
 			} else {
-				dd('error');
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Страница уже удалена из сохраненных.'
+				));
 			}
 		}
 	}
