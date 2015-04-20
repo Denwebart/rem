@@ -27,7 +27,9 @@
         @if(Auth::check())
             <div class="row">
                 <div class="col-md-12">
-                    <a href="" class="btn btn-success pull-right">Задать вопрос</a>
+                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id]) }}" class="btn btn-success pull-right">
+                        Задать вопрос
+                    </a>
                 </div>
             </div>
         @endif

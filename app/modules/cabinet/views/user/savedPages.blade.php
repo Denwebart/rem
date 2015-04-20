@@ -50,7 +50,6 @@ View::share('title', $title);
                                 <div>
                                     {{ $page->page->getIntrotext() }}
                                 </div>
-
                             </div>
                         </div>
                     @else

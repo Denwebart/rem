@@ -250,11 +250,13 @@ class CabinetUserController extends \BaseController
 		if(Auth::user()->getLoginForUrl() == $login) {
 			$questions = Page::whereType(Page::TYPE_QUESTION)
 				->whereUserId($user->id)
+				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		} else {
 			$questions = Page::whereType(Page::TYPE_QUESTION)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
+				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}
 		View::share('user', $user);
@@ -264,7 +266,9 @@ class CabinetUserController extends \BaseController
 	public function createQuestion($login)
 	{
 		$question = new Page();
-
+		if(Input::get('category')) {
+			$question->parent_id = Input::get('category');
+		}
 		View::share('user', User::whereLogin($login)->firstOrFail());
 		return View::make('cabinet::user.createQuestion', compact('question'));
 	}
@@ -401,7 +405,7 @@ class CabinetUserController extends \BaseController
 			->get();
 
 		View::share('user', $user);
-		return View::make('cabinet::user.dialog', compact(['companion', 'messages', 'companions']));
+		return View::make('cabinet::user.dialog', compact('companion', 'messages', 'companions'));
 	}
 
 	/**
