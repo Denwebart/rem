@@ -5,7 +5,7 @@
         <li><a href="{{ URL::to('/') }}">Главная</a></li>
         @if($page->parent)
             <li>
-                <a href="{{ URL::to($page->parent->alias) }}">
+                <a href="{{ URL::to($page->parent->getUrl()) }}">
                     {{ $page->parent->getTitle() }}
                 </a>
             </li>
@@ -27,14 +27,14 @@
         @if(Auth::check())
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id]) }}" class="btn btn-success pull-right">
                         Написать статью
                     </a>
                 </div>
             </div>
         @endif
 
-        @if(count($page->publishedChildren))
+        @if(count($articles))
             <section id="blog-area">
                 @foreach($articles as $article)
                     <div class="row">
@@ -53,11 +53,6 @@
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
-                                @if($article->user_id == Auth::user()->id)
-                                    <a href="{{ URL::route('user.questions.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                        Редактировать
-                                    </a>
-                                @endif
                                 <a href="{{ URL::to($article->parent->getUrl()) }}">
                                     {{ $article->parent->getTitle() }}
                                 </a>
@@ -68,7 +63,6 @@
                             </a>
                         </div>
                     </div>
-                    <hr/>
                 @endforeach
                 <div>
                     {{ $articles->links() }}

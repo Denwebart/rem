@@ -34,6 +34,7 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::put('{login}/questions/{id}', ['as' => 'user.questions.update', 'uses' => 'CabinetUserController@updateQuestion']);
 	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'uses' => 'CabinetUserController@deleteQuestion']);
 	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
+	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
@@ -62,6 +63,8 @@ Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHt
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{alias}', 'JournalController@category')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{categoryAlias}/{alias}', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');

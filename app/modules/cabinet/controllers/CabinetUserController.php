@@ -343,6 +343,36 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.journal');
 	}
 
+	public function createJournal($login)
+	{
+//		$question = new Page();
+//		if(Input::get('category')) {
+//			$question->parent_id = Input::get('category');
+//		}
+//		View::share('user', User::whereLogin($login)->firstOrFail());
+//		return View::make('cabinet::user.createQuestion', compact('question'));
+	}
+
+	public function storeJournal()
+	{
+//		$data = Input::all();
+//
+//		$data['type'] = Page::TYPE_QUESTION;
+//		$data['user_id'] = Auth::user()->id;
+//		$data['content'] = StringHelper::nofollowLinks($data['content']);
+//
+//		$validator = Validator::make($data, Page::$rulesForUsers);
+//
+//		if ($validator->fails())
+//		{
+//			return Redirect::back()->withErrors($validator)->withInput();
+//		}
+//
+//		Page::create($data);
+//
+//		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
+	}
+
 	public function comments($login)
 	{
 		View::share('user', User::whereLogin($login)->with('comments')->firstOrFail());

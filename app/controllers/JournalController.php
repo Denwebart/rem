@@ -27,17 +27,34 @@ class JournalController extends BaseController {
 
 	public function index($alias)
 	{
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$articles = Page::whereType(Page::TYPE_ARTICLE)
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->orderBy('published_at', 'DESC')
+			->paginate(10);
 
-		$articles = Page::whereHas('parent', function($q) use ($page) {
-			$q->where('parent_id', '=', $page->id);
-		})->get();
-
-		dd($articles);
-
-		View::share('page', $page);
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('journal.index', compact('articles'));
 	}
 
+	public function category($journalAlias, $alias)
+	{
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$articles = Page::whereType(Page::TYPE_ARTICLE)
+			->whereParentId($page->id)
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->orderBy('published_at', 'DESC')
+			->paginate(10);
+
+		View::share('page', $page);
+		return View::make('journal.category', compact('articles'));
+	}
+
+	public function article($journalAlias, $categoryAlias, $alias)
+	{
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		return View::make('journal.article');
+	}
 
 }

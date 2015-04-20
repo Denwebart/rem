@@ -39,37 +39,7 @@ class SiteController extends BaseController {
 
 	public function secondLevel($categoryAlias, $alias)
 	{
-
-//				with(array('parent' => function($query)
-//			{
-//				$query->where('parent_id', '=', 0);
-//
-//			}))
-//		getPageByAlias($alias)
-//			->whereHas('parent', function($q)
-//			{
-//				return $q->where('parent_id', '=', 0);
-//
-//			})
-
-//		$page = new Page;
-//		$page->setTable('pages AS p');
-//		$page = $page->where('alias', '=', $alias)
-//			->whereHas('parent', function($query)
-//			{
-//				$query->table('pages AS parent')->where('parent_id', '=', 0);
-//			})
-//			->firstOrFail();
-//			->toSql();
-//		dd($page);
-//		dd(DB::getQueryLog());
-
-		$page = Page::getPageByAlias($alias)
-			->firstOrFail();
-
-//		dd($page->parent->parent_id, $page->parent->title);
-
-		View::share('page', $page);
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('site.page');
 	}
 
@@ -107,9 +77,7 @@ class SiteController extends BaseController {
 
 	public function question($questionsAlias, $categoryAlias, $alias)
 	{
-		$page = Page::getPageByAlias($alias)->firstOrFail();
-
-		View::share('page', $page);
+		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('site.question');
 	}
 
