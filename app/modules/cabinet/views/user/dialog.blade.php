@@ -111,7 +111,7 @@ View::share('title', $title);
                     <h3>Отправить сообщение</h3>
 
                     {{ Form::open([
-                          'action' => ['CabinetUserController@addMessage', $companion->id],
+                          'action' => ['CabinetUserController@addMessage', 'login' => $user->getLoginForUrl(), 'companionId' => $companion->id],
                           'id' => 'message-form',
                         ])
                     }}
@@ -141,7 +141,7 @@ View::share('title', $title);
             $('.new-message').click(function(){
                 var messageId = $(this).data('messageId');
                 $.ajax({
-                    url: '<?php echo URL::route('user.markMessageAsRead') ?>',
+                    url: '<?php echo URL::route('user.markMessageAsRead', ['login' => $user->getLoginForUrl()]) ?>',
                     dataType: "text json",
                     type: "POST",
                     data: {messageId: messageId},

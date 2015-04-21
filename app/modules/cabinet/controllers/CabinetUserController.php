@@ -547,7 +547,7 @@ class CabinetUserController extends \BaseController
 	/**
 	 * Отправить личное сообщение
 	 */
-	public function addMessage($id)
+	public function addMessage($login, $companionId)
 	{
 		if(Request::ajax()) {
 
@@ -556,7 +556,7 @@ class CabinetUserController extends \BaseController
 
 			$messageData = array(
 				'user_id_sender' => Auth::user()->id,
-				'user_id_recipient' => $id,
+				'user_id_recipient' => $companionId,
 				'message' => StringHelper::nofollowLinks($formFields['message']),
 			);
 

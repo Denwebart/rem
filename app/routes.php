@@ -42,8 +42,8 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
-	Route::post('messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);
-	Route::post('messages/addMessage/{id}', ['as' => 'user.addMessage', 'uses' => 'CabinetUserController@addMessage']);
+	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);
+	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'uses' => 'CabinetUserController@savePage']);
 	Route::post('{login}/removePage', ['as' => 'user.removePage', 'uses' => 'CabinetUserController@removePage']);
