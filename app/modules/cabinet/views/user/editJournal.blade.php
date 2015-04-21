@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = 'Редактировать вопрос';
+$title = 'Редактировать статью';
 View::share('title', $title);
 ?>
 
@@ -16,7 +16,7 @@ View::share('title', $title);
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">Мои вопросы</a>
+                    <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">Мой журнал</a>
                 </li>
                 <li>{{ $title }}</li>
             </ol>
@@ -31,8 +31,8 @@ View::share('title', $title);
             <h2>{{ $title }}</h2>
 
             <div class="row">
-                {{ Form::model($question, ['method' => 'PUT', 'route' => ['user.questions.update', 'login' => $user->getLoginForUrl(), 'id' => $question->id]], ['id' => 'questionForm']) }}
-                @include('cabinet::user._questionsForm')
+                {{ Form::model($article, ['method' => 'PUT', 'route' => ['user.journal.update', 'login' => $user->getLoginForUrl(), 'id' => $article->id]], ['id' => 'journalForm']) }}
+                @include('cabinet::user._journalForm')
                 {{ Form::close() }}
             </div>
 

@@ -57,7 +57,7 @@ View::share('title', $title);
                             <div class="date date-create">{{ $question->created_at }}</div>
 
                             <div>
-                                {{ $question->content }}
+                                {{ $question->getIntrotext() }}
                             </div>
 
                             <div class="status">
@@ -83,7 +83,7 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    <!-- Delete Photo -->
+    <!-- Delete Question -->
     @if(Auth::user()->is($user) || Auth::user()->isAdmin())
         <script type="text/javascript">
             $('.delete-question').click(function(){

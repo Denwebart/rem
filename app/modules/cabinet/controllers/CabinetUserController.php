@@ -15,7 +15,7 @@ class CabinetUserController extends \BaseController
 				App::abort(403, 'Unauthorized action.');
 			}
 
-		}, ['except' => ['index', 'gallery', 'questions', 'comments', 'subscriptions']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'subscriptions']]);
 	}
 
 	public function index($login)
@@ -181,7 +181,8 @@ class CabinetUserController extends \BaseController
 	{
 		if(Request::ajax())
 		{
-			$image = UserImage::findOrFail(Input::get('imageId'));
+			$user = User::whereLogin($login)->firstOrFail();
+			$image = UserImage::whereId(Input::get('imageId'))->whereUserId($user->id)->firstOrFail();
 			$imagePath = public_path() . '/uploads/' . $image->getTable() . '/' . $login . '/';
 
 			if(File::exists($imagePath . $image->image)) {
@@ -199,8 +200,7 @@ class CabinetUserController extends \BaseController
 	public function editPhoto($login, $id)
 	{
 		$user = User::whereLogin($login)->firstOrFail();
-
-		$usersImage = UserImage::findOrFail($id);
+		$usersImage = UserImage::whereId($id)->whereUserId($user->id)->firstOrFail();
 
 		if($data = Input::all()) {
 			$data['user_id'] = $user->id;
@@ -295,15 +295,23 @@ class CabinetUserController extends \BaseController
 
 	public function editQuestion($login, $id)
 	{
-		$question = Page::findOrFail($id);
+		$user = User::whereLogin($login)->firstOrFail();
+		$question = Page::whereId($id)
+			->whereUserId($user->id)
+			->whereType(Page::TYPE_QUESTION)
+			->firstOrFail();
 
-		View::share('user', User::whereLogin($login)->firstOrFail());
+		View::share('user', $user);
 		return View::make('cabinet::user.editQuestion', compact('question'));
 	}
 
 	public function updateQuestion($login, $id)
 	{
-		$page = Page::findOrFail($id);
+		$user = User::whereLogin($login)->firstOrFail();
+		$page = Page::whereId($id)
+			->whereUserId($user->id)
+			->whereType(Page::TYPE_QUESTION)
+			->firstOrFail();
 
 		$data = Input::all();
 
@@ -327,8 +335,11 @@ class CabinetUserController extends \BaseController
 	{
 		if(Request::ajax())
 		{
-			$question = Page::findOrFail(Input::get('questionId'));
-
+			$user = User::whereLogin($login)->firstOrFail();
+			$question = Page::whereId(Input::get('questionId'))
+				->whereUserId($user->id)
+				->whereType(Page::TYPE_QUESTION)
+				->firstOrFail();
 			$question->delete();
 
 			return Response::json([
@@ -339,38 +350,107 @@ class CabinetUserController extends \BaseController
 
 	public function journal($login)
 	{
-		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.journal');
+		$user = User::whereLogin($login)->firstOrFail();
+
+		if(Auth::user()->getLoginForUrl() == $login) {
+			$articles = Page::whereType(Page::TYPE_ARTICLE)
+				->whereUserId($user->id)
+				->orderBy('created_at', 'DESC')
+				->paginate(10);
+		} else {
+			$articles = Page::whereType(Page::TYPE_ARTICLE)
+				->whereUserId($user->id)
+				->whereIsPublished(1)
+				->orderBy('created_at', 'DESC')
+				->paginate(10);
+		}
+		View::share('user', $user);
+		return View::make('cabinet::user.journal', compact('articles'));
 	}
 
 	public function createJournal($login)
 	{
-//		$question = new Page();
-//		if(Input::get('category')) {
-//			$question->parent_id = Input::get('category');
-//		}
-//		View::share('user', User::whereLogin($login)->firstOrFail());
-//		return View::make('cabinet::user.createQuestion', compact('question'));
+		$article = new Page();
+		if(Input::get('category')) {
+			$article->parent_id = Input::get('category');
+		}
+		View::share('user', User::whereLogin($login)->firstOrFail());
+		return View::make('cabinet::user.createJournal', compact('article'));
 	}
 
 	public function storeJournal()
 	{
-//		$data = Input::all();
-//
-//		$data['type'] = Page::TYPE_QUESTION;
-//		$data['user_id'] = Auth::user()->id;
-//		$data['content'] = StringHelper::nofollowLinks($data['content']);
-//
-//		$validator = Validator::make($data, Page::$rulesForUsers);
-//
-//		if ($validator->fails())
-//		{
-//			return Redirect::back()->withErrors($validator)->withInput();
-//		}
-//
-//		Page::create($data);
-//
-//		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
+		$data = Input::all();
+
+		$data['type'] = Page::TYPE_ARTICLE;
+		$data['user_id'] = Auth::user()->id;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		Page::create($data);
+
+		return Redirect::route('user.journal', ['login' => Auth::user()->getLoginForUrl()]);
+	}
+
+	public function editJournal($login, $id)
+	{
+		$user = User::whereLogin($login)->firstOrFail();
+		$article = Page::whereId($id)
+			->whereUserId($user->id)
+			->whereType(Page::TYPE_ARTICLE)
+			->firstOrFail();
+
+		View::share('user', $user);
+		return View::make('cabinet::user.editJournal', compact('article'));
+	}
+
+	public function updateJournal($login, $id)
+	{
+		$user = User::whereLogin($login)->firstOrFail();
+		$page = Page::whereId($id)
+			->whereUserId($user->id)
+			->whereType(Page::TYPE_ARTICLE)
+			->firstOrFail();
+
+		$data = Input::all();
+
+		$data['type'] = Page::TYPE_ARTICLE;
+		$data['user_id'] = Auth::user()->id;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$page->update($data);
+
+		return Redirect::route('user.journal', ['login' => $login]);
+	}
+
+	public function deleteJournal($login)
+	{
+		if(Request::ajax())
+		{
+			$user = User::whereLogin($login)->firstOrFail();
+			$article = Page::whereId(Input::get('articleId'))
+				->whereUserId($user->id)
+				->whereType(Page::TYPE_ARTICLE)
+				->firstOrFail();
+			$article->delete();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
 	}
 
 	public function comments($login)
@@ -388,7 +468,6 @@ class CabinetUserController extends \BaseController
 		SELECT * FROM `messages` WHERE ((user_id_sender = 2 OR user_id_recipient = 2) AND (user_id_sender = 1 OR user_id_recipient = 1))
 			ORDER BY created_at DESC
 		*/
-
 		$companions = User::whereHas('sentMessages', function($q) use ($user)
 			{
 				$q->where('user_id_recipient', '=', $user->id);

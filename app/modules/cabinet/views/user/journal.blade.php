@@ -27,33 +27,81 @@ View::share('title', $title);
         <div class="col-lg-9">
             <h2>{{ $title }}</h2>
 
-            <div id="comments">
+            @if(Auth::user()->is($user))
+                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                    Написать статью
+                </a>
+            @endif
 
-                {{--@foreach($user->comments as $comment)--}}
+            <div id="articles">
 
-                    {{--<div data-comment-id="{{ $comment->id }}" class="col-md-12">--}}
-                        {{--<div class="well">--}}
-                            {{--<div class="date date-create">{{ $comment->created_at }}</div>--}}
-                            {{--{{ $comment->comment }}--}}
-                            {{--<div class="status">--}}
-                                {{--Статус:--}}
-                                {{--{{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}--}}
-                            {{--</div>--}}
-                            {{--<div class="on-page">--}}
-                                {{--На странице:--}}
-                                {{--@if(($comment->is_published))--}}
-                                    {{--<a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>--}}
-                                {{--@else--}}
-                                    {{--<a href="{{ URL::to($comment->page->getUrl()) }}">{{ $comment->page->getTitle() }}</a>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
+                @foreach($articles as $article)
 
-                {{--@endforeach--}}
+                    <div data-article-id="{{ $article->id }}" class="col-md-12">
+                        <div class="well">
+                            @if(Auth::user()->is($user))
+                                <div class="pull-right">
+                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                        Редактировать
+                                    </a>
+                                    <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
+                                        Удалить
+                                    </a>
+                                </div>
+                            @endif
+                            <h3>
+                                <a href="{{ URL::to($article->getUrl()) }}">
+                                    {{ $article->title }}
+                                </a>
+                            </h3>
+                            <div class="date date-create">{{ $article->created_at }}</div>
+
+                            <div>
+                                {{ $article->getIntrotext() }}
+                            </div>
+
+                            <div class="status">
+                                Статус:
+                                {{ ($article->is_published) ? 'Опубликована' : 'Ожидает модерации' }}
+                            </div>
+
+                        </div>
+                    </div>
+
+                @endforeach
+
+                <div>
+                    {{ $articles->links() }}
+                </div>
 
             </div>
-        </div>
 
+        </div>
     </div>
+@stop
+
+@section('script')
+    @parent
+
+    <!-- Delete Article -->
+    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+        <script type="text/javascript">
+            $('.delete-article').click(function(){
+                var articleId = $(this).data('id');
+                if(confirm('Вы уверены, что хотите удалить статью?')) {
+                    $.ajax({
+                        url: '<?php echo URL::route('user.journal.delete', ['login' => $user->getLoginForUrl()]) ?>',
+                        dataType: "text json",
+                        type: "POST",
+                        data: {articleId: articleId},
+                        success: function(response) {
+                            if(response.success){
+                                $('[data-article-id=' + articleId + ']').remove();
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    @endif
 @stop

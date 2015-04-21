@@ -35,6 +35,10 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'uses' => 'CabinetUserController@deleteQuestion']);
 	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
 	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
+	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'uses' => 'CabinetUserController@storeJournal']);
+	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
+	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'uses' => 'CabinetUserController@updateJournal']);
+	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'uses' => 'CabinetUserController@deleteJournal']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
