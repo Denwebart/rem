@@ -120,9 +120,9 @@
 			</div>
 		@endif
 
-		@if(count($page->publishedChildren))
+		@if(count($children))
 			<section id="blog-area">
-				@foreach($page->publishedChildren()->orderBy('published_at', 'DESC')->get() as $child)
+				@foreach($children as $child)
 					<div class="row">
 						<div class="col-md-12">
 							<h3>
@@ -143,6 +143,9 @@
 					</div>
 					<hr/>
 				@endforeach
+				<div>
+					{{ $children->links() }}
+				</div>
 			</section><!--blog-area-->
 		@endif
 

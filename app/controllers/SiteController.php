@@ -27,28 +27,40 @@ class SiteController extends BaseController {
 
 	public function index()
 	{
+		$articles = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->where('parent_id', '!=', 0)
+			->whereType(Page::TYPE_PAGE)
+			->with('parent.parent')
+			->whereIsContainer(0)
+			->orderBy('published_at', 'DESC')
+			->paginate(10);
 		View::share('page', Page::getPageByAlias()->firstOrFail());
-		return View::make('site.index');
+		return View::make('site.index', compact('articles'));
 	}
 
 	public function firstLevel($alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail());
-		return View::make('site.page');
+		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
+		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
+		View::share('page', $page);
+		return View::make('site.page', compact('children'));
 	}
 
 	public function secondLevel($categoryAlias, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
-		return View::make('site.page');
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
+		View::share('page', $page);
+		return View::make('site.page', compact('children'));
 	}
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
 		$page = Page::getPageByAlias($alias)->firstOrFail();
-
+		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
 		View::share('page', $page);
-		return View::make('site.page');
+		return View::make('site.page', compact('children'));
 	}
 
 	public function questions($alias)
