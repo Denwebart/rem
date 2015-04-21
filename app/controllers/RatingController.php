@@ -7,11 +7,11 @@ class RatingController extends BaseController {
 		if(Request::ajax()) {
 
 			$isVote = Session::has('user.rating.page') ? (in_array($id, Session::get('user.rating.page')) ? 1 : 0) : 0;
+			$page = Page::findOrFail($id);
 
 			if (!$isVote) {
 				$rating = Input::get('rating');
 
-				$page = Page::findOrFail($id);
 				$page->votes = $page->votes + $rating;
 				$page->voters = $page->voters + 1;
 
@@ -28,13 +28,14 @@ class RatingController extends BaseController {
 						'rating' => $page->getRating(),
 						'votes' => $page->votes,
 						'voters' => $page->voters,
-						'message' => 'Спасибо, Ваш голос принят!'
+						'message' => 'Спасибо, Ваш голос принят!',
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Вы уже голосовали.'
+					'rating' => $page->getRating(),
+					'message' => 'Вы уже голосовали.',
 				));
 			}
 

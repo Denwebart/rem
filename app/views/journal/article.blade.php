@@ -24,17 +24,23 @@
             <h2>{{ $page->title }}</h2>
         @endif
 
-        @if(Auth::check() && $page->isLastLevel())
-            <!-- Сохранение страницы в избранное ("Сохраненное") -->
-            @include('site._savedPages')
-        @endif
+        <div class="content">
 
-        @if($page->content)
-            <div class="content">
-                Автор: {{ $page->user->getFullName() }}
-                {{ $page->content }}
-            </div>
-        @endif
+            @if($page->showViews())
+                Количество просмотров: {{ $page->views }}
+            @endif
+
+            {{-- Рейтинг --}}
+            @include('widgets.rating')
+
+            @if(Auth::check())
+                <!-- Сохранение страницы в избранное ("Сохраненное") -->
+                @include('widgets.savedPages')
+            @endif
+
+            Автор: {{ $page->user->getFullName() }}
+            {{ $page->content }}
+        </div>
 
         {{-- Комментарии --}}
         <?php $commentWidget = app('CommentWidget'); ?>

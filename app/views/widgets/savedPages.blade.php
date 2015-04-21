@@ -12,6 +12,8 @@
 <div id="save-page-message"></div>
 
 @section('script')
+    @parent
+
     <script type="text/javascript">
         $("#saved-pages").on('click', '#save-page', function() {
             var $link = $(this);
