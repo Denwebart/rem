@@ -477,9 +477,13 @@ class CabinetUserController extends \BaseController
 				$q->where('user_id_sender', '=', $user->id);
 			})
 			->get();
+		$messages = Message::whereUserIdRecipient($user->id)
+			->orderBy('created_at')
+			->with('userSender')
+			->get();
 
 		View::share('user', $user);
-		return View::make('cabinet::user.messages', compact('companions'));
+		return View::make('cabinet::user.messages', compact('companions', 'messages'));
 	}
 
 	public function dialog($login, $companion)
