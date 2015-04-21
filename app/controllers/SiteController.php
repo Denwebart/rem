@@ -42,7 +42,14 @@ class SiteController extends BaseController {
 	public function firstLevel($alias)
 	{
 		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
-		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
+		$categoryArray = $page->publishedChildren->lists('id');
+		$children = Page::where(function($query) use ($categoryArray, $page){
+			$query->whereIn('parent_id', $categoryArray)
+				->orWhere('parent_id', $page->id);
+		})->whereIsContainer(0)
+			->with('parent.parent')
+			->paginate(10);
+
 		View::share('page', $page);
 		return View::make('site.page', compact('children'));
 	}
@@ -50,7 +57,14 @@ class SiteController extends BaseController {
 	public function secondLevel($categoryAlias, $alias)
 	{
 		$page = Page::getPageByAlias($alias)->firstOrFail();
-		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
+		$categoryArray = $page->publishedChildren->lists('id');
+		$children = Page::where(function($query) use ($categoryArray, $page){
+			$query->whereIn('parent_id', $categoryArray)
+				->orWhere('parent_id', $page->id);
+		})->whereIsContainer(0)
+			->with('parent.parent')
+			->paginate(10);
+
 		View::share('page', $page);
 		return View::make('site.page', compact('children'));
 	}
@@ -58,7 +72,7 @@ class SiteController extends BaseController {
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
 		$page = Page::getPageByAlias($alias)->firstOrFail();
-		$children = $page->publishedChildren()->orderBy('published_at', 'DESC')->paginate(10);
+		$children = [];
 		View::share('page', $page);
 		return View::make('site.page', compact('children'));
 	}
