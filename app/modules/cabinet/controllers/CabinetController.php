@@ -4,7 +4,9 @@ class CabinetController extends \BaseController
 {
 	public function index()
 	{
-		$users = User::whereIsActive(1)->paginate(10);
+		$users = User::whereIsActive(1)
+			->with(['publishedArticles', 'publishedQuestions', 'publishedСomments'])
+			->paginate(10);
 
 		$name = trim(Input::get('name'));
 
@@ -14,6 +16,7 @@ class CabinetController extends \BaseController
 				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
 				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
 				->orWhere('login', 'like', "$name%")
+				->with(['publishedArticles', 'publishedQuestions', 'publishedComments'])
 				->paginate(10);
 		}
 
@@ -38,16 +41,4 @@ class CabinetController extends \BaseController
 		return Response::json($result);
 	}
 
-//	public function search()
-//	{
-//		$name = trim(Input::get('name'));
-//
-//		$users = User::select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
-//			->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
-//			->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
-//			->orWhere('login', 'like', "$name%")
-//			->paginate(10);
-//
-//		return View::make('cabinet::search', compact('users'))->with('name', $name);
-//	}
 }

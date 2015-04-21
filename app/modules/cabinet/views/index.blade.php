@@ -48,8 +48,16 @@ View::share('page', $title);
                         @endif
 
                     </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                            {{ count($user->publishedArticles) }}
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                            {{ count($user->publishedQuestions) }}
+                        </a>
+                    </div>
                     <div class="col-md-2">
                         <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                             {{ count($user->publishedСomments) }}
