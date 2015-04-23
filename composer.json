@@ -10,7 +10,8 @@
 		"barryvdh/laravel-debugbar": "~1.8",
 	  	"doctrine/dbal": "~2.3",
 	    "anhskohbo/no-captcha": "1.*",
-		"intervention/image": "~2.1"
+		"intervention/image": "~2.1",
+	    "thujohn/rss": "~1.0"
 	},
 	"require-dev": {
 	  "way/generators": "~2.0"

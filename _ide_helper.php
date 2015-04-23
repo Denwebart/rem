@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.17 on 2015-04-20.
+ * Generated for Laravel 4.2.17 on 2015-04-22.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12827,6 +12827,94 @@ namespace {
          */
         public static function cache($callback, $lifetime = null, $returnObj = false){
             return \Intervention\Image\ImageManager::cache($callback, $lifetime, $returnObj);
+        }
+        
+    }
+
+
+    class Rss extends \Thujohn\Rss\RssFacade{
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function feed($version, $encoding){
+            return \Thujohn\Rss\Rss::feed($version, $encoding);
+        }
+        
+        /**
+         * Parameters :
+         * - title (required)
+         * - link (required)
+         * - description (required)
+         * - language
+         * - copyright
+         * - managingEditor
+         * - webMaster
+         * - pubDate
+         * - lastBuildDate
+         * - category
+         * - generator
+         * - docs
+         * - cloud
+         * - ttl
+         * - image
+         * - rating
+         * - textInput
+         * - skipHours
+         * - skipDays
+         *
+         * @static 
+         */
+        public static function channel($parameters){
+            return \Thujohn\Rss\Rss::channel($parameters);
+        }
+        
+        /**
+         * Parameters :
+         * - title
+         * - link
+         * - description
+         * - author
+         * - category
+         * - comments
+         * - enclosure
+         * - guid
+         * - pubDate
+         * - source
+         *
+         * @static 
+         */
+        public static function item($parameters){
+            return \Thujohn\Rss\Rss::item($parameters);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function limit($limit){
+            return \Thujohn\Rss\Rss::limit($limit);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function render(){
+            return \Thujohn\Rss\Rss::render();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */
+        public static function save($filename){
+            return \Thujohn\Rss\Rss::save($filename);
         }
         
     }

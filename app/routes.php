@@ -56,6 +56,7 @@ Route::controller('password', 'RemindersController');
 
 
 /* Фронт */
+
 Route::get('/', 'SiteController@index');
 
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
@@ -65,6 +66,7 @@ Route::post('contact_request', 'SiteController@contactPost');
 
 Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
+Route::get('rss', 'SiteController@rss');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{alias}', 'JournalController@category')->where('journalAlias', 'bortovoj-zhurnal');
