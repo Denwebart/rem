@@ -58,8 +58,10 @@ class Page extends \Eloquent
 	protected $table = 'pages';
 
 	const TYPE_PAGE = 1;
-	const TYPE_QUESTION = 2;
-	const TYPE_ARTICLE = 3;
+	const TYPE_QUESTIONS = 2;
+	const TYPE_QUESTION = 3;
+	const TYPE_JOURNAL = 4;
+	const TYPE_ARTICLE = 5;
 
 	public static $types = [
 		self::TYPE_PAGE => 'Страница',
@@ -202,6 +204,18 @@ class Page extends \Eloquent
 	public static function getContainer()
 	{
 		return ['' => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
+	}
+
+	public static function getJournalCategory()
+	{
+		$page = self::whereType(self::TYPE_JOURNAL)->firstOrFail();
+		return ['' => 'Нет'] + $page->children()->whereIsContainer(1)->lists('menu_title', 'id');
+	}
+
+	public static function getQuestionsCategory()
+	{
+		$page = self::whereType(self::TYPE_QUESTIONS)->firstOrFail();
+		return ['' => 'Нет'] + $page->children()->whereIsContainer(1)->lists('menu_title', 'id');
 	}
 
 	public function showComments() {

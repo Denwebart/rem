@@ -5,7 +5,7 @@
         </a>
     @else
         <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}">
-            <i class="glyphicon glyphicon-floppy-saved"></i>
+            <i class="glyphicon glyphicon-floppy-remove"></i>
         </a>
     @endif
 </div>
@@ -26,7 +26,7 @@
                 success: function(response) {
                     if(response.success){
                         $("#save-page-message").text(response.message);
-                        $link.find('i').attr('class', 'glyphicon glyphicon-floppy-saved');
+                        $link.find('i').attr('class', 'glyphicon glyphicon-floppy-remove');
                         $link.attr('id', 'remove-page');
                     } else {
                         $("#save-page-message").text(response.message);

@@ -1,7 +1,7 @@
 <div class="col-md-7">
 	<div class="form-group">
 		{{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
-		{{ Form::select('parent_id', Page::getContainer(), $article->parent_id, ['class' => 'form-control']) }}
+		{{ Form::select('parent_id', Page::getJournalCategory(), $article->parent_id, ['class' => 'form-control']) }}
 		{{ $errors->first('parent_id') }}
 	</div>
 	<div class="form-group">
