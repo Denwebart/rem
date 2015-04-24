@@ -12,7 +12,7 @@ class CommentWidget
 			->whereParentId(0)
 			->wherePageId($page->id)
 			->orderBy('created_at')
-			->with(['user'])
+			->with(['user', 'publishedChildren.user'])
 			->get();
 
 		return (string) View::make('widgets.comment.commentsTree', compact('comments', 'page'))

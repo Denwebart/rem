@@ -170,7 +170,7 @@ class Page extends \Eloquent
 
 	public function getUrl()
 	{
-		$parentUrl = ($this->parent) ? $this->parent->getUrl() . '/' : '';
+		$parentUrl = (0 != $this->parent_id) ? (($this->parent) ? $this->parent->getUrl() . '/' : '') : '';
 		return $parentUrl . $this->alias;
 	}
 

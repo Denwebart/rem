@@ -43,12 +43,16 @@ class SiteController extends BaseController {
 	{
 		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
 		$categoryArray = $page->publishedChildren->lists('id');
-		$children = Page::where(function($query) use ($categoryArray, $page){
-			$query->whereIn('parent_id', $categoryArray)
-				->orWhere('parent_id', $page->id);
-		})->whereIsContainer(0)
-			->with('parent.parent')
-			->paginate(10);
+		if(count($categoryArray)) {
+			$children = Page::where(function($query) use ($categoryArray, $page){
+				$query->whereIn('parent_id', $categoryArray)
+					->orWhere('parent_id', $page->id);
+			})->whereIsContainer(0)
+				->with('parent.parent')
+				->paginate(10);
+		} else {
+			$children = [];
+		}
 
 		View::share('page', $page);
 		return View::make('site.page', compact('children'));
@@ -58,12 +62,16 @@ class SiteController extends BaseController {
 	{
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		$categoryArray = $page->publishedChildren->lists('id');
-		$children = Page::where(function($query) use ($categoryArray, $page){
-			$query->whereIn('parent_id', $categoryArray)
-				->orWhere('parent_id', $page->id);
-		})->whereIsContainer(0)
-			->with('parent.parent')
-			->paginate(10);
+		if(count($categoryArray)) {
+			$children = Page::where(function($query) use ($categoryArray, $page){
+				$query->whereIn('parent_id', $categoryArray)
+					->orWhere('parent_id', $page->id);
+			})->whereIsContainer(0)
+				->with('parent.parent')
+				->paginate(10);
+		} else {
+			$children = [];
+		}
 
 		View::share('page', $page);
 		return View::make('site.page', compact('children'));
@@ -81,6 +89,7 @@ class SiteController extends BaseController {
 	{
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
+			->with('parent.parent', 'user')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -94,6 +103,7 @@ class SiteController extends BaseController {
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
+			->with('parent.parent', 'user')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -103,7 +113,7 @@ class SiteController extends BaseController {
 
 	public function question($questionsAlias, $categoryAlias, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		View::share('page', Page::getPageByAlias($alias)->with('parent.parent')->firstOrFail());
 		return View::make('site.question');
 	}
 
@@ -112,7 +122,7 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['children'])
+			->with(['publishedChildren.publishedChildren', 'publishedChildren.parent.parent'])
 			->get(['id', 'parent_id', 'alias', 'menu_title', 'title']);
 
 		View::share('page', Page::getPageByAlias($alias)->firstOrFail());

@@ -20,10 +20,14 @@ class HeaderWidget
 
 
 	public function newLetters() {
-		$letters = Letter::whereNull('read_at')
-			->whereNull('deleted_at')
-			->orderBy('created_at', 'DESC')
-			->get();
+		if(Auth::user()->isAdmin()) {
+			$letters = Letter::whereNull('read_at')
+				->whereNull('deleted_at')
+				->orderBy('created_at', 'DESC')
+				->get();
+		} else {
+			$letters = [];
+		}
 
 		$this->newLetters = count($letters);
 
@@ -33,6 +37,7 @@ class HeaderWidget
 	public function newMessages() {
 		$messages = Message::whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
+			->with('userSender')
 			->orderBy('created_at', 'DESC')
 			->get();
 

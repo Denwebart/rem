@@ -15,7 +15,7 @@ class SidebarWidget
 			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('published_at', 'DESC')
 			->limit($limit)
-			->with(['parent'])
+			->with('parent.parent')
 			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title']);
 
 		return (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
@@ -35,7 +35,7 @@ class SidebarWidget
 			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('rating', 'DESC')
 			->limit($limit)
-			->with(['parent'])
+			->with('parent.parent')
 			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'votes', 'voters']);
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
@@ -54,7 +54,7 @@ class SidebarWidget
 			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('views', 'DESC')
 			->limit($limit)
-			->with(['parent'])
+			->with('parent.parent')
 			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
 
 		return (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
@@ -73,7 +73,7 @@ class SidebarWidget
 			->whereIn('parent_id', [14, 16, 20, 21, 22, 23, 36])
 			->orderBy('views', 'ASC')
 			->limit($limit)
-			->with(['parent'])
+			->with('parent.parent')
 			->get(['id', 'parent_id', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
 
 		return (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
@@ -89,7 +89,7 @@ class SidebarWidget
 	{
 		$comments = Comment::whereIsPublished(1)
 			->limit($limit)
-			->with(['parent', 'user'])
+			->with('page.parent.parent', 'user')
 			->orderBy('created_at', 'DESC')
 			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
 

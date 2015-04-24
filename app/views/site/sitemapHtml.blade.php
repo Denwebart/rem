@@ -25,7 +25,7 @@
 							<ul>
 								@foreach($page->publishedChildren as $secondLevel)
 									<li>
-										<a href="{{ URL::to($page->alias . '/' . $secondLevel->alias) }}">
+										<a href="{{ URL::to($secondLevel->getUrl()) }}">
 											{{ $secondLevel->getTitle() }}
 										</a>
 										@if(count($secondLevel->publishedChildren))

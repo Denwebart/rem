@@ -4,24 +4,24 @@ class JournalController extends BaseController {
 
 	public function __construct()
 	{
-//		$this->beforeFilter(function()
-//		{
-//			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
-//
-//			if(URL::current() != $urlPrevious)
-//			{
-//				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
-//
-//				$page = Page::getPageByAlias($alias)->first();
-//				if(is_object($page)) {
-//					$page->views = $page->views + 1;
-//					$page->save();
-//				}
-//			}
-//
-//			Session::put('user.urlPrevious', URL::current());
-//
-//		}, ['except' => ['contactPost', 'sitemapXml']]);
+		$this->beforeFilter(function()
+		{
+			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
+
+			if(URL::current() != $urlPrevious)
+			{
+				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
+
+				$page = Page::getPageByAlias($alias)->first();
+				if(is_object($page)) {
+					$page->views = $page->views + 1;
+					$page->save();
+				}
+			}
+
+			Session::put('user.urlPrevious', URL::current());
+
+		});
 
 	}
 
@@ -30,6 +30,7 @@ class JournalController extends BaseController {
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->with('parent.parent', 'user')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -44,6 +45,7 @@ class JournalController extends BaseController {
 			->whereParentId($page->id)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->with('parent.parent', 'user')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
