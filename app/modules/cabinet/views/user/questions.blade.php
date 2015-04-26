@@ -39,7 +39,7 @@ View::share('title', $title);
 
                     <div data-question-id="{{ $question->id }}" class="col-md-12">
                         <div class="well">
-                            @if(Auth::user()->is($user))
+                            @if(Auth::user()->is($user) || Auth::user()->isAdmin())
                                 <div class="pull-right">
                                     <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
                                         Редактировать

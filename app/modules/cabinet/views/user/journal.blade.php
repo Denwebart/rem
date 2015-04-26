@@ -39,7 +39,7 @@ View::share('title', $title);
 
                     <div data-article-id="{{ $article->id }}" class="col-md-12">
                         <div class="well">
-                            @if(Auth::user()->is($user))
+                            @if(Auth::user()->is($user) || Auth::user()->isAdmin())
                                 <div class="pull-right">
                                     <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
                                         Редактировать

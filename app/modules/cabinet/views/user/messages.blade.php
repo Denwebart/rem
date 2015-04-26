@@ -27,11 +27,10 @@ View::share('title', $title);
                 <div class="body">
                     @foreach($companions as $item)
                         <div class="companion" data-user-id="{{ $item->id }}">
-                            <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->login]) }}">
+                            <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->getLoginForUrl()]) }}">
                                 {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
                                 <span>{{ $item->login }}</span>
-                                <?php $numberOfMessages = count($item->sentMessages()->whereNull('read_at')->where('user_id_recipient', '=', $user->id)->get()); ?>
-                                @if($numberOfMessages)
+                                @if($numberOfMessages = count($item->sentMessagesForUser))
                                     <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
                                 @endif
                             </a>

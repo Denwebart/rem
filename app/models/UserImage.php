@@ -66,7 +66,7 @@ class UserImage extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
-	public function getImageUrl() {
-		return URL::to('/uploads/'. $this->table . '/' . $this->user->login . '/' . $this->image);
+	public function getImageUrl($user) {
+		return URL::to('/uploads/'. $this->table . '/' . $user->login . '/' . $this->image);
 	}
 }

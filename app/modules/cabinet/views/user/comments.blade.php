@@ -29,7 +29,7 @@ View::share('title', $title);
 
             <div id="comments">
 
-                @foreach($user->comments as $comment)
+                @foreach($comments as $comment)
 
                     <div data-comment-id="{{ $comment->id }}" class="col-md-12">
                         <div class="well">
@@ -51,6 +51,10 @@ View::share('title', $title);
                     </div>
 
                 @endforeach
+
+                <div>
+                    {{ $comments->links() }}
+                </div>
 
             </div>
         </div>

@@ -32,7 +32,7 @@ View::share('title', $title);
         <div class="col-lg-9">
             <h2>{{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}</h2>
 
-            {{--Загрузка новой фотографии--}}
+            Загрузка новой фотографии
             <div id="new-photo">
 
                 <h3>{{ $title }}</h3>
@@ -42,7 +42,7 @@ View::share('title', $title);
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
-                            {{ Html::image($image->getImageUrl(), $image->desctiption, ['class' => 'img-responsive']) }}
+                            {{ Html::image($image->getImageUrl($user), $image->desctiption, ['class' => 'img-responsive']) }}
                             {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
                             {{ $errors->first('avatar') }}
                         </div>

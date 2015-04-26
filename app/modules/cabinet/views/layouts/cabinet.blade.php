@@ -69,7 +69,7 @@
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if(Auth::check())
-    {{ $headerWidget->show() }}
+{{--    {{ $headerWidget->show() }}--}}
 @endif
 
 <div class="header">
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                {{ $menuWidget->topMenu() }}
+{{--                {{ $menuWidget->topMenu() }}--}}
                 @if (!Auth::check())
                     <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-50 pull-right">Войти</a>
                 @endif
@@ -117,7 +117,7 @@
     </div>
 </div>
 
-{{ $menuWidget->mainMenu() }}
+{{--{{ $menuWidget->mainMenu() }}--}}
 
 <div class="container">
     <div class="row">
@@ -163,8 +163,10 @@
                         <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
                             <span class="glyphicon glyphicon-send"></span>
                             <span>Личные сообщения</span>
-                            @if(count($headerWidget->newMessages()) && Auth::user()->is($user))
-                                <small class="label label-info">{{ count($headerWidget->newMessages()) }}</small>
+                            @if(Auth::user()->is($user))
+                                @if($newMessages = count($headerWidget->newMessages()))
+                                    <small class="label label-info">{{ $newMessages }}</small>
+                                @endif
                             @endif
                         </a>
                     </li>
@@ -190,7 +192,7 @@
 <footer class="container">
     <div class="row">
         <div class="col-xs-12">
-            {{ $menuWidget->bottomMenu() }}
+{{--            {{ $menuWidget->bottomMenu() }}--}}
         </div>
     </div>
 </footer>

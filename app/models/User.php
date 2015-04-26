@@ -233,7 +233,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	 * Отправленные сообщения
+	 * Полученные сообщения
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
@@ -243,13 +243,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	 * Полученные сообщения
+	 * Отправленные сообщения
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function sentMessages()
 	{
 		return $this->hasMany('Message', 'user_id_sender');
+	}
+
+	/**
+	 * Отправленные сообщения для конкретного пользователя
+	 *
+	 * @param $userId
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function sentMessagesForUser()
+	{
+		return $this->hasMany('Message', 'user_id_sender')
+			->whereNull('read_at')
+			->where('user_id_recipient', '=', Auth::user()->id);
 	}
 
 	/**

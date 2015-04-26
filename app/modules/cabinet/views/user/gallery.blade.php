@@ -32,7 +32,7 @@ View::share('title', $title);
                     @foreach($user->images as $image)
                         <div class="item row" data-image-id="{{ $image->id }}">
                             <div class="col-md-5">
-                                {{ Html::image($image->getImageUrl(), $image->desctiption, ['class' => 'img-responsive']) }}
+                                {{ Html::image($image->getImageUrl($user), $image->desctiption, ['class' => 'img-responsive']) }}
                             </div>
                             <div class="col-md-7">
                                 <a href="javascript:void(0)" class="btn btn-danger delete-photo" data-id="{{ $image->id }}">Удалить</a>
@@ -53,7 +53,7 @@ View::share('title', $title);
                             @foreach($user->images as $key => $image)
 
                                 <div class="item{{ (0 == $key) ? ' active': '' }}">
-                                    {{ Html::image($image->getImageUrl()) }}
+                                    {{ Html::image($image->getImageUrl($user)) }}
                                     <div class="carousel-caption">
                                         <h3>{{ $image->title }}</h3>
                                         {{ $image->desctiption }}
@@ -78,7 +78,7 @@ View::share('title', $title);
                         <div style="text-align: center; margin-top: 10px">
                             @foreach($user->images as $key => $image)
                                 <a href="javascript:void(0)" data-target="#carousel-users-images" data-slide-to="{{ $key }}" class="{{ (0 == $key) ? ' active': '' }}">
-                                    {{ Html::image($image->getImageUrl(), $image->description, ['style' => 'width: 100px']) }}
+                                    {{ Html::image($image->getImageUrl($user), $image->description, ['style' => 'width: 100px']) }}
                                 </a>
                             @endforeach
                         </div>
