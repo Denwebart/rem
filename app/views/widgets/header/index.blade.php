@@ -71,6 +71,17 @@
                     {{--</ul>--}}
                 {{--</li>--}}
 
+                @if(Request::is('admin*'))
+                    <li style="margin-right: 10px">
+                        <a href="{{ URL::to('/') }}" class="" target="_blank">
+                        <span>
+                            <i class="glyphicon glyphicon-arrow-right"></i>
+                            Перейти на сайт
+                        </span>
+                        </a>
+                    </li>
+                @endif
+
                 {{ $messages }}
 
                 @if(Auth::user()->isAdmin())

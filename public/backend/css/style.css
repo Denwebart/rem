@@ -1223,7 +1223,9 @@ header .logo i {
     white-space: nowrap;
     padding: 0;
 }
-
+.custom-box h3 a {
+    color: #ffffff;
+}
 .custom-box p {
     font-size: 15px;
 }
@@ -1236,7 +1238,7 @@ header .logo i {
 }
 
 .custom-box h3, .custom-box p {
-    z-index: 5px;
+    z-index: 5;
 }
 
 .custom-box i {

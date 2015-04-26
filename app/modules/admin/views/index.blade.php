@@ -9,30 +9,38 @@
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-alizarin">
-                <h3 class="timer" data-start="0" data-from="0" data-to="155" data-speed="3000" data-refresh-interval="10"></h3>
-                <p>Registered users</p>
+                <h3>
+                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.users.index') }}"></a>
+                </h3>
+                <p>Новые пользователи</p>
                 <i class="fa fa-users"></i>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-nephritis">
-                <h3 class="timer" data-start="0" data-from="0" data-to="135" data-speed="3000" data-refresh-interval="10"></h3>
-                <p>Daily Visitors</p>
-                <i class="fa fa-signal"></i>
+                <h3>
+                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.comments.index') }}"></a>
+                </h3>
+                <p>Новые комментарии</p>
+                <i class="fa fa-comment"></i>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-peter-river">
-                <h3 class="timer" data-start="0" data-from="0" data-to="17" data-speed="3000" data-refresh-interval="10"></h3>
-                <p>Messages</p>
-                <i class="fa fa-envelope"></i>
+                <h3>
+                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
+                </h3>
+                <p>Новые вопросы пользователей</p>
+                <i class="fa fa-question"></i>
             </div>
         </div><!-- ./col -->
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-            <div class="custom-box palette-wet-asphalt">
-                <h3 class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10"></h3>
-                <p>Subscribers</p>
-                <i class="fa fa-rss"></i>
+            <div class="custom-box palette-carrot">
+                <h3>
+                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
+                </h3>
+                <p>Новые статьи пользователей</p>
+                <i class="fa fa-file-text"></i>
             </div>
         </div>
     </div>
