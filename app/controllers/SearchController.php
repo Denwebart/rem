@@ -12,6 +12,7 @@ class SearchController extends BaseController {
 				->where('title', 'LIKE', "%$query%")
 				->orWhere('menu_title', 'LIKE', "%$query%")
 				->orWhere('content', 'LIKE', "%$query%")
+				->with('parent.parent')
 				->paginate(10);
 		} else {
 			$results = Page::whereIsPublished(1)
