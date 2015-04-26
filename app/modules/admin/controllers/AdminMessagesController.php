@@ -2,6 +2,13 @@
 
 class AdminMessagesController extends \BaseController {
 
+	public function __construct(){
+		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+		}
+	}
+
 	/**
 	 * Display a listing of messages
 	 *

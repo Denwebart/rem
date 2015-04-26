@@ -35,10 +35,16 @@
         <div class="sidebar">
             <div class="user-box">
                 <div class="avatar">
-                    {{ Auth::user()->getAvatar('mini', ['class' => 'pull-left']) }}
+                    <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                        {{ Auth::user()->getAvatar('mini', ['class' => 'pull-left']) }}
+                    </a>
                 </div>
                 <div class="details">
-                    <p>{{ Auth::user()->login }}</p>
+                    <p>
+                        <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                            {{ Auth::user()->login }}
+                        </a>
+                    </p>
                     <span class="position">{{ User::$roles[Auth::user()->role] }}</span>
                 </div>
                 <div class="button">
@@ -65,9 +71,9 @@
                 <li class="{{ Request::is('admin/letters*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.letters.index') }}">
                         <i class="fa fa-envelope"></i> <span>Письма</span>
-                        @if($headerWidget->newLetters)
+                        @if($newLetters = count($headerWidget->newLetters))
                             <small class="label pull-right">
-                                {{ $headerWidget->newLetters }}
+                                {{ $newLetters }}
                             </small>
                         @endif
                     </a>

@@ -7,15 +7,23 @@ class HeaderWidget
 	public $newMessages;
 	public $newUsers;
 
+	public function __construct()
+	{
+		if(Auth::user()->isAdmin()) {
+			$this->newLetters = $this->newLetters();
+		}
+		$this->newMessages = $this->newMessages();
+	}
+
 	public function show($page = null)
 	{
 		if(Auth::user()->isAdmin()) {
-			$letters = $this->newLetters();
+			$letters = $this->newLetters;
 			$letters = (string) View::make('widgets.header.letters', compact('letters'));
 		} else {
 			$letters = '';
 		}
-		$messages = $this->newMessages();
+		$messages = $this->newMessages;
 		$messages = (string) View::make('widgets.header.messages', compact('messages'));
 
 		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'page'))->with('user', Auth::user())->render();
@@ -23,26 +31,18 @@ class HeaderWidget
 
 
 	public function newLetters() {
-		$letters = Letter::whereNull('read_at')
+		return Letter::whereNull('read_at')
 				->whereNull('deleted_at')
 				->orderBy('created_at', 'DESC')
 				->get();
-
-		$this->newLetters = count($letters);
-
-		return $letters;
 	}
 
 	public function newMessages() {
-		$messages = Message::whereUserIdRecipient(Auth::user()->id)
+		return Message::whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
 			->with('userSender')
 			->orderBy('created_at', 'DESC')
 			->get();
-
-		$this->newMessages = count($messages);
-
-		return $messages;
 	}
 
 	public function newUsers() {

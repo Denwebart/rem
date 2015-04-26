@@ -3,8 +3,10 @@
 class AdminController extends \BaseController
 {
 	public function __construct(){
-		$headerWidget = app('HeaderWidget');
-		View::share('headerWidget', $headerWidget);
+		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+		}
 	}
 
 	public function index()

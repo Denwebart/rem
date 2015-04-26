@@ -1,4 +1,3 @@
-<?php $headerWidget = app('HeaderWidget') ?>
 <?php $menuWidget = app('MenuWidget') ?>
 <!doctype html>
 <html lang="ru">
@@ -69,7 +68,7 @@
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if(Auth::check())
-{{--    {{ $headerWidget->show() }}--}}
+    {{ $headerWidget->show() }}
 @endif
 
 <div class="header">
@@ -164,7 +163,7 @@
                             <span class="glyphicon glyphicon-send"></span>
                             <span>Личные сообщения</span>
                             @if(Auth::user()->is($user))
-                                @if($newMessages = count($headerWidget->newMessages()))
+                                @if($newMessages = count($headerWidget->newMessages))
                                     <small class="label label-info">{{ $newMessages }}</small>
                                 @endif
                             @endif

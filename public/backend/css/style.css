@@ -785,12 +785,14 @@ header .logo i {
     height: 48px;
     display: block;
 }
-
+.user-box .avatar a {
+    display: inline-block;
+}
 .user-box .avatar::before {
     display: block;
     content: '';
     position: absolute;
-    width: 100%;
+    width: 3px;
     height: 100%;
     box-shadow: inset 3px 0 0 0 #19b011;
 }
@@ -810,9 +812,11 @@ header .logo i {
     color: #eee;
 }
 
-.user-box .details > p {
+.user-box .details > p,
+.user-box .details > p a {
     margin-bottom: 14px;
     font-size: 15px;
+    color: #eee;
 }
 
 .user-box .details > a > i {

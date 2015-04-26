@@ -1,5 +1,4 @@
 <?php $menuWidget = app('MenuWidget') ?>
-<?php $headerWidget = app('HeaderWidget') ?>
 <!doctype html>
 <html lang="ru">
 <head>
