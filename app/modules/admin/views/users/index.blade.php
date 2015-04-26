@@ -89,7 +89,7 @@
                                         {{--<a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.show', $user->id) }}">--}}
                                         {{--<i class="fa fa-search-plus "></i>--}}
                                         {{--</a>--}}
-                                        <a class="btn btn-info btn-sm" href="{{ URL::route('admin.users.edit', $user->id) }}">
+                                        <a class="btn btn-info btn-sm" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}">
                                             <i class="fa fa-edit "></i>
                                         </a>
                                         {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}

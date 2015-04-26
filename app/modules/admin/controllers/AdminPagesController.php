@@ -17,9 +17,9 @@ class AdminPagesController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$pages = Page::orderBy($sortBy, $direction)->paginate(10);
+			$pages = Page::orderBy($sortBy, $direction)->with('parent.parent', 'children')->paginate(10);
 		} else {
-			$pages = Page::orderBy('created_at', 'DESC')->paginate(10);
+			$pages = Page::orderBy('created_at', 'DESC')->with('parent.parent', 'children')->paginate(10);
 		}
 
 		return View::make('admin::pages.index', compact('pages'));
@@ -153,7 +153,7 @@ class AdminPagesController extends \BaseController {
 			$parentId = Input::get('pageId');
 
 			$pages = Page::whereParentId($parentId)
-				->with(['parent', 'children'])
+				->with('children')
 				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
 
 			return Response::json(array(

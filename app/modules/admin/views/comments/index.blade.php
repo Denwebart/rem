@@ -25,11 +25,7 @@
                                 <th>Статус публикации</th>
                                 <th>Дата создания</th>
                                 <th>Дата публикации</th>
-                                <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.comments.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
-                                </th>
+                                <th class="button-column"></th>
                             </tr>
                             </thead>
                             <tbody>

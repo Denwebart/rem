@@ -25,19 +25,21 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-4">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
-                                            @if(count($headerWidget->newLetters()))
+                                    <li class="active">
+                                        <a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
+                                            @if($newLetters = count($headerWidget->newLetters()))
                                                 <span class="label pull-right">
-                                                    {{ count($headerWidget->newLetters()) }}
+                                                    {{ $newLetters }}
                                                 </span>
                                             @endif
                                         </a>
                                     </li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
-                                    <li><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
-                                            @if(count($headerWidget->deletedLetters()))
+                                    <li>
+                                        <a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
+                                            @if($deletedLetters = count($headerWidget->deletedLetters()))
                                                 <span class="label label-danger pull-right">
-                                                    {{ count($headerWidget->deletedLetters()) }}
+                                                    {{ $deletedLetters }}
                                                 </span>
                                             @endif
                                         </a>

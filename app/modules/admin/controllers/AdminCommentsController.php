@@ -14,38 +14,9 @@ class AdminCommentsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$comments = Comment::paginate(10);
+		$comments = Comment::with('page', 'user')->paginate(10);
 
 		return View::make('admin::comments.index', compact('comments'));
-	}
-
-	/**
-	 * Show the form for creating a new comment
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return View::make('admin::comments.create');
-	}
-
-	/**
-	 * Store a newly created comment in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		$validator = Validator::make($data = Input::all(), Comment::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		Comment::create($data);
-
-		return Redirect::route('admin.comments.index');
 	}
 
 	/**

@@ -35,11 +35,11 @@
                             <i class="fa fa-clipboard"></i>
                             Страницы сайта
                             <span class="label pull-right">
-                                {{ count(Page::all()) }}
+                                {{ $pages->getTotal() }}
                             </span>
                         </a>
                     </li>
-                    @foreach(Page::whereParentId(0)->get() as $page)
+                    @foreach(Page::whereParentId(0)->with('children')->get() as $page)
                         <li{{ !$page->is_published ? ' class="not-published"' : ''}}>
                             @if($page->is_container && count($page->children))
                                 <a href="javascript:void(0)" class="open" data-page-id="{{ $page->id }}">

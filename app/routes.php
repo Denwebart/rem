@@ -6,7 +6,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'uses' => 'AdminPagesController@openTree']);
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
-	Route::resource('comments', 'AdminCommentsController', ['except' => ['show']]);
+	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
 	Route::resource('users', 'AdminUsersController');
 	Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
 	Route::resource('letters', 'AdminLettersController');

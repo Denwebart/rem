@@ -21,7 +21,6 @@ class AdminLettersController extends \BaseController {
 		} else {
 			$letters = Letter::orderBy('created_at', 'DESC')->whereNull('deleted_at')->paginate(10);
 		}
-
 		return View::make('admin::letters.index', compact('letters'));
 	}
 

@@ -9,9 +9,12 @@ class HeaderWidget
 
 	public function show($page = null)
 	{
-		$letters = $this->newLetters();
-		$letters = (string) View::make('widgets.header.letters', compact('letters'));
-
+		if(Auth::user()->isAdmin()) {
+			$letters = $this->newLetters();
+			$letters = (string) View::make('widgets.header.letters', compact('letters'));
+		} else {
+			$letters = '';
+		}
 		$messages = $this->newMessages();
 		$messages = (string) View::make('widgets.header.messages', compact('messages'));
 
@@ -20,14 +23,10 @@ class HeaderWidget
 
 
 	public function newLetters() {
-		if(Auth::user()->isAdmin()) {
-			$letters = Letter::whereNull('read_at')
+		$letters = Letter::whereNull('read_at')
 				->whereNull('deleted_at')
 				->orderBy('created_at', 'DESC')
 				->get();
-		} else {
-			$letters = [];
-		}
 
 		$this->newLetters = count($letters);
 
