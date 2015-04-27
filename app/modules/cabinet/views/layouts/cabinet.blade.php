@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-{{--                {{ $menuWidget->topMenu() }}--}}
+                {{ $menuWidget->topMenu() }}
                 @if (!Auth::check())
                     <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-50 pull-right">Войти</a>
                 @endif
@@ -116,7 +116,7 @@
     </div>
 </div>
 
-{{--{{ $menuWidget->mainMenu() }}--}}
+{{ $menuWidget->mainMenu() }}
 
 <div class="container">
     <div class="row">
@@ -191,7 +191,7 @@
 <footer class="container">
     <div class="row">
         <div class="col-xs-12">
-{{--            {{ $menuWidget->bottomMenu() }}--}}
+            {{ $menuWidget->bottomMenu() }}
         </div>
     </div>
 </footer>
