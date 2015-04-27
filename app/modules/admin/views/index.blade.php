@@ -11,9 +11,9 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div class="custom-box palette-alizarin">
                     <h3>
-                        <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.users.index') }}"></a>
+                        <a class="timer" data-start="0" data-from="0" data-to="{{ User::all()->count() }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.users.index') }}"></a>
                     </h3>
-                    <p>Новые пользователи</p>
+                    <p>Пользователей</p>
                     <i class="fa fa-users"></i>
                 </div>
             </div>
@@ -21,27 +21,27 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-peter-river">
                 <h3>
-                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
+                    <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newQuestions) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
                 </h3>
-                <p>Новые вопросы пользователей</p>
+                <p>Вопросы, <br> ожидающие модерации</p>
                 <i class="fa fa-question"></i>
             </div>
         </div><!-- ./col -->
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-carrot">
                 <h3>
-                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
+                    <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newArticles) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.pages.index') }}"></a>
                 </h3>
-                <p>Новые статьи пользователей</p>
+                <p>Статьи, <br> ожидающие модерации</p>
                 <i class="fa fa-file-text"></i>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-nephritis">
                 <h3>
-                    <a class="timer" data-start="0" data-from="0" data-to="45" data-speed="3000" data-refresh-interval="10" href="{{ URL::route('admin.comments.index') }}"></a>
+                    <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newComments) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.comments.index') }}"></a>
                 </h3>
-                <p>Новые комментарии</p>
+                <p>Комментарии, <br> ожидающие модерации</p>
                 <i class="fa fa-comment"></i>
             </div>
         </div>

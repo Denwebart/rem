@@ -66,16 +66,31 @@
                 <li class="{{ Request::is('admin/questions*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.questions.index') }}">
                         <i class="fa fa-question"></i> <span>Вопросы</span>
+                        @if($newQuestions = count($headerWidget->newQuestions))
+                            <small class="label pull-right">
+                                {{ $newQuestions }}
+                            </small>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Request::is('admin/articles*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.articles.index') }}">
-                        <i class="fa fa-file-o"></i> <span>Статьи пользователей</span>
+                        <i class="fa fa-file-o"></i> <span>Статьи юзеров</span>
+                        @if($newArticles = count($headerWidget->newArticles))
+                            <small class="label pull-right">
+                                {{ $newArticles }}
+                            </small>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Request::is('admin/comments*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.comments.index') }}">
                         <i class="fa fa-comment"></i> <span>Комментарии</span>
+                        @if($newComments = count($headerWidget->newComments))
+                            <small class="label pull-right">
+                                {{ $newComments }}
+                            </small>
+                        @endif
                     </a>
                 </li>
                 @if(Auth::user()->isAdmin())

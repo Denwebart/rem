@@ -48,7 +48,7 @@
                                         @if($comment->is_published)
                                             <span class="label label-success">Опубликован</span>
                                         @else
-                                            <span class="label label-warning">Не опубликован</span>
+                                            <span class="label label-warning">Ожидает модерации</span>
                                         @endif
                                     </td>
                                     <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>

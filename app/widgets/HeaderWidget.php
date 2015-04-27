@@ -6,9 +6,17 @@ class HeaderWidget
 	public $deletedLetters;
 	public $newMessages;
 	public $newUsers;
+	public $newQuestions;
+	public $newArticles;
+	public $newComments;
 
 	public function __construct()
 	{
+		if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
+			$this->newQuestions = $this->newQuestions();
+			$this->newArticles = $this->newArticles();
+			$this->newComments = $this->newComments();
+		}
 		if(Auth::user()->isAdmin()) {
 			$this->newLetters = $this->newLetters();
 		}
@@ -62,4 +70,27 @@ class HeaderWidget
 
 		return $letters;
 	}
+
+	public function newQuestions() {
+		return Page::whereType(Page::TYPE_QUESTION)
+			->whereNull('published_at')
+			->whereIsPublished(0)
+			->orderBy('created_at', 'DESC')
+			->get();
+	}
+
+	public function newArticles() {
+		return Page::whereType(Page::TYPE_ARTICLE)
+			->whereNull('published_at')
+			->whereIsPublished(0)
+			->orderBy('created_at', 'DESC')
+			->get();
+	}
+
+	public function newComments() {
+		return Comment::whereIsPublished(0)
+			->orderBy('created_at', 'DESC')
+			->get();
+	}
+
 }
