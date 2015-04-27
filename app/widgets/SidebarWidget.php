@@ -6,7 +6,7 @@ class SidebarWidget
 	 * Самое новое (по дате публикации)
 	 *
 	 * @param int $limit Количество записей
-	 * @return array
+	 * @return string
 	 */
 	public function latest($limit = 7)
 	{
@@ -25,7 +25,7 @@ class SidebarWidget
 	 * TOP- 10 (рейтинг голосов)
 	 *
 	 * @param int $limit Количество записей
-	 * @return array
+	 * @return string
 	 */
 	public function best($limit = 10)
 	{
@@ -45,7 +45,7 @@ class SidebarWidget
 	 * Самое популярное (по просмотрам)
 	 *
 	 * @param int $limit Количество записей
-	 * @return array
+	 * @return string
 	 */
 	public function popular($limit = 6)
 	{
@@ -64,7 +64,7 @@ class SidebarWidget
 	 * Аутсайдеры (последние по просмотрам)
 	 *
 	 * @param int $limit Количество записей
-	 * @return array
+	 * @return string
 	 */
 	public function unpopular($limit = 7)
 	{
@@ -83,7 +83,7 @@ class SidebarWidget
 	 * Комментарии (последние комментарии)
 	 *
 	 * @param int $limit Количество записей
-	 * @return array
+	 * @return string
 	 */
 	public function comments($limit = 9)
 	{
@@ -99,10 +99,19 @@ class SidebarWidget
 	/**
 	 * Добавление в закладки браузера
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function addToFavorites() {
 		return (string) View::make('widgets.sidebar.addToFavorites')->render();
+	}
+
+	/**
+	 * RSS лента
+	 *
+	 * @return string
+	 */
+	public function rss() {
+		return (string) View::make('widgets.sidebar.rss')->render();
 	}
 
 }
