@@ -1,6 +1,6 @@
 <div class="col-md-7">
     <div class="box">
-        <div class="box-title">
+        <div class="box-title" style="padding: 7px 10px">
             <h3>Основная информация</h3>
             <div class="pull-right author">
                 {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
@@ -11,8 +11,8 @@
         </div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::label('parent_id', 'Родитель', ['class' => 'control-label']) }}
-                {{ Form::select('parent_id', Page::getContainer(), $page->parent_id, ['class' => 'form-control']) }}
+                {{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
+                {{ Form::select('parent_id', Page::getJournalCategory(), $page->parent_id, ['class' => 'form-control']) }}
             </div>
             <div class="form-group">
                 {{ Form::label('alias', 'Алиас') }}
@@ -23,25 +23,6 @@
                 {{ Form::label('title', 'Заголовок') }}
                 {{ Form::text('title', $page->title, ['class' => 'form-control']) }}
                 {{ $errors->first('title') }}
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
-                        {{ Form::label('menu_title', 'Заголовок меню') }}
-                        {{ Form::text('menu_title', $page->menu_title, ['class' => 'form-control']) }}
-                        {{ $errors->first('menu_title') }}
-                    </div>
-                    <div class="col-sm-3">
-                        {{ Form::label('is_container', 'Содержит подпункты') }}
-                        {{ Form::hidden('is_container', 0) }}
-                        {{ Form::checkbox('is_container', 1) }}
-                    </div>
-                    <div class="col-sm-3">
-                        {{ Form::label('show_submenu', 'Показывать подменю') }}
-                        {{ Form::hidden('show_submenu', 0) }}
-                        {{ Form::checkbox('show_submenu', 1) }}
-                    </div>
-                </div>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -124,26 +105,11 @@
 <div class="col-md-12">
     <div class="box">
         <div class="box-title">
-            <h3>Контент страницы</h3>
+            <h3>Текст статьи</h3>
         </div>
         <div class="box-body">
-            <div class="box">
-                <div class="box-title">
-                    {{ Form::label('introtext', 'Краткое описание') }}
-                    <div class="pull-right box-toolbar">
-                        <a href="#" class="btn btn-link btn-xs collapse-box"><i class="fa fa-chevron-down"></i></a>
-                    </div>
-                </div>
-                <div class="box-body no-padding" style="display: none">
-                    <div class="form-group">
-                        {{ Form::textarea('introtext', $page->introtext, ['class' => 'form-control editor']) }}
-                        {{ $errors->first('introtext') }}
-                    </div>
-                </div>
-            </div>
 
             <div class="form-group">
-                {{ Form::label('content', 'Контент') }}
                 {{ Form::textarea('content', $page->content, ['class' => 'form-control editor']) }}
                 {{ $errors->first('content') }}
             </div>

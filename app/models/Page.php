@@ -196,6 +196,21 @@ class Page extends \Eloquent
 		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
 	}
 
+	public function getImage($prefix = null, $options = [])
+	{
+		if(isset($options['class'])) {
+			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive avatar-default ' . $options['class'];
+		} else {
+			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive avatar-default';
+		}
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		if($this->image){
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image, $this->image_alt, $options);
+		} else {
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $this->image_alt, $options);
+		}
+	}
+
 	public function getIntrotext()
 	{
 		return ($this->introtext) ? $this->introtext : StringHelper::closeTags(Str::limit($this->content, 500, '...'));

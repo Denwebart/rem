@@ -13,6 +13,7 @@ return [
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
 	'defaultImage' => '/images/default-image.jpg',
+	'mini_defaultImage' => '/images/mini_default-image.jpg',
 
 	'defaultAvatar' => '/images/default-avatar.jpg',
 	'mini_defaultAvatar' => '/images/mini_default-avatar.jpg',

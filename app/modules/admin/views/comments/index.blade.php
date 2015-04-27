@@ -18,13 +18,13 @@
                         <table class="table table-hover table-striped">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th max-width="20%">Страница</th>
-                                <th>Пользователь</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id') }}</th>
+                                <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Страница', 'page_id') }}</th>
                                 <th max-width="30%">Комментарий</th>
-                                <th>Статус публикации</th>
-                                <th>Дата создания</th>
-                                <th>Дата публикации</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at') }}</th>
                                 <th class="button-column"></th>
                             </tr>
                             </thead>
@@ -32,8 +32,17 @@
                             @foreach($comments as $comment)
                                 <tr>
                                     <td>{{ $comment->id }}</td>
-                                    <td>{{ $comment->page->getTitle() }}</td>
-                                    <td>{{ $comment->user->login }}</td>
+                                    <td>
+                                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
+                                            {{ $comment->user->getAvatar('mini', ['width' => '25px']) }}
+                                            {{ $comment->user->login }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ URL::to($comment->page->getUrl()) }}">
+                                            {{ $comment->page->getTitle() }}
+                                        </a>
+                                    </td>
                                     <td>{{ $comment->comment }}</td>
                                     <td>
                                         @if($comment->is_published)

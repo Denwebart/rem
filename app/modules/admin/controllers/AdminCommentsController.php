@@ -16,7 +16,13 @@ class AdminCommentsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$comments = Comment::with('page', 'user')->paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$comments = Comment::orderBy($sortBy, $direction)->with('page.parent.parent', 'user')->paginate(10);
+		} else {
+			$comments = Comment::orderBy('created_at', 'DESC')->with('page.parent.parent', 'user')->paginate(10);
+		}
 
 		return View::make('admin::comments.index', compact('comments'));
 	}

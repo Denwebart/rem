@@ -57,14 +57,22 @@ App::error(function(Exception $exception, $code)
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
 {
 	Log::error($exception);
-	return Response::view('errors/404', [], 404);
+	if(!Request::is('admin*')) {
+		return Response::view('errors.404', [], 404);
+	} else {
+		return Response::view('admin::errors.404', [], 404);
+	}
 });
 
 // 405 (если попытаться зайти по роуту типа post)
 App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
 {
 	Log::error($exception);
-	return Response::view('errors/404', [], 404);
+	if(!Request::is('admin*')) {
+		return Response::view('errors.404', [], 404);
+	} else {
+		return Response::view('admin::errors.404', [], 404);
+	}
 });
 
 

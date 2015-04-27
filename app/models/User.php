@@ -223,12 +223,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getAvatar($prefix = null, $options = [])
 	{
-		$class = isset($options['class']) ? ' ' . $options['class'] : '';
+		if(isset($options['class'])) {
+			$options['class'] = ($this->avatar) ? 'img-responsive ' . $options['class'] : 'img-responsive avatar-default ' . $options['class'];
+		} else {
+			$options['class'] = ($this->avatar) ? 'img-responsive' : 'img-responsive avatar-default';
+		}
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->avatar){
-			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->login . '/' . $prefix . $this->avatar, $this->login, ['class' => 'img-responsive' . $class]);
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->login . '/' . $prefix . $this->avatar, $this->login, $options);
 		} else {
-			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $this->login, ['class' => 'img-responsive avatar-default' . $class]);
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $this->login, $options);
 		}
 	}
 

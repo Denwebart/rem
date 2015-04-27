@@ -62,9 +62,16 @@ Route::filter('authInAdminPanel', function()
 		}
 	}
 	else {
-		if(!Auth::user()->isAdmin()) {
+		if(!Auth::user()->isAdmin() && !Auth::user()->isModerator()) {
 			return Redirect::to('/');
 		}
+	}
+});
+
+Route::filter('isAdmin', function()
+{
+	if(!Auth::user()->isAdmin()) {
+		return Response::view('admin::errors.403', [], 403);
 	}
 });
 

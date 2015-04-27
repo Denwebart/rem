@@ -3,16 +3,21 @@
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('/', 'AdminController@index');
-	Route::resource('pages', 'AdminPagesController', ['except' => ['show']]);
+	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'uses' => 'AdminPagesController@openTree']);
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
+	Route::resource('questions', 'AdminQuestionsController');
+	Route::resource('articles', 'AdminArticlesController');
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
-	Route::resource('users', 'AdminUsersController');
-	Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
-	Route::resource('letters', 'AdminLettersController');
-	Route::delete('admin/letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
-	Route::post('admin/letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
-	Route::get('admin/letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
+	/* Страницы доступные только для админа */
+	Route::group(['before' => 'isAdmin'], function(){
+		Route::resource('users', 'AdminUsersController');
+		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
+		Route::resource('letters', 'AdminLettersController');
+		Route::delete('admin/letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
+		Route::post('admin/letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
+		Route::get('admin/letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
+	});
 });
 
 /* Личный кабинет */

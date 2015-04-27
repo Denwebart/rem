@@ -1,6 +1,6 @@
 <?php
 
-class AdminPagesController extends \BaseController {
+class AdminArticlesController extends \BaseController {
 
 	public function __construct(){
 		if(Auth::check()){
@@ -19,12 +19,12 @@ class AdminPagesController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$pages = Page::orderBy($sortBy, $direction)->with('parent.parent', 'children')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy($sortBy, $direction)->with('parent.parent', 'user')->paginate(10);
 		} else {
-			$pages = Page::orderBy('created_at', 'DESC')->with('parent.parent', 'children')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy('created_at', 'DESC')->with('parent.parent', 'user')->paginate(10);
 		}
 
-		return View::make('admin::pages.index', compact('pages'));
+		return View::make('admin::articles.index', compact('pages'));
 	}
 
 	/**
@@ -37,7 +37,7 @@ class AdminPagesController extends \BaseController {
 		$page = new Page();
 		$page->user_id = Auth::user()->id;
 
-		return View::make('admin::pages.create', compact('page'));
+		return View::make('admin::articles.create', compact('page'));
 	}
 
 	/**
@@ -59,6 +59,7 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = Auth::user()->id;
+		$data['type'] = Page::TYPE_ARTICLE;
 
 		$validator = Validator::make($data, Page::$rules);
 
@@ -69,7 +70,7 @@ class AdminPagesController extends \BaseController {
 
 		Page::create($data);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::route('admin.articles.index');
 	}
 
 	/**
@@ -80,9 +81,9 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$page = Page::findOrFail($id);
+		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
 
-		return View::make('admin::pages.show', compact('page'));
+		return View::make('admin::articles.show', compact('page'));
 	}
 
 	/**
@@ -93,9 +94,9 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$page = Page::find($id);
+		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
 
-		return View::make('admin::pages.edit', compact('page'));
+		return View::make('admin::articles.edit', compact('page'));
 	}
 
 	/**
@@ -106,7 +107,7 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$page = Page::findOrFail($id);
+		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
 
 		$data = Input::all();
 
@@ -120,6 +121,7 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = Auth::user()->id;
+		$data['type'] = Page::TYPE_ARTICLE;
 
 		$validator = Validator::make($data, Page::$rules);
 
@@ -130,7 +132,7 @@ class AdminPagesController extends \BaseController {
 
 		$page->update($data);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::route('admin.articles.index');
 	}
 
 	/**
@@ -141,29 +143,10 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Page::destroy($id);
+		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
+		$page->delete();
 
-		return Redirect::route('admin.pages.index');
-	}
-
-	/**
-	 * Открытие дерева
-	 *
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function openTree() {
-		if(Request::ajax()) {
-			$parentId = Input::get('pageId');
-
-			$pages = Page::whereParentId($parentId)
-				->with('children')
-				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
-
-			return Response::json(array(
-				'success' => true,
-				'children' => (string) View::make('admin::pages._children', compact('pages'))->render(),
-			));
-		}
+		return Redirect::route('admin.articles.index');
 	}
 
 	/**
@@ -174,7 +157,7 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function children($id)
 	{
-		$parentPage = Page::find($id);
+		$parentPage = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
 
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
@@ -184,7 +167,7 @@ class AdminPagesController extends \BaseController {
 			$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
 		}
 
-		return View::make('admin::pages.index', compact('parentPage', 'pages'));
+		return View::make('admin::articles.index', compact('parentPage', 'pages'));
 	}
 
 }
