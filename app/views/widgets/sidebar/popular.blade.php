@@ -4,7 +4,7 @@
     @foreach($pages as $page)
         <div class="list-group-item">
             <div class="row-picture">
-                <img class="circle" src="/images/mini_default-image.jpg" alt="icon">
+                <img class="square" src="/images/mini_default-image.jpg" alt="icon">
                 <div class="views">
                     <i class="mdi-image-remove-red-eye"></i>
                     <span>{{ $page->views }}</span>

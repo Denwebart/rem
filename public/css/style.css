@@ -203,9 +203,12 @@ footer #navbar-bottom li {
 .list-group .list-group-item .row-picture .date i {
     font-size: 30px;
 }
-/*.list-group .list-group-item .row-picture .date i {*/
-    /*font-size: 30px;*/
-/*}*/
+.list-group .list-group-item .row-picture img.square,
+.list-group .list-group-item .row-action-primary img.square {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 
 #favorites-widget a {
     width: 100%;
