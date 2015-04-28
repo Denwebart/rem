@@ -12,7 +12,7 @@ class CabinetController extends \BaseController
 	public function index()
 	{
 		$users = User::whereIsActive(1)
-			->with(['publishedArticles', 'publishedQuestions', 'publishedСomments'])
+			->with('publishedArticles', 'publishedQuestions', 'publishedСomments')
 			->paginate(10);
 
 		$name = trim(Input::get('name'));
@@ -23,7 +23,7 @@ class CabinetController extends \BaseController
 				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
 				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
 				->orWhere('login', 'like', "$name%")
-				->with(['publishedArticles', 'publishedQuestions', 'publishedComments'])
+//				->with('publishedArticles', 'publishedQuestions', 'publishedComments')
 				->paginate(10);
 		}
 
