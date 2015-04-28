@@ -33,7 +33,7 @@ View::share('title', $title);
                         <div data-page-id="{{ $page->page->id }}" class="col-md-12">
                             <div class="well">
                                 <div class="pull-right">
-                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page->id }}">
+                                    <a href="javascript:void(0)" class="remove-page" data-id="{{ $page->page->id }}">
                                         <i class="glyphicon glyphicon-floppy-remove"></i>
                                     </a>
                                 </div>
@@ -85,7 +85,7 @@ View::share('title', $title);
 
 @section('script')
     <script type="text/javascript">
-        $("#remove-page").on('click', function() {
+        $(".remove-page").on('click', function() {
             var $link = $(this);
             var pageId = $link.data('id');
             $.ajax({
