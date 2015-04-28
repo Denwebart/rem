@@ -229,6 +229,15 @@ footer #navbar-bottom li {
 
 /*-- End Sidebar Widget --*/
 
+/*-- Комментарии --*/
+
+#comments-widget .vote-like {
+    color: #4CAF50;
+}
+#comments-widget .vote-dislike {
+    color: #F44336;
+}
+
 /*-- Полоса уведомлений для авторизованных пользователей --*/
 
 /* Header==================================================*/

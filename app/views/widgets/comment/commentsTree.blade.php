@@ -18,9 +18,9 @@
                     <div>{{ $comment->comment }}</div>
 
                     <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}">
-                        <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                        <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
                         <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-                        <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                        <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
                         <div class="vote-message"></div>
                     </div>
 
@@ -76,9 +76,9 @@
                                         <div>{{ $commentLevel2->comment }}</div>
 
                                         <div class="vote pull-right" data-vote-comment-id="{{ $commentLevel2->id }}">
-                                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
                                             <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
                                             <div class="vote-message"></div>
                                         </div>
 
