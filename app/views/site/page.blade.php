@@ -89,7 +89,7 @@
 			</section><!--blog-area-->
 		@endif
 
-		@if(!$page->is_container && !count($page->children))
+		@if(!$page->is_container && !count($page->children) && $page->parent_id != 0)
 			{{-- Читайте также --}}
 			<?php $relatedWidget = app('RelatedWidget') ?>
 			{{ $relatedWidget->show($page) }}

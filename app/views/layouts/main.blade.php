@@ -115,7 +115,7 @@ if(Auth::check()){
                     <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-20 pull-right">
                         Войти
                     </a>
-                    <a href="{{ URL::to('users/register') }}" class="btn btn-primary margin-top-10 pull-right">
+                    <a href="{{ URL::to('users/register') }}" class="btn btn-primary pull-right">
                         Зарегистрироваться
                     </a>
                 @endif

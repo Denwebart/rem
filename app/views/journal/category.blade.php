@@ -53,6 +53,13 @@
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
+                                @if(Auth::check())
+                                    @if($article->user_id == Auth::user()->id)
+                                        <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                            Редактировать
+                                        </a>
+                                    @endif
+                                @endif
                                 <a href="{{ URL::to($article->parent->getUrl()) }}">
                                     {{ $article->parent->getTitle() }}
                                 </a>

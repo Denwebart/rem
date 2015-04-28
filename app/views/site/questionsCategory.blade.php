@@ -53,10 +53,12 @@
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
-                                @if($question->user_id == Auth::user()->id)
-                                    <a href="{{ URL::route('user.questions.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
-                                        Редактировать
-                                    </a>
+                                @if(Auth::check())
+                                    @if($question->user_id == Auth::user()->id)
+                                        <a href="{{ URL::route('user.questions.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
+                                            Редактировать
+                                        </a>
+                                    @endif
                                 @endif
                                 <a href="{{ URL::to($question->parent->getUrl()) }}">
                                     {{ $question->parent->getTitle() }}
