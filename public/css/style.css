@@ -91,7 +91,7 @@ footer #navbar-bottom li {
 .navbar .navbar-nav > li > a {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
-    font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 .navbar #navbar-main .navbar-nav > li > a {
     font-size: 16px;
