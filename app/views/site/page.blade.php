@@ -89,6 +89,12 @@
 			</section><!--blog-area-->
 		@endif
 
+		@if(!$page->is_container && !count($page->children))
+			{{-- Читайте также --}}
+			<?php $relatedWidget = app('RelatedWidget') ?>
+			{{ $relatedWidget->show($page) }}
+		@endif
+
 		@if($page->showComments())
 			{{-- Комментарии --}}
 			<?php $commentWidget = app('CommentWidget') ?>

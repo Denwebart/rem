@@ -47,7 +47,7 @@ class SidebarWidget
 	 * @param int $limit Количество записей
 	 * @return string
 	 */
-	public function popular($limit = 6)
+	public function popular($limit = 5)
 	{
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -94,6 +94,25 @@ class SidebarWidget
 			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
 
 		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+	}
+
+	/**
+	 * Вопросы пользователей (последние вопросы)
+	 *
+	 * @param int $limit Количество записей
+	 * @return string
+	 */
+	public function questions($limit = 5)
+	{
+		$questions = Page::whereType(Page::TYPE_QUESTION)
+		    ->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->limit($limit)
+			->with('parent.parent', 'user', 'comments')
+			->orderBy('created_at', 'DESC')
+			->get(['id', 'parent_id', 'user_id', 'created_at', 'is_published', 'title']);
+
+		return (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 	}
 
 	/**

@@ -130,6 +130,8 @@ if(Auth::check()){
     <div class="row">
         <div class="col-lg-3 col-md-3">
 
+            {{ $sidebarWidget->questions() }}
+
             {{ $sidebarWidget->popular() }}
 
             {{ $sidebarWidget->best() }}
