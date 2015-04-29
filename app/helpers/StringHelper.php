@@ -22,6 +22,18 @@ class StringHelper
 	}
 
 	/**
+	 * Обрезка фрагмента текста до пробела с учетом кодировки
+	 *
+	 * @param $html
+	 * @param $size
+	 * @return string
+	 */
+	public static function limit($html, $size, $end = '...'){
+		$string = strip_tags($html);
+		return mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $size,'utf-8'),' ', 'utf-8'),'utf-8') . $end;
+	}
+
+	/**
 	 * Closing html tags which not closed
 	 *
 	 * @param string $html
@@ -75,6 +87,38 @@ class StringHelper
 	    else {
 		    return '<a href="'.$link[1].'" rel="nofollow" target="_blank">';
 	    }
+	}
+
+	/**
+	 * Автоматическая генерация мета-тега keywords из текста
+	 *
+	 * @param $html
+	 * @param $limit
+	 * @return string
+	 */
+	public static function autoMetaKeywords($html, $limit = 10) {
+		$withoutLinks = preg_replace("~<a.*?</a>(*SKIP)(*F)|(http|https|ftp|ftps)://([^\s\[<]+)~i", '', StringHelper::limit($html, 500, ''));
+		$string = preg_replace('/ {2,}/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $withoutLinks));
+
+		$words = explode(' ', $string);
+
+		$excludeWords = [
+			'помогите', 'пожалуйста'
+		];
+
+		$words = array_diff($words, $excludeWords);
+
+		$keywordsArray =[];
+		foreach ($words as $key => $word){
+			if(mb_strlen($word) > 3){
+				$keywordsArray[$key] = preg_replace('/[^A-Za-zА-Яа-яЁёЇїІіЄє-]/u', '', $word);
+			}
+		}
+
+		$keywordsArray = array_slice($keywordsArray, 0, $limit);
+		$keywords = implode(', ', $keywordsArray);
+
+		return $keywords;
 	}
 
 }

@@ -302,6 +302,8 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['meta_title'] = $data['title'];
+		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -344,6 +346,8 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['meta_title'] = $data['title'];
+		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -420,6 +424,8 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_ARTICLE;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['meta_title'] = $data['title'];
+		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -462,6 +468,9 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_ARTICLE;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['meta_title'] = $data['title'];
+		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
+		$data['meta_key'] = StringHelper::autoMetaKeywords($data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 

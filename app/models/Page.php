@@ -121,7 +121,10 @@ class Page extends \Eloquent
 		'user_id' => 'required|integer',
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'title' => 'required|max:500',
-		'content' => 'required'
+		'content' => 'required',
+		'meta_title' => 'max:600',
+		'meta_desc' => 'max:1500',
+		'meta_key' => 'max:1500',
 	];
 
 	public function parent()
