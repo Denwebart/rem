@@ -19,10 +19,10 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::get('admin/letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 
 		// Копия базы
-		Route::get('backup', function(){
-//			Artisan::call('db:backup', ['--database' => 'msql']);
-
-		});
+//		Route::get('backup', function(){
+//			Artisan::call('db:backup', ['filename'=>'app/storage/dumps/avtorem_'. date('d-m-Y_H-i-s') .'.sql']);
+//			Artisan::call('db:backup', ['filename'=>'app/storage/dumps/avtorem.sql']);
+//		});
 	});
 });
 
