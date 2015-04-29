@@ -60,12 +60,12 @@ View::share('title', $title);
 
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="form-group">
-                        {{ Form::label('login', 'Логин') }}
-                        {{ Form::text('login', $user->login, ['class' => 'form-control']) }}
-                        {{ $errors->first('login') }}
-                    </div>
-                    {{--<h2>{{{ $user->login }}}</h2>--}}
+                    {{--<div class="form-group">--}}
+                        {{--{{ Form::label('login', 'Логин') }}--}}
+                        {{--{{ Form::text('login', $user->login, ['class' => 'form-control']) }}--}}
+                        {{--{{ $errors->first('login') }}--}}
+                    {{--</div>--}}
+                    <h2>{{{ $user->login }}}</h2>
                 </div>
                 <div class="col-lg-6">
                     <div class="button-group">
