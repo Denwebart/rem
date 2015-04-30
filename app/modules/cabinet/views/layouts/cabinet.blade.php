@@ -130,61 +130,62 @@
                 <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="glyphicon glyphicon-user"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль' }}</span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль') : 'Профиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="fa fa-car"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Aвтомобиль' }}</span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="glyphicon glyphicon-question-sign"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мои вопросы' : 'Вопросы' }}</span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы') : 'Вопросы' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.journal') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="glyphicon glyphicon-book"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мой журнал' : 'Бортовой журнал' }}</span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой журнал' : 'Бортовой журнал') : 'Бортовой журнал' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                         <span class="fa fa-comment"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мои комментарии' : 'Комментарии' }}</span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои комментарии' : 'Комментарии') : 'Комментарии' }}</span>
                     </a>
                 </li>
-                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-                    <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
-                        <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
-                            <span class="glyphicon glyphicon-send"></span>
-                            <span>Личные сообщения</span>
-                            @if(Auth::user()->is($user))
-                                @if($newMessages = count($headerWidget->newMessages))
-                                    <small class="label label-info">{{ $newMessages }}</small>
+                @if(Auth::check())
+                    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                        <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
+                            <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
+                                <span class="glyphicon glyphicon-send"></span>
+                                <span>Личные сообщения</span>
+                                @if(Auth::user()->is($user))
+                                    @if($newMessages = count($headerWidget->newMessages))
+                                        <small class="label label-info">{{ $newMessages }}</small>
+                                    @endif
                                 @endif
-                            @endif
-                        </a>
-                    </li>
-                    <li class="messages {{ Route::is('user.savedPages') ? 'active' : '' }}">
-                        <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl()]) }}">
-                            <span class="glyphicon glyphicon-floppy-disk"></span>
-                            <span>Сохранённое</span>
+                            </a>
+                        </li>
+                        <li class="messages {{ Route::is('user.savedPages') ? 'active' : '' }}">
+                            <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl()]) }}">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <span>Сохранённое</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
+                        <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">
+                            <span class="glyphicon glyphicon-heart-empty"></span>
+                            <span>{{ Auth::user()->is($user) ? 'Мои подписки' : 'Подписки'}}</span>
                         </a>
                     </li>
                 @endif
-                <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
-                    <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="glyphicon glyphicon-heart-empty"></span>
-                        <span>{{ (Auth::user()->is($user)) ? 'Мои подписки' : 'Подписки' }}</span>
-                    </a>
-                </li>
             </ul>
         </div>
-
     </div>
 </div>
 

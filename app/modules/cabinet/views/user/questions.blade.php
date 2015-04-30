@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = (Auth::user()->is($user)) ? 'Мои вопросы' : 'Вопросы пользователя ' . $user->login;
+$title = Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы пользователя ' . $user->login) : 'Вопросы пользователя ' . $user->login;
 View::share('title', $title);
 ?>
 
@@ -12,7 +12,7 @@ View::share('title', $title);
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                        {{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login) : 'Профиль пользователя ' . $user->login}}
                     </a>
                 </li>
                 <li>{{ $title }}</li>
@@ -27,10 +27,12 @@ View::share('title', $title);
         <div class="col-lg-9">
             <h2>{{ $title }}</h2>
 
-            @if(Auth::user()->is($user))
-                <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                    Задать вопрос
-                </a>
+            @if(Auth::check())
+                @if(Auth::user()->is($user))
+                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                        Задать вопрос
+                    </a>
+                @endif
             @endif
 
             <div id="questions">
@@ -39,15 +41,17 @@ View::share('title', $title);
 
                     <div data-question-id="{{ $question->id }}" class="col-md-12">
                         <div class="well">
-                            @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-                                <div class="pull-right">
-                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
-                                        Редактировать
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
-                                        Удалить
-                                    </a>
-                                </div>
+                            @if(Auth::check())
+                                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                                    <div class="pull-right">
+                                        <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
+                                            Редактировать
+                                        </a>
+                                        <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
+                                            Удалить
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                             <h3>
                                 <a href="{{ URL::to($question->getUrl()) }}">
@@ -84,24 +88,26 @@ View::share('title', $title);
     @parent
 
     <!-- Delete Question -->
-    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-        <script type="text/javascript">
-            $('.delete-question').click(function(){
-                var questionId = $(this).data('id');
-                if(confirm('Вы уверены, что хотите удалить вопрос?')) {
-                    $.ajax({
-                        url: '<?php echo URL::route('user.questions.delete', ['login' => $user->getLoginForUrl()]) ?>',
-                        dataType: "text json",
-                        type: "POST",
-                        data: {questionId: questionId},
-                        success: function(response) {
-                            if(response.success){
-                                $('[data-question-id=' + questionId + ']').remove();
+    @if(Auth::check())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $('.delete-question').click(function(){
+                    var questionId = $(this).data('id');
+                    if(confirm('Вы уверены, что хотите удалить вопрос?')) {
+                        $.ajax({
+                            url: '<?php echo URL::route('user.questions.delete', ['login' => $user->getLoginForUrl()]) ?>',
+                            dataType: "text json",
+                            type: "POST",
+                            data: {questionId: questionId},
+                            success: function(response) {
+                                if(response.success){
+                                    $('[data-question-id=' + questionId + ']').remove();
+                                }
                             }
-                        }
-                    });
-                }
-            });
-        </script>
+                        });
+                    }
+                });
+            </script>
+        @endif
     @endif
 @stop

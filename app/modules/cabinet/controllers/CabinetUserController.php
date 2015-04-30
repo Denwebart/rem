@@ -22,9 +22,12 @@ class CabinetUserController extends \BaseController
 
 	public function index($login)
 	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
 			: User::whereLogin($login)->firstOrFail();
+
 		View::share('user', $user);
 		return View::make('cabinet::user.index');
 	}
@@ -138,9 +141,11 @@ class CabinetUserController extends \BaseController
 
 	public function gallery($login)
 	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
-			: User::whereLogin($login)->with('images')->firstOrFail();
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
+			: User::whereLogin($login)->firstOrFail();
 		View::share('user', $user);
 		return View::make('cabinet::user.gallery');
 	}
@@ -260,16 +265,27 @@ class CabinetUserController extends \BaseController
 
 	public function questions($login)
 	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
 			: User::whereLogin($login)->firstOrFail();
 
-		if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-			$questions = Page::whereType(Page::TYPE_QUESTION)
-				->whereUserId($user->id)
-				->with('parent.parent')
-				->orderBy('created_at', 'DESC')
-				->paginate(10);
+		if(Auth::check()){
+			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
+				$questions = Page::whereType(Page::TYPE_QUESTION)
+					->whereUserId($user->id)
+					->with('parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			} else {
+				$questions = Page::whereType(Page::TYPE_QUESTION)
+					->whereUserId($user->id)
+					->whereIsPublished(1)
+					->with('parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			}
 		} else {
 			$questions = Page::whereType(Page::TYPE_QUESTION)
 				->whereUserId($user->id)
@@ -384,16 +400,27 @@ class CabinetUserController extends \BaseController
 
 	public function journal($login)
 	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
 			: User::whereLogin($login)->firstOrFail();
 
-		if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-			$articles = Page::whereType(Page::TYPE_ARTICLE)
-				->whereUserId($user->id)
-				->with('parent.parent')
-				->orderBy('created_at', 'DESC')
-				->paginate(10);
+		if(Auth::check()){
+			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
+				$articles = Page::whereType(Page::TYPE_ARTICLE)
+					->whereUserId($user->id)
+					->with('parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			} else {
+				$articles = Page::whereType(Page::TYPE_ARTICLE)
+					->whereUserId($user->id)
+					->whereIsPublished(1)
+					->with('parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			}
 		} else {
 			$articles = Page::whereType(Page::TYPE_ARTICLE)
 				->whereUserId($user->id)
@@ -508,15 +535,25 @@ class CabinetUserController extends \BaseController
 
 	public function comments($login)
 	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
 			: User::whereLogin($login)->firstOrFail();
 
-		if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-			$comments = Comment::whereUserId($user->id)
-				->with('page.parent.parent')
-				->orderBy('created_at', 'DESC')
-				->paginate(10);
+		if(Auth::check()){
+			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
+				$comments = Comment::whereUserId($user->id)
+					->with('page.parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			} else {
+				$comments = Comment::whereUserId($user->id)
+					->whereIsPublished(1)
+					->with('page.parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			}
 		} else {
 			$comments = Comment::whereUserId($user->id)
 				->whereIsPublished(1)

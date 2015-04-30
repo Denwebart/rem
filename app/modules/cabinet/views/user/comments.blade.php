@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = (Auth::user()->is($user)) ? 'Мои комментарии' : 'Комментарии пользователя ' . $user->login;
+$title = Auth::check() ? (Auth::user()->is($user) ? 'Мои комментарии' : 'Комментарии пользователя ' . $user->login) : 'Комментарии пользователя ' . $user->login;
 View::share('title', $title);
 ?>
 
@@ -12,7 +12,7 @@ View::share('title', $title);
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                        {{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login) : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
                 <li>{{ $title }}</li>

@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = (Auth::user()->is($user)) ? 'Мой бортовой журнал' : 'Бортовой журнал пользователя ' . $user->login;
+$title = Auth::check() ? (Auth::user()->is($user) ? 'Мой бортовой журнал' : 'Бортовой журнал пользователя ' . $user->login) : 'Бортовой журнал пользователя ' . $user->login;
 View::share('title', $title);
 ?>
 
@@ -12,7 +12,7 @@ View::share('title', $title);
                 <li><a href="{{ URL::to('/') }}">Главная</a></li>
                 <li>
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                        {{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login) : 'Профиль пользователя ' . $user->login }}
                     </a>
                 </li>
                 <li>{{ $title }}</li>
@@ -27,10 +27,12 @@ View::share('title', $title);
         <div class="col-lg-9">
             <h2>{{ $title }}</h2>
 
-            @if(Auth::user()->is($user))
-                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                    Написать статью
-                </a>
+            @if(Auth::check())
+                @if(Auth::user()->is($user))
+                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                        Написать статью
+                    </a>
+                @endif
             @endif
 
             <div id="articles">
@@ -39,15 +41,17 @@ View::share('title', $title);
 
                     <div data-article-id="{{ $article->id }}" class="col-md-12">
                         <div class="well">
-                            @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-                                <div class="pull-right">
-                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                        Редактировать
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
-                                        Удалить
-                                    </a>
-                                </div>
+                            @if(Auth::check())
+                                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                                    <div class="pull-right">
+                                        <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                            Редактировать
+                                        </a>
+                                        <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
+                                            Удалить
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                             <h3>
                                 <a href="{{ URL::to($article->getUrl()) }}">
@@ -84,24 +88,26 @@ View::share('title', $title);
     @parent
 
     <!-- Delete Article -->
-    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-        <script type="text/javascript">
-            $('.delete-article').click(function(){
-                var articleId = $(this).data('id');
-                if(confirm('Вы уверены, что хотите удалить статью?')) {
-                    $.ajax({
-                        url: '<?php echo URL::route('user.journal.delete', ['login' => $user->getLoginForUrl()]) ?>',
-                        dataType: "text json",
-                        type: "POST",
-                        data: {articleId: articleId},
-                        success: function(response) {
-                            if(response.success){
-                                $('[data-article-id=' + articleId + ']').remove();
+    @if(Auth::check())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $('.delete-article').click(function(){
+                    var articleId = $(this).data('id');
+                    if(confirm('Вы уверены, что хотите удалить статью?')) {
+                        $.ajax({
+                            url: '<?php echo URL::route('user.journal.delete', ['login' => $user->getLoginForUrl()]) ?>',
+                            dataType: "text json",
+                            type: "POST",
+                            data: {articleId: articleId},
+                            success: function(response) {
+                                if(response.success){
+                                    $('[data-article-id=' + articleId + ']').remove();
+                                }
                             }
-                        }
-                    });
-                }
-            });
-        </script>
+                        });
+                    }
+                });
+            </script>
+        @endif
     @endif
 @stop

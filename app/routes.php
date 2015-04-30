@@ -27,30 +27,27 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 });
 
 /* Личный кабинет */
-Route::get('users', ['before' => 'auth', 'as' => 'users', 'uses' => 'CabinetController@index']);
-Route::get('users/autocomplete', ['before' => 'auth', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
-Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
-	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
+Route::group(['prefix' => 'users', 'before' => 'authInCabinet'], function(){
+	Route::get('/', ['before' => 'authInCabinet', 'as' => 'users', 'uses' => 'CabinetController@index']);
+	Route::get('autocomplete', ['before' => 'authInCabinet', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
+});
+Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
 	Route::post('{login}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);
-	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
 	Route::post('{login}/gallery/uploadPhoto', ['as' => 'user.gallery.uploadPhoto', 'uses' => 'CabinetUserController@uploadPhoto']);
 	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'uses' => 'CabinetUserController@deletePhoto']);
 	Route::any('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'uses' => 'CabinetUserController@editPhoto']);
-	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
 	Route::get('{login}/questions/create', ['as' => 'user.questions.create', 'uses' => 'CabinetUserController@createQuestion']);
 	Route::post('{login}/questions/store', ['as' => 'user.questions.store', 'uses' => 'CabinetUserController@storeQuestion']);
 	Route::get('{login}/questions/{id}/edit', ['as' => 'user.questions.edit', 'uses' => 'CabinetUserController@editQuestion']);
 	Route::put('{login}/questions/{id}', ['as' => 'user.questions.update', 'uses' => 'CabinetUserController@updateQuestion']);
 	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'uses' => 'CabinetUserController@deleteQuestion']);
-	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
 	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
 	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'uses' => 'CabinetUserController@storeJournal']);
 	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
 	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'uses' => 'CabinetUserController@updateJournal']);
 	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'uses' => 'CabinetUserController@deleteJournal']);
-	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
 	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);
@@ -59,6 +56,13 @@ Route::group(['prefix' => 'user', 'before' => 'auth'], function(){
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'uses' => 'CabinetUserController@savePage']);
 	Route::post('{login}/removePage', ['as' => 'user.removePage', 'uses' => 'CabinetUserController@removePage']);
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
+});
+Route::group(['prefix' => 'user'], function() {
+	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
+	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
+	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
+	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
+	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 });
 
 /* Пользователи */
