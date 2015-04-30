@@ -222,7 +222,23 @@
                     }
                 }
             });
-
+        });
+        $(".vote-dislike").on('click', function() {
+            var commentId = $(this).parent().data('voteCommentId');
+            $.ajax({
+                url: '/comment/vote/' + commentId,
+                dataType: "text json",
+                type: "POST",
+                data: {vote: 'dislike'},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                    } else {
+                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                    }
+                }
+            });
         });
     </script>
 @stop
