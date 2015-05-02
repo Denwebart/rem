@@ -1,50 +1,56 @@
 @extends('layouts.login')
 
-@section('title')
-    Вход
-@stop
-
-@section('headExtra')
-    {{ HTML::style('css/signin.css') }}
-@stop
+<?php
+$title = 'Вход на сайт';
+View::share('title', $title);
+?>
 
 @section('content')
     <div class="container">
-        @if (Session::has('alert'))
-            <div class="alert alert-danger">
-                <p>{{ Session::get('alert') }}</p>
-            </div>
-        @endif
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 well">
+                @if (Session::has('alert'))
+                    <div class="alert alert-danger">
+                        <p>{{ Session::get('alert') }}</p>
+                    </div>
+                @endif
 
-            @if(Session::has('message'))
-                <div class="alert alert-danger">
-                    <p>{{ Session::get('message') }}</p>
+                @if(Session::has('message'))
+                    <div class="alert alert-danger">
+                        <p>{{ Session::get('message') }}</p>
+                    </div>
+                @endif
+
+                {{ Form::open([
+                      'action' => ['UsersController@postLogin'],
+                      'class' => '',
+                      ])
+                }}
+                <h2 class="form-signin-heading">Вход</h2>
+
+                <div class="form-group">
+                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или имя*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
+                    @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                 </div>
-            @endif
 
-            {{ Form::open([
-                  'action' => ['UsersController@postLogin'],
-                  'class' => 'form-signin',
-                  ])
-            }}
-            <h2 class="form-signin-heading">Ваши данные</h2>
+                <div class="form-group">
+                    {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*', 'required'=>'required']); }}
+                    @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                </div>
 
-            {{ Form::text('login', '', ['class' => 'form-control', 'placeholder' => 'Email или имя*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
-            @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
+                <div class="checkbox">
+                    <label>
+                        {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }} Запомнить меня
+                    </label>
+                </div>
 
-            {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Пароль*', 'required'=>'required']); }}
-            @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-lg btn-primary btn-block']) }}
 
-            <label class="checkbox">
-                {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }}
-                Запомнить меня
-            </label>
+                <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
+                <a href="{{ URL::to('users/register') }}">Регистрация</a>
 
-            {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-lg btn-primary btn-block']) }}
-
-            <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
-            <a href="{{ URL::to('users/register') }}">Регистрация</a>
-
-            {{ Form::close() }}
+                {{ Form::close() }}
+            </div>
+        </div>
     </div>
 @stop
