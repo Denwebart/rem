@@ -1,7 +1,7 @@
 <div id="favorites-widget" class="sidebar-widget">
     <a href="javascript:void(0)" onclick="return addFavorite(this);" class="btn btn-default btn-raised">
-        <i class="mdi-action-grade"></i>
-        <span>Добавить сайт в закладки</span>
+        <i class="fa fa-star"></i>
+        <span>В закладки</span>
     </a>
 </div>
 @section('script')

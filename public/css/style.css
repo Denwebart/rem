@@ -1,6 +1,7 @@
 body {
     padding: 0 0 20px !important;
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
+    background: url('../images/natural_paper.png') repeat;
 }
 .container {
     width: 1300px;
@@ -11,6 +12,17 @@ a {
 a:hover,
 a:focus {
     outline: none;
+}
+/*-- Заголовки --*/
+.h2, h2 {
+    font-size: 26px;
+}
+.h3, h3,
+.h4, h4 {
+    font-size: 22px;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 5px;
 }
 
 .margin-top-10 {
@@ -55,13 +67,25 @@ a:focus {
     margin: 20px 0;
 }
 #site-title h1 {
-    font-size: 30px;
-    margin-top: 15px;
+    font-size: 34px;
+    line-height: 30px;
+    margin-top: 20px;
+    font-weight: 400;
 }
 #site-title h1 .slogan {
     font-size: 20px;
+    line-height: 24px;
+    font-weight: 300;
 }
 /*-- End Logo --*/
+
+/*-- Header--*/
+.btn-login {
+    width: 136px;
+}
+.btn-register {
+    clear: both;
+}
 
 /*-- Content --*/
 .content {
@@ -70,7 +94,10 @@ a:focus {
 /*-- End Content --*/
 
 /*-- Navbar --*/
-
+#navbar-top {
+    margin-top: 7px;
+    padding: 0;
+}
 #navbar-top .navbar-nav > li > a {
     padding: 5px 5px;
 }
@@ -99,6 +126,7 @@ footer #navbar-bottom li {
 .navbar #navbar-main .navbar-nav > li > a {
     font-size: 16px;
     color: #ffffff !important;
+    font-weight: 400;
 }
 .navbar #navbar-main .navbar-nav > li > a:hover,
 .navbar #navbar-main .navbar-nav > li > a:focus,
@@ -213,17 +241,20 @@ footer #navbar-bottom li {
     border-radius: 5px;
 }
 
-#favorites-widget a {
+#favorites-widget a,
+#rss-widget a {
     width: 100%;
     margin-top: 0;
     background: #f4f4f4;
     padding: 4px 10px;
 }
-#favorites-widget a i {
+#favorites-widget a i,
+#rss-widget a i {
     color: #ffab00;
     font-size: 24px;
 }
-#favorites-widget a span {
+#favorites-widget a span,
+#rss-widget a span {
     position: relative;
     top: -3px;
     text-transform: none;

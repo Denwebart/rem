@@ -77,7 +77,7 @@ if(Auth::check()){
 <div class="header">
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div id="logo">
                     <a href="{{ URL::to('/') }}">
                         {{ HTML::image('images/logo.png') }}
@@ -88,6 +88,7 @@ if(Auth::check()){
                 <div id="site-title">
                     <h1>
                         Школа авторемонта
+                        <br>
                         <span class="slogan">
                             Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками
                         </span>
@@ -109,13 +110,15 @@ if(Auth::check()){
                     {{ Form::close() }}
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 {{ $menuWidget->topMenu() }}
                 @if (!Auth::check())
-                    <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-20 pull-right">
+                    <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-20 pull-right btn-sm btn-login">
                         Войти
+                        <i class="glyphicon glyphicon-log-in"></i>
                     </a>
-                    <a href="{{ URL::to('users/register') }}" class="btn btn-primary pull-right">
+                    <br>
+                    <a href="{{ URL::to('users/register') }}" class="pull-right btn-register">
                         Зарегистрироваться
                     </a>
                 @endif
@@ -144,9 +147,14 @@ if(Auth::check()){
 
         <div class="col-lg-3 col-md-3">
 
-            {{ $sidebarWidget->rss() }}
-
-            {{ $sidebarWidget->addToFavorites() }}
+            <div class="row">
+                <div class="col-md-6" style="padding: 0 10px 0 3px">
+                    {{ $sidebarWidget->rss() }}
+                </div>
+                <div class="col-md-6" style="padding: 0 3px 0 10px">
+                    {{ $sidebarWidget->addToFavorites() }}
+                </div>
+            </div>
 
             {{ $sidebarWidget->comments() }}
 
