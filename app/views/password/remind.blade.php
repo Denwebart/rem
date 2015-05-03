@@ -1,36 +1,41 @@
 @extends('layouts.login')
 
-@section('title')
-    Восстановление пароля
-@stop
+<?php
+$title = 'Восстановление пароля';
+View::share('title', $title);
+?>
 
 @section('content')
     <div class="container">
-        @if (Session::has('status'))
-            <div class="alert alert-success">
-                {{ Session::get('status') }}
-            </div>
-        @elseif (Session::has('error'))
-            <div class="alert alert-danger">
-                {{ Session::get('error') }}
-            </div>
-        @endif
-        <h2>Восстановление пароля</h2>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 well">
+                @if (Session::has('status'))
+                    <div class="alert alert-success">
+                        {{ Session::get('status') }}
+                    </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
+                <h2>Восстановление пароля</h2>
 
-        {{ Form::open(array('url' => action('RemindersController@postRemind'), 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Ваш E-Mail</label>
-            <div class="col-sm-5">
-                {{ Form::email('email', null, array('class' => 'form-control')) }}
+                {{ Form::open(array('url' => action('RemindersController@postRemind'), 'method' => 'post', 'role' => 'form', 'class' => '')) }}
+
+                <div class="form-group">
+                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'required'=>'required']); }}
+                    @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-5 col-sm-offset-2">
+                        {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                    </div>
+                </div>
+
+
+                {{ Form::close() }}
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-sm-2">&nbsp;</div>
-            <div class="col-sm-5">
-                <button type="submit" class="btn btn-primary">Восстановить</button>
-            </div>
-        </div>
-        {{ Form::close() }}
     </div>
 @stop

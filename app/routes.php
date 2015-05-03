@@ -69,7 +69,6 @@ Route::group(['prefix' => 'user'], function() {
 Route::controller('users', 'UsersController');
 Route::controller('password', 'RemindersController');
 
-
 /* Фронт */
 
 Route::get('/', 'SiteController@index');

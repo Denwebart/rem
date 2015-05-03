@@ -29,7 +29,7 @@ View::share('title', $title);
                 <h2 class="form-signin-heading">Вход</h2>
 
                 <div class="form-group">
-                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или имя*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
+                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
                     @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                 </div>
 
@@ -44,7 +44,11 @@ View::share('title', $title);
                     </label>
                 </div>
 
-                {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-lg btn-primary btn-block']) }}
+                <div class="form-group">
+                    <div class="col-sm-5 col-sm-offset-2">
+                        {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                    </div>
+                </div>
 
                 <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
                 <a href="{{ URL::to('users/register') }}">Регистрация</a>

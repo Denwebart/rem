@@ -44,7 +44,7 @@ View::share('title', $title);
 
                     <div class="form-group">
                         <div class="col-sm-5 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                            {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
                         </div>
                     </div>
 
