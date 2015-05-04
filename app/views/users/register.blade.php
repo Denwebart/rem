@@ -19,17 +19,17 @@ View::share('title', $title);
                 @endif
 
                 <h2>Регистрация</h2>
-                    
+
                 {{ Form::open(array('url' => 'users/register', 'role' => 'form', 'class' => '')) }}
+
+                    <div class="form-group">
+                        {{ Form::email('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин', 'autofocus'=>'autofocus')) }}
+                        @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
+                    </div>
 
                     <div class="form-group">
                         {{ Form::email('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail')) }}
                         @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
-                    </div>
-
-                    <div class="form-group">
-                        {{ Form::email('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин')) }}
-                        @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                     </div>
 
                     <div class="form-group">

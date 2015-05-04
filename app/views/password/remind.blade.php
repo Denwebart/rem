@@ -23,7 +23,7 @@ View::share('title', $title);
                 {{ Form::open(array('url' => action('RemindersController@postRemind'), 'method' => 'post', 'role' => 'form', 'class' => '')) }}
 
                 <div class="form-group">
-                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'required'=>'required']); }}
+                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
                     @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
                 </div>
 
