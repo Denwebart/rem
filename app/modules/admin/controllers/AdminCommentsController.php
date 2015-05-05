@@ -7,6 +7,13 @@ class AdminCommentsController extends \BaseController {
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
 		}
+
+		$this->beforeFilter(function()
+		{
+			if(Auth::user()->isModerator()) {
+				return Response::view('admin::errors.403', [], 403);
+			}
+		}, ['only' => ['destroy']]);
 	}
 
 	/**

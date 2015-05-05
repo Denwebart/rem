@@ -148,6 +148,7 @@ View::share('title', $title);
                 [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
                 { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
                 { name: 'links', items: [ 'Link', 'Unlink'] },
+                { name: 'smiley', items: ['Smiley']}
             ]
         })
     </script>

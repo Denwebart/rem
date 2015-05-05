@@ -82,11 +82,14 @@
                                     <a class="btn btn-info btn-sm" href="{{ URL::route('admin.questions.edit', $page->id) }}">
                                         <i class="fa fa-edit "></i>
                                     </a>
+
+                                    @if(Auth::user()->isAdmin())
                                     {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.questions.destroy', $page->id), 'class' => 'as-button')) }}
                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                             <i class='fa fa-trash-o'></i>
                                         </button>
                                     {{ Form::close() }}
+                                    @endif
 
                                     <div id="confirm" class="modal fade">
                                         <div class="modal-dialog">

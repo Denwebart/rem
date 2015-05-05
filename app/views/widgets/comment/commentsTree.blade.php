@@ -142,7 +142,8 @@
             {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
             {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
             {name: 'links', items: ['Link', 'Unlink']},
-            {name: 'image', items: ['Image']}
+            {name: 'image', items: ['Image']},
+            { name: 'smiley', items: ['Smiley']}
         ];
         CKEDITOR.replaceAll('editor');
 

@@ -44,6 +44,7 @@
 			{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
 			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
 			{ name: 'links', items: [ 'Link', 'Unlink'] },
+			{ name: 'smiley', items: ['Smiley']}
 		]
 	})
 </script>

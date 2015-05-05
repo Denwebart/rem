@@ -84,6 +84,7 @@ View::share('title', $title);
                 {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
                 {name: 'links', items: ['Link', 'Unlink']},
+                { name: 'smiley', items: ['Smiley']}
             ]
         })
     </script>
