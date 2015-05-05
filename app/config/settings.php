@@ -19,4 +19,6 @@ return [
 	'mini_defaultAvatar' => '/images/mini_default-avatar.jpg',
 
 	'defaultPublishedTime' => '10:00:00',
+
+	'numberOfUserImages' => 5,
 ];

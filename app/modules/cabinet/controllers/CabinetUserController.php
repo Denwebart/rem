@@ -157,6 +157,7 @@ class CabinetUserController extends \BaseController
 			: User::whereLogin($login)->firstOrFail();
 		$data = Input::all();
 		$data['user_id'] = $user->id;
+		$data['is_published'] = 1;
 		$validator = Validator::make($data, UserImage::$rules);
 
 		if ($validator->fails())
@@ -224,6 +225,7 @@ class CabinetUserController extends \BaseController
 
 		if($data = Input::all()) {
 			$data['user_id'] = $user->id;
+			$data['is_published'] = 1;
 			$validator = Validator::make($data, UserImage::$rulesEdit);
 
 			if ($validator->fails())

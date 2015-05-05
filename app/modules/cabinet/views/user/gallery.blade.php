@@ -45,13 +45,13 @@ View::share('title', $title);
                         @endforeach
                     </div>
                 @else
-                    @if(count($user->images))
+                    @if(count($user->publishedImages))
                         <div id="carousel-users-images" class="carousel slide" data-ride="carousel">
 
                             <!-- Карусель -->
                             <div class="carousel-inner" role="listbox">
 
-                                @foreach($user->images as $key => $image)
+                                @foreach($user->publishedImages as $key => $image)
 
                                     <div class="item{{ (0 == $key) ? ' active': '' }}">
                                         {{ Html::image($image->getImageUrl($user)) }}
@@ -77,7 +77,7 @@ View::share('title', $title);
 
                             <!-- Controls -->
                             <div style="text-align: center; margin-top: 10px">
-                                @foreach($user->images as $key => $image)
+                                @foreach($user->publishedImages as $key => $image)
                                     <a href="javascript:void(0)" data-target="#carousel-users-images" data-slide-to="{{ $key }}" class="{{ (0 == $key) ? ' active': '' }}">
                                         {{ Html::image($image->getImageUrl($user), $image->description, ['style' => 'width: 100px']) }}
                                     </a>
@@ -90,45 +90,48 @@ View::share('title', $title);
             {{--Загрузка новой фотографии--}}
             @if(Auth::check())
                 @if(Auth::user()->is($user))
-                    <div id="new-photo">
+                    @if(Config::get('settings.numberOfUserImages') > count($user->images))
+                        <div id="new-photo">
 
-                        <h3>Добавить фотографию</h3>
+                            <h3>Добавить фотографию</h3>
 
-                        {{--<a href="" class="btn btn-default btn-lg">--}}
-                            {{--<span class="glyphicon glyphicon-plus"></span>--}}
-                        {{--</a>--}}
+                            {{--<a href="" class="btn btn-default btn-lg">--}}
+                                {{--<span class="glyphicon glyphicon-plus"></span>--}}
+                            {{--</a>--}}
 
-                        {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
+                            {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                                    {{ $errors->first('image') }}
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
+                                        {{ $errors->first('image') }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        {{ Form::label('title', 'Заголовок изображения') }}
+                                        {{ Form::text('title', null, ['class' => 'form-control']) }}
+                                        {{ $errors->first('title') }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ Form::label('description', 'Описание изображения') }}
+                                        {{ Form::textarea('description', null, ['class' => 'form-control']) }}
+                                        {{ $errors->first('description') }}
+                                    </div>
+
+                                    <div class="button-group">
+                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    {{ Form::label('title', 'Заголовок изображения') }}
-                                    {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                    {{ $errors->first('title') }}
-                                </div>
 
-                                <div class="form-group">
-                                    {{ Form::label('description', 'Описание изображения') }}
-                                    {{ Form::textarea('description', null, ['class' => 'form-control']) }}
-                                    {{ $errors->first('description') }}
-                                </div>
-
-                                <div class="button-group">
-                                    {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-                                </div>
-                            </div>
+                            {{ Form::close() }}
                         </div>
-
-                        {{ Form::close() }}
-
-                    </div>
+                    @else
+                        Больше фотографий добавить нельзя :(
+                    @endif
                 @endif
             @endif
         </div>
