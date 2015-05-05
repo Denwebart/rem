@@ -107,3 +107,6 @@ require app_path().'/filters.php';
 
 View::addNamespace('admin', app('path'). '/modules/admin/views');
 View::addNamespace('cabinet', app('path'). '/modules/cabinet/views');
+
+Paginator::setPageName('stranitsa');
+//Paginator::setBaseUrl('custom/url');
