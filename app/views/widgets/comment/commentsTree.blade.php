@@ -175,14 +175,24 @@
                     $form.trigger('reset');
                     $form.find('.error').empty();
                     for (instance in CKEDITOR.instances) {
+                        CKEDITOR.instances[instance].updateElement();
+                    }
+                    for (instance in CKEDITOR.instances) {
                         CKEDITOR.instances[instance].setData('');
                     }
+                    // вывод комментария
+                    if(0 == data.parent_id){
+                        $('.comments').append(data.commentHtml);
+                    } else {
+                        $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
+                    }
+
                 } //success
             }); //done
         });
 
         // Раскрытие формы для ответа на комментарий
-        $('.reply').on('click', function() {
+        $('.comments').on('click', '.reply', function() {
             var formContainer = '#reply-comment-form-' + $(this).data('commentId');
             if ($(formContainer).is(':visible')) {
                 $(formContainer).slideUp();

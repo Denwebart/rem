@@ -13,6 +13,7 @@ class CommentsController extends BaseController
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::user()->id,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
+				'is_published' => 1,
 			);
 
 			$validator = Validator::make($userData, Comment::$rules);
@@ -20,14 +21,17 @@ class CommentsController extends BaseController
 			if ($validator->fails())
 				return Response::json(array(
 					'fail' => true,
-					'errors' => $validator->getMessageBag()->toArray()
+					'errors' => $validator->getMessageBag()->toArray(),
 				));
 			else {
 				//save to DB user details
-				if (Comment::create($userData)) {
+				if ($comment = Comment::create($userData)) {
 					//return success message
+					$commentView = (0 == $comment->parent_id) ? 'widgets.comment.comment1Level' : 'widgets.comment.comment2Level';
 					return Response::json(array(
 						'success' => true,
+						'parent_id' => $comment->parent_id,
+						'commentHtml' => (string) View::make($commentView, compact('comment'))->render()
 					));
 				}
 			}
