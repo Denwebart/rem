@@ -214,6 +214,12 @@ footer #navbar-bottom li {
     font-size: 12px;
 }
 
+/*-- Blog area --*/
+#blog-area .image {
+    float: left;
+    width: 45%;
+}
+
 /*-- Sidebar Widget --*/
 
 .list-group .list-group-item .row-picture i {

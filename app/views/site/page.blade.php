@@ -50,7 +50,7 @@
 		@if(count($children))
 			<section id="blog-area">
 				@foreach($children as $child)
-					<div class="row">
+					<div class="row item">
 						<div class="col-md-12">
 							<h3>
 								<a href="{{ URL::to($child->getUrl()) }}">
@@ -58,12 +58,7 @@
 								</a>
 							</h3>
 						</div>
-						<div class="col-md-5">
-							<a href="{{ URL::to($child->getUrl()) }}">
-								{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
-							</a>
-						</div>
-						<div class="col-md-7">
+						<div class="col-md-12">
 							<div class="pull-right">
 								@if($child->parent)
 									@if($child->parent->parent)
@@ -77,6 +72,10 @@
 									</a>
 								@endif
 							</div>
+							<div class="clearfix"></div>
+							<a href="{{ URL::to($child->getUrl()) }}" class="image">
+								{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
+							</a>
 							<p>{{ $child->getIntrotext() }}</p>
 							<a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
 						</div>

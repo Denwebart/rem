@@ -21,7 +21,7 @@
 
 		<section id="blog-area">
 			@foreach($articles as $article)
-				<div class="row">
+				<div class="row item" data-article-id="{{ $article->id }}">
 					<div class="col-md-12">
 						<h3>
 							<a href="{{ URL::to($article->getUrl()) }}">
@@ -29,12 +29,7 @@
 							</a>
 						</h3>
 					</div>
-					<div class="col-md-5">
-						<a href="{{ URL::to($article->getUrl()) }}">
-							{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
-						</a>
-					</div>
-					<div class="col-md-7">
+					<div class="col-md-12">
 						<div class="pull-right">
 							@if($article->parent->parent)
 								<a href="{{ URL::to($article->parent->parent->getUrl()) }}">
@@ -46,6 +41,10 @@
 								{{ $article->parent->getTitle() }}
 							</a>
 						</div>
+						<div class="clearfix"></div>
+						<a href="{{ URL::to($article->getUrl()) }}" class="image">
+							{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
+						</a>
 						<p>{{ $article->getIntrotext() }}</p>
 						<a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
