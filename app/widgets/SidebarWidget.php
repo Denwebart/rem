@@ -2,6 +2,15 @@
 
 class SidebarWidget
 {
+	private $settings = [];
+
+	public function __construct() {
+		$settings = Setting::whereCategory('SidebarWidget')->get();
+		foreach($settings as $setting) {
+			$this->settings[$setting->key] = $setting->value;
+		}
+	}
+
 	/**
 	 * Самое новое (по дате публикации)
 	 *
@@ -10,6 +19,7 @@ class SidebarWidget
 	 */
 	public function latest($limit = 7)
 	{
+		$limit = ($this->settings['countOfLatest']) ? $this->settings['countOfLatest'] : $limit;
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)
@@ -31,6 +41,7 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
+		$limit = ($this->settings['countOfBest']) ? $this->settings['countOfBest'] : $limit;
 		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -52,6 +63,7 @@ class SidebarWidget
 	 */
 	public function popular($limit = 5)
 	{
+		$limit = ($this->settings['countOfPopular']) ? $this->settings['countOfPopular'] : $limit;
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)
@@ -72,6 +84,7 @@ class SidebarWidget
 	 */
 	public function unpopular($limit = 7)
 	{
+		$limit = ($this->settings['countOfUnpopular']) ? $this->settings['countOfUnpopular'] : $limit;
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)
@@ -92,6 +105,7 @@ class SidebarWidget
 	 */
 	public function comments($limit = 9)
 	{
+		$limit = ($this->settings['countOfComments']) ? $this->settings['countOfComments'] : $limit;
 		$comments = Comment::whereIsPublished(1)
 			->limit($limit)
 			->with('page.parent.parent', 'user')
@@ -107,8 +121,9 @@ class SidebarWidget
 	 * @param int $limit Количество записей
 	 * @return string
 	 */
-	public function questions($limit = 5)
+	public function questions($limit = 3)
 	{
+		$limit = ($this->settings['countOfQuestions']) ? $this->settings['countOfQuestions'] : $limit;
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 		    ->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))

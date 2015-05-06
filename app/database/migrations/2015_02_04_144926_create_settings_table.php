@@ -10,7 +10,7 @@ class CreateSettingsTable extends Migration {
 		Schema::create('settings', function (Blueprint $table) {
 			$table->increments('id');
 			$table->string('key', 100)->unique();
-			$table->boolean('type', 100);
+			$table->boolean('type');
 			$table->string('title', 100);
 			$table->string('description', 500)->nullable();
 			$table->string('value', 500)->nullable();

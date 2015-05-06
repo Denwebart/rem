@@ -107,7 +107,16 @@
                     <li class="{{ Request::is('admin/users*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.users.index') }}">
                             <i class="fa fa-users"></i> <span>Пользователи</span>
-                            <small class="label pull-right">{{ $headerWidget->newUsers }}</small>
+                            @if($newUsers = count($headerWidget->newUsers))
+                                <small class="label pull-right">
+                                    {{ $newUsers }}
+                                </small>
+                            @endif
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('admin/settings*') ? 'active' : ''}}">
+                        <a href="{{ URL::route('admin.settings.index') }}">
+                            <i class="fa fa-cogs"></i> <span>Настройки</span>
                         </a>
                     </li>
                 @endif

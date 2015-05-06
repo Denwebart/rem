@@ -1,7 +1,7 @@
 <div id="latest-sidebar-widget" class="list-group sidebar-widget">
     <h4>Новые вопросы</h4>
 
-    @foreach($questions as $question)
+    @foreach($questions as $key => $question)
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
@@ -21,7 +21,6 @@
             </div>
         </div>
         <div class="list-group-separator"></div>
-
     @endforeach
 
 </div>
