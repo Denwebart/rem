@@ -173,8 +173,13 @@ class Page extends \Eloquent
 
 	public function getUrl()
 	{
-		$parentUrl = (0 != $this->parent_id) ? (($this->parent) ? $this->parent->getUrl() . '/' : '') : '';
-		return $parentUrl . $this->alias;
+		if(self::TYPE_ARTICLE != $this->type) {
+			$parentUrl = (0 != $this->parent_id) ? (($this->parent) ? $this->parent->getUrl() . '/' : '') : '';
+			return $parentUrl . $this->alias;
+		} else {
+			$parentUrl = ($this->parent->parent) ? $this->parent->parent->alias : $this->parent->alias;
+			return $parentUrl . '/' . $this->user->getLoginForUrl() . '/' . $this->alias;
+		}
 	}
 
 	public function getTitle()

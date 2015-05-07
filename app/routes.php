@@ -17,7 +17,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::delete('letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
 		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
-		Route::resource('settings', 'AdminSettingsController', ['except' => ['create']]);
+
 		// Копия базы
 //		Route::get('backup', function(){
 //			Artisan::call('db:backup', ['filename'=>'app/storage/dumps/avtorem_'. date('d-m-Y_H-i-s') .'.sql']);
@@ -83,8 +83,8 @@ Route::get('sitemap.xml', 'SiteController@sitemapXml');
 Route::get('rss', 'SiteController@rss');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
-Route::get('{journalAlias}/{alias}', 'JournalController@category')->where('journalAlias', 'bortovoj-zhurnal');
-Route::get('{journalAlias}/{categoryAlias}/{alias}', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{login}', 'JournalController@journal')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{login}/{alias}', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');

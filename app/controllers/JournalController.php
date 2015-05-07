@@ -38,11 +38,21 @@ class JournalController extends BaseController {
 		return View::make('journal.index', compact('articles'));
 	}
 
-	public function category($journalAlias, $alias)
+	public function journal($journalAlias, $login)
 	{
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
+			: User::whereLogin($login)->firstOrFail();
+
+		$page = new Page();
+		$page->meta_title = 'Бортовой журнал пользователя ' . $user->login;
+		$page->meta_desc = 'Бортовой журнал пользователя ' . $user->login;
+		$page->meta_key = '';
+
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
-			->whereParentId($page->id)
+			->whereUserId($user->id)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with('parent.parent', 'user')
@@ -50,13 +60,18 @@ class JournalController extends BaseController {
 			->paginate(10);
 
 		View::share('page', $page);
-		return View::make('journal.category', compact('articles'));
+		return View::make('journal.journal', compact('articles', 'user'));
 	}
 
-	public function article($journalAlias, $categoryAlias, $alias)
+	public function article($journalAlias, $login, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
-		return View::make('journal.article');
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->firstOrFail())
+			: User::whereLogin($login)->firstOrFail();
+		View::share('page', Page::getPageByAlias($alias)->whereUserId($user->id)->firstOrFail());
+		return View::make('journal.article', compact('user'));
 	}
 
 }
