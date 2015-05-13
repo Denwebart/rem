@@ -171,14 +171,15 @@ class Page extends \Eloquent
 
 	}
 
-	public function getUrl()
+	public function getUrl($sufix = '.html')
 	{
 		if(self::TYPE_ARTICLE != $this->type) {
+			$sufix = !$this->is_container ? $sufix : '';
 			$parentUrl = (0 != $this->parent_id) ? (($this->parent) ? $this->parent->getUrl() . '/' : '') : '';
-			return $parentUrl . $this->alias;
+			return $parentUrl . $this->alias . $sufix;
 		} else {
 			$parentUrl = ($this->parent->parent) ? $this->parent->parent->alias : $this->parent->alias;
-			return $parentUrl . '/' . $this->user->getLoginForUrl() . '/' . $this->alias;
+			return $parentUrl . '/' . $this->user->getLoginForUrl() . '/' . $this->alias . $sufix;
 		}
 	}
 

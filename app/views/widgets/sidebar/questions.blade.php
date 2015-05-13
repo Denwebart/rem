@@ -14,9 +14,10 @@
                     {{ DateHelper::getRelativeTime($question->created_at) }}
                 </div>
                 <p class="list-group-item-text" style="clear: both">
-                    <a href="{{ URL::to($question->getUrl()) }}">
-                        {{ $question->getTitle() }}
-                    </a>
+                    {{ dd($question->getUrl()) }}
+                    {{--<a href="{{ URL::to($question->getUrl()) }}">--}}
+                        {{--{{ $question->getTitle() }}--}}
+                    {{--</a>--}}
                 </p>
             </div>
         </div>

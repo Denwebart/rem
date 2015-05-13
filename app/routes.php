@@ -76,20 +76,20 @@ Route::get('/', 'SiteController@index');
 
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
 
-Route::get('{contactAlias}', 'SiteController@contact')->where('contactAlias', 'kontakty');
+Route::get('{contactAlias}.html', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', 'SiteController@contactPost');
 
-Route::get('{sitemapHtmlAlias}', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
+Route::get('{sitemapHtmlAlias}.html', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
 Route::get('rss', 'SiteController@rss');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}', 'JournalController@journal')->where('journalAlias', 'bortovoj-zhurnal');
-Route::get('{journalAlias}/{login}/{alias}', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
-Route::get('{questionsAlias}/{categoryAlias}/{alias}', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('comment/vote/{id}', 'CommentsController@vote');
@@ -97,7 +97,9 @@ Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingContr
 
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
-Route::get('{parentCategoryAlias}/{categoryAlias}/{alias}', 'SiteController@thirdLevel');
+Route::get('{parentCategoryAlias}/{categoryAlias}/{alias}.html', 'SiteController@thirdLevel');
 
-
-
+//Route::controller('slug', 'MyController', [
+//	'method'  => 'alias1',
+//	'method2'  => 'alias2'
+//]);

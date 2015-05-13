@@ -130,7 +130,7 @@ class SidebarWidget
 			->limit($limit)
 			->with('parent.parent', 'user', 'comments')
 			->orderBy('created_at', 'DESC')
-			->get(['id', 'parent_id', 'user_id', 'created_at', 'is_published', 'title']);
+			->get(['id', 'parent_id', 'user_id', 'published_at', 'is_published', 'is_container', 'alias', 'title', 'menu_title']);
 
 		return (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 	}
