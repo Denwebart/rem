@@ -18,6 +18,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
 		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('settings', 'AdminSettingsController');
+		Route::resource('honors', 'AdminHonorsController', ['except' => ['show']]);
 
 		// Копия базы
 //		Route::get('backup', function(){

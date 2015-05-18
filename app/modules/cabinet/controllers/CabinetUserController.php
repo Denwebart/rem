@@ -65,7 +65,7 @@ class CabinetUserController extends \BaseController
 
 			$fileName = TranslitHelper::generateFileName($data['avatar']->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $data['login'] . '/';
+			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
 			$image = Image::make($data['avatar']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 

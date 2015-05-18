@@ -12,7 +12,7 @@
 
     <div class="content label-normal">
         <div class="row">
-            {{ Form::model($page, array('method' => 'POST', 'route' => array('admin.pages.store')), ['id' => 'registerForm']) }}
+            {{ Form::model($page, ['method' => 'POST', 'route' => ['admin.pages.store'], 'id' => 'pagesForm', 'files' => true]) }}
                 @include('admin::pages._form')
             {{ Form::close() }}
         </div>

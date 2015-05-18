@@ -18,6 +18,8 @@ return [
 	'defaultAvatar' => '/images/default-avatar.jpg',
 	'mini_defaultAvatar' => '/images/mini_default-avatar.jpg',
 
+	'defaultHonorImage' => '/images/default-honor-image.png',
+
 	'defaultPublishedTime' => '10:00:00',
 
 	'numberOfUserImages' => 5,
