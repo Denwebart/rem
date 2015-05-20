@@ -22,6 +22,7 @@
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Название', 'title') }}</th>
                                 <th>Описание</th>
+                                <th>Количество пользователей</th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.honors.create') }}">
                                         <i class="fa fa-plus "></i> Создать
@@ -33,9 +34,14 @@
                             @foreach($honors as $honor)
                                 <tr>
                                     <td>{{ $honor->id }}</td>
-                                    <td>{{ $honor->getImage(null, ['width' => '50px']) }}</td>
+                                    <td>
+                                        <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
+                                            {{ $honor->getImage(null, ['width' => '50px']) }}
+                                        </a>
+                                    </td>
                                     <td>{{ $honor->title }}</td>
                                     <td>{{ $honor->description }}</td>
+                                    <td>{{ count($honor->users) }}</td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
                                             <i class="fa fa-edit "></i>
@@ -66,7 +72,6 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
-
                                     </td>
                                 </tr>
                             @endforeach

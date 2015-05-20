@@ -258,7 +258,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	/**
 	 * Отправленные сообщения для конкретного пользователя
 	 *
-	 * @param $userId
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function sentMessagesForUser()
@@ -353,6 +352,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Награды пользователя
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function honors()
+	{
+		return $this->belongsToMany('Honor', 'users_honors');
+	}
+
+	/**
 	 * Есть ли страница в сохраненных пользователем
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -362,5 +371,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    return (Auth::user()->savedPages()->wherePageId($pageId)->first()) ? true : false;
     }
 
+	public static function getWhoHaveNoHonor($honorId)
+	{
+//		$list = self::whereHas('honors', function($query) use($honorId) {
+//			$query->where('honor_id', '!=', $honorId);
+//		})->lists('login', 'id');
+
+		$list = self::whereDoesntHave('honors')
+			->orWhereHas('honors', function($query) use($honorId) {
+				$query->where('honor_id', '!=', $honorId);
+			})->lists('login', 'id');
+
+		dd($list);
+	}
 
 }

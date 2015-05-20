@@ -19,12 +19,100 @@ class AdminHonorsController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$honors = Honor::orderBy($sortBy, $direction)->paginate(10);
+			$honors = Honor::orderBy($sortBy, $direction)->with('users')->paginate(10);
 		} else {
-			$honors = Honor::orderBy('id', 'DESC')->paginate(10);
+			$honors = Honor::orderBy('id', 'DESC')->with('users')->paginate(10);
 		}
 
 		return View::make('admin::honors.index', compact('honors'));
+	}
+
+	/**
+	 * Display the specified honor.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$honor = Honor::with('users')->findOrFail($id);
+
+		return View::make('admin::honors.show', compact('honor'));
+	}
+
+	/**
+	 *
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function usersAutocomplete($honorId) {
+		$term = Input::get('term');
+
+		$resultWithLogin = User::whereIsActive(1)
+			->where(function ($query) use($honorId) {
+				$query->whereDoesntHave('honors')
+					->orWhereHas('honors', function($query) use($honorId) {
+						$query->where('honor_id', '!=', $honorId);
+					});
+			})
+			->where('login', 'like', "$term%")
+			->lists('login', 'id');
+
+		$resultWithFullName = User::whereIsActive(1)
+			->where(function ($query) use($honorId) {
+				$query->whereDoesntHave('honors')
+					->orWhereHas('honors', function($query) use($honorId) {
+						$query->where('honor_id', '!=', $honorId);
+					});
+			})
+			->select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
+			->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$term%")
+			->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$term%")
+			->lists('fullname', 'id');
+
+		$result = array_merge($resultWithLogin, $resultWithFullName);
+
+		return Response::json($result);
+	}
+
+	public function toReward()
+	{
+		if(Request::ajax()) {
+			$inputData = Input::get('formData');
+			parse_str($inputData, $formFields);
+
+			$user = User::select([DB::raw('id, login, firstname, lastname, CONCAT(firstname, " ", lastname) AS fullname')])
+				->whereLogin($formFields['name'])
+				->orWhere(DB::raw('CONCAT(firstname, " ", lastname)'), '=', $formFields['name'])
+				->first();
+
+			if(is_null($user)) {
+				return Response::json(array(
+					'userNotFound' => true,
+				));
+			}
+
+			$data = array(
+				'user_id' => $user->id,
+				'honor_id' => $formFields['honor_id'],
+			);
+
+			$userHonor = UserHonor::whereUserId($user->id)->whereHonorId($formFields['honor_id'])->first();
+
+			if (!$userHonor) {
+				if(UserHonor::create($data)){
+					$userRowView = 'admin::honors.userRow';
+					return Response::json(array(
+						'success' => true,
+						'userRowHtml' => (string) View::make($userRowView, compact('user'))->render()
+					));
+				}
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
 	}
 
 	/**

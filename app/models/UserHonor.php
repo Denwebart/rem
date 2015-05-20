@@ -9,7 +9,17 @@ class UserHonor extends Eloquent {
 
 	public $incrementing = false;
 
-	public function page()
+	protected $fillable = [
+		'user_id',
+		'honor_id',
+	];
+
+	public function user()
+	{
+		return $this->belongsTo('Honor', 'user_id');
+	}
+
+	public function honor()
 	{
 		return $this->belongsTo('Honor', 'honor_id');
 	}

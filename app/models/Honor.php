@@ -18,6 +18,16 @@ class Honor extends \Eloquent
 		'description' => 'max:500',
 	];
 
+	/**
+	 * Пользователи, имеющие награду
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function users()
+	{
+		return $this->belongsToMany('User', 'users_honors');
+	}
+
 	public function getImage($prefix = null, $options = [])
 	{
 		if(isset($options['class'])) {

@@ -42,6 +42,9 @@
                                 <th>
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Дата регистрации', 'created_at') }}
                                 </th>
+                                <th>
+                                    Награды
+                                </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">
                                         <i class="fa fa-plus "></i> Создать
@@ -85,6 +88,13 @@
                                         @endif
                                     </td>
                                     <td>{{ DateHelper::dateFormat($user->created_at) }}</td>
+                                    <td>
+                                        @foreach($user->honors as $honor)
+                                            <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
+                                                {{ $honor->getImage(null, ['width' => '25px']) }}
+                                            </a>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         {{--<a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.show', $user->id) }}">--}}
                                         {{--<i class="fa fa-search-plus "></i>--}}
