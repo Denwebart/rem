@@ -53,55 +53,55 @@ View::share('title', $title);
             </h2>
 
             <div id="messages">
+                @if(isset($messages))
+                    @foreach($messages as $message)
 
-                @foreach($messages as $message)
+                    <div class="row">
+                            <div class="col-md-2">
+                                @if($user->id == $message->userSender->id)
+                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
+                                        {{ $message->userSender->getAvatar('mini') }}
+                                    </a>
+                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                        {{ $message->userSender->login }}
+                                    </a>
+                                    <span class="date">
+                                        {{ DateHelper::dateForMessage($message->created_at) }}
+                                    </span>
+                                @endif
+                            </div>
 
-                <div class="row">
-                        <div class="col-md-2">
                             @if($user->id == $message->userSender->id)
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
-                                    {{ $message->userSender->getAvatar('mini') }}
-                                </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                    {{ $message->userSender->login }}
-                                </a>
-                                <span class="date">
-                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                </span>
+                                <div class="col-md-7">
+                                    <div class="well">
+                                        {{ $message->message }}
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-md-7 col-md-offset-1">
+                                    <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                        {{ $message->message }}
+                                    </div>
+                                </div>
                             @endif
+
+                            <div class="col-md-2">
+                                @if($companion->id == $message->userSender->id)
+                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                        {{ $message->userSender->getAvatar('mini') }}
+                                    </a>
+                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                        {{ $message->userSender->login }}
+                                    </a>
+                                    <span class="date">
+                                        {{ DateHelper::dateForMessage($message->created_at) }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
-                        @if($user->id == $message->userSender->id)
-                            <div class="col-md-7">
-                                <div class="well">
-                                    {{ $message->message }}
-                                </div>
-                            </div>
-                        @else
-                            <div class="col-md-7 col-md-offset-1">
-                                <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                    {{ $message->message }}
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="col-md-2">
-                            @if($companion->id == $message->userSender->id)
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                    {{ $message->userSender->getAvatar('mini') }}
-                                </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                    {{ $message->userSender->login }}
-                                </a>
-                                <span class="date">
-                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                @endforeach
-
+                    @endforeach
+                @endif
             </div>
 
             {{--Отправка нового сообщения--}}

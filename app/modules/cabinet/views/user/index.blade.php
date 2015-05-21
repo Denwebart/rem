@@ -18,6 +18,13 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+            @if(Auth::check())
+                @if(!Auth::user()->is($user))
+                    <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary">
+                        Написать личное сообщение
+                    </a>
+                @endif
+            @endif
         </div>
         <div class="col-lg-9">
 
