@@ -1,4 +1,3 @@
-326
 <section id="comments-widget">
     <h3>{{ $title }} ({{ count($page->publishedComments) }})</h3>
 

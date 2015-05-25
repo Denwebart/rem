@@ -344,11 +344,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	/**
 	 * Сохраненные страницы пользователя ("Сохраненное")
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
 	public function savedPages()
 	{
 		return $this->belongsToMany('Page', 'users_pages');
+	}
+
+	/**
+	 * Подписки пользователя ("Подписки")
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function subscriptions()
+	{
+		return $this->hasMany('Subscription', 'user_id');
 	}
 
 	/**
@@ -364,12 +374,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	/**
 	 * Есть ли страница в сохраненных пользователем
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 * @return bool
 	 */
     public function hasInSaved($pageId)
     {
 	    return (Auth::user()->savedPages()->wherePageId($pageId)->first()) ? true : false;
     }
+
+	/**
+	 * Есть ли страница в подписках пользователя
+	 *
+	 * @return bool
+	 */
+	public function subscribed($pageId)
+	{
+		return (Auth::user()->subscriptions()->wherePageId($pageId)->first()) ? true : false;
+	}
 
 	public static function getWhoHaveNoHonor($honorId)
 	{

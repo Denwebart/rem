@@ -18,4 +18,14 @@ class Subscription extends Eloquent {
 	{
 		return $this->hasMany('SubscriptionNotification', 'subscription_id');
 	}
+
+	public static function boot()
+	{
+		parent::boot();
+
+		static::deleted(function($subscription)
+		{
+			$subscription->notifications()->delete();
+		});
+	}
 }

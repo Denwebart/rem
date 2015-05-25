@@ -60,6 +60,9 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'uses' => 'CabinetUserController@savePage']);
 	Route::post('{login}/removePage', ['as' => 'user.removePage', 'uses' => 'CabinetUserController@removePage']);
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
+	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'uses' => 'CabinetUserController@subscribe']);
+	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'uses' => 'CabinetUserController@unsubscribe']);
+	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'uses' => 'CabinetUserController@deleteNotification']);
 	Route::get('honor/{id}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
 });
 Route::group(['prefix' => 'user'], function() {

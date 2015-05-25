@@ -44,11 +44,8 @@
         </div>
 
         @if(Auth::check())
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="" class="btn btn-success pull-right">Подписаться на вопрос</a>
-                </div>
-            </div>
+            <!-- Подписка на вопрос ("Подписки") -->
+            @include('widgets.subscribe')
         @endif
 
         <div id="answers">

@@ -778,4 +778,67 @@ class CabinetUserController extends \BaseController
 		View::share('user', $user);
 		return View::make('cabinet::user.subscriptions', compact('subscriptions'));
 	}
+
+	public function subscribe()
+	{
+		if(Request::ajax()) {
+			$pageId = Input::get('pageId');
+
+			if(!Auth::user()->subscribed($pageId)) {
+				$subscription = new Subscription();
+				$subscription->user_id = Auth::user()->id;
+				$subscription->page_id = $pageId;
+
+				if($subscription->save()) {
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Подписка оформлена.'
+					));
+				}
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Подписка уже оформлена.'
+				));
+			}
+		}
+	}
+
+	public function unsubscribe()
+	{
+		if(Request::ajax()) {
+			$pageId = Input::get('pageId');
+
+			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
+				$subscription->delete();
+				return Response::json(array(
+					'success' => true,
+					'message' => 'Страница удалена из подписок.'
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Страница уже удалена из подписок.'
+				));
+			}
+		}
+	}
+
+	public function deleteNotification()
+	{
+		if(Request::ajax()) {
+			$notificationId = Input::get('notificationId');
+
+			if($notification = SubscriptionNotification::find($notificationId)) {
+				$notification->delete();
+				return Response::json(array(
+					'success' => true,
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
 }

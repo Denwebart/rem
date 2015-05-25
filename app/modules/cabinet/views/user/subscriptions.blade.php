@@ -33,8 +33,9 @@ View::share('title', $title);
                         <div data-page-id="{{ $subscription->page->id }}" class="col-md-12">
                             <div class="well">
                                 <div class="pull-right">
-                                    <a href="javascript:void(0)" class="remove-page" data-id="{{ $subscription->page->id }}">
-                                        <i class="glyphicon glyphicon-floppy-remove"></i>
+                                    <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page->id }}">
+                                        {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
+                                        Отписаться
                                     </a>
                                 </div>
                                 <h3>
@@ -52,8 +53,8 @@ View::share('title', $title);
                                 </div>
 
                                 @foreach($subscription->notifications as $notification)
-                                    <div class="alert alert-dismissable alert-info">
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
                                         {{ DateHelper::dateFormat($notification->created_at) }}
                                         <br/>
                                         {{ $notification->message }}
@@ -91,3 +92,41 @@ View::share('title', $title);
         </div>
     </div>
 @stop
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        $(".unsubscribe").on('click', function() {
+            var $link = $(this);
+            var pageId = $link.data('id');
+            $.ajax({
+                url: "{{ URL::route('user.unsubscribe', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                dataType: "text json",
+                type: "POST",
+                data: {pageId: pageId},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-page-id=' + pageId + ']').remove();
+                    }
+                }
+            });
+        });
+
+        $(".close").on('click', function() {
+            var $link = $(this);
+            var notificationId = $link.data('id');
+            $.ajax({
+                url: "{{ URL::route('user.deleteNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                dataType: "text json",
+                type: "POST",
+                data: {notificationId: notificationId},
+                success: function(response) {
+                    if(response.success){
+                        $('[data-notification-id=' + notificationId + ']').remove();
+                    }
+                }
+            });
+        });
+    </script>
+@endsection

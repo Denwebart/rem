@@ -84,6 +84,8 @@ View::share('title', $title);
 @stop
 
 @section('script')
+    @parent
+
     <script type="text/javascript">
         $(".remove-page").on('click', function() {
             var $link = $(this);
