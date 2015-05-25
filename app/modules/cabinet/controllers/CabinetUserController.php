@@ -767,7 +767,15 @@ class CabinetUserController extends \BaseController
 
 	public function subscriptions($login)
 	{
-		View::share('user', User::whereLogin($login)->firstOrFail());
-		return View::make('cabinet::user.subscriptions');
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->firstOrFail();
+		$subscriptions = Subscription::whereUserId($user->id)
+			->with('page.parent.parent')
+			->orderBy('created_at', 'DESC')
+			->paginate(10);
+
+		View::share('user', $user);
+		return View::make('cabinet::user.subscriptions', compact('subscriptions'));
 	}
 }
