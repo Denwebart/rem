@@ -117,21 +117,22 @@
                 if(data.userNotFound) {
                     var errorContent = 'Такого пользователя нет';
                     $form.find('.error').html(errorContent);
+                } else {
+                    if(data.success) {
+                        var successContent = '<h3>Пользователь награжден</h3>';
+                        $form.find('.message').html(successContent);
+                        $form.trigger('reset');
+                        $form.find('.error').empty();
+
+                        // вывод пользователя
+                        $('#users-table').find('tbody').prepend(data.userRowHtml);
+
+                    } // success
+                    else {
+                        var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
+                        $form.find('.message').html(errorContent);
+                    } // user not found
                 }
-                if(data.success) {
-                    var successContent = '<h3>Пользователь награжден</h3>';
-                    $form.find('.message').html(successContent);
-                    $form.trigger('reset');
-                    $form.find('.error').empty();
-
-                    // вывод пользователя
-                    $('#users-table').find('tbody').prepend(data.userRowHtml);
-
-                } // success
-                else {
-                    var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
-                    $form.find('.message').html(errorContent);
-                } // user not found
             }); // done
         });
     </script>
