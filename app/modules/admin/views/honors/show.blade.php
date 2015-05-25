@@ -43,6 +43,7 @@
                 <h3>Пользователи, у которых есть эта награда</h3>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
+                        @if(count($honor->users))
                         <table class="table table-hover table-striped" id="users-table">
                             <thead>
                             <tr>
@@ -75,6 +76,11 @@
                         <div class="pull-left">
 
                         </div>
+                        @else
+                            <p>
+                                Еще никто не награжден.
+                            </p>
+                        @endif
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>

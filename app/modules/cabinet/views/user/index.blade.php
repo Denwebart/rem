@@ -62,6 +62,23 @@ View::share('title', $title);
                 <p>{{ $user->description }}</p>
             @endif
 
+            <h2>Награды</h2>
+
+            @if(count($user->honors))
+                @foreach($user->honors as $honor)
+                    <a href="{{ URL::route('honor.info', ['id' => $honor->id]) }}">
+                        {{ $honor->getImage(null, ['width' => '75px']) }}
+                    </a>
+                @endforeach
+            @else
+                @if(!Auth::user()->is($user))
+                    Нет наград.
+                @else
+                    У Вас нет наград. Узнать о том, как можно получить награду, можно
+                        <a href="">здесь</a>.
+                @endif
+            @endif
+
         </div>
     </div>
 @stop

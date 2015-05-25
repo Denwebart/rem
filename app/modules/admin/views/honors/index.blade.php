@@ -22,7 +22,7 @@
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Название', 'title') }}</th>
                                 <th>Описание</th>
-                                <th>Количество пользователей</th>
+                                <th>Пользователи</th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.honors.create') }}">
                                         <i class="fa fa-plus "></i> Создать
@@ -41,7 +41,15 @@
                                     </td>
                                     <td>{{ $honor->title }}</td>
                                     <td>{{ $honor->description }}</td>
-                                    <td>{{ count($honor->users) }}</td>
+                                    <td>
+                                        @foreach($honor->users as $key => $user)
+                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ $user->getAvatar('mini', ['width' => '25px']) }}
+                                                <span>{{ $user->login }}</span>
+                                            </a>
+                                            {{ (count($honor->users) - 1 > $key) ? "," : "" }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
                                             <i class="fa fa-edit "></i>

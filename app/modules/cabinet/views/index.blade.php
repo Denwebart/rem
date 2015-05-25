@@ -25,10 +25,11 @@ View::share('page', $title);
         <div id="users">
             <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-4"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">Статьи</div>
                 <div class="col-md-2">Вопросы</div>
                 <div class="col-md-2">Комменатрии</div>
+                <div class="col-md-2">Награды</div>
             </div>
 
             @foreach($users as $user)
@@ -39,7 +40,7 @@ View::share('page', $title);
                             {{ $user->getAvatar('mini') }}
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                             {{ $user->login }}
                         </a>
@@ -62,6 +63,13 @@ View::share('page', $title);
                         <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
 {{--                            {{ count($user->publishedСomments) }}--}}
                         </a>
+                    </div>
+                    <div class="col-md-2">
+                        @foreach($user->honors as $honor)
+                            <a href="{{ URL::route('honor.info', ['id' => $honor->id]) }}">
+                                {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title]) }}
+                            </a>
+                        @endforeach
                     </div>
                 </div>
 

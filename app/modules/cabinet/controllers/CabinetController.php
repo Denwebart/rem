@@ -48,4 +48,11 @@ class CabinetController extends \BaseController
 		return Response::json($result);
 	}
 
+	public function honor($id)
+	{
+		$honor = Honor::findOrFail($id);
+
+		return View::make('cabinet::honor', compact('honor'));
+	}
+
 }
