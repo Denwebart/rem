@@ -113,7 +113,7 @@ class SiteController extends BaseController {
 
 	public function question($questionsAlias, $categoryAlias, $alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->with('parent.parent')->firstOrFail());
+		View::share('page', Page::getPageByAlias($alias)->with('parent.parent', 'user')->firstOrFail());
 		return View::make('site.question');
 	}
 

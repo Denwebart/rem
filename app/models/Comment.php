@@ -53,6 +53,19 @@ class Comment extends \Eloquent
 		'comment' => 'required',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saved(function($model)
+		{
+			if(Page::TYPE_QUESTION == $model->page->type) {
+				$message = 'Добавлен новый ответ к вопросу "<a href="' . URL::to($model->page->getUrl()) . '">' . $model->page->getTitle() . '</a>".' ;
+				SubscriptionNotification::addNotification($model->page, $message);
+			}
+		});
+	}
+
 	public function children()
 	{
 		return $this->hasMany('Comment', 'parent_id');
