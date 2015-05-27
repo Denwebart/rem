@@ -3,7 +3,7 @@
         <ul class="nav navbar-nav">
             @foreach($pages as $page)
                 <li class="{{ (Request::is($page->alias . '/*') || Request::is($page->alias)) ? 'active' : '' }}">
-                    <a href="{{ URL::to($page->alias) }}">
+                    <a href="{{ URL::to($page->getUrl()) }}">
                         {{ $page->getTitle() }}
                     </a>
                 </li>

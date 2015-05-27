@@ -247,24 +247,47 @@ footer #navbar-bottom li {
     border-radius: 5px;
 }
 
+/* RSS, Favorites, Search buttons */
 #favorites-widget a,
-#rss-widget a {
+#rss-widget a,
+#search button {
     width: 100%;
     margin-top: 0;
     background: #f4f4f4;
     padding: 4px 10px;
 }
 #favorites-widget a i,
-#rss-widget a i {
+#rss-widget a i,
+#search button i {
     color: #ffab00;
     font-size: 24px;
 }
 #favorites-widget a span,
-#rss-widget a span {
+#rss-widget a span,
+#search button span {
     position: relative;
     top: -3px;
     text-transform: none;
     font-size: 16px;
+}
+
+/* Search Widget */
+#search .form-control {
+    background-image: linear-gradient(#337AB7, #337AB7), linear-gradient(#337AB7, #337AB7);
+}
+#search .form-control-wrapper .floating-label {
+    color: #337AB7;
+    font-weight: bold;
+}
+.form-control {
+    transition: all 0s ease 0s;
+}
+.form-control.focus {
+    outline: none;
+    background-image: linear-gradient(#009688, #009688), linear-gradient(#d2d2d2, #d2d2d2);
+    background-size: 100% 2px, 100% 1px;
+    box-shadow: none;
+    transition-duration: 0.3s;
 }
 
 /*-- End Sidebar Widget --*/

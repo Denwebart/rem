@@ -180,29 +180,6 @@
 <script src="/material/js/snackbar.min.js"></script>
 
 <script src="/material/js/jquery.nouislider.min.js"></script>
-<script>
-    $(function() {
-        $.material.init();
-        $(".shor").noUiSlider({
-            start: 40,
-            connect: "lower",
-            range: {
-                min: 0,
-                max: 100
-            }
-        });
-
-        $(".svert").noUiSlider({
-            orientation: "vertical",
-            start: 40,
-            connect: "lower",
-            range: {
-                min: 0,
-                max: 100
-            }
-        });
-    });
-</script>
 
 @yield('script')
 
