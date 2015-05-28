@@ -127,6 +127,32 @@ class Page extends \Eloquent
 		'meta_key' => 'max:1500',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($model)
+		{
+			TranslitHelper::generateAlias($model);
+		});
+
+		/**
+		 * Подписка
+		 */
+		static::updated(function($page)
+		{
+			if(Auth::check()) {
+				$originalModel = $page->getOriginal();
+				if($page->views == $originalModel['views']) {
+					if(Page::TYPE_QUESTION == $page->type) {
+						$message = 'Вопрос "<a href="' . URL::to($page->getUrl()) . '">' . $page->getTitle() . '</a>" изменен.';
+						SubscriptionNotification::addNotification($page, $message);
+					}
+				}
+			}
+		});
+	}
+
 	public function parent()
 	{
 		return $this->belongsTo('Page', 'parent_id');
@@ -158,17 +184,6 @@ class Page extends \Eloquent
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id');
-	}
-
-	public static function boot()
-	{
-		parent::boot();
-
-		static::saving(function($model)
-		{
-			TranslitHelper::generateAlias($model);
-		});
-
 	}
 
 	public function getUrl($sufix = '.html')

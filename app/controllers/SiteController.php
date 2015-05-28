@@ -15,6 +15,7 @@ class SiteController extends BaseController {
 				$page = Page::getPageByAlias($alias)->first();
 				if(is_object($page)) {
 					$page->views = $page->views + 1;
+//					$page->updated_at = $page->updated_at;
 					$page->save();
 				}
 			}

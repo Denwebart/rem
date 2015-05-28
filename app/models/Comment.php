@@ -57,12 +57,21 @@ class Comment extends \Eloquent
 	{
 		parent::boot();
 
-		static::saved(function($model)
+		/**
+		 * Подписка
+		 */
+		static::saved(function($comment)
 		{
-			if(Page::TYPE_QUESTION == $model->page->type) {
-				$message = 'Добавлен новый ответ к вопросу "<a href="' . URL::to($model->page->getUrl()) . '">' . $model->page->getTitle() . '</a>".' ;
-				SubscriptionNotification::addNotification($model->page, $message);
+			if(Page::TYPE_QUESTION == $comment->page->type) {
+				if(0 == $comment->parent_id) {
+					$message = 'Добавлен новый ответ к вопросу "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
+				} else {
+					$message = 'Добавлен новый комментарий к вопросу "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
+				}
+			} elseif(Page::TYPE_ARTICLE == $comment->page->type) {
+				$message = 'Добавлен новый комментарий к статье "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
 			}
+			SubscriptionNotification::addNotification($comment->page, $message);
 		});
 	}
 

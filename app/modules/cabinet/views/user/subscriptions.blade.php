@@ -52,7 +52,7 @@ View::share('title', $title);
                                     {{ $subscription->page->getIntrotext() }}
                                 </div>
 
-                                @foreach($subscription->notifications as $notification)
+                                @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
                                     <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
                                         <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
                                         {{ DateHelper::dateFormat($notification->created_at) }}
