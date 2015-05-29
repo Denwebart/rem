@@ -102,6 +102,9 @@ Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('comment/vote/{id}', 'CommentsController@vote');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
+Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');
+Route::get('{categoryAlias}/{alias}.html', 'SiteController@secondLevel');
+
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
 Route::get('{parentCategoryAlias}/{categoryAlias}/{alias}.html', 'SiteController@thirdLevel');

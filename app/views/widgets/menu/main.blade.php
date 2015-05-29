@@ -21,7 +21,7 @@
                         @if($page->show_submenu && count($page->publishedChildren))
                             <ul class="dropdown-menu">
                                 @foreach($page->publishedChildren as $child)
-                                    <li><a href="{{ URL::to($page->getUrl()) }}">{{ $child->getTitle() }}</a></li>
+                                    <li><a href="{{ URL::to($child->getUrl()) }}">{{ $child->getTitle() }}</a></li>
                                 @endforeach
                             </ul>
                         @endif

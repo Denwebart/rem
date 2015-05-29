@@ -40,9 +40,16 @@ class SiteController extends BaseController {
 		return View::make('site.index', compact('articles'));
 	}
 
-	public function firstLevel($alias)
+	public function firstLevel($alias, $suffix = null)
 	{
 		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
+
+		if(!$page->is_container && is_null($suffix)) {
+			return Response::view('errors.404', [], 404);
+		} elseif($page->is_container && !is_null($suffix)) {
+			return Response::view('errors.404', [], 404);
+		}
+
 		$categoryArray = $page->publishedChildren->lists('id');
 		if(count($categoryArray)) {
 			$children = Page::where(function($query) use ($categoryArray, $page){
