@@ -5,6 +5,11 @@
 
     RewriteEngine On
 
+    RewriteCond %{THE_REQUEST} /index\.php [NC]
+    RewriteRule ^(.*?)index\.php[^/] /$1? [L,R=301,NC,NE]
+    RewriteCond %{THE_REQUEST} /index\.php [NC]
+    RewriteRule ^(.*?)index\.php(?:/(.*))?$ /$1$2? [L,R=301,NC,NE]
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
