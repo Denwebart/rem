@@ -150,7 +150,11 @@ class AdminHonorsController extends \BaseController {
 			$image = Image::make($data['image']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 
-			$image->save($imagePath . $fileName);
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $fileName);
 
 			$data['image'] = $fileName;
 		}
@@ -199,7 +203,11 @@ class AdminHonorsController extends \BaseController {
 			$image = Image::make($data['image']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 
-			$image->save($imagePath . $fileName);
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $fileName);
 
 			$data['image'] = $fileName;
 		}

@@ -37,6 +37,7 @@ Route::group(['prefix' => 'users', 'before' => 'authInCabinet'], function(){
 	Route::get('autocomplete', ['before' => 'authInCabinet', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
 });
 Route::group(['prefix' => 'honors'], function(){
+	Route::get('/', ['as' => 'honors', 'uses' => 'CabinetController@honors']);
 	Route::get('{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
 });
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){

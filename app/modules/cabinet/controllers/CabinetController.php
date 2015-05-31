@@ -67,6 +67,25 @@ class CabinetController extends \BaseController
 		return Response::json($result);
 	}
 
+	/**
+	 * Правила получения наград.
+	 *
+	 * @return \Illuminate\View\View
+	 */
+	public function honors()
+	{
+		$page = Page::whereAlias('honors')->firstOrFail();
+
+		View::share('page', $page);
+		return View::make('cabinet::honors');
+	}
+
+	/**
+	 * Информация о награде.
+	 *
+	 * @param $alias
+	 * @return \Illuminate\View\View
+	 */
 	public function honor($alias)
 	{
 		$honor = Honor::whereAlias($alias)->firstOrFail();

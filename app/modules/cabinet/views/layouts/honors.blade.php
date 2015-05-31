@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{--<meta name="robots" content="noindex, nofollow">--}}
 
-    <title>{{ $title }}</title>
+    <title>{{ isset($page) ? $page->meta_desc : $title }}</title>
 
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
+    <meta name="description" content="{{ isset($page) ? $page->meta_desc : '' }}"/>
+    <meta name="keywords" content="{{ isset($page) ? $page->meta_key : '' }}"/>
     <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
     <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
     <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
