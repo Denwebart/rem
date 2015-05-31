@@ -1,5 +1,7 @@
 <?php
 
+Route::pattern('alias', '[A-Za-z0-9-_]+');
+
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('/', 'AdminController@index');
