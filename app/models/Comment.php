@@ -68,10 +68,11 @@ class Comment extends \Eloquent
 				} else {
 					$message = 'Добавлен новый комментарий к вопросу "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
 				}
+				SubscriptionNotification::addNotification($comment->page, $message);
 			} elseif(Page::TYPE_ARTICLE == $comment->page->type) {
 				$message = 'Добавлен новый комментарий к статье "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
+				SubscriptionNotification::addNotification($comment->page, $message);
 			}
-			SubscriptionNotification::addNotification($comment->page, $message);
 		});
 	}
 
