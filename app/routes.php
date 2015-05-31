@@ -36,6 +36,9 @@ Route::group(['prefix' => 'users', 'before' => 'authInCabinet'], function(){
 	Route::get('/', ['before' => 'authInCabinet', 'as' => 'users', 'uses' => 'CabinetController@index']);
 	Route::get('autocomplete', ['before' => 'authInCabinet', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
 });
+Route::group(['prefix' => 'honors'], function(){
+	Route::get('{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
+});
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
@@ -64,7 +67,6 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'uses' => 'CabinetUserController@subscribe']);
 	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'uses' => 'CabinetUserController@unsubscribe']);
 	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'uses' => 'CabinetUserController@deleteNotification']);
-	Route::get('honor/{id}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
 });
 Route::group(['prefix' => 'user'], function() {
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);

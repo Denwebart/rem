@@ -21,6 +21,7 @@
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Название', 'title') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Алиас', 'alias') }}</th>
                                 <th>Описание</th>
                                 <th>Пользователи</th>
                                 <th class="button-column">
@@ -40,6 +41,7 @@
                                         </a>
                                     </td>
                                     <td>{{ $honor->title }}</td>
+                                    <td>{{ $honor->alias }}</td>
                                     <td>{{ $honor->description }}</td>
                                     <td>
                                         @foreach($honor->users as $key => $user)

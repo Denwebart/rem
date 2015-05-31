@@ -66,7 +66,7 @@ View::share('page', $title);
                     </div>
                     <div class="col-md-2">
                         @foreach($user->honors as $honor)
-                            <a href="{{ URL::route('honor.info', ['id' => $honor->id]) }}">
+                            <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
                                 {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title]) }}
                             </a>
                         @endforeach

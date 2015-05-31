@@ -48,9 +48,9 @@ class CabinetController extends \BaseController
 		return Response::json($result);
 	}
 
-	public function honor($id)
+	public function honor($alias)
 	{
-		$honor = Honor::findOrFail($id);
+		$honor = Honor::whereAlias($alias)->firstOrFail();
 
 		return View::make('cabinet::honor', compact('honor'));
 	}

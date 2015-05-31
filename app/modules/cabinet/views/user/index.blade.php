@@ -66,7 +66,7 @@ View::share('title', $title);
 
             @if(count($user->honors))
                 @foreach($user->honors as $honor)
-                    <a href="{{ URL::route('honor.info', ['id' => $honor->id]) }}">
+                    <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
                         {{ $honor->getImage(null, ['width' => '75px']) }}
                     </a>
                 @endforeach

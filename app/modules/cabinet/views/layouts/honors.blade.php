@@ -86,18 +86,18 @@
         <div class="col-lg-4 col-md-4">
 
             <div id="best-sidebar-widget" class="list-group sidebar-widget">
-                <h4>Все награды</h4>
+                <h4>Список наград</h4>
 
                 @foreach(Honor::all() as $item)
                     <div class="list-group-item">
                         <div class="row-picture">
-                            <a href="{{ URL::route('honor.info', ['id' => $item->id]) }}">
+                            <a href="{{ URL::route('honor.info', ['alias' => $item->alias]) }}">
                                 {{ $item->getImage() }}
                             </a>
                         </div>
                         <div class="row-content">
                             <p class="list-group-item-text" style="clear: both">
-                                <a href="{{ URL::route('honor.info', ['id' => $item->id]) }}">
+                                <a href="{{ URL::route('honor.info', ['alias' => $item->alias]) }}">
                                     {{ $item->title }}
                                 </a>
                             </p>

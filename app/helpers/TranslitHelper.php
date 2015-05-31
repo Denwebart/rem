@@ -47,16 +47,19 @@ class TranslitHelper
 		'_' => '-',
 	];
 
-	public static function generateAlias($model)
+	public static function generateAlias($model, $rewrite = false)
 	{
-		if(!$model->alias)
-		{
+		if(!$rewrite) {
+			if(!$model->alias)
+			{
+				$model->alias = self::make($model->getTitle());
+				return true;
+			}
+			return false;
+		} else {
 			$model->alias = self::make($model->getTitle());
-
 			return true;
 		}
-
-		return false;
 	}
 
 	public static function generateFileName($fileName)

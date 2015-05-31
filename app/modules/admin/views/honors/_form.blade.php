@@ -37,7 +37,7 @@
 
 <div class="col-md-12">
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-    <a href="{{ URL::route('admin.comments.index') }}" class="btn btn-primary">Отмена</a>
+    <a href="{{ URL::route('admin.honors.index') }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('script')

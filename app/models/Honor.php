@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * Honor
+ *
+ * @property integer $id 
+ * @property string $alias 
+ * @property string $title 
+ * @property string $image 
+ * @property string $description 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users 
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereAlias($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereImage($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereDescription($value)
+ */
 class Honor extends \Eloquent
 {
 	protected $table = 'honors';
@@ -17,6 +32,21 @@ class Honor extends \Eloquent
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'description' => 'max:500',
 	];
+
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($model)
+		{
+			TranslitHelper::generateAlias($model, true);
+		});
+	}
+
+	public function getTitle()
+	{
+		return $this->title;
+	}
 
 	/**
 	 * Пользователи, имеющие награду

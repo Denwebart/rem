@@ -205,6 +205,7 @@ class AdminHonorsController extends \BaseController {
 		}
 		// загрузка изображения
 
+		$data['image'] = $honor->image;
 		$honor->update($data);
 
 		return Redirect::route('admin.honors.index');
