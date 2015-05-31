@@ -16,8 +16,8 @@ class SortingHelper {
 
 	protected static function getIcon($direction) {
 		return ($direction == 'asc')
-			? ' <i class="fa fa-long-arrow-up"></i>'
-			: ' <i class="fa fa-long-arrow-down"></i>';
+			? ' <i class="fa fa-long-arrow-down"></i>'
+			: ' <i class="fa fa-long-arrow-up"></i>';
 	}
 
 	public static function paginationLinks($model)

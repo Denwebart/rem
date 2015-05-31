@@ -11,9 +11,28 @@ class CabinetController extends \BaseController
 
 	public function index()
 	{
-		$users = User::whereIsActive(1)
-			->with('publishedArticles', 'publishedQuestions', 'publishedСomments')
-			->paginate(10);
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction') ? Request::get('direction') : 'desc';
+
+		if ($sortBy && $direction) {
+			if($direction == 'asc') {
+				$users = User::with('publishedArticles', 'publishedQuestions', 'publishedComments')
+					->get()->sortBy(function($user) use($sortBy) {
+						return $user->$sortBy->count();
+					});
+			} else {
+				$users = User::with('publishedArticles', 'publishedQuestions', 'publishedComments')
+					->get()->sortBy(function($user) use($sortBy) {
+						return $user->$sortBy->count();
+					})->reverse();
+			}
+		} else {
+			$users = User::whereIsActive(1)
+				->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+				->orderBy('role', 'ASC')
+				->orderBy('created_at', 'ASC')
+				->paginate(10);
+		}
 
 		$name = trim(Input::get('name'));
 

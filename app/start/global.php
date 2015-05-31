@@ -74,6 +74,17 @@ App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 	}
 });
 
+// Если нет связи
+App::error(function(Symfony\Component\Debug\Exception\FatalErrorException $exception)
+{
+	Log::error($exception);
+	if(!Request::is('admin*')) {
+		return Response::view('errors.404', [], 404);
+	} else {
+		return Response::view('admin::errors.404', [], 404);
+	}
+});
+
 // 405 (если попытаться зайти по роуту типа post)
 App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
 {

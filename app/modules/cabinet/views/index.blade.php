@@ -22,62 +22,74 @@ View::share('page', $title);
 
         {{ Form::close() }}
 
-        <div id="users">
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-2"></div>
-                <div class="col-md-2">Статьи</div>
-                <div class="col-md-2">Вопросы</div>
-                <div class="col-md-2">Комменатрии</div>
-                <div class="col-md-2">Награды</div>
-            </div>
-
-            @foreach($users as $user)
-
-                <div class="row margin-bottom-20">
+        @if(count($users))
+            <div id="users">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                            {{ $user->getAvatar('mini') }}
-                        </a>
+                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
                     </div>
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                            {{ $user->login }}
-                        </a>
-                        @if($user->getFullName())
-                            <p>{{ $user->getFullName() }}</p>
-                        @endif
-
+                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
                     </div>
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
-                            {{ count($user->publishedArticles) }}
-                        </a>
+                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
                     </div>
                     <div class="col-md-2">
-                        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                            {{ count($user->publishedQuestions) }}
-                        </a>
-                    </div>
-                    <div class="col-md-2">
-                        <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                            {{ count($user->publishedСomments) }}
-                        </a>
-                    </div>
-                    <div class="col-md-2">
-                        @foreach($user->honors as $honor)
-                            <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                                {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title]) }}
-                            </a>
-                        @endforeach
+                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
                     </div>
                 </div>
 
-            @endforeach
+                @foreach($users as $user)
 
-            {{ $users->links() }}
+                    <div class="row margin-bottom-20">
+                        <div class="col-md-2">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->getAvatar('mini') }}
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->login }}
+                            </a>
+                            @if($user->getFullName())
+                                <p>{{ $user->getFullName() }}</p>
+                            @endif
 
-        </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ count($user->publishedArticles) }}
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ count($user->publishedQuestions) }}
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ count($user->publishedComments) }}
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            @foreach($user->honors as $honor)
+                                <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
+                                    {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title]) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+
+                @endforeach
+
+{{--                {{ $users->links() }}--}}
+            </div>
+        @else
+            <p>Пользователь не найден.</p>
+        @endif
+
     </section>
 @stop
 
