@@ -41,6 +41,39 @@ class AdminАdvertisingController extends \BaseController {
 	}
 
 	/**
+	 * Show the form for creating a new advertising
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		$advertising = new Advertising();
+
+		return View::make('admin::advertising.create', compact('advertising'));
+	}
+
+	/**
+	 * Store a newly created advertising in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		$data = Input::all();
+
+		$validator = Validator::make($data, Advertising::$rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		Advertising::create($data);
+
+		return Redirect::route('admin.advertising.index');
+	}
+
+	/**
 	 * Show the form for editing the specified advertising.
 	 *
 	 * @param  int  $id

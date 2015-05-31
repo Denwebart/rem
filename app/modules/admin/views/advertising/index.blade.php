@@ -23,7 +23,11 @@
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Текст', 'text') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_active') }}</th>
-                                <th class="button-column"></th>
+                                <th class="button-column">
+                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.advertising.create') }}">
+                                        <i class="fa fa-plus "></i> Создать
+                                    </a>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
