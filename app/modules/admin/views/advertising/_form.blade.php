@@ -5,7 +5,7 @@
         </div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::textarea('value', $setting->comment, ['class' => 'form-control']) }}
+                {{ Form::textarea('value', $advertising->text, ['class' => 'form-control']) }}
                 {{ $errors->first('value') }}
             </div>
         </div>
@@ -37,7 +37,7 @@
 
 <div class="col-md-12">
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-    <a href="{{ URL::route('admin.settings.index') }}" class="btn btn-primary">Отмена</a>
+    <a href="{{ URL::route('admin.advertising.index') }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('script')
@@ -45,7 +45,7 @@
 
     <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script type="text/javascript">
-        CKEDITOR.replace('comment')
+        CKEDITOR.replace('text')
     </script>
 
     <!-- iCheck -->

@@ -64,6 +64,16 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 	}
 });
 
+App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
+{
+	Log::error($exception);
+	if(!Request::is('admin*')) {
+		return Response::view('errors.404', [], 404);
+	} else {
+		return Response::view('admin::errors.404', [], 404);
+	}
+});
+
 // 405 (если попытаться зайти по роуту типа post)
 App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $exception)
 {

@@ -21,6 +21,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::resource('honors', 'AdminHonorsController');
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
+		Route::resource('advertising', 'AdminАdvertisingController');
 
 		// Копия базы
 //		Route::get('backup', function(){
@@ -101,6 +102,9 @@ Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@ques
 Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('comment/vote/{id}', 'CommentsController@vote');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
+
+Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');
+Route::get('{categoryAlias}/{alias}.html', 'SiteController@secondLevel');
 
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
