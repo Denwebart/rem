@@ -333,6 +333,7 @@ class CabinetUserController extends \BaseController
 		}
 
 		Page::create($data);
+		Auth::user()->addPoints(User::POINTS_FOR_QUESTION);
 
 		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
 	}
@@ -394,7 +395,9 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_QUESTION)
 				->firstOrFail();
-			$question->delete();
+			if($question->delete()) {
+				Auth::user()->removePoints(User::POINTS_FOR_QUESTION);
+			}
 
 			return Response::json([
 				'success' => true,
@@ -470,6 +473,7 @@ class CabinetUserController extends \BaseController
 		}
 
 		Page::create($data);
+		Auth::user()->addPoints(User::POINTS_FOR_ARTICLE);
 
 		return Redirect::route('user.journal', ['login' => Auth::user()->getLoginForUrl()]);
 	}
@@ -531,7 +535,9 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_ARTICLE)
 				->firstOrFail();
-			$article->delete();
+			if($article->delete()) {
+				Auth::user()->removePoints(User::POINTS_FOR_ARTICLE);
+			}
 
 			return Response::json([
 				'success' => true,
@@ -824,6 +830,11 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	/**
+	 * Удаление оповещения по подпискам
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function deleteNotification()
 	{
 		if(Request::ajax()) {
