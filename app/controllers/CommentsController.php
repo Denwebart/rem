@@ -24,9 +24,11 @@ class CommentsController extends BaseController
 					'errors' => $validator->getMessageBag()->toArray(),
 				));
 			else {
-				//save to DB user details
+				// save to DB user details
 				if ($comment = Comment::create($userData)) {
-					//return success message
+					// adding points for comment
+					$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+					// return success message
 					$commentView = (0 == $comment->parent_id) ? 'widgets.comment.comment1Level' : 'widgets.comment.comment2Level';
 					return Response::json(array(
 						'success' => true,
@@ -63,12 +65,19 @@ class CommentsController extends BaseController
 
 				if ($comment->save()) {
 
+					// removing or adding points for comment
+					if(($comment->votes_like - $comment->votes_dislike) == "-1") {
+						$comment->user->removePoints(User::POINTS_FOR_COMMENT);
+					} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
+						$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+					}
+
 					$sessionArray = Session::get('user.rating.comment');
 					$sessionArray[] = $comment->id;
 
 					Session::put('user.rating.comment', $sessionArray);
 
-					//return success message
+					// return success message
 					return Response::json(array(
 						'success' => true,
 						'votesLike' => $comment->votes_like,

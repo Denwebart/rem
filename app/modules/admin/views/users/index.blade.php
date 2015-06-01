@@ -37,6 +37,9 @@
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Email', 'email') }}
                                 </th>
                                 <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Баллы', 'points') }}
+                                </th>
+                                <th>
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Статус', 'is_active') }}
                                 </th>
                                 <th>
@@ -80,6 +83,7 @@
                                     <td>{{ $user->login }}</td>
                                     <td>{{ $user->getFullName() }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->points }}</td>
                                     <td>
                                         @if($user->is_active)
                                             <span class="label label-success">Активный</span>

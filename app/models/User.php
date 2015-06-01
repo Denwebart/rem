@@ -16,6 +16,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property string $firstname
  * @property string $lastname
  * @property integer $role
+ * @property integer $points
  * @property string $ip
  * @property string $description
  * @property string $car_brand
@@ -32,6 +33,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereFirstname($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereLastname($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereRole($value)
+ * @method static \Illuminate\Database\Query\Builder|\User wherePoints($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIp($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereCarBrand($value)
@@ -53,6 +55,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	use UserTrait, RemindableTrait;
 
 	protected $table = 'users';
+
+	const POINTS_FOR_COMMENT = 1;
+	const POINTS_FOR_ANSWER = 1;
+	const POINTS_FOR_GOOD_ANSWER = 1;
+	const POINTS_FOR_BEST_ANSWER = 4;
+	const POINTS_FOR_QUESTION = 3;
+	const POINTS_FOR_ARTICLE = 5;
 
 	const ROLE_NONE = 0;
 	const ROLE_ADMIN = 1;
@@ -87,6 +96,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
+			'points' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє0-9 \-\']+$/u',
@@ -110,6 +120,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
+			'points' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє0-9 \-\']+$/u',
@@ -391,18 +402,34 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return (Auth::user()->subscriptions()->wherePageId($pageId)->first()) ? true : false;
 	}
 
-	public static function getWhoHaveNoHonor($honorId)
-	{
-//		$list = self::whereHas('honors', function($query) use($honorId) {
-//			$query->where('honor_id', '!=', $honorId);
-//		})->lists('login', 'id');
+//	public static function getWhoHaveNoHonor($honorId)
+//	{
+//		$list = self::whereDoesntHave('honors')
+//			->orWhereHas('honors', function($query) use($honorId) {
+//				$query->where('honor_id', '!=', $honorId);
+//			})->lists('login', 'id');
+//	}
 
-		$list = self::whereDoesntHave('honors')
-			->orWhereHas('honors', function($query) use($honorId) {
-				$query->where('honor_id', '!=', $honorId);
-			})->lists('login', 'id');
+	/**
+	 * Начисление баллов пользователю
+	 *
+	 * @param $points
+	 *  Возможные значения $points:
+	 *   self::POINTS_FOR_COMMENT,
+	 *   self::POINTS_FOR_ANSWER,
+	 *   self::POINTS_FOR_GOOD_ANSWER,
+	 *   self::POINTS_FOR_BEST_ANSWER,
+	 *   self::POINTS_FOR_QUESTION,
+	 *   self::POINTS_FOR_ARTICLE.
+	 */
+	public function addPoints($points) {
+		$this->points = $this->points + $points;
+		$this->save();
+	}
 
-		dd($list);
+	public function removePoints($points) {
+		$this->points = $this->points - $points;
+		$this->save();
 	}
 
 }
