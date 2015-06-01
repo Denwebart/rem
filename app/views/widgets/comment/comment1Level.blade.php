@@ -1,5 +1,10 @@
 <div id="comment-{{ $comment->id }}" class="media">
     <a href="javascript:void(0)" class="pull-left close-comment">-</a>
+    @if(Auth::user()->is($comment->page->user))
+        <div class="mark-comment">
+            <a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>
+        </div>
+    @endif
     <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
         {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
     </a>

@@ -95,4 +95,47 @@ class CommentsController extends BaseController
 		}
 	}
 
+	/**
+	 * Отметить комментарий как лучший (один) или хороший (несколько)
+ 	 *
+	 * @param $commentId
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function mark($commentId)
+	{
+		if(Request::ajax()) {
+
+			$mark = Input::get('mark');
+
+			$comment = Comment::findOrFail($commentId);
+			if(Comment::MARK_BEST == $mark) {
+				$bestComment = Comment::wherePageId($comment->page_id)
+					->whereMark(Comment::MARK_BEST)->first();
+				if($bestComment) {
+					$bestComment->mark = 0;
+					$bestComment->save();
+				}
+			}
+			$comment->mark = $mark;
+
+			if ($comment->save()) {
+
+				// adding points for comment
+				if($comment->mark == Comment::MARK_GOOD) {
+					$comment->user->addPoints(User::POINTS_FOR_GOOD_ANSWER);
+				} elseif($comment->mark == Comment::MARK_BEST) {
+					$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
+				}
+
+				// return success message
+				return Response::json(array(
+					'success' => true,
+					'mark' => $comment->mark,
+				));
+			}
+
+
+		}
+	}
+
 }

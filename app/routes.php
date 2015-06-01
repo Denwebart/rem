@@ -106,6 +106,7 @@ Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@ques
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
 Route::post('comment/vote/{id}', 'CommentsController@vote');
+Route::post('comment/mark/{id}', 'CommentsController@mark');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');

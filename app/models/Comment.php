@@ -11,6 +11,7 @@
  * @property integer $votes_like
  * @property integer $votes_dislike
  * @property string $comment
+ * @property integer $mark
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $published_at
@@ -23,7 +24,8 @@
  * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereMark($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereReadAt($value)
@@ -33,6 +35,9 @@ class Comment extends \Eloquent
 {
 	const VOTE_LIKE = 'like';
 	const VOTE_DISLIKE = 'dislike';
+
+	const MARK_GOOD = 1;
+	const MARK_BEST = 2;
 
 	protected $table = 'comments';
 
