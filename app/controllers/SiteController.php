@@ -109,7 +109,7 @@ class SiteController extends BaseController {
 	{
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user')
+			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -123,7 +123,7 @@ class SiteController extends BaseController {
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user')
+			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -136,7 +136,7 @@ class SiteController extends BaseController {
 		$category = Page::getPageByAlias($categoryAlias)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
-			->with('parent.parent', 'user')
+			->with('parent.parent', 'user', 'comments', 'bestComments')
 			->firstOrFail();
 		View::share('page', $page);
 		return View::make('site.question');

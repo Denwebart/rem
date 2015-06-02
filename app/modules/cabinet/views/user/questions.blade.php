@@ -70,7 +70,7 @@ View::share('title', $title);
                                     <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
                                 @endif
                                 <a href="{{ URL::to($question->getUrl()) }}#answers">
-                                    {{ count($question->comments) }}
+                                    {{ count($question->publishedComments) }}
                                 </a>
                             </div>
 

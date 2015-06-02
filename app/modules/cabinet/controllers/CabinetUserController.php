@@ -277,14 +277,14 @@ class CabinetUserController extends \BaseController
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
 				$questions = Page::whereType(Page::TYPE_QUESTION)
 					->whereUserId($user->id)
-					->with('parent.parent')
+					->with('parent.parent', 'publishedComments', 'bestComments')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$questions = Page::whereType(Page::TYPE_QUESTION)
 					->whereUserId($user->id)
 					->whereIsPublished(1)
-					->with('parent.parent')
+					->with('parent.parent', 'publishedComments', 'bestComments')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
@@ -292,7 +292,7 @@ class CabinetUserController extends \BaseController
 			$questions = Page::whereType(Page::TYPE_QUESTION)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
-				->with('parent.parent')
+				->with('parent.parent', 'publishedComments', 'bestComments')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}

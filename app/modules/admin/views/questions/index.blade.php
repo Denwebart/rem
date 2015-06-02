@@ -32,6 +32,9 @@
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
                                 <th>
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedComments', $params) }}
+                                </th>
+                                <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
                                 </th>
                                 <th>
@@ -63,6 +66,14 @@
                                 <td>
                                     <a href="{{ URL::to($page->getUrl()) }}" target="_blank">
                                         {{ $page->getTitle() }}
+                                    </a>
+                                </td>
+                                <td>
+                                    @if(count($page->bestComments))
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    @endif
+                                    <a href="{{ URL::to($page->getUrl()) }}" target="_blank">
+                                        {{ count($page->publishedComments) }}
                                     </a>
                                 </td>
                                 <td>{{ ($page->parent) ? $page->parent->getTitle() : 'Нет'}}</td>

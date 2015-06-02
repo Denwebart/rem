@@ -26,9 +26,9 @@ class AdminQuestionsController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy($sortBy, $direction)->with('parent.parent', 'user')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy($sortBy, $direction)->with('parent.parent', 'user', 'publishedComments', 'bestComments')->paginate(10);
 		} else {
-			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy('created_at', 'DESC')->with('parent.parent', 'user')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy('created_at', 'DESC')->with('parent.parent', 'user', 'publishedComments', 'bestComments')->paginate(10);
 		}
 
 		return View::make('admin::questions.index', compact('pages'));

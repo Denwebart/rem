@@ -50,6 +50,16 @@
                                 {{ $question->user->getAvatar('mini') }}
                                 {{ $question->user->login }}
                             </a>
+
+                            <div class="answers">
+                                Ответы:
+                                @if(count($question->bestComments))
+                                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                @endif
+                                <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                    {{ count($question->publishedComments) }}
+                                </a>
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <div class="pull-right">
