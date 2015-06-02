@@ -8,14 +8,33 @@ class CommentWidget
 
 	public function show($page)
 	{
-		$comments = Comment::whereIsPublished(1)
-			->whereParentId(0)
-			->wherePageId($page->id)
-			->orderBy('created_at')
-			->with(['user', 'publishedChildren.user'])
-			->get();
+		if(Page::TYPE_QUESTION == $page->type) {
+			$comments = Comment::whereIsPublished(1)
+				->whereParentId(0)
+				->wherePageId($page->id)
+				->orderBy('created_at')
+				->with(['user', 'publishedChildren.user'])
+				->whereMark(0)
+				->get();
 
-		return (string) View::make('widgets.comment.commentsTree', compact('comments', 'page'))
+			$bestComments = Comment::whereIsPublished(1)
+				->whereParentId(0)
+				->wherePageId($page->id)
+				->orderBy('created_at')
+				->with(['user', 'publishedChildren.user'])
+				->whereMark(Comment::MARK_BEST)
+				->get();
+		} else {
+			$comments = Comment::whereIsPublished(1)
+				->whereParentId(0)
+				->wherePageId($page->id)
+				->orderBy('created_at')
+				->with(['user', 'publishedChildren.user'])
+				->get();
+			$bestComments = [];
+		}
+
+		return (string) View::make('widgets.comment.commentsTree', compact('comments', 'bestComments', 'page'))
 			->with('title', $this->title)
 			->with('formTitle', $this->formTitle)
 			->with('successMessage', $this->successMessage)

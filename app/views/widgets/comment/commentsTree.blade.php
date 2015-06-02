@@ -1,13 +1,26 @@
 <section id="comments-widget">
-    <h3>{{ $title }} ({{ count($page->publishedComments) }})</h3>
+    {{--Лучшие ответы--}}
+    @if(Page::TYPE_QUESTION == $page->type)
+        <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }}>
+            @include('widgets.comment.bestComments')
+        </div>
+    @endif
+
+    {{--Ответы (все, кроме лучших)--}}
+    <h3>{{ $title }}
+        <span class="count-comments">
+            ({{ count($page->publishedComments) - count($page->bestComments) }})
+        </span>
+    </h3>
 
     <div class="comments">
 
+        {{--Отметить лучшие ответы--}}
         @if(Auth::check())
-            @if(Auth::user()->is($page->user) && !$page->bestComment)
+            @if(Auth::user()->is($page->user) && count($comments))
                 <div class="clearfix">
                     <a href="javascript:void(0)" class="btn btn-primary btn-raised pull-right" id="mark-as-best">
-                        Отметить лучший ответ
+                        Отметить лучшие ответы
                     </a>
                 </div>
             @endif
@@ -38,16 +51,13 @@
                         @endif
                     </div>
 
-                    {{--@if($comment->mark == Comment::MARK_GOOD)--}}
-                        {{--<div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">--}}
-                            {{--<span class="btn btn-success">Хороший</span>--}}
-                        {{--</div>--}}
+                    {{--Отметить лучшие ответы--}}
                     @if($comment->mark == Comment::MARK_BEST)
                         <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
                             <i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>
                         </div>
                     @elseif(Auth::check())
-                        @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION && !$page->bestComment)
+                        @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)
                             <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
                                 <a href="javascript:void(0)" class="pull-left mark-comment-as-best" style="display:none">
                                     <i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>
@@ -55,17 +65,6 @@
                             </div>
                         @endif
                     @endif
-
-                    {{--@elseif(Auth::check())--}}
-                        {{--@if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION && !$page->bestComment)--}}
-                            {{--<div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">--}}
-                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>--}}
-                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-best">--}}
-                                    {{--<i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>--}}
-                                {{--</a>--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
-                    {{--@endif--}}
 
                     <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
 
@@ -258,25 +257,6 @@
             }
         });
 
-        {{--// Отметить комментарий как хороший--}}
-        /*
-        $(".mark-comment").on('click', '.mark-comment-as-good', function() {
-            var $markTag = $(this).parent();
-            var commentId = $(this).parent().data('markCommentId');
-            $.ajax({
-                url: '/comment/mark/' + commentId,
-                dataType: "text json",
-                type: "POST",
-                data: {mark: '<?php //echo Comment::MARK_GOOD ?>'},
-                success: function(response) {
-                    if(response.success){
-                        $markTag.html('<span class="btn btn-success">Хороший</span>');
-                    }
-                }
-            });
-        });
-        */
-
         // Отметить комментарий как лучший
         $('#mark-as-best').on('click', function() {
             if($(this).hasClass('btn-primary')) {
@@ -298,12 +278,16 @@
                 data: {mark: '<?php echo Comment::MARK_BEST ?>'},
                 success: function(response) {
                     if(response.success){
-                        $('.comments').find('.mark-comment').html('');
-                        $('#mark-as-best').remove();
                         $markTag.html('<i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>');
                         $markTag.append('<div class="message">' + response.message + '</div>');
-                    } else {
-                        $markTag.html('<div class="message">' + response.message + '</div>');
+                        $('#comment-' + commentId).remove();
+                        $('#best-comments').show();
+                        $('#best-comments').html(response.bestCommentsHtml);
+                        $('.count-comments').text('(' + response.countComments + ')');
+                        $('.count-best-comments').text('(' + response.countBestComments + ')');
+                        if(0 == response.countComments) {
+                            $('#mark-as-best').remove();
+                        }
                     }
                 }
             });

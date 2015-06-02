@@ -170,24 +170,34 @@ class Page extends \Eloquent
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
+	/**
+	 * Все комментарии.
+	 * @return mixed
+	 */
 	public function comments()
 	{
 		return $this->hasMany('Comment', 'page_id');
 	}
 
 	/**
-	 * Лучший комментарий.
+	 * Опубликованные комментарии.
 	 * @return mixed
 	 */
-	public function bestComment()
-	{
-		return $this->hasOne('Comment', 'page_id')->whereMark(Comment::MARK_BEST);
-	}
-
 	public function publishedComments()
 	{
 		return $this->hasMany('Comment', 'page_id')
 			->whereIsPublished(1);
+	}
+
+	/**
+	 * Лучшие комментарии.
+	 * @return mixed
+	 */
+	public function bestComments()
+	{
+		return $this->hasMany('Comment', 'page_id')
+			->whereIsPublished(1)
+			->whereMark(Comment::MARK_BEST);
 	}
 
 	public function user()

@@ -96,7 +96,7 @@ class CommentsController extends BaseController
 	}
 
 	/**
-	 * Отметить комментарий как лучший (один) или хороший (несколько)
+	 * Отметить комментарий как лучший (несколько)
  	 *
 	 * @param $commentId
 	 * @return \Illuminate\Http\JsonResponse
@@ -107,36 +107,34 @@ class CommentsController extends BaseController
 
 			$mark = Input::get('mark');
 
-			$comment = Comment::whereId($commentId)->with('page.bestComment')->firstOrFail();
+			$comment = Comment::whereId($commentId)->firstOrFail();
 			if(Comment::MARK_BEST == $mark) {
-				$bestComment = $comment->page->bestComment;
-				if($bestComment) {
+				$comment->mark = $mark;
 
-					// return error message
-					return Response::json(array(
-						'success' => false,
-						'message' => 'Лучший комментарий уже выбран.',
-					));
+				if ($comment->save()) {
 
-					// замена лучшего ответа
-//					$bestComment->mark = 0;
-//					$bestComment->save();
-				} else {
-					$comment->mark = $mark;
-
-					if ($comment->save()) {
-
-						// adding points for comment
-						if($comment->mark == Comment::MARK_BEST) {
-							$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
-						}
-
-						// return success message
-						return Response::json(array(
-							'success' => true,
-							'message' => 'Лучший комментарий выбран.',
-						));
+					// adding points for comment
+					if($comment->mark == Comment::MARK_BEST) {
+						$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
 					}
+
+					$bestComments = Comment::whereIsPublished(1)
+						->whereParentId(0)
+						->wherePageId($comment->page->id)
+						->orderBy('created_at')
+						->with(['user', 'publishedChildren.user'])
+						->whereMark(Comment::MARK_BEST)
+						->get();
+					$page = $comment->page;
+
+					// return success message
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Ответ отмечен как лучший.',
+						'bestCommentsHtml' => (string) View::make('widgets.comment.bestComments', compact('bestComments', 'page'))->render(),
+						'countComments' => count($comment->page->publishedComments) - count($comment->page->bestComments),
+						'countBestComments' => count($comment->page->bestComments),
+					));
 				}
 			}
 		}
