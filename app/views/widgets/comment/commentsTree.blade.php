@@ -5,7 +5,7 @@
 
         @foreach($comments as $comment)
             <!-- Comment -->
-            <div id="comment-{{ $comment->id }}" class="media"">
+            <div id="comment-{{ $comment->id }}" class="media">
                 <a href="javascript:void(0)" class="pull-left close-comment">-</a>
                 <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
                     {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
@@ -18,25 +18,31 @@
                     <div>{{ $comment->comment }}</div>
 
                     <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}">
-                        <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                        <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-                        <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                        <div class="vote-message"></div>
+                        @if(Auth::check())
+                            @if(!Auth::user()->is($comment->user))
+                                <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                                <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
+                                <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                                <div class="vote-message"></div>
+                            @endif
+                        @endif
                     </div>
 
-                    @if($comment->mark == Comment::MARK_GOOD)
+                    {{--@if($comment->mark == Comment::MARK_GOOD)--}}
+                        {{--<div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">--}}
+                            {{--<span class="btn btn-success">Хороший</span>--}}
+                        {{--</div>--}}
+                    @if($comment->mark == Comment::MARK_BEST)
                         <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                            <span class="btn btn-success">Хороший</span>
+                            <i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>
                         </div>
-                    @elseif($comment->mark == Comment::MARK_BEST)
-                        <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                            <span class="btn btn-material-yellow">Лучший</span>
-                        </div>
-                    @elseif(Auth::user()->is($comment->page->user) && $comment->page->type == Page::TYPE_QUESTION)
-                        <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                            <a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>
-                            <a href="javascript:void(0)" class="pull-left mark-comment-as-best">Лучший</a>
-                        </div>
+                    @elseif(Auth::check())
+                        @if(Auth::user()->is($comment->page->user) && $comment->page->type == Page::TYPE_QUESTION && !$comment->page->bestComment)
+                            <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
+                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>--}}
+                                <a href="javascript:void(0)" class="pull-left mark-comment-as-best">Лучший</a>
+                            </div>
+                        @endif
                     @endif
 
                     <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
@@ -106,7 +112,6 @@
                 </div>
             </div>
         @endforeach
-
     </div>
     <!-- end of .comments -->
 
@@ -231,7 +236,8 @@
             }
         });
 
-        // Отметить комментарий как хороший
+        {{--// Отметить комментарий как хороший--}}
+        /*
         $(".mark-comment").on('click', '.mark-comment-as-good', function() {
             var $markTag = $(this).parent();
             var commentId = $(this).parent().data('markCommentId');
@@ -239,7 +245,7 @@
                 url: '/comment/mark/' + commentId,
                 dataType: "text json",
                 type: "POST",
-                data: {mark: '<?php echo Comment::MARK_GOOD ?>'},
+                data: {mark: '<?php //echo Comment::MARK_GOOD ?>'},
                 success: function(response) {
                     if(response.success){
                         $markTag.html('<span class="btn btn-success">Хороший</span>');
@@ -247,6 +253,7 @@
                 }
             });
         });
+        */
 
         // Отметить комментарий как лучший
         $(".mark-comment").on('click', '.mark-comment-as-best', function() {
@@ -259,7 +266,10 @@
                 data: {mark: '<?php echo Comment::MARK_BEST ?>'},
                 success: function(response) {
                     if(response.success){
-                        $markTag.html('<span class="btn btn-material-yellow">Лучший</span>');
+                        $('.comments').find('.mark-comment').html('');
+                        $markTag.html('<i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>');
+                    } else {
+                        $markTag.html('<div class="message">' + response.message + '</div>');
                     }
                 }
             });

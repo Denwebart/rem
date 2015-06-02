@@ -20,6 +20,7 @@
             height: 30,
             startColor: '#84BCE6',
             endColor: '#2D4C7F',
+            //readOnly: "<?php //echo Auth::check() ? (!Auth::user()->is($page->user) ? 1 : 0) : 1 ?>",
             // onSet, onChange
             onSet: function(rating) {
                 sendAjaxRating(rating);

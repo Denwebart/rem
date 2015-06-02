@@ -175,6 +175,15 @@ class Page extends \Eloquent
 		return $this->hasMany('Comment', 'page_id');
 	}
 
+	/**
+	 * Лучший комментарий.
+	 * @return mixed
+	 */
+	public function bestComment()
+	{
+		return $this->hasOne('Comment', 'page_id')->whereMark(Comment::MARK_BEST);
+	}
+
 	public function publishedComments()
 	{
 		return $this->hasMany('Comment', 'page_id')
@@ -280,5 +289,6 @@ class Page extends \Eloquent
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
+
 
 }

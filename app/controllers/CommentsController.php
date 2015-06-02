@@ -107,34 +107,40 @@ class CommentsController extends BaseController
 
 			$mark = Input::get('mark');
 
-			$comment = Comment::findOrFail($commentId);
+			$comment = Comment::whereId($commentId)->with('page.bestComment')->firstOrFail();
 			if(Comment::MARK_BEST == $mark) {
-				$bestComment = Comment::wherePageId($comment->page_id)
-					->whereMark(Comment::MARK_BEST)->first();
+				$bestComment = $comment->page->bestComment;
 				if($bestComment) {
-					$bestComment->mark = 0;
-					$bestComment->save();
+
+					// return error message
+					return Response::json(array(
+						'success' => false,
+						'message' => 'Лучший комментарий уже выбран.',
+					));
+
+					// замена лучшего ответа
+//					$bestComment->mark = 0;
+//					$bestComment->save();
+				} else {
+					$comment->mark = $mark;
+
+					if ($comment->save()) {
+
+						// adding points for comment
+						if($comment->mark == Comment::MARK_GOOD) {
+							$comment->user->addPoints(User::POINTS_FOR_GOOD_ANSWER);
+						} elseif($comment->mark == Comment::MARK_BEST) {
+							$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
+						}
+
+						// return success message
+						return Response::json(array(
+							'success' => true,
+							'message' => 'Лучший комментарий выбран.',
+						));
+					}
 				}
 			}
-			$comment->mark = $mark;
-
-			if ($comment->save()) {
-
-				// adding points for comment
-				if($comment->mark == Comment::MARK_GOOD) {
-					$comment->user->addPoints(User::POINTS_FOR_GOOD_ANSWER);
-				} elseif($comment->mark == Comment::MARK_BEST) {
-					$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
-				}
-
-				// return success message
-				return Response::json(array(
-					'success' => true,
-					'mark' => $comment->mark,
-				));
-			}
-
-
 		}
 	}
 

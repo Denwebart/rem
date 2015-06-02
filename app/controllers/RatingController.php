@@ -10,25 +10,35 @@ class RatingController extends BaseController {
 			$page = Page::findOrFail($id);
 
 			if (!$isVote) {
-				$rating = Input::get('rating');
+				if(!Auth::user()->is($page->user)) {
+					$rating = Input::get('rating');
 
-				$page->votes = $page->votes + $rating;
-				$page->voters = $page->voters + 1;
+					$page->votes = $page->votes + $rating;
+					$page->voters = $page->voters + 1;
 
-				if ($page->save()) {
+					if ($page->save()) {
 
-					$sessionArray = Session::get('user.rating.page');
-					$sessionArray[] = $page->id;
+						$sessionArray = Session::get('user.rating.page');
+						$sessionArray[] = $page->id;
 
-					Session::put('user.rating.page', $sessionArray);
+						Session::put('user.rating.page', $sessionArray);
 
-					//return success message
+						//return success message
+						return Response::json(array(
+							'success' => true,
+							'rating' => $page->getRating(),
+							'votes' => $page->votes,
+							'voters' => $page->voters,
+							'message' => 'Спасибо, Ваш голос принят!',
+						));
+					}
+				} else {
 					return Response::json(array(
-						'success' => true,
+						'success' => false,
 						'rating' => $page->getRating(),
-						'votes' => $page->votes,
-						'voters' => $page->voters,
-						'message' => 'Спасибо, Ваш голос принят!',
+						'message' => (Page::TYPE_QUESTION == $page->type)
+							? 'Вы не можете голосовать за свой вопрос.'
+							: 'Вы не можете голосовать за свою статью.',
 					));
 				}
 			} else {

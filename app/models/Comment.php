@@ -36,8 +36,8 @@ class Comment extends \Eloquent
 	const VOTE_LIKE = 'like';
 	const VOTE_DISLIKE = 'dislike';
 
-	const MARK_GOOD = 1;
-	const MARK_BEST = 2;
+	const MARK_BEST = 1;
+	const MARK_GOOD = 2;
 
 	protected $table = 'comments';
 
