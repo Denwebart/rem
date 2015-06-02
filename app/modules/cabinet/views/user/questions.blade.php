@@ -64,10 +64,20 @@ View::share('title', $title);
                                 {{ $question->getIntrotext() }}
                             </div>
 
-                            <div class="status">
-                                Статус:
-                                {{ ($question->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                            <div class="answers">
+                                Ответы:
+                                @if(count($question->bestComments))
+                                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                @endif
+                                <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                    {{ count($question->comments) }}
+                                </a>
                             </div>
+
+                            {{--<div class="status">--}}
+                                {{--Статус:--}}
+                                {{--{{ ($question->is_published) ? 'Опубликован' : 'Ожидает модерации' }}--}}
+                            {{--</div>--}}
 
                         </div>
                     </div>
