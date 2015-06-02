@@ -3,6 +3,16 @@
 
     <div class="comments">
 
+        @if(Auth::check())
+            @if(Auth::user()->is($page->user) && !$page->bestComment)
+                <div class="clearfix">
+                    <a href="javascript:void(0)" class="btn btn-primary btn-raised pull-right" id="mark-as-best">
+                        Отметить лучший ответ
+                    </a>
+                </div>
+            @endif
+        @endif
+
         @foreach($comments as $comment)
             <!-- Comment -->
             <div id="comment-{{ $comment->id }}" class="media">
@@ -37,13 +47,25 @@
                             <i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>
                         </div>
                     @elseif(Auth::check())
-                        @if(Auth::user()->is($comment->page->user) && $comment->page->type == Page::TYPE_QUESTION && !$comment->page->bestComment)
+                        @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION && !$page->bestComment)
                             <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>--}}
-                                <a href="javascript:void(0)" class="pull-left mark-comment-as-best">Лучший</a>
+                                <a href="javascript:void(0)" class="pull-left mark-comment-as-best" style="display:none">
+                                    <i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>
+                                </a>
                             </div>
                         @endif
                     @endif
+
+                    {{--@elseif(Auth::check())--}}
+                        {{--@if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION && !$page->bestComment)--}}
+                            {{--<div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">--}}
+                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>--}}
+                                {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-best">--}}
+                                    {{--<i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                        {{--@endif--}}
+                    {{--@endif--}}
 
                     <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
 
@@ -256,6 +278,16 @@
         */
 
         // Отметить комментарий как лучший
+        $('#mark-as-best').on('click', function() {
+            if($(this).hasClass('btn-primary')) {
+                $('.mark-comment-as-best').show();
+                $(this).text('Отмена');
+            } else {
+                $('.mark-comment-as-best').hide();
+                $(this).text('Отметить лучший ответ');
+            }
+            $(this).toggleClass("btn-primary btn-default");
+        });
         $(".mark-comment").on('click', '.mark-comment-as-best', function() {
             var $markTag = $(this).parent();
             var commentId = $(this).parent().data('markCommentId');
@@ -267,7 +299,9 @@
                 success: function(response) {
                     if(response.success){
                         $('.comments').find('.mark-comment').html('');
+                        $('#mark-as-best').remove();
                         $markTag.html('<i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>');
+                        $markTag.append('<div class="message">' + response.message + '</div>');
                     } else {
                         $markTag.html('<div class="message">' + response.message + '</div>');
                     }

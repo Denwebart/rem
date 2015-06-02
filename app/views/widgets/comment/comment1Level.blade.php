@@ -1,10 +1,5 @@
 <div id="comment-{{ $comment->id }}" class="media">
     <a href="javascript:void(0)" class="pull-left close-comment">-</a>
-    @if(Auth::user()->is($comment->page->user))
-        <div class="mark-comment">
-            <a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>
-        </div>
-    @endif
     <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
         {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
     </a>
@@ -16,11 +11,30 @@
         <div>{{ $comment->comment }}</div>
 
         <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}">
-            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-            <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-            <div class="vote-message"></div>
+            @if(Auth::check())
+                @if(!Auth::user()->is($comment->user))
+                    <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                    <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
+                    <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                    <div class="vote-message"></div>
+                @endif
+            @endif
         </div>
+
+        @if($comment->mark == Comment::MARK_BEST)
+            <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
+                <i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>
+            </div>
+        @elseif(Auth::check())
+            @if(Auth::user()->is($comment->page->user) && $comment->page->type == Page::TYPE_QUESTION && !$comment->page->bestComment)
+                <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
+                    {{--<a href="javascript:void(0)" class="pull-left mark-comment-as-good">Хороший</a>--}}
+                    <a href="javascript:void(0)" class="pull-left mark-comment-as-best">
+                        <i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>
+                    </a>
+                </div>
+            @endif
+        @endif
 
         <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
 

@@ -127,9 +127,7 @@ class CommentsController extends BaseController
 					if ($comment->save()) {
 
 						// adding points for comment
-						if($comment->mark == Comment::MARK_GOOD) {
-							$comment->user->addPoints(User::POINTS_FOR_GOOD_ANSWER);
-						} elseif($comment->mark == Comment::MARK_BEST) {
+						if($comment->mark == Comment::MARK_BEST) {
 							$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
 						}
 

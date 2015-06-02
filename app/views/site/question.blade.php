@@ -38,14 +38,16 @@
                 @include('widgets.savedPages')
             @endif
 
-            Автор: {{ $page->user->getFullName() }}
+            Автор: {{ $page->user->login }} ({{ $page->user->getFullName() }})
 
             {{ $page->content }}
         </div>
 
         @if(Auth::check())
-            <!-- Подписка на вопрос ("Подписки") -->
-            @include('widgets.subscribe')
+            @if(!Auth::user()->is($page->user))
+                <!-- Подписка на вопрос ("Подписки") -->
+                @include('widgets.subscribe')
+            @endif
         @endif
 
         <div id="answers">
