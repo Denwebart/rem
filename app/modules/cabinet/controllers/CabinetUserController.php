@@ -321,6 +321,7 @@ class CabinetUserController extends \BaseController
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
+		$data['published_at'] = date('Y:m:d H:i:s');
 		$data['meta_title'] = $data['title'];
 		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
@@ -332,7 +333,14 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Page::create($data);
+		$page = Page::create($data);
+
+		// подписка на свой вопрос
+		$subscription = new Subscription();
+		$subscription->user_id = Auth::user()->id;
+		$subscription->page_id = $page->id;
+		$subscription->save();
+
 		Auth::user()->addPoints(User::POINTS_FOR_QUESTION);
 
 		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
@@ -798,7 +806,8 @@ class CabinetUserController extends \BaseController
 				if($subscription->save()) {
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Подписка оформлена.'
+						'message' => 'Подписка оформлена.',
+						'subscribers' => count(Page::whereId($pageId)->first()->subscribers),
 					));
 				}
 			} else {
@@ -819,7 +828,8 @@ class CabinetUserController extends \BaseController
 				$subscription->delete();
 				return Response::json(array(
 					'success' => true,
-					'message' => 'Страница удалена из подписок.'
+					'message' => 'Страница удалена из подписок.',
+					'subscribers' => count(Page::whereId($pageId)->first()->subscribers),
 				));
 			} else {
 				return Response::json(array(

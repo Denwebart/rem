@@ -72,7 +72,7 @@
                                     @if(count($page->bestComments))
                                         <i class="glyphicon glyphicon-ok"></i>
                                     @endif
-                                    <a href="{{ URL::to($page->getUrl()) }}" target="_blank">
+                                    <a href="{{ URL::to($page->getUrl()) }}#answers" target="_blank">
                                         {{ count($page->publishedComments) }}
                                     </a>
                                 </td>

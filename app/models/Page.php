@@ -205,6 +205,16 @@ class Page extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
+	/**
+	 * Подписчики страницы
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function subscribers()
+	{
+		return $this->hasMany('Subscription', 'page_id');
+	}
+
 	public function getUrl($sufix = '.html')
 	{
 		if(self::TYPE_ARTICLE != $this->type) {

@@ -43,13 +43,9 @@
             {{ $page->content }}
         </div>
 
-        @if(Auth::check())
-            @if(!Auth::user()->is($page->user))
-                <!-- Подписка на вопрос ("Подписки") -->
-                @include('widgets.subscribe')
-            @endif
-        @endif
-
+        <!-- Подписка на вопрос ("Подписки") -->
+        @include('widgets.subscribe')
+            
         <div id="answers">
             {{-- Комментарии --}}
             <?php

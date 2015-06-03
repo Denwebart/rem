@@ -3,13 +3,21 @@
         <div id="subscription">
             @if(!Auth::user()->subscribed($page->id))
                 <a href="javascript:void(0)" id="subscribe" data-page-id="{{ $page->id }}" class="btn btn-success pull-right">
-                    {{--<i class="glyphicon glyphicon-floppy-save"></i>--}}
-                    Подписаться
+                    <span class="text-link">
+                        Подписаться
+                    </span>
+                    <span class="subscribers">
+                        {{ count($page->subscribers) }}
+                    </span>
                 </a>
             @else
                 <a href="javascript:void(0)" id="unsubscribe" data-page-id="{{ $page->id }}" class="btn btn-success pull-right">
-                    {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
-                    Отписаться
+                    <span class="text-link">
+                        Вы подписаны
+                    </span>
+                    <span class="subscribers">
+                        {{ count($page->subscribers) }}
+                    </span>
                 </a>
             @endif
         </div>
@@ -32,8 +40,8 @@
                 success: function(response) {
                     if(response.success){
                         $("#subscribe-message").text(response.message);
-//                        $link.find('i').attr('class', 'glyphicon glyphicon-floppy-remove');
-                        $link.text('Отписаться');
+                        $link.find('.text-link').text('Вы подписаны');
+                        $link.find('.subscribers').text(response.subscribers);
                         $link.attr('id', 'unsubscribe');
                     } else {
                         $("#subscribe-message").text(response.message);
@@ -53,8 +61,8 @@
                 success: function(response) {
                     if(response.success){
                         $("#subscribe-message").text(response.message);
-//                        $link.find('i').attr('class', 'glyphicon glyphicon-floppy-save');
-                        $link.text('Подписаться');
+                        $link.find('.text-link').text('Подписаться');
+                        $link.find('.subscribers').text(response.subscribers);
                         $link.attr('id', 'subscribe');
                     } else {
                         $("#subscribe-message").text(response.message);
