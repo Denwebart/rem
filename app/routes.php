@@ -11,6 +11,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
+	Route::resource('tags', 'AdminTagsController', ['except' => ['show']]);
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
 		Route::resource('users', 'AdminUsersController');

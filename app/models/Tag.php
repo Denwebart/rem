@@ -14,8 +14,23 @@ class Tag extends \Eloquent
 		'title' => 'max:100',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::deleted(function($tag)
+		{
+			$tag->pagesTags()->delete();
+		});
+	}
+
 	public function pages()
 	{
 		return $this->belongsToMany('Page', 'pages_tags');
+	}
+
+	public function pagesTags()
+	{
+		return $this->hasMany('PageTag', 'tag_id');
 	}
 }

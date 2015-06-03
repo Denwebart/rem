@@ -94,6 +94,11 @@
                         @endif
                     </a>
                 </li>
+                <li class="{{ Request::is('admin/tags*') ? 'active' : ''}}">
+                    <a href="{{ URL::route('admin.tags.index') }}">
+                        <i class="fa fa-tags"></i> <span>Теги</span>
+                    </a>
+                </li>
                 @if(Auth::user()->isAdmin())
                     <li class="{{ Request::is('admin/letters*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.letters.index') }}">
