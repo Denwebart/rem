@@ -7,7 +7,11 @@ View::share('title', $title);
 
 @section('content')
 <section id="content">
-	<h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
+    @if($tag)
+        <h2>Результаты поиска по тегу "{{{ $tag }}}"</h2>
+    @else
+        <h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
+    @endif
 
 	<div class="content">
 
@@ -20,7 +24,6 @@ View::share('title', $title);
 
 		@if(count($results))
 			@foreach($results as $result)
-
 				<div>
 					<a href="{{ URL::to($result->getUrl()) }}">
 						{{ StringHelper::getFragment($result->getTitle(), $query) }}
@@ -30,7 +33,6 @@ View::share('title', $title);
 					</p>
 				</div>
 				<hr/>
-
 			@endforeach
 
 			{{ $results->appends(['query' => $query])->links() }}

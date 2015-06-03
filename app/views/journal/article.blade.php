@@ -4,6 +4,11 @@
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('/') }}">Главная</a></li>
         <li>
+            <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
+                {{ $page->parent->parent->getTitle() }}
+            </a>
+        </li>
+        <li>
             <a href="{{ URL::to($page->parent->parent->getUrl() . '/' . $user->getLoginForUrl()) }}">
                 {{ $user->login }}
             </a>
@@ -33,6 +38,16 @@
 
             Автор: {{ $page->user->getFullName() }}
             {{ $page->content }}
+
+            <ul class="tags">
+                @foreach($page->tags as $tag)
+                    <li>
+                        <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                            {{ $tag->title }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
 
         {{-- Комментарии --}}

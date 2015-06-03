@@ -94,7 +94,14 @@ if(Auth::check()){
 
         <div class="col-lg-3 col-md-3">
 
-            {{ $sidebarWidget->addToFavorites() }}
+            <div class="row">
+                <div class="col-md-6" style="padding: 0 10px 0 3px">
+                    {{ $sidebarWidget->rss() }}
+                </div>
+                <div class="col-md-6" style="padding: 0 3px 0 10px">
+                    {{ $sidebarWidget->addToFavorites() }}
+                </div>
+            </div>
 
             {{ $sidebarWidget->comments() }}
 

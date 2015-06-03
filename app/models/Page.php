@@ -215,6 +215,16 @@ class Page extends \Eloquent
 		return $this->hasMany('Subscription', 'page_id');
 	}
 
+	/**
+	 * Теги
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+	 */
+	public function tags()
+	{
+		return $this->belongsToMany('Tag', 'pages_tags');
+	}
+
 	public function getUrl($sufix = '.html')
 	{
 		if(self::TYPE_ARTICLE != $this->type) {

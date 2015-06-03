@@ -4,6 +4,11 @@
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('/') }}">Главная</a></li>
         <li>
+            <a href="{{ URL::to($page->parent->getUrl()) }}">
+                {{ $page->parent->getTitle() }}
+            </a>
+        </li>
+        <li>
             {{ $user->login }}
         </li>
     </ol>
@@ -60,6 +65,17 @@
                                 </a>
                             </div>
                             <p>{{ $article->getIntrotext() }}</p>
+
+                            <ul class="tags">
+                                @foreach($article->tags as $tag)
+                                    <li>
+                                        <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                            {{ $tag->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
                             <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
                                 Читать полностью <span class="glyphicon glyphicon-chevron-right"></span>
                             </a>

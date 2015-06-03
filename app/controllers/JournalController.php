@@ -30,7 +30,7 @@ class JournalController extends BaseController {
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with('parent.parent', 'user')
+			->with('parent.parent', 'user', 'tags')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -50,12 +50,13 @@ class JournalController extends BaseController {
 		$page->meta_title = 'Бортовой журнал пользователя ' . $user->login;
 		$page->meta_desc = 'Бортовой журнал пользователя ' . $user->login;
 		$page->meta_key = '';
+		$page->parent = Page::getPageByAlias($journalAlias)->first();
 
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereUserId($user->id)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with('parent.parent', 'user')
+			->with('parent.parent', 'user', 'tags')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -70,7 +71,11 @@ class JournalController extends BaseController {
 				? Auth::user()
 				: User::whereLogin($login)->firstOrFail())
 			: User::whereLogin($login)->firstOrFail();
-		View::share('page', Page::getPageByAlias($alias)->whereUserId($user->id)->firstOrFail());
+		$page = Page::getPageByAlias($alias)
+			->whereUserId($user->id)
+			->with('parent.parent', 'tags')
+			->firstOrFail();
+		View::share('page', $page);
 		return View::make('journal.article', compact('user'));
 	}
 
