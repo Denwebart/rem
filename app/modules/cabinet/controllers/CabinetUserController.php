@@ -425,14 +425,14 @@ class CabinetUserController extends \BaseController
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
 				$articles = Page::whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
-					->with('parent.parent')
+					->with('parent.parent', 'tags')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$articles = Page::whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
 					->whereIsPublished(1)
-					->with('parent.parent')
+					->with('parent.parent', 'tags')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
@@ -440,7 +440,7 @@ class CabinetUserController extends \BaseController
 			$articles = Page::whereType(Page::TYPE_ARTICLE)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
-				->with('parent.parent')
+				->with('parent.parent', 'tags')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}

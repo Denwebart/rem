@@ -64,6 +64,16 @@ View::share('title', $title);
                                 {{ $article->getIntrotext() }}
                             </div>
 
+                            <ul class="tags">
+                                @foreach($article->tags as $tag)
+                                    <li>
+                                        <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                            {{ $tag->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
                             <div class="status">
                                 Статус:
                                 {{ ($article->is_published) ? 'Опубликована' : 'Ожидает модерации' }}
