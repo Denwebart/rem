@@ -12,6 +12,10 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::resource('articles', 'AdminArticlesController');
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
 	Route::resource('tags', 'AdminTagsController', ['except' => ['show']]);
+	Route::get('tags/merge', ['as' => 'admin.tags.merge', 'uses' => 'AdminTagsController@merge']);
+	Route::post('tags/merge_request', ['as' => 'admin.tags.postMerge', 'uses' => 'AdminTagsController@postMerge']);
+	Route::get('tags/autocomplete', ['as' => 'admin.tags.autocomplete', 'uses' => 'AdminTagsController@autocomplete']);
+	Route::post('tags/search', ['as' => 'admin.tags.search', 'uses' => 'AdminTagsController@search']);
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
 		Route::resource('users', 'AdminUsersController');

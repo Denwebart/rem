@@ -10,6 +10,11 @@ class PageTag extends Eloquent {
 	public $incrementing = false;
 	public $timestamps = false;
 
+	protected $fillable = [
+		'tag_id',
+		'page_id',
+	];
+
 	public function page()
 	{
 		return $this->belongsTo('Page', 'page_id');

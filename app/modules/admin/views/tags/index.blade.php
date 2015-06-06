@@ -5,6 +5,7 @@
     <h1>Теги
         <small>теги к статьям пользователей</small>
     </h1>
+
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
         <li class="active">Теги</li>
@@ -14,6 +15,9 @@
 <div class="content">
     <!-- Main row -->
     <div class="row">
+        <div class="col-md-12">
+            <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-primary">Объединение тегов</a>
+        </div>
 
         <div class="col-md-12">
             <div class="box">

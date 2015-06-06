@@ -37,8 +37,6 @@ class AdminTagsController extends \BaseController {
 	public function create()
 	{
 		$tag = new Tag();
-		$tag->user_id = Auth::user()->id;
-
 		return View::make('admin::tags.create', compact('tag'));
 	}
 
@@ -169,6 +167,73 @@ class AdminTagsController extends \BaseController {
 		Tag::destroy($id);
 
 		return Redirect::route('admin.tags.index');
+	}
+
+	/**
+	 * Merge tags
+	 *
+	 * @return Response
+	 */
+	public function merge()
+	{
+		return View::make('admin::tags.merge');
+	}
+
+	public function postMerge()
+	{
+		if(Request::ajax()) {
+
+			$formData = Input::get('formData');
+			parse_str($formData, $formFields);
+
+			$tags = Tag::whereIn('title', $formFields['tags'])->with('pagesTags')->get();
+			$resultTag = Tag::whereTitle($formFields['resultTag'])->first();
+
+			foreach($tags as $tag) {
+				foreach($tag->pagesTags as $item) {
+					if(!PageTag::whereTagId($resultTag->id)->wherePageId($item->page_id)->first()) {
+						PageTag::create(['page_id' => $item->page_id, 'tag_id' => $resultTag->id]);
+					}
+				}
+				if($tag->id != $resultTag->id) {
+					$tag->delete();
+				}
+			}
+
+			return Response::json(array(
+				'success' => true,
+				'message' => 'Объединено в тег "' . $resultTag->title . '".',
+			));
+		}
+	}
+
+	public function autocomplete() {
+		$term = Input::get('term');
+		$result = Tag::where('title', 'like', "$term%")
+			->lists('title', 'id');
+
+		return Response::json($result);
+	}
+
+	public function search() {
+
+		if(Request::ajax()) {
+
+			$formData = Input::get('formData');
+			parse_str($formData, $formFields);
+			$search = $formFields['search'];
+
+			$tags = Tag::where('title', 'LIKE', "%$search%")
+				->orWhere('title', 'LIKE', "%" . TranslitHelper::make($search) . "%")
+				->with('pagesTags')
+				->get();
+
+			return Response::json(array(
+				'success' => true,
+				'resultHtml' => (string) View::make('admin::tags.search', compact('tags'))->render(),
+			));
+		}
+
 	}
 
 }
