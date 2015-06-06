@@ -14,6 +14,36 @@
 <div class="content">
     <!-- Main row -->
     <div class="row">
+
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3>Добавить тег</h3>
+                </div>
+                <div class="box-body row">
+                    {{ Form::model($tag, ['method' => 'POST', 'route' => ['admin.tags.store'], 'id' => 'tagsForm', 'files' => true]) }}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ Form::label('image', 'Изображение') }}<br/>
+                                {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+                                {{ $errors->first('image') }}
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                {{ Form::label('title', 'Тег') }}
+                                {{ Form::text('title', $tag->title, ['class' => 'form-control', 'placeholder' => 'Новый тег']) }}
+                                {{ $errors->first('title') }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            {{ Form::submit('Сохранить', ['class' => 'btn btn-success margin-top-25']) }}
+                        </div>
+                    {{ Form::close() }}
+                </div>
+            </div>
+        </div><!-- ./col -->
+
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body table-responsive no-padding">
@@ -43,7 +73,7 @@
                         @foreach($tags as $tag)
                             <tr>
                                 <td>{{ $tag->id }}</td>
-                                <td> </td>
+                                <td>{{ $tag->getImage(null, ['width' => '50px']) }}</td>
                                 <td>
                                     <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" target="_blank">
                                         {{ $tag->title }}
@@ -98,6 +128,12 @@
 
 @section('script')
     @parent
+
+    <!-- File Input -->
+    <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('.file-inputs').bootstrapFileInput();
+    </script>
 
     <script type="text/javascript">
         $('button[name="destroy"]').on('click', function(e){

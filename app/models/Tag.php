@@ -4,6 +4,8 @@ class Tag extends \Eloquent
 {
 	protected $table = 'tags';
 
+	public $timestamps = false;
+
 	protected $fillable = [
 		'image',
 		'title',
@@ -11,7 +13,7 @@ class Tag extends \Eloquent
 
 	public static $rules = [
 		'image' => 'mimes:jpeg,bmp,png|max:1024',
-		'title' => 'max:100',
+		'title' => 'required|max:100',
 	];
 
 	public static function boot()
@@ -32,5 +34,20 @@ class Tag extends \Eloquent
 	public function pagesTags()
 	{
 		return $this->hasMany('PageTag', 'tag_id');
+	}
+
+	public function getImage($prefix = null, $options = [])
+	{
+		if(isset($options['class'])) {
+			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
+		} else {
+			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
+		}
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		if($this->image){
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $prefix . $this->image, $this->title, $options);
+		} else {
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultTagImage'), $this->title, $options);
+		}
 	}
 }

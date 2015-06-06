@@ -199,7 +199,7 @@ class AdminHonorsController extends \BaseController {
 		if(isset($data['image'])){
 			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . (new Honor)->getTable() . '/';
+			$imagePath = public_path() . '/uploads/' . $honor->getTable() . '/';
 			$image = Image::make($data['image']->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath);
 
@@ -209,11 +209,17 @@ class AdminHonorsController extends \BaseController {
 					$constraint->aspectRatio();
 				})->save($imagePath . $fileName);
 
+			// delete old image
+			if(File::exists($imagePath . $honor->image)) {
+				File::delete($imagePath . $honor->image);
+			}
+
 			$data['image'] = $fileName;
+		} else {
+			$data['image'] = $honor->image;
 		}
 		// загрузка изображения
 
-		$data['image'] = $honor->image;
 		$honor->update($data);
 
 		return Redirect::route('admin.honors.index');

@@ -20,6 +20,8 @@ return [
 
 	'defaultHonorImage' => '/images/default-honor-image.png',
 
+	'defaultTagImage' => '/images/default-tag-image.png',
+
 	'defaultPublishedTime' => '10:00:00',
 
 	'numberOfUserImages' => 5,

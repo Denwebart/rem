@@ -24,7 +24,9 @@ class AdminTagsController extends \BaseController {
 			$tags = Tag::orderBy('title', 'ASC')->with('pages')->paginate(10);
 		}
 
-		return View::make('admin::tags.index', compact('tags'));
+		$tag = new Tag();
+
+		return View::make('admin::tags.index', compact('tags', 'tag'));
 	}
 
 	/**
@@ -49,23 +51,31 @@ class AdminTagsController extends \BaseController {
 	{
 		$data = Input::all();
 
-		if(Input::get('is_published') && Input::get('published_at')) {
-			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
-			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
-		} elseif(Input::get('is_published') && !Input::get('published_at')) {
-			$data['published_at'] = date('Y:m:d H:i:s');
-		} else {
-			$data['published_at'] = null;
-		}
-
-		$data['user_id'] = Auth::user()->id;
-
 		$validator = Validator::make($data, Tag::$rules);
 
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
+
+		// загрузка изображения
+		if(isset($data['image'])){
+
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . (new Tag)->getTable() . '/';
+			$image = Image::make($data['image']->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $fileName);
+
+			$data['image'] = $fileName;
+		}
+		// загрузка изображения
 
 		Tag::create($data);
 
@@ -116,6 +126,32 @@ class AdminTagsController extends \BaseController {
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
+
+		// загрузка изображения
+		if(isset($data['image'])){
+
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $tag->getTable() . '/';
+			$image = Image::make($data['image']->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $fileName);
+
+			// delete old image
+			if(File::exists($imagePath . $tag->image)) {
+				File::delete($imagePath . $tag->image);
+			}
+
+			$data['image'] = $fileName;
+		} else {
+			$data['image'] = $tag->image;
+		}
+		// загрузка изображения
 
 		$tag->update($data);
 
