@@ -29,6 +29,12 @@
 		{{ $errors->first('content') }}
 	</div>
 
+    <div class="form-group">
+        {{ Form::label('tags', 'Теги') }}
+        {{ Form::text('tags', null, ['class' => 'form-control']) }}
+        {{ $errors->first('tags') }}
+    </div>
+
 	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 	<a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">Отмена</a>
 </div>
