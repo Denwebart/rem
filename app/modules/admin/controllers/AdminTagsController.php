@@ -189,6 +189,13 @@ class AdminTagsController extends \BaseController {
 			$tags = Tag::whereIn('title', $formFields['tags'])->with('pagesTags')->get();
 			$resultTag = Tag::whereTitle($formFields['resultTag'])->first();
 
+			if(is_null($resultTag)) {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Такого тега не существует',
+				));
+			}
+
 			foreach($tags as $tag) {
 				foreach($tag->pagesTags as $item) {
 					if(!PageTag::whereTagId($resultTag->id)->wherePageId($item->page_id)->first()) {

@@ -166,6 +166,7 @@
 <!-- Forms -->
 <script src="/backend/js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
 <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+<script src="/backend/js/plugins/bootstrapValidator/bootstrapValidator.min.js" type="text/javascript"></script>
 <script src="/backend/js/custom.js" type="text/javascript"></script>
 
 @yield('script')
