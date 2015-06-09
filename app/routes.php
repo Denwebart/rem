@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
 		Route::resource('advertising', 'AdminАdvertisingController');
+		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
 
 		// Копия базы
 //		Route::get('backup', function(){

@@ -12,6 +12,13 @@
     <div class="content">
         <!-- Main row -->
         <div class="row">
+
+            <div class="col-xs-12">
+                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">
+                    Правила сайта
+                </a>
+            </div>
+
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
