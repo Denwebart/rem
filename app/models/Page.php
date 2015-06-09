@@ -225,6 +225,15 @@ class Page extends \Eloquent
 		return $this->belongsToMany('Tag', 'pages_tags');
 	}
 
+	public function tagsLine()
+	{
+		$line = '';
+		foreach ($this->tags as $tag) {
+			$line .= $tag->title . ',';
+		}
+		return $line;
+	}
+
 	public function getUrl($sufix = '.html')
 	{
 		if(self::TYPE_ARTICLE != $this->type) {

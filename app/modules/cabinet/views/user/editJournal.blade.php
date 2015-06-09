@@ -39,30 +39,3 @@ View::share('title', $title);
         </div>
     </div>
 @stop
-
-@section('style')
-    @parent
-    <link rel="stylesheet" type="text/css" href="/css/selectize.css" />
-    <link rel="stylesheet" type="text/css" href="/css/selectize.default.css" />
-@endsection
-
-@section('script')
-    @parent
-    <script type="text/javascript" src="/js/selectize.min.js"></script>
-
-    <script type="text/javascript">
-
-        $('#tags').selectize({
-            delimiter: ',',
-            persist: false,
-            create: function(input) {
-                return {
-                    value: input,
-                    text: input
-                }
-            },
-        });
-
-    </script>
-
-@endsection

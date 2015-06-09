@@ -494,6 +494,7 @@ class CabinetUserController extends \BaseController
 		$article = Page::whereId($id)
 			->whereUserId($user->id)
 			->whereType(Page::TYPE_ARTICLE)
+			->with('tags')
 			->firstOrFail();
 
 		View::share('user', $user);
@@ -530,6 +531,14 @@ class CabinetUserController extends \BaseController
 		$page->update($data);
 
 		return Redirect::route('user.journal', ['login' => $login]);
+	}
+
+	public function tagAutocomplete() {
+		$term = Input::get('term');
+		$result = Tag::where('title', 'like', "$term%")
+			->lists('title', 'id');
+
+		return Response::json($result);
 	}
 
 	public function deleteJournal($login)
