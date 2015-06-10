@@ -8,26 +8,42 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 /**
  * User
  *
- * @property integer $id
- * @property integer $user_id
- * @property boolean $is_published
- * @property string $login
- * @property string $email
- * @property string $firstname
- * @property string $lastname
- * @property integer $role
- * @property integer $points
- * @property string $ip
- * @property string $description
- * @property string $car_brand
- * @property string $profession
- * @property string $city
- * @property string $country
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property integer $id 
+ * @property string $login 
+ * @property string $email 
+ * @property string $firstname 
+ * @property string $lastname 
+ * @property boolean $role 
+ * @property integer $points 
+ * @property string $ip 
+ * @property string $avatar 
+ * @property string $description 
+ * @property string $car_brand 
+ * @property string $profession 
+ * @property string $city 
+ * @property string $country 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property boolean $is_active 
+ * @property boolean $is_agree 
+ * @property string $activationCode 
+ * @property string $remember_token 
+ * @property string $password 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $receivedMessages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessagesForUser 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $comments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedComments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\UserImage[] $images 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\UserImage[] $publishedImages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $questions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $publishedQuestions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $articles 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $publishedArticles 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $savedPages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Subscription[] $subscriptions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Honor[] $honors 
  * @method static \Illuminate\Database\Query\Builder|\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\User whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\User whereIsPublished($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereLogin($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereFirstname($value)
@@ -35,6 +51,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereRole($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePoints($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIp($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereAvatar($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereCarBrand($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereProfession($value)
@@ -42,12 +59,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereCountry($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereUpdatedAt($value)
- * @property boolean $is_active
- * @property string $activationCode
- * @property string $remember_token
- * @method static \Illuminate\Database\Query\Builder|\User whereIsActive($value) 
- * @method static \Illuminate\Database\Query\Builder|\User whereActivationCode($value) 
- * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value) 
+ * @method static \Illuminate\Database\Query\Builder|\User whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereIsAgree($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereActivationCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\User wherePassword($value)
  */
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
@@ -104,6 +120,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'city' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
+			'is_agree' => 'boolean',
 		];
 	}
 
@@ -128,6 +145,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'city' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
+			'is_agree' => 'boolean',
 		]
 	];
 

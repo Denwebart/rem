@@ -10,6 +10,18 @@ class CabinetUserController extends \BaseController
 			View::share('headerWidget', $headerWidget);
 		}
 
+		// согласие с правилами сайта
+		$this->beforeFilter(function()
+		{
+			$login = Route::current()->getParameter('login');
+			if(Auth::user()->getLoginForUrl() == $login) {
+				if(!Auth::user()->is_agree) {
+					return Redirect::route('rules');
+				}
+			}
+
+		}, ['except' => ['index']]);
+
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');

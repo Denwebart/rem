@@ -2,7 +2,8 @@
 
 class UsersController extends BaseController
 {
-	public function getRegister() {
+	public function getRegister()
+	{
 		return View::make('users.register');
 	}
 
@@ -45,12 +46,14 @@ class UsersController extends BaseController
 		return $this->getMessage("Неверная ссылка на активацию аккаунта, либо учетная запись уже активирована.", 'danger');
 	}
 
-	public function getLogin() {
+	public function getLogin()
+	{
 		Session::put('previousUrl', URL::previous());
 		return View::make('users.login');
 	}
 
-	public function postLogin() {
+	public function postLogin()
+	{
 		// Формируем базовый набор данных для авторизации
 		// (isActive => 1 нужно для того, чтобы аторизоваться могли только
 		// активированные пользователи)
@@ -95,7 +98,8 @@ class UsersController extends BaseController
 		return Redirect::back()->withAlert($alert);
 	}
 
-	public function getLogout() {
+	public function getLogout()
+	{
 		if(Auth::check()){
 			Auth::logout();
 		}
@@ -107,5 +111,21 @@ class UsersController extends BaseController
 		else {
 			return Redirect::to(URL::previous());
 		}
+	}
+
+	public function getRules()
+	{
+		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+		}
+
+		if(Auth::check()) {
+			$user = Auth::user();
+		}
+
+		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
+
+		return View::make('users.rules', compact('user', 'rules'));
 	}
 }

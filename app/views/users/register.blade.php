@@ -13,7 +13,7 @@ View::share('title', $title);
 
                 <h2>Регистрация</h2>
 
-                {{ Form::open(array('url' => 'register', 'role' => 'form', 'class' => '')) }}
+                {{ Form::open(array('url' => 'register_request', 'role' => 'form', 'class' => '')) }}
 
                     <div class="form-group">
                         {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин', 'autofocus'=>'autofocus')) }}
