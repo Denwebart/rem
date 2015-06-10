@@ -25,8 +25,8 @@ class CabinetUserController extends \BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		View::share('user', $user);
 		return View::make('cabinet::user.index');
@@ -36,7 +36,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		View::share('user', $user);
 		return View::make('cabinet::user.edit');
 	}
@@ -49,7 +49,7 @@ class CabinetUserController extends \BaseController
 	 */
 	public function postEdit($login)
 	{
-		$user = User::whereLogin($login)->firstOrFail();
+		$user = User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		$data = Input::all();
 
@@ -144,8 +144,8 @@ class CabinetUserController extends \BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		View::share('user', $user);
 		return View::make('cabinet::user.gallery');
 	}
@@ -270,8 +270,8 @@ class CabinetUserController extends \BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
@@ -308,7 +308,7 @@ class CabinetUserController extends \BaseController
 		}
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		View::share('user', $user);
 		return View::make('cabinet::user.createQuestion', compact('question'));
 	}
@@ -350,7 +350,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$question = Page::whereId($id)
 			->whereUserId($user->id)
 			->whereType(Page::TYPE_QUESTION)
@@ -364,7 +364,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$page = Page::whereId($id)
 			->whereUserId($user->id)
 			->whereType(Page::TYPE_QUESTION)
@@ -398,7 +398,7 @@ class CabinetUserController extends \BaseController
 		{
 			$user = (Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 			$question = Page::whereId(Input::get('questionId'))
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_QUESTION)
@@ -418,8 +418,8 @@ class CabinetUserController extends \BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
@@ -456,7 +456,7 @@ class CabinetUserController extends \BaseController
 		}
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		View::share('user', $user);
 		return View::make('cabinet::user.createJournal', compact('article'));
 	}
@@ -490,7 +490,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$article = Page::whereId($id)
 			->whereUserId($user->id)
 			->whereType(Page::TYPE_ARTICLE)
@@ -505,7 +505,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$page = Page::whereId($id)
 			->whereUserId($user->id)
 			->whereType(Page::TYPE_ARTICLE)
@@ -547,7 +547,7 @@ class CabinetUserController extends \BaseController
 		{
 			$user = (Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 			$article = Page::whereId(Input::get('articleId'))
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_ARTICLE)
@@ -567,8 +567,8 @@ class CabinetUserController extends \BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
@@ -599,7 +599,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		/*
 		 Для вывода последнего сообщения конкретного пользователя
@@ -630,7 +630,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$companion = User::whereLogin($companion)->firstOrFail();
 
 		/*
@@ -733,7 +733,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$pages = UserPage::whereUserId($user->id)
 			->with('page.parent.parent')
 			->orderBy('created_at', 'DESC')
@@ -792,7 +792,7 @@ class CabinetUserController extends \BaseController
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
-			: User::whereLogin($login)->firstOrFail();
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$subscriptions = Subscription::whereUserId($user->id)
 			->with('page.parent.parent')
 			->orderBy('created_at', 'DESC')

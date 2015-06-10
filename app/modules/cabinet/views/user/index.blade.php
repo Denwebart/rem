@@ -71,11 +71,15 @@ View::share('title', $title);
                     </a>
                 @endforeach
             @else
-                @if(!Auth::user()->is($user))
-                    Нет наград.
-                @else
-                    У Вас нет наград. Узнать о том, как можно получить награду, можно
+                @if(Auth::check())
+                    @if(!Auth::user()->is($user))
+                        Нет наград.
+                    @else
+                        У Вас нет наград. Узнать о том, как можно получить награду, можно
                         <a href="">здесь</a>.
+                    @endif
+                @else
+                    Нет наград.
                 @endif
             @endif
 
