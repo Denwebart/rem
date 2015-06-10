@@ -10,21 +10,10 @@ View::share('title', $title);
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 well">
-                {{--@if($errors->all())--}}
-                    {{--<div class="alert alert-danger">--}}
-                        {{--@foreach ($errors->all() as $error)--}}
-                            {{--<p>{{ $error }}</p>--}}
-                        {{--@endforeach--}}
-                    {{--</div>--}}
-                {{--@endif--}}
 
                 <h2>Регистрация</h2>
 
-                {{--@if (Session::has('message'))--}}
-                    {{--<div class="alert alert-info">{{ Session::get('message') }}</div>--}}
-                {{--@endif--}}
-
-                {{ Form::open(array('url' => 'users/register', 'role' => 'form', 'class' => '')) }}
+                {{ Form::open(array('url' => 'register', 'role' => 'form', 'class' => '')) }}
 
                     <div class="form-group">
                         {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин', 'autofocus'=>'autofocus')) }}

@@ -3,7 +3,7 @@
 class UsersController extends BaseController
 {
 	public function getRegister() {
-		return View::make('users/register');
+		return View::make('users.register');
 	}
 
 	public function postRegister()
@@ -13,10 +13,10 @@ class UsersController extends BaseController
 		$validation = Validator::make(Input::all(), $rules);
 		if ($validation->fails()) {
 			// В случае провала, редиректим обратно с ошибками и самими введенными данными
-			return Redirect::to('users/register')->withErrors($validation)->withInput();
+			return Redirect::route('register')->withErrors($validation)->withInput();
 		}
 
-		// Сама регистрация с уже проверенными данными
+		// Сама регистрация с уже проверенными данными=
 		$user = new User();
 		$user->fill(Input::all());
 		$id = $user->register();
@@ -47,7 +47,7 @@ class UsersController extends BaseController
 
 	public function getLogin() {
 		Session::put('previousUrl', URL::previous());
-		return View::make('users/login');
+		return View::make('users.login');
 	}
 
 	public function postLogin() {

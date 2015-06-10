@@ -75,13 +75,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	];
 
 	protected $fillable = [
-		'user_id',
-		'is_active',
-		'name',
+		'login',
+		'email',
 		'firstname',
 		'lastname',
-		'email',
-		'password',
+		'role',
+		'ip',
+		'avatar',
 		'description',
 		'car_brand',
 		'profession',
@@ -136,6 +136,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->password = Hash::make($this->password);
 		$this->activationCode = $this->generateCode();
 		$this->is_active = false;
+		$this->login = ucfirst($this->login);
+		$this->role = self::ROLE_NONE;
+		$this->ip = Request::ip();
 		$this->save();
 
 		Log::info("User [{$this->email}] registered. Activation code: {$this->activationCode}");
@@ -184,9 +187,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			return false;
 		}
 
-		// Обнулим код, изменим флаг isActive и сохраним
+		// Обнулим код, назначим роль, изменим флаг isActive и сохраним
 		$this->activationCode = '';
 		$this->is_active = true;
+		$this->role = self::ROLE_USER;
 		$this->save();
 
 		// И запишем информацию в лог, просто, чтобы была :)

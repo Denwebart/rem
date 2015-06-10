@@ -167,7 +167,7 @@
                             <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-heart"></i>Мои подписки</a>
                         </li>
                         <li class="footer">
-                            <a href="{{ URL::to('users/logout') }}"><i class="fa fa-power-off"></i>Выход</a>
+                            <a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i>Выход</a>
                         </li>
                     </ul>
                 </li>

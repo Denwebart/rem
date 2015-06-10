@@ -51,7 +51,7 @@ View::share('title', $title);
                 </div>
 
                 <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
-                <a href="{{ URL::to('users/register') }}">Регистрация</a>
+                <a href="{{ URL::route('register') }}">Регистрация</a>
 
                 {{ Form::close() }}
             </div>

@@ -24,12 +24,12 @@
                     <div class="col-md-5">
                         {{ $menuWidget->topMenu() }}
                         @if (!Auth::check())
-                            <a href="{{ URL::to('users/login') }}" class="btn btn-primary margin-top-20 pull-right btn-sm btn-login">
+                            <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-sm btn-login">
                                 Войти
                                 <i class="glyphicon glyphicon-log-in"></i>
                             </a>
                             <br>
-                            <a href="{{ URL::to('users/register') }}" class="pull-right btn-register">
+                            <a href="{{ URL::route('register') }}" class="pull-right btn-register">
                                 Зарегистрироваться
                             </a>
                         @endif

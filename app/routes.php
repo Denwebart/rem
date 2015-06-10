@@ -87,7 +87,14 @@ Route::group(['prefix' => 'user'], function() {
 });
 
 /* Пользователи */
-Route::controller('users', 'UsersController');
+//Route::controller('users', 'UsersController');
+Route::get('register', ['as' => 'register', 'uses' => 'UsersController@getRegister']);
+Route::post('register_request', ['as' => 'postRegister', 'uses' => 'UsersController@postRegister']);
+Route::get('activate', ['as' => 'activate', 'uses' => 'UsersController@getActivate']);
+Route::get('login', ['as' => 'login', 'uses' => 'UsersController@getLogin']);
+Route::post('login_request', ['as' => 'postLogin', 'uses' => 'UsersController@postLogin']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@getLogout']);
+
 Route::controller('password', 'RemindersController');
 
 /* Фронт */
