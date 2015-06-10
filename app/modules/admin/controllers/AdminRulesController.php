@@ -21,7 +21,7 @@ class AdminRulesController extends \BaseController {
 		if ($sortBy && $direction) {
 			$rules = Rule::orderBy($sortBy, $direction)->paginate(10);
 		} else {
-			$rules = Rule::orderBy('position', 'DESC')->paginate(10);
+			$rules = Rule::orderBy('position', 'ASC')->paginate(10);
 		}
 
 		return View::make('admin::rules.index', compact('rules'));
@@ -91,6 +91,19 @@ class AdminRulesController extends \BaseController {
 		}
 
 		$rule->update($data);
+
+		return Redirect::route('admin.rules.index');
+	}
+
+	/**
+	 * Remove the specified rule from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		Rule::destroy($id);
 
 		return Redirect::route('admin.rules.index');
 	}

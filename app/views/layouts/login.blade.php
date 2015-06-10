@@ -134,6 +134,12 @@
 
 <script src="/material/js/jquery.nouislider.min.js"></script>
 
+<script>
+    $(function() {
+        $.material.init();
+    });
+</script>
+
 @yield('script')
 
 </body>

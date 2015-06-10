@@ -157,6 +157,11 @@
 <script src="/material/js/snackbar.min.js"></script>
 
 <script src="/material/js/jquery.nouislider.min.js"></script>
+<script>
+    $(function() {
+        $.material.init();
+    });
+</script>
 
 @yield('script')
 

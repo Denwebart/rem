@@ -12,7 +12,7 @@ class Rule extends \Eloquent
 	];
 
 	public static $rules = [
-		'position' => 'required|integer',
+		'position' => 'required|integer|unique:rules',
 		'is_published' => 'boolean',
 		'title' => 'required|max:500',
 		'description' => 'required|max:2000',

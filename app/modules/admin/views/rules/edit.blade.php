@@ -2,21 +2,22 @@
 
 @section('content')
     <div class="page-head">
-        <h1>Редактирование рекламы <small>редактирование рекламного блока</small></h1>
+        <h1>Редактирование правила <small></small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама</a></li>
-            <li>Редактирование {{ $advertising->title }}</li>
+            <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
+            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Правила сайта</a></li>
+            <li>Редактирование правила №{{ $rule->position }}</li>
         </ol>
     </div>
 
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="no-margin-top">{{ $advertising->title }}</h4>
+                <h4 class="no-margin-top">{{ $rule->title }}</h4>
             </div>
-            {{ Form::model($advertising, ['method' => 'PUT', 'route' => ['admin.advertising.update', $advertising->id], 'id' => 'advertisingForm']) }}
-            @include('admin::advertising._form')
+            {{ Form::model($rule, ['method' => 'PUT', 'route' => ['admin.rules.update', $rule->id], 'id' => 'ruleForm']) }}
+            @include('admin::rules._form')
             {{ Form::close() }}
         </div>
     </div>
