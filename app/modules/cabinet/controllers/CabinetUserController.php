@@ -21,7 +21,7 @@ class CabinetUserController extends \BaseController
 				}
 			}
 
-		}, ['except' => ['index']]);
+		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteNotification']]);
 
 		$this->beforeFilter(function()
 		{

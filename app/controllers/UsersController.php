@@ -113,23 +113,33 @@ class UsersController extends BaseController
 		}
 	}
 
+	/**
+	 * Страница с правилами сайта
+	 *
+	 * @return \Illuminate\View\View
+	 */
 	public function getRules()
 	{
-		dd($backUrl);
+		$backUrl = Session::has('backUrl')
+			? Session::get('backUrl')
+			: URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
+
 		if(Auth::check()){
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
-		}
-
-		if(Auth::check()) {
 			$user = Auth::user();
 		}
 
 		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
 
-		return View::make('users.rules', compact('user', 'rules'));
+		return View::make('users.rules', compact('user', 'rules', 'backUrl'));
 	}
 
+	/**
+	 * Соглашение с правилами сайта
+	 *
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 */
 	public function postRules()
 	{
 		$rulesFromInput = Input::get('rules');
@@ -139,11 +149,10 @@ class UsersController extends BaseController
 			$user = Auth::user();
 			$user->is_agree = 1;
 			if($user->save()) {
-				dd('редирект на ' . Input::get('backUrl'));
 				return Redirect::to(Input::get('backUrl'));
 			}
 		} else {
-			return Redirect::route('rules')->withInput();
+			return Redirect::route('rules')->with('message', 'Вы не подтвердили согласие со всеми правилами сайта.');
 		}
 	}
 }

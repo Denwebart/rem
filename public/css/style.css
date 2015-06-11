@@ -49,6 +49,12 @@ a:focus {
     padding: 0.2em 0.1em;
     background-color: #67FF5E;
 }
+.opacity {
+    opacity: 0.3;
+}
+.loader-checkbox {
+    background: url('../images/loader-button.gif');
+}
 /*header {*/
     /*height: 125px;*/
 /*}*/

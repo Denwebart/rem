@@ -72,29 +72,39 @@
 
                         @if(Auth::check())
 
-                            {{ Form::open([
-                                  'action' => ['CommentsController@addComment', $page->id],
-                                  'id' => 'comment-form-' . $comment->id,
-                                ])
-                            }}
+                            @if(!Auth::user()->is_agree)
+                                <div class="alert alert-dismissable alert-warning">
+                                    <h4>Вы не согласились с правилами сайта!</h4>
+                                    <p>Пока вы не соглавитесь с правилами сайта,
+                                        вы не сможете оставлять комментарии.
+                                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules') }}" class="alert-link">ссылке</a>.</p>
+                                </div>
+                            @else
 
-                            <div class="successMessage"></div>
+                                {{ Form::open([
+                                      'action' => ['CommentsController@addComment', $page->id],
+                                      'id' => 'comment-form-' . $comment->id,
+                                    ])
+                                }}
 
-                            {{ Form::hidden('parent_id', $comment->id); }}
+                                <div class="successMessage"></div>
 
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                                <span>{{  Auth::user()->login }}</span>
-                            </a>
+                                {{ Form::hidden('parent_id', $comment->id); }}
 
-                            <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                <div class="comment_error error text-danger"></div>
-                            </div>
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                                    <span>{{  Auth::user()->login }}</span>
+                                </a>
 
-                            {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+                                <div class="form-group">
+                                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                    <div class="comment_error error text-danger"></div>
+                                </div>
 
-                            {{ Form::close() }}
+                                {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+
+                                {{ Form::close() }}
+                            @endif
                         @else
                             Зарегистрируйтесь или войдите
                             {{ HTML::link(URL::to('users/login'), 'Вход') }}
@@ -140,31 +150,39 @@
         <h3>{{ $formTitle }}</h3>
 
         @if(Auth::check())
+            @if(!Auth::user()->is_agree)
+                <div class="alert alert-dismissable alert-warning">
+                    <h4>Вы не согласились с правилами сайта!</h4>
+                    <p>Пока вы не соглавитесь с правилами сайта,
+                        вы не сможете @if(Page::TYPE_QUESTION == $page->type) отвечать на вопросы. @else оставлять комментарии. @endif
+                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules') }}" class="alert-link">ссылке</a>.</p>
+                </div>
+            @else
 
-            {{ Form::open([
-                  'action' => ['CommentsController@addComment', $page->id],
-                  'id' => 'comment-form-0',
-                ])
-            }}
+                {{ Form::open([
+                      'action' => ['CommentsController@addComment', $page->id],
+                      'id' => 'comment-form-0',
+                    ])
+                }}
 
-            <div class="successMessage"></div>
+                <div class="successMessage"></div>
 
-            {{ Form::hidden('parent_id', 0); }}
+                {{ Form::hidden('parent_id', 0); }}
 
-            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                <span>{{  Auth::user()->login }}</span>
-            </a>
+                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                    <span>{{  Auth::user()->login }}</span>
+                </a>
 
-            <div class="form-group">
-                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                <div class="comment_error error text-danger"></div>
-            </div>
+                <div class="form-group">
+                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                    <div class="comment_error error text-danger"></div>
+                </div>
 
-            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
+                {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
 
-            {{ Form::close() }}
-
+                {{ Form::close() }}
+            @endif
         @else
             Зарегистрируйтесь или войдите
             {{ HTML::link(URL::to('users/login'), 'Вход') }}
