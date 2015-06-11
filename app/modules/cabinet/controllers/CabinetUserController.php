@@ -14,9 +14,10 @@ class CabinetUserController extends \BaseController
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');
+			$backUrl = Request::url();
 			if(Auth::user()->getLoginForUrl() == $login) {
 				if(!Auth::user()->is_agree) {
-					return Redirect::route('rules');
+					return Redirect::route('rules')->with('backUrl', $backUrl);
 				}
 			}
 

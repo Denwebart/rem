@@ -97,7 +97,7 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@getLogout']);
 Route::controller('password', 'RemindersController');
 
 /* Правила сайта */
-Route::get('rules', ['as' => 'rules', 'uses' => 'UsersController@getRules']);
+Route::get('rules.html', ['as' => 'rules', 'uses' => 'UsersController@getRules']);
 Route::post('rules_request', ['as' => 'postRules', 'uses' => 'UsersController@postRules']);
 
 /* Фронт */

@@ -30,14 +30,28 @@ View::share('title', $title);
             <h2>{{ $title }}</h2>
 
             @if(count($rules))
-                <div id="rules">
-                    @foreach($rules as $rule)
-                        <div>
-                            <h3>{{ $rule->title }}</h3>
-                            {{ $rule->description }}
+                {{ Form::open(['action' => ['UsersController@postRules'], 'role' => 'form', 'class' => '']) }}
+                    {{ Form::hidden('backUrl', URL::previous()) }}
+                    {{ var_dump(URL::previous()) }}
+                    @foreach($rules as $key => $rule)
+                        <div class="row">
+                            <div class="col-md-1">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="rules[{{ $key }}]">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-11">
+                                <h3>{{ $rule->title }}</h3>
+                                {{ $rule->description }}
+                            </div>
                         </div>
                     @endforeach
-                </div>
+
+                    {{ Form::submit('Подтвердить', ['id'=> 'submit', 'class' => 'btn btn-success pull-right']) }}
+
+                {{ Form::close() }}
             @endif
 
         </div>

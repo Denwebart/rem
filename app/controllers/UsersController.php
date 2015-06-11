@@ -115,6 +115,7 @@ class UsersController extends BaseController
 
 	public function getRules()
 	{
+		dd($backUrl);
 		if(Auth::check()){
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
@@ -127,5 +128,22 @@ class UsersController extends BaseController
 		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
 
 		return View::make('users.rules', compact('user', 'rules'));
+	}
+
+	public function postRules()
+	{
+		$rulesFromInput = Input::get('rules');
+		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
+
+		if(count($rules) == count($rulesFromInput)) {
+			$user = Auth::user();
+			$user->is_agree = 1;
+			if($user->save()) {
+				dd('редирект на ' . Input::get('backUrl'));
+				return Redirect::to(Input::get('backUrl'));
+			}
+		} else {
+			return Redirect::route('rules')->withInput();
+		}
 	}
 }
