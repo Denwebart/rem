@@ -50,4 +50,5 @@ class Tag extends \Eloquent
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultTagImage'), $this->title, $options);
 		}
 	}
+
 }

@@ -35,6 +35,7 @@ class JournalController extends BaseController {
 			->paginate(10);
 
 		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+
 		return View::make('journal.index', compact('articles'));
 	}
 
@@ -61,7 +62,8 @@ class JournalController extends BaseController {
 			->paginate(10);
 
 		View::share('page', $page);
-		return View::make('journal.journal', compact('articles', 'user'));
+
+		return View::make('journal.journal', compact('articles', 'user', 'journalAlias'));
 	}
 
 	public function article($journalAlias, $login, $alias)
@@ -76,7 +78,43 @@ class JournalController extends BaseController {
 			->with('parent.parent', 'tags')
 			->firstOrFail();
 		View::share('page', $page);
-		return View::make('journal.article', compact('user'));
+
+		return View::make('journal.article', compact('user', 'journalAlias'));
+	}
+
+	/**
+	 * Список тегов в бортовом журнале
+	 *
+	 */
+	public function tags($journalAlias)
+	{
+		$page = Page::whereAlias('tag')->firstOrFail();
+
+		$tags = Tag::has('pages')->get();
+
+		View::share('page', $page);
+
+		return View::make('journal.tags', compact('tags', 'journalAlias'));
+	}
+
+	/**
+	 * Статьи по тегу в бортовом журнале
+	 *
+	 */
+	public function tag($journalAlias, $tag)
+	{
+		$tag = Tag::whereTitle($tag)->first();
+		$tags = Page::whereAlias('tag')->firstOrFail();
+
+		$page = new Page();
+		$page->title = 'Статьи по тегу "' . $tag->title . '"';
+		$page->meta_title = 'Статьи по тегу "' . $tag->title . '"';
+		$page->meta_desc = 'Статьи по тегу "' . $tag->title . '"';
+		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
+
+		View::share('page', $page);
+
+		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias'));
 	}
 
 }

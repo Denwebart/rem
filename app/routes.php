@@ -114,6 +114,8 @@ Route::get('sitemap.xml', 'SiteController@sitemapXml');
 Route::get('rss', 'SiteController@rss');
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/tag', 'JournalController@tags')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/tag/{tag}', ['as' => 'journal.tag', 'uses' => 'JournalController@tag'])->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}', 'JournalController@journal')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
 

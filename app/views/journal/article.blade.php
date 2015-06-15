@@ -4,12 +4,12 @@
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('/') }}">Главная</a></li>
         <li>
-            <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                {{ $page->parent->parent->getTitle() }}
+            <a href="{{ URL::to($page->parent->getUrl()) }}">
+                {{ $page->parent->getTitle() }}
             </a>
         </li>
         <li>
-            <a href="{{ URL::to($page->parent->parent->getUrl() . '/' . $user->getLoginForUrl()) }}">
+            <a href="{{ URL::to($page->parent->getUrl() . '/' . $user->getLoginForUrl()) }}">
                 {{ $user->login }}
             </a>
         </li>
@@ -42,7 +42,7 @@
             <ul class="tags">
                 @foreach($page->tags as $tag)
                     <li>
-                        <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
                             {{ $tag->title }}
                         </a>
                     </li>

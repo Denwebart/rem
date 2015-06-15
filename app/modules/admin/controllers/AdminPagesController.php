@@ -150,7 +150,7 @@ class AdminPagesController extends \BaseController {
 	{
 		Page::destroy($id);
 
-		return Redirect::route('admin.pages.index');
+		return Redirect::back();
 	}
 
 	/**
