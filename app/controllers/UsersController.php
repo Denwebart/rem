@@ -118,21 +118,27 @@ class UsersController extends BaseController
 	 *
 	 * @return \Illuminate\View\View
 	 */
-	public function getRules()
+	public function getRules($alias)
 	{
-		$backUrl = Session::has('backUrl')
-			? Session::get('backUrl')
-			: URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
-
-		if(Auth::check()){
-			$headerWidget = app('HeaderWidget');
-			View::share('headerWidget', $headerWidget);
-			$user = Auth::user();
-		}
-
 		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
 
-		return View::make('users.rules', compact('user', 'rules', 'backUrl'));
+		if(Auth::check()){
+			if(!Auth::user()->is_agree) {
+				$backUrl = Session::has('backUrl')
+					? Session::get('backUrl')
+					: URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
+				$user = Auth::user();
+				return View::make('users.rulesForAuth', compact('user', 'rules', 'backUrl'));
+			}
+			else {
+				$page = Page::getPageByAlias($alias)->firstOrFail();
+				return View::make('users.rulesForGuest', compact('page', 'rules'));
+			}
+		}
+		else {
+			$page = Page::getPageByAlias($alias)->firstOrFail();
+			return View::make('users.rulesForGuest', compact('page', 'rules'));
+		}
 	}
 
 	/**
