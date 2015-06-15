@@ -51,4 +51,17 @@ class Tag extends \Eloquent
 		}
 	}
 
+	public static function getByAlphabet()
+	{
+		$tags = self::orderBy('title', 'ASC')->has('pages')->get();
+
+		$tagsByAlphabet = [];
+		foreach ($tags as $item) {
+			$codeArray = preg_split('//u', mb_strtoupper($item->title), -1, PREG_SPLIT_NO_EMPTY);
+			$tagsByAlphabet[$codeArray[0]][] = $item;
+		}
+		return $tagsByAlphabet;
+	}
+
+
 }

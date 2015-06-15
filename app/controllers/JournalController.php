@@ -90,11 +90,16 @@ class JournalController extends BaseController {
 	{
 		$page = Page::whereAlias('tag')->firstOrFail();
 
-		$tags = Tag::has('pages')->get();
+//		$tags = Tag::has('pages')->get();
+
+		$tagsByAlphabet = Tag::getByAlphabet();
+
+//		echo '<pre>';
+//		dd($tagsByAlphabet);
 
 		View::share('page', $page);
 
-		return View::make('journal.tags', compact('tags', 'journalAlias'));
+		return View::make('journal.tags', compact('tagsByAlphabet', 'journalAlias'));
 	}
 
 	/**

@@ -18,19 +18,40 @@
             </div>
         @endif
 
-        @if(count($tags))
+        @if(count($tagsByAlphabet))
+
+            <section id="letters-area">
+                @foreach($tagsByAlphabet as $letter => $tags)
+                    <a href="#{{ $letter }}" class="btn btn-info btn-sm">
+                        {{ $letter }}
+                    </a>
+                @endforeach
+            </section>
+
             <section id="tags-area">
-                <ul>
-                    @foreach($tags as $tag)
-                        <li>
-                            <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}">
-                                {{ $tag->getImage(null, ['width' => '20px']) }}
-                                {{ $tag->title }}
-                                ({{ count($tag->pages) }})
-                            </a>
-                        </li>
+                    @foreach($tagsByAlphabet as $letter => $tags)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="{{ $letter }}" class="letter" style="background: #ccc; height: 30px">
+                                    {{ $letter }}
+                                    <span class="count pull-right">количество тегов: {{ count($tags) }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <ul>
+                                    @foreach($tags as $tag)
+                                        <li>
+                                            <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}">
+                                                {{ $tag->getImage(null, ['width' => '20px']) }}
+                                                {{ $tag->title }}
+                                                ({{ count($tag->pages) }})
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                     @endforeach
-                </ul>
             </section><!--blog-area-->
         @endif
 
