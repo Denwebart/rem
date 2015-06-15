@@ -306,6 +306,10 @@ footer #navbar-bottom li {
 #comments-widget .vote-dislike {
     color: #F44336;
 }
+#comments-widget .page-author {
+    background: #AAE0FF;
+}
+
 
 /*-- Полоса уведомлений для авторизованных пользователей --*/
 

@@ -4,7 +4,7 @@
     </a>
     <div class="media-body">
         <h4 class="media-heading">
-            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author">{{ $comment->user->login }}</a>
+            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">{{ $comment->user->login }}</a>
             <small>{{ DateHelper::dateFormat($comment->created_at) }}</small>
         </h4>
         <div>{{ $comment->comment }}</div>
