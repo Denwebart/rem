@@ -13,6 +13,7 @@ class CommentsController extends BaseController
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::check() ? Auth::user()->id : null,
 				'user_name' => isset($formFields['user_name']) ? $formFields['user_name'] : null,
+				'user_ip' => Auth::check() ? null : Request::ip(),
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 				'is_published' => 1,

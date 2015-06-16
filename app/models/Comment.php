@@ -6,8 +6,9 @@
  * @property integer $id
  * @property integer $parent_id
  * @property integer $user_id
- * @property string $user_name
  * @property string $user_email
+ * @property string $user_name
+ * @property string $user_ip
  * @property integer $page_id
  * @property boolean $is_published
  * @property integer $votes_like
@@ -20,9 +21,10 @@
  * @property string $read_at
  * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserIp($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value) 
@@ -49,6 +51,7 @@ class Comment extends \Eloquent
 		'parent_id',
 		'user_id',
 		'user_name',
+		'user_ip',
 		'user_email',
 		'page_id',
 		'is_published',
@@ -62,6 +65,7 @@ class Comment extends \Eloquent
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
 		'user_name' => 'required_without_all:user_id|max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 		'user_email' => 'required_without_all:user_id|email|max:150',
+		'user_ip' => 'ip',
 		'is_published' => 'boolean',
 		'comment' => 'required',
 	];
