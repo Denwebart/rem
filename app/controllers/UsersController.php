@@ -124,8 +124,8 @@ class UsersController extends BaseController
 
 		if(Auth::check()){
 			if(!Auth::user()->is_agree) {
-				$backUrl = Session::has('backUrl')
-					? Session::get('backUrl')
+				$backUrl = Request::get('backUrl')
+					? urldecode(Request::get('backUrl'))
 					: URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
 				$user = Auth::user();
 				return View::make('users.rulesForAuth', compact('user', 'rules', 'backUrl'));
@@ -137,7 +137,7 @@ class UsersController extends BaseController
 		}
 		else {
 			$page = Page::getPageByAlias($alias)->firstOrFail();
-			return View::make('users.rulesForGuest', compact('page', 'rules'));
+			return View::make('users.rulesForGuest', compact('page', 'rules', 'backUrl'));
 		}
 	}
 

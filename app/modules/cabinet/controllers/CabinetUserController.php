@@ -17,7 +17,7 @@ class CabinetUserController extends \BaseController
 			$backUrl = Request::url();
 			if(Auth::user()->getLoginForUrl() == $login) {
 				if(!Auth::user()->is_agree) {
-					return Redirect::route('rules')->with('backUrl', $backUrl);
+					return Redirect::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode($backUrl)]);
 				}
 			}
 

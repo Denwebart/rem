@@ -11,7 +11,9 @@ class CommentsController extends BaseController
 			$userData = array(
 				'page_id' => $id,
 				'parent_id' => $formFields['parent_id'],
-				'user_id' => Auth::user()->id,
+				'user_id' => Auth::check() ? Auth::user()->id : null,
+				'user_name' => isset($formFields['user_name']) ? $formFields['user_name'] : null,
+				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 				'is_published' => 1,
 			);
@@ -27,7 +29,9 @@ class CommentsController extends BaseController
 				// save to DB user details
 				if ($comment = Comment::create($userData)) {
 					// adding points for comment
-					$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+					if($comment->user) {
+						$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+					}
 					// return success message
 					$commentView = (0 == $comment->parent_id) ? 'widgets.comment.comment1Level' : 'widgets.comment.comment2Level';
 					return Response::json(array(
@@ -66,10 +70,12 @@ class CommentsController extends BaseController
 				if ($comment->save()) {
 
 					// removing or adding points for comment
-					if(($comment->votes_like - $comment->votes_dislike) == "-1") {
-						$comment->user->removePoints(User::POINTS_FOR_COMMENT);
-					} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
-						$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+					if($comment->user) {
+						if(($comment->votes_like - $comment->votes_dislike) == "-1") {
+							$comment->user->removePoints(User::POINTS_FOR_COMMENT);
+						} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
+							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+						}
 					}
 
 					$sessionArray = Session::get('user.rating.comment');
@@ -114,7 +120,7 @@ class CommentsController extends BaseController
 				if ($comment->save()) {
 
 					// adding points for comment
-					if($comment->mark == Comment::MARK_BEST) {
+					if($comment->mark == Comment::MARK_BEST && $comment->user) {
 						$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
 					}
 

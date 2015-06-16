@@ -16,7 +16,7 @@
     <div class="comments">
 
         {{--Отметить лучшие ответы--}}
-        @if(Auth::check())
+        @if(Auth::check() && Page::TYPE_QUESTION == $page->type)
             @if(Auth::user()->is($page->user) && count($comments))
                 <div class="clearfix">
                     <a href="javascript:void(0)" class="btn btn-primary btn-raised pull-right" id="mark-as-best">
@@ -30,14 +30,26 @@
             <!-- Comment -->
             <div id="comment-{{ $comment->id }}" class="media">
                 <a href="javascript:void(0)" class="pull-left close-comment">-</a>
-                <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                    {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
-                </a>
+                @if($comment->user)
+                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
+                        {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
+                    </a>
+                @else
+                    <a class="pull-left" href="javascript:void(0)">
+                        {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
+                    </a>
+                @endif
                 <div class="media-body">
                     <h4 class="media-heading">
-                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
-                            {{ $comment->user->login }}
-                        </a>
+                        @if($comment->user)
+                            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
+                                {{ $comment->user->login }}
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" class="author">
+                                {{ $comment->user_name }}
+                            </a>
+                        @endif
                         <small>{{ DateHelper::dateFormat($comment->created_at) }}</small>
                     </h4>
                     <div>{{ $comment->comment }}</div>
@@ -49,7 +61,14 @@
                                 <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
                                 <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
                                 <div class="vote-message"></div>
+                            @else
+                                <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
                             @endif
+                        @else
+                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                            <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
+                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                            <div class="vote-message"></div>
                         @endif
                     </div>
 
@@ -79,7 +98,7 @@
                                     <h4>Вы не согласились с правилами сайта!</h4>
                                     <p>Пока вы не соглавитесь с правилами сайта,
                                         вы не сможете оставлять комментарии.
-                                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules') }}" class="alert-link">ссылке</a>.</p>
+                                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
                                 </div>
                             @else
 
@@ -108,9 +127,35 @@
                                 {{ Form::close() }}
                             @endif
                         @else
-                            Зарегистрируйтесь или войдите
-                            {{ HTML::link(URL::to('users/login'), 'Вход') }}
-                            {{ HTML::link(URL::to('users/register'), 'Регистрация') }}
+                            {{ Form::open([
+                                      'action' => ['CommentsController@addComment', $page->id],
+                                      'id' => 'comment-form-' . $comment->id,
+                                    ])
+                                }}
+
+                            <div class="successMessage"></div>
+
+                            {{ Form::hidden('parent_id', $comment->id); }}
+
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    {{ Form::text('user_name', '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
+                                    <div class="user_name_error error text-danger"></div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    {{ Form::text('user_email', '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
+                                    <div class="user_email_error error text-danger"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                <div class="comment_error error text-danger"></div>
+                            </div>
+
+                            {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+
+                            {{ Form::close() }}
                         @endif
                     </div>
 
@@ -119,21 +164,46 @@
                         <div class="children-comments">
                             @foreach($comment->publishedChildren as $commentLevel2)
                                 <div class="media" id="comment-{{ $commentLevel2->id }}" >
-                                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
-                                        {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object']) }}
-                                    </a>
+                                    @if($comment->user)
+                                        <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
+                                            {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
+                                        </a>
+                                    @else
+                                        <a class="pull-left" href="javascript:void(0)">
+                                            {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
+                                        </a>
+                                    @endif
                                     <div class="media-body">
                                         <h4 class="media-heading">
-                                            <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}" class="author">{{ $commentLevel2->user->login }}</a>
+                                            @if($comment->user)
+                                                <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
+                                                    {{ $comment->user->login }}
+                                                </a>
+                                            @else
+                                                <a href="javascript:void(0)" class="author">
+                                                    {{ $comment->user_name }}
+                                                </a>
+                                            @endif
                                             <small>{{ DateHelper::dateFormat($commentLevel2->created_at) }}</small>
                                         </h4>
                                         <div>{{ $commentLevel2->comment }}</div>
 
                                         <div class="vote pull-right" data-vote-comment-id="{{ $commentLevel2->id }}">
-                                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                                            <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                                            <div class="vote-message"></div>
+                                            @if(Auth::check())
+                                                @if(!Auth::user()->is($commentLevel2->user))
+                                                    <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                                                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
+                                                    <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                                                    <div class="vote-message"></div>
+                                                @else
+                                                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
+                                                @endif
+                                            @else
+                                                <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                                                <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
+                                                <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
+                                                <div class="vote-message"></div>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -157,7 +227,7 @@
                     <h4>Вы не согласились с правилами сайта!</h4>
                     <p>Пока вы не соглавитесь с правилами сайта,
                         вы не сможете @if(Page::TYPE_QUESTION == $page->type) отвечать на вопросы. @else оставлять комментарии. @endif
-                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules') }}" class="alert-link">ссылке</a>.</p>
+                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
                 </div>
             @else
 
@@ -186,9 +256,35 @@
                 {{ Form::close() }}
             @endif
         @else
-            Зарегистрируйтесь или войдите
-            {{ HTML::link(URL::to('users/login'), 'Вход') }}
-            {{ HTML::link(URL::to('users/register'), 'Регистрация') }}
+            {{ Form::open([
+                  'action' => ['CommentsController@addComment', $page->id],
+                  'id' => 'comment-form-0',
+                ])
+            }}
+
+            <div class="successMessage"></div>
+
+            {{ Form::hidden('parent_id', 0); }}
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ Form::text('user_name', '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
+                    <div class="user_name_error error text-danger"></div>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ Form::text('user_email', '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
+                    <div class="user_email_error error text-danger"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                <div class="comment_error error text-danger"></div>
+            </div>
+
+            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
+
+            {{ Form::close() }}
         @endif
     </div>
     <!-- end of .comment-form -->

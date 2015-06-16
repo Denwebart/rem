@@ -31,11 +31,17 @@ class SubscriptionNotification extends \Eloquent
 
 	public static function addNotification($pageModel, $message)
 	{
-		$users = User::whereHas('subscriptions', function($query) use ($pageModel) {
-				$query->wherePageId($pageModel->id);
-			})
-			->where('id', '!=', Auth::user()->id)
-			->get();
+		if(Auth::check()) {
+			$users = User::whereHas('subscriptions', function ($query) use ($pageModel) {
+					$query->wherePageId($pageModel->id);
+				})
+				->where('id', '!=', Auth::user()->id)
+				->get();
+		} else {
+			$users = User::whereHas('subscriptions', function ($query) use ($pageModel) {
+					$query->wherePageId($pageModel->id);
+				})->get();
+		}
 		if(count($users)) {
 			$data = [];
 			foreach($users as $user) {

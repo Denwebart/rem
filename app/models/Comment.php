@@ -6,6 +6,8 @@
  * @property integer $id
  * @property integer $parent_id
  * @property integer $user_id
+ * @property string $user_name
+ * @property string $user_email
  * @property integer $page_id
  * @property boolean $is_published
  * @property integer $votes_like
@@ -19,7 +21,9 @@
  * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value) 
  * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value) 
@@ -44,6 +48,8 @@ class Comment extends \Eloquent
 	protected $fillable = [
 		'parent_id',
 		'user_id',
+		'user_name',
+		'user_email',
 		'page_id',
 		'is_published',
 		'comment',
@@ -53,7 +59,9 @@ class Comment extends \Eloquent
 	public static $rules = [
 		'page_id' => 'required|numeric',
 		'parent_id' => 'required|numeric',
-		'user_id' => 'required|numeric',
+		'user_id' => 'required_without_all:user_name,user_email|numeric',
+		'user_name' => 'required_without_all:user_id|max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+		'user_email' => 'required_without_all:user_id|email|max:150',
 		'is_published' => 'boolean',
 		'comment' => 'required',
 	];
