@@ -139,11 +139,11 @@
 
                             <div class="row">
                                 <div class="col-md-6 form-group">
-                                    {{ Form::text('user_name', '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
+                                    {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
                                     <div class="user_name_error error text-danger"></div>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    {{ Form::text('user_email', '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
+                                    {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
                                     <div class="user_email_error error text-danger"></div>
                                 </div>
                             </div>
@@ -268,11 +268,11 @@
 
             <div class="row">
                 <div class="col-md-6 form-group">
-                    {{ Form::text('user_name', '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
+                    {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
                     <div class="user_name_error error text-danger"></div>
                 </div>
                 <div class="col-md-6 form-group">
-                    {{ Form::text('user_email', '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
+                    {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
                     <div class="user_email_error error text-danger"></div>
                 </div>
             </div>

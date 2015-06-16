@@ -18,6 +18,13 @@ class CommentsController extends BaseController
 				'is_published' => 1,
 			);
 
+			if(isset($formFields['user_name'])) {
+				Session::set('user.user_name', $formFields['user_name']);
+			}
+			if(isset($formFields['user_email'])) {
+				Session::set('user.user_email', $formFields['user_email']);
+			}
+
 			$validator = Validator::make($userData, Comment::$rules);
 
 			if ($validator->fails())
