@@ -13,11 +13,13 @@ class CabinetUserController extends \BaseController
 		// согласие с правилами сайта
 		$this->beforeFilter(function()
 		{
-			$login = Route::current()->getParameter('login');
-			$backUrl = Request::url();
-			if(Auth::user()->getLoginForUrl() == $login) {
-				if(!Auth::user()->is_agree) {
-					return Redirect::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode($backUrl)]);
+			if(Auth::check()) {
+				$login = Route::current()->getParameter('login');
+				$backUrl = Request::url();
+				if(Auth::user()->getLoginForUrl() == $login) {
+					if(!Auth::user()->is_agree) {
+						return Redirect::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode($backUrl)]);
+					}
 				}
 			}
 

@@ -45,7 +45,7 @@ Route::filter('authInCabinet', function()
 		{
 			$message = (URL::current() == Route::is('user/*')) ? 'Профиль пользователя доступен для просмотра только зарегистрированным пользователям.'
 				: 'Страница, на которую Вы пытались зайти, доступна для просмотра только зарегистрированным пользователям.';
-			return Redirect::guest('users/login')->with('message', $message);
+			return Redirect::guest('login')->with('message', $message);
 		}
 	}
 });
@@ -58,7 +58,7 @@ Route::filter('authInAdminPanel', function()
 			return Response::make('Unauthorized', 401);
 		}
 		else {
-			return Redirect::guest('users/login');
+			return Redirect::guest('login');
 		}
 	}
 	else {

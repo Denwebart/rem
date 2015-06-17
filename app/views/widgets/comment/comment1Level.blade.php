@@ -88,8 +88,8 @@
                 {{ Form::close() }}
             @else
                 Зарегистрируйтесь или войдите
-                {{ HTML::link(URL::to('users/login'), 'Вход') }}
-                {{ HTML::link(URL::to('users/register'), 'Регистрация') }}
+                {{ HTML::link(URL::to('login'), 'Вход') }}
+                {{ HTML::link(URL::to('register'), 'Регистрация') }}
             @endif
         </div>
 
