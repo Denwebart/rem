@@ -11,7 +11,7 @@
         <div id="navbar-main" class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 @foreach($pages as $page)
-                    <li class="dropdown {{ (Request::is($page->alias . '/*') || Request::is($page->alias)) ? 'active' : '' }}">
+                    <li class="dropdown {{ (Request::is($page->alias . '/*') || Request::is($page->getUrl())) ? 'active' : '' }}">
                         <a href="{{ URL::to($page->getUrl()) }}">
                             {{ $page->getTitle() }}
                             @if($page->show_submenu && count($page->publishedChildren))
