@@ -4,7 +4,9 @@
     @foreach($pages as $page)
         <div class="list-group-item">
             <div class="row-picture">
-                <img class="square" src="/images/mini_default-image.jpg" alt="icon">
+                <a href="{{ URL::to($page->getUrl()) }}">
+                    <img class="square" src="/images/mini_default-image.jpg" alt="icon">
+                </a>
                 <div class="views">
                     <i class="mdi-image-remove-red-eye"></i>
                     <span>{{ $page->views }}</span>
