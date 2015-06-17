@@ -60,9 +60,6 @@
                                         </a>
                                     @endif
                                 @endif
-                                <a href="{{ URL::to($article->parent->getUrl()) }}">
-                                    {{ $article->parent->getTitle() }}
-                                </a>
                             </div>
                             <p>{{ $article->getIntrotext() }}</p>
 
