@@ -75,9 +75,7 @@
 					<div class="col-md-8">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox"/>
-                                {{ Form::checkbox('sendCopy', 1, ['class' => 'form-control']); }}
-                                Checkbox
+                                {{ Form::checkbox('sendCopy', 0, ['class' => 'form-control']); }}
                             </label>
                         </div>
 					</div>
