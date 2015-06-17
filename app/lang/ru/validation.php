@@ -34,7 +34,7 @@ return array(
 	"different"            => "The :attribute and :other must be different.",
 	"digits"               => "The :attribute must be :digits digits.",
 	"digits_between"       => "The :attribute must be between :min and :max digits.",
-	"email"                => ":attribute должен быть действительным адресом электронной почты.",
+	"email"                => "Неверный адрес электронной почты.",
 	"exists"               => "The selected :attribute is invalid.",
 	"image"                => "The :attribute must be an image.",
 	"in"                   => "The selected :attribute is invalid.",
@@ -56,7 +56,7 @@ return array(
 	"not_in"               => "The selected :attribute is invalid.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
-	"required"             => "Поле обязательно для заполнения",
+	"required"             => "Поле обязательно для заполнения.",
 	"required_if"          => "The :attribute field is required when :other is :value.",
 	"required_with"        => "The :attribute field is required when :values is present.",
 	"required_with_all"    => "The :attribute field is required when :values is present.",
@@ -86,10 +86,25 @@ return array(
 
 	'custom' => array(
 		'name' => array(
-			'regex' => 'Поле может содержать только буквы и пробелы',
+			'regex' => 'Поле может содержать только буквы и пробелы.',
 		),
 		'parent_id' => array(
-			'required' => 'Выбор категории обязателен',
+			'required' => 'Выбор категории обязателен.',
+		),
+		'login' => array(
+			'unique' => 'Пользователь с таким логином уже зарегистрирован.',
+			'regex' => 'Можно использовать только буквы латинского алфавита (a–z), цифры и знак дефиса.',
+		),
+		'email' => array(
+			'unique' => 'Пользователь с таким email уже зарегистрирован.',
+		),
+		'password' => array(
+			"min" => "Слишком короткий пароль (минимум :min символов).",
+			"confirmed" => "Пароли не совпадают. Повторите попытку.",
+		),
+		'password_confirmation' => array(
+			"min" => "Слишком короткий пароль (минимум :min символов).",
+			"confirmed" => "Пароли не совпадают. Повторите попытку.",
 		),
 	),
 
