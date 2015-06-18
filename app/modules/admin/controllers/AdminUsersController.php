@@ -20,12 +20,16 @@ class AdminUsersController extends \BaseController {
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
 			if ($sortBy == 'fullname') {
-				$users = User::orderBy('firstname', $direction)->orderBy('lastname', $direction)->paginate(10);
+				$users = User::orderBy('firstname', $direction)
+					->orderBy('lastname', $direction)
+					->paginate(10);
 			} else {
-				$users = User::orderBy($sortBy, $direction)->paginate(10);
+				$users = User::orderBy($sortBy, $direction)
+					->paginate(10);
 			}
 		} else {
-			$users = User::orderBy('role', 'ASC')->paginate(10);
+			$users = User::orderBy('role', 'ASC')
+				->paginate(10);
 		}
 
 		return View::make('admin::users.index', compact('users'));
@@ -131,6 +135,89 @@ class AdminUsersController extends \BaseController {
 			if($user->save()) {
 				return Response::json(array(
 					'success' => true,
+				));
+			}
+		}
+	}
+
+	/**
+	 * Display a listing of banned users
+	 *
+	 * @return Response
+	 */
+	public function banned()
+	{
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			if ($sortBy == 'fullname') {
+				$users = User::orderBy('firstname', $direction)
+					->orderBy('lastname', $direction)
+					->whereIsBanned(1)
+					->paginate(10);
+			} else {
+				$users = User::orderBy($sortBy, $direction)
+					->whereIsBanned(1)
+					->paginate(10);
+			}
+		} else {
+			$users = User::orderBy('role', 'ASC')
+				->whereIsBanned(1)
+				->paginate(10);
+		}
+
+		return View::make('admin::users.banned', compact('users'));
+	}
+
+	/**
+	 * Забанить пользователя
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function ban($id)
+	{
+		if(Request::ajax()) {
+			$user = User::find($id);
+			if(!$user->isAdmin()) {
+				$user->is_banned = 1;
+				if($user->save()) {
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Пользователь забанен.'
+					));
+				}
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Администратора нельзя забанить.'
+				));
+			}
+		}
+	}
+
+	/**
+	 * Разбанить пользователя
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function unban($id)
+	{
+		if(Request::ajax()) {
+			$user = User::find($id);
+			if(!$user->isAdmin()) {
+				$user->is_banned = 0;
+				if($user->save()) {
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Пользователь разбанен.'
+					));
+				}
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Администратора нельзя разбанить, так как нельзя и забанить.'
 				));
 			}
 		}

@@ -2,22 +2,17 @@
 
 @section('content')
     <div class="page-head">
-        <h1>Пользователи  <small>все пользователи сайта</small></h1>
+        <h1>Забаненные пользователи  <small>забаненные пользователи сайта</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">Пользователи</li>
+            <li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>
+            <li class="active">Забаненные пользователи</li>
         </ol>
     </div>
 
     <div class="content">
         <!-- Main row -->
         <div class="row">
-
-            <div class="col-xs-12">
-                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary">
-                    Забаненные пользователи
-                </a>
-            </div>
 
             <div id="message"></div>
 
@@ -66,7 +61,7 @@
                             </thead>
                             <tbody>
                             @foreach($users as $user)
-                                <tr data-user-id="{{ $user->id }}" @if($user->is_banned) class="danger" @endif>
+                                <tr data-user-id="{{ $user->id }}">
                                     <td>{{ $user->id }}</td>
                                     <td>
                                         <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
@@ -74,20 +69,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if($user->isAdmin() && 1 == $user->id)
-                                            {{ User::$roles[$user->role] }}
-                                        @else
-                                            {{ Form::open([
-                                                'action' => ['AdminUsersController@changeRole', $user->id],
-                                                'id' => 'changeRole-form-' . $user->id,
-                                            ]) }}
-
-                                            {{ Form::select('role', ($user->hasRole()) ? User::$roles : [User::ROLE_NONE => 'Не назначена'] + User::$roles, $user->role, ['data-role' => $user->role]) }}
-
-                                            <div class="buttons pull-right"></div>
-
-                                            {{ Form::close() }}
-                                        @endif
+                                       {{ User::$roles[$user->role] }}
                                     </td>
                                     <td>{{ $user->login }}</td>
                                     <td>{{ $user->getFullName() }}</td>
@@ -118,17 +100,9 @@
                                         </button>
                                         {{ Form::close() }}
 
-                                        @if(!$user->isAdmin())
-                                            @if(!$user->is_banned)
-                                                <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-unlock"></i>
-                                                </a>
-                                            @else
-                                                <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-lock"></i>
-                                                </a>
-                                            @endif
-                                        @endif
+                                        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
+                                            <i class="fa fa-lock"></i>
+                                        </a>
 
                                         <div id="confirm" class="modal fade">
                                             <div class="modal-dialog">
@@ -177,56 +151,8 @@
                     });
         });
 
-        // смена роли
-        // показать кнопки после выбора роли
-        $("form[id^='changeRole-form'] select").on('change', function(){
-            $(this).parent().find('.buttons').html(
-                '<button type="submit" class="btn btn-success btn-circle" name="changeRole"><i class="fa fa-check"></i></button>' +
-                '<button type="button" class="btn btn-danger btn-circle" name="cancelChangeRole" data-role="' + $(this).data('role') + '"><i class="glyphicon glyphicon-remove"></i></button>'
-            );
-        });
-        // отменить изменение роли
-        $("form[id^='changeRole-form'] .buttons").on('click', 'button[name="cancelChangeRole"]', function() {
-            $(this).parent().parent().find('select').val($(this).data('role'));
-            $(this).parent().html('');
-        });
-        // сохранить новую роль
-        $("form[id^='changeRole-form']").submit(function(event) {
-            event.preventDefault ? event.preventDefault() : event.returnValue = false;
-            var $form = $(this),
-                    role = $form.find('select').val(),
-                    url = $form.attr('action');
-            var posting = $.post(url, { role: role });
-            posting.done(function(data) {
-                if(data.success) {
-                    $form.find('.buttons').html('');
-                    $form.find("select option[value='0']").remove();
-                } //success
-            }); //done
-        });
-
-        // забанить
-        $('.buttons').on('click', '.ban', function(){
-            var userId = $(this).data('id');
-            $.ajax({
-                url: '/admin/users/ban/' + userId,
-                dataType: "text json",
-                type: "POST",
-                data: {},
-                success: function(response) {
-                    if(response.success){
-                        $('#message').text(response.message);
-                        var $userTr = $('[data-user-id='+ userId +']');
-                        $userTr.addClass('danger');
-                        $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
-                    } else {
-                        $('#message').text(response.message);
-                    }
-                }
-            });
-        });
         // разбанить
-        $('.buttons').on('click', '.unban', function(){
+        $('.unban').on('click', function(){
             var userId = $(this).data('id');
             $.ajax({
                 url: '/admin/users/unban/' + userId,
@@ -235,10 +161,8 @@
                 data: {},
                 success: function(response) {
                     if(response.success){
+                        $('[data-user-id='+ userId +']').remove();
                         $('#message').text(response.message);
-                        var $userTr = $('[data-user-id='+ userId +']');
-                        $userTr.removeClass('danger');
-                        $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
                     } else {
                         $('#message').text(response.message);
                     }

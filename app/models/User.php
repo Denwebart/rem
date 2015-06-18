@@ -25,7 +25,8 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property boolean $is_active 
- * @property boolean $is_agree 
+ * @property boolean $is_banned
+ * @property boolean $is_agree
  * @property string $activationCode 
  * @property string $remember_token 
  * @property string $password 
@@ -60,6 +61,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereIsBanned($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIsAgree($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereActivationCode($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value)
@@ -122,6 +124,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
 			'is_agree' => 'boolean',
+			'is_banned' => 'boolean',
 		];
 	}
 

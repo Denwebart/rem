@@ -18,6 +18,9 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::post('tags/search', ['as' => 'admin.tags.search', 'uses' => 'AdminTagsController@search']);
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
+		Route::get('users/banned', ['as' => 'admin.users.banned', 'uses' => 'AdminUsersController@banned']);
+		Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'uses' => 'AdminUsersController@ban']);
+		Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'uses' => 'AdminUsersController@unban']);
 		Route::resource('users', 'AdminUsersController');
 		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
 		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
