@@ -45,6 +45,10 @@ a:focus {
     float: right;
     margin: 23px 0 0;
 }
+.font-mini {
+    font-size: 10px;
+    font-style: italic;
+}
 .mark, mark {
     padding: 0.2em 0.1em;
     background-color: #67FF5E;

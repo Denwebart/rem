@@ -19,6 +19,8 @@
             <div class="row-content">
                 <div class="created-date pull-right">
                     {{ DateHelper::getRelativeTime($comment->created_at) }}
+                    <br/>
+                    <span class="font-mini">{{ DateHelper::dateFormat($comment->created_at) }}</span>
                 </div>
                 <p class="list-group-item-text" style="clear: both">
                     <a href="{{ URL::to($comment->getUrl()) }}">
