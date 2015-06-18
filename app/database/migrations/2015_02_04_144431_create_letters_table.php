@@ -11,8 +11,8 @@ class CreateLettersTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id')->nullable();
 			$table->string('ip', 20)->nullable();
-			$table->string('name', 100);
-			$table->string('email', 100);
+			$table->string('name', 100)->nullable();
+			$table->string('email', 100)->nullable();
 			$table->string('subject', 500)->nullable();
 			$table->text('message');
 			$table->timestamps();

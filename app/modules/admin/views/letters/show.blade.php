@@ -6,7 +6,11 @@
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.pages.index') }}">Письма</a></li>
-            <li>Отправитель: {{ $letter->name }} ({{ $letter->email }})</li>
+            @if($letter->user)
+                <li>Отправитель: {{ $letter->user->login }} ({{ $letter->user->email }})</li>
+            @else
+                <li>Отправитель: {{ $letter->user_name }} ({{ $letter->user_email }})</li>
+            @endif
         </ol>
     </div>
 
@@ -72,7 +76,17 @@
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                        <h4 class="no-margin-top">Отправитель: {{ $letter->name }} ({{ $letter->email }})</h4>
+                                        <h4 class="no-margin-top">
+                                            @if($letter->user)
+                                                Отправитель:
+                                                <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
+                                                    {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
+                                                    {{ $letter->user->login }} ({{ $letter->user->email }})
+                                                </a>
+                                            @else
+                                                Отправитель: {{ $letter->user_name }} ({{ $letter->user_email }})
+                                            @endif
+                                        </h4>
                                     </div>
 
                                     <div class="col-md-12">

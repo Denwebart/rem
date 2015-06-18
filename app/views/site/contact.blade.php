@@ -33,23 +33,29 @@
 				<!-- Form Name -->
 				<legend>Обратная связь</legend>
 
-				<!-- Text input-->
-				<div class="form-group">
-					{{ HTML::decode(Form::label('name', 'Введите Ваше имя: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
-					<div class="col-md-8">
-						{{ Form::text('name', '', ['class' => 'form-control input-md', 'placeholder' => 'Имя*']); }}
-						@if ($errors->has('name')) <p class="text-danger">{{ $errors->first('name') }}</p> @endif
-					</div>
-				</div>
-
-				<!-- Text input-->
-				<div class="form-group">
-					{{ HTML::decode(Form::label('email', 'Адрес e-mail: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
-					<div class="col-md-8">
-						{{ Form::text('email', '', ['class' => 'form-control input-md', 'placeholder' => 'Email*']); }}
-						@if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
-					</div>
-				</div>
+				@if(Auth::check())
+                    <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                        {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                        <span>{{  Auth::user()->login }}</span>
+                    </a>
+                @else
+                    <!-- Имя -->
+                    <div class="form-group">
+                        {{ HTML::decode(Form::label('user_name', 'Введите Ваше имя: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
+                        <div class="col-md-8">
+                            {{ Form::text('user_name', '', ['class' => 'form-control input-md', 'placeholder' => 'Имя*']); }}
+                            @if ($errors->has('user_name')) <p class="text-danger">{{ $errors->first('user_name') }}</p> @endif
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group">
+                        {{ HTML::decode(Form::label('user_email', 'Адрес e-mail: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
+                        <div class="col-md-8">
+                            {{ Form::text('user_email', '', ['class' => 'form-control input-md', 'placeholder' => 'Email*']); }}
+                            @if ($errors->has('user_email')) <p class="text-danger">{{ $errors->first('user_email') }}</p> @endif
+                        </div>
+                    </div>
+                @endif
 
 				<!-- Text input-->
 				<div class="form-group">

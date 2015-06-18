@@ -26,7 +26,8 @@
                         <div class="row">
                             <div class="col-md-3 col-sm-4">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li><a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
+                                    <li>
+                                        <a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
                                             @if(count($headerWidget->newLetters()))
                                                 <span class="label pull-right">
                                                     {{ count($headerWidget->newLetters()) }}
@@ -35,7 +36,8 @@
                                         </a>
                                     </li>
                                     <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
-                                    <li class="active"><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
+                                    <li class="active">
+                                        <a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
                                             @if(count($headerWidget->deletedLetters()))
                                                 <span class="label label-danger pull-right">
                                                     {{ count($headerWidget->deletedLetters()) }}
@@ -118,8 +120,24 @@
                                                     <td class="small"><input type="checkbox" /></td>
                                                     <td class="small"><i class="fa fa-star"></i></td>
                                                     <td class="subject">{{ $letter->subject }}</td>
-                                                    <td class="name">{{ $letter->name }}</td>
-                                                    <td class="name">{{ $letter->email }}</td>
+                                                    <td class="name">
+                                                        @if($letter->user)
+                                                            <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
+                                                                {{ $letter->user->login }}
+                                                            </a>
+                                                        @else
+                                                            {{ $letter->user_name }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="email">
+                                                        @if($letter->user)
+                                                            <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
+                                                                {{ $letter->user->email }}
+                                                            </a>
+                                                        @else
+                                                            {{ $letter->user_email }}
+                                                        @endif
+                                                    </td>
                                                     <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
                                                     <td class="time">{{ DateHelper::dateFormat($letter->deleted_at) }}</td>
                                                     <td>

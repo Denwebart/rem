@@ -174,29 +174,32 @@ class SiteController extends BaseController {
 
 	public function contactPost()
 	{
-		//Get all the data and store it inside Store Variable
-		$data = Input::all();
-		//Validation rules
-		$rules = [
-			'name' => 'required|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u|min:3',
-			'email' => 'required|email',
-			'subject' => 'max:500',
-			'message' => 'required|min:5',
-			'g-recaptcha-response' => 'required|captcha'
+		$data = [
+			'user_id' => Auth::check() ? Auth::user()->id : null,
+			'user_name' => Input::has('user_name') ? Input::get('user_name') : null,
+			'user_email' => Input::has('user_email') ? Input::get('user_email') : null,
+			'user_ip' => Request::ip(),
+			'subject' => Input::get('subject'),
+			'message' => Input::get('message'),
+			'g-recaptcha-response' => Input::get('g-recaptcha-response'),
 		];
+
 		//Validate data
-		$validator = Validator::make($data, $rules);
+		$validator = Validator::make($data, Letter::$rules);
 		//If everything is correct than run passes.
 		if ($validator->passes())
 		{
 			$letter = new Letter();
 			$letter->fill($data);
-			$letter->ip = Request::getClientIp();
 			if($letter->save())
 			{
 				Mail::queue('emails.contactToAdmin', $data, function($message) use ($data)
 				{
-					$message->from($data['email'], $data['name']);
+					if(Auth::check()) {
+						$message->from(Auth::user()->email, Auth::user()->login);
+					} else {
+						$message->from($data['user_email'], $data['user_name']);
+					}
 					$message->to(Config::get('settings.adminEmail'), Config::get('settings.adminName'))->subject($data['subject']);
 				});
 
@@ -205,7 +208,11 @@ class SiteController extends BaseController {
 					Mail::queue('emails.contactToUser', $data, function($message) use ($data)
 					{
 						$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
-						$message->to($data['email'], $data['name'])->subject(Config::get('settings.contactSubjectToUser'));
+						if(Auth::check()) {
+							$message->to(Auth::user()->email, Auth::user()->login)->subject(Config::get('settings.contactSubjectToUser'));
+						} else {
+							$message->to($data['user_email'], $data['user_name'])->subject(Config::get('settings.contactSubjectToUser'));
+						}
 					});
 				}
 

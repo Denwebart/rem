@@ -20,10 +20,10 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::group(['before' => 'isAdmin'], function(){
 		Route::resource('users', 'AdminUsersController');
 		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
+		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('letters', 'AdminLettersController');
 		Route::delete('letters/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
-		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('settings', 'AdminSettingsController');
 		Route::resource('honors', 'AdminHonorsController');
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);

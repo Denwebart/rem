@@ -119,8 +119,24 @@
                                                     <td class="small"><input type="checkbox" /></td>
                                                     <td class="small"><i class="fa fa-star"></i></td>
                                                     <td class="subject">{{ $letter->subject }}</td>
-                                                    <td class="name">{{ $letter->name }}</td>
-                                                    <td class="name">{{ $letter->email }}</td>
+                                                    <td class="name">
+                                                        @if($letter->user)
+                                                            <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
+                                                                {{ $letter->user->login }}
+                                                            </a>
+                                                        @else
+                                                            {{ $letter->user_name }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="email">
+                                                        @if($letter->user)
+                                                            <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
+                                                                {{ $letter->user->email }}
+                                                            </a>
+                                                        @else
+                                                            {{ $letter->user_email }}
+                                                        @endif
+                                                    </td>
                                                     <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
                                                     <td class="time">{{ ($letter->read_at) ? DateHelper::dateFormat($letter->read_at) : '-'}}</td>
                                                     <td>
