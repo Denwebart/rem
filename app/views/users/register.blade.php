@@ -21,7 +21,7 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group">
-                        {{ Form::email('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail')) }}
+                        {{ Form::text('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail')) }}
                         @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
                     </div>
 
