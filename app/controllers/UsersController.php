@@ -75,6 +75,8 @@ class UsersController extends BaseController
 		if (Auth::attempt($creds, Input::has('remember'))) {
 			Log::info("User [{$login}] successfully logged in.");
 
+			Auth::user()->setIp(Request::ip());
+
 			// Вытираем предыдущую сессию
 			Session::forget('user');
 			// Редирект в админку (если админ) или на предыдущую (для остальных)

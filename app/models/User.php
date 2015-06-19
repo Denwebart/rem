@@ -14,8 +14,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property string $firstname 
  * @property string $lastname 
  * @property boolean $role 
- * @property integer $points 
- * @property string $ip 
+ * @property integer $points
  * @property string $avatar 
  * @property string $description 
  * @property string $car_brand 
@@ -51,7 +50,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereLastname($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereRole($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePoints($value)
- * @method static \Illuminate\Database\Query\Builder|\User whereIp($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereAvatar($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereCarBrand($value)
@@ -98,7 +96,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'firstname',
 		'lastname',
 		'role',
-		'ip',
 		'avatar',
 		'description',
 		'car_brand',
@@ -114,7 +111,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
-			'ip' => 'ip',
 			'points' => 'integer',
 			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
 			'description' => 'max:3000',
@@ -132,8 +128,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'registration' => [
 			'email'     => 'required|email|unique:users|max:150',
 			'login'  => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
-			'password'  => 'required|min:6|max:100',
-			'password_confirmation' => 'required|confirmed|min:6|max:100'
+			'password'  => 'required|confirmed|min:6|max:100',
+//			'password_confirmation' => 'confirmed|min:6|max:100'
 		],
 		'create' => [
 			'password'  => 'required|confirmed|min:6|max:100',
@@ -161,8 +157,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->is_active = false;
 		$this->login = ucfirst($this->login);
 		$this->role = self::ROLE_NONE;
-		$this->ip = Request::ip();
 		$this->save();
+
+		$this->setIp(Request::ip());
 
 		Log::info("User [{$this->email}] registered. Activation code: {$this->activationCode}");
 
@@ -271,6 +268,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $this->login, $options);
 		}
+	}
+
+	/**
+	 * Ip-адреса пользователя
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function ips()
+	{
+		return $this->hasMany('Ip', 'user_id');
+	}
+
+	public function setIp($ip)
+	{
+        if(is_null($this->ips()->whereIp($ip)->first())) {
+			Ip::create([
+				'user_id' => $this->id,
+				'ip' => $ip,
+			]);
+        }
 	}
 
 	/**
