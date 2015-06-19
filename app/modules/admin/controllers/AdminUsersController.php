@@ -161,7 +161,12 @@ class AdminUsersController extends \BaseController {
 					->paginate(10);
 			}
 		} else {
-			$users = User::orderBy('role', 'ASC')
+			$users = User::with('banNotifications', 'latestBanNotifications')
+//				->leftJoin('ban_notifications', 'users.id', '=', 'ban_notifications.user_id')
+//				->orderBy('ban_notifications.ban_at', 'DESC')
+//				->groupBy('ban_notifications.user_id')
+//				->join('users','users.id','=','planets.user_id')
+//				->orderBy('last_ban_at', 'DESC')
 				->whereIsBanned(1)
 				->paginate(10);
 		}
@@ -178,9 +183,15 @@ class AdminUsersController extends \BaseController {
 	public function ban($id)
 	{
 		if(Request::ajax()) {
+			$inputData = Input::get('formData');
+			parse_str($inputData, $formFields);
+			if(!$formFields['message']) {
+				$formFields['message'] = 'Сообщение о бане по умолчанию';
+			}
 			$user = User::find($id);
 			if(!$user->isAdmin()) {
 				$user->is_banned = 1;
+				$user->setBanNotification($formFields['message']);
 				if($user->save()) {
 					return Response::json(array(
 						'success' => true,
@@ -209,6 +220,9 @@ class AdminUsersController extends \BaseController {
 			if(!$user->isAdmin()) {
 				$user->is_banned = 0;
 				if($user->save()) {
+					$banNotification = $user->banNotifications()->first();
+					$banNotification->unban_at = date('Y:m:d H:i:s');
+					$banNotification->save();
 					return Response::json(array(
 						'success' => true,
 						'message' => 'Пользователь разбанен.'

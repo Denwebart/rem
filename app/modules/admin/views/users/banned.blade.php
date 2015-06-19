@@ -44,13 +44,19 @@
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Баллы', 'points') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Статус', 'is_active') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Дата регистрации', 'created_at') }}
-                                </th>
-                                <th>
                                     Награды
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Сколько раз забанен', '') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Забанен', '') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Разбанен', '') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Причина бана', '') }}
                                 </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">
@@ -76,19 +82,41 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->points }}</td>
                                     <td>
-                                        @if($user->is_active)
-                                            <span class="label label-success">Активный</span>
-                                        @else
-                                            <span class="label label-warning">Неактивный</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ DateHelper::dateFormat($user->created_at) }}</td>
-                                    <td>
                                         @foreach($user->honors as $honor)
                                             <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
                                                 {{ $honor->getImage(null, ['width' => '25px']) }}
                                             </a>
                                         @endforeach
+                                    </td>
+                                    <td>
+                                        {{ count($user->banNotifications) }}
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach($user->banNotifications as $key => $value)
+                                                <li>
+                                                    {{ DateHelper::dateFormat($value->ban_at) }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach($user->banNotifications as $key => $value)
+                                                <li>
+                                                    {{ DateHelper::dateFormat($value->unban_at) }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach($user->banNotifications as $key => $value)
+                                                <li>
+                                                    {{$value->message }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </td>
                                     <td class="buttons">
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
@@ -99,10 +127,6 @@
                                             <i class='fa fa-trash-o'></i>
                                         </button>
                                         {{ Form::close() }}
-
-                                        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                            <i class="fa fa-lock"></i>
-                                        </a>
 
                                         <div id="confirm" class="modal fade">
                                             <div class="modal-dialog">
@@ -121,6 +145,11 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
+
+                                        <!-- Снятие бана с пользователя -->
+                                        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
+                                            <i class="fa fa-lock"></i>
+                                        </a>
 
                                     </td>
                                 </tr>

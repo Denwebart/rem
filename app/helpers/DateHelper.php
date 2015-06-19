@@ -42,11 +42,15 @@ class DateHelper
 	 */
 	public static function dateFormat($date, $withTime = true, $isShortMonth = true)
 	{
-		$timestamp = strtotime($date);
-		$month = ($isShortMonth) ?
-			self::$shortMonths[date('n', $timestamp)] : self::$months[date('n', $timestamp)];
-		$time = ($withTime) ? " H:i" : "";
-		return date("d $month Y" . $time, $timestamp);
+		if(!is_null($date)) {
+			$timestamp = strtotime($date);
+			$month = ($isShortMonth) ?
+				self::$shortMonths[date('n', $timestamp)] : self::$months[date('n', $timestamp)];
+			$time = ($withTime) ? " H:i" : "";
+			return date("d $month Y" . $time, $timestamp);
+		} else {
+			return '-';
+		}
 	}
 
 	/**

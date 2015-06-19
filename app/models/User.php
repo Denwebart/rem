@@ -427,6 +427,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Сообщения о бане (дата и причина бана пользователя)
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function banNotifications()
+	{
+		return $this->hasMany('BanNotification', 'user_id')->orderBy('ban_at', 'DESC');
+	}
+
+	public function latestBanNotifications()
+	{
+		return $this->hasMany('BanNotification', 'user_id')->latest('ban_notifications.ban_at');
+	}
+
+	public function setBanNotification($message)
+	{
+		BanNotification::create([
+			'user_id' => $this->id,
+			'message' => $message,
+			'ban_at' => date('Y:m:d H:i:s'),
+		]);
+	}
+
+	/**
 	 * Есть ли страница в сохраненных пользователем
 	 *
 	 * @return bool

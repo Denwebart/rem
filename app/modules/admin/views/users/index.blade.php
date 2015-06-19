@@ -118,18 +118,6 @@
                                         </button>
                                         {{ Form::close() }}
 
-                                        @if(!$user->isAdmin())
-                                            @if(!$user->is_banned)
-                                                <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-unlock"></i>
-                                                </a>
-                                            @else
-                                                <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-lock"></i>
-                                                </a>
-                                            @endif
-                                        @endif
-
                                         <div id="confirm" class="modal fade">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -143,6 +131,42 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
                                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+
+                                        <!-- Бан пользователя -->
+                                        @if(!$user->isAdmin())
+                                            @if(!$user->is_banned)
+                                                <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}">
+                                                    <i class="fa fa-unlock"></i>
+                                                </a>
+                                            @else
+                                                <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
+                                                    <i class="fa fa-lock"></i>
+                                                </a>
+                                            @endif
+                                        @endif
+
+                                        <div class="modal fade ban-modal" data-ban-modal-id="{{ $user->id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Причина бана пользователя {{ $user->login }}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{ Form::open(array('method' => 'POST', 'class' => '', 'id' => 'ban-message-form', 'data-ban-form-id' => $user->id)) }}
+                                                        <div class="form-group">
+                                                            {{ Form::label('message', 'Причина бана') }}
+                                                            {{ Form::textarea('message', null, ['class' => 'form-control', 'rows' => 3]) }}
+                                                        </div>
+                                                        {{ Form::close() }}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success ban-confirm" data-dismiss="modal" data-id="{{ $user->id }}">Забанить</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
                                                     </div>
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
@@ -208,23 +232,30 @@
         // забанить
         $('.buttons').on('click', '.ban', function(){
             var userId = $(this).data('id');
-            $.ajax({
-                url: '/admin/users/ban/' + userId,
-                dataType: "text json",
-                type: "POST",
-                data: {},
-                success: function(response) {
-                    if(response.success){
-                        $('#message').text(response.message);
-                        var $userTr = $('[data-user-id='+ userId +']');
-                        $userTr.addClass('danger');
-                        $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
-                    } else {
-                        $('#message').text(response.message);
-                    }
-                }
-            });
+
+            $('[data-ban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
+                .one('click', '.ban-confirm', function() {
+                    var $form = $('[data-ban-form-id='+ $(this).data('id') +']'),
+                        data = $form.serialize();
+                    $.ajax({
+                        url: '/admin/users/ban/' + userId,
+                        dataType: "text json",
+                        type: "POST",
+                        data: {formData: data},
+                        success: function(response) {
+                            if(response.success){
+                                $('#message').text(response.message);
+                                var $userTr = $('[data-user-id='+ userId +']');
+                                $userTr.addClass('danger');
+                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
+                            } else {
+                                $('#message').text(response.message);
+                            }
+                        }
+                    });
+                });
         });
+
         // разбанить
         $('.buttons').on('click', '.unban', function(){
             var userId = $(this).data('id');
