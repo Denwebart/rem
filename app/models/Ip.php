@@ -1,16 +1,22 @@
 <?php
 
+
 /**
  * Ip
  *
  * @property integer $id 
- * @property integer $user_id 
  * @property string $ip 
+ * @property boolean $is_banned 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\UserIp[] $usersIps 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users 
  * @method static \Illuminate\Database\Query\Builder|\Ip whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Ip whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ip whereIp($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ip whereIsBanned($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ip whereUpdatedAt($value)
  */
-
 class Ip extends \Eloquent
 {
 	protected $table = 'ips';
@@ -18,17 +24,24 @@ class Ip extends \Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
-		'user_id',
 		'ip',
+		'is_banned',
+		'ban_at',
+		'unban_at',
 	];
 
 	public static $rules = [
-		'user_id' => 'numeric',
 		'ip' => 'required|ip',
+		'is_banned' => 'boolean',
 	];
 
-	public function user()
+	public function usersIps()
 	{
-		return $this->belongsTo('User', 'user_id');
+		return $this->hasMany('UserIp', 'ip_id');
+	}
+
+	public function users()
+	{
+		return $this->belongsToMany('User', 'users_ips');
 	}
 }

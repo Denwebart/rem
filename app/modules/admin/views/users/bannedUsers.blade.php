@@ -14,6 +14,18 @@
         <!-- Main row -->
         <div class="row">
 
+            <div class="col-xs-12">
+                <a href="{{ URL::route('admin.users.index') }}" class="btn btn-primary">
+                    Все пользователи
+                </a>
+                <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary btn-outline">
+                    Забаненные пользователи
+                </a>
+                <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary">
+                    Забаненные IP-адреса
+                </a>
+            </div>
+
             <div id="message"></div>
 
             <div class="col-xs-12">
@@ -23,40 +35,40 @@
                             <thead>
                             <tr>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'ID', 'id') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'ID', 'id') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Фото', 'avatar') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Фото', 'avatar') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Роль', 'role') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Роль', 'role') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Логин', 'login') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Логин', 'login') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Имя', 'fullname') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Имя', 'fullname') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Email', 'email') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Email', 'email') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Баллы', 'points') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Баллы', 'points') }}
                                 </th>
                                 <th>
                                     Награды
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Сколько раз забанен', '') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Сколько раз забанен', '') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Забанен', '') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Забанен', '') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Разбанен', '') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Разбанен', '') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Причина бана', '') }}
+                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Причина бана', '') }}
                                 </th>
                                 <th class="button-column">
                                     <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">

@@ -14,8 +14,14 @@
         <div class="row">
 
             <div class="col-xs-12">
-                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.users.index') }}" class="btn btn-primary btn-outline">
+                    Все пользователи
+                </a>
+                <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary">
                     Забаненные пользователи
+                </a>
+                <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary">
+                    Забаненные IP-адреса
                 </a>
             </div>
 

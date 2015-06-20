@@ -273,21 +273,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	/**
 	 * Ip-адреса пользователя
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
 	public function ips()
 	{
-		return $this->hasMany('Ip', 'user_id');
+		return $this->belongsToMany('Ip', 'users_ips');
 	}
 
 	public function setIp($ip)
 	{
-        if(is_null($this->ips()->whereIp($ip)->first())) {
-			Ip::create([
-				'user_id' => $this->id,
-				'ip' => $ip,
-			]);
+		$ipModel = Ip::whereIp($ip)->first();
+        if(is_null($ipModel)) {
+	        $ipModel = Ip::create(['ip' => $ip]);
         }
+		UserIp::create([
+			'user_id' => $this->id,
+			'ip_id' => $ipModel->id,
+		]);
 	}
 
 	/**

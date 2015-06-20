@@ -145,7 +145,7 @@ class AdminUsersController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function banned()
+	public function bannedUsers()
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
@@ -171,7 +171,7 @@ class AdminUsersController extends \BaseController {
 				->paginate(10);
 		}
 
-		return View::make('admin::users.banned', compact('users'));
+		return View::make('admin::users.bannedUsers', compact('users'));
 	}
 
 	/**
@@ -235,6 +235,110 @@ class AdminUsersController extends \BaseController {
 				));
 			}
 		}
+	}
+
+	/**
+	 * Display a listing of banned ips
+	 *
+	 * @return Response
+	 */
+	public function bannedIps()
+	{
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$bannedIps = Ip::orderBy($sortBy, $direction)
+				->whereIsBanned(1)
+				->paginate(10);
+		} else {
+			$bannedIps = Ip::orderBy('ban_at', 'DESC')
+				->whereIsBanned(1)
+				->paginate(10);
+		}
+
+		return View::make('admin::users.bannedIps', compact('bannedIps'));
+	}
+
+	/**
+	 * Забанить ip-адрес
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function banIp()
+	{
+		if(Request::ajax()) {
+			$inputData = Input::get('formData');
+			parse_str($inputData, $formFields);
+
+			$ip = Ip::whereIp($formFields['ip'])->first();
+
+			if(is_null($ip)) {
+				$validator = Validator::make($formFields, Ip::$rules);
+
+				if ($validator->fails()) {
+					return Response::json(array(
+						'fail' => true,
+						'errors' => $validator->getMessageBag()->toArray(),
+					));
+				} else {
+					$ip = new Ip();
+					$ip->ip = $formFields['ip'];
+				}
+			}
+
+			$ip->is_banned = 1;
+			$ip->ban_at = date('Y:m:d H:i:s');
+
+			if ($ip->save()) {
+				$ipRowView = 'admin::users.ipRow';
+				return Response::json(array(
+					'success' => true,
+					'message' => 'Ip-адрес забанен.',
+					'ipRowHtml' => (string) View::make($ipRowView, compact('ip'))->render()
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Ошибка. Ip-адрес не был забанен.',
+				));
+			}
+		}
+	}
+
+	/**
+	 * Разбанить ip-адрес
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function unbanIp($id)
+	{
+		if(Request::ajax()) {
+			$ip = Ip::find($id);
+			$ip->is_banned = 0;
+			$ip->unban_at = date('Y:m:d H:i:s');
+			if($ip->save()) {
+				return Response::json(array(
+					'success' => true,
+					'message' => 'Ip-адрес разбанен.'
+				));
+			}
+
+		}
+	}
+
+	/**
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function ipsAutocomplete() {
+		$term = Input::get('term');
+
+		$result = Ip::whereIsBanned(0)
+			->where('ip', 'like', "$term%")
+			->lists('ip', 'id');
+
+		return Response::json($result);
 	}
 
 }
