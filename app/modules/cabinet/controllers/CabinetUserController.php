@@ -25,6 +25,19 @@ class CabinetUserController extends \BaseController
 
 		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteNotification']]);
 
+		// бан пользователя
+		$this->beforeFilter(function()
+		{
+			if(Auth::check()) {
+				$login = Route::current()->getParameter('login');
+				if(Auth::user()->getLoginForUrl() == $login) {
+					if(Auth::user()->is_banned) {
+						return View::make('cabinet::user.ban')->with('user', Auth::user());
+					}
+				}
+			}
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteNotification']]);
+
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');

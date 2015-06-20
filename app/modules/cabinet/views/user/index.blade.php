@@ -39,6 +39,10 @@ View::share('title', $title);
                             Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules') }}" class="alert-link">ссылке</a>.</p>
                     </div>
                 @endif
+
+                @if(Auth::user()->is($user) && Auth::user()->is_banned)
+                    @include('cabinet::user.banMessage')
+                @endif
             @endif
 
             @if(Auth::check())

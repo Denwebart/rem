@@ -29,9 +29,13 @@ View::share('title', $title);
 
             @if(Auth::check())
                 @if(Auth::user()->is($user))
-                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                        Написать статью
-                    </a>
+                    @if(!$user->is_banned)
+                        <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                            Написать статью
+                        </a>
+                    @else
+                        @include('cabinet::user.banMessage')
+                    @endif
                 @endif
             @endif
 

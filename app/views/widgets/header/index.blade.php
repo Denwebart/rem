@@ -3,7 +3,7 @@
         <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
     @endif
     <nav class="navbar navbar-static-top">
-        @if(!Request::is('admin*') && (Auth::user()->isAdmin() || Auth::user()->isModerator()))
+        @if(!Request::is('admin*') && (Auth::user()->isAdmin() || (Auth::user()->isModerator() && !Auth::user()->is_banned )))
             <a href="{{ URL::to('admin') }}" class="logo"><i class="fa fa-wrench"></i> <span>Админка</span></a>
         @elseif(!Request::is('admin*') && (!Auth::user()->isAdmin() || !Auth::user()->isModerator()))
             <div class="logo"></div>

@@ -43,6 +43,14 @@ View::share('title', $title);
         <div class="col-lg-9">
             <h2>{{ $title }}</h2>
 
+            @if(Auth::check())
+                @if(Auth::user()->is($user))
+                    @if($user->is_banned)
+                        @include('cabinet::user.banMessage')
+                    @endif
+                @endif
+            @endif
+
             <div id="messages" class="row">
 
                 {{--@foreach($companions as $item)--}}

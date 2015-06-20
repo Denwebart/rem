@@ -140,11 +140,11 @@
                                         @if(!$user->isAdmin())
                                             @if(!$user->is_banned)
                                                 <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-unlock"></i>
+                                                    <i class="fa fa-lock"></i>
                                                 </a>
                                             @else
                                                 <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-lock"></i>
+                                                    <i class="fa fa-unlock"></i>
                                                 </a>
                                             @endif
                                         @endif
@@ -265,7 +265,7 @@
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.addClass('danger');
-                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
+                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
                             } else {
                                 $('#message').text(response.message);
                             }
@@ -290,7 +290,7 @@
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.removeClass('danger');
-                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
+                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
                             } else {
                                 $('#message').text(response.message);
                             }

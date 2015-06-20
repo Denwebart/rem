@@ -29,9 +29,13 @@ View::share('title', $title);
 
             @if(Auth::check())
                 @if(Auth::user()->is($user))
-                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                        Задать вопрос
-                    </a>
+                    @if(!$user->is_banned)
+                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                            Задать вопрос
+                        </a>
+                    @else
+                        @include('cabinet::user.banMessage')
+                    @endif
                 @endif
             @endif
 

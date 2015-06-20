@@ -92,39 +92,42 @@
                     <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
 
                         @if(Auth::check())
+                            @if(!Auth::user()->is_banned)
+                                @if(!Auth::user()->is_agree)
+                                    <div class="alert alert-dismissable alert-warning">
+                                        <h4>Вы не согласились с правилами сайта!</h4>
+                                        <p>Пока вы не соглавитесь с правилами сайта,
+                                            вы не сможете оставлять комментарии.
+                                            Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
+                                    </div>
+                                @else
 
-                            @if(!Auth::user()->is_agree)
-                                <div class="alert alert-dismissable alert-warning">
-                                    <h4>Вы не согласились с правилами сайта!</h4>
-                                    <p>Пока вы не соглавитесь с правилами сайта,
-                                        вы не сможете оставлять комментарии.
-                                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
-                                </div>
+                                    {{ Form::open([
+                                          'action' => ['CommentsController@addComment', $page->id],
+                                          'id' => 'comment-form-' . $comment->id,
+                                        ])
+                                    }}
+
+                                    <div class="successMessage"></div>
+
+                                    {{ Form::hidden('parent_id', $comment->id); }}
+
+                                    <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                                        {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                                        <span>{{  Auth::user()->login }}</span>
+                                    </a>
+
+                                    <div class="form-group">
+                                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                        <div class="comment_error error text-danger"></div>
+                                    </div>
+
+                                    {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+
+                                    {{ Form::close() }}
+                                @endif
                             @else
-
-                                {{ Form::open([
-                                      'action' => ['CommentsController@addComment', $page->id],
-                                      'id' => 'comment-form-' . $comment->id,
-                                    ])
-                                }}
-
-                                <div class="successMessage"></div>
-
-                                {{ Form::hidden('parent_id', $comment->id); }}
-
-                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                                    <span>{{  Auth::user()->login }}</span>
-                                </a>
-
-                                <div class="form-group">
-                                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                    <div class="comment_error error text-danger"></div>
-                                </div>
-
-                                {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
-
-                                {{ Form::close() }}
+                                @include('cabinet::user.banMessage')
                             @endif
                         @else
                             {{ Form::open([
@@ -222,38 +225,42 @@
         <h3>{{ $formTitle }}</h3>
 
         @if(Auth::check())
-            @if(!Auth::user()->is_agree)
-                <div class="alert alert-dismissable alert-warning">
-                    <h4>Вы не согласились с правилами сайта!</h4>
-                    <p>Пока вы не соглавитесь с правилами сайта,
-                        вы не сможете @if(Page::TYPE_QUESTION == $page->type) отвечать на вопросы. @else оставлять комментарии. @endif
-                        Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
-                </div>
+            @if(!Auth::user()->is_banned)
+                @if(!Auth::user()->is_agree)
+                    <div class="alert alert-dismissable alert-warning">
+                        <h4>Вы не согласились с правилами сайта!</h4>
+                        <p>Пока вы не соглавитесь с правилами сайта,
+                            вы не сможете @if(Page::TYPE_QUESTION == $page->type) отвечать на вопросы. @else оставлять комментарии. @endif
+                            Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
+                    </div>
+                @else
+
+                    {{ Form::open([
+                          'action' => ['CommentsController@addComment', $page->id],
+                          'id' => 'comment-form-0',
+                        ])
+                    }}
+
+                    <div class="successMessage"></div>
+
+                    {{ Form::hidden('parent_id', 0); }}
+
+                    <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                        {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                        <span>{{  Auth::user()->login }}</span>
+                    </a>
+
+                    <div class="form-group">
+                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                        <div class="comment_error error text-danger"></div>
+                    </div>
+
+                    {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
+
+                    {{ Form::close() }}
+                @endif
             @else
-
-                {{ Form::open([
-                      'action' => ['CommentsController@addComment', $page->id],
-                      'id' => 'comment-form-0',
-                    ])
-                }}
-
-                <div class="successMessage"></div>
-
-                {{ Form::hidden('parent_id', 0); }}
-
-                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                    <span>{{  Auth::user()->login }}</span>
-                </a>
-
-                <div class="form-group">
-                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                    <div class="comment_error error text-danger"></div>
-                </div>
-
-                {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
-
-                {{ Form::close() }}
+                @include('cabinet::user.banMessage')
             @endif
         @else
             {{ Form::open([

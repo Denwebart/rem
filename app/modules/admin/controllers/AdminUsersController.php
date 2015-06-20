@@ -161,7 +161,7 @@ class AdminUsersController extends \BaseController {
 					->paginate(10);
 			}
 		} else {
-			$users = User::with('banNotifications', 'latestBanNotifications')
+			$users = User::with('banNotifications', 'latestBanNotification')
 //				->leftJoin('ban_notifications', 'users.id', '=', 'ban_notifications.user_id')
 //				->orderBy('ban_notifications.ban_at', 'DESC')
 //				->groupBy('ban_notifications.user_id')

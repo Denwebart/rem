@@ -62,6 +62,15 @@ class CommentsController extends BaseController
 	{
 		if(Request::ajax()) {
 
+			if(Auth::check()) {
+				if(Auth::user()->is_banned) {
+					return Response::json(array(
+						'success' => false,
+						'message' => 'Вы забанены администратором сайта и не можете голосовать.'
+					));
+				}
+			}
+
 			$isVote = Session::has('user.rating.comment') ? (in_array($commentId, Session::get('user.rating.comment')) ? 1 : 0) : 0;
 
 			if (!$isVote) {

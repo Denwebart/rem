@@ -436,9 +436,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('BanNotification', 'user_id')->orderBy('ban_at', 'DESC');
 	}
 
-	public function latestBanNotifications()
+	public function latestBanNotification()
 	{
-		return $this->hasMany('BanNotification', 'user_id')->latest('ban_notifications.ban_at');
+		return $this->hasOne('BanNotification', 'user_id')->orderBy('ban_at', 'DESC');
+//		return $this->hasMany('BanNotification', 'user_id')->latest('ban_notifications.ban_at');
 	}
 
 	public function setBanNotification($message)

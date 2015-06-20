@@ -64,6 +64,8 @@ Route::filter('authInAdminPanel', function()
 	else {
 		if(!Auth::user()->isAdmin() && !Auth::user()->isModerator()) {
 			return Redirect::to('/');
+		} elseif(Auth::user()->isModerator() && Auth::user()->is_banned) {
+			return Redirect::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
 		}
 	}
 });

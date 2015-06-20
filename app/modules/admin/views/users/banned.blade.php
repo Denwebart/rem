@@ -148,7 +148,7 @@
 
                                         <!-- Снятие бана с пользователя -->
                                         <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                            <i class="fa fa-lock"></i>
+                                            <i class="fa fa-unlock"></i>
                                         </a>
 
                                         <div class="modal fade unban-modal" data-unban-modal-id="{{ $user->id }}">

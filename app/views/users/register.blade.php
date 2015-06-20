@@ -16,22 +16,22 @@ View::share('title', $title);
                 {{ Form::open(['url' => 'register_request', 'role' => 'form', 'class' => '']) }}
 
                     <div class="form-group">
-                        {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин', 'autofocus'=>'autofocus')) }}
+                        {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин*', 'autofocus'=>'autofocus')) }}
                         @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                     </div>
 
                     <div class="form-group">
-                        {{ Form::text('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail')) }}
+                        {{ Form::text('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail*')) }}
                         @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
                     </div>
 
                     <div class="form-group">
-                        {{ Form::password('password', array('class' => 'form-control floating-label', 'placeholder' => 'Пароль')) }}
+                        {{ Form::password('password', array('class' => 'form-control floating-label', 'placeholder' => 'Пароль*')) }}
                         @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
                     </div>
 
                     <div class="form-group">
-                        {{ Form::password('password_confirmation', array('class' => 'form-control floating-label', 'placeholder' => 'Повтор пароля')) }}
+                        {{ Form::password('password_confirmation', array('class' => 'form-control floating-label', 'placeholder' => 'Повтор пароля*')) }}
                         @if ($errors->has('password_confirmation')) <p class="text-danger">{{ $errors->first('password_confirmation') }}</p> @endif
                     </div>
 

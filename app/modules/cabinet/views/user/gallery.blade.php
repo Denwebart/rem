@@ -86,54 +86,58 @@ View::share('title', $title);
                         </div>
                     @endif
                 @endif
-            @endif
-            {{--Загрузка новой фотографии--}}
-            @if(Auth::check())
+
+                {{--Загрузка новой фотографии--}}
                 @if(Auth::user()->is($user))
-                    @if(Config::get('settings.numberOfUserImages') > count($user->images))
-                        <div id="new-photo">
+                    @if(!$user->is_banned)
+                        @if(Config::get('settings.numberOfUserImages') > count($user->images))
+                            <div id="new-photo">
 
-                            <h3>Добавить фотографию</h3>
+                                <h3>Добавить фотографию</h3>
 
-                            {{--<a href="" class="btn btn-default btn-lg">--}}
+                                {{--<a href="" class="btn btn-default btn-lg">--}}
                                 {{--<span class="glyphicon glyphicon-plus"></span>--}}
-                            {{--</a>--}}
+                                {{--</a>--}}
 
-                            {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
+                                {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                                        {{ $errors->first('image') }}
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
+                                            {{ $errors->first('image') }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            {{ Form::label('title', 'Заголовок изображения') }}
+                                            {{ Form::text('title', null, ['class' => 'form-control']) }}
+                                            {{ $errors->first('title') }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{ Form::label('description', 'Описание изображения') }}
+                                            {{ Form::textarea('description', null, ['class' => 'form-control']) }}
+                                            {{ $errors->first('description') }}
+                                        </div>
+
+                                        <div class="button-group">
+                                            {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-8">
-                                    <div class="form-group">
-                                        {{ Form::label('title', 'Заголовок изображения') }}
-                                        {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                        {{ $errors->first('title') }}
-                                    </div>
 
-                                    <div class="form-group">
-                                        {{ Form::label('description', 'Описание изображения') }}
-                                        {{ Form::textarea('description', null, ['class' => 'form-control']) }}
-                                        {{ $errors->first('description') }}
-                                    </div>
-
-                                    <div class="button-group">
-                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-                                    </div>
-                                </div>
+                                {{ Form::close() }}
                             </div>
-
-                            {{ Form::close() }}
-                        </div>
+                        @else
+                            Больше фотографий добавить нельзя :(
+                        @endif
                     @else
-                        Больше фотографий добавить нельзя :(
+                        @include('cabinet::user.banMessage')
                     @endif
                 @endif
             @endif
+
         </div>
     </div>
 @stop
