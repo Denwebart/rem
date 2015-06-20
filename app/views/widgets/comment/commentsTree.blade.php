@@ -28,195 +28,7 @@
 
         @foreach($comments as $comment)
             <!-- Comment -->
-            <div id="comment-{{ $comment->id }}" class="media">
-                <a href="javascript:void(0)" class="pull-left close-comment">-</a>
-                @if($comment->user)
-                    <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                        {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
-                    </a>
-                @else
-                    <a class="pull-left" href="javascript:void(0)">
-                        {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
-                    </a>
-                @endif
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        @if($comment->user)
-                            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
-                                {{ $comment->user->login }}
-                            </a>
-                        @else
-                            <a href="javascript:void(0)" class="author">
-                                {{ $comment->user_name }}
-                            </a>
-                        @endif
-                        <small>{{ DateHelper::dateFormat($comment->created_at) }}</small>
-                    </h4>
-                    <div>{{ $comment->comment }}</div>
-
-                    <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}">
-                        @if(Auth::check())
-                            @if(!Auth::user()->is($comment->user))
-                                <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                                <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-                                <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                                <div class="vote-message"></div>
-                            @else
-                                <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-                            @endif
-                        @else
-                            <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                            <span class="vote-result">{{ $comment->votes_like - $comment->votes_dislike }}</span>
-                            <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                            <div class="vote-message"></div>
-                        @endif
-                    </div>
-
-                    {{--Отметить лучшие ответы--}}
-                    @if($comment->mark == Comment::MARK_BEST)
-                        <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                            <i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>
-                        </div>
-                    @elseif(Auth::check())
-                        @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)
-                            <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                                <a href="javascript:void(0)" class="pull-left mark-comment-as-best" style="display:none">
-                                    <i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>
-                                </a>
-                            </div>
-                        @endif
-                    @endif
-
-                    <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
-
-                    <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
-
-                        @if(Auth::check())
-                            @if(!Auth::user()->is_banned)
-                                @if(!Auth::user()->is_agree)
-                                    <div class="alert alert-dismissable alert-warning">
-                                        <h4>Вы не согласились с правилами сайта!</h4>
-                                        <p>Пока вы не соглавитесь с правилами сайта,
-                                            вы не сможете оставлять комментарии.
-                                            Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
-                                    </div>
-                                @else
-
-                                    {{ Form::open([
-                                          'action' => ['CommentsController@addComment', $page->id],
-                                          'id' => 'comment-form-' . $comment->id,
-                                        ])
-                                    }}
-
-                                    <div class="successMessage"></div>
-
-                                    {{ Form::hidden('parent_id', $comment->id); }}
-
-                                    <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                        {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                                        <span>{{  Auth::user()->login }}</span>
-                                    </a>
-
-                                    <div class="form-group">
-                                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                        <div class="comment_error error text-danger"></div>
-                                    </div>
-
-                                    {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
-
-                                    {{ Form::close() }}
-                                @endif
-                            @else
-                                @include('cabinet::user.banMessage')
-                            @endif
-                        @else
-                            {{ Form::open([
-                                      'action' => ['CommentsController@addComment', $page->id],
-                                      'id' => 'comment-form-' . $comment->id,
-                                    ])
-                                }}
-
-                            <div class="successMessage"></div>
-
-                            {{ Form::hidden('parent_id', $comment->id); }}
-
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
-                                    <div class="user_name_error error text-danger"></div>
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
-                                    <div class="user_email_error error text-danger"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                <div class="comment_error error text-danger"></div>
-                            </div>
-
-                            {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
-
-                            {{ Form::close() }}
-                        @endif
-                    </div>
-
-                    <!-- Nested Comment -->
-                    @if(count($comment->publishedChildren))
-                        <div class="children-comments">
-                            @foreach($comment->publishedChildren as $commentLevel2)
-                                <div class="media" id="comment-{{ $commentLevel2->id }}" >
-                                    @if($comment->user)
-                                        <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                                            {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
-                                        </a>
-                                    @else
-                                        <a class="pull-left" href="javascript:void(0)">
-                                            {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
-                                        </a>
-                                    @endif
-                                    <div class="media-body">
-                                        <h4 class="media-heading">
-                                            @if($comment->user)
-                                                <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="author{{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
-                                                    {{ $comment->user->login }}
-                                                </a>
-                                            @else
-                                                <a href="javascript:void(0)" class="author">
-                                                    {{ $comment->user_name }}
-                                                </a>
-                                            @endif
-                                            <small>{{ DateHelper::dateFormat($commentLevel2->created_at) }}</small>
-                                        </h4>
-                                        <div>{{ $commentLevel2->comment }}</div>
-
-                                        <div class="vote pull-right" data-vote-comment-id="{{ $commentLevel2->id }}">
-                                            @if(Auth::check())
-                                                @if(!Auth::user()->is($commentLevel2->user))
-                                                    <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                                                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                                                    <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                                                    <div class="vote-message"></div>
-                                                @else
-                                                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                                                @endif
-                                            @else
-                                                <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                                                <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                                                <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                                                <div class="vote-message"></div>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                    <!-- End Nested Comment -->
-                </div>
-            </div>
+            @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment])
         @endforeach
     </div>
     <!-- end of .comments -->
@@ -335,7 +147,10 @@
                     $form.find('.successMessage').empty();
                 }
                 if(data.success) {
-                    var successContent = '<div class="message"><h3>{{ $successMessage }}</h3></div>';
+                    var successContent = '<div class="alert alert-dismissable alert-info">' +
+                            '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                            '{{ $successMessage }}' +
+                            '</div>';
                     $form.find('.successMessage').html(successContent);
                     $form.trigger('reset');
                     $form.find('.error').empty();
@@ -357,7 +172,7 @@
         });
 
         // Раскрытие формы для ответа на комментарий
-        $('.comments').on('click', '.reply', function() {
+        $('.comments, #best-comments').on('click', '.reply', function() {
             var formContainer = '#reply-comment-form-' + $(this).data('commentId');
             if ($(formContainer).is(':visible')) {
                 $(formContainer).slideUp();

@@ -3,10 +3,15 @@
         <div class="box-title">
             <h3>Текст комментария</h3>
             <div class="pull-right author">
-                {{ $comment->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
-                <span class="pull-right">
-                    {{ $comment->user->login }}
-                </span>
+                @if($comment->user)
+                    {{ $comment->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
+                    <span class="pull-right">
+                        {{ $comment->user->login }}
+                    </span>
+                @else
+                    {{{ $comment->user_name }}}
+                    ({{{ $comment->user_email }}})
+                @endif
             </div>
         </div>
         <div class="box-body">

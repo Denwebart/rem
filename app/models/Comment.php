@@ -70,6 +70,11 @@ class Comment extends \Eloquent
 		'comment' => 'required',
 	];
 
+	public static $rulesForUpdate = [
+		'is_published' => 'boolean',
+		'comment' => 'required',
+	];
+
 	public static function boot()
 	{
 		parent::boot();

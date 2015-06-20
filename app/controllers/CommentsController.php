@@ -16,7 +16,7 @@ class CommentsController extends BaseController
 				'user_ip' => Request::ip(),
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
-				'is_published' => 1,
+				'is_published' => Auth::check() ? 1 : 0,
 			];
 
 			if(isset($formFields['user_name'])) {
@@ -41,11 +41,17 @@ class CommentsController extends BaseController
 						$comment->user->addPoints(User::POINTS_FOR_COMMENT);
 					}
 					// return success message
-					$commentView = (0 == $comment->parent_id) ? 'widgets.comment.comment1Level' : 'widgets.comment.comment2Level';
+					if(Auth::check()) {
+						$commentHtml = (0 == $comment->parent_id)
+							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->render()
+							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('commentLevel2', $comment)->render();
+					} else {
+						$commentHtml = '';
+					}
 					return Response::json(array(
 						'success' => true,
 						'parent_id' => $comment->parent_id,
-						'commentHtml' => (string) View::make($commentView, compact('comment'))->render()
+						'commentHtml' => $commentHtml,
 					));
 				}
 			}

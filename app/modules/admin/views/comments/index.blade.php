@@ -20,6 +20,7 @@
                             <tr>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'IP', 'user_ip') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Страница', 'page_id') }}</th>
                                 <th max-width="30%">Комментарий</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published') }}</th>
@@ -33,11 +34,17 @@
                                 <tr>
                                     <td>{{ $comment->id }}</td>
                                     <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                                            {{ $comment->user->getAvatar('mini', ['width' => '25px']) }}
-                                            {{ $comment->user->login }}
-                                        </a>
+                                        @if($comment->user)
+                                            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
+                                                {{ $comment->user->getAvatar('mini', ['width' => '25px']) }}
+                                                {{ $comment->user->login }}
+                                            </a>
+                                        @else
+                                            {{{ $comment->user_name }}}
+                                            ({{{ $comment->user_email }}})
+                                        @endif
                                     </td>
+                                    <td>{{ $comment->user_ip }}</td>
                                     <td>
                                         <a href="{{ URL::to($comment->page->getUrl()) }}">
                                             {{ $comment->page->getTitle() }}

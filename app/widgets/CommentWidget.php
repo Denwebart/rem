@@ -5,6 +5,7 @@ class CommentWidget
 	public $title = 'Комментарии';
 	public $formTitle = 'Оставить комментарий';
 	public $successMessage = 'Ваш комментарий успешно отправлен!';
+	public $successMessageIfNotAuth = 'Ваш комментарий отправлен и будет опубликован после проверки модератором.';
 
 	public function show($page)
 	{
@@ -37,7 +38,7 @@ class CommentWidget
 		return (string) View::make('widgets.comment.commentsTree', compact('comments', 'bestComments', 'page'))
 			->with('title', $this->title)
 			->with('formTitle', $this->formTitle)
-			->with('successMessage', $this->successMessage)
+			->with('successMessage', Auth::check() ? $this->successMessage : $this->successMessageIfNotAuth)
 			->render();
 	}
 

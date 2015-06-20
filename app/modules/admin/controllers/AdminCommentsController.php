@@ -70,7 +70,7 @@ class AdminCommentsController extends \BaseController {
 	{
 		$comment = Comment::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Comment::$rules);
+		$validator = Validator::make($data = Input::all(), Comment::$rulesForUpdate);
 
 		if ($validator->fails())
 		{
