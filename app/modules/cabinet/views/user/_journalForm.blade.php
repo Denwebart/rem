@@ -47,7 +47,7 @@
     </div>
 
 	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-	<a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">Отмена</a>
+	<a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('style')
