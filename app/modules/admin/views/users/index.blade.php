@@ -149,12 +149,30 @@
                                             @endif
                                         @endif
 
+                                        <div class="modal fade unban-modal" data-unban-modal-id="{{ $user->id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Снятие бана с пользователя</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Вы уверены, что хотите разбанить пользователя {{ $user->login }}?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success unban-confirm" data-dismiss="modal" data-id="{{ $user->id }}">Разбанить</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+
                                         <div class="modal fade ban-modal" data-ban-modal-id="{{ $user->id }}">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Причина бана пользователя {{ $user->login }}</h4>
+                                                        <h4 class="modal-title">Бан пользователя {{ $user->login }}</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         {{ Form::open(array('method' => 'POST', 'class' => '', 'id' => 'ban-message-form', 'data-ban-form-id' => $user->id)) }}
@@ -259,22 +277,26 @@
         // разбанить
         $('.buttons').on('click', '.unban', function(){
             var userId = $(this).data('id');
-            $.ajax({
-                url: '/admin/users/unban/' + userId,
-                dataType: "text json",
-                type: "POST",
-                data: {},
-                success: function(response) {
-                    if(response.success){
-                        $('#message').text(response.message);
-                        var $userTr = $('[data-user-id='+ userId +']');
-                        $userTr.removeClass('danger');
-                        $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
-                    } else {
-                        $('#message').text(response.message);
-                    }
-                }
-            });
+
+            $('[data-unban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
+                .one('click', '.unban-confirm', function() {
+                    $.ajax({
+                        url: '/admin/users/unban/' + userId,
+                        dataType: "text json",
+                        type: "POST",
+                        data: {},
+                        success: function(response) {
+                            if(response.success){
+                                $('#message').text(response.message);
+                                var $userTr = $('[data-user-id='+ userId +']');
+                                $userTr.removeClass('danger');
+                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
+                            } else {
+                                $('#message').text(response.message);
+                            }
+                        }
+                    });
+                });
         });
     </script>
 @stop

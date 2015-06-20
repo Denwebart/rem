@@ -151,6 +151,24 @@
                                             <i class="fa fa-lock"></i>
                                         </a>
 
+                                        <div class="modal fade unban-modal" data-unban-modal-id="{{ $user->id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Снятие бана с пользователя</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Вы уверены, что хотите разбанить пользователя {{ $user->login }}?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success unban-confirm" data-dismiss="modal" data-id="{{ $user->id }}">Разбанить</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -181,22 +199,26 @@
         });
 
         // разбанить
-        $('.unban').on('click', function(){
+        $('.buttons').on('click', '.unban', function(){
             var userId = $(this).data('id');
-            $.ajax({
-                url: '/admin/users/unban/' + userId,
-                dataType: "text json",
-                type: "POST",
-                data: {},
-                success: function(response) {
-                    if(response.success){
-                        $('[data-user-id='+ userId +']').remove();
-                        $('#message').text(response.message);
-                    } else {
-                        $('#message').text(response.message);
-                    }
-                }
-            });
+
+            $('[data-unban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
+                .one('click', '.unban-confirm', function() {
+                    $.ajax({
+                        url: '/admin/users/unban/' + userId,
+                        dataType: "text json",
+                        type: "POST",
+                        data: {},
+                        success: function(response) {
+                            if(response.success){
+                                $('[data-user-id='+ userId +']').remove();
+                                $('#message').text(response.message);
+                            } else {
+                                $('#message').text(response.message);
+                            }
+                        }
+                    });
+                });
         });
     </script>
 @stop
