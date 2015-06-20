@@ -68,6 +68,7 @@ class Comment extends \Eloquent
 		'user_ip' => 'ip',
 		'is_published' => 'boolean',
 		'comment' => 'required',
+		'g-recaptcha-response' => 'required_without_all:user_id|captcha'
 	];
 
 	public static $rulesForUpdate = [

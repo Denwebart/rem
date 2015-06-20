@@ -101,6 +101,11 @@
                 <div class="comment_error error text-danger"></div>
             </div>
 
+            {{ Form::captcha() }}
+            @if ($errors->has('g-recaptcha-response'))
+                <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+            @endif
+
             {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
 
             {{ Form::close() }}
@@ -122,7 +127,6 @@
             { name: 'smiley', items: ['Smiley']}
         ];
         CKEDITOR.replaceAll('editor');
-
     </script>
 
 

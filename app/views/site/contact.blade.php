@@ -87,8 +87,12 @@
 					</div>
 				</div>
 
-				{{ Form::captcha() }}
-				@if ($errors->has('g-recaptcha-response')) <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p> @endif
+				@if(!Auth::check())
+					{{ Form::captcha() }}
+					@if ($errors->has('g-recaptcha-response'))
+						<p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+					@endif
+				@endif
 
 				{{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-prime btn-mid pull-right']) }}
 

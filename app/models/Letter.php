@@ -49,7 +49,7 @@ class Letter extends \Eloquent
 		'user_email' => 'required_without_all:user_id|email',
 		'subject' => 'max:500',
 		'message' => 'required|min:5',
-		'g-recaptcha-response' => 'required|captcha'
+		'g-recaptcha-response' => 'required_without_all:user_id|captcha'
 	];
 
 	public function user()

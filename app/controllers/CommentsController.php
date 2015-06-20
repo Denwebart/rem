@@ -17,6 +17,7 @@ class CommentsController extends BaseController
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 				'is_published' => Auth::check() ? 1 : 0,
+				'g-recaptcha-response' => Auth::check() ? '' : Input::get('g-recaptcha-response'),
 			];
 
 			if(isset($formFields['user_name'])) {
