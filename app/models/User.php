@@ -286,10 +286,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         if(is_null($ipModel)) {
 	        $ipModel = Ip::create(['ip' => $ip]);
         }
-		UserIp::create([
-			'user_id' => $this->id,
-			'ip_id' => $ipModel->id,
-		]);
+		if(is_null(UserIp::whereIpId($ipModel->id)->whereUserId($this->id)->first())) {
+			UserIp::create([
+				'user_id' => $this->id,
+				'ip_id' => $ipModel->id,
+			]);
+		}
 	}
 
 	/**
