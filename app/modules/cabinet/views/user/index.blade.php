@@ -24,6 +24,9 @@ View::share('title', $title);
                         Написать личное сообщение
                     </a>
                 @endif
+                @if(Auth::user()->isAdmin())
+                    @include('widgets.ban', ['user' => $user])
+                @endif
             @endif
         </div>
         <div class="col-lg-9">
