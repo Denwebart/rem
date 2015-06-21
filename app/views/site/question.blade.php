@@ -45,7 +45,12 @@
 
         <!-- Подписка на вопрос ("Подписки") -->
         @include('widgets.subscribe')
-            
+
+        {{-- Читайте также --}}
+        <?php $relatedWidget = app('RelatedWidget') ?>
+        {{ $relatedWidget->questions($page) }}
+        {{ $relatedWidget->articles($page) }}
+
         <div id="answers">
             {{-- Комментарии --}}
             <?php

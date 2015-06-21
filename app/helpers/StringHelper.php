@@ -96,7 +96,7 @@ class StringHelper
 	 * @param $limit
 	 * @return string
 	 */
-	public static function autoMetaKeywords($html, $limit = 10) {
+	public static function autoMetaKeywords($html, $limit = 10, $delimiter = ', ') {
 		$withoutLinks = preg_replace("~<a.*?</a>(*SKIP)(*F)|(http|https|ftp|ftps)://([^\s\[<]+)~i", '', StringHelper::limit($html, 500, ''));
 		$string = preg_replace('/ {2,}/', ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $withoutLinks));
 
@@ -121,8 +121,6 @@ class StringHelper
 			'я',
 		];
 
-		$words = array_diff($words, $excludeWords);
-
 		$keywordsArray =[];
 		foreach ($words as $key => $word){
 			if(mb_strlen($word) > 3){
@@ -130,8 +128,10 @@ class StringHelper
 			}
 		}
 
+		$keywordsArray = array_diff(array_unique($keywordsArray), $excludeWords);
+
 		$keywordsArray = array_slice($keywordsArray, 0, $limit);
-		$keywords = implode(', ', $keywordsArray);
+		$keywords = implode($delimiter, $keywordsArray);
 
 		return $keywords;
 	}
