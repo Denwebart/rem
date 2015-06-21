@@ -112,6 +112,7 @@ Route::post('rules_request', ['as' => 'postRules', 'before' => 'authInCabinet', 
 Route::get('/', 'SiteController@index');
 
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
+Route::get('top', ['as' => 'top', 'uses' => 'TopController@index']);
 
 Route::get('{contactAlias}.html', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', 'SiteController@contactPost');
