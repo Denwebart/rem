@@ -5,6 +5,9 @@ Route::pattern('alias', '[A-Za-z0-9-_]+');
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('/', 'AdminController@index');
+	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
+	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
+	Route::post('pages/{id}/checkRelated', ['as' => 'admin.pages.checkRelated', 'uses' => 'AdminPagesController@checkRelated']);
 	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'uses' => 'AdminPagesController@openTree']);
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);

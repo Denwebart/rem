@@ -171,6 +171,28 @@ class Page extends \Eloquent
 	}
 
 	/**
+	 * Похожие статьи
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function relatedArticles()
+	{
+		return $this->belongsToMany('Page', 'related_pages', 'page_id', 'related_page_id')
+			->where('related_pages.type', '=', RelatedPage::TYPE_ARTICLE);
+	}
+
+	/**
+	 * Похожие вопросы
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function relatedQuestions()
+	{
+		return $this->belongsToMany('Page', 'related_pages', 'page_id', 'related_page_id')
+			->where('related_pages.type', '=', RelatedPage::TYPE_QUESTION);
+	}
+
+	/**
 	 * Все комментарии.
 	 * @return mixed
 	 */

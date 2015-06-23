@@ -26,9 +26,9 @@ class AdminArticlesController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy($sortBy, $direction)->with('parent.parent', 'user')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy($sortBy, $direction)->with('parent.parent', 'user', 'relatedArticles', 'relatedQuestions')->paginate(10);
 		} else {
-			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy('created_at', 'DESC')->with('parent.parent', 'user')->paginate(10);
+			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy('created_at', 'DESC')->with('parent.parent', 'user', 'relatedArticles', 'relatedQuestions')->paginate(10);
 		}
 
 		return View::make('admin::articles.index', compact('pages'));
@@ -101,7 +101,10 @@ class AdminArticlesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
+		$page = Page::whereId($id)
+			->whereType(Page::TYPE_ARTICLE)
+			->with('relatedArticles.parent.parent', 'relatedQuestions.parent.parent')
+			->firstOrFail();
 
 		return View::make('admin::articles.edit', compact('page'));
 	}

@@ -43,6 +43,47 @@
             </div>
         </div>
     </div>
+    <div class="box">
+        <!-- Похожие -->
+        <div class="box-title">
+            <h3>Похожие</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>Похожие статьи</h4>
+                        <ul class="related-articles">
+                            @foreach($page->relatedArticles as $key => $articles)
+                                <li data-key="{{ $key }}">
+                                    {{ Form::hidden("relatedArticles[$key]", $articles->id) }}
+                                    <a href="{{ URL::to($articles->getUrl()) }}">
+                                        {{ $articles->getTitle() }}
+                                    </a>
+                                    <a href="javascript:void(0)" class="btn btn-danger btn-circle">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4>Похожие вопросы</h4>
+                        <ul class="related-questions">
+                            @foreach($page->relatedQuestions as $key => $question)
+                                <li data-key="{{ $key }}">
+                                    {{ Form::hidden("relatedQuestions[$key]", $question->id) }}
+                                    <a href="{{ URL::to($question->getUrl()) }}">
+                                        {{ $question->getTitle() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="col-md-5">

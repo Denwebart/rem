@@ -26,9 +26,9 @@ class AdminPagesController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$pages = Page::orderBy($sortBy, $direction)->with('parent.parent', 'children')->paginate(10);
+			$pages = Page::orderBy($sortBy, $direction)->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions')->paginate(10);
 		} else {
-			$pages = Page::orderBy('created_at', 'DESC')->with('parent.parent', 'children')->paginate(10);
+			$pages = Page::orderBy('created_at', 'DESC')->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions')->paginate(10);
 		}
 
 		return View::make('admin::pages.index', compact('pages'));
@@ -100,7 +100,9 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$page = Page::find($id);
+		$page = Page::whereId($id)
+			->with('relatedArticles.parent.parent', 'relatedQuestions.parent.parent')
+			->firstOrFail();
 
 		return View::make('admin::pages.edit', compact('page'));
 	}
@@ -134,6 +136,11 @@ class AdminPagesController extends \BaseController {
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
+
+//		var_dump($page->relatedArticles);
+		dd(Input::all());
+
+		$page->relatedArticles;
 
 		$page->update($data);
 
@@ -194,4 +201,72 @@ class AdminPagesController extends \BaseController {
 		return View::make('admin::pages.index', compact('parentPage', 'pages'));
 	}
 
+	public function articlesAutocomplete() {
+		$term = Input::get('term');
+
+		$result = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->where(function ($q) {
+				$q->whereType(Page::TYPE_ARTICLE)
+					->orWhere(function ($query) {
+						$query->where('type', '=', Page::TYPE_PAGE)
+							->whereIsContainer(0)
+							->where('parent_id', '!=', 0);
+					});
+			})
+			->where('title', 'like', "%$term%")
+			->lists('title', 'id');
+
+		return Response::json($result);
+	}
+
+	public function questionsAutocomplete() {
+		$term = Input::get('term');
+
+		$result = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->whereType(Page::TYPE_QUESTION)
+			->where('title', 'like', "%$term%")
+			->lists('title', 'id');
+
+		return Response::json($result);
+	}
+
+	public function checkRelated($id) {
+		if(Request::ajax()) {
+
+			if(RelatedPage::TYPE_QUESTION == Input::get('typeId')) {
+				$addedPage = Page::whereTitle(Input::get('addedPageTitle'))
+					->whereIsPublished(1)
+					->where('published_at', '<', date('Y-m-d H:i:s'))
+					->whereType(Page::TYPE_QUESTION)
+					->first();
+			} else {
+				$addedPage = Page::whereTitle(Input::get('addedPageTitle'))
+					->whereIsPublished(1)
+					->where('published_at', '<', date('Y-m-d H:i:s'))
+					->where(function ($q) {
+						$q->whereType(Page::TYPE_ARTICLE)
+							->orWhere(function ($query) {
+								$query->where('type', '=', Page::TYPE_PAGE)
+									->whereIsContainer(0)
+									->where('parent_id', '!=', 0);
+							});
+					})
+					->first();
+			}
+
+			if(is_object($addedPage)) {
+				return Response::json(array(
+						'success' => true,
+						'message' => 'Страница существует!',
+					));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Такой страницы нет!',
+				));
+			}
+		}
+	}
 }

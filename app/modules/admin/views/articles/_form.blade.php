@@ -43,6 +43,42 @@
             </div>
         </div>
     </div>
+    <div class="box">
+        <!-- Похожие -->
+        <div class="box-title">
+            <h3>Похожие</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>Похожие статьи</h4>
+                        <ul>
+                            @foreach($page->relatedArticles as $articles)
+                                <li>
+                                    <a href="{{ URL::to($articles->getUrl()) }}">
+                                        {{ $articles->getTitle() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4>Похожие вопросы</h4>
+                        <ul>
+                            @foreach($page->relatedQuestions as $question)
+                                <li>
+                                    <a href="{{ URL::to($question->getUrl()) }}">
+                                        {{ $question->getTitle() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="col-md-5">

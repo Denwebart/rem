@@ -62,6 +62,86 @@
             </div>
         </div>
     </div>
+    <div class="box">
+        <!-- Похожие -->
+        <div class="box-title">
+            <h3>Похожие</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="related related-articles">
+                            <h4>Похожие статьи</h4>
+                            <ul>
+                                @foreach($page->relatedArticles as $key => $articles)
+                                    <li data-key="{{ $key }}">
+                                        {{ Form::hidden("relatedArticles[$key]", $articles->id) }}
+                                        <a href="{{ URL::to($articles->getUrl()) }}">
+                                            {{ $articles->getTitle() }}
+                                        </a>
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <div class="row add-related-input" style="display: none">
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        {{ Form::text('relatedArticles[new]', null, ['class' => 'form-control', 'id' => 'relatedArticles']) }}
+                                        <small class="help-block" style="display: none"></small>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-info btn-circle show-add-related">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="related related-questions">
+                            <h4>Похожие вопросы</h4>
+                            <ul>
+                                @foreach($page->relatedQuestions as $key => $question)
+                                    <li data-key="{{ $key }}">
+                                        {{ Form::hidden("relatedQuestions[$key]", $question->id) }}
+                                        <a href="{{ URL::to($question->getUrl()) }}">
+                                            {{ $question->getTitle() }}
+                                        </a>
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <div class="row add-related-input" style="display: none">
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        {{ Form::text('relatedQuestions[new]', null, ['class' => 'form-control', 'id' => 'relatedQuestions']) }}
+                                        <small class="help-block" style="display: none"></small>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-info btn-circle show-add-related">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="col-md-5">
@@ -155,7 +235,11 @@
 </div>
 
 @section('style')
+    @parent
     <link rel="stylesheet" href="/backend/css/datepicker/datepicker.css" />
+
+    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <script src="/js/jquery-ui.min.js"></script>
 @stop
 
 @section('script')
@@ -195,30 +279,84 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
-            $('#is_published').on('ifChecked', function(event){
-//                var nowTemp = new Date();
-//                var nowDate = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-//                var nowTime = nowTemp.getHours() + ':' + nowTemp.getMinutes() + ':' + nowTemp.getSeconds();
-
-//                $('#published_at').datepicker('setValue', nowDate);
-//                $('#published_at_time').text(nowTime);
-            });
             $('#is_published').on('ifUnchecked', function(event){
                 $('#published_at').val('');
                 $('#published_at_time').text('');
             });
-
             $('#published_at').on('change', function(){
                 if(this.value == ''){
                     $('#published_at_time').text('');
                 }
             });
-
             $('#published_at').datepicker().on('changeDate', function(ev){
                 $('#is_published').iCheck('check');
             });
 
+            // Related
+            // показ поля для добавления похожей страницы
+            $('.show-add-related').on('click', function() {
+                $(this).parent().find('.add-related-input input').val('');
+                if ($(this).parent().find('.add-related-input').is(':visible')) {
+                    $(this).parent().find('.add-related-input').slideUp();
+                    $(this).toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                } else {
+                    $(this).parent().find('.add-related-input').slideDown();
+                    $(this).toggleClass('btn-info btn-warning').html('<i class="fa fa-arrow-up"></i>');
+                }
+            });
+            // автокомплит при добавлении похожей страницы
+            $("#relatedArticles").autocomplete({
+                source: "<?php echo URL::route('admin.pages.articlesAutocomplete') ?>",
+                minLength: 3,
+                select: function(e, ui) {
+                    $(this).val(ui.item.value);
+                }
+            });
+            $("#relatedQuestions").autocomplete({
+                source: "<?php echo URL::route('admin.pages.questionsAutocomplete') ?>",
+                minLength: 3,
+                select: function(e, ui) {
+                    console.log(ui.item);
+                    $(this).val(ui.item.value);
+                }
+            });
+            // добавление похожей страницы
+            $('.add-related').on('click', function() {
+                var type = $(this).data('type'),
+                    $relatedBlock = $('.related-' + type),
+                    addedPageTitle = $relatedBlock.find('.add-related-input input').val();
+                $.ajax({
+                    url: '/admin/pages/'+ <?php echo $page->id ?> + '/checkRelated' ,
+                    dataType: "text json",
+                    type: "POST",
+                    data: {
+                        addedPageTitle: addedPageTitle,
+                        typeId: $(this).data('typeId')
+
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            var html = '<li><input name="relatedArticles[]" value="16" type="hidden">' +
+                                    '<a href="http://www.avtorem.dev/sovety/kak-pravilno-zamenit-koleso-na-avtomobile-svoimi-rukami.html">' +
+                                    $relatedBlock.find('.add-related-input input').val() +
+                                    '</a>' +
+                                    '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +
+                                    '<i class="glyphicon glyphicon-remove"></i>'+
+                                    '</a></li>';
+                            $relatedBlock.find('ul').append(html);
+                            $relatedBlock.find('.add-related-input').slideUp();
+                            $relatedBlock.find('.show-add-related').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                        } else {
+                            $relatedBlock.find('.add-related-input .help-block').show().text(response.message);
+                            $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
+                        }
+                    }
+                });
+            });
+            // удаление похожей страницы
+            $('.related').on('click', '.remove-related', function() {
+                $(this).parent().remove();
+            });
         });
     </script>
 
