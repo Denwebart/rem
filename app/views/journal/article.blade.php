@@ -50,6 +50,11 @@
             </ul>
         </div>
 
+        {{-- Читайте также --}}
+        <?php $relatedWidget = app('RelatedWidget') ?>
+        {{ $relatedWidget->articles($page) }}
+        {{ $relatedWidget->questions($page) }}
+
         {{-- Комментарии --}}
         <?php $commentWidget = app('CommentWidget'); ?>
         {{ $commentWidget->show($page) }}
