@@ -39,7 +39,7 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="custom-box palette-nephritis">
                 <h3>
-                    <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newComments) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.comments.index') }}"></a>
+                    <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newComments) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.comments.index', ['sortBy' => 'is_published', 'direction' => 'asc']) }}"></a>
                 </h3>
                 <p>Комментарии, <br> ожидающие модерации</p>
                 <i class="fa fa-comment"></i>
