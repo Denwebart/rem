@@ -120,6 +120,11 @@
                             @endif
                         </a>
                     </li>
+                    <li class="{{ Request::is('admin/honors*') ? 'active' : ''}}">
+                        <a href="{{ URL::route('admin.honors.index') }}">
+                            <i class="fa fa-trophy"></i> <span>Награды</span>
+                        </a>
+                    </li>
                     <li class="{{ Request::is('admin/advertising*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.advertising.index') }}">
                             <i class="fa fa-usd"></i> <span>Реклама</span>
