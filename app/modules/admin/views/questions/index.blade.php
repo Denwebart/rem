@@ -1,6 +1,11 @@
 @extends('admin::layouts.admin')
 
-<?php $params = isset($parentPage) ? ['id' => $parentPage->id] : []; ?>
+<?php
+$title = 'Вопросы';
+View::share('title', $title);
+
+$params = isset($parentPage) ? ['id' => $parentPage->id] : [];
+?>
 
 @section('content')
     <div class="page-head">

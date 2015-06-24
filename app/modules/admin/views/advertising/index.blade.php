@@ -1,11 +1,16 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Реклама';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Реклама  <small>рекламные блоки на сайте</small></h1>
+        <h1>{{ $title }} <small>рекламные блоки на сайте</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">Реклама</li>
+            <li class="active">{{ $title }}</li>
         </ol>
     </div>
 

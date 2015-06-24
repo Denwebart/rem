@@ -1,12 +1,17 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Забаненные IP-адреса';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Забаненные IP-адреса  <small>забаненные IP-адреса</small></h1>
+        <h1>{{ $title }} <small>забаненные IP-адреса</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>
-            <li class="active">Забаненные IP-адреса</li>
+            <li class="active">{{ $title }}</li>
         </ol>
     </div>
 

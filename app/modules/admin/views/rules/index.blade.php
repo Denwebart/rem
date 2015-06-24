@@ -1,12 +1,17 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Правила сайта';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Правила сайта  <small></small></h1>
+        <h1>{{ $title }} <small></small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
-            <li class="active">Правила сайта</li>
+            <li class="active">{{ $title }}</li>
         </ol>
     </div>
 

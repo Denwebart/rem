@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Maniac - Dashboard</title>
+    <title>{{ $title }} - Административная панель сайта Avtorem.info</title>
 
     <!-- Maniac stylesheets -->
     <link rel="stylesheet" href="/backend/css/bootstrap.min.css" />

@@ -1,8 +1,13 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Просмотр письма';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Просмотр письма <small>содержимое письма</small></h1>
+        <h1>{{ $title }} <small>содержимое письма</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.pages.index') }}">Письма</a></li>

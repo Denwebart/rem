@@ -1,14 +1,19 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Объединение тегов';
+View::share('title', $title);
+?>
+
 @section('content')
 <div class="page-head">
-    <h1>Объединение тегов
+    <h1>{{ $title }}
         <small>слияние похожих тегов</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
         <li><a href="{{ URL::route('admin.tags.index') }}">Теги</a></li>
-        <li class="active">Объединение тегов</li>
+        <li class="active">{{ $title }}</li>
     </ol>
 </div>
 

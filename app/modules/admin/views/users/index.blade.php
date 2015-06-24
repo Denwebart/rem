@@ -1,11 +1,16 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Пользователи';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Пользователи  <small>все пользователи сайта</small></h1>
+        <h1>{{ $title }} <small>все пользователи сайта</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">Пользователи</li>
+            <li class="active">{{ $title }}</li>
         </ol>
     </div>
 

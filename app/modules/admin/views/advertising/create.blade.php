@@ -1,12 +1,17 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Создание рекламного блока';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Создание рекламы <small>заполните все необходимые формы</small></h1>
+        <h1>{{ $title }} <small>заполните все необходимые формы</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама</a></li>
-            <li>Создание рекламного блока</li>
+            <li>{{ $title }}</li>
         </ol>
     </div>
 

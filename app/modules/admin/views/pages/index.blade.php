@@ -1,10 +1,17 @@
 @extends('admin::layouts.admin')
 
-<?php $params = isset($parentPage) ? ['id' => $parentPage->id] : []; ?>
+<?php
+$title = isset($parentPage)
+    ? 'Подпункты страницы "' . $parentPage->getTitle() . '"'
+    : 'Страницы';
+View::share('title', $title);
+
+$params = isset($parentPage) ? ['id' => $parentPage->id] : [];
+?>
 
 @section('content')
 <div class="page-head">
-    <h1>Страницы
+    <h1>{{ $title }}
         <small>@if(isset($parentPage)) подпункты страницы "{{ $parentPage->getTitle() }}" @else все страницы сайта @endif</small>
     </h1>
     <ol class="breadcrumb">

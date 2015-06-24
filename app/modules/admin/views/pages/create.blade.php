@@ -1,12 +1,17 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Создание страницы';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Создание страницы <small>заполните все необходимые формы</small></h1>
+        <h1>{{ $title }} <small>заполните все необходимые формы</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.pages.index') }}">Страницы</a></li>
-            <li>Создание страницы</li>
+            <li>{{ $title }}</li>
         </ol>
     </div>
 

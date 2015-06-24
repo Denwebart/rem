@@ -1,15 +1,20 @@
 @extends('admin::layouts.admin')
 
-<?php $params = isset($parentPage) ? ['id' => $parentPage->id] : []; ?>
+<?php
+$title = 'Статьи пользователей';
+View::share('title', $title);
+
+$params = isset($parentPage) ? ['id' => $parentPage->id] : [];
+?>
 
 @section('content')
 <div class="page-head">
-    <h1>Статьи пользователей
+    <h1>{{ $title }}
         <small>статьи из бортового журнала</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        <li class="active">Статьи пользователей</li>
+        <li class="active">{{ $title }}</li>
     </ol>
 </div>
 

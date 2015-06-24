@@ -1,5 +1,10 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Просмотр информации о награде "'. $honor->title .'"';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
         <h1>{{ $honor->title }} <small>просмотр информации о награде</small></h1>

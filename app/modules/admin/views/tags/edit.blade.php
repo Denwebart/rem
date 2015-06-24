@@ -1,5 +1,10 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Просмотр вопроса';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
         <h1>Редактирование тега <small>редактирование тега</small></h1>

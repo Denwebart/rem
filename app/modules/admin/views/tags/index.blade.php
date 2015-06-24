@@ -1,14 +1,19 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Теги';
+View::share('title', $title);
+?>
+
 @section('content')
 <div class="page-head">
-    <h1>Теги
+    <h1>{{ $title }}
         <small>теги к статьям пользователей</small>
     </h1>
 
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        <li class="active">Теги</li>
+        <li class="active">{{ $title }}</li>
     </ol>
 </div>
 

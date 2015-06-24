@@ -1,8 +1,13 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Редактирование вопроса';
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Редактирование вопроса <small>редактирование вопроса пользователя</small></h1>
+        <h1>{{ $title }} <small>редактирование вопроса пользователя</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.questions.index') }}">Вопросы</a></li>

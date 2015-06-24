@@ -1,13 +1,18 @@
 @extends('admin::layouts.admin')
 
+<?php
+$title = 'Редактирование правила №' . $rule->position;
+View::share('title', $title);
+?>
+
 @section('content')
     <div class="page-head">
-        <h1>Редактирование правила <small></small></h1>
+        <h1>{{ $title }} <small></small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
             <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Правила сайта</a></li>
-            <li>Редактирование правила №{{ $rule->position }}</li>
+            <li>{{ $title }}</li>
         </ol>
     </div>
 
