@@ -74,7 +74,15 @@ class AdminPagesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Page::create($data);
+		$page = Page::create($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.pages.index');
 	}
@@ -137,12 +145,15 @@ class AdminPagesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-//		var_dump($page->relatedArticles);
-		dd(Input::all());
-
-		$page->relatedArticles;
-
 		$page->update($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.pages.index');
 	}
@@ -204,7 +215,7 @@ class AdminPagesController extends \BaseController {
 	public function articlesAutocomplete() {
 		$term = Input::get('term');
 
-		$result = Page::whereIsPublished(1)
+		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->where(function ($q) {
 				$q->whereType(Page::TYPE_ARTICLE)
@@ -215,7 +226,12 @@ class AdminPagesController extends \BaseController {
 					});
 			})
 			->where('title', 'like', "%$term%")
-			->lists('title', 'id');
+			->get(['title', 'id']);
+
+		$result = [];
+		foreach($pages as $item) {
+			$result[] = ['id' => $item->id, 'value' => $item->title];
+		}
 
 		return Response::json($result);
 	}
@@ -223,26 +239,31 @@ class AdminPagesController extends \BaseController {
 	public function questionsAutocomplete() {
 		$term = Input::get('term');
 
-		$result = Page::whereIsPublished(1)
+		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereType(Page::TYPE_QUESTION)
 			->where('title', 'like', "%$term%")
-			->lists('title', 'id');
+			->get(['title', 'id']);
+
+		$result = [];
+		foreach($pages as $item) {
+			$result[] = ['id' => $item->id, 'value' => $item->title];
+		}
 
 		return Response::json($result);
 	}
 
-	public function checkRelated($id) {
+	public function checkRelated() {
 		if(Request::ajax()) {
 
 			if(RelatedPage::TYPE_QUESTION == Input::get('typeId')) {
-				$addedPage = Page::whereTitle(Input::get('addedPageTitle'))
+				$addedPage = Page::whereId(Input::get('addedPageId'))
 					->whereIsPublished(1)
 					->where('published_at', '<', date('Y-m-d H:i:s'))
 					->whereType(Page::TYPE_QUESTION)
 					->first();
 			} else {
-				$addedPage = Page::whereTitle(Input::get('addedPageTitle'))
+				$addedPage = Page::whereId(Input::get('addedPageId'))
 					->whereIsPublished(1)
 					->where('published_at', '<', date('Y-m-d H:i:s'))
 					->where(function ($q) {

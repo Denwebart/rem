@@ -6,16 +6,15 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"barryvdh/laravel-ide-helper": "~1.11",
-		"barryvdh/laravel-debugbar": "~1.8",
 	  	"doctrine/dbal": "~2.3",
 	    "anhskohbo/no-captcha": "1.*",
 		"intervention/image": "~2.1",
-	    "thujohn/rss": "~1.0",
-		"schickling/backup": "0.6.*"
+	    "thujohn/rss": "~1.0"
 	},
 	"require-dev": {
-	  "way/generators": "~2.0"
+	  "way/generators": "~2.0",
+      "barryvdh/laravel-ide-helper": "~1.11",
+      "barryvdh/laravel-debugbar": "~1.8"
 	},
 	"autoload": {
 		"classmap": [

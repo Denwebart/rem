@@ -74,9 +74,9 @@
                         <div class="related related-articles">
                             <h4>Похожие статьи</h4>
                             <ul>
-                                @foreach($page->relatedArticles as $key => $articles)
-                                    <li data-key="{{ $key }}">
-                                        {{ Form::hidden("relatedArticles[$key]", $articles->id) }}
+                                @foreach($page->relatedArticles as $articles)
+                                    <li data-id="{{ $articles->id }}">
+                                        {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
                                         <a href="{{ URL::to($articles->getUrl()) }}">
                                             {{ $articles->getTitle() }}
                                         </a>
@@ -89,7 +89,7 @@
                             <div class="row add-related-input" style="display: none">
                                 <div class="col-xs-10">
                                     <div class="form-group">
-                                        {{ Form::text('relatedArticles[new]', null, ['class' => 'form-control', 'id' => 'relatedArticles']) }}
+                                        {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
                                         <small class="help-block" style="display: none"></small>
                                     </div>
                                 </div>
@@ -108,9 +108,9 @@
                         <div class="related related-questions">
                             <h4>Похожие вопросы</h4>
                             <ul>
-                                @foreach($page->relatedQuestions as $key => $question)
-                                    <li data-key="{{ $key }}">
-                                        {{ Form::hidden("relatedQuestions[$key]", $question->id) }}
+                                @foreach($page->relatedQuestions as $question)
+                                    <li data-id="{{ $question->id }}">
+                                        {{ Form::hidden("relatedquestions[$question->id]", $question->id) }}
                                         <a href="{{ URL::to($question->getUrl()) }}">
                                             {{ $question->getTitle() }}
                                         </a>
@@ -123,7 +123,7 @@
                             <div class="row add-related-input" style="display: none">
                                 <div class="col-xs-10">
                                     <div class="form-group">
-                                        {{ Form::text('relatedQuestions[new]', null, ['class' => 'form-control', 'id' => 'relatedQuestions']) }}
+                                        {{ Form::text('relatedquestions[new]', null, ['class' => 'form-control', 'id' => 'related-questions']) }}
                                         <small class="help-block" style="display: none"></small>
                                     </div>
                                 </div>
@@ -304,39 +304,46 @@
                     $(this).toggleClass('btn-info btn-warning').html('<i class="fa fa-arrow-up"></i>');
                 }
             });
+            // убираем ошибку при изменении поля
+            $('#related-articles, #related-questions').on('focus', function(){
+                $(this).parent().find('.help-block').hide().text('');
+                $(this).parent().removeClass('has-error');
+            });
             // автокомплит при добавлении похожей страницы
-            $("#relatedArticles").autocomplete({
+            $("#related-articles").autocomplete({
                 source: "<?php echo URL::route('admin.pages.articlesAutocomplete') ?>",
                 minLength: 3,
                 select: function(e, ui) {
                     $(this).val(ui.item.value);
+                    $(this).attr('data-page-id', ui.item.id);
                 }
             });
-            $("#relatedQuestions").autocomplete({
+            $("#related-questions").autocomplete({
                 source: "<?php echo URL::route('admin.pages.questionsAutocomplete') ?>",
                 minLength: 3,
                 select: function(e, ui) {
-                    console.log(ui.item);
                     $(this).val(ui.item.value);
+                    $(this).attr('data-page-id', ui.item.id);
                 }
             });
             // добавление похожей страницы
             $('.add-related').on('click', function() {
                 var type = $(this).data('type'),
                     $relatedBlock = $('.related-' + type),
-                    addedPageTitle = $relatedBlock.find('.add-related-input input').val();
+                    addedPageTitle = $relatedBlock.find('.add-related-input input').val(),
+                    addedPageId = $relatedBlock.find('.add-related-input input').data('pageId');
                 $.ajax({
-                    url: '/admin/pages/'+ <?php echo $page->id ?> + '/checkRelated' ,
+                    url: '/admin/pages/checkRelated' ,
                     dataType: "text json",
                     type: "POST",
                     data: {
                         addedPageTitle: addedPageTitle,
+                        addedPageId: addedPageId,
                         typeId: $(this).data('typeId')
-
                     },
                     success: function(response) {
                         if(response.success){
-                            var html = '<li><input name="relatedArticles[]" value="16" type="hidden">' +
+                            var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
                                     '<a href="http://www.avtorem.dev/sovety/kak-pravilno-zamenit-koleso-na-avtomobile-svoimi-rukami.html">' +
                                     $relatedBlock.find('.add-related-input input').val() +
                                     '</a>' +

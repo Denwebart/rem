@@ -131,14 +131,18 @@ class Page extends \Eloquent
 	{
 		parent::boot();
 
-		static::saving(function($model)
+		static::saving(function($page)
 		{
-			TranslitHelper::generateAlias($model);
+			TranslitHelper::generateAlias($page);
 		});
 
-		/**
-		 * Подписка
-		 */
+		// удаление похожих при удалении
+		static::deleted(function($page)
+		{
+			$page->relatedPages()->delete();
+		});
+
+		// подписка
 		static::updated(function($page)
 		{
 			if(Auth::check()) {
@@ -170,6 +174,15 @@ class Page extends \Eloquent
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
+	/**
+	 * Запись в таблице related_pages
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function relatedPages()
+	{
+		return $this->hasMany('RelatedPage', 'page_id');
+	}
 	/**
 	 * Похожие статьи
 	 *

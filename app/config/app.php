@@ -127,7 +127,6 @@ return array(
 		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
 		'Thujohn\Rss\RssServiceProvider',
-		'Schickling\Backup\BackupServiceProvider',
 
 	),
 

@@ -26,6 +26,11 @@ a:hover, a:active, a:focus {
 }
 
 /* Our style==================================================*/
+/* colors */
+.success {
+    background-color: #DFF0D8;
+}
+
 form.as-button {
     display: inline;
 }
