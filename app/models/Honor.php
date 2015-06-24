@@ -22,12 +22,14 @@ class Honor extends \Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
+		'alias',
 		'title',
 		'image',
 		'description',
 	];
 
 	public static $rules = [
+		'alias' => 'max:100|regex:/^[A-Za-z0-9\-\']+$/u',
 		'title' => 'required|max:100',
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'description' => 'max:500',

@@ -99,7 +99,7 @@ class Page extends \Eloquent
 		'parent_id' => 'integer',
 		'user_id' => 'required|integer',
 		'is_published' => 'boolean',
-		'alias' => 'max:300',
+		'alias' => 'max:300|regex:/^[A-Za-z0-9\-\']+$/u',
 		'menu_title' => 'required_without_all:title|max:200',
 		'is_container' => 'boolean',
 		'show_submenu' => 'boolean',
