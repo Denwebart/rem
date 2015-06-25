@@ -63,5 +63,61 @@ class Tag extends \Eloquent
 		return $tagsByAlphabet;
 	}
 
+	/**
+	 * Добавление тегов
+	 *
+	 * @param $page
+	 * @param $addedArray
+	 */
+	public static function addTag($page, $addedArray)
+	{
+		$tags = $page->tags()->lists('title', 'id');
+
+		$newTags = $addedArray['newTags'];
+		$newTagsIds = [];
+		foreach($newTags as $key => $title) {
+			$id = DB::table('tags')->insertGetId(
+				['title' => $title]
+			);
+			$newTagsIds[$id] = $title;
+		}
+
+		unset($addedArray['new'], $addedArray['newTags']);
+		$added = array_diff($addedArray, $tags);
+		$added = $newTagsIds + $added;
+
+		$dataAdded = [];
+		if($added) {
+			foreach($added as $id => $title) {
+				$dataAdded[] = [
+					'page_id' => $page->id,
+					'tag_id' => $id,
+				];
+			}
+		}
+		if(count($dataAdded)) {
+			DB::table('pages_tags')->insert($dataAdded);
+		}
+	}
+
+	/**
+	 * Удаление тегов
+	 *
+	 * @param $page
+	 * @param $deletedArray
+	 */
+	public static function deleteTag($page, $deletedArray)
+	{
+		$tags = $page->tags()->lists('title', 'id');
+
+		unset($deletedArray['new'], $deletedArray['newTags']);
+		$deleted = array_diff($tags, $deletedArray);
+		dd($deleted);
+		if(count($deleted)) {
+			PageTag::wherePageId($page->id)
+				->whereIn('tag_id', array_flip($deleted))
+				->delete();
+		}
+	}
 
 }

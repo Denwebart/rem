@@ -61,7 +61,7 @@ class RelatedPage extends Eloquent {
 		$dataAdded = [];
 		if($added) {
 			foreach($added as $item) {
-				$dataAdded = [
+				$dataAdded[] = [
 					'page_id' => $page->id,
 					'related_page_id' => $item,
 					'type' => $type,
@@ -69,7 +69,7 @@ class RelatedPage extends Eloquent {
 			}
 		}
 		if(count($dataAdded)) {
-			RelatedPage::create($dataAdded);
+			DB::table('related_pages')->insert($dataAdded);
 		}
 	}
 

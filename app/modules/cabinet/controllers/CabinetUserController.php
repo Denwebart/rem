@@ -506,7 +506,13 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Page::create($data);
+		$page = Page::create($data);
+
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
+		// удаление тегов
+		Tag::deleteTag($page, Input::get('tags'));
+
 		Auth::user()->addPoints(User::POINTS_FOR_ARTICLE);
 
 		return Redirect::route('user.journal', ['login' => Auth::user()->getLoginForUrl()]);
@@ -557,13 +563,25 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
+		// удаление тегов
+		Tag::deleteTag($page, Input::get('tags'));
+
 		return Redirect::route('user.journal', ['login' => $login]);
 	}
 
 	public function tagAutocomplete() {
+
 		$term = Input::get('term');
-		$result = Tag::where('title', 'like', "$term%")
-			->lists('title', 'id');
+
+		$tags = Tag::where('title', 'like', "$term%")
+			->get(['title', 'id', 'image']);
+
+		$result = [];
+		foreach($tags as $item) {
+			$result[] = ['id' => $item->id, 'value' => $item->title, 'image' => $item->image];
+		}
 
 		return Response::json($result);
 	}

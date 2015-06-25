@@ -293,7 +293,7 @@
                 var type = $(this).data('type'),
                         $relatedBlock = $('.related-' + type),
                         addedPageTitle = $relatedBlock.find('.add-related-input input').val(),
-                        addedPageId = $relatedBlock.find('.add-related-input input').data('pageId');
+                        addedPageId = $relatedBlock.find('.add-related-input input').attr('data-page-id');
                 $.ajax({
                     url: '/admin/pages/checkRelated' ,
                     dataType: "text json",
