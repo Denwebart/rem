@@ -65,6 +65,7 @@ class AdminArticlesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
+		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = Auth::user()->id;
 		$data['type'] = Page::TYPE_ARTICLE;
 
@@ -75,7 +76,15 @@ class AdminArticlesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Page::create($data);
+		$page = Page::create($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.articles.index');
 	}
@@ -130,7 +139,8 @@ class AdminArticlesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
-		$data['user_id'] = Auth::user()->id;
+		$data['parent_id'] = $page->parent_id;
+		$data['user_id'] = $page->user_id;
 		$data['type'] = Page::TYPE_ARTICLE;
 
 		$validator = Validator::make($data, Page::$rules);
@@ -141,6 +151,14 @@ class AdminArticlesController extends \BaseController {
 		}
 
 		$page->update($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.articles.index');
 	}

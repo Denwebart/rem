@@ -479,9 +479,6 @@ class CabinetUserController extends \BaseController
 	public function createJournal($login)
 	{
 		$article = new Page();
-		if(Input::get('category')) {
-			$article->parent_id = Input::get('category');
-		}
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
@@ -494,6 +491,7 @@ class CabinetUserController extends \BaseController
 		$data = Input::all();
 
 		$data['type'] = Page::TYPE_ARTICLE;
+		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
@@ -542,6 +540,7 @@ class CabinetUserController extends \BaseController
 		$data = Input::all();
 
 		$data['type'] = Page::TYPE_ARTICLE;
+		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;

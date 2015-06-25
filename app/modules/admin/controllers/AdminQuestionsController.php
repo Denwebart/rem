@@ -75,7 +75,15 @@ class AdminQuestionsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Page::create($data);
+		$page = sPage::create($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.questions.index');
 	}
@@ -130,7 +138,7 @@ class AdminQuestionsController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
-		$data['user_id'] = Auth::user()->id;
+		$data['user_id'] = $page->user_id;
 		$data['type'] = Page::TYPE_QUESTION;
 
 		$validator = Validator::make($data, Page::$rules);
@@ -141,6 +149,14 @@ class AdminQuestionsController extends \BaseController {
 		}
 
 		$page->update($data);
+
+		// добавление похожих статей, вопросов
+		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// удаление похожих статей, вопросов
+		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		return Redirect::route('admin.questions.index');
 	}

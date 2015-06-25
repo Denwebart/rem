@@ -277,7 +277,7 @@ class Page extends \Eloquent
 			return $parentUrl . $this->alias . $sufix;
 		}
 		else {
-			$parentUrl = ($this->parent->parent) ? $this->parent->parent->alias : $this->parent->alias;
+			$parentUrl = ($this->parent) ? $this->parent->alias : '';
 			return $parentUrl . '/' . $this->user->getLoginForUrl() . '/' . $this->alias . $sufix;
 		}
 	}
@@ -327,12 +327,6 @@ class Page extends \Eloquent
 	public static function getContainer()
 	{
 		return ['' => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
-	}
-
-	public static function getJournalCategory()
-	{
-		$page = self::whereType(self::TYPE_JOURNAL)->firstOrFail();
-		return ['' => 'Нет'] + $page->children()->whereIsContainer(1)->lists('menu_title', 'id');
 	}
 
 	public static function getQuestionsCategory()

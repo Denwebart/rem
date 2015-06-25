@@ -65,6 +65,12 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
+		if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
+			$data['type'] = Page::TYPE_ARTICLE;
+		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
+			$data['type'] = Page::TYPE_QUESTION;
+		}
+
 		$data['user_id'] = Auth::user()->id;
 
 		$validator = Validator::make($data, Page::$rules);
@@ -136,7 +142,13 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
-		$data['user_id'] = Auth::user()->id;
+		if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
+			$data['type'] = Page::TYPE_ARTICLE;
+		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
+			$data['type'] = Page::TYPE_QUESTION;
+		}
+
+		$data['user_id'] = $page->user_id;
 
 		$validator = Validator::make($data, Page::$rules);
 

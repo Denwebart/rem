@@ -1,10 +1,5 @@
 <div class="col-md-7">
 	<div class="form-group">
-		{{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
-		{{ Form::select('parent_id', Page::getJournalCategory(), $article->parent_id, ['class' => 'form-control']) }}
-		{{ $errors->first('parent_id') }}
-	</div>
-	<div class="form-group">
 		{{ Form::label('title', 'Заголовок') }}
 		{{ Form::text('title', $article->title, ['class' => 'form-control']) }}
 		{{ $errors->first('title') }}
