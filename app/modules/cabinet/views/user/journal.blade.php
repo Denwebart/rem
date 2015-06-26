@@ -71,7 +71,7 @@ View::share('title', $title);
                             <ul class="tags">
                                 @foreach($article->tags as $tag)
                                     <li>
-                                        <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $article->parent->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
                                             {{ $tag->title }}
                                         </a>
                                     </li>
