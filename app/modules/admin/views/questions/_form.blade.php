@@ -298,33 +298,40 @@
                         $relatedBlock = $('.related-' + type),
                         addedPageTitle = $relatedBlock.find('.add-related-input input').val(),
                         addedPageId = $relatedBlock.find('.add-related-input input').attr('data-page-id');
-                $.ajax({
-                    url: '/admin/pages/checkRelated' ,
-                    dataType: "text json",
-                    type: "POST",
-                    data: {
-                        addedPageTitle: addedPageTitle,
-                        addedPageId: addedPageId,
-                        typeId: $(this).data('typeId')
-                    },
-                    success: function(response) {
-                        if(response.success){
-                            var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
-                                    '<a href="http://www.avtorem.dev/sovety/kak-pravilno-zamenit-koleso-na-avtomobile-svoimi-rukami.html">' +
-                                    $relatedBlock.find('.add-related-input input').val() +
-                                    '</a>' +
-                                    '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +
-                                    '<i class="glyphicon glyphicon-remove"></i>'+
-                                    '</a></li>';
-                            $relatedBlock.find('ul').append(html);
-                            $relatedBlock.find('.add-related-input').slideUp();
-                            $relatedBlock.find('.show-add-related').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
-                        } else {
-                            $relatedBlock.find('.add-related-input .help-block').show().text(response.message);
-                            $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
+
+                if(addedPageTitle.trim() != '') {
+                    $.ajax({
+                        url: '/admin/pages/checkRelated' ,
+                        dataType: "text json",
+                        type: "POST",
+                        data: {
+                            addedPageTitle: addedPageTitle,
+                            addedPageId: addedPageId,
+                            typeId: $(this).data('typeId')
+                        },
+                        success: function(response) {
+                            if(response.success){
+                                var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
+                                        '<a href="http://www.avtorem.dev/sovety/kak-pravilno-zamenit-koleso-na-avtomobile-svoimi-rukami.html">' +
+                                        $relatedBlock.find('.add-related-input input').val() +
+                                        '</a>' +
+                                        '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +
+                                        '<i class="glyphicon glyphicon-remove"></i>'+
+                                        '</a></li>';
+                                $relatedBlock.find('ul').append(html);
+                                $relatedBlock.find('.add-related-input').slideUp();
+                                $relatedBlock.find('.show-add-related').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                                $('#related-' + type).attr('data-page-id', '');
+                            } else {
+                                $relatedBlock.find('.add-related-input .help-block').show().text(response.message);
+                                $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    $relatedBlock.find('.add-related-input .help-block').show().text('Введите заголовок страницы.');
+                    $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
+                }
             });
             // удаление похожей страницы
             $('.related').on('click', '.remove-related', function() {
