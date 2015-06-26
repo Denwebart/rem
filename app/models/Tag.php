@@ -73,18 +73,20 @@ class Tag extends \Eloquent
 	{
 		$tags = $page->tags()->lists('title', 'id');
 
-		$newTags = $addedArray['newTags'];
 		$newTagsIds = [];
-		foreach($newTags as $key => $title) {
-			$id = DB::table('tags')->insertGetId(
-				['title' => $title]
-			);
-			$newTagsIds[$id] = $title;
+		if(isset($addedArray['newTags'])) {
+			$newTags = array_unique(array_map("mb_strtolower", $addedArray['newTags']));
+			foreach($newTags as $key => $title) {
+				$tag = Tag::whereTitle($title)->first();
+				if(!is_object($tag)) {
+					$tag = Tag::create(['title' => $title]);
+				}
+				$newTagsIds[$tag->id] = $title;
+			}
 		}
 
 		unset($addedArray['new'], $addedArray['newTags']);
-		$added = array_diff($addedArray, $tags);
-		$added = $newTagsIds + $added;
+		$added = array_diff($newTagsIds + $addedArray, $tags);
 
 		$dataAdded = [];
 		if($added) {
@@ -109,10 +111,8 @@ class Tag extends \Eloquent
 	public static function deleteTag($page, $deletedArray)
 	{
 		$tags = $page->tags()->lists('title', 'id');
-
 		unset($deletedArray['new'], $deletedArray['newTags']);
 		$deleted = array_diff($tags, $deletedArray);
-		dd($deleted);
 		if(count($deleted)) {
 			PageTag::wherePageId($page->id)
 				->whereIn('tag_id', array_flip($deleted))
