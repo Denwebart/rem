@@ -7,7 +7,7 @@ View::share('title', $title);
 
 @section('content')
 <div class="page-head">
-    <h1>{{ $title }}
+    <h1><i class="fa fa-tags"></i> {{ $title }}
         <small>теги к статьям пользователей</small>
     </h1>
 

@@ -11,7 +11,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
 
 @section('content')
 <div class="page-head">
-    <h1>{{ $title }}
+    <h1><i class="fa fa-file"></i> {{ $title }}
         <small>@if(isset($parentPage)) подпункты страницы "{{ $parentPage->getTitle() }}" @else все страницы сайта @endif</small>
     </h1>
     <ol class="breadcrumb">

@@ -1,13 +1,15 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Просмотр вопроса';
+$title = 'Создание правила';
 View::share('title', $title);
 ?>
 
 @section('content')
     <div class="page-head">
-        <h1>Создание правила <small></small></h1>
+        <h1><i class="fa fa-plus "></i>
+            {{ $title }}
+            <small></small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
