@@ -257,7 +257,7 @@ class Page extends \Eloquent
 	 */
 	public function tags()
 	{
-		return $this->belongsToMany('Tag', 'pages_tags');
+		return $this->belongsToMany('Tag', 'pages_tags')->orderBy('title', 'ASC');
 	}
 
 	public function tagsLine()

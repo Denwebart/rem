@@ -31,7 +31,7 @@
                 @foreach($article->tags as $tag)
                     <div class="btn-group tag" data-id="{{ $tag->id }}">
                         {{ Form::hidden("tags[$tag->id]", $tag->title) }}
-                        <a href="javascript:void(0)" class="btn btn-info btn-sm">{{ $tag->title }}</a>
+                        <a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">{{ $tag->title }}</a>
                         <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
@@ -42,7 +42,7 @@
                 <div class="col-xs-10">
                     <div class="form-group">
                         {{ Form::text('tags[new]', null, ['class' => 'form-control', 'id' => 'tag-input', 'placeholder' => 'Добавить новый тег']) }}
-                        <small class="help-block" style="display: none"></small>
+                        <small class="error text-danger" style="display: none"></small>
                     </div>
                 </div>
                 <div class="col-xs-2">
@@ -86,7 +86,7 @@
             var tagNumber = 0;
             // убираем ошибку при изменении поля
             $('#tag-input').on('focus', function(){
-                $(this).parent().find('.help-block').hide().text('');
+                $(this).parent().find('.error').hide().text('');
                 $(this).parent().removeClass('has-error');
             });
             // автокомплит при добавлении тега
@@ -94,49 +94,53 @@
                 source: "<?php echo URL::route('user.journal.tagAutocomplete', ['login' => $user->getLoginForUrl()]) ?>",
                 minLength: 1,
                 select: function(e, ui) {
-//                    $(this).val(ui.item.value);
-//                    $(this).attr('data-tag-id', ui.item.id);
-
                     addTag(ui.item.id, ui.item.value);
-                    $(this).val('');
+                    $(this).autocomplete('close');
+                    $(this).val() = "";
+                    return false;
                 }
             });
             // добавление тега
             $('.add-tag').on('click', function() {
                 var addedTagTitle = $('#tags-area').find('.add-tag-input input').val();
-                addTag(0, addedTagTitle);
-                tagNumber++;
-//                var $tagBlock = $('#tags-area'),
-//                        addedTagTitle = $tagBlock.find('.add-tag-input input').val(),
-//                        addedTagId = $tagBlock.find('.add-tag-input input').attr('data-tag-id');
-//
-//                var html = '<div class="btn-group tag" data-id="'+ addedTagId +'">' +
-//                        '<input name="tags['+ addedTagId +']" value="'+ addedTagId +'" type="hidden">' +
-//                        '<a href="javascript:void(0)" class="btn btn-info btn-sm">'+ addedTagTitle +'</a>' +
-//                        '<a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">' +
-//                        '<i class="glyphicon glyphicon-remove"></i>' +
-//                        '</a></div>';
-//
-//                $tagBlock.find('.tags').append(html);
-//                $('#tag-input').val('');
-//                $tagBlock.find('.show-add-tag').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                if(addedTagTitle.trim() != '') {
+                    addTag(0, addedTagTitle);
+                    tagNumber++;
+                } else {
+                    $('.add-tag-input .error').show().text('Нельзя добавить пустой тег.');
+                    $('.add-tag-input .form-group').addClass('has-error');
+                }
             });
 
             function addTag(addedTagId, addedTagTitle) {
                 var $tagBlock = $('#tags-area');
-                var addedTagInputName = (0 != addedTagId)
-                        ? 'tags['+ addedTagId +']'
-                        : 'tags[newTags]['+ tagNumber +']';
-                var html = '<div class="btn-group tag" data-id="'+ addedTagId +'">' +
-                        '<input name="'+ addedTagInputName +'" value="'+ addedTagTitle +'" type="hidden">' +
-                        '<a href="javascript:void(0)" class="btn btn-info btn-sm">'+ addedTagTitle +'</a>' +
-                        '<a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">' +
-                        '<i class="glyphicon glyphicon-remove"></i>' +
-                        '</a></div>';
 
-                $tagBlock.find('.tags').append(html);
-                $('#tag-input').val('');
-                $tagBlock.find('.show-add-tag').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                var aTags = $tagBlock.find('.tag-title');
+                var found;
+                for (var i = 0; i < aTags.length; i++) {
+                    if (aTags[i].textContent.toLowerCase() == addedTagTitle.toLowerCase()) {
+                        found = aTags[i];
+                        break;
+                    }
+                }
+                if(found) {
+                    $('.add-tag-input .error').show().text('Такой тег уже добавлен.');
+                    $('.add-tag-input .form-group').addClass('has-error');
+                } else {
+                    var addedTagInputName = (0 != addedTagId)
+                            ? 'tags['+ addedTagId +']'
+                            : 'tags[newTags]['+ tagNumber +']';
+                    var html = '<div class="btn-group tag" data-id="'+ addedTagId +'">' +
+                            '<input name="'+ addedTagInputName +'" value="'+ addedTagTitle +'" type="hidden">' +
+                            '<a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">'+ addedTagTitle +'</a>' +
+                            '<a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">' +
+                            '<i class="glyphicon glyphicon-remove"></i>' +
+                            '</a></div>';
+
+                    $tagBlock.find('.tags').append(html);
+                    $('#tag-input').val('');
+                    $tagBlock.find('.show-add-tag').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                }
             }
 
             // удаление тега

@@ -563,10 +563,10 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
-		// добавление тегов
-		Tag::addTag($page, Input::get('tags'));
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
 
 		return Redirect::route('user.journal', ['login' => $login]);
 	}
