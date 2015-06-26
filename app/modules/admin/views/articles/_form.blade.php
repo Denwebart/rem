@@ -54,7 +54,7 @@
                                 @foreach($page->relatedArticles as $articles)
                                     <li data-id="{{ $articles->id }}">
                                         {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
-                                        <a href="{{ URL::to($articles->getUrl()) }}">
+                                        <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
                                             {{ $articles->getTitle() }}
                                         </a>
                                         <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
@@ -88,7 +88,7 @@
                                 @foreach($page->relatedQuestions as $question)
                                     <li data-id="{{ $question->id }}">
                                         {{ Form::hidden("relatedquestions[$question->id]", $question->id) }}
-                                        <a href="{{ URL::to($question->getUrl()) }}">
+                                        <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
                                             {{ $question->getTitle() }}
                                         </a>
                                         <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
@@ -308,7 +308,7 @@
                         success: function(response) {
                             if(response.success){
                                 var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
-                                        '<a href="http://www.avtorem.dev/sovety/kak-pravilno-zamenit-koleso-na-avtomobile-svoimi-rukami.html">' +
+                                        '<a href="'+ response.pageUrl +'" target="_blank">' +
                                         $relatedBlock.find('.add-related-input input').val() +
                                         '</a>' +
                                         '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +

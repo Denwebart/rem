@@ -293,6 +293,7 @@ class AdminPagesController extends \BaseController {
 				return Response::json(array(
 						'success' => true,
 						'message' => 'Страница существует!',
+						'pageUrl' => URL::to($addedPage->getUrl()),
 					));
 			} else {
 				return Response::json(array(
