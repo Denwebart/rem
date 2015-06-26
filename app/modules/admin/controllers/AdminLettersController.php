@@ -69,7 +69,7 @@ class AdminLettersController extends \BaseController {
 	{
 		Letter::destroy($id);
 
-		return Redirect::route('admin.letters.index');
+		return Redirect::route('admin.letters.trash');
 	}
 
 	/**
