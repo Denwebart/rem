@@ -66,12 +66,19 @@ class SiteController extends BaseController {
 		return View::make('site.page', compact('children'));
 	}
 
-	public function secondLevel($categoryAlias, $alias)
+	public function secondLevel($categoryAlias, $alias, $suffix = null)
 	{
 		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
+
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
 			->firstOrFail();
+
+		if(!$page->is_container && is_null($suffix)) {
+			return Response::view('errors.404', [], 404);
+		} elseif($page->is_container && !is_null($suffix)) {
+			return Response::view('errors.404', [], 404);
+		}
 
 		$categoryArray = $page->publishedChildren->lists('id');
 		if(count($categoryArray)) {
@@ -225,6 +232,11 @@ class SiteController extends BaseController {
 			//return contact form with errors
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
+	}
+
+	public function error404()
+	{
+		return Response::view('errors.404', [], 404);
 	}
 
 	public function rss()

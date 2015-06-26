@@ -132,6 +132,7 @@ Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias}/{alias}.html', 'SiteController@error404')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
 
 Route::post('add_comment/{id}', 'CommentsController@addComment');
@@ -140,7 +141,7 @@ Route::post('comment/mark/{id}', 'CommentsController@mark');
 Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');
-Route::get('{categoryAlias}/{alias}.html', 'SiteController@secondLevel');
+Route::get('{categoryAlias}/{alias}{suffix}', 'SiteController@secondLevel')->where('suffix', '.html');
 
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
