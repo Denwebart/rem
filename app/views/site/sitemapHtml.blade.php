@@ -20,7 +20,7 @@
 			<ul id="sitemap">
 				@foreach($pages as $page)
 					<li>
-						<a href="{{ URL::to($page->alias) }}">{{ $page->getTitle() }}</a>
+						<a href="{{ URL::to($page->getUrl()) }}">{{ $page->getTitle() }}</a>
 						@if(count($page->publishedChildren))
 							<ul>
 								@foreach($page->publishedChildren as $secondLevel)
@@ -32,7 +32,7 @@
 											<ul>
 												@foreach($secondLevel->publishedChildren as $thirdLevel)
 													<li>
-														<a href="{{ URL::to($page->alias . '/' . $secondLevel->alias . '/' . $thirdLevel->alias) }}">
+														<a href="{{ URL::to($thirdLevel->getUrl()) }}">
 															{{ $thirdLevel->getTitle() }}
 														</a>
 													</li>

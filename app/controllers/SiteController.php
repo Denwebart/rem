@@ -147,8 +147,8 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['publishedChildren.publishedChildren', 'publishedChildren.parent.parent'])
-			->get(['id', 'parent_id', 'alias', 'menu_title', 'title']);
+			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent'])
+			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'menu_title', 'title']);
 
 		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
 		return View::make('site.sitemapHtml', compact('pages'));
@@ -159,8 +159,8 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['children'])
-			->get(['id', 'parent_id', 'alias', 'updated_at']);
+			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent'])
+			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'updated_at']);
 
 		$content = View::make('site.sitemapXml', compact('pages'));
 		return Response::make($content, '200')->header('Content-Type', 'text/xml');
