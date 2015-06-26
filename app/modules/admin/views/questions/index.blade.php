@@ -81,7 +81,15 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                         {{ count($page->publishedComments) }}
                                     </a>
                                 </td>
-                                <td>{{ ($page->parent) ? $page->parent->getTitle() : 'Нет'}}</td>
+                                <td>
+                                    @if($page->parent)
+                                        <a href="{{ URL::to($page->parent->getUrl()) }}" target="_blank">
+                                            {{ $page->parent->getTitle() }}
+                                        </a>
+                                    @else
+                                        Нет
+                                    @endif
+                                </td>
                                 <td>
                                     @if($page->is_published)
                                         <span class="label label-success">Опубликован</span>
