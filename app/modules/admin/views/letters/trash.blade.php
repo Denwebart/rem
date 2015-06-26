@@ -92,33 +92,34 @@ View::share('title', $title);
                                 </div>
 
                                 <div class="table-responsive scroll">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
-                                            </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Имя', 'name') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Email', 'email') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата создания', 'created_at') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата удаления', 'deleted_at') }}
-                                            </th>
-                                            <th class="button-column"></th>
-                                        </tr>
-                                        </thead>
-                                        @if(count($letters)))
+                                    @if(count($letters))
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
+                                                </th>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Имя', 'name') }}
+                                                </th>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Email', 'email') }}
+                                                </th>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата создания', 'created_at') }}
+                                                </th>
+                                                <th>
+                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата удаления', 'deleted_at') }}
+                                                </th>
+                                                <th class="button-column"></th>
+                                            </tr>
+                                            </thead>
+
                                             <tbody>
                                                 @foreach($letters as $letter)
                                                     <tr{{ ($letter->read_at) ? '' : ' class="unread"' }}>
@@ -182,13 +183,13 @@ View::share('title', $title);
                                                     </tr>
                                                 @endforeach
                                             </tbody>
-                                        @else
-                                            <p>Удаленных писем нет.</p>
-                                        @endif
-                                    </table>
-                                    <div class="pull-left">
-                                        {{ $letters->links() }}
-                                    </div>
+                                        </table>
+                                        <div class="pull-left">
+                                            {{ $letters->links() }}
+                                        </div>
+                                    @else
+                                        <p>Удаленных писем нет.</p>
+                                    @endif
                                 </div><!-- /.table-responsive -->
                             </div><!-- /.col -->
                         </div><!-- /.row -->
