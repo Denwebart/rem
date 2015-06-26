@@ -20,8 +20,13 @@ View::share('title', $title);
     <div class="content">
         <!-- Main row -->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <h4 class="no-margin-top">{{ $page->getTitle() }}</h4>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-info btn-sm pull-right" href="{{ URL::route('admin.pages.edit', $page->id) }}">
+                    <i class="fa fa-edit "></i> Редактировать
+                </a>
             </div>
             <div class="col-xs-12">
                 <div class="box">
