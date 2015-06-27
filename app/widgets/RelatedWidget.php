@@ -51,6 +51,7 @@ class RelatedWidget
 			->where('parent_id', '!=', 0)
 			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
 			->with('parent.parent', 'user')
+			->with('parent.parent', 'user')
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 

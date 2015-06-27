@@ -127,9 +127,7 @@ class StringHelper
 				$keywordsArray[$key] = preg_replace('/[^A-Za-zА-Яа-яЁёЇїІіЄє-]/u', '', $word);
 			}
 		}
-
-		$keywordsArray = array_diff(array_unique($keywordsArray), $excludeWords);
-
+		$keywordsArray = array_diff(array_diff(array_unique($keywordsArray), $excludeWords), ['']);
 		$keywordsArray = array_slice($keywordsArray, 0, $limit);
 		$keywords = implode($delimiter, $keywordsArray);
 
