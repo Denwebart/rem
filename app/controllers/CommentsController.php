@@ -8,12 +8,14 @@ class CommentsController extends BaseController
 			$inputData = Input::get('formData');
 			parse_str($inputData, $formFields);
 
+			$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
+
 			$userData = [
 				'page_id' => $id,
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::check() ? Auth::user()->id : null,
 				'user_name' => isset($formFields['user_name']) ? $formFields['user_name'] : null,
-				'user_ip' => Request::ip(),
+				'ip_id' => $ip->id,
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 				'is_published' => Auth::check() ? 1 : 0,

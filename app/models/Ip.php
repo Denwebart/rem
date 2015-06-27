@@ -44,4 +44,14 @@ class Ip extends \Eloquent
 	{
 		return $this->belongsToMany('User', 'users_ips');
 	}
+
+	public function letters()
+	{
+		return $this->hasMany('Letter', 'ip_id');
+	}
+
+	public function comments()
+	{
+		return $this->hasMany('Comment', 'ip_id');
+	}
 }

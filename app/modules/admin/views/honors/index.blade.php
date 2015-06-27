@@ -54,11 +54,13 @@ View::share('title', $title);
                                     <td>{{ $honor->description }}</td>
                                     <td>
                                         @foreach($honor->users as $key => $user)
-                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                                {{ $user->getAvatar('mini', ['width' => '25px']) }}
-                                                <span>{{ $user->login }}</span>
-                                            </a>
-                                            {{ (count($honor->users) - 1 > $key) ? "," : "" }}
+                                            <div class="user">
+                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ $user->getAvatar('mini', ['width' => '25px']) }}
+                                                    <span>{{ $user->login }}</span>
+                                                </a>
+                                                {{ (count($honor->users) - 1 > $key) ? "," : "" }}
+                                            </div>
                                         @endforeach
                                     </td>
                                     <td>

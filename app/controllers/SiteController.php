@@ -181,11 +181,13 @@ class SiteController extends BaseController {
 
 	public function contactPost()
 	{
+		$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
+		
 		$data = [
 			'user_id' => Auth::check() ? Auth::user()->id : null,
 			'user_name' => Input::has('user_name') ? Input::get('user_name') : null,
 			'user_email' => Input::has('user_email') ? Input::get('user_email') : null,
-			'user_ip' => Request::ip(),
+			'ip_id' => $ip->id,
 			'subject' => Input::get('subject'),
 			'message' => Input::get('message'),
 			'g-recaptcha-response' => Input::get('g-recaptcha-response'),

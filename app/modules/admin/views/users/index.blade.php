@@ -25,6 +25,9 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary">
                     Забаненные пользователи
                 </a>
+                <a href="{{ URL::route('admin.users.ips') }}" class="btn btn-primary">
+                    Все IP-адреса
+                </a>
                 <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary">
                     Забаненные IP-адреса
                 </a>
@@ -123,29 +126,31 @@ View::share('title', $title);
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}
-                                        <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
-                                            <i class='fa fa-trash-o'></i>
-                                        </button>
-                                        {{ Form::close() }}
+                                        @if(!$user->isAdmin())
+                                            {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}
+                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
+                                                <i class='fa fa-trash-o'></i>
+                                            </button>
+                                            {{ Form::close() }}
 
-                                        <div id="confirm" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Удаление</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Вы уверены, что хотите удалить?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
+                                            <div id="confirm" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            <h4 class="modal-title">Удаление</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Вы уверены, что хотите удалить?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                        @endif
 
                                         <!-- Бан пользователя -->
                                         @if(!$user->isAdmin())

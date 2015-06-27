@@ -238,6 +238,24 @@ class AdminUsersController extends \BaseController {
 	}
 
 	/**
+	 * Display a listing of all ips
+	 *
+	 * @return Response
+	 */
+	public function ips()
+	{
+		$sortBy = Request::get('sortBy');
+		$direction = Request::get('direction');
+		if ($sortBy && $direction) {
+			$ips = Ip::orderBy($sortBy, $direction)->paginate(10);
+		} else {
+			$ips = Ip::orderBy('ban_at', 'DESC')->paginate(10);
+		}
+
+		return View::make('admin::users.ips', compact('ips'));
+	}
+
+	/**
 	 * Display a listing of banned ips
 	 *
 	 * @return Response
@@ -264,13 +282,18 @@ class AdminUsersController extends \BaseController {
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function banIp()
+	public function banIp($ipId = null)
 	{
 		if(Request::ajax()) {
-			$inputData = Input::get('formData');
-			parse_str($inputData, $formFields);
 
-			$ip = Ip::whereIp($formFields['ip'])->first();
+			if(is_null($ipId)) {
+				$inputData = Input::get('formData');
+				parse_str($inputData, $formFields);
+
+				$ip = Ip::whereIp($formFields['ip'])->first();
+			} else {
+				$ip = Ip::find($ipId);
+			}
 
 			if(is_null($ip)) {
 				$validator = Validator::make($formFields, Ip::$rules);
@@ -294,7 +317,7 @@ class AdminUsersController extends \BaseController {
 				return Response::json(array(
 					'success' => true,
 					'message' => 'Ip-адрес забанен.',
-					'ipRowHtml' => (string) View::make($ipRowView, compact('ip'))->render()
+					'ipRowHtml' => is_null($ipId) ? (string) View::make($ipRowView, compact('ip'))->render() : '',
 				));
 			} else {
 				return Response::json(array(

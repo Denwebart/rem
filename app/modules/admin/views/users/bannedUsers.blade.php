@@ -28,6 +28,9 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary btn-outline">
                     Забаненные пользователи
                 </a>
+                <a href="{{ URL::route('admin.users.ips') }}" class="btn btn-primary">
+                    Все IP-адреса
+                </a>
                 <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary">
                     Забаненные IP-адреса
                 </a>
