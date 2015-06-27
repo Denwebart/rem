@@ -75,14 +75,14 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-2">
+                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
                                     <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </a>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="btn btn-info btn-circle show-add-related">
-                                <i class="glyphicon glyphicon-plus"></i>
-                            </a>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -109,14 +109,14 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-2">
+                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
                                     <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </a>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="btn btn-info btn-circle show-add-related">
-                                <i class="glyphicon glyphicon-plus"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -259,16 +259,11 @@
             });
 
             // Related
-            // показ поля для добавления похожей страницы
-            $('.show-add-related').on('click', function() {
-                $(this).parent().find('.add-related-input input').val('');
-                if ($(this).parent().find('.add-related-input').is(':visible')) {
-                    $(this).parent().find('.add-related-input').slideUp();
-                    $(this).toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
-                } else {
-                    $(this).parent().find('.add-related-input').slideDown();
-                    $(this).toggleClass('btn-info btn-warning').html('<i class="fa fa-arrow-up"></i>');
-                }
+            // кнопка отмена: очистка поля
+            $('.cancel-related').on('click', function() {
+                $(this).parent().parent().find('input').val('');
+                $(this).parent().parent().find('.help-block').hide().text('');
+                $(this).parent().parent().find('.form-group').removeClass('has-error');
             });
             // убираем ошибку при изменении поля
             $('#related-articles, #related-questions').on('focus', function(){

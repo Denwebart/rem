@@ -65,6 +65,7 @@ class RelatedPage extends Eloquent {
 					'page_id' => $page->id,
 					'related_page_id' => $item,
 					'type' => $type,
+					'created_at' => date('Y:m:d H:i:s'),
 				];
 			}
 		}
