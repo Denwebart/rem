@@ -2,25 +2,23 @@
     <div class="col-md-12">
         <div id="subscription">
             @if(Auth::check())
-                @if(!Auth::user()->subscribed($page->id))
-                    <a href="javascript:void(0)" id="subscribe" data-page-id="{{ $page->id }}" class="btn btn-success pull-right">
-                    <span class="text-link">
-                        Подписаться
-                    </span>
-                    <span class="subscribers">
-                        {{ count($page->subscribers) }}
-                    </span>
-                    </a>
-                @else
-                    <a href="javascript:void(0)" id="unsubscribe" data-page-id="{{ $page->id }}" class="btn btn-success pull-right">
-                    <span class="text-link">
-                        Вы подписаны
-                    </span>
-                    <span class="subscribers">
-                        {{ count($page->subscribers) }}
-                    </span>
-                    </a>
-                @endif
+                <div class="btn-group">
+                    @if(!Auth::user()->subscribed($page->id))
+                        <a href="javascript:void(0)" data-page-id="{{ $page->id }}" id="subscribe" class="btn btn-primary btn-sm">
+                            <span class="text-link">Подписаться</span>
+                        </a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm subscribers">
+                            {{ count($page->subscribers) }}
+                        </a>
+                    @else
+                        <a href="javascript:void(0)" data-page-id="{{ $page->id }}" id="unsubscribe" class="btn btn-primary btn-sm">
+                            <span class="text-link">Отменить подписку</span>
+                        </a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm subscribers">
+                            {{ count($page->subscribers) }}
+                        </a>
+                    @endif
+                </div>
             @endif
         </div>
         <div id="subscribe-message"></div>
@@ -43,8 +41,8 @@
                     success: function(response) {
                         if(response.success){
                             $("#subscribe-message").text(response.message);
-                            $link.find('.text-link').text('Вы подписаны');
-                            $link.find('.subscribers').text(response.subscribers);
+                            $link.find('.text-link').text('Отенить подписку');
+                            $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'unsubscribe');
                         } else {
                             $("#subscribe-message").text(response.message);
@@ -65,7 +63,7 @@
                         if(response.success){
                             $("#subscribe-message").text(response.message);
                             $link.find('.text-link').text('Подписаться');
-                            $link.find('.subscribers').text(response.subscribers);
+                            $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'subscribe');
                         } else {
                             $("#subscribe-message").text(response.message);

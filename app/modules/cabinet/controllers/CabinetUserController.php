@@ -871,13 +871,13 @@ class CabinetUserController extends \BaseController
 				$subscription->delete();
 				return Response::json(array(
 					'success' => true,
-					'message' => 'Страница удалена из подписок.',
+					'message' => 'Подписка отменена.',
 					'subscribers' => count(Page::whereId($pageId)->first()->subscribers),
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Страница уже удалена из подписок.'
+					'message' => 'Подписка уже отменена.'
 				));
 			}
 		}
