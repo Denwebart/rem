@@ -777,6 +777,7 @@ class CabinetUserController extends \BaseController
 	{
 		if(Request::ajax()) {
 			$pageId = Input::get('pageId');
+			$page = Page::whereId($pageId)->first();
 
 			if(!Auth::user()->hasInSaved($pageId)) {
 				$userPage = new UserPage();
@@ -786,13 +787,14 @@ class CabinetUserController extends \BaseController
 				if($userPage->save()) {
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Страница сохранена.'
+						'message' => 'Страница сохранена.',
+						'whoSaved' => count($page->whoSaved)
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Страница уже сохранена.'
+					'message' => 'Страница уже сохранена.',
 				));
 			}
 		}
@@ -802,17 +804,19 @@ class CabinetUserController extends \BaseController
 	{
 		if(Request::ajax()) {
 			$pageId = Input::get('pageId');
+			$page = Page::whereId($pageId)->first();
 
 			if(UserPage::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
 				UserPage::whereUserId(Auth::user()->id)->wherePageId($pageId)->delete();
 				return Response::json(array(
 					'success' => true,
-					'message' => 'Страница удалена из сохраненных.'
+					'message' => 'Страница удалена из сохраненных.',
+					'whoSaved' => count($page->whoSaved)
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Страница уже удалена из сохраненных.'
+					'message' => 'Страница уже удалена из сохраненных.',
 				));
 			}
 		}
