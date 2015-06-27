@@ -30,23 +30,7 @@
         </h4>
         <div>{{ $commentLevel2->comment }}</div>
 
-        <div class="vote pull-right" data-vote-comment-id="{{ $commentLevel2->id }}">
-            @if(Auth::check())
-                @if(!Auth::user()->is($commentLevel2->user))
-                    <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                    <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                    <div class="vote-message"></div>
-                @else
-                    <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                @endif
-            @else
-                <a href="javascript:void(0)" class="vote-dislike"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
-                <span class="vote-result">{{ $commentLevel2->votes_like - $commentLevel2->votes_dislike }}</span>
-                <a href="javascript:void(0)" class="vote-like"><span class="glyphicon glyphicon-triangle-top"></span></a>
-                <div class="vote-message"></div>
-            @endif
-        </div>
+        @include('widgets.comment.vote')
 
     </div>
 </div>

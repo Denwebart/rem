@@ -33,6 +33,8 @@ class CabinetUserController extends \BaseController
 				if(Auth::user()->getLoginForUrl() == $login) {
 					if(Auth::user()->is_banned) {
 						return View::make('cabinet::user.ban')->with('user', Auth::user());
+					} elseif(IP::isBanned()) {
+						return View::make('cabinet::user.banIp')->with('user', Auth::user());
 					}
 				}
 			}

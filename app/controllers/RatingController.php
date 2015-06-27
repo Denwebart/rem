@@ -9,6 +9,14 @@ class RatingController extends BaseController {
 			$isVote = Session::has('user.rating.page') ? (in_array($id, Session::get('user.rating.page')) ? 1 : 0) : 0;
 			$page = Page::findOrFail($id);
 
+			if(Ip::isBanned()) {
+				return Response::json(array(
+					'success' => false,
+					'rating' => $page->getRating(),
+					'message' => 'Ваш IP-адрес забанен администратором сайта, вы не можете голосовать.'
+				));
+			}
+
 			if(Auth::check()) {
 				if(Auth::user()->is_banned) {
 					return Response::json(array(

@@ -45,8 +45,12 @@ View::share('title', $title);
 
             @if(Auth::check())
                 @if(Auth::user()->is($user))
-                    @if($user->is_banned)
-                        @include('cabinet::user.banMessage')
+                    @if(!Ip::isBanned())
+                        @if($user->is_banned)
+                            @include('cabinet::user.banMessage')
+                        @endif
+                    @else
+                        @include('messages.bannedIp')
                     @endif
                 @endif
             @endif

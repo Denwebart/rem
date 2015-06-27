@@ -107,29 +107,33 @@ View::share('title', $title);
             {{--Отправка нового сообщения--}}
             @if(Auth::user()->is($user))
 
-                @if(!$user->is_banned)
-                    <div id="message-form-container well">
-                        <h3>Отправить сообщение</h3>
+                @if(!Ip::isBanned())
+                    @if(!$user->is_banned)
+                        <div id="message-form-container well">
+                            <h3>Отправить сообщение</h3>
 
-                        {{ Form::open([
-                              'action' => ['CabinetUserController@addMessage', 'login' => $user->getLoginForUrl(), 'companionId' => $companion->id],
-                              'id' => 'message-form',
-                            ])
-                        }}
+                            {{ Form::open([
+                                  'action' => ['CabinetUserController@addMessage', 'login' => $user->getLoginForUrl(), 'companionId' => $companion->id],
+                                  'id' => 'message-form',
+                                ])
+                            }}
 
-                        <div class="form-group">
-                            {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
-                            <div id="message_error"></div>
+                            <div class="form-group">
+                                {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
+                                <div id="message_error"></div>
+                            </div>
+
+                            {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+
+                            {{ Form::close() }}
+
                         </div>
-
-                        {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-
-                        {{ Form::close() }}
-
-                    </div>
-                    <!-- end of #message-form -->
+                        <!-- end of #message-form -->
+                    @else
+                        @include('cabinet::user.banMessage')
+                    @endif
                 @else
-                    @include('cabinet::user.banMessage')
+                    @include('messages.bannedIp')
                 @endif
             @endif
 

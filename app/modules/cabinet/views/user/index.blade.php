@@ -46,10 +46,14 @@ View::share('title', $title);
                 @if(Auth::user()->is($user) && Auth::user()->is_banned)
                     @include('cabinet::user.banMessage')
                 @endif
+
+                @if(Auth::user()->is($user) && Ip::isBanned())
+                    @include('messages.bannedIp')
+                @endif
             @endif
 
             @if(Auth::check())
-                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
                     <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
                         <span class="glyphicon glyphicon-edit"></span>
                         Редактировать

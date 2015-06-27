@@ -29,12 +29,16 @@ View::share('title', $title);
 
             @if(Auth::check())
                 @if(Auth::user()->is($user))
-                    @if(!$user->is_banned)
-                        <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                            Написать статью
-                        </a>
+                    @if(!Ip::isBanned())
+                        @if(!$user->is_banned)
+                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                Написать статью
+                            </a>
+                        @else
+                            @include('cabinet::user.banMessage')
+                        @endif
                     @else
-                        @include('cabinet::user.banMessage')
+                        @include('messages.bannedIp')
                     @endif
                 @endif
             @endif
@@ -46,7 +50,7 @@ View::share('title', $title);
                     <div data-article-id="{{ $article->id }}" class="col-md-12">
                         <div class="well">
                             @if(Auth::check())
-                                @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+                                @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
                                     <div class="pull-right">
                                         <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
                                             Редактировать
