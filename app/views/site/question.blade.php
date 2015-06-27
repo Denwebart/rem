@@ -20,8 +20,11 @@
 
     <section id="content" class="well">
 
-        @if($page->title)
-            <h2>{{ $page->title }}</h2>
+        <h2>{{ $page->title }}</h2>
+
+        @if(count($page->bestComments))
+            <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+            <span class="text-success">Есть решение</span>
         @endif
 
         <div class="content">

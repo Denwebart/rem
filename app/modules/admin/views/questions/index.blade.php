@@ -75,7 +75,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 </td>
                                 <td>
                                     @if(count($page->bestComments))
-                                        <i class="glyphicon glyphicon-ok"></i>
+                                        <i class="glyphicon glyphicon-ok" title="Есть решение"></i>
                                     @endif
                                     <a href="{{ URL::to($page->getUrl()) }}#answers" target="_blank">
                                         {{ count($page->publishedComments) }}

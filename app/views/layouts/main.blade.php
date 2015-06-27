@@ -13,7 +13,14 @@ if(Auth::check()){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $page->meta_title }}</title>
+    {{--@if($page->meta_title)--}}
+        {{--<title>{{ $page->meta_title }}</title>--}}
+    {{--@else--}}
+        {{--<title>{{ $page->getTitle() }}</title>--}}
+    {{--@endif--}}
+
+    <title>{{ ($page->meta_title) ? $page->meta_title : $page->getTitle() }}</title>
+
 
     <meta name="description" content="{{ $page->meta_desc }}"/>
     <meta name="keywords" content="{{ $page->meta_key }}"/>

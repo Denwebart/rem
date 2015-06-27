@@ -20,6 +20,15 @@
                         {{ $question->getTitle() }}
                     </a>
                 </p>
+                <p>
+                    Ответов:
+                    @if(count($question->bestComments))
+                        <i class="mdi-action-done mdi-success" title="Есть решение" style="font-size: 20pt;"></i>
+                    @endif
+                    <a href="{{ URL::to($question->getUrl()) }}#answers">
+                        {{ count($question->publishedComments) }}
+                    </a>
+                </p>
             </div>
         </div>
         <div class="list-group-separator"></div>
