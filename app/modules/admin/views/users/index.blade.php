@@ -276,7 +276,8 @@ View::share('title', $title);
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.addClass('danger');
-                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i>');
+                                $userTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
+                                $form.find('#message').val('');
                             } else {
                                 $('#message').text(response.message);
                             }
@@ -301,7 +302,7 @@ View::share('title', $title);
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.removeClass('danger');
-                                $userTr.find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i>');
+                                $userTr.find('.banned-link').removeClass('unban').addClass('ban').html('<i class="fa fa-lock"></i>');
                             } else {
                                 $('#message').text(response.message);
                             }
