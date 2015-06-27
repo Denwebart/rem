@@ -253,6 +253,16 @@ class Page extends \Eloquent
 	}
 
 	/**
+	 * Пользователи, добавившие страницу в "Сохранённые"
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function whoSaved()
+	{
+		return $this->belongsToMany('User', 'users_pages');
+	}
+
+	/**
 	 * Теги
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\belongsToMany

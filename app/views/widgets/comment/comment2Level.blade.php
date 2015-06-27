@@ -20,6 +20,13 @@
                 </a>
             @endif
             <small>{{ DateHelper::dateFormat($commentLevel2->created_at) }}</small>
+            @if(Auth::check())
+                @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                    <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id]) }}">
+                        <i class="mdi-content-create"></i>
+                    </a>
+                @endif()
+            @endif()
         </h4>
         <div>{{ $commentLevel2->comment }}</div>
 
