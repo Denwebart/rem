@@ -160,6 +160,11 @@ class AdminArticlesController extends \BaseController {
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
+		// удаление тегов
+		Tag::deleteTag($page, Input::get('tags'));
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
+
 		return Redirect::route('admin.articles.index');
 	}
 

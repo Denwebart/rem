@@ -61,13 +61,13 @@
                                         <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
                                             {{ $articles->getTitle() }}
                                         </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-                            <div class="row add-related-input" style="display: none">
+                            <div class="row add-related-input">
                                 <div class="col-xs-10">
                                     <div class="form-group">
                                         {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
@@ -78,7 +78,7 @@
                                     <a href="javascript:void(0)" class="cancel-related" title="Отмена">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}">
+                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}" title="Добавить похожую статью">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </a>
                                 </div>
@@ -95,13 +95,13 @@
                                         <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
                                             {{ $question->getTitle() }}
                                         </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-                            <div class="row add-related-input" style="display: none">
+                            <div class="row add-related-input">
                                 <div class="col-xs-10">
                                     <div class="form-group">
                                         {{ Form::text('relatedquestions[new]', null, ['class' => 'form-control', 'id' => 'related-questions']) }}
@@ -112,7 +112,7 @@
                                     <a href="javascript:void(0)" class="cancel-related" title="Отмена">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}">
+                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </a>
                                 </div>

@@ -122,4 +122,19 @@ class JournalController extends BaseController {
 		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias'));
 	}
 
+	public function tagAutocomplete() {
+
+		$term = Input::get('term');
+
+		$tags = Tag::where('title', 'like', "$term%")
+			->get(['title', 'id', 'image']);
+
+		$result = [];
+		foreach($tags as $item) {
+			$result[] = ['id' => $item->id, 'value' => $item->title, 'image' => $item->image];
+		}
+
+		return Response::json($result);
+	}
+
 }

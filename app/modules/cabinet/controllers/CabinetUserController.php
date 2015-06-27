@@ -571,21 +571,6 @@ class CabinetUserController extends \BaseController
 		return Redirect::route('user.journal', ['login' => $login]);
 	}
 
-	public function tagAutocomplete() {
-
-		$term = Input::get('term');
-
-		$tags = Tag::where('title', 'like', "$term%")
-			->get(['title', 'id', 'image']);
-
-		$result = [];
-		foreach($tags as $item) {
-			$result[] = ['id' => $item->id, 'value' => $item->title, 'image' => $item->image];
-		}
-
-		return Response::json($result);
-	}
-
 	public function deleteJournal($login)
 	{
 		if(Request::ajax())

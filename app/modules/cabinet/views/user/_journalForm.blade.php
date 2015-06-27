@@ -91,7 +91,7 @@
             });
             // автокомплит при добавлении тега
             $("#tag-input").autocomplete({
-                source: "<?php echo URL::route('user.journal.tagAutocomplete', ['login' => $user->getLoginForUrl()]) ?>",
+                source: "<?php echo URL::route('tagAutocomplete') ?>",
                 minLength: 1,
                 select: function(e, ui) {
                     addTag(ui.item.id, ui.item.value);

@@ -70,7 +70,6 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/questions/{id}/edit', ['as' => 'user.questions.edit', 'uses' => 'CabinetUserController@editQuestion']);
 	Route::put('{login}/questions/{id}', ['as' => 'user.questions.update', 'uses' => 'CabinetUserController@updateQuestion']);
 	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'uses' => 'CabinetUserController@deleteQuestion']);
-	Route::get('{login}/journal/tagAutocomplete', ['as' => 'user.journal.tagAutocomplete', 'uses' => 'CabinetUserController@tagAutocomplete']);
 	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
 	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'uses' => 'CabinetUserController@storeJournal']);
 	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
@@ -129,6 +128,8 @@ Route::get('{journalAlias}/tag', 'JournalController@tags')->where('journalAlias'
 Route::get('{journalAlias}/tag/{tag}', ['as' => 'journal.tag', 'uses' => 'JournalController@tag'])->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}', 'JournalController@journal')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
+
+Route::get('tagAutocomplete', ['as' => 'tagAutocomplete', 'uses' => 'JournalController@tagAutocomplete']);
 
 Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
