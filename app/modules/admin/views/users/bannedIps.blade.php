@@ -74,7 +74,7 @@ View::share('title', $title);
                 <h3>Забанить ip-адрес</h3>
 
                 {{ Form::open([
-                    'action' => ['AdminUsersController@banIp'],
+                    'route' => ['admin.users.banIp', 'ipId' => null],
                     'id' => 'ban-ip-form',
                 ]) }}
 
@@ -149,8 +149,7 @@ View::share('title', $title);
                         });
                         $form.find('.message').empty();
                     } else {
-                        var errorContent = '<h3>IP-адрес уже был забанен.</h3>';
-                        $form.find('.message').html(errorContent);
+                        $form.find('.message').html(data.message);
                     }
                 } // user not found
             }); // done

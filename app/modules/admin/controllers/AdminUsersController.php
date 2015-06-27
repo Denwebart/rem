@@ -280,40 +280,44 @@ class AdminUsersController extends \BaseController {
 	/**
 	 * Забанить ip-адрес
 	 *
+	 * @param null $ipId
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function banIp($ipId = null)
 	{
 		if(Request::ajax()) {
-
 			if(is_null($ipId)) {
 				$inputData = Input::get('formData');
 				parse_str($inputData, $formFields);
-
 				$ip = Ip::whereIp($formFields['ip'])->first();
+				if(is_null($ip)) {
+					$validator = Validator::make($formFields, Ip::$rules);
+					if ($validator->fails()) {
+						return Response::json(array(
+							'fail' => true,
+							'errors' => $validator->getMessageBag()->toArray(),
+						));
+					} else {
+						$ip = new Ip();
+						$ip->ip = $formFields['ip'];
+					}
+				}
 			} else {
 				$ip = Ip::find($ipId);
 			}
 
-			if(is_null($ip)) {
-				$validator = Validator::make($formFields, Ip::$rules);
-
-				if ($validator->fails()) {
-					return Response::json(array(
-						'fail' => true,
-						'errors' => $validator->getMessageBag()->toArray(),
-					));
-				} else {
-					$ip = new Ip();
-					$ip->ip = $formFields['ip'];
-				}
+			if($ip->is_banned) {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'IP-адрес уже забанен.',
+				));
 			}
 
 			$ip->is_banned = 1;
 			$ip->ban_at = date('Y:m:d H:i:s');
 
 			if ($ip->save()) {
-				$ipRowView = 'admin::users.ipRow';
+				$ipRowView = 'admin::users.bannedIpRow';
 				return Response::json(array(
 					'success' => true,
 					'message' => 'Ip-адрес забанен.',

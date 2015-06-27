@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::get('users/bannedIps', ['as' => 'admin.users.bannedIps', 'uses' => 'AdminUsersController@bannedIps']);
 		Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'uses' => 'AdminUsersController@ban']);
 		Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'uses' => 'AdminUsersController@unban']);
+		Route::post('users/banIp', ['as' => 'admin.users.banIp', 'uses' => 'AdminUsersController@banIp']);
 		Route::post('users/banIp/{ipId}', ['as' => 'admin.users.banIp', 'uses' => 'AdminUsersController@banIp']);
 		Route::post('users/unbanIp/{id}', ['as' => 'admin.users.unbanIp', 'uses' => 'AdminUsersController@unbanIp']);
 		Route::get('users/ipsAutocomplete', ['as' => 'admin.users.ipsAutocomplete', 'uses' => 'AdminUsersController@ipsAutocomplete']);

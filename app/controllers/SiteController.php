@@ -182,7 +182,7 @@ class SiteController extends BaseController {
 	public function contactPost()
 	{
 		$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
-		
+
 		$data = [
 			'user_id' => Auth::check() ? Auth::user()->id : null,
 			'user_name' => Input::has('user_name') ? Input::get('user_name') : null,
