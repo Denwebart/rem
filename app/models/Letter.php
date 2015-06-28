@@ -56,4 +56,10 @@ class Letter extends \Eloquent
 	{
 		return $this->belongsTo('User', 'user_id');
 	}
+
+	public function ip()
+	{
+		return $this->belongsTo('Ip', 'ip_id');
+	}
+
 }

@@ -98,16 +98,16 @@ View::share('title', $title);
                                                 <th>
                                                     {{ SortingHelper::sortingLink('admin.letters.index', 'ID', 'id') }}
                                                 </th>
-                                                <th></th>
-                                                <th></th>
+                                                {{--<th></th>--}}
+                                                {{--<th></th>--}}
                                                 <th>
                                                     {{ SortingHelper::sortingLink('admin.letters.index', 'Тема', 'subject') }}
                                                 </th>
                                                 <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.index', 'Имя', 'name') }}
+                                                    {{ SortingHelper::sortingLink('admin.letters.index', 'Автор', 'user_id') }}
                                                 </th>
                                                 <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.index', 'Email', 'email') }}
+                                                    {{ SortingHelper::sortingLink('admin.letters.index', 'IP', 'ip_id') }}
                                                 </th>
                                                 <th>
                                                     {{ SortingHelper::sortingLink('admin.letters.index', 'Дата создания', 'created_at') }}
@@ -122,27 +122,21 @@ View::share('title', $title);
                                                 @foreach($letters as $letter)
                                                     <tr{{ ($letter->read_at) ? '' : ' class="unread"' }}>
                                                         <td class="small">{{ $letter->id }}</td>
-                                                        <td class="small"><input type="checkbox" /></td>
-                                                        <td class="small"><i class="fa fa-star"></i></td>
+                                                        {{--<td class="small"><input type="checkbox" /></td>--}}
+                                                        {{--<td class="small"><i class="fa fa-star"></i></td>--}}
                                                         <td class="subject">{{ $letter->subject }}</td>
                                                         <td class="name">
                                                             @if($letter->user)
-                                                                <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
+                                                                <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
+                                                                    {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
                                                                     {{ $letter->user->login }}
                                                                 </a>
                                                             @else
-                                                                {{ $letter->user_name }}
+                                                                {{{ $letter->user_name }}}
+                                                                ({{{ $letter->user_email }}})
                                                             @endif
                                                         </td>
-                                                        <td class="email">
-                                                            @if($letter->user)
-                                                                <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
-                                                                    {{ $letter->user->email }}
-                                                                </a>
-                                                            @else
-                                                                {{ $letter->user_email }}
-                                                            @endif
-                                                        </td>
+                                                        <td>{{ $letter->ip->ip }}</td>
                                                         <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
                                                         <td class="time">{{ ($letter->read_at) ? DateHelper::dateFormat($letter->read_at) : '-'}}</td>
                                                         <td>

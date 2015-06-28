@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Ip
  *
@@ -17,6 +16,7 @@
  * @method static \Illuminate\Database\Query\Builder|\Ip whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Ip whereUpdatedAt($value)
  */
+
 class Ip extends \Eloquent
 {
 	protected $table = 'ips';

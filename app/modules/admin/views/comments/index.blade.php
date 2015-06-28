@@ -25,7 +25,7 @@ View::share('title', $title);
                             <tr>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'IP', 'user_ip') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'IP', 'ip_id') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Страница', 'page_id') }}</th>
                                 <th max-width="30%">Комментарий</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published') }}</th>
@@ -49,7 +49,7 @@ View::share('title', $title);
                                             ({{{ $comment->user_email }}})
                                         @endif
                                     </td>
-                                    <td>{{ $comment->user_ip }}</td>
+                                    <td>{{ $comment->ip->ip }}</td>
                                     <td>
                                         <a href="{{ URL::to($comment->page->getUrl()) }}">
                                             {{ $comment->page->getTitle() }}

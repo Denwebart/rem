@@ -124,6 +124,11 @@ class Comment extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
+	public function ip()
+	{
+		return $this->belongsTo('Ip', 'ip_id');
+	}
+
 	public function getUrl()
 	{
 		return URL::to($this->page->getUrl() . '#comment-' . $this->id);
