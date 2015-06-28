@@ -23,11 +23,16 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+
+            {{ $areaWidget->leftSidebar() }}
+
         </div>
         <div class="col-lg-9">
             <h2>{{ $title }}</h2>
 
             @include('messages.bannedIp')
+
+            {{ $areaWidget->contentBottom() }}
         </div>
     </div>
 @stop

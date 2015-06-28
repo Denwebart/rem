@@ -78,16 +78,23 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-lg-8 col-md-8">
+        <div class="col-lg-3 col-md-3">
+            {{ $areaWidget->leftSidebar() }}
+        </div>
+
+        <div class="col-lg-9 col-md-9">
             @yield('content')
         </div>
 
-        <div class="col-lg-4 col-md-4">
-
-            Правая колонка
-
-        </div>
     </div>
+</div>
+
+<div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {{ $areaWidget->siteBottom() }}
+            </div>
+        </div>
 </div>
 
 <footer class="container">

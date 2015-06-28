@@ -81,34 +81,20 @@ if(Auth::check()){
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-3">
-
-            {{ $sidebarWidget->popular() }}
-
-            {{ $sidebarWidget->best() }}
-
+            {{ $areaWidget->leftSidebar() }}
         </div>
 
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-9 col-md-9">
             @yield('content')
         </div>
 
-        <div class="col-lg-3 col-md-3">
+    </div>
+</div>
 
-            <div class="row">
-                <div class="col-md-6" style="padding: 0 10px 0 3px">
-                    {{ $sidebarWidget->rss() }}
-                </div>
-                <div class="col-md-6" style="padding: 0 3px 0 10px">
-                    {{ $sidebarWidget->addToFavorites() }}
-                </div>
-            </div>
-
-            {{ $sidebarWidget->comments() }}
-
-            {{ $sidebarWidget->latest() }}
-
-            {{ $sidebarWidget->unpopular() }}
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            {{ $areaWidget->siteBottom() }}
         </div>
     </div>
 </div>

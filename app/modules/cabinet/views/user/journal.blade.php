@@ -23,81 +23,89 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+
+            {{ $areaWidget->leftSidebar() }}
         </div>
         <div class="col-lg-9">
-            <h2>{{ $title }}</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ $title }}</h2>
 
-            @if(Auth::check())
-                @if(Auth::user()->is($user))
-                    @if(!Ip::isBanned())
-                        @if(!$user->is_banned)
-                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                Написать статью
-                            </a>
-                        @else
-                            @include('cabinet::user.banMessage')
-                        @endif
-                    @else
-                        @include('messages.bannedIp')
-                    @endif
-                @endif
-            @endif
-
-            <div id="articles">
-
-                @foreach($articles as $article)
-
-                    <div data-article-id="{{ $article->id }}" class="col-md-12">
-                        <div class="well">
-                            @if(Auth::check())
-                                @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
-                                    <div class="pull-right">
-                                        <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                            Редактировать
-                                        </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
-                                            Удалить
-                                        </a>
-                                    </div>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            @if(!Ip::isBanned())
+                                @if(!$user->is_banned)
+                                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                        Написать статью
+                                    </a>
+                                @else
+                                    @include('cabinet::user.banMessage')
                                 @endif
+                            @else
+                                @include('messages.bannedIp')
                             @endif
-                            <h3>
-                                <a href="{{ URL::to($article->getUrl()) }}">
-                                    {{ $article->title }}
-                                </a>
-                            </h3>
-                            <div class="date date-create">{{ $article->created_at }}</div>
+                        @endif
+                    @endif
 
-                            <div>
-                                {{ $article->getIntrotext() }}
-                            </div>
+                    <div id="articles">
 
-                            <ul class="tags">
-                                @foreach($article->tags as $tag)
-                                    <li>
-                                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $article->parent->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
-                                            {{ $tag->title }}
+                        @foreach($articles as $article)
+
+                            <div data-article-id="{{ $article->id }}" class="col-md-12">
+                                <div class="well">
+                                    @if(Auth::check())
+                                        @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                                            <div class="pull-right">
+                                                <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                                    Редактировать
+                                                </a>
+                                                <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
+                                                    Удалить
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endif
+                                    <h3>
+                                        <a href="{{ URL::to($article->getUrl()) }}">
+                                            {{ $article->title }}
                                         </a>
-                                    </li>
-                                @endforeach
-                            </ul>
+                                    </h3>
+                                    <div class="date date-create">{{ $article->created_at }}</div>
 
-                            <div class="status">
-                                Статус:
-                                {{ ($article->is_published) ? 'Опубликована' : 'Ожидает модерации' }}
+                                    <div>
+                                        {{ $article->getIntrotext() }}
+                                    </div>
+
+                                    <ul class="tags">
+                                        @foreach($article->tags as $tag)
+                                            <li>
+                                                <a href="{{ URL::route('journal.tag', ['journalAlias' => $article->parent->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                                    {{ $tag->title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <div class="status">
+                                        Статус:
+                                        {{ ($article->is_published) ? 'Опубликована' : 'Ожидает модерации' }}
+                                    </div>
+
+                                </div>
                             </div>
 
+                        @endforeach
+
+                        <div>
+                            {{ $articles->links() }}
                         </div>
+
                     </div>
-
-                @endforeach
-
-                <div>
-                    {{ $articles->links() }}
                 </div>
-
+                <div class="col-lg-12">
+                    {{ $areaWidget->contentBottom() }}
+                </div>
             </div>
-
         </div>
     </div>
 @stop

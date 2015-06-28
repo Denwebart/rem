@@ -2,7 +2,11 @@
 
 class CabinetController extends \BaseController
 {
-	public function __construct(){
+	public function __construct()
+	{
+		$areaWidget = app('AreaWidget');
+		View::share('areaWidget', $areaWidget);
+
 		if(Auth::check()){
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);

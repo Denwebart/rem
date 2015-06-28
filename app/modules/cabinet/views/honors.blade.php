@@ -12,6 +12,8 @@
             <h2>{{ $page->title }}</h2>
         @endif
 
+        {{ $areaWidget->contentTop() }}
+
         @if($page->content)
             <div class="content">
 
@@ -28,11 +30,15 @@
             </div>
         @endif
 
+        {{ $areaWidget->contentMiddle() }}
+
         @if($page->showComments())
             {{-- Комментарии --}}
             <?php $commentWidget = app('CommentWidget') ?>
             {{ $commentWidget->show($page) }}
         @endif
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

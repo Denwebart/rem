@@ -90,6 +90,7 @@ View::share('page', $title);
             <p>Пользователь не найден.</p>
         @endif
 
+       `{{ $areaWidget->contentBottom() }}
     </section>
 @stop
 

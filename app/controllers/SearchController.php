@@ -2,6 +2,12 @@
 
 class SearchController extends BaseController {
 
+	public function __construct()
+	{
+		$areaWidget = app('AreaWidget');
+		View::share('areaWidget', $areaWidget);
+	}
+
 	public function index()
 	{
 		$query = trim(Input::get('query'));
@@ -32,8 +38,5 @@ class SearchController extends BaseController {
 		View::share('query', $query);
 		return View::make('search.index', compact('results', 'tag'));
 	}
-
-
-
 
 }

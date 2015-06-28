@@ -13,14 +13,7 @@ if(Auth::check()){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{--@if($page->meta_title)--}}
-        {{--<title>{{ $page->meta_title }}</title>--}}
-    {{--@else--}}
-        {{--<title>{{ $page->getTitle() }}</title>--}}
-    {{--@endif--}}
-
     <title>{{ ($page->meta_title) ? $page->meta_title : $page->getTitle() }}</title>
-
 
     <meta name="description" content="{{ $page->meta_desc }}"/>
     <meta name="keywords" content="{{ $page->meta_key }}"/>
@@ -89,6 +82,8 @@ if(Auth::check()){
     <div class="row">
         <div class="col-lg-3 col-md-3">
 
+            {{ $areaWidget->leftSidebar() }}
+
             {{ $sidebarWidget->questions() }}
 
             {{ $sidebarWidget->popular() }}
@@ -112,12 +107,22 @@ if(Auth::check()){
                 </div>
             </div>
 
+            {{ $areaWidget->rightSidebar() }}
+
             {{ $sidebarWidget->comments() }}
 
             {{ $sidebarWidget->latest() }}
 
             {{ $sidebarWidget->unpopular() }}
 
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            {{ $areaWidget->siteBottom() }}
         </div>
     </div>
 </div>

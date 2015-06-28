@@ -28,6 +28,8 @@ View::share('title', $title);
                     @include('widgets.ban', ['user' => $user])
                 @endif
             @endif
+
+            {{ $areaWidget->leftSidebar() }}
         </div>
         <div class="col-lg-9">
 
@@ -106,6 +108,8 @@ View::share('title', $title);
                     Нет наград.
                 @endif
             @endif
+
+            {{ $areaWidget->contentBottom() }}
 
         </div>
     </div>

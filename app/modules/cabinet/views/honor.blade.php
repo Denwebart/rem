@@ -15,7 +15,7 @@ View::share('title', $title);
     <section id="content">
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="well">
                     <h2>{{ $honor->title }}</h2>
 
@@ -24,7 +24,7 @@ View::share('title', $title);
                     {{ $honor->description }}
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h3>Награжденные пользователи</h3>
 
                 @if(count($honor->users))
@@ -43,6 +43,8 @@ View::share('title', $title);
                 @endif
             </div>
         </div>
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

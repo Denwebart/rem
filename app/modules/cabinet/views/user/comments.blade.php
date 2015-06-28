@@ -23,49 +23,59 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+
+            {{ $areaWidget->leftSidebar() }}
+
         </div>
         <div class="col-lg-9">
-            <h2>{{ $title }}</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ $title }}</h2>
 
-            @if(Auth::check())
-                @if(Auth::user()->is($user))
-                    @if($user->is_banned)
-                        @include('cabinet::user.banMessage')
-                    @elseif(Ip::isBanned())
-                        @include('messages.bannedIp')
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            @if($user->is_banned)
+                                @include('cabinet::user.banMessage')
+                            @elseif(Ip::isBanned())
+                                @include('messages.bannedIp')
+                            @endif
+                        @endif
                     @endif
-                @endif
-            @endif
 
-            <div id="comments">
+                    <div id="comments">
 
-                @foreach($comments as $comment)
+                        @foreach($comments as $comment)
 
-                    <div data-comment-id="{{ $comment->id }}" class="col-md-12">
-                        <div class="well">
-                            <div class="date date-create">{{ $comment->created_at }}</div>
-                            {{ $comment->comment }}
-                            <div class="status">
-                                Статус:
-                                {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                            <div data-comment-id="{{ $comment->id }}" class="col-md-12">
+                                <div class="well">
+                                    <div class="date date-create">{{ $comment->created_at }}</div>
+                                    {{ $comment->comment }}
+                                    <div class="status">
+                                        Статус:
+                                        {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                                    </div>
+                                    <div class="on-page">
+                                        На странице:
+                                        @if(($comment->is_published))
+                                            <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                        @else
+                                            <a href="{{ URL::to($comment->page->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="on-page">
-                                На странице:
-                                @if(($comment->is_published))
-                                    <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
-                                @else
-                                    <a href="{{ URL::to($comment->page->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
-                                @endif
-                            </div>
+
+                        @endforeach
+
+                        <div>
+                            {{ $comments->links() }}
                         </div>
+
                     </div>
-
-                @endforeach
-
-                <div>
-                    {{ $comments->links() }}
                 </div>
-
+                <div class="col-lg-12">
+                    {{ $areaWidget->contentBottom() }}
+                </div>
             </div>
         </div>
     </div>

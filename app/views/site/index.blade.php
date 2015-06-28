@@ -5,6 +5,9 @@
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>
 		@endif
+
+		{{ $areaWidget->contentTop() }}
+
 		@if($page->content)
 
 			<div class="content">
@@ -18,6 +21,8 @@
 
 			</div>
 		@endif
+
+		{{ $areaWidget->contentMiddle() }}
 
 		<section id="blog-area">
 			@foreach($articles as $article)
@@ -55,5 +60,7 @@
 				{{ $articles->links() }}
 			</div>
 		</section><!--blog-area-->
+
+		{{ $areaWidget->contentBottom() }}
 	</section>
 @stop

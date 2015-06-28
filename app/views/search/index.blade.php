@@ -41,5 +41,8 @@ View::share('title', $title);
 		@endif
 
 	</div>
+
+	{{ $areaWidget->contentBottom() }}
+
 </section>
 @stop

@@ -79,12 +79,7 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-lg-8 col-md-8">
-            @yield('content')
-        </div>
-
-        <div class="col-lg-4 col-md-4">
-
+        <div class="col-lg-3 col-md-3">
             <div id="best-sidebar-widget" class="list-group sidebar-widget">
                 <h4>Список наград</h4>
 
@@ -109,6 +104,20 @@
 
             </div>
 
+            {{ $areaWidget->leftSidebar() }}
+        </div>
+
+        <div class="col-lg-9 col-md-9">
+            @yield('content')
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            {{ $areaWidget->siteBottom() }}
         </div>
     </div>
 </div>

@@ -148,6 +148,14 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            {{ $areaWidget->siteBottom() }}
+        </div>
+    </div>
+</div>
+
 <footer class="container">
     <div class="row">
         <div class="col-xs-12">

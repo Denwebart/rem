@@ -27,6 +27,8 @@
             <span class="text-success">Есть решение</span>
         @endif
 
+        {{ $areaWidget->contentTop() }}
+
         <div class="content">
 
             @if($page->showViews())
@@ -49,6 +51,8 @@
         <!-- Подписка на вопрос ("Подписки") -->
         @include('widgets.subscribe')
 
+        {{ $areaWidget->contentMiddle() }}
+
         {{-- Читайте также --}}
         <?php $relatedWidget = app('RelatedWidget') ?>
         {{ $relatedWidget->questions($page) }}
@@ -64,6 +68,8 @@
             ?>
             {{ $commentWidget->show($page) }}
         </div>
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

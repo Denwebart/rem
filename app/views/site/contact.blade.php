@@ -11,11 +11,16 @@
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>
 		@endif
+
+		{{ $areaWidget->contentTop() }}
+
 		@if($page->content)
 			<div class="content">
 				{{ $page->content }}
 			</div>
 		@endif
+
+		{{ $areaWidget->contentMiddle() }}
 
 		<section id="contact-form-area">
 			@if(Session::has('successMessage'))
@@ -99,5 +104,7 @@
 			</fieldset>
 			{{ Form::close() }}
 		</section><!--contact-form-area-->
+
+		{{ $areaWidget->contentBottom() }}
 	</section>
 @stop

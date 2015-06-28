@@ -11,8 +11,13 @@
     <section id="content" class="well">
 
         <h2>{{ $page->title }}</h2>
+
+        {{ $areaWidget->contentTop() }}
+
         <p>Найдено статей: {{ count($tag->pages) }}</p>
-        
+
+        {{ $areaWidget->contentMiddle() }}
+
         @if(count($tag->pages))
             <section id="blog-area">
                 @foreach($tag->pages as $page)
@@ -67,6 +72,8 @@
                 </div>
             </section><!--blog-area-->
         @endif
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

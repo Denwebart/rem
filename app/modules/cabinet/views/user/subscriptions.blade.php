@@ -23,72 +23,81 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+
+            {{ $areaWidget->leftSidebar() }}
+
         </div>
         <div class="col-lg-9">
-            <h2>{{ $title }}</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ $title }}</h2>
 
-            <div id="subscriptions">
-                @foreach($subscriptions as $subscription)
-                    @if($subscription->page)
-                        <div data-page-id="{{ $subscription->page->id }}" class="col-md-12">
-                            <div class="well">
-                                <div class="pull-right">
-                                    <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page->id }}">
-                                        {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
-                                        Отписаться
-                                    </a>
-                                </div>
-                                <h3>
-                                    <a href="{{ URL::to($subscription->page->getUrl()) }}">
-                                        {{ $subscription->page->getTitle() }}
-                                    </a>
-                                </h3>
-                                <div class="date date-create">
-                                    <i>
-                                        Добавлена в подписки {{ DateHelper::dateFormat($subscription->created_at) }}
-                                    </i>
-                                </div>
-                                <div>
-                                    {{ $subscription->page->getIntrotext() }}
-                                </div>
+                    <div id="subscriptions">
+                        @foreach($subscriptions as $subscription)
+                            @if($subscription->page)
+                                <div data-page-id="{{ $subscription->page->id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="pull-right">
+                                            <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page->id }}">
+                                                {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
+                                                Отписаться
+                                            </a>
+                                        </div>
+                                        <h3>
+                                            <a href="{{ URL::to($subscription->page->getUrl()) }}">
+                                                {{ $subscription->page->getTitle() }}
+                                            </a>
+                                        </h3>
+                                        <div class="date date-create">
+                                            <i>
+                                                Добавлена в подписки {{ DateHelper::dateFormat($subscription->created_at) }}
+                                            </i>
+                                        </div>
+                                        <div>
+                                            {{ $subscription->page->getIntrotext() }}
+                                        </div>
 
-                                @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
-                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                        {{ DateHelper::dateFormat($notification->created_at) }}
-                                        <br/>
-                                        {{ $notification->message }}
+                                        @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
+                                            <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                {{ DateHelper::dateFormat($notification->created_at) }}
+                                                <br/>
+                                                {{ $notification->message }}
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @else
-                        <div data-page-id="{{ $subscription->page_id }}" class="col-md-12">
-                            <div class="well">
-                                <div class="pull-right">
-                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $subscription->page_id }}">
-                                        <i class="glyphicon glyphicon-floppy-remove"></i>
-                                    </a>
                                 </div>
-                                <div class="date date-create">
-                                    <i>
-                                        Добавлена {{ DateHelper::dateFormat($subscription->created_at) }}
-                                    </i>
+                            @else
+                                <div data-page-id="{{ $subscription->page_id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="pull-right">
+                                            <a href="javascript:void(0)" id="remove-page" data-id="{{ $subscription->page_id }}">
+                                                <i class="glyphicon glyphicon-floppy-remove"></i>
+                                            </a>
+                                        </div>
+                                        <div class="date date-create">
+                                            <i>
+                                                Добавлена {{ DateHelper::dateFormat($subscription->created_at) }}
+                                            </i>
+                                        </div>
+                                        <div>
+                                            Статья, на которую вы были подписаны, была удалена.
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    Статья, на которую вы были подписаны, была удалена.
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
+                            @endif
+                        @endforeach
 
-                <div>
-                    {{ $subscriptions->links() }}
+                        <div>
+                            {{ $subscriptions->links() }}
+                        </div>
+
+                    </div>
                 </div>
-
+                <div class="col-lg-12">
+                    {{ $areaWidget->contentBottom() }}
+                </div>
             </div>
-
         </div>
     </div>
 @stop

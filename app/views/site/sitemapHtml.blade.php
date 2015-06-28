@@ -11,19 +11,25 @@
 		@if($page->title)
 			<h2>{{ $page->title }}</h2>
 		@endif
+
+		{{ $areaWidget->contentTop() }}
+
 		@if($page->content)
 			<div class="content">
 				{{ $page->content }}
 			</div>
 		@endif
+
+		{{ $areaWidget->contentMiddle() }}
+
 		<section id="sitemap-area">
 			<ul id="sitemap">
-				@foreach($pages as $page)
+				@foreach($pages as $item)
 					<li>
-						<a href="{{ URL::to($page->getUrl()) }}">{{ $page->getTitle() }}</a>
-						@if(count($page->publishedChildren))
+						<a href="{{ URL::to($item->getUrl()) }}">{{ $item->getTitle() }}</a>
+						@if(count($item->publishedChildren))
 							<ul>
-								@foreach($page->publishedChildren as $secondLevel)
+								@foreach($item->publishedChildren as $secondLevel)
 									<li>
 										<a href="{{ URL::to($secondLevel->getUrl()) }}">
 											{{ $secondLevel->getTitle() }}
@@ -47,5 +53,8 @@
 				@endforeach
 			</ul>
 		</section><!--sitemap-area-->
+
+		{{ $areaWidget->contentBottom() }}
+
 	</section>
 @stop

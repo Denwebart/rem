@@ -22,6 +22,8 @@
             <h2>{{ $page->title }}</h2>
         @endif
 
+        {{ $areaWidget->contentTop() }}
+
         <div class="content">
 
             @if($page->showViews())
@@ -50,6 +52,8 @@
             </ul>
         </div>
 
+        {{ $areaWidget->contentMiddle() }}
+
         {{-- Читайте также --}}
         <?php $relatedWidget = app('RelatedWidget') ?>
         {{ $relatedWidget->articles($page) }}
@@ -58,6 +62,8 @@
         {{-- Комментарии --}}
         <?php $commentWidget = app('CommentWidget'); ?>
         {{ $commentWidget->show($page) }}
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

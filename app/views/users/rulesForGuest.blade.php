@@ -1,5 +1,10 @@
 @extends('layouts.main')
 
+<?php
+$areaWidget = app('AreaWidget');
+View::share('areaWidget', $areaWidget);
+?>
+
 @section('content')
     <ol class="breadcrumb">
         <li><a href="{{ URL::to('/') }}">Главная</a></li>

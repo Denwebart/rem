@@ -4,6 +4,9 @@ class JournalController extends BaseController {
 
 	public function __construct()
 	{
+		$areaWidget = app('AreaWidget');
+		View::share('areaWidget', $areaWidget);
+
 		$this->beforeFilter(function()
 		{
 			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();

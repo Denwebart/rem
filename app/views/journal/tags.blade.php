@@ -12,11 +12,16 @@
         @if($page->title)
             <h2>{{ $page->title }}</h2>
         @endif
+
+        {{ $areaWidget->contentTop() }}
+
         @if($page->content)
             <div class="content">
                 {{ $page->content }}
             </div>
         @endif
+
+        {{ $areaWidget->contentMiddle() }}
 
         @if(count($tagsByAlphabet))
 
@@ -54,6 +59,8 @@
                     @endforeach
             </section><!--blog-area-->
         @endif
+
+        {{ $areaWidget->contentBottom() }}
 
     </section>
 @stop

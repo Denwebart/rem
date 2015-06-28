@@ -23,62 +23,71 @@ View::share('title', $title);
             <div class="avatar">
                 {{ $user->getAvatar() }}
             </div>
+
+            {{ $areaWidget->leftSidebar() }}
+
         </div>
         <div class="col-lg-9">
-            <h2>{{ $title }}</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>{{ $title }}</h2>
 
-            <div id="saved-pages">
-                @foreach($pages as $page)
-                    @if($page->page)
-                        <div data-page-id="{{ $page->page->id }}" class="col-md-12">
-                            <div class="well">
-                                <div class="pull-right">
-                                    <a href="javascript:void(0)" class="remove-page" data-id="{{ $page->page->id }}">
-                                        <i class="glyphicon glyphicon-floppy-remove"></i>
-                                    </a>
+                    <div id="saved-pages">
+                        @foreach($pages as $page)
+                            @if($page->page)
+                                <div data-page-id="{{ $page->page->id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="pull-right">
+                                            <a href="javascript:void(0)" class="remove-page" data-id="{{ $page->page->id }}">
+                                                <i class="glyphicon glyphicon-floppy-remove"></i>
+                                            </a>
+                                        </div>
+                                        <h3>
+                                            <a href="{{ URL::to($page->page->getUrl()) }}">
+                                                {{ $page->page->getTitle() }}
+                                            </a>
+                                        </h3>
+                                        <div class="date date-create">
+                                            <i>
+                                                Добавлена {{ DateHelper::dateFormat($page->created_at) }}
+                                            </i>
+                                        </div>
+                                        <div>
+                                            {{ $page->page->getIntrotext() }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <h3>
-                                    <a href="{{ URL::to($page->page->getUrl()) }}">
-                                        {{ $page->page->getTitle() }}
-                                    </a>
-                                </h3>
-                                <div class="date date-create">
-                                    <i>
-                                        Добавлена {{ DateHelper::dateFormat($page->created_at) }}
-                                    </i>
+                            @else
+                                <div data-page-id="{{ $page->page_id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="pull-right">
+                                            <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
+                                                <i class="glyphicon glyphicon-floppy-remove"></i>
+                                            </a>
+                                        </div>
+                                        <div class="date date-create">
+                                            <i>
+                                                Добавлена {{ DateHelper::dateFormat($page->created_at) }}
+                                            </i>
+                                        </div>
+                                        <div>
+                                            Страница была удалена
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    {{ $page->page->getIntrotext() }}
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div data-page-id="{{ $page->page_id }}" class="col-md-12">
-                            <div class="well">
-                                <div class="pull-right">
-                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
-                                        <i class="glyphicon glyphicon-floppy-remove"></i>
-                                    </a>
-                                </div>
-                                <div class="date date-create">
-                                    <i>
-                                        Добавлена {{ DateHelper::dateFormat($page->created_at) }}
-                                    </i>
-                                </div>
-                                <div>
-                                    Страница была удалена
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
+                            @endif
+                        @endforeach
 
-                <div>
-                    {{ $pages->links() }}
+                        <div>
+                            {{ $pages->links() }}
+                        </div>
+
+                    </div>
                 </div>
-
+                <div class="col-lg-12">
+                    {{ $areaWidget->contentBottom() }}
+                </div>
             </div>
-
         </div>
     </div>
 @stop

@@ -26,6 +26,8 @@
 			<h2>{{ $page->title }}</h2>
 		@endif
 
+		{{ $areaWidget->contentTop() }}
+
 		@if($page->content)
 			<div class="content">
 
@@ -46,6 +48,8 @@
 				{{ $page->content }}
 			</div>
 		@endif
+
+		{{ $areaWidget->contentMiddle() }}
 
 		@if(count($children))
 			<section id="blog-area">
@@ -99,6 +103,8 @@
 			<?php $commentWidget = app('CommentWidget') ?>
 			{{ $commentWidget->show($page) }}
 		@endif
+
+		{{ $areaWidget->contentBottom() }}
 
 	</section>
 @stop
