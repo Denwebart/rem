@@ -191,30 +191,30 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     </a>
 
                                     @if(Auth::user()->isAdmin())
-                                    {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'as-button')) }}
-                                        <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                            <i class='fa fa-trash-o'></i>
-                                        </button>
-                                    {{ Form::close() }}
-                                    @endif
+                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'as-button')) }}
+                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                                                <i class='fa fa-trash-o'></i>
+                                            </button>
+                                        {{ Form::close() }}
 
-                                    <div id="confirm" class="modal fade">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title">Удаление</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Вы уверены, что хотите удалить?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
-                                    </div><!-- /.modal -->
+                                        <div id="confirm" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Удаление</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Вы уверены, что хотите удалить?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                    @endif
 
                                 </td>
                             </tr>

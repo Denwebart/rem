@@ -108,4 +108,17 @@ class AdminАdvertisingController extends \BaseController {
 		return Redirect::route('admin.advertising.index');
 	}
 
+	/**
+	 * Remove the specified advertising from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		Advertising::destroy($id);
+
+		return Redirect::back();
+	}
+
 }

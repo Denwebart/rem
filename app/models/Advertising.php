@@ -11,13 +11,23 @@ class Advertising extends \Eloquent
 	const AREA_CONTENT_BOTTOM = 5;
 	const AREA_SITE_BOTTOM = 6;
 
-	public static $types = [
+	public static $areas = [
 		self::AREA_LEFT_SIDEBAR => 'В левой колонке',
 		self::AREA_RIGHT_SIDEBAR => 'В правой колонке',
 		self::AREA_CONTENT_TOP => 'Над текстом страницы',
 		self::AREA_CONTENT_MIDDLE => 'Под текстом страницы',
 		self::AREA_CONTENT_BOTTOM => 'В самом низу страницы',
 		self::AREA_SITE_BOTTOM => 'Внизу сайта',
+	];
+
+	const ACCESS_FOR_ALL = 1;
+	const ACCESS_FOR_REGISTERED = 2;
+	const ACCESS_FOR_GUEST = 3;
+
+	public static $access = [
+		self::ACCESS_FOR_ALL => 'Для всех',
+		self::ACCESS_FOR_REGISTERED => 'Для зарегистрированных',
+		self::ACCESS_FOR_GUEST => 'Для незарегистрированных',
 	];
 
 	protected $fillable = [

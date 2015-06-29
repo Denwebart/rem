@@ -5,8 +5,35 @@
         </div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::textarea('value', $advertising->text, ['class' => 'form-control']) }}
-                {{ $errors->first('value') }}
+                {{ Form::label('title', 'Заголовок') }}
+                {{ Form::text('title', $advertising->title, ['class' => 'form-control']) }}
+                {{ $errors->first('title') }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('description', 'Описание') }}
+                {{ Form::textarea('description', $advertising->description, ['class' => 'form-control']) }}
+                {{ $errors->first('description') }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('is_active', 'Включен') }}
+                {{ Form::hidden('is_active', 0, ['id' => 'is_active_uncheck']) }}
+                {{ Form::checkbox('is_active', 1) }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('is_active', 'Отображать заголовок') }}
+                {{ Form::hidden('is_show_title', 0, ['id' => 'is_published_uncheck']) }}
+                {{ Form::checkbox('is_active', 1) }}
+            </div>
+            <div class="form-group">
+                <h3>Показывать</h3>
+                {{ Form::radio('access', Advertising::ACCESS_FOR_ALL, true, ['class'=>'radio']) }}
+                {{ Form::label('access', Advertising::$access[Advertising::ACCESS_FOR_ALL]) }}
+
+                {{ Form::radio('access', Advertising::ACCESS_FOR_REGISTERED, false, ['class'=>'radio']) }}
+                {{ Form::label('access', Advertising::$access[Advertising::ACCESS_FOR_REGISTERED]) }}
+
+                {{ Form::radio('access', Advertising::ACCESS_FOR_GUEST, false, ['class'=>'radio']) }}
+                {{ Form::label('access', Advertising::$access[Advertising::ACCESS_FOR_GUEST]) }}
             </div>
         </div>
     </div>
@@ -19,17 +46,17 @@
 
         </div>
         <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
 
-                    </div>
-                    <div class="col-sm-6">
-                        {{ Form::label('is_active', 'Статус') }}
-                        {{ Form::hidden('is_active', 0, ['id' => 'is_published_uncheck']) }}
-                        {{ Form::checkbox('is_active', 1) }}
-                    </div>
-                </div>
+            <div class="form-group">
+                {{ Form::label('area', 'Область') }}
+                {{ Form::select('area', ['' => '-'] + Advertising::$areas, $advertising->area, ['class' => 'form-control']) }}
+                {{ $errors->first('area') }}
+            </div>
+
+            <div class="form-group">
+                {{ Form::label('code', 'HTML/JavaScript') }}
+                {{ Form::textarea('code', $advertising->code, ['class' => 'form-control']) }}
+                {{ $errors->first('code') }}
             </div>
         </div>
     </div>
