@@ -1,5 +1,32 @@
 <?php
 
+/**
+ * Advertising
+ *
+ * @property integer $id 
+ * @property boolean $area 
+ * @property integer $position 
+ * @property string $title 
+ * @property boolean $is_show_title 
+ * @property boolean $access 
+ * @property string $code 
+ * @property string $description 
+ * @property boolean $is_active 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereArea($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising wherePosition($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereIsShowTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereAccess($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Advertising whereUpdatedAt($value)
+ */
+
 class Advertising extends \Eloquent
 {
 	protected $table = 'advertising';
