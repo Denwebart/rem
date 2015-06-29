@@ -41,6 +41,16 @@
         <div class="navbar-right">
             <ul class="nav navbar-nav">
 
+                @if(Auth::user()->isAdmin())
+                    <li style="margin-right: 10px">
+                        <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу">
+                            <span>
+                                <i class="fa fa-dollar"></i>
+                            </span>
+                        </a>
+                    </li>
+                @endif
+
                 @if(!is_null($page) && Auth::user()->isAdmin())
                     <li style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id]) }}" class="">
@@ -175,3 +185,24 @@
         </div>
     </nav>
 </header>
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            <!-- Edit advertising -->
+            $('#edit-advertising').on('click', function(){
+                if ($(this).hasClass('active')) {
+                    $('.advertising').removeClass('edit');
+                    $(this).removeClass('active');
+                    $('.advertising .buttons').hide();
+                } else {
+                    $('.advertising').addClass('edit');
+                    $(this).addClass('active');
+                    $('.advertising .buttons').show();
+                }
+            });
+        });
+    </script>
+@endsection

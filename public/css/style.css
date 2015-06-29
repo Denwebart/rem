@@ -233,6 +233,9 @@ footer #navbar-bottom li {
 .area .advertising {
     margin-bottom: 15px;
 }
+.area .advertising.edit .advertising-body {
+    border: 2px dashed #337AB7;
+}
 
 /* Search Widget */
 #search .form-control {
