@@ -83,7 +83,11 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		$advertising = Advertising::find($id);
 
-		return View::make('admin::advertising.edit', compact('advertising'));
+		$backUrl = Request::get('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.advertising.index');
+
+		return View::make('admin::advertising.edit', compact('advertising', 'backUrl'));
 	}
 
 	/**
@@ -105,7 +109,7 @@ class AdminАdvertisingController extends \BaseController {
 
 		$advertising->update($data);
 
-		return Redirect::route('admin.advertising.index');
+		return Redirect::to(Input::get('backUrl'));
 	}
 
 	/**

@@ -4,7 +4,7 @@
             <div class="advertising">
                 @if(Auth::user()->isAdmin())
                     <div class="buttons pull-right" style="display: none">
-                        <a href="{{ URL::route('admin.advertising.edit', ['id' => $item->id]) }}" class="btn btn-info btn-sm">
+                        <a href="{{ URL::route('admin.advertising.edit', ['id' => $item->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-info btn-sm">
                             <span class="mdi-editor-mode-edit"></span>
                         </a>
                         <a href="javascript:void(0)" class="btn btn-warning btn-sm">
