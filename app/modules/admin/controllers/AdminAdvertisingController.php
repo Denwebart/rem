@@ -49,7 +49,11 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		$advertising = new Advertising();
 
-		return View::make('admin::advertising.create', compact('advertising'));
+		$backUrl = Request::get('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.advertising.index');
+
+		return View::make('admin::advertising.create', compact('advertising', 'backUrl'));
 	}
 
 	/**

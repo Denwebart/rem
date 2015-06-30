@@ -6,9 +6,16 @@ class AreaWidget
 
 	public function __construct() {
 		$access = Auth::check() ? Advertising::ACCESS_FOR_REGISTERED : Advertising::ACCESS_FOR_GUEST;
+
 		$advertising = Advertising::whereIsActive(1)
 			->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
 			->get();
+
+		if(Auth::check()) {
+			if(Auth::user()->isAdmin()) {
+				$advertising = Advertising::get();
+			}
+		}
 
 		foreach($advertising as $item) {
 			$this->advertising[$item->area][] = $item;

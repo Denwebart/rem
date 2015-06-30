@@ -197,10 +197,12 @@
                     $('.advertising').removeClass('edit');
                     $(this).removeClass('active');
                     $('.advertising .buttons').hide();
+                    $('.advertising').hide();
                 } else {
                     $('.advertising').addClass('edit');
                     $(this).addClass('active');
                     $('.advertising .buttons').show();
+                    $('.advertising').show();
                 }
             });
         });

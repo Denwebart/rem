@@ -1,10 +1,13 @@
 <div class="row">
     <div class="area area-site">
         @foreach($advertising as $item)
-            <div class="advertising">
+            <div class="advertising{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}}>
                 @if(Auth::user()->isAdmin())
                     <div class="buttons pull-right" style="display: none">
-                        <a href="{{ URL::route('admin.advertising.edit', ['id' => $item->id]) }}" class="btn btn-info btn-sm">
+                        <div class="access">
+                            Доступно {{ Advertising::$access[$item->access] }}
+                        </div>
+                        <a href="{{ URL::route('admin.advertising.edit', ['id' => $item->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-info btn-sm">
                             <span class="mdi-editor-mode-edit"></span>
                         </a>
                         <a href="javascript:void(0)" class="btn btn-warning btn-sm">
