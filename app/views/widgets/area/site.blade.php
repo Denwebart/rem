@@ -1,21 +1,16 @@
 <div class="row">
     <div class="area area-site">
         @foreach($advertising as $item)
-            <div class="advertising{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}}>
+            @if(Auth::check())
                 @if(Auth::user()->isAdmin())
-                    <div class="buttons pull-right" style="display: none">
-                        <div class="access">
-                            Доступно {{ Advertising::$access[$item->access] }}
-                        </div>
-                        <a href="{{ URL::route('admin.advertising.edit', ['id' => $item->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-info btn-sm">
-                            <span class="mdi-editor-mode-edit"></span>
-                        </a>
-                        <a href="javascript:void(0)" class="btn btn-warning btn-sm">
-                            <span class="mdi-action-visibility-off"></span>
-                        </a>
-                    </div>
-                    <div class="clearfix"></div>
+                    <div class="advertising access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}} data-advertising-id="{{ $item->id }}">
+                    @include('widgets.area.controlAdvertising')
+                @else
+                    <div class="advertising">
                 @endif
+            @else
+                <div class="advertising">
+            @endif
                 <div class="advertising-body">
                     @if($item->is_show_title)
                         <h3>{{ $item->title }}</h3>
@@ -26,3 +21,38 @@
         @endforeach
     </div>
 </div>
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+
+        $('.advertising').on('click', '.change-active-status', function(){
+            var $button = $(this),
+                isActive = $button.attr('data-is-active'),
+                advertisingId = $button.data('id');
+            $.ajax({
+                url: '/admin/advertising/changeActiveStatus/' + advertisingId,
+                dataType: "text json",
+                type: "POST",
+                data: {is_active: isActive},
+                success: function(response) {
+                    if(response.success){
+                        console.log($('[data-advertising-id='+ advertisingId +']'));
+                        if(response.isActive) {
+                            $('[data-advertising-id='+ advertisingId +']').removeClass('not-active');
+                            $button.attr('title', 'Отключить этот рекламный блок на этой старинце.').html('<span class="mdi-action-visibility-off"></span>');
+                        } else {
+                            $('[data-advertising-id='+ advertisingId +']').addClass('not-active');
+                            $button.attr('title', 'Включить этот рекламный блок на этой старинце.').html('<span class="mdi-action-visibility"></span>');
+                        }
+                        $button.attr('data-is-active', response.isActive);
+                    } else {
+                        alert(response.message)
+                    }
+                }
+            });
+        });
+
+    </script>
+@endsection

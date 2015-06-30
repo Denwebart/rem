@@ -41,7 +41,7 @@
         <div class="navbar-right">
             <ul class="nav navbar-nav">
 
-                @if(Auth::user()->isAdmin())
+                @if(Auth::user()->isAdmin() && !Request::is('admin*'))
                     <li style="margin-right: 10px">
                         <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу">
                             <span>
@@ -189,22 +189,26 @@
 @section('script')
     @parent
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            <!-- Edit advertising -->
-            $('#edit-advertising').on('click', function(){
-                if ($(this).hasClass('active')) {
-                    $('.advertising').removeClass('edit');
-                    $(this).removeClass('active');
-                    $('.advertising .buttons').hide();
-                    $('.advertising').hide();
-                } else {
-                    $('.advertising').addClass('edit');
-                    $(this).addClass('active');
-                    $('.advertising .buttons').show();
-                    $('.advertising').show();
-                }
+    @if(Auth::user()->isAdmin() && !Request::is('admin*'))
+        <script type="text/javascript">
+            $(document).ready(function() {
+                <!-- Edit advertising -->
+                $('#edit-advertising').on('click', function(){
+                    if ($(this).hasClass('active')) {
+                        $(this).parent().removeClass('open');
+                        $('.advertising').removeClass('edit');
+                        $(this).removeClass('active');
+                        $('.advertising .buttons').hide();
+                        $('.advertising.not-active, .advertising.access-3').hide();
+                    } else {
+                        $(this).parent().addClass('open');
+                        $('.advertising').addClass('edit');
+                        $(this).addClass('active');
+                        $('.advertising .buttons').show();
+                        $('.advertising').show();
+                    }
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 @endsection

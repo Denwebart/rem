@@ -129,4 +129,33 @@ class AdminАdvertisingController extends \BaseController {
 		return Redirect::back();
 	}
 
+	/**
+	 * Включение/выключение рекламного блока (ajax)
+	 *
+	 * @param $advertisingId
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function changeActiveStatus($advertisingId)
+	{
+		if(Request::ajax()) {
+
+			$advertising = Advertising::find($advertisingId);
+			$advertising->is_active = !Input::get('is_active') ? 1 : 0;
+			if($advertising->save()) {
+				return Response::json(array(
+					'success' => true,
+					'isActive' => $advertising->is_active,
+					'message' => ($advertising->is_active)
+						? 'Рекламный блок включен.'
+						: 'Рекламный блок выключен.',
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Что-то пошло не так.'
+				));
+			}
+		}
+	}
+
 }
