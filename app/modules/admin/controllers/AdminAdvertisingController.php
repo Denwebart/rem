@@ -48,6 +48,7 @@ class AdminАdvertisingController extends \BaseController {
 	public function create()
 	{
 		$advertising = new Advertising();
+		$advertising->area = Request::get('area');
 
 		$backUrl = Request::get('backUrl')
 			? urldecode(Request::get('backUrl'))
@@ -74,7 +75,7 @@ class AdminАdvertisingController extends \BaseController {
 
 		Advertising::create($data);
 
-		return Redirect::route('admin.advertising.index');
+		return Redirect::to(Input::get('backUrl'));
 	}
 
 	/**

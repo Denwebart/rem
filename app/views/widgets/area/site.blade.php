@@ -1,5 +1,10 @@
 <div class="row">
     <div class="area area-site">
+        @if(Auth::check())
+            @if(Auth::user()->isAdmin())
+                @include('widgets.area.create')
+            @endif
+        @endif
         @foreach($advertising as $item)
             @if(Auth::check())
                 @if(Auth::user()->isAdmin())

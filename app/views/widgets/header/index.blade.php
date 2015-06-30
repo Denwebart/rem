@@ -196,15 +196,15 @@
                 $('#edit-advertising').on('click', function(){
                     if ($(this).hasClass('active')) {
                         $(this).parent().removeClass('open');
-                        $('.advertising').removeClass('edit');
+                        $('.advertising, .area').removeClass('edit');
                         $(this).removeClass('active');
-                        $('.advertising .buttons').hide();
+                        $('.area .buttons, .area .area-title').hide();
                         $('.advertising.not-active, .advertising.access-3').hide();
                     } else {
                         $(this).parent().addClass('open');
-                        $('.advertising').addClass('edit');
+                        $('.advertising, .area').addClass('edit');
                         $(this).addClass('active');
-                        $('.advertising .buttons').show();
+                        $('.area .buttons, .area .area-title').show();
                         $('.advertising').show();
                     }
                 });

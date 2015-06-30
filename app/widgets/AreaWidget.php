@@ -24,50 +24,56 @@ class AreaWidget
 
 	public function leftSidebar()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_LEFT_SIDEBAR])
-			? $this->advertising[Advertising::AREA_LEFT_SIDEBAR] : [];
+		$area = Advertising::AREA_LEFT_SIDEBAR;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.sidebar', compact('advertising'))->render();
+		return (string) View::make('widgets.area.sidebar', compact('advertising', 'area'))->render();
 	}
 
 	public function rightSidebar()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_RIGHT_SIDEBAR])
-			? $this->advertising[Advertising::AREA_RIGHT_SIDEBAR] : [];
+		$area = Advertising::AREA_RIGHT_SIDEBAR;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.sidebar', compact('advertising'))->render();
+		return (string) View::make('widgets.area.sidebar', compact('advertising', 'area'))->render();
 	}
 
 	public function contentTop()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_CONTENT_TOP])
-			? $this->advertising[Advertising::AREA_CONTENT_TOP] : [];
+		$area = Advertising::AREA_CONTENT_TOP;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.content', compact('advertising'))->render();
+		return (string) View::make('widgets.area.content', compact('advertising', 'area'))->render();
 	}
 
 	public function contentMiddle()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_CONTENT_MIDDLE])
-			? $this->advertising[Advertising::AREA_CONTENT_MIDDLE] : [];
+		$area = Advertising::AREA_CONTENT_MIDDLE;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.content', compact('advertising'))->render();
+		return (string) View::make('widgets.area.content', compact('advertising', 'area'))->render();
 	}
 
 	public function contentBottom()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_CONTENT_BOTTOM])
-			? $this->advertising[Advertising::AREA_CONTENT_BOTTOM] : [];
+		$area = Advertising::AREA_CONTENT_BOTTOM;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.content', compact('advertising'))->render();
+		return (string) View::make('widgets.area.content', compact('advertising', 'area'))->render();
 	}
 
 	public function siteBottom()
 	{
-		$advertising = isset($this->advertising[Advertising::AREA_SITE_BOTTOM])
-			? $this->advertising[Advertising::AREA_SITE_BOTTOM] : [];
+		$area = Advertising::AREA_SITE_BOTTOM;
+		$advertising = isset($this->advertising[$area])
+			? $this->advertising[$area] : [];
 
-		return (string) View::make('widgets.area.site', compact('advertising'))->render();
+		return (string) View::make('widgets.area.site', compact('advertising', 'area'))->render();
 	}
 
 }
