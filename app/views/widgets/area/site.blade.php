@@ -41,7 +41,7 @@
                         console.log($('[data-advertising-id='+ advertisingId +']'));
                         if(response.isActive) {
                             $('[data-advertising-id='+ advertisingId +']').removeClass('not-active');
-                            $button.attr('title', 'Отключить этот рекламный блок на этой старинце.').html('<span class="mdi-action-visibility-off"></span>');
+                            $button.attr('title', 'Выключить этот рекламный блок на этой старинце.').html('<span class="mdi-action-visibility-off"></span>');
                         } else {
                             $('[data-advertising-id='+ advertisingId +']').addClass('not-active');
                             $button.attr('title', 'Включить этот рекламный блок на этой старинце.').html('<span class="mdi-action-visibility"></span>');

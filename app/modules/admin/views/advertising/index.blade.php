@@ -86,7 +86,7 @@ View::share('title', $title);
                             </thead>
                             <tbody>
                             @foreach($advertising as $item)
-                                <tr>
+                                <tr class="advertising">
                                     <td>{{ $item->id }}</td>
                                     <td>{{ Advertising::$areas[$item->area] }}</td>
                                     <td>{{ $item->position }}</td>
@@ -94,11 +94,14 @@ View::share('title', $title);
                                     <td>{{ $item->description }}</td>
                                     <td>{{ Advertising::$access[$item->access] }}</td>
                                     <td>
-                                        @if($item->is_active)
-                                            <span class="label label-success">Включен</span>
-                                        @else
-                                            <span class="label label-warning">Выключен</span>
-                                        @endif
+                                        <!-- Отключить/выключить рекламный блок -->
+                                        <a href="javascript:void(0)" class="change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Выключить этот рекламный блок.' : 'Включить этот рекламный блок.' }}">
+                                            @if($item->is_active)
+                                                <span class="label label-success">Включен</span>
+                                            @else
+                                                <span class="label label-warning">Выключен</span>
+                                            @endif
+                                        </a>
                                     </td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.advertising.edit', $item->id) }}">
@@ -155,6 +158,31 @@ View::share('title', $title);
                 .one('click', '#delete', function() {
                     $form.trigger('submit'); // submit the form
                 });
+        });
+
+        $('.advertising').on('click', '.change-active-status', function(){
+            var $button = $(this),
+                    isActive = $button.attr('data-is-active'),
+                    advertisingId = $button.data('id');
+            $.ajax({
+                url: '/admin/advertising/changeActiveStatus/' + advertisingId,
+                dataType: "text json",
+                type: "POST",
+                data: {is_active: isActive},
+                success: function(response) {
+                    if(response.success){
+                        console.log($('[data-advertising-id='+ advertisingId +']'));
+                        if(response.isActive) {
+                            $button.attr('title', 'Выключить этот рекламный блок.').html('<span class="label label-success">Включен</span>');
+                        } else {
+                            $button.attr('title', 'Включить этот рекламный блок.').html('<span class="label label-warning">Выключен</span>');
+                        }
+                        $button.attr('data-is-active', response.isActive);
+                    } else {
+                        alert(response.message)
+                    }
+                }
+            });
         });
     </script>
 @stop

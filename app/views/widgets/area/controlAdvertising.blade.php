@@ -6,7 +6,7 @@
         <span class="mdi-editor-mode-edit"></span>
     </a>
     <!-- Отключить/выключить рекламный блок -->
-    <a href="javascript:void(0)" class="btn btn-warning btn-sm change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Отключить этот рекламный блок на этой старинце.' : 'Выключить этот рекламный блок на этой старинце.' }}">
+    <a href="javascript:void(0)" class="btn btn-warning btn-sm change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Выключить этот рекламный блок на этой старинце.' : 'Включить этот рекламный блок на этой старинце.' }}">
         @if($item->is_active)
             <span class="mdi-action-visibility-off"></span>
         @else
