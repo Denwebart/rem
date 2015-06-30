@@ -15,3 +15,6 @@
     </a>
 </div>
 <div class="clearfix"></div>
+<div class="advertising-title" style="display: none">
+    <a href="{{ URL::route('admin.advertising.index', ['id' => $item->id]) }}">{{ $item->title }}</a>
+</div>

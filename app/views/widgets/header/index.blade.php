@@ -198,13 +198,13 @@
                         $(this).parent().removeClass('open');
                         $('.advertising, .area').removeClass('edit');
                         $(this).removeClass('active');
-                        $('.area .buttons, .area .area-title').hide();
+                        $('.area .buttons, .area .area-title, .advertising-title').hide();
                         $('.advertising.not-active, .advertising.access-3').hide();
                     } else {
                         $(this).parent().addClass('open');
                         $('.advertising, .area').addClass('edit');
                         $(this).addClass('active');
-                        $('.area .buttons, .area .area-title').show();
+                        $('.area .buttons, .area .area-title, .advertising-title').show();
                         $('.advertising').show();
                     }
                 });

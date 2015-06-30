@@ -16,12 +16,16 @@ class AdminАdvertisingController extends \BaseController {
 	 */
 	public function index()
 	{
-		$sortBy = Request::get('sortBy');
-		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$advertising = Advertising::orderBy($sortBy, $direction)->paginate(10);
+		if(!Request::has('id')) {
+			$sortBy = Request::get('sortBy');
+			$direction = Request::get('direction');
+			if ($sortBy && $direction) {
+				$advertising = Advertising::orderBy($sortBy, $direction)->paginate(10);
+			} else {
+				$advertising = Advertising::orderBy('created_at', 'DESC')->paginate(10);
+			}
 		} else {
-			$advertising = Advertising::orderBy('created_at', 'DESC')->paginate(10);
+			$advertising = Advertising::whereId(Request::get('id'))->paginate(10);
 		}
 
 		return View::make('admin::advertising.index', compact('advertising'));
@@ -50,7 +54,7 @@ class AdminАdvertisingController extends \BaseController {
 		$advertising = new Advertising();
 		$advertising->area = Request::get('area');
 
-		$backUrl = Request::get('backUrl')
+		$backUrl = Request::has('backUrl')
 			? urldecode(Request::get('backUrl'))
 			: URL::route('admin.advertising.index');
 
@@ -88,7 +92,7 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		$advertising = Advertising::find($id);
 
-		$backUrl = Request::get('backUrl')
+		$backUrl = Request::has('backUrl')
 			? urldecode(Request::get('backUrl'))
 			: URL::route('admin.advertising.index');
 
@@ -127,7 +131,9 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		Advertising::destroy($id);
 
-		return Redirect::back();
+		return Request::has('backUrl')
+			? Redirect::to(urldecode(Request::get('backUrl')))
+			: Redirect::back();
 	}
 
 	/**
