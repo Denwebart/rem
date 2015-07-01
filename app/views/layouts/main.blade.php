@@ -84,12 +84,6 @@ if(Auth::check()){
 
             {{ $areaWidget->leftSidebar() }}
 
-            {{ $sidebarWidget->questions() }}
-
-            {{ $sidebarWidget->popular() }}
-
-            {{ $sidebarWidget->best() }}
-
         </div>
 
         <div class="col-lg-6 col-md-6">
@@ -108,12 +102,6 @@ if(Auth::check()){
             </div>
 
             {{ $areaWidget->rightSidebar() }}
-
-            {{ $sidebarWidget->comments() }}
-
-            {{ $sidebarWidget->latest() }}
-
-            {{ $sidebarWidget->unpopular() }}
 
         </div>
     </div>

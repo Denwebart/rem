@@ -9,11 +9,12 @@ class AreaWidget
 
 		$advertising = Advertising::whereIsActive(1)
 			->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
+			->orderBy('position', 'ASC')
 			->get();
 
 		if(Auth::check()) {
 			if(Auth::user()->isAdmin()) {
-				$advertising = Advertising::get();
+				$advertising = Advertising::orderBy('position', 'ASC')->get();
 			}
 		}
 

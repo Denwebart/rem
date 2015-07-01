@@ -127,7 +127,7 @@
                     </li>
                     <li class="{{ Request::is('admin/advertising*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.advertising.index') }}">
-                            <i class="fa fa-usd"></i> <span>Реклама</span>
+                            <i class="fa fa-usd"></i> <span>Реклама и виджеты</span>
                         </a>
                     </li>
                     <li class="{{ Request::is('admin/settings*') ? 'active' : ''}}">

@@ -1,6 +1,4 @@
 <div id="comments-sidebar-widget" class="list-group sidebar-widget">
-    <h4>Комментарии</h4>
-
     @foreach($comments as $comment)
         <div class="list-group-item">
             <div class="row-picture">

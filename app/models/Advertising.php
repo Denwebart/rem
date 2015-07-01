@@ -57,36 +57,64 @@ class Advertising extends \Eloquent
 		self::ACCESS_FOR_GUEST => 'Для незарегистрированных',
 	];
 
-	const PAGE_TYPE_PAGE = 1;
-	const PAGE_TYPE_QUESTIONS = 2;
-	const PAGE_TYPE_JOURNAL = 3;
-	const PAGE_TYPE_CABINET = 4;
+	const TYPE_ADVERTISING = 1;
+	const TYPE_WIDGET = 2;
 
-	public static $pageTypes = [
-		self::PAGE_TYPE_PAGE => 'На страницах сайта',
-		self::PAGE_TYPE_QUESTIONS => 'На вопросах',
-		self::PAGE_TYPE_JOURNAL => 'В журнале',
-		self::PAGE_TYPE_CABINET => 'В личном кабинете',
+	public static $types = [
+		self::TYPE_ADVERTISING => 'Реклама',
+		self::TYPE_WIDGET => 'Виджет',
 	];
 
+	const WIDGET_LATEST = 1;
+	const WIDGET_BEST = 2;
+	const WIDGET_POPULAR = 3;
+	const WIDGET_UNPOPULAR = 4;
+	const WIDGET_COMMENTS = 5;
+	const WIDGET_QUESTIONS = 6;
+
+	public static $widgets = [
+		self::WIDGET_LATEST => 'Самое новое',
+		self::WIDGET_BEST => 'По голосам',
+		self::WIDGET_POPULAR => 'Самое популярное',
+		self::WIDGET_UNPOPULAR => 'Аутсайдеры',
+		self::WIDGET_COMMENTS => 'Комментарии',
+		self::WIDGET_QUESTIONS => 'Новые вопросы',
+	];
+
+//	const PAGE_TYPE_PAGE = 1;
+//	const PAGE_TYPE_QUESTIONS = 2;
+//	const PAGE_TYPE_JOURNAL = 3;
+//	const PAGE_TYPE_CABINET = 4;
+//
+//	public static $pageTypes = [
+//		self::PAGE_TYPE_PAGE => 'На страницах сайта',
+//		self::PAGE_TYPE_QUESTIONS => 'На вопросах',
+//		self::PAGE_TYPE_JOURNAL => 'В журнале',
+//		self::PAGE_TYPE_CABINET => 'В личном кабинете',
+//	];
+
 	protected $fillable = [
+		'type',
 		'area',
 		'position',
 		'access',
 		'title',
 		'is_show_title',
 		'code',
+		'limit',
 		'description',
 		'is_active',
 	];
 
 	public static $rules = [
+		'type' => 'required|numeric',
 		'area' => 'required',
 		'position' => 'numeric',
 		'access' => 'numeric',
 		'title' => 'max:100',
 		'is_show_title' => 'boolean',
 		'code' => 'required',
+		'limit' => 'numeric|min:1|max:100',
 		'description' => 'max:1000',
 		'is_active' => 'boolean',
 	];

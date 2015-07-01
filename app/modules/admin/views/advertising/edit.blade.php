@@ -1,18 +1,28 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Редактирование рекламного блока';
+$title = (Advertising::TYPE_ADVERTISING == $advertising->type)
+        ? 'Редактирование рекламного блока'
+        : 'Редактирование виджета';
 View::share('title', $title);
 ?>
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-edit "></i>
+        <h1>
+            <i class="fa fa-edit "></i>
             {{ $title }}
-            <small>редактирование рекламного блока</small></h1>
+            <small>редактирование
+                @if(Advertising::TYPE_ADVERTISING == $advertising->type)
+                    рекламного блока
+                @else
+                    виджета
+                @endif
+            </small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама</a></li>
+            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама и виджеты</a></li>
             <li>Редактирование {{ $advertising->title }}</li>
         </ol>
     </div>

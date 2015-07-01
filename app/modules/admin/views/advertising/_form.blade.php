@@ -6,18 +6,41 @@
                 {{ Form::text('title', $advertising->title, ['class' => 'form-control']) }}
                 {{ $errors->first('title') }}
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
                         {{ Form::label('description', 'Описание') }}
                         {{ Form::textarea('description', $advertising->description, ['class' => 'form-control']) }}
                         {{ $errors->first('description') }}
                     </div>
-                    <div class="col-md-7">
+                    <div class="form-group">
+                        {{ Form::label('position', 'Позиция') }}
+                        {{ Form::number('position', $advertising->position, ['class' => 'form-control']) }}
+                        {{ $errors->first('position') }}
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="types">
                         <div class="form-group">
-                            {{ Form::label('code', 'HTML/JavaScript') }}
-                            {{ Form::textarea('code', $advertising->code, ['class' => 'form-control']) }}
-                            {{ $errors->first('code') }}
+                            {{ Form::radio('type', Advertising::TYPE_ADVERTISING, (Advertising::TYPE_ADVERTISING == $advertising->type || is_null($advertising->type)) ? true : false, ['id' => 'type-advertising', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_ADVERTISING != $advertising->type) ? 'disabled' : '']) }}
+                            {{ Form::label('type-advertising', Advertising::$types[Advertising::TYPE_ADVERTISING]) }}
+
+                            {{ Form::radio('type', Advertising::TYPE_WIDGET, (Advertising::TYPE_WIDGET == $advertising->type) ? true : false, ['id' => 'type-widget', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_WIDGET != $advertising->type) ? 'disabled' : '']) }}
+                            {{ Form::label('type-widget', Advertising::$types[Advertising::TYPE_WIDGET]) }}
+                        </div>
+                        <div class="form-group advertising" style="display: none">
+                            {{ Form::label('code-advertising', 'HTML/JavaScript') }}
+                            {{ Form::textarea('code-advertising', $advertising->code, ['class' => 'form-control']) }}
+                            {{ $errors->first('code-advertising') }}
+                        </div>
+                        <div class="form-group widget" style="display: none">
+                            {{ Form::label('code-widget', 'Выберите виджет') }}
+                            {{ Form::select('code-widget', ['' => '-'] + Advertising::$widgets, $advertising->code, ['class' => 'form-control']) }}
+                            {{ $errors->first('code-widget') }}
+
+                            {{ Form::label('limit', 'Количество элементов') }}
+                            {{ Form::number('limit', $advertising->limit, ['class' => 'form-control']) }}
+                            {{ $errors->first('limit') }}
                         </div>
                     </div>
                 </div>
@@ -67,21 +90,21 @@
                     </div>
                     <div class="col-xs-6" style="padding: 0 5px">
                         <h5>Заголовок страницы</h5>
-                        <div class="area{{ (Advertising::AREA_CONTENT_TOP == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_TOP }}">
+                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_TOP == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_TOP }}">
                             <p class="area-title">
                                 {{ Advertising::$areas[Advertising::AREA_CONTENT_TOP] }}
                             </p>
                             <span class="area-size">(max 620px)</span>
                         </div>
                         <p>Текст страницы</p>
-                        <div class="area{{ (Advertising::AREA_CONTENT_MIDDLE == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_MIDDLE }}">
+                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_MIDDLE == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_MIDDLE }}">
                             <p class="area-title">
                                 {{ Advertising::$areas[Advertising::AREA_CONTENT_MIDDLE] }}
                             </p>
                             <span class="area-size">(max 620px)</span>
                         </div>
                         <p>Статьи или комментарии</p>
-                        <div class="area{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
+                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
                             <p class="area-title">
                                 {{ Advertising::$areas[Advertising::AREA_CONTENT_BOTTOM] }}
                             </p>
@@ -97,7 +120,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <div class="area{{ (Advertising::AREA_SITE_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_SITE_BOTTOM }}">
+                        <div class="area area-not-for-widget{{ (Advertising::AREA_SITE_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_SITE_BOTTOM }}">
                             <p class="area-title">
                                 {{ Advertising::$areas[Advertising::AREA_SITE_BOTTOM] }}
                             </p>
@@ -140,10 +163,35 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#areas').on('click', '.area', function(){
-                $('#areas .area').removeClass('selected-area');
-                $(this).addClass('selected-area');
-                $('#area').val($(this).data('area'));
+                if(!$(this).hasClass('not-active')) {
+                    $('#areas .area').removeClass('selected-area');
+                    $(this).addClass('selected-area');
+                    $('#area').val($(this).data('area'));
+                }
             });
+
+            if($("#type-advertising").is(":checked")) {
+                $('.types .widget').hide();
+                $('.types .advertising').show();
+            } else if($("#type-widget").is(":checked")) {
+                $('.types .advertising').hide();
+                $('.types .widget').show();
+                $('.area.area-not-for-widget').addClass('not-active');
+            }
+
+            $('#type-widget').on('ifToggled', function() {
+                $('.types .advertising').hide();
+                $('.types .widget').show();
+                $('.area.area-not-for-widget').addClass('not-active');
+                $('#area').val('');
+                $('#areas .area').removeClass('selected-area');
+            });
+            $('#type-advertising').on('ifToggled', function() {
+                $('.types .widget').hide();
+                $('.types .advertising').show();
+                $('.area.area-not-for-widget').removeClass('not-active');
+            });
+
         });
     </script>
 

@@ -32,19 +32,6 @@ class AdminАdvertisingController extends \BaseController {
 	}
 
 	/**
-	 * Display the specified advertising.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$advertising = Advertising::findOrFail($id);
-
-		return View::make('admin::advertising.show', compact('advertising'));
-	}
-
-	/**
 	 * Show the form for creating a new advertising
 	 *
 	 * @return Response
@@ -69,6 +56,9 @@ class AdminАdvertisingController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
+		$data['code'] = (Input::get('type') == Advertising::TYPE_WIDGET)
+			? Input::get('code-widget')
+			: Input::get('code-advertising');
 
 		$validator = Validator::make($data, Advertising::$rules);
 
@@ -109,7 +99,12 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		$advertising = Advertising::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Advertising::$rules);
+		$data = Input::all();
+		$data['code'] = (Input::get('type') == Advertising::TYPE_WIDGET)
+			? Input::get('code-widget')
+			: Input::get('code-advertising');
+
+		$validator = Validator::make($data, Advertising::$rules);
 
 		if ($validator->fails())
 		{

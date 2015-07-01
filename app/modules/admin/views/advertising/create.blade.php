@@ -1,7 +1,7 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Создание рекламного блока';
+$title = 'Создание рекламного блока или виджета';
 View::share('title', $title);
 ?>
 
@@ -12,7 +12,7 @@ View::share('title', $title);
             <small>заполните все необходимые формы</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама</a></li>
+            <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама и виджеты</a></li>
             <li>{{ $title }}</li>
         </ol>
     </div>

@@ -41,14 +41,14 @@ return array(
 	"integer"              => "The :attribute must be an integer.",
 	"ip"                   => "Неверный ip-адрес.",
 	"max"                  => array(
-		"numeric" => "The :attribute may not be greater than :max.",
+		"numeric" => "Значение не может быть больше :max.",
 		"file"    => "The :attribute may not be greater than :max kilobytes.",
 		"string"  => "Поле должно содержать не более :max символов.",
 		"array"   => "The :attribute may not have more than :max items.",
 	),
 	"mimes"                => "The :attribute must be a file of type: :values.",
 	"min"                  => array(
-		"numeric" => "The :attribute must be at least :min.",
+		"numeric" => "Значение не может быть меньше :min.",
 		"file"    => "The :attribute must be at least :min kilobytes.",
 		"string"  => "Поле должно содержать не менее :min символов.",
 		"array"   => "The :attribute must have at least :min items.",

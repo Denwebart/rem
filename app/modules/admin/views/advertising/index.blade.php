@@ -1,13 +1,13 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Реклама';
+$title = 'Реклама и виджеты';
 View::share('title', $title);
 ?>
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-usd"></i> {{ $title }} <small>рекламные блоки на сайте</small></h1>
+        <h1><i class="fa fa-usd"></i> {{ $title }} <small>рекламные блоки и виджеты на сайте</small></h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active">{{ $title }}</li>
@@ -18,59 +18,13 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
-
-                {{--<div class="box">--}}
-                    {{--<div class="box-body padding-md">--}}
-                        {{--<div class="invoice-title">--}}
-                            {{--<h3><i class="fa fa-bolt"></i> Avtorem</h3>--}}
-                            {{--<h4 class="pull-right"></h4>--}}
-                        {{--</div>--}}
-                        {{--<hr>--}}
-                        {{--<div class="row">--}}
-                            {{--<div class="col-xs-3">--}}
-                                {{--<div class="well no-radius no-border">--}}
-                                    {{--<h4 style="margin-bottom: 30px">Order summary</h4>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-xs-6">--}}
-                                {{--<h2>Заголовок</h2>--}}
-                                {{--<div class="well no-radius no-border">--}}
-                                    {{--<h4 style="margin-bottom: 30px">Order summary</h4>--}}
-                                {{--</div>--}}
-                                {{--<div class="box">--}}
-                                    {{--<div class="box-body padding-md">--}}
-                                        {{--Текст статьи или блог--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="well no-radius no-border">--}}
-                                    {{--<h4 style="margin-bottom: 30px">Order summary</h4>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-xs-3">--}}
-                                {{--<div class="well no-radius no-border">--}}
-                                    {{--<h4 style="margin-bottom: 30px">Order summary</h4>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="row">--}}
-                            {{--<div class="col-sx-12">--}}
-                                {{--<div class="well no-radius no-border">--}}
-                                    {{--<h4 style="margin-bottom: 30px">Order summary</h4>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="box-footer padding-md">--}}
-
-                    {{--</div>--}}
-                {{--</div><!-- /.wrapper -->--}}
-
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">
                             <thead>
                             <tr>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тип', 'type') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Область', 'area') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Позиция', 'position') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
@@ -88,10 +42,21 @@ View::share('title', $title);
                             @foreach($advertising as $item)
                                 <tr class="advertising">
                                     <td>{{ $item->id }}</td>
+                                    <td>{{ Advertising::$types[$item->type] }}</td>
                                     <td>{{ Advertising::$areas[$item->area] }}</td>
                                     <td>{{ $item->position }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{{ $item->description }}</td>
+                                    <td>
+                                        @if(Advertising::TYPE_ADVERTISING == $item->type)
+                                            {{ $item->description }}
+                                        @else
+                                            {{ Advertising::$widgets[$item->code] }} (кол-во: {{ $item->limit }})
+                                            @if($item->description)
+                                                <hr style="margin: 0">
+                                                {{ $item->description }}
+                                            @endif
+                                        @endif
+                                    </td>
                                     <td>{{ Advertising::$access[$item->access] }}</td>
                                     <td>
                                         <!-- Отключить/выключить рекламный блок -->

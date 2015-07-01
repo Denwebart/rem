@@ -1,6 +1,4 @@
 <div id="popular-sidebar-widget" class="list-group sidebar-widget">
-    <h4>Самое популярное</h4>
-
     @foreach($pages as $page)
         <div class="list-group-item">
             <div class="row-picture">

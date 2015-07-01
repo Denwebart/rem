@@ -1,6 +1,4 @@
 <div id="latest-sidebar-widget" class="list-group sidebar-widget">
-    <h4>Самое новое</h4>
-
     @foreach($pages as $page)
         <div class="list-group-item">
             <div class="row-picture">

@@ -18,9 +18,14 @@
             @endif
                 <div class="advertising-body">
                     @if($item->is_show_title)
-                        <h3>{{ $item->title }}</h3>
+                        <h4>{{ $item->title }}</h4>
                     @endif
-                    {{ $item->code }}
+                    @if(Advertising::TYPE_ADVERTISING == $item->type)
+                        {{ $item->code }}
+                    @elseif(Advertising::TYPE_WIDGET == $item->type)
+                        <?php $sidebarWidget = app('SidebarWidget')?>
+                        {{ $sidebarWidget->show($item->code, $item->limit) }}
+                    @endif
                 </div>
             </div>
         @endforeach

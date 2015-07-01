@@ -1,6 +1,4 @@
 <div id="best-sidebar-widget" class="list-group sidebar-widget">
-    <h4>TOP- 10 (рейтинг голосов)</h4>
-
     @foreach($pages as $page)
         <div class="list-group-item">
             <div class="row-picture">
