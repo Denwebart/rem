@@ -23,10 +23,10 @@
                     <div class="types">
                         <div class="form-group">
                             {{ Form::radio('type', Advertising::TYPE_ADVERTISING, (Advertising::TYPE_ADVERTISING == $advertising->type || is_null($advertising->type)) ? true : false, ['id' => 'type-advertising', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_ADVERTISING != $advertising->type) ? 'disabled' : '']) }}
-                            {{ Form::label('type-advertising', Advertising::$types[Advertising::TYPE_ADVERTISING]) }}
+                            {{ Form::label('type-advertising', Advertising::$types[Advertising::TYPE_ADVERTISING], ['class' => (Request::is('admin/advertising/*/edit') && Advertising::TYPE_ADVERTISING != $advertising->type) ? 'disabled' : '']) }}
 
                             {{ Form::radio('type', Advertising::TYPE_WIDGET, (Advertising::TYPE_WIDGET == $advertising->type) ? true : false, ['id' => 'type-widget', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_WIDGET != $advertising->type) ? 'disabled' : '']) }}
-                            {{ Form::label('type-widget', Advertising::$types[Advertising::TYPE_WIDGET]) }}
+                            {{ Form::label('type-widget', Advertising::$types[Advertising::TYPE_WIDGET], ['class' => (Request::is('admin/advertising/*/edit') && Advertising::TYPE_WIDGET != $advertising->type) ? 'disabled' : '']) }}
                         </div>
                         <div class="form-group advertising" style="display: none">
                             {{ Form::label('code-advertising', 'HTML/JavaScript') }}
@@ -74,57 +74,94 @@
 
     <div class="box">
         <div class="box-title">
-            <h3>Область</h3>
+            <div class="form-group">
+                {{ Form::label('page_type', 'Выберите страницу') }}
+                {{ Form::select('page_type', Advertising::$pages, $advertising->page_type, ['class' => 'form-control']) }}
+                {{ $errors->first('page_type') }}
+            </div>
         </div>
         <div class="box-body">
             <div class="row">
                 <div id="areas">
-                    {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
-                    <div class="col-xs-3" style="padding-right: 5px">
-                        <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_LEFT_SIDEBAR] }}
-                            </p>
-                            <span class="area-size">(max 325px)</span>
+                    <!-- Области для страниц с 3-мя колонками -->
+                    <div>
+                        {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
+                        <div class="col-xs-3" style="padding-right: 5px">
+                            <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_LEFT_SIDEBAR] }}
+                                </p>
+                                <span class="area-size">(max 325px)</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6" style="padding: 0 5px">
+                            <h5>Заголовок страницы</h5>
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_TOP == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_TOP }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_CONTENT_TOP] }}
+                                </p>
+                                <span class="area-size">(max 620px)</span>
+                            </div>
+                            <p>Текст страницы</p>
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_MIDDLE == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_MIDDLE }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_CONTENT_MIDDLE] }}
+                                </p>
+                                <span class="area-size">(max 620px)</span>
+                            </div>
+                            <p>Статьи или комментарии</p>
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_CONTENT_BOTTOM] }}
+                                </p>
+                                <span class="area-size">(max 620px)</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3" style="padding-left: 5px">
+                            <div class="area{{ (Advertising::AREA_RIGHT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_RIGHT_SIDEBAR }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_RIGHT_SIDEBAR] }}
+                                </p>
+                                <span class="area-size">(max 325px)</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_SITE_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_SITE_BOTTOM }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_SITE_BOTTOM] }}
+                                </p>
+                                <span class="area-size">(max 1300px)</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-6" style="padding: 0 5px">
-                        <h5>Заголовок страницы</h5>
-                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_TOP == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_TOP }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_CONTENT_TOP] }}
-                            </p>
-                            <span class="area-size">(max 620px)</span>
+                    <!-- Области для страниц с 2-мя колонками -->
+                    <div>
+                        {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
+                        <div class="col-xs-4" style="padding-right: 5px">
+                            <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_LEFT_SIDEBAR] }}
+                                </p>
+                                <span class="area-size">(max 325px)</span>
+                            </div>
                         </div>
-                        <p>Текст страницы</p>
-                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_MIDDLE == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_MIDDLE }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_CONTENT_MIDDLE] }}
-                            </p>
-                            <span class="area-size">(max 620px)</span>
+                        <div class="col-xs-8" style="padding: 0 5px">
+                            <h5>Заголовок страницы</h5>
+                            <p>Контент страницы</p>
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_CONTENT_BOTTOM] }}
+                                </p>
+                                <span class="area-size">(max 620px)</span>
+                            </div>
                         </div>
-                        <p>Статьи или комментарии</p>
-                        <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_CONTENT_BOTTOM] }}
-                            </p>
-                            <span class="area-size">(max 620px)</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-3" style="padding-left: 5px">
-                        <div class="area{{ (Advertising::AREA_RIGHT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_RIGHT_SIDEBAR }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_RIGHT_SIDEBAR] }}
-                            </p>
-                            <span class="area-size">(max 325px)</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="area area-not-for-widget{{ (Advertising::AREA_SITE_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_SITE_BOTTOM }}">
-                            <p class="area-title">
-                                {{ Advertising::$areas[Advertising::AREA_SITE_BOTTOM] }}
-                            </p>
-                            <span class="area-size">(max 1300px)</span>
+                        <div class="col-xs-12">
+                            <div class="area area-not-for-widget{{ (Advertising::AREA_SITE_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_SITE_BOTTOM }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_SITE_BOTTOM] }}
+                                </p>
+                                <span class="area-size">(max 1300px)</span>
+                            </div>
                         </div>
                     </div>
                 </div>

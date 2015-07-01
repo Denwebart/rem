@@ -33,7 +33,9 @@ h5, .h5 {
 .success {
     background-color: #DFF0D8;
 }
-
+.disabled {
+    opacity: 0.5;
+}
 form.as-button {
     display: inline;
 }
