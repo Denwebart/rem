@@ -57,6 +57,18 @@ class Advertising extends \Eloquent
 		self::ACCESS_FOR_GUEST => 'Для незарегистрированных',
 	];
 
+	const PAGE_TYPE_PAGE = 1;
+	const PAGE_TYPE_QUESTIONS = 2;
+	const PAGE_TYPE_JOURNAL = 3;
+	const PAGE_TYPE_CABINET = 4;
+
+	public static $pageTypes = [
+		self::PAGE_TYPE_PAGE => 'На страницах сайта',
+		self::PAGE_TYPE_QUESTIONS => 'На вопросах',
+		self::PAGE_TYPE_JOURNAL => 'В журнале',
+		self::PAGE_TYPE_CABINET => 'В личном кабинете',
+	];
+
 	protected $fillable = [
 		'area',
 		'position',

@@ -253,6 +253,20 @@ footer #navbar-bottom li {
 .area .advertising.access-3 {
     display:none;
 }
+.area.edit .buttons {
+    display: inline-block;
+}
+.area.edit .create {
+    margin: 0;
+}
+.area.edit .btn-sm {
+    padding: 7px 10px;
+    line-height: 1;
+}
+.area.edit [class^="mdi-"],
+.area.edit [class*="mdi-"] {
+    font-size: 18px;
+}
 
 /* Search Widget */
 #search .form-control {
