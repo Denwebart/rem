@@ -57,12 +57,6 @@ class Ip extends \Eloquent
 
 	public static function isBanned()
 	{
-		if(Session::has('user.is_banned_ip')) {
-			return Session::get('user.is_banned_ip');
-		} else {
-			$ip = Ip::whereIp(Request::ip())->first();
-			Session::put('user.is_banned_ip', $ip->is_banned);
-			return $ip->is_banned;
-		}
+		return Ip::whereIp(Request::ip())->first()->is_banned;
 	}
 }
