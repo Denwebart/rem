@@ -4,17 +4,25 @@ class AreaWidget
 {
 	private $advertising = [];
 
-	public function __construct() {
+	public function __construct($pageType = 0) {
+
 		$access = Auth::check() ? Advertising::ACCESS_FOR_REGISTERED : Advertising::ACCESS_FOR_GUEST;
 
 		$advertising = Advertising::whereIsActive(1)
+			->whereHas('pagesTypes', function($query) use($pageType) {
+				$query->where('page_type', '=', $pageType);
+			})
 			->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
 			->orderBy('position', 'ASC')
 			->get();
 
 		if(Auth::check()) {
 			if(Auth::user()->isAdmin()) {
-				$advertising = Advertising::orderBy('position', 'ASC')->get();
+				$advertising = Advertising::orderBy('position', 'ASC')
+					->whereHas('pagesTypes', function($query) use($pageType) {
+						$query->where('page_type', '=', $pageType);
+					})
+					->get();
 			}
 		}
 

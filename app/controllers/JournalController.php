@@ -1,12 +1,10 @@
 <?php
 
-class JournalController extends BaseController {
+class JournalController extends BaseController
+{
 
 	public function __construct()
 	{
-		$areaWidget = app('AreaWidget');
-		View::share('areaWidget', $areaWidget);
-
 		$this->beforeFilter(function()
 		{
 			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
@@ -30,6 +28,9 @@ class JournalController extends BaseController {
 
 	public function index($alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_JOURNAL]);
+		View::share('areaWidget', $areaWidget);
+
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -44,6 +45,9 @@ class JournalController extends BaseController {
 
 	public function journal($journalAlias, $login)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_USER_JOURNAL]);
+		View::share('areaWidget', $areaWidget);
+
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
@@ -71,6 +75,9 @@ class JournalController extends BaseController {
 
 	public function article($journalAlias, $login, $alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_ARTICLE_JOURNAL]);
+		View::share('areaWidget', $areaWidget);
+
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
@@ -91,6 +98,9 @@ class JournalController extends BaseController {
 	 */
 	public function tags($journalAlias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$page = Page::whereAlias('tag')->firstOrFail();
 
 //		$tags = Tag::has('pages')->get();
@@ -111,6 +121,9 @@ class JournalController extends BaseController {
 	 */
 	public function tag($journalAlias, $tag)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$tag = Tag::whereTitle($tag)->first();
 		$tags = Page::whereAlias('tag')->firstOrFail();
 

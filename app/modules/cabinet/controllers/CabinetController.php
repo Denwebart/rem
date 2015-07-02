@@ -4,7 +4,7 @@ class CabinetController extends \BaseController
 {
 	public function __construct()
 	{
-		$areaWidget = app('AreaWidget');
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SEARCH]);
 		View::share('areaWidget', $areaWidget);
 
 		if(Auth::check()){

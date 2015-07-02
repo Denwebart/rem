@@ -4,7 +4,7 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
-		$areaWidget = app('AreaWidget');
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
 		$this->beforeFilter(function()
@@ -31,6 +31,9 @@ class SiteController extends BaseController {
 
 	public function index()
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
+		View::share('areaWidget', $areaWidget);
+
 		$articles = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->where('parent_id', '!=', 0)
@@ -117,6 +120,9 @@ class SiteController extends BaseController {
 
 	public function questions($alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS]);
+		View::share('areaWidget', $areaWidget);
+
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
 			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
@@ -129,6 +135,9 @@ class SiteController extends BaseController {
 
 	public function questionsCategory($questionsAlias, $alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS_CATEGORY]);
+		View::share('areaWidget', $areaWidget);
+
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
@@ -143,6 +152,9 @@ class SiteController extends BaseController {
 
 	public function question($questionsAlias, $categoryAlias, $alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTION]);
+		View::share('areaWidget', $areaWidget);
+
 		$category = Page::getPageByAlias($categoryAlias)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)

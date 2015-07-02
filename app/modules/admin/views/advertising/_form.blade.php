@@ -72,22 +72,32 @@
 
 <div class="col-md-5">
 
-    <div class="box">
-        <div class="box-title">
-            <div class="form-group pages-types">
+    <div class="box" id="advertising">
+        <div class="box-body">
+            <div class="form-group" id="pages-types">
                 <h4>Выберите страницу</h4>
-                @foreach(AdvertisingPage::$pages as $pageTypeKey => $pageTypeValue)
-                    {{ Form::label('pages['.$pageTypeKey.']', $pageTypeValue) }}
-                    {{ Form::checkbox('pages['.$pageTypeKey.']', 1, isset($pages[$pageTypeKey]) ? true : false) }}
-                @endforeach
+                <div class="row">
+                    @foreach(AdvertisingPage::$pages as $pageTypeKey => $pageTypeValue)
+                        <div class="col-md-6">
+                            {{ Form::checkbox('pages['.$pageTypeKey.']', 1, isset($pages[$pageTypeKey]) ? true : false) }}
+                            {{ Form::label('pages['.$pageTypeKey.']', $pageTypeValue) }}
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="box-title toggle-buttons">
+            <div class="col-xs-12">
+                <a href="javascript:void(0)" class="btn show-tab active" data-id="three-columns">3 колонки</a>
+                <a href="javascript:void(0)" class="btn show-tab" data-id="two-columns">2 колонки</a>
             </div>
         </div>
         <div class="box-body">
             <div class="row">
                 <div id="areas">
                     <!-- Области для страниц с 3-мя колонками -->
-                    <div>
-                        {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
+                    {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
+                    <div id="three-columns" class="tab">
                         <div class="col-xs-3" style="padding-right: 5px">
                             <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
                                 <p class="area-title">
@@ -137,8 +147,7 @@
                         </div>
                     </div>
                     <!-- Области для страниц с 2-мя колонками -->
-                    <div>
-                        {{ Form::hidden('area', $advertising->area, ['id' => 'area']) }}
+                    <div id="two-columns" class="tab" style="display: none;">
                         <div class="col-xs-4" style="padding-right: 5px">
                             <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
                                 <p class="area-title">
@@ -205,6 +214,7 @@
                 if(!$(this).hasClass('not-active')) {
                     $('#areas .area').removeClass('selected-area');
                     $(this).addClass('selected-area');
+                    $('#areas').find('[data-area=' + $(this).data('area') + ']').addClass('selected-area');
                     $('#area').val($(this).data('area'));
                 }
             });
@@ -231,15 +241,13 @@
                 $('.area.area-not-for-widget').removeClass('not-active');
             });
 
-            $("[id^='pages']").first().on('ifToggled', function() {
-                if($(this).is(":checked")) {
-                    $(".pages-types input[type='checkbox']").attr('disabled', 'disabled').addClass('disabled');
-                    $(this).removeAttr('disabled').removeClass('disabled');
-                } else {
-                    $(".pages-types input[type='checkbox']").removeAttr('disabled').removeClass('disabled');
-//                    $(this).removeAttr('disabled').addClass('not-active');
-                }
+            $('.show-tab').on('click', function() {
+                $('.show-tab').removeClass('active');
+                $(this).addClass('active');
+                $('.tab').hide();
+                $('#' + $(this).data('id')).show();
             });
+
         });
     </script>
 

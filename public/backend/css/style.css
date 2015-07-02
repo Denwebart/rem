@@ -47,7 +47,25 @@ form.as-button {
     width: 90px;
 }
 
+/* Advertising Pages */
+#pages-types h4 {
+    margin: 3px 0 8px
+}
+#pages-types label {
+    font-size: 12px;
+}
+
 /* Advertising Areas */
+#advertising .box-title {
+    padding: 5px 10px;
+}
+#advertising .toggle-buttons a {
+    text-decoration: underline;
+}
+#advertising .toggle-buttons a.active {
+    background: #F3F3F4;
+    text-decoration: none;
+}
 #areas .area {
     background: #F3F3F4;
     padding: 10px;
