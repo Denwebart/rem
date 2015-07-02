@@ -148,6 +148,34 @@ View::share('title', $title);
                                     <td>Просмотры</td>
                                     <td>{{ $page->views }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Похожие статьи</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($page->relatedArticles as $articles)
+                                                <li data-id="{{ $articles->id }}">
+                                                    <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
+                                                        {{ $articles->getTitle() }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Похожие вопросы</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($page->relatedQuestions as $question)
+                                                <li data-id="{{ $question->id }}">
+                                                    <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
+                                                        {{ $question->getTitle() }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
