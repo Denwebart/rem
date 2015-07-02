@@ -67,7 +67,8 @@ class AdminАdvertisingController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Advertising::create($data);
+		$advertising = Advertising::create($data);
+		AdvertisingPage::add($advertising, Input::get('pages'));
 
 		return Redirect::to(Input::get('backUrl'));
 	}
@@ -86,7 +87,11 @@ class AdminАdvertisingController extends \BaseController {
 			? urldecode(Request::get('backUrl'))
 			: URL::route('admin.advertising.index');
 
-		return View::make('admin::advertising.edit', compact('advertising', 'backUrl'));
+		$pages = [];
+		foreach ($advertising->pagesTypes as $advertisingPage) {
+			$pages[$advertisingPage->page_type] = $advertisingPage->page_type;
+		}
+		return View::make('admin::advertising.edit', compact('advertising', 'backUrl', 'pages'));
 	}
 
 	/**
@@ -100,6 +105,7 @@ class AdminАdvertisingController extends \BaseController {
 		$advertising = Advertising::findOrFail($id);
 
 		$data = Input::all();
+
 		$data['code'] = (Input::get('type') == Advertising::TYPE_WIDGET)
 			? Input::get('code-widget')
 			: Input::get('code-advertising');
@@ -112,6 +118,7 @@ class AdminАdvertisingController extends \BaseController {
 		}
 
 		$advertising->update($data);
+		AdvertisingPage::add($advertising, Input::get('pages'));
 
 		return Redirect::to(Input::get('backUrl'));
 	}

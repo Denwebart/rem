@@ -74,10 +74,12 @@
 
     <div class="box">
         <div class="box-title">
-            <div class="form-group">
-                {{ Form::label('page_type', 'Выберите страницу') }}
-                {{ Form::select('page_type', Advertising::$pages, $advertising->page_type, ['class' => 'form-control']) }}
-                {{ $errors->first('page_type') }}
+            <div class="form-group pages-types">
+                <h4>Выберите страницу</h4>
+                @foreach(AdvertisingPage::$pages as $pageTypeKey => $pageTypeValue)
+                    {{ Form::label('pages['.$pageTypeKey.']', $pageTypeValue) }}
+                    {{ Form::checkbox('pages['.$pageTypeKey.']', 1, isset($pages[$pageTypeKey]) ? true : false) }}
+                @endforeach
             </div>
         </div>
         <div class="box-body">
@@ -229,6 +231,15 @@
                 $('.area.area-not-for-widget').removeClass('not-active');
             });
 
+            $("[id^='pages']").first().on('ifToggled', function() {
+                if($(this).is(":checked")) {
+                    $(".pages-types input[type='checkbox']").attr('disabled', 'disabled').addClass('disabled');
+                    $(this).removeAttr('disabled').removeClass('disabled');
+                } else {
+                    $(".pages-types input[type='checkbox']").removeAttr('disabled').removeClass('disabled');
+//                    $(this).removeAttr('disabled').addClass('not-active');
+                }
+            });
         });
     </script>
 
