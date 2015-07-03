@@ -59,6 +59,7 @@ class JournalController extends BaseController
 		$page->meta_desc = 'Бортовой журнал пользователя ' . $user->login;
 		$page->meta_key = '';
 		$page->parent = Page::getPageByAlias($journalAlias)->first();
+		$page->title = $page->meta_title;
 
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereUserId($user->id)

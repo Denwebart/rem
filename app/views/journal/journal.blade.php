@@ -21,11 +21,12 @@
 
         {{ $areaWidget->contentTop() }}
 
-        @if($page->content)
-            <div class="content">
-                {{ $page->content }}
-            </div>
-        @endif
+        <div class="content">
+            <a href="{{ URL::route('user.profile', ['ligin' => $user->getLoginForUrl()]) }}">
+                {{ $user->getAvatar(null, ['width' => '100px']) }}
+                {{ $user->login }}
+            </a>
+        </div>
 
         {{ $areaWidget->contentMiddle() }}
 
@@ -50,13 +51,7 @@
                                 </a>
                             </h3>
                         </div>
-                        <div class="col-md-4">
-                            <a href="{{ URL::route('user.profile', ['ligin' => $article->user->getLoginForUrl()]) }}">
-                                {{ $article->user->getAvatar('mini') }}
-                                {{ $article->user->login }}
-                            </a>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="pull-right">
                                 @if(Auth::check())
                                     @if($article->user_id == Auth::user()->id)
