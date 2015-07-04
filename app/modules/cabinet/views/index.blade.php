@@ -62,7 +62,7 @@ View::share('page', $title);
 
                         </div>
                         <div class="col-md-2">
-                            <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                                 {{ count($user->publishedArticles) }}
                             </a>
                         </div>

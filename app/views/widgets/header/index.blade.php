@@ -162,7 +162,7 @@
                             <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-question"></i>Мои вопросы</a>
                         </li>
                         <li>
-                            <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-book"></i>Мой журнал</a>
+                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}"><i class="fa fa-book"></i>Мой журнал</a>
                         </li>
                         <li>
                             <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>

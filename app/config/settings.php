@@ -12,6 +12,8 @@ return [
 	'adminName' => 'Admin',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
+	'journalAlias' => 'bortovoj-zhurnal',
+
 	//images
 	'bannedImage' => '/images/banned.png',
 

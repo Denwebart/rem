@@ -48,8 +48,9 @@
                     {{ $user->login }} ({{ $user->getFullName() }})
                 </a>
                 <ul class="info">
-                    <li>Статей:
-                        <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                    <li>
+                        Статей:
+                        <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                             {{ count($user->publishedArticles) }}
                         </a>
                     </li>
@@ -116,7 +117,7 @@
                         <div class="col-md-12">
                             <div class="pull-right">
                                 @if(Auth::check())
-                                    @if($article->user_id == Auth::user()->id)
+                                    @if(Auth::user()->is($article->user))
                                         <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
                                             Редактировать
                                         </a>

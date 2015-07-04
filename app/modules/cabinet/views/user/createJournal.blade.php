@@ -16,7 +16,7 @@ View::share('title', $title);
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">Мой журнал</a>
+                    <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">Мой журнал</a>
                 </li>
                 <li>{{ $title }}</li>
             </ol>

@@ -94,7 +94,6 @@ Route::group(['prefix' => 'user'], function() {
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
 	Route::get('{login}/gallery', ['as' => 'user.gallery', 'uses' => 'CabinetUserController@gallery']);
 	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
-	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
 	Route::get('{login}/answers', ['as' => 'user.answers', 'uses' => 'CabinetUserController@answers']);
 });
@@ -130,7 +129,7 @@ Route::get('rss', 'SiteController@rss');
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/tag', 'JournalController@tags')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/tag/{tag}', ['as' => 'journal.tag', 'uses' => 'JournalController@tag'])->where('journalAlias', 'bortovoj-zhurnal');
-Route::get('{journalAlias}/{login}', 'JournalController@journal')->where('journalAlias', 'bortovoj-zhurnal');
+Route::get('{journalAlias}/{login}', ['as' => 'user.journal', 'uses' => 'JournalController@journal'])->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('tagAutocomplete', ['as' => 'tagAutocomplete', 'uses' => 'JournalController@tagAutocomplete']);

@@ -520,7 +520,7 @@ class CabinetUserController extends \BaseController
 
 		Auth::user()->addPoints(User::POINTS_FOR_ARTICLE);
 
-		return Redirect::route('user.journal', ['login' => Auth::user()->getLoginForUrl()]);
+		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => Auth::user()->getLoginForUrl()]);
 	}
 
 	public function editJournal($login, $id)
@@ -573,7 +573,7 @@ class CabinetUserController extends \BaseController
 		// добавление тегов
 		Tag::addTag($page, Input::get('tags'));
 
-		return Redirect::route('user.journal', ['login' => $login]);
+		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
 	}
 
 	public function deleteJournal($login)

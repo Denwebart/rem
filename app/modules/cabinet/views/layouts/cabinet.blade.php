@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li class="{{ Route::is('user.journal') ? 'active' : '' }}">
-                    <a href="{{ URL::route('user.journal', ['login' => $user->getLoginForUrl()]) }}">
+                    <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                         <span class="glyphicon glyphicon-book"></span>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой журнал' : 'Бортовой журнал') : 'Бортовой журнал' }}</span>
                     </a>

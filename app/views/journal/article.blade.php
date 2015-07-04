@@ -9,7 +9,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ URL::to($page->parent->getUrl() . '/' . $user->getLoginForUrl()) }}">
+            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                 {{ $user->login }}
             </a>
         </li>

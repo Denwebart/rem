@@ -52,12 +52,15 @@
                         <div class="col-md-8">
                             <div class="pull-right">
                                 @if(Auth::check())
-                                    @if($article->user_id == Auth::user()->id)
+                                    @if(Auth::user()->is($article->user))
                                         <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
                                             Редактировать
                                         </a>
                                     @endif
                                 @endif
+                                <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $article->user->getLoginForUrl()]) }}">
+                                    Журнал пользователя {{ $article->user->login }}
+                                </a>
                             </div>
                             <p>{{ $article->getIntrotext() }}</p>
 
