@@ -12,6 +12,9 @@ return [
 	'adminName' => 'Admin',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
+	//images
+	'bannedImage' => '/images/banned.png',
+
 	'defaultImage' => '/images/default-image.jpg',
 	'mini_defaultImage' => '/images/mini_default-image.jpg',
 
@@ -21,6 +24,7 @@ return [
 	'defaultHonorImage' => '/images/default-honor-image.png',
 
 	'defaultTagImage' => '/images/default-tag-image.png',
+	//end images
 
 	'defaultPublishedTime' => '10:00:00',
 

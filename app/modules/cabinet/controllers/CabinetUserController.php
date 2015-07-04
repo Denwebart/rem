@@ -50,7 +50,7 @@ class CabinetUserController extends \BaseController
 				App::abort(403, 'Unauthorized action.');
 			}
 
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'subscriptions']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'subscriptions']]);
 	}
 
 	public function index($login)
@@ -608,12 +608,14 @@ class CabinetUserController extends \BaseController
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
 				$comments = Comment::whereUserId($user->id)
+					->whereIsAnswer(0)
 					->with('page.parent.parent')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$comments = Comment::whereUserId($user->id)
 					->whereIsPublished(1)
+					->whereIsAnswer(0)
 					->with('page.parent.parent')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
@@ -621,6 +623,7 @@ class CabinetUserController extends \BaseController
 		} else {
 			$comments = Comment::whereUserId($user->id)
 				->whereIsPublished(1)
+				->whereIsAnswer(0)
 				->with('page.parent.parent')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
@@ -628,6 +631,42 @@ class CabinetUserController extends \BaseController
 
 		View::share('user', $user);
 		return View::make('cabinet::user.comments', compact('comments'));
+	}
+
+	public function answers($login)
+	{
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		if(Auth::check()){
+			if(Auth::user()->is($user) || Auth::user()->isAdmin()) {
+				$answers = Comment::whereUserId($user->id)
+					->whereIsAnswer(1)
+					->with('page.parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			} else {
+				$answers = Comment::whereUserId($user->id)
+					->whereIsPublished(1)
+					->whereIsAnswer(1)
+					->with('page.parent.parent')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			}
+		} else {
+			$answers = Comment::whereUserId($user->id)
+				->whereIsPublished(1)
+				->whereIsAnswer(1)
+				->with('page.parent.parent')
+				->orderBy('created_at', 'DESC')
+				->paginate(10);
+		}
+
+		View::share('user', $user);
+		return View::make('cabinet::user.answers', compact('answers'));
 	}
 
 	public function messages($login)

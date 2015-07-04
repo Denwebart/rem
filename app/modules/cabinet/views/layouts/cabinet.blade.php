@@ -112,8 +112,14 @@
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="fa fa-comment"></span>
+                        <span class="icon mdi-communication-messenger"></span>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои комментарии' : 'Комментарии') : 'Комментарии' }}</span>
+                    </a>
+                </li>
+                <li class="{{ Route::is('user.answers') ? 'active' : '' }}">
+                    <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                        <span class="icon mdi-communication-forum"></span>
+                        <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои ответы' : 'Ответы') : 'Ответы' }}</span>
                     </a>
                 </li>
                 @if(Auth::check())

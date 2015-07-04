@@ -347,6 +347,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Ответы
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function answers()
+	{
+		return $this->hasMany('Comment', 'user_id')->whereIsAnswer(1);
+	}
+
+	/**
+	 * Опубликованные ответы
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function publishedAnswers()
+	{
+		return $this->hasMany('Comment', 'user_id')->whereIsAnswer(1)->whereIsPublished(1);
+	}
+
+	/**
 	 * Изображения пользователя ("Мой автомобиль")
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

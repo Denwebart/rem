@@ -34,6 +34,9 @@ View::share('page', $title);
                         {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
                     </div>
                     <div class="col-md-2">
+                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
+                    </div>
+                    <div class="col-md-2">
                         {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
                     </div>
                     <div class="col-md-2">
@@ -69,6 +72,11 @@ View::share('page', $title);
                             </a>
                         </div>
                         <div class="col-md-2">
+                            <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ count($user->publishedAnswers) }}
+                            </a>
+                        </div>
+                        <div class="col-md-2">
                             <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                                 {{ count($user->publishedComments) }}
                             </a>
@@ -76,7 +84,7 @@ View::share('page', $title);
                         <div class="col-md-2">
                             @foreach($user->honors as $honor)
                                 <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                                    {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title]) }}
+                                    {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title, 'alt' => $honor->title]) }}
                                 </a>
                             @endforeach
                         </div>

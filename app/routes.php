@@ -96,6 +96,7 @@ Route::group(['prefix' => 'user'], function() {
 	Route::get('{login}/questions', ['as' => 'user.questions', 'uses' => 'CabinetUserController@questions']);
 	Route::get('{login}/journal', ['as' => 'user.journal', 'uses' => 'CabinetUserController@journal']);
 	Route::get('{login}/comments', ['as' => 'user.comments', 'uses' => 'CabinetUserController@comments']);
+	Route::get('{login}/answers', ['as' => 'user.answers', 'uses' => 'CabinetUserController@answers']);
 });
 
 /* Пользователи */

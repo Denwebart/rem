@@ -302,6 +302,25 @@ footer #navbar-bottom li {
 }
 
 
+/*-- Профиль пользователя, журнал пользователя --*/
+
+.avatar {
+    margin: 20px 0;
+}
+.avatar img {
+    padding: 5px;
+    border: 1px solid #E6E6E6;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+}
+.avatar .avatar-default {
+    padding: 0 !important;
+    border: none;
+}
+.journal-user-info .honors {
+    margin: 10px 0;
+}
+
 /*-- Полоса уведомлений для авторизованных пользователей --*/
 
 /* Header==================================================*/

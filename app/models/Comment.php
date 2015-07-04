@@ -4,6 +4,7 @@
  * Comment
  *
  * @property integer $id
+ * @property boolean $is_answer
  * @property integer $parent_id
  * @property integer $user_id
  * @property string $user_email
@@ -20,7 +21,8 @@
  * @property string $published_at
  * @property string $read_at
  * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIsAnswer($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
@@ -48,6 +50,7 @@ class Comment extends \Eloquent
 	protected $table = 'comments';
 
 	protected $fillable = [
+		'is_answer',
 		'parent_id',
 		'user_id',
 		'user_name',
@@ -60,6 +63,7 @@ class Comment extends \Eloquent
 	];
 
 	public static $rules = [
+		'is_answer' => 'boolean',
 		'page_id' => 'required|numeric',
 		'parent_id' => 'required|numeric',
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
