@@ -23,13 +23,21 @@
         {{ $areaWidget->contentMiddle() }}
 
         @if(Auth::check())
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                        Написать статью
-                    </a>
-                </div>
-            </div>
+            @if(!Ip::isBanned())
+                @if(!Auth::user()->is_banned)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                Написать статью
+                            </a>
+                        </div>
+                    </div>
+                @else
+                    @include('cabinet::user.banMessage')
+                @endif
+            @else
+                @include('messages.bannedIp')
+            @endif
         @endif
 
         @if(count($page->publishedChildren))
@@ -56,10 +64,12 @@
                         <div class="col-md-8">
                             <div class="pull-right">
                                 @if(Auth::check())
-                                    @if(Auth::user()->is($article->user))
-                                        <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                            Редактировать
-                                        </a>
+                                    @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                        <div class="pull-right">
+                                            <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                                Редактировать
+                                            </a>
+                                        </div>
                                     @endif
                                 @endif
                                 <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $article->user->getLoginForUrl()]) }}">

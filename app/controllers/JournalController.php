@@ -61,13 +61,29 @@ class JournalController extends BaseController
 		$page->parent = Page::getPageByAlias($journalAlias)->first();
 		$page->title = $page->meta_title;
 
-		$articles = Page::whereType(Page::TYPE_ARTICLE)
-			->whereUserId($user->id)
-			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with('parent.parent', 'user', 'tags')
-			->orderBy('published_at', 'DESC')
-			->paginate(10);
+		if(Auth::check()){
+			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
+				$articles = Page::whereType(Page::TYPE_ARTICLE)
+					->whereUserId($user->id)
+					->with('parent.parent', 'tags')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			} else {
+				$articles = Page::whereType(Page::TYPE_ARTICLE)
+					->whereUserId($user->id)
+					->whereIsPublished(1)
+					->with('parent.parent', 'tags')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+			}
+		} else {
+			$articles = Page::whereType(Page::TYPE_ARTICLE)
+				->whereUserId($user->id)
+				->whereIsPublished(1)
+				->with('parent.parent', 'tags')
+				->orderBy('created_at', 'DESC')
+				->paginate(10);
+		}
 
 		View::share('page', $page);
 

@@ -90,13 +90,21 @@
 
         @if(Auth::check())
             @if(Auth::user()->is($user))
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                            Написать статью
-                        </a>
-                    </div>
-                </div>
+                @if(!Ip::isBanned())
+                    @if(!$user->is_banned)
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                    Написать статью
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        @include('cabinet::user.banMessage')
+                    @endif
+                @else
+                    @include('messages.bannedIp')
+                @endif
             @endif
         @endif
 
@@ -107,7 +115,7 @@
                     Всего: <span>{{ $articles->getTotal() }}</span>.
                 </div>
                 @foreach($articles as $article)
-                    <div class="row">
+                    <div class="row" data-article-id="{{ $article->id }}">
                         <div class="col-md-12">
                             <h3>
                                 <a href="{{ URL::to($article->getUrl()) }}">
@@ -118,10 +126,19 @@
                         <div class="col-md-12">
                             <div class="pull-right">
                                 @if(Auth::check())
-                                    @if(Auth::user()->is($article->user))
-                                        <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                            Редактировать
-                                        </a>
+                                    @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                                        <div class="pull-right">
+                                            <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
+                                                Редактировать
+                                            </a>
+                                            <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
+                                                Удалить
+                                            </a>
+                                            <div class="status">
+                                                Статус:
+                                                {{ ($article->is_published) ? 'Опубликована' : 'Неопубликована' }}
+                                            </div>
+                                        </div>
                                     @endif
                                 @endif
                             </div>
@@ -150,4 +167,32 @@
         {{ $areaWidget->contentBottom() }}
 
     </section>
+@stop
+
+@section('script')
+    @parent
+
+            <!-- Delete Article -->
+    @if(Auth::check())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $('.delete-article').click(function(){
+                    var articleId = $(this).data('id');
+                    if(confirm('Вы уверены, что хотите удалить статью?')) {
+                        $.ajax({
+                            url: '<?php echo URL::route('user.journal.delete', ['login' => $user->getLoginForUrl()]) ?>',
+                            dataType: "text json",
+                            type: "POST",
+                            data: {articleId: articleId},
+                            success: function(response) {
+                                if(response.success){
+                                    $('[data-article-id=' + articleId + ']').remove();
+                                }
+                            }
+                        });
+                    }
+                });
+            </script>
+        @endif
+    @endif
 @stop

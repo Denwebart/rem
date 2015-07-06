@@ -446,41 +446,6 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
-	public function journal($login)
-	{
-		$user = Auth::check()
-			? ((Auth::user()->getLoginForUrl() == $login)
-				? Auth::user()
-				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
-			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
-
-		if(Auth::check()){
-			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$articles = Page::whereType(Page::TYPE_ARTICLE)
-					->whereUserId($user->id)
-					->with('parent.parent', 'tags')
-					->orderBy('created_at', 'DESC')
-					->paginate(10);
-			} else {
-				$articles = Page::whereType(Page::TYPE_ARTICLE)
-					->whereUserId($user->id)
-					->whereIsPublished(1)
-					->with('parent.parent', 'tags')
-					->orderBy('created_at', 'DESC')
-					->paginate(10);
-			}
-		} else {
-			$articles = Page::whereType(Page::TYPE_ARTICLE)
-				->whereUserId($user->id)
-				->whereIsPublished(1)
-				->with('parent.parent', 'tags')
-				->orderBy('created_at', 'DESC')
-				->paginate(10);
-		}
-		View::share('user', $user);
-		return View::make('cabinet::user.journal', compact('articles'));
-	}
-
 	public function createJournal($login)
 	{
 		$article = new Page();
