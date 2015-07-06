@@ -30,9 +30,9 @@
                         {{ Form::label('image', 'Изображение') }}<br/>
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
                         {{ $errors->first('image') }}
-                        @if($page->image_alt)
-                            <img src="" alt=""/>
-                            {{ HTML::image($page->image_alt) }}
+
+                        @if($page->image)
+                            {{ $page->getImage() }}
                         @endif
                     </div>
                     <div class="col-sm-6">

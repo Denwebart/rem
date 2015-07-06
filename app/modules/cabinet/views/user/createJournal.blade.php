@@ -31,7 +31,7 @@ View::share('title', $title);
             <h2>{{ $title }}</h2>
 
             <div class="row">
-                {{ Form::model($article, ['method' => 'POST', 'route' => ['user.journal.store', 'login' => $user->getLoginForUrl()]], ['id' => 'journalForm']) }}
+                {{ Form::model($article, ['method' => 'POST', 'route' => ['user.journal.store', 'login' => $user->getLoginForUrl()], 'id' => 'journalForm', 'files' => true]) }}
                 @include('cabinet::user._journalForm')
                 {{ Form::close() }}
             </div>

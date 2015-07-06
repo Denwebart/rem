@@ -22,7 +22,7 @@ View::share('title', $title);
             <div class="col-md-12">
                 <h4 class="no-margin-top">{{ $page->getTitle() }}</h4>
             </div>
-            {{ Form::model($page, ['method' => 'PUT', 'route' => ['admin.questions.update', $page->id], 'id' => 'registerForm']) }}
+            {{ Form::model($page, ['method' => 'PUT', 'route' => ['admin.questions.update', $page->id], 'id' => 'questionsForm', 'files' => true]) }}
                 @include('admin::questions._form')
             {{ Form::close() }}
         </div>

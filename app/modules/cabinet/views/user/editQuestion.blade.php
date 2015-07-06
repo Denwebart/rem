@@ -31,7 +31,7 @@ View::share('title', $title);
             <h2>{{ $title }}</h2>
 
             <div class="row">
-                {{ Form::model($question, ['method' => 'PUT', 'route' => ['user.questions.update', 'login' => $user->getLoginForUrl(), 'id' => $question->id]], ['id' => 'questionForm']) }}
+                {{ Form::model($question, ['method' => 'PUT', 'route' => ['user.questions.update', 'login' => $user->getLoginForUrl(), 'id' => $question->id], 'id' => 'questionForm', 'files' => true]) }}
                 @include('cabinet::user._questionsForm')
                 {{ Form::close() }}
             </div>

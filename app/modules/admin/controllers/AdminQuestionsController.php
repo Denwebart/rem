@@ -77,6 +77,35 @@ class AdminQuestionsController extends \BaseController {
 
 		$page = sPage::create($data);
 
+		// загрузка изображения
+		if(isset($data['image'])){
+
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
+			$image = Image::make($data['image']->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+
+			if($image->width() > 225) {
+				$image->save($imagePath . 'origin_' . $fileName)
+					->resize(225, null, function ($constraint) {
+						$constraint->aspectRatio();
+					})
+					->save($imagePath . $fileName);
+			} else {
+				$image->save($imagePath . $fileName);
+			}
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+
+			$image->crop($cropSize, $cropSize)
+				->resize(50, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'mini_' . $fileName);
+
+			$data['image'] = $fileName;
+		}
+		// загрузка изображения
+
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
@@ -147,6 +176,46 @@ class AdminQuestionsController extends \BaseController {
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
+
+		// загрузка изображения
+		if(isset($data['image'])){
+
+			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
+			$image = Image::make($data['image']->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath);
+
+			if($image->width() > 225) {
+				$image->save($imagePath . 'origin_' . $fileName)
+					->resize(225, null, function ($constraint) {
+						$constraint->aspectRatio();
+					})
+					->save($imagePath . $fileName);
+			} else {
+				$image->save($imagePath . $fileName);
+			}
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+
+			$image->crop($cropSize, $cropSize)
+				->resize(50, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'mini_' . $fileName);
+
+			// delete old image
+			if(File::exists($imagePath . $page->image)) {
+				File::delete($imagePath . $page->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $page->image)){
+				File::delete($imagePath . 'origin_' . $page->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $page->image)){
+				File::delete($imagePath . 'mini_' . $page->image);
+			}
+
+			$data['image'] = $fileName;
+		}
+		// загрузка изображения
 
 		$page->update($data);
 

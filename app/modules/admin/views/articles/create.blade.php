@@ -19,7 +19,7 @@ View::share('title', $title);
 
     <div class="content label-normal">
         <div class="row">
-            {{ Form::model($page, ['method' => 'POST', 'route' => ['admin.articles.store']], ['id' => 'registerForm']) }}
+            {{ Form::model($page, ['method' => 'POST', 'route' => ['admin.articles.store'], 'id' => 'articlesForm', 'files' => true]) }}
                 @include('admin::articles._form')
             {{ Form::close() }}
         </div>

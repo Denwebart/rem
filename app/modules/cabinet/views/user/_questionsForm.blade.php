@@ -16,9 +16,9 @@
 		{{ Form::label('image', 'Изображение') }}<br/>
 		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
 		{{ $errors->first('image') }}
-		@if($question->image_alt)
-			<img src="" alt=""/>
-			{{ HTML::image($question->image_alt) }}
+
+		@if($question->image)
+			{{ $question->getImage() }}
 		@endif
 	</div>
 </div>

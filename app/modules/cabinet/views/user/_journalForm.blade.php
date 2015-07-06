@@ -11,10 +11,10 @@
 		{{ Form::label('image', 'Изображение') }}<br/>
 		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
 		{{ $errors->first('image') }}
-		@if($article->image_alt)
-			<img src="" alt=""/>
-			{{ HTML::image($article->image_alt) }}
-		@endif
+
+        @if($article->image)
+            {{ $article->getImage() }}
+        @endif
 	</div>
 </div>
 <div class="col-md-12">
