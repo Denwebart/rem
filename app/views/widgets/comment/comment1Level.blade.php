@@ -35,7 +35,7 @@
 
         {{--Отметить лучшие ответы--}}
         @if($comment->mark == Comment::MARK_BEST)
-            <div class="mark-comment" data-mark-comment-id="{{ $comment->id }}">
+            <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
                 <i class="mdi-action-done mdi-success" style="font-size: 40pt;" title="Лучший ответ"></i>
             </div>
         @elseif(Auth::check())

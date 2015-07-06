@@ -9,7 +9,7 @@
     {{--Ответы (все, кроме лучших)--}}
     <h3>{{ $title }}
         <span class="count-comments">
-            ({{ count($page->publishedComments) - count($page->bestComments) }})
+            ({{ count($page->publishedAnswers) - count($page->bestComments) }})
         </span>
     </h3>
 
