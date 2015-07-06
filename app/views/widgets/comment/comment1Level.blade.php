@@ -35,20 +35,21 @@
 
         {{--Отметить лучшие ответы--}}
         @if($comment->mark == Comment::MARK_BEST)
-            <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
+            <div class="mark-comment" data-mark-comment-id="{{ $comment->id }}">
                 <i class="mdi-action-done mdi-success" style="font-size: 40pt;" title="Лучший ответ"></i>
             </div>
         @elseif(Auth::check())
             @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)
-                <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                    <a href="javascript:void(0)" class="pull-left mark-comment-as-best" style="display:none">
-                        <i class="mdi-action-done mdi-material-grey" style="font-size: 40pt;"></i>
+                <div class="mark-comment" data-mark-comment-id="{{ $comment->id }}">
+                    <a href="javascript:void(0)" class="pull-left btn btn-sm mark-comment-as-best" title="Если ответ вам помог, отметьте его как лучший.">
+                        Отметить как лучший
                     </a>
                 </div>
             @endif
         @endif
 
-        <a href="javascript:void(0)" class="reply" data-comment-id="{{ $comment->id }}">Ответить</a>
+        <a href="javascript:void(0)" class="pull-left btn btn-sm reply" data-comment-id="{{ $comment->id }}">Ответить</a>
+        <div class="clearfix"></div>
 
         <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
 

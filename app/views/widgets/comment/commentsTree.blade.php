@@ -14,18 +14,6 @@
     </h3>
 
     <div class="comments">
-
-        {{--Отметить лучшие ответы--}}
-        @if(Auth::check() && Page::TYPE_QUESTION == $page->type)
-            @if(Auth::user()->is($page->user) && count($comments))
-                <div class="clearfix">
-                    <a href="javascript:void(0)" class="btn btn-primary btn-raised pull-right" id="mark-as-best">
-                        Отметить лучшие ответы
-                    </a>
-                </div>
-            @endif
-        @endif
-
         @foreach($comments as $comment)
             <!-- Comment -->
             @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment])
@@ -204,16 +192,6 @@
         });
 
         // Отметить комментарий как лучший
-        $('#mark-as-best').on('click', function() {
-            if($(this).hasClass('btn-primary')) {
-                $('.mark-comment-as-best').show();
-                $(this).text('Отмена');
-            } else {
-                $('.mark-comment-as-best').hide();
-                $(this).text('Отметить лучший ответ');
-            }
-            $(this).toggleClass("btn-primary btn-default");
-        });
         $(".mark-comment").on('click', '.mark-comment-as-best', function() {
             var $markTag = $(this).parent();
             var commentId = $(this).parent().data('markCommentId');
