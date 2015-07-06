@@ -22,29 +22,46 @@
 
         <h2>{{ $page->title }}</h2>
 
-        @if(count($page->bestComments))
-            <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
-            <span class="text-success">Есть решение</span>
-        @endif
+        <div class="page-info">
+            <div class="answers pull-left" title="Количество ответов">
+                <span class="mdi-communication-forum"></span>
+                <a href="#answers">
+                    {{ count($page->publishedAnswers) }}
+                </a>
+            </div>
+            @if(count($page->bestComments))
+                <div class="best-answers pull-left" title="Вопрос решен">
+                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                    <span class="text-success">Есть решение</span>
+                </div>
+            @endif
+
+            <div class="user pull-left">
+                <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                    {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                    <span class="login pull-left">{{ $page->user->login }}</span>
+                </a>
+            </div>
+            <div class="date pull-left" title="Дата публикации">
+                <span class="mdi-action-today"></span>
+                {{ DateHelper::dateFormat($page->published_at) }}
+            </div>
+            <div class="views pull-left" title="Количество просмотров">
+                <span class="mdi-action-visibility"></span>
+                {{ $page->views }}
+            </div>
+            @if(Auth::check())
+                <!-- Сохранение страницы в сохраненное -->
+                @include('widgets.savedPages')
+            @endif
+            {{-- Рейтинг --}}
+            @include('widgets.rating')
+        </div>
+        <div class="clearfix"></div>
 
         {{ $areaWidget->contentTop() }}
 
         <div class="content">
-
-            @if($page->showViews())
-                Количество просмотров: {{ $page->views }}
-            @endif
-
-            {{-- Рейтинг --}}
-            @include('widgets.rating')
-
-            @if(Auth::check())
-                <!-- Сохранение страницы в избранное ("Сохраненное") -->
-                @include('widgets.savedPages')
-            @endif
-
-            Автор: {{ $page->user->login }} ({{ $page->user->getFullName() }})
-
             {{ $page->content }}
         </div>
 

@@ -168,6 +168,10 @@
                             <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-comment"></i>Мои комментарии</a>
                         </li>
                         <li>
+                            <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-comments"></i>Мои ответы</a>
+                        </li>
+
+                        <li>
                             <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl() ]) }}"><i class="fa fa-send"></i>Личные сообщения</a>
                         </li>
                         <li>

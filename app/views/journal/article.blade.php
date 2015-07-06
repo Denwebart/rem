@@ -22,23 +22,39 @@
             <h2>{{ $page->title }}</h2>
         @endif
 
+        <div class="page-info">
+            <div class="user pull-left">
+                <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                    {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                    <span class="login pull-left">{{ $page->user->login }}</span>
+                </a>
+            </div>
+            <div class="date pull-left" title="Дата публикации">
+                <span class="mdi-action-today"></span>
+                {{ DateHelper::dateFormat($page->published_at) }}
+            </div>
+            <div class="views pull-left" title="Количество просмотров">
+                <span class="mdi-action-visibility"></span>
+                {{ $page->views }}
+            </div>
+            <div class="comments pull-left" title="Количество комментариев">
+                <span class="mdi-communication-messenger"></span>
+                <a href="#comments">
+                    {{ count($page->publishedComments) }}
+                </a>
+            </div>
+            @if(Auth::check())
+                <!-- Сохранение страницы в сохраненное -->
+                @include('widgets.savedPages')
+            @endif
+            {{-- Рейтинг --}}
+            @include('widgets.rating')
+        </div>
+        <div class="clearfix"></div>
+
         {{ $areaWidget->contentTop() }}
 
         <div class="content">
-
-            @if($page->showViews())
-                Количество просмотров: {{ $page->views }}
-            @endif
-
-            {{-- Рейтинг --}}
-            @include('widgets.rating')
-
-            @if(Auth::check())
-                <!-- Сохранение страницы в избранное ("Сохраненное") -->
-                @include('widgets.savedPages')
-            @endif
-
-            Автор: {{ $page->user->getFullName() }}
             {{ $page->content }}
 
             <ul class="tags">

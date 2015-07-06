@@ -26,25 +26,52 @@
 			<h2>{{ $page->title }}</h2>
 		@endif
 
-		{{ $areaWidget->contentTop() }}
+        <div class="page-info">
+            @if($page->isLastLevel())
+                <div class="user pull-left">
+                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                        {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                        <span class="login pull-left">{{ $page->user->login }}</span>
+                    </a>
+                </div>
+                <div class="date pull-left" title="Дата публикации">
+                    <span class="mdi-action-today"></span>
+                    {{ DateHelper::dateFormat($page->published_at) }}
+                </div>
+            @endif
+
+            @if($page->showViews())
+                <div class="views pull-left" title="Количество просмотров">
+                    <span class="mdi-action-visibility"></span>
+                    {{ $page->views }}
+                </div>
+            @endif
+
+            @if($page->showComments())
+                <div class="comments pull-left" title="Количество комментариев">
+                    <span class="mdi-communication-messenger"></span>
+                    <a href="#comments">
+                        {{ count($page->publishedComments) }}
+                    </a>
+                </div>
+            @endif
+
+            @if(Auth::check() && $page->isLastLevel())
+                <!-- Сохранение страницы в сохраненное -->
+                @include('widgets.savedPages')
+            @endif
+
+            @if($page->showRating())
+                {{-- Рейтинг --}}
+                @include('widgets.rating')
+            @endif
+        </div>
+        <div class="clearfix"></div>
+
+        {{ $areaWidget->contentTop() }}
 
 		@if($page->content)
 			<div class="content">
-
-                @if($page->showViews())
-                    Количество просмотров: {{ $page->views }}
-                @endif
-
-				@if($page->showRating())
-					{{-- Рейтинг --}}
-					@include('widgets.rating')
-				@endif
-
-                @if(Auth::check() && $page->isLastLevel())
-					<!-- Сохранение страницы в избранное ("Сохраненное") -->
-					@include('widgets.savedPages')
-                @endif
-
 				{{ $page->content }}
 			</div>
 		@endif

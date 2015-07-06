@@ -1,16 +1,16 @@
-<div id="saved-pages">
+<div id="saved-pages" class="saved pull-left">
     @if(!Auth::user()->hasInSaved($page->id))
-        <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}">
-            <i class="glyphicon glyphicon-floppy-save"></i>
+        <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"'.>
+            <i class="mdi-content-archive"></i>
             Добавить в сохранённые
         </a>
     @else
-        <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}">
-            <i class="glyphicon glyphicon-floppy-remove"></i>
+        <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного'>
+            <i class="mdi-content-archive"></i>
             Убрать из сохранённых
         </a>
     @endif
-        <span class="whoSaved">Уже сохранили: <span>{{ count($page->whoSaved) }}</span></span>
+        <span class="whoSaved" title="Сколько пользователей сохранили">Уже сохранили: <span>{{ count($page->whoSaved) }}</span></span>
 </div>
 <div id="save-page-message"></div>
 
@@ -29,8 +29,9 @@
                 success: function(response) {
                     if(response.success){
                         $("#save-page-message").text(response.message);
-                        $link.html('<i class="glyphicon glyphicon-floppy-remove"></i> Убрать из сохранённых');
+                        $link.html('<i class="mdi-content-archive"></i> Убрать из сохранённых');
                         $link.attr('id', 'remove-page');
+                        $link.attr('title', 'Убрать статью из сохраненного');
                         $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
                     } else {
                         $("#save-page-message").text(response.message);
@@ -50,8 +51,9 @@
                 success: function(response) {
                     if(response.success){
                         $("#save-page-message").text(response.message);
-                        $link.html('<i class="glyphicon glyphicon-floppy-save"></i> Добавить в сохранённые');
+                        $link.html('<i class="mdi-content-archive"></i> Добавить в сохранённые');
                         $link.attr('id', 'save-page');
+                        $link.attr('title', 'Если вам понравилась статья, вы можете добавить ее в "Сохраненное"');
                         $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
                     } else {
                         $("#save-page-message").text(response.message);

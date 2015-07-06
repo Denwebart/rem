@@ -1,4 +1,4 @@
-<div id="rating">
+<div id="rating" class="rating pull-right">
     <div id="rate-votes">{{ $page->getRating() }}</div>
     <div id="rate-voters">(голосовавших: <span>{{ $page->voters }}</span>)</div>
     <div id="rate-stars">

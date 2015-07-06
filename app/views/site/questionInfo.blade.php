@@ -19,12 +19,7 @@
                         <span class="mdi-action-visibility"></span>
                         {{ $question->views }}
                     </div>
-                    <div class="comments pull-left" title="Количество комментариев к ответам">
-                        <span class="mdi-communication-messenger"></span>
-                        <a href="{{ URL::to($question->getUrl() . '#answers') }}">
-                            {{ count($question->publishedComments) }}
-                        </a>
-                    </div>                                        <div class="saved pull-left" title="Сколько пользователей сохранили">
+                    <div class="saved pull-left" title="Сколько пользователей сохранили">
                         <span class="mdi-content-archive"></span>
                         {{ count($question->whoSaved) }}
                     </div>

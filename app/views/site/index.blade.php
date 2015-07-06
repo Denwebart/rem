@@ -6,19 +6,19 @@
 			<h2>{{ $page->title }}</h2>
 		@endif
 
+        <div class="page-info">
+            @if($page->showRating())
+                {{-- Рейтинг --}}
+                @include('widgets.rating')
+            @endif
+        </div>
+        <div class="clearfix"></div>
+
 		{{ $areaWidget->contentTop() }}
 
 		@if($page->content)
-
 			<div class="content">
-
-				@if($page->showRating())
-					{{-- Рейтинг --}}
-					@include('widgets.rating')
-				@endif
-
 				{{ $page->content }}
-
 			</div>
 		@endif
 
