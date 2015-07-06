@@ -23,19 +23,24 @@ View::share('title', $title);
 		{{--<hr/>--}}
 
 		@if(count($results))
-			@foreach($results as $result)
-				<div>
-					<a href="{{ URL::to($result->getUrl()) }}">
-						{{ StringHelper::getFragment($result->getTitle(), $query) }}
-					</a>
-					<p>
-						{{ StringHelper::getFragment($result->content, $query) }}
-					</p>
-				</div>
-				<hr/>
-			@endforeach
-
-			{{ $results->appends(['query' => $query])->links() }}
+            <section id="search-area" class="blog">
+                <div class="count">
+                    Показано результатов: <span>{{ $results->count() }}</span>.
+                    Всего: <span>{{ $results->getTotal() }}</span>.
+                </div>
+                @foreach($results as $result)
+                    <div>
+                        <a href="{{ URL::to($result->getUrl()) }}">
+                            {{ StringHelper::getFragment($result->getTitle(), $query) }}
+                        </a>
+                        <p>
+                            {{ StringHelper::getFragment($result->content, $query) }}
+                        </p>
+                    </div>
+                    <hr/>
+                @endforeach
+                {{ $results->appends(['query' => $query])->links() }}
+            </section><!--search-area-->
 		@else
 			<p>Ничего не найдено.</p>
 		@endif

@@ -24,7 +24,11 @@
 
 		{{ $areaWidget->contentMiddle() }}
 
-		<section id="blog-area">
+		<section id="blog-area" class="blog">
+            <div class="count">
+                Показано: <span>{{ $articles->count() }}</span>.
+                Всего: <span>{{ $articles->getTotal() }}</span>.
+            </div>
 			@foreach($articles as $article)
 				<div class="row item" data-article-id="{{ $article->id }}">
 					<div class="col-md-12">
@@ -56,9 +60,7 @@
 				</div>
 				<hr/>
 			@endforeach
-			<div>
-				{{ $articles->links() }}
-			</div>
+			{{ $articles->links() }}
 		</section><!--blog-area-->
 
 		{{ $areaWidget->contentBottom() }}

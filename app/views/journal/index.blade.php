@@ -33,7 +33,11 @@
         @endif
 
         @if(count($page->publishedChildren))
-            <section id="blog-area">
+            <section id="blog-area" class="blog">
+                <div class="count">
+                    Показано статей: <span>{{ $articles->count() }}</span>.
+                    Всего: <span>{{ $articles->getTotal() }}</span>.
+                </div>
                 @foreach($articles as $article)
                     <div class="row">
                         <div class="col-md-12">
@@ -81,9 +85,7 @@
                     </div>
                     <hr/>
                 @endforeach
-                <div>
-                    {{ $articles->links() }}
-                </div>
+                {{ $articles->links() }}
             </section><!--blog-area-->
         @endif
 

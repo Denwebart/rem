@@ -101,9 +101,10 @@
         @endif
 
         @if(count($articles))
-            <section id="blog-area">
+            <section id="blog-area" class="blog">
                 <div class="count">
-                    Показано статей: {{ $articles->count() }}. Всего: {{ $articles->getTotal() }}.
+                    Показано статей: <span>{{ $articles->count() }}</span>.
+                    Всего: <span>{{ $articles->getTotal() }}</span>.
                 </div>
                 @foreach($articles as $article)
                     <div class="row">
@@ -142,9 +143,7 @@
                         </div>
                     </div>
                 @endforeach
-                <div>
-                    {{ $articles->links() }}
-                </div>
+                {{ $articles->links() }}
             </section><!--blog-area-->
         @endif
 

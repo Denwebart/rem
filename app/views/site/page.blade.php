@@ -52,7 +52,11 @@
 		{{ $areaWidget->contentMiddle() }}
 
 		@if(count($children))
-			<section id="blog-area">
+			<section id="blog-area" class="blog">
+                <div class="count">
+                    Показано: <span>{{ $children->count() }}</span>.
+                    Всего: <span>{{ $children->getTotal() }}</span>.
+                </div>
 				@foreach($children as $child)
 					<div class="row item">
 						<div class="col-md-12">
@@ -86,9 +90,7 @@
 					</div>
 					<hr/>
 				@endforeach
-				<div>
-					{{ $children->links() }}
-				</div>
+				{{ $children->links() }}
 			</section><!--blog-area-->
 		@endif
 
