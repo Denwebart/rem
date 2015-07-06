@@ -58,37 +58,7 @@
                     Всего: <span>{{ $children->getTotal() }}</span>.
                 </div>
 				@foreach($children as $child)
-					<div class="row item">
-						<div class="col-md-12">
-							<h3>
-								<a href="{{ URL::to($child->getUrl()) }}">
-									{{ $child->title }}
-								</a>
-							</h3>
-						</div>
-						<div class="col-md-12">
-							<div class="pull-right">
-								@if($child->parent)
-									@if($child->parent->parent)
-										<a href="{{ URL::to($child->parent->parent->getUrl()) }}">
-											{{ $child->parent->parent->getTitle() }}
-										</a>
-										/
-									@endif
-									<a href="{{ URL::to($child->parent->getUrl()) }}">
-										{{ $child->parent->getTitle() }}
-									</a>
-								@endif
-							</div>
-							<div class="clearfix"></div>
-							<a href="{{ URL::to($child->getUrl()) }}" class="image">
-								{{ HTML::image(Config::get('settings.defaultImage'), '', ['class' => 'img-responsive']) }}
-							</a>
-							<p>{{ $child->getIntrotext() }}</p>
-							<a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
-						</div>
-					</div>
-					<hr/>
+                    @include('site.postInfo', ['article' => $child])
 				@endforeach
 				{{ $children->links() }}
 			</section><!--blog-area-->
@@ -101,9 +71,11 @@
 		@endif
 
 		@if($page->showComments())
-			{{-- Комментарии --}}
-			<?php $commentWidget = app('CommentWidget') ?>
-			{{ $commentWidget->show($page) }}
+            <div id="comments">
+                {{-- Комментарии --}}
+                <?php $commentWidget = app('CommentWidget') ?>
+                {{ $commentWidget->show($page) }}
+            </div>
 		@endif
 
 		{{ $areaWidget->contentBottom() }}

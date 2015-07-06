@@ -60,8 +60,10 @@
         {{ $relatedWidget->questions($page) }}
 
         {{-- Комментарии --}}
-        <?php $commentWidget = app('CommentWidget'); ?>
-        {{ $commentWidget->show($page) }}
+        <div id="comments">
+            <?php $commentWidget = app('CommentWidget'); ?>
+            {{ $commentWidget->show($page) }}
+        </div>
 
         {{ $areaWidget->contentBottom() }}
 

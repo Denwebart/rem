@@ -213,7 +213,7 @@ class Page extends \Eloquent
 	 */
 	public function comments()
 	{
-		return $this->hasMany('Comment', 'page_id');
+		return $this->hasMany('Comment', 'page_id')->whereIsAnswer(0);
 	}
 
 	/**
@@ -223,6 +223,18 @@ class Page extends \Eloquent
 	public function publishedComments()
 	{
 		return $this->hasMany('Comment', 'page_id')
+			->whereIsAnswer(0)
+			->whereIsPublished(1);
+	}
+
+	/**
+	 * Опубликованные ответы.
+	 * @return mixed
+	 */
+	public function publishedAnswers()
+	{
+		return $this->hasMany('Comment', 'page_id')
+			->whereIsAnswer(1)
 			->whereIsPublished(1);
 	}
 

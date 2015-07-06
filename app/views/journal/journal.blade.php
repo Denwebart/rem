@@ -115,7 +115,7 @@
                     Всего: <span>{{ $articles->getTotal() }}</span>.
                 </div>
                 @foreach($articles as $article)
-                    <div class="row" data-article-id="{{ $article->id }}">
+                    <div class="row item" data-article-id="{{ $article->id }}">
                         <div class="col-md-12">
                             <h3>
                                 <a href="{{ URL::to($article->getUrl()) }}">
@@ -124,41 +124,67 @@
                             </h3>
                         </div>
                         <div class="col-md-12">
-                            <div class="pull-right">
-                                @if(Auth::check())
-                                    @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
-                                        <div class="pull-right">
-                                            <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info">
-                                                Редактировать
-                                            </a>
-                                            <a href="javascript:void(0)" class="btn btn-danger delete-article" data-id="{{ $article->id }}">
-                                                Удалить
-                                            </a>
-                                            <div class="status">
-                                                Статус:
-                                                {{ ($article->is_published) ? 'Опубликована' : 'Неопубликована' }}
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
+                            <div class="date pull-left" title="Дата публикации">
+                                <span class="mdi-action-today"></span>
+                                {{ DateHelper::dateFormat($article->published_at) }}
                             </div>
+                            <div class="pull-right">
+                                <div class="views pull-left" title="Количество просмотров">
+                                    <span class="mdi-action-visibility"></span>
+                                    {{ $article->views }}
+                                </div>
+                                <div class="comments pull-left" title="Количество комментариев">
+                                    <span class="mdi-communication-messenger"></span>
+                                    <a href="{{ URL::to($article->getUrl() . '#comments') }}">
+                                        {{ count($article->publishedComments) }}
+                                    </a>
+                                </div>
+                                <div class="saved pull-left" title="Сколько пользователей сохранили">
+                                    <span class="mdi-content-archive"></span>
+                                    {{ count($article->whoSaved) }}
+                                </div>
+                                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                                    <span class="mdi-action-grade"></span>
+                                    {{ $article->getRating() }} ({{ $article->voters }})
+                                </div>
+                            </div>
+                            @if(Auth::check())
+                                @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                    <div class="buttons pull-left">
+                                        <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
+                                            <span class="mdi-editor-mode-edit"></span>
+                                        </a>
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm delete-article" data-id="{{ $article->id }}" title="Удалить статью">
+                                            <span class="mdi-content-clear"></span>
+                                        </a>
+                                        <div class="status">
+                                            Статус:
+                                            {{ ($article->is_published) ? 'Опубликована' : 'Неопубликована' }}
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
+                        </div>
+                        <div class="col-md-12">
+                            <a href="{{ URL::to($article->getUrl()) }}" class="image">
+                                {{ $article->getImage() }}
+                            </a>
                             <p>{{ $article->getIntrotext() }}</p>
-
                             <ul class="tags">
                                 @foreach($article->tags as $tag)
                                     <li>
-                                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $page->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
                                             {{ $tag->title }}
                                         </a>
                                     </li>
                                 @endforeach
                             </ul>
-
-                            <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
-                                Читать полностью <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
+                        </div>
+                        <div class="col-md-12">
+                            <a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
                         </div>
                     </div>
+                    <hr/>
                 @endforeach
                 {{ $articles->links() }}
             </section><!--blog-area-->

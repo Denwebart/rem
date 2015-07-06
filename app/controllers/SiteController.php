@@ -125,7 +125,7 @@ class SiteController extends BaseController {
 
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
+			->with('parent.parent', 'user', 'publishedComments', 'bestComments', 'publishedAnswers')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
