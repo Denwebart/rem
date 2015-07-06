@@ -81,7 +81,7 @@
                             @if(Auth::check())
                                 @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                     <div class="buttons pull-left">
-                                        <a href="{{ URL::route('user.journal.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
+                                        <a href="{{ URL::route('user.journal.edit', ['login' => $article->user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
                                             <span class="mdi-editor-mode-edit"></span>
                                         </a>
                                     </div>

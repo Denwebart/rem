@@ -23,7 +23,7 @@
 
         <div class="content row journal-user-info">
             <div class="col-md-5">
-                <a href="{{ URL::route('user.profile', ['ligin' => $user->getLoginForUrl()]) }}" class="avatar">
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar">
                     {{ $user->getAvatar(null, ['width' => '120px']) }}
                 </a>
                 <div class="honors">
@@ -44,7 +44,7 @@
                 @endif
             </div>
             <div class="col-md-7">
-                <a href="{{ URL::route('user.profile', ['ligin' => $user->getLoginForUrl()]) }}" class="login">
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
                     {{ $user->login }} ({{ $user->getFullName() }})
                 </a>
                 <ul class="info">

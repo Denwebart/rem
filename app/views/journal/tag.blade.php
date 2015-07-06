@@ -30,7 +30,7 @@
                             </h3>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ URL::route('user.profile', ['ligin' => $page->user->getLoginForUrl()]) }}">
+                            <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                                 {{ $page->user->getAvatar('mini') }}
                                 {{ $page->user->login }}
                             </a>

@@ -35,7 +35,7 @@
                 @if(Auth::check())
                     @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                         <div class="buttons pull-left">
-                            <a href="{{ URL::route('user.questions.edit', ['login' => Auth::user()->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info btn-sm" title="Редактировать вопрос">
+                            <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info btn-sm" title="Редактировать вопрос">
                                 <span class="mdi-editor-mode-edit"></span>
                             </a>
                         </div>
