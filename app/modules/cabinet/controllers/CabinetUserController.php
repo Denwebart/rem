@@ -435,7 +435,7 @@ class CabinetUserController extends \BaseController
 		$data = Input::all();
 
 		$data['type'] = Page::TYPE_QUESTION;
-		$data['user_id'] = Auth::user()->id;
+		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
 		$data['meta_title'] = $data['title'];
@@ -626,7 +626,7 @@ class CabinetUserController extends \BaseController
 
 		$data['type'] = Page::TYPE_ARTICLE;
 		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
-		$data['user_id'] = Auth::user()->id;
+		$data['user_id'] = $page->user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
 		$data['meta_title'] = $data['title'];
