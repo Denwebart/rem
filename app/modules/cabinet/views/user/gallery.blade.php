@@ -37,7 +37,7 @@ View::share('title', $title);
                                 @foreach($user->images as $image)
                                     <div class="item row" data-image-id="{{ $image->id }}">
                                         <div class="col-md-5">
-                                            {{ Html::image($image->getImageUrl($user), $image->desctiption, ['class' => 'img-responsive']) }}
+                                            {{ $image->getImage() }}
                                         </div>
                                         <div class="col-md-7">
                                             <a href="javascript:void(0)" class="btn btn-danger delete-photo" data-id="{{ $image->id }}">Удалить</a>
@@ -58,7 +58,7 @@ View::share('title', $title);
                                         @foreach($user->publishedImages as $key => $image)
 
                                             <div class="item{{ (0 == $key) ? ' active': '' }}">
-                                                {{ Html::image($image->getImageUrl($user)) }}
+                                                {{ $image->getImage() }}
                                                 <div class="carousel-caption">
                                                     <h3>{{ $image->title }}</h3>
                                                     {{ $image->desctiption }}
@@ -83,7 +83,7 @@ View::share('title', $title);
                                     <div style="text-align: center; margin-top: 10px">
                                         @foreach($user->publishedImages as $key => $image)
                                             <a href="javascript:void(0)" data-target="#carousel-users-images" data-slide-to="{{ $key }}" class="{{ (0 == $key) ? ' active': '' }}">
-                                                {{ Html::image($image->getImageUrl($user), $image->description, ['style' => 'width: 100px']) }}
+                                                {{ $image->getImage(null, ['style' => 'width: 100px']) }}
                                             </a>
                                         @endforeach
                                     </div>
@@ -173,6 +173,13 @@ View::share('title', $title);
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
+
+        $(".file-inputs").on("change", function(){
+            var file = this.files[0];
+            if (file.size > 5242880) {
+                $(this).parent().parent().append('Недопустимый размер файла.');
+            }
+        });
     </script>
 
     <!-- Delete Photo -->

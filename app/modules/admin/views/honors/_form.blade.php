@@ -48,4 +48,17 @@
         CKEDITOR.replace('description')
     </script>
 
+    <!-- File Input -->
+    <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('.file-inputs').bootstrapFileInput();
+
+        $(".file-inputs").on("change", function(){
+            var file = this.files[0];
+            if (file.size > 5242880) {
+                $(this).parent().parent().append('Недопустимый размер файла.');
+            }
+        });
+    </script>
+
 @stop

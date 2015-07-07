@@ -81,7 +81,17 @@ class UserImage extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
-	public function getImageUrl($user) {
-		return URL::to('/uploads/'. $this->table . '/' . $user->login . '/' . $this->image);
+	public function getImage($prefix = null, $options = [])
+	{
+		if(isset($options['class'])) {
+			$options['class'] = 'img-responsive ' . $options['class'];
+		} else {
+			$options['class'] = 'img-responsive';
+		}
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		if($this->image){
+			return HTML::image('/uploads/' . $this->table . '/' . $this->user->login . '/' . $prefix . $this->image, trim(strip_tags($this->description)), $options);
+		}
 	}
+
 }

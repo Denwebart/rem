@@ -37,15 +37,14 @@ View::share('title', $title);
 
                 <h3>{{ $title }}</h3>
 
-                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true], ['id' => 'editPhoto']) }}
+                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
 
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-                            {{ Html::image($image->getImageUrl($user), $image->desctiption, ['class' => 'img-responsive']) }}
+                            {{ $image->getImage() }}
                             {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                            {{ $errors->first('avatar') }}
+                            {{ $errors->first('image') }}
                         </div>
                     </div>
                     <div class="col-lg-8">
@@ -94,6 +93,13 @@ View::share('title', $title);
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
+
+        $(".file-inputs").on("change", function(){
+            var file = this.files[0];
+            if (file.size > 5242880) {
+                $(this).parent().parent().append('Недопустимый размер файла.');
+            }
+        });
     </script>
 
 @stop

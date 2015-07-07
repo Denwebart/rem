@@ -335,9 +335,9 @@ class Page extends \Eloquent
 	public function getImage($prefix = null, $options = [])
 	{
 		if(isset($options['class'])) {
-			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive avatar-default ' . $options['class'];
+			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 		} else {
-			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive avatar-default';
+			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
 		}
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->image){
