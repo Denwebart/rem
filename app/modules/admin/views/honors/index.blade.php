@@ -76,7 +76,7 @@ View::share('title', $title);
                                         {{ Form::close() }}
                                         @endif
 
-                                        <div class="modal fade confirm">
+                                        <div id="confirm" class="modal fade">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -115,7 +115,7 @@ View::share('title', $title);
         $('button[name="destroy"]').on('click', function(e){
             var $form=$(this).closest('form');
             e.preventDefault();
-            $('.confirm').modal({ backdrop: 'static', keyboard: false })
+            $('#confirm').modal({ backdrop: 'static', keyboard: false })
                 .one('click', '.delete', function() {
                     $form.trigger('submit'); // submit the form
                 });

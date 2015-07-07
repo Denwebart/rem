@@ -85,7 +85,7 @@ class AdminArticlesController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -186,7 +186,18 @@ class AdminArticlesController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $page->image)) {
+				File::delete($imagePath . $page->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $page->image)){
+				File::delete($imagePath . 'origin_' . $page->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $page->image)){
+				File::delete($imagePath . 'mini_' . $page->image);
+			}
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -204,18 +215,9 @@ class AdminArticlesController extends \BaseController {
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
 			$data['image'] = $fileName;
+		} else {
+			$data['image'] = $page->image;
 		}
 		// загрузка изображения
 

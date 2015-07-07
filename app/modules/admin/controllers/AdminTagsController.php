@@ -21,7 +21,7 @@ class AdminTagsController extends \BaseController {
 		if ($sortBy && $direction) {
 			$tags = Tag::orderBy($sortBy, $direction)->with('pages')->paginate(10);
 		} else {
-			$tags = Tag::orderBy('title', 'ASC')->with('pages')->paginate(10);
+			$tags = Tag::orderBy('id', 'DESC')->with('pages')->paginate(10);
 		}
 
 		$tag = new Tag();
@@ -63,7 +63,7 @@ class AdminTagsController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . (new Tag)->getTable() . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 			$image->crop($cropSize, $cropSize)
@@ -132,18 +132,18 @@ class AdminTagsController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . $tag->getTable() . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $tag->image)) {
+				File::delete($imagePath . $tag->image);
+			}
 
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 			$image->crop($cropSize, $cropSize)
 				->resize(300, null, function ($constraint) {
 					$constraint->aspectRatio();
 				})->save($imagePath . $fileName);
-
-			// delete old image
-			if(File::exists($imagePath . $tag->image)) {
-				File::delete($imagePath . $tag->image);
-			}
 
 			$data['image'] = $fileName;
 		} else {

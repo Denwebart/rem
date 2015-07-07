@@ -6,10 +6,13 @@
         <div class="box-body row">
             <div class="col-md-3">
                 <div class="form-group">
-                    {{ $tag->getImage() }}
                     {{ Form::label('image', 'Изображение') }}<br/>
                     {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
                     {{ $errors->first('image') }}
+
+                    @if($tag->image)
+                        {{ $tag->getImage() }}
+                    @endif
                 </div>
             </div>
             <div class="col-md-7">

@@ -23,6 +23,7 @@ class Tag extends \Eloquent
 		static::deleted(function($tag)
 		{
 			$tag->pagesTags()->delete();
+			File::delete(public_path() . '/uploads/' . $tag->getTable() . '/' . $tag->image);
 		});
 	}
 

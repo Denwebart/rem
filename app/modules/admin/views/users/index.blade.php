@@ -72,9 +72,6 @@ View::share('title', $title);
                                     Награды
                                 </th>
                                 <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
                                 </th>
                             </tr>
                             </thead>

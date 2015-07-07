@@ -42,6 +42,7 @@ View::share('title', $title);
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                             {{ Html::image($image->getImageUrl($user), $image->desctiption, ['class' => 'img-responsive']) }}
                             {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
                             {{ $errors->first('avatar') }}

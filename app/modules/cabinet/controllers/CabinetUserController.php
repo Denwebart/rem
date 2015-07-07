@@ -85,6 +85,10 @@ class CabinetUserController extends \BaseController
 		$user = User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		$data = Input::all();
+		$data['firstname'] = StringHelper::mbUcFirst(Input::get('firstname'));
+		$data['lastname'] = StringHelper::mbUcFirst(Input::get('lastname'));
+		$data['car_brand'] = StringHelper::mbUcFirst(Input::get('car_brand'));
+		$data['profession'] = StringHelper::mbUcFirst(Input::get('profession'));
 
 		$validator = Validator::make($data, $user->getValidationRules());
 
@@ -100,7 +104,18 @@ class CabinetUserController extends \BaseController
 
 			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
 			$image = Image::make($data['avatar']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old avatar
+			if(File::exists($imagePath . $user->avatar)) {
+				File::delete($imagePath . $user->avatar);
+			}
+			if(File::exists($imagePath . 'origin_' . $user->avatar)){
+				File::delete($imagePath . 'origin_' . $user->avatar);
+			}
+			if(File::exists($imagePath . 'mini_' . $user->avatar)){
+				File::delete($imagePath . 'mini_' . $user->avatar);
+			}
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -118,25 +133,16 @@ class CabinetUserController extends \BaseController
 					$constraint->aspectRatio();
 			})->save($imagePath . 'mini_' . $fileName);
 
-			// delete old avatar
-			if(File::exists($imagePath . $user->avatar)) {
-				File::delete($imagePath . $user->avatar);
-			}
-			if(File::exists($imagePath . 'origin_' . $user->avatar)){
-				File::delete($imagePath . 'origin_' . $user->avatar);
-			}
-			if(File::exists($imagePath . 'mini_' . $user->avatar)){
-				File::delete($imagePath . 'mini_' . $user->avatar);
-			}
-
-			$user->avatar = $fileName;
+			$data['avatar'] = $fileName;
+		} else {
+			$data['avatar'] = $user->avatar;
 		}
 		// загрузка изображения
 
 		$data['description'] = StringHelper::nofollowLinks($data['description']);
 		$user->update($data);
 
-		return Redirect::route('user.profile', ['login' => $user->login]);
+		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
 	}
 
 	/**
@@ -207,15 +213,15 @@ class CabinetUserController extends \BaseController
 			$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
 			$image = Image::make($data['image']->getRealPath());
 
-			File::exists(public_path() . '/uploads/' . $usersImage->getTable()) or File::makeDirectory(public_path() . '/uploads/' . $usersImage->getTable());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
-
-			$image->save($imagePath . $fileName);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			// delete old image
 			if (File::exists($imagePath . $usersImage->image)) {
 				File::delete($imagePath . $usersImage->image);
 			}
+
+			$image->save($imagePath . $fileName);
+
 			$data['image'] = $fileName;
 		}
 		// загрузка изображения
@@ -257,6 +263,7 @@ class CabinetUserController extends \BaseController
 		$usersImage = UserImage::whereId($id)->whereUserId($user->id)->firstOrFail();
 
 		if($data = Input::all()) {
+
 			$data['user_id'] = $user->id;
 			$data['is_published'] = 1;
 			$validator = Validator::make($data, UserImage::$rulesEdit);
@@ -274,17 +281,18 @@ class CabinetUserController extends \BaseController
 
 				$image = Image::make($data['image']->getRealPath());
 
-				File::exists($imagePath) or File::makeDirectory($imagePath);
-
-				$image->save($imagePath . $fileName);
+				File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 				// delete old image
 				if (File::exists($imagePath . $usersImage->image)) {
 					File::delete($imagePath . $usersImage->image);
 				}
+
+				$image->save($imagePath . $fileName);
+
 				$data['image'] = $fileName;
 			} else {
-				$data['image'] = is_null($data['image']) ? $usersImage->image : $data['image'];
+				$data['image'] = $usersImage->image;
 			}
 			// загрузка изображения
 
@@ -375,7 +383,7 @@ class CabinetUserController extends \BaseController
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -393,7 +401,8 @@ class CabinetUserController extends \BaseController
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			$data['image'] = $fileName;
+			$page->image = $fileName;
+			$page->save();
 		}
 		// загрузка изображения
 
@@ -456,7 +465,18 @@ class CabinetUserController extends \BaseController
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $page->image)) {
+				File::delete($imagePath . $page->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $page->image)){
+				File::delete($imagePath . 'origin_' . $page->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $page->image)){
+				File::delete($imagePath . 'mini_' . $page->image);
+			}
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -474,18 +494,9 @@ class CabinetUserController extends \BaseController
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
 			$data['image'] = $fileName;
+		} else {
+			$data['image'] = $page->image;
 		}
 		// загрузка изображения
 
@@ -554,7 +565,18 @@ class CabinetUserController extends \BaseController
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $page->image)) {
+				File::delete($imagePath . $page->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $page->image)){
+				File::delete($imagePath . 'origin_' . $page->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $page->image)){
+				File::delete($imagePath . 'mini_' . $page->image);
+			}
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -572,18 +594,8 @@ class CabinetUserController extends \BaseController
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
-			$data['image'] = $fileName;
+			$page->image = $fileName;
+			$page->save();
 		}
 		// загрузка изображения
 
@@ -647,7 +659,18 @@ class CabinetUserController extends \BaseController
 
 			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $page->image)) {
+				File::delete($imagePath . $page->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $page->image)){
+				File::delete($imagePath . 'origin_' . $page->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $page->image)){
+				File::delete($imagePath . 'mini_' . $page->image);
+			}
 
 			if($image->width() > 225) {
 				$image->save($imagePath . 'origin_' . $fileName)
@@ -665,18 +688,9 @@ class CabinetUserController extends \BaseController
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
 			$data['image'] = $fileName;
+		} else {
+			$data['image'] = $page->image;
 		}
 		// загрузка изображения
 

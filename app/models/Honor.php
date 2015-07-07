@@ -43,6 +43,11 @@ class Honor extends \Eloquent
 		{
 			TranslitHelper::generateAlias($model, true);
 		});
+
+		static::deleted(function($model)
+		{
+			File::delete(public_path() . '/uploads/' . $model->getTable() . '/' . $model->image);
+		});
 	}
 
 	public function getTitle()

@@ -150,6 +150,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		]
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::deleted(function($user)
+		{
+			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/');
+		});
+	}
+
 	public function register()
 	{
 		$this->password = Hash::make($this->password);

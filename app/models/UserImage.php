@@ -61,6 +61,21 @@ class UserImage extends \Eloquent
 		'votes_dislike' => 'integer',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($model)
+		{
+			$model->title = StringHelper::mbUcFirst($model->title);
+		});
+
+		static::deleted(function($model)
+		{
+			File::delete(public_path() . '/uploads/' . $model->getTable() . '/' . $model->user->login . '/' . $model->image);
+		});
+	}
+
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id');

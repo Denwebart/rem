@@ -137,21 +137,24 @@ class Page extends \Eloquent
 			$page->title = StringHelper::mbUcFirst($page->title);
 		});
 
-		// удаление похожих при удалении
 		static::deleted(function($page)
 		{
+			// удаление похожих при удалении
 			$page->relatedPages()->delete();
+			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
 		});
 
-		// подписка
 		static::updated(function($page)
 		{
+			// подписка
 			if(Auth::check()) {
 				$originalModel = $page->getOriginal();
-				if($page->views == $originalModel['views']) {
-					if(Page::TYPE_QUESTION == $page->type) {
-						$message = 'Вопрос "<a href="' . URL::to($page->getUrl()) . '">' . $page->getTitle() . '</a>" изменен.';
-						SubscriptionNotification::addNotification($page, $message);
+				if(isset($originalModel['views'])) {
+					if($page->views == $originalModel['views']) {
+						if(Page::TYPE_QUESTION == $page->type) {
+							$message = 'Вопрос "<a href="' . URL::to($page->getUrl()) . '">' . $page->getTitle() . '</a>" изменен.';
+							SubscriptionNotification::addNotification($page, $message);
+						}
 					}
 				}
 			}

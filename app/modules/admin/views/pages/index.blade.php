@@ -120,6 +120,9 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id', $params) }}
                                 </th>
                                 <th></th>
+                                <th>
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image', $params) }}
+                                </th>
                                 <th width="30%">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
@@ -158,6 +161,9 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     @else
                                         <i class="fa fa-file-text-o" style="color: #293C4E"></i>
                                     @endif
+                                </td>
+                                <td>
+                                    {{ $page->getImage('mini', ['width' => '50px']) }}
                                 </td>
                                 <td>
                                     <a href="{{ URL::to($page->getUrl()) }}" target="_blank">

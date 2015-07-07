@@ -148,15 +148,17 @@ class AdminHonorsController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . (new Honor)->getTable() . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			$newFileName = TranslitHelper::make($data['title']) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
 
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 			$image->crop($cropSize, $cropSize)
 				->resize(300, null, function ($constraint) {
 					$constraint->aspectRatio();
-				})->save($imagePath . $fileName);
+				})->save($imagePath . $newFileName);
 
-			$data['image'] = $fileName;
+			$data['image'] = $newFileName;
 		}
 		// загрузка изображения
 
@@ -201,20 +203,22 @@ class AdminHonorsController extends \BaseController {
 
 			$imagePath = public_path() . '/uploads/' . $honor->getTable() . '/';
 			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath);
-
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . $fileName);
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			// delete old image
 			if(File::exists($imagePath . $honor->image)) {
 				File::delete($imagePath . $honor->image);
 			}
 
-			$data['image'] = $fileName;
+			$newFileName = TranslitHelper::make($data['title']) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $newFileName);
+
+			$data['image'] = $newFileName;
 		} else {
 			$data['image'] = $honor->image;
 		}

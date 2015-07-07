@@ -73,6 +73,9 @@ View::share('title', $title);
                                     <div class="date date-create">{{ $question->created_at }}</div>
 
                                     <div>
+                                        @if($question->image)
+                                            {{ $question->getImage(null, ['width' => '100px']) }}
+                                        @endif
                                         {{ $question->getIntrotext() }}
                                     </div>
 

@@ -33,6 +33,9 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id', $params) }}
                                 </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image', $params) }}
+                                </th>
                                 <th width="30%">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
@@ -64,6 +67,9 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                         {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
                                         {{ $page->user->login }}
                                     </a>
+                                </td>
+                                <td>
+                                    {{ $page->getImage('mini', ['width' => '50px']) }}
                                 </td>
                                 <td>
                                     <a href="{{ URL::to($page->getUrl()) }}" target="_blank">
