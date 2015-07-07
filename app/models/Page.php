@@ -134,6 +134,7 @@ class Page extends \Eloquent
 		static::saving(function($page)
 		{
 			TranslitHelper::generateAlias($page);
+			$page->title = StringHelper::mbUcFirst($page->title);
 		});
 
 		// удаление похожих при удалении

@@ -134,4 +134,16 @@ class StringHelper
 		return $keywords;
 	}
 
+	/**
+	 * Uppercase first letter. Working with multi-byte encodings.
+	 *
+	 * @param $str
+	 * @param string $encoding
+	 * @return string
+	 */
+	public static function mbUcFirst($str, $encoding = 'UTF-8')
+	{
+		return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding)
+		. mb_substr($str, 1, null, $encoding);
+	}
 }
