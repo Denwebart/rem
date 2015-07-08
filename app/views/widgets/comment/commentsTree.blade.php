@@ -28,12 +28,7 @@
             @if(Auth::check())
                 @if(!Auth::user()->is_banned)
                     @if(!Auth::user()->is_agree)
-                        <div class="alert alert-dismissable alert-warning">
-                            <h4>Вы не согласились с правилами сайта!</h4>
-                            <p>Пока вы не соглавитесь с правилами сайта,
-                                вы не сможете @if(Page::TYPE_QUESTION == $page->type) отвечать на вопросы. @else оставлять комментарии. @endif
-                                Для ознакомления с правилами перейдите по <a href="{{ URL::route('rules', ['rulesAlias' => 'rules', 'backUrl' => urlencode(Request::url())]) }}" class="alert-link">ссылке</a>.</p>
-                        </div>
+                        @include('messages.rulesAgreeForComments', ['type' => $page->type])
                     @else
 
                         {{ Form::open([

@@ -6,6 +6,9 @@ View::share('title', $title);
 
 $headerWidget = app('HeaderWidget');
 View::share('headerWidget', $headerWidget);
+
+$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CABINET]);
+View::share('areaWidget', $areaWidget);
 ?>
 
 @section('content')

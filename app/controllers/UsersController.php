@@ -100,7 +100,7 @@ class UsersController extends BaseController
 
 			// Возвращаем пользователя назад на форму входа с временной сессионной
 			// переменной alert (withAlert)
-			return Redirect::back()->withAlert($message);
+			return Redirect::back()->withAlert($message)->withInput();
 		}
 		else {
 			return Redirect::back()->withErrors($validator)->withInput();
