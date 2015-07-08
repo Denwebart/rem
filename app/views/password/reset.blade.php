@@ -20,17 +20,17 @@ View::share('title', $title);
                 {{ Form::open(array('url' => action('RemindersController@postReset'), 'method' => 'post', 'role' => 'form', 'class' => '')) }}
 
                 <div class="form-group">
-                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
+                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'autofocus'=>'autofocus']); }}
                     @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
                 </div>
 
                 <div class="form-group">
-                    {{ Form::text('password', '', ['class' => 'form-control floating-label', 'placeholder' => 'Новый пароль*', 'required'=>'required']); }}
+                    {{ Form::text('password', '', ['class' => 'form-control floating-label', 'placeholder' => 'Новый пароль*']); }}
                     @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
                 </div>
 
                 <div class="form-group">
-                    {{ Form::text('password_confirmation', '', ['class' => 'form-control floating-label', 'placeholder' => 'Повторите пароль*', 'required'=>'required']); }}
+                    {{ Form::text('password_confirmation', '', ['class' => 'form-control floating-label', 'placeholder' => 'Повторите пароль*']); }}
                     @if ($errors->has('password_confirmation')) <p class="text-danger">{{ $errors->first('password_confirmation') }}</p> @endif
                 </div>
 

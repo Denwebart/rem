@@ -19,15 +19,21 @@ class RemindersController extends Controller {
 	 */
 	public function postRemind()
 	{
-		switch ($response = Password::remind(Input::only('email'), function($message){
-			$message->subject('Восстановление пароля на сайте avtorem.info');
-		}))
-		{
-			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+		$validator = Validator::make(Input::only('email'), ['email' => 'required|email']);
 
-			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
+		if($validator->passes()) {
+			switch ($response = Password::remind(Input::only('email'), function($message){
+				$message->subject('Восстановление пароля на сайте avtorem.info');
+			}))
+			{
+				case Password::INVALID_USER:
+					return Redirect::back()->with('error', Lang::get($response));
+
+				case Password::REMINDER_SENT:
+					return Redirect::back()->with('status', Lang::get($response));
+			}
+		} else {
+			return Redirect::back()->withErrors($validator)->withInput();
 		}
 	}
 
