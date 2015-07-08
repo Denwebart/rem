@@ -6,6 +6,11 @@ View::share('page', $title);
 ?>
 
 @section('content')
+    <ol class="breadcrumb">
+        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        <li>{{ $title }}</li>
+    </ol>
+
     <section id="content">
         <h2>{{ $title }}</h2>
 

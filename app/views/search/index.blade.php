@@ -6,48 +6,53 @@ View::share('title', $title);
 ?>
 
 @section('content')
-<section id="content">
-    @if($tag)
-        <h2>Результаты поиска по тегу "{{{ $tag }}}"</h2>
-    @else
-        <h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
-    @endif
+    <ol class="breadcrumb">
+        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        <li>Поиск</li>
+    </ol>
 
-	<div class="content">
+    <section id="content">
+        @if($tag)
+            <h2>Результаты поиска по тегу "{{{ $tag }}}"</h2>
+        @else
+            <h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
+        @endif
 
-		{{--<div>--}}
-			{{--<h4>Сортировка</h4>--}}
-			{{--<a href="">по дате</a>--}}
-			{{--<a href="">по алфавиту</a>--}}
-		{{--</div>--}}
-		{{--<hr/>--}}
+        <div class="content">
 
-		@if(count($results))
-            <section id="search-area" class="blog">
-                <div class="count">
-                    Показано результатов: <span>{{ $results->count() }}</span>.
-                    Всего: <span>{{ $results->getTotal() }}</span>.
-                </div>
-                @foreach($results as $result)
-                    <div>
-                        <a href="{{ URL::to($result->getUrl()) }}">
-                            {{ StringHelper::getFragment($result->getTitle(), $query) }}
-                        </a>
-                        <p>
-                            {{ StringHelper::getFragment($result->content, $query) }}
-                        </p>
+            {{--<div>--}}
+                {{--<h4>Сортировка</h4>--}}
+                {{--<a href="">по дате</a>--}}
+                {{--<a href="">по алфавиту</a>--}}
+            {{--</div>--}}
+            {{--<hr/>--}}
+
+            @if(count($results))
+                <section id="search-area" class="blog">
+                    <div class="count">
+                        Показано результатов: <span>{{ $results->count() }}</span>.
+                        Всего: <span>{{ $results->getTotal() }}</span>.
                     </div>
-                    <hr/>
-                @endforeach
-                {{ $results->appends(['query' => $query])->links() }}
-            </section><!--search-area-->
-		@else
-			<p>Ничего не найдено.</p>
-		@endif
+                    @foreach($results as $result)
+                        <div>
+                            <a href="{{ URL::to($result->getUrl()) }}">
+                                {{ StringHelper::getFragment($result->getTitle(), $query) }}
+                            </a>
+                            <p>
+                                {{ StringHelper::getFragment($result->content, $query) }}
+                            </p>
+                        </div>
+                        <hr/>
+                    @endforeach
+                    {{ $results->appends(['query' => $query])->links() }}
+                </section><!--search-area-->
+            @else
+                <p>Ничего не найдено.</p>
+            @endif
 
-	</div>
+        </div>
 
-	{{ $areaWidget->contentBottom() }}
+        {{ $areaWidget->contentBottom() }}
 
-</section>
+    </section>
 @stop
