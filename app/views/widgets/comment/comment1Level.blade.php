@@ -51,14 +51,25 @@
         <a href="javascript:void(0)" class="pull-left btn btn-sm reply" data-comment-id="{{ $comment->id }}">Ответить</a>
         <div class="clearfix"></div>
 
-        <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" style="display: none;">
+        <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" @if(Request::has('reply')) @if($comment->id != Request::get('reply')) style="display: none;" @endif @else style="display: none;" @endif>
 
             @if(!Ip::isBanned())
                 @if(Auth::check())
                     @if(!Auth::user()->is_banned)
                         @if(!Auth::user()->is_agree)
-                            @include('messages.rulesAgreeForComments')
+                            @include('messages.rulesAgreeForComments', ['backUrl' => Request::url() . '?reply=' . $comment->id . '#comment-' . $comment->id])
                         @else
+
+                            @if(Request::has('reply'))
+                                @if($comment->id == Request::get('reply'))
+                                    @if(Session::has('rulesSuccessMessage'))
+                                        <div class="alert alert-dismissable alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            {{ Session::get('rulesSuccessMessage') }}
+                                        </div>
+                                    @endif
+                                @endif
+                            @endif
 
                             {{ Form::open([
                                   'action' => ['CommentsController@addComment', $page->id],

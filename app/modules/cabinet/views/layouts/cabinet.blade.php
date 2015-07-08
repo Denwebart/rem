@@ -81,6 +81,13 @@
     <div class="row">
 
         <div class="col-lg-11 col-md-6">
+            @if(Session::has('rulesSuccessMessage'))
+                <div class="alert alert-dismissable alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ Session::get('rulesSuccessMessage') }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
 

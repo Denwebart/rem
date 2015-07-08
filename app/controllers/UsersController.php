@@ -131,21 +131,20 @@ class UsersController extends BaseController
 	{
 		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
 
+		$page = Page::getPageByAlias($alias)->firstOrFail();
 		if(Auth::check()){
 			if(!Auth::user()->is_agree) {
 				$backUrl = Request::get('backUrl')
 					? urldecode(Request::get('backUrl'))
 					: URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]);
 				$user = Auth::user();
-				return View::make('users.rulesForAuth', compact('user', 'rules', 'backUrl'));
+				return View::make('users.rulesForAuth', compact('user', 'rules', 'backUrl', 'page'));
 			}
 			else {
-				$page = Page::getPageByAlias($alias)->firstOrFail();
 				return View::make('users.rulesForGuest', compact('page', 'rules'));
 			}
 		}
 		else {
-			$page = Page::getPageByAlias($alias)->firstOrFail();
 			return View::make('users.rulesForGuest', compact('page', 'rules', 'backUrl'));
 		}
 	}
@@ -164,7 +163,7 @@ class UsersController extends BaseController
 			$user = Auth::user();
 			$user->is_agree = 1;
 			if($user->save()) {
-				return Redirect::to(Input::get('backUrl'));
+				return Redirect::to(Input::get('backUrl'))->with('rulesSuccessMessage', 'Спасибо, что согласились с правилами сайта.');
 			}
 		} else {
 			return Redirect::route('rules')->with('message', 'Вы не подтвердили согласие со всеми правилами сайта.');

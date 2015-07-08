@@ -21,15 +21,22 @@
     </div>
     <!-- end of .comments -->
 
-    <div class="comment-form">
+    <div class="comment-form" id="add-comment">
         <h3>{{ $formTitle }}</h3>
 
         @if(!Ip::isBanned())
             @if(Auth::check())
                 @if(!Auth::user()->is_banned)
                     @if(!Auth::user()->is_agree)
-                        @include('messages.rulesAgreeForComments', ['type' => $page->type])
+                        @include('messages.rulesAgreeForComments', ['type' => $page->type, 'backUrl' => Request::url() . '#add-comment'])
                     @else
+
+                        @if(Session::has('rulesSuccessMessage') && !Request::has('reply'))
+                            <div class="alert alert-dismissable alert-success">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{ Session::get('rulesSuccessMessage') }}
+                            </div>
+                        @endif
 
                         {{ Form::open([
                               'action' => ['CommentsController@addComment', $page->id],

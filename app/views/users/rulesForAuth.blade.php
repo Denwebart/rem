@@ -28,6 +28,12 @@ View::share('areaWidget', $areaWidget);
         <div class="col-lg-9 well">
             <h2>{{ $title }}</h2>
 
+            @if($page->content)
+                <div class="content">
+                    {{ $page->content }}
+                </div>
+            @endif
+
             @if(Session::has('message'))
                 <div class="alert alert-dismissable alert-danger">
                     <button type="button" class="close" data-dismiss="alert">×</button>

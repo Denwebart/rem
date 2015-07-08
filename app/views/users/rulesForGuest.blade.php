@@ -13,9 +13,8 @@ View::share('areaWidget', $areaWidget);
 
     <section id="content" class="well">
 
-        @if($page->title)
-            <h2>{{ $page->title }}</h2>
-        @endif
+        <h2>{{ $page->title }}</h2>
+
         @if($page->content)
             <div class="content">
                 {{ $page->content }}
