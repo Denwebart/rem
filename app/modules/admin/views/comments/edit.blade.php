@@ -23,7 +23,8 @@ View::share('title', $title);
                 <h4 class="no-margin-top">Комментарий к странице {{ Str::limit($comment->page->getTitle(), 50, '...') }}</h4>
             </div>
             {{ Form::model($comment, ['method' => 'PUT', 'route' => ['admin.comments.update', $comment->id], 'id' => 'registerForm']) }}
-            @include('admin::comments._form')
+                @include('admin::comments._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

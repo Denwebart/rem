@@ -52,7 +52,7 @@ View::share('title', $title);
                                 {{ Form::submit('Объединить', ['class' => 'btn btn-success margin-top-25', 'id' => 'merge-tags-button']) }}
                                 <a href="javascript:void(0)" class="btn btn-primary" id="cancel-merge-tags-button">Отмена</a>
                             </div>
-
+                            {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::close() }}
                     </div>
 
@@ -67,8 +67,8 @@ View::share('title', $title);
                             {{ $errors->first('search') }}
                         </div>
 
-                        {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
-
+                            {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
+                            {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::close() }}
 
                     </div>

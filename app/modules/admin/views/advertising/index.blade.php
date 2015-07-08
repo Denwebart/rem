@@ -74,9 +74,10 @@ View::share('title', $title);
                                         </a>
 
                                         {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.advertising.destroy', $item->id), 'class' => 'as-button')) }}
-                                        <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                            <i class='fa fa-trash-o'></i>
-                                        </button>
+                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                                                <i class='fa fa-trash-o'></i>
+                                            </button>
+                                            {{ Form::hidden('_token', csrf_token()) }}
                                         {{ Form::close() }}
 
                                         <div id="confirm" class="modal fade">

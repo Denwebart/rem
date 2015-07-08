@@ -106,32 +106,32 @@ View::share('title', $title);
 
                                             {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                                                        {{ $errors->first('image') }}
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group">
+                                                            {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
+                                                            {{ $errors->first('image') }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="form-group">
+                                                            {{ Form::label('title', 'Заголовок изображения') }}
+                                                            {{ Form::text('title', null, ['class' => 'form-control']) }}
+                                                            {{ $errors->first('title') }}
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            {{ Form::label('description', 'Описание изображения') }}
+                                                            {{ Form::textarea('description', null, ['class' => 'form-control']) }}
+                                                            {{ $errors->first('description') }}
+                                                        </div>
+
+                                                        <div class="button-group">
+                                                            {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-8">
-                                                    <div class="form-group">
-                                                        {{ Form::label('title', 'Заголовок изображения') }}
-                                                        {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                                        {{ $errors->first('title') }}
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        {{ Form::label('description', 'Описание изображения') }}
-                                                        {{ Form::textarea('description', null, ['class' => 'form-control']) }}
-                                                        {{ $errors->first('description') }}
-                                                    </div>
-
-                                                    <div class="button-group">
-                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                                {{ Form::hidden('_token', csrf_token()) }}
                                             {{ Form::close() }}
                                         </div>
                                     @else

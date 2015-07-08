@@ -107,6 +107,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                             <i class='fa fa-trash-o'></i>
                                         </button>
+                                        {{ Form::hidden('_token', csrf_token()) }}
                                     {{ Form::close() }}
                                     @endif
 

@@ -21,6 +21,7 @@ View::share('title', $title);
         <div class="row">
             {{ Form::model($page, ['method' => 'POST', 'route' => ['admin.questions.store'], 'id' => 'questionsForm', 'files' => true]) }}
                 @include('admin::questions._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

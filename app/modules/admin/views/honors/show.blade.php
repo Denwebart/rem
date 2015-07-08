@@ -34,19 +34,19 @@ View::share('title', $title);
                     'id' => 'to-reward-form',
                 ]) }}
 
-                <div class="message"></div>
+                    <div class="message"></div>
 
-                <div class="col-md-10">
-                    <div class="form-group">
-                        {{ Form::hidden('honor_id', $honor->id, ['id' => 'honor_id']) }}
-                        {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
-                        <div class="error"></div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            {{ Form::hidden('honor_id', $honor->id, ['id' => 'honor_id']) }}
+                            {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
+                            <div class="error"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    {{ Form::submit('Наградить', ['class' => 'btn btn-success']) }}
-                </div>
-
+                    <div class="col-md-2">
+                        {{ Form::submit('Наградить', ['class' => 'btn btn-success']) }}
+                    </div>
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
 
                 <hr>

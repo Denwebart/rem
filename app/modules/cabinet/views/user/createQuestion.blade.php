@@ -32,7 +32,8 @@ View::share('title', $title);
 
             <div class="row">
                 {{ Form::model($question, ['method' => 'POST', 'route' => ['user.questions.store', 'login' => $user->getLoginForUrl()], 'id' => 'questionForm', 'files' => true]) }}
-                @include('cabinet::user._questionsForm')
+                    @include('cabinet::user._questionsForm')
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
 

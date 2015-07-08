@@ -22,6 +22,7 @@ View::share('title', $title);
         <div class="row">
             {{ Form::model($rule, ['method' => 'POST', 'route' => ['admin.rules.store']], ['id' => 'ruleForm']) }}
                 @include('admin::rules._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

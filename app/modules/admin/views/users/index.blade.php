@@ -93,10 +93,10 @@ View::share('title', $title);
                                                 'id' => 'changeRole-form-' . $user->id,
                                             ]) }}
 
-                                            {{ Form::select('role', ($user->hasRole()) ? User::$roles : [User::ROLE_NONE => 'Не назначена'] + User::$roles, $user->role, ['data-role' => $user->role]) }}
+                                                {{ Form::select('role', ($user->hasRole()) ? User::$roles : [User::ROLE_NONE => 'Не назначена'] + User::$roles, $user->role, ['data-role' => $user->role]) }}
 
-                                            <div class="buttons pull-right"></div>
-
+                                                <div class="buttons pull-right"></div>
+                                                {{ Form::hidden('_token', csrf_token()) }}
                                             {{ Form::close() }}
                                         @endif
                                     </td>
@@ -125,9 +125,10 @@ View::share('title', $title);
                                         </a>
                                         @if(!$user->isAdmin())
                                             {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}
-                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
-                                                <i class='fa fa-trash-o'></i>
-                                            </button>
+                                                <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
+                                                    <i class='fa fa-trash-o'></i>
+                                                </button>
+                                                {{ Form::hidden('_token', csrf_token()) }}
                                             {{ Form::close() }}
 
                                             <div id="confirm" class="modal fade">
@@ -189,10 +190,11 @@ View::share('title', $title);
                                                     </div>
                                                     <div class="modal-body">
                                                         {{ Form::open(array('method' => 'POST', 'class' => '', 'id' => 'ban-message-form', 'data-ban-form-id' => $user->id)) }}
-                                                        <div class="form-group">
-                                                            {{ Form::label('message', 'Причина бана') }}
-                                                            {{ Form::textarea('message', null, ['class' => 'form-control', 'rows' => 3]) }}
-                                                        </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('message', 'Причина бана') }}
+                                                                {{ Form::textarea('message', null, ['class' => 'form-control', 'rows' => 3]) }}
+                                                            </div>
+                                                            {{ Form::hidden('_token', csrf_token()) }}
                                                         {{ Form::close() }}
                                                     </div>
                                                     <div class="modal-footer">

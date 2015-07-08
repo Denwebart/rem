@@ -77,22 +77,22 @@
                                 ])
                             }}
 
-                            <div class="successMessage"></div>
+                                <div class="successMessage"></div>
 
-                            {{ Form::hidden('parent_id', $comment->id); }}
+                                {{ Form::hidden('parent_id', $comment->id); }}
 
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
-                                <span>{{  Auth::user()->login }}</span>
-                            </a>
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                                    <span>{{  Auth::user()->login }}</span>
+                                </a>
 
-                            <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                <div class="comment_error error text-danger"></div>
-                            </div>
+                                <div class="form-group">
+                                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                    <div class="comment_error error text-danger"></div>
+                                </div>
 
-                            {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
-
+                                {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+                                {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
                         @endif
                     @else
@@ -105,33 +105,33 @@
                             ])
                         }}
 
-                    <div class="successMessage"></div>
+                        <div class="successMessage"></div>
 
-                    {{ Form::hidden('parent_id', $comment->id); }}
+                        {{ Form::hidden('parent_id', $comment->id); }}
 
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
-                            <div class="user_name_error error text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
+                                <div class="user_name_error error text-danger"></div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
+                                <div class="user_email_error error text-danger"></div>
+                            </div>
                         </div>
-                        <div class="col-md-6 form-group">
-                            {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
-                            <div class="user_email_error error text-danger"></div>
+
+                        <div class="form-group">
+                            {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                            <div class="comment_error error text-danger"></div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                        <div class="comment_error error text-danger"></div>
-                    </div>
+                        {{ Form::captcha() }}
+                        @if ($errors->has('g-recaptcha-response'))
+                            <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+                        @endif
 
-                    {{ Form::captcha() }}
-                    @if ($errors->has('g-recaptcha-response'))
-                        <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
-                    @endif
-
-                    {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
-
+                        {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
+                        {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}
                 @endif
             @else

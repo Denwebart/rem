@@ -34,10 +34,11 @@ View::share('title', $title);
             </div>
             <div class="col-md-2">
                 {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.advertising.destroy', $advertising->id, 'backUrl' => urlencode(URL::previous())), 'class' => 'as-button')) }}
-                <button type="submit" class="btn btn-danger btn-sm pull-right" name="destroy">
-                    <i class='fa fa-trash-o'></i>
-                    Удалить
-                </button>
+                    <button type="submit" class="btn btn-danger btn-sm pull-right" name="destroy">
+                        <i class='fa fa-trash-o'></i>
+                        Удалить
+                    </button>
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
 
                 <div id="confirm" class="modal fade">
@@ -59,7 +60,8 @@ View::share('title', $title);
                 </div><!-- /.modal -->
             </div>
             {{ Form::model($advertising, ['method' => 'PUT', 'route' => ['admin.advertising.update', $advertising->id], 'id' => 'advertisingForm']) }}
-            @include('admin::advertising._form')
+                @include('admin::advertising._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

@@ -78,18 +78,18 @@ View::share('title', $title);
                     'id' => 'ban-ip-form',
                 ]) }}
 
-                <div class="message"></div>
+                    <div class="message"></div>
 
-                <div class="col-md-10">
-                    <div class="form-group">
-                        {{ Form::text('ip', null, ['class' => 'form-control', 'id' => 'ip']) }}
-                        <div class="ip_error error"></div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            {{ Form::text('ip', null, ['class' => 'form-control', 'id' => 'ip']) }}
+                            <div class="ip_error error"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
-                </div>
-
+                    <div class="col-md-2">
+                        {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
+                    </div>
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
         </div>

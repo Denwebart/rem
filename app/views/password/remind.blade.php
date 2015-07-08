@@ -22,18 +22,18 @@ View::share('title', $title);
 
                 {{ Form::open(array('url' => action('RemindersController@postRemind'), 'method' => 'post', 'role' => 'form', 'class' => '')) }}
 
-                <div class="form-group">
-                    {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'autofocus'=>'autofocus']); }}
-                    @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-5 col-sm-offset-2">
-                        {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                    <div class="form-group">
+                        {{ Form::text('email', '', ['class' => 'form-control floating-label', 'placeholder' => 'E-Mail*', 'autofocus'=>'autofocus']); }}
+                        @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
                     </div>
-                </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                        </div>
+                    </div>
 
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
         </div>

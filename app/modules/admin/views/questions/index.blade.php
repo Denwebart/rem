@@ -114,11 +114,12 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     </a>
 
                                     @if(Auth::user()->isAdmin())
-                                    {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.questions.destroy', $page->id), 'class' => 'as-button')) }}
-                                        <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                            <i class='fa fa-trash-o'></i>
-                                        </button>
-                                    {{ Form::close() }}
+                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.questions.destroy', $page->id), 'class' => 'as-button')) }}
+                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                                                <i class='fa fa-trash-o'></i>
+                                            </button>
+                                            {{ Form::hidden('_token', csrf_token()) }}
+                                        {{ Form::close() }}
                                     @endif
 
                                     <div id="confirm" class="modal fade">

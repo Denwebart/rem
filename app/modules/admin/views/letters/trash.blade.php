@@ -152,14 +152,16 @@ View::share('title', $title);
                                                                 <i class="fa fa-search-plus "></i>
                                                             </a>
                                                             {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsNew', $letter->id), 'class' => 'as-button')) }}
-                                                            <button type="submit" class="btn btn-success btn-sm">
-                                                                <i class='fa fa-reply'></i>
-                                                            </button>
+                                                                <button type="submit" class="btn btn-success btn-sm">
+                                                                    <i class='fa fa-reply'></i>
+                                                                </button>
+                                                                {{ Form::hidden('_token', csrf_token()) }}
                                                             {{ Form::close() }}
                                                             {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.destroy', $letter->id), 'class' => 'destroy as-button')) }}
-                                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                                <i class='fa fa-trash-o'></i>
-                                                            </button>
+                                                                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                                                                    <i class='fa fa-trash-o'></i>
+                                                                </button>
+                                                                {{ Form::hidden('_token', csrf_token()) }}
                                                             {{ Form::close() }}
 
                                                             <div id="confirm" class="modal fade">

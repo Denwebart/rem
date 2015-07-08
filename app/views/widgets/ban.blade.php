@@ -42,10 +42,11 @@
                 </div>
                 <div class="modal-body">
                     {{ Form::open(array('method' => 'POST', 'class' => '', 'id' => 'ban-message-form', 'data-ban-form-id' => $user->id)) }}
-                    <div class="form-group">
-                        {{ Form::label('message', 'Причина бана') }}
-                        {{ Form::textarea('message', null, ['class' => 'form-control', 'rows' => 3]) }}
-                    </div>
+                        <div class="form-group">
+                            {{ Form::label('message', 'Причина бана') }}
+                            {{ Form::textarea('message', null, ['class' => 'form-control', 'rows' => 3]) }}
+                        </div>
+                        {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}
                 </div>
                 <div class="modal-footer">

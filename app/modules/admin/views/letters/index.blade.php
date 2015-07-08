@@ -144,9 +144,10 @@ View::share('title', $title);
                                                                 <i class="fa fa-search-plus"></i>
                                                             </a>
                                                             {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsDeleted', $letter->id), 'class' => 'destroy as-button')) }}
-                                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                                <i class='fa fa-trash-o'></i>
-                                                            </button>
+                                                                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                                                                    <i class='fa fa-trash-o'></i>
+                                                                </button>
+                                                                {{ Form::hidden('_token', csrf_token()) }}
                                                             {{ Form::close() }}
 
                                                             <div id="confirm" class="modal fade">

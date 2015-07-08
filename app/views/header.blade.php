@@ -41,27 +41,28 @@
                         <!--Search-->
                         <div id="search">
                             {{ Form::open(['method' => 'GET', 'route' => ['search']], ['id' => 'search-form']) }}
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        {{ Form::input('search', 'query', null,
-                                            [
-                                                'class' => 'form-control floating-label',
-                                                'id' => 'query',
-                                                'placeholder' => 'Поиск',
-                                                'data-hint' => 'Введите фразу для поиска, например: "Замена антифриза"'
-                                            ]
-                                        ) }}
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            {{ Form::input('search', 'query', null,
+                                                [
+                                                    'class' => 'form-control floating-label',
+                                                    'id' => 'query',
+                                                    'placeholder' => 'Поиск',
+                                                    'data-hint' => 'Введите фразу для поиска, например: "Замена антифриза"'
+                                                ]
+                                            ) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-default btn-raised" style="width: 100%">
+                                            <i class="mdi-action-search"></i>
+                                            <span>Найти</span>
+                                            <div class="ripple-wrapper"></div>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="submit" class="btn btn-default btn-raised" style="width: 100%">
-                                        <i class="mdi-action-search"></i>
-                                        <span>Найти</span>
-                                        <div class="ripple-wrapper"></div>
-                                    </button>
-                                </div>
-                            </div>
+                                {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
                         </div>
                     </div>

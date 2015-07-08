@@ -36,12 +36,12 @@ View::share('title', $title);
 
                 {{ Form::hidden('token', $token) }}
 
-                <div class="form-group">
-                    <div class="col-sm-5 col-sm-offset-2">
-                        {{ Form::submit('Сбросить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                    <div class="form-group">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            {{ Form::submit('Сбросить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                        </div>
                     </div>
-                </div>
-
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
         </div>

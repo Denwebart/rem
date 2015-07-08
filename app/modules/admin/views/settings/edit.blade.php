@@ -23,7 +23,8 @@ View::share('title', $title);
                 <h4 class="no-margin-top">{{ $setting->title }}</h4>
             </div>
             {{ Form::model($setting, ['method' => 'PUT', 'route' => ['admin.settings.update', $setting->id], 'id' => 'settingsForm']) }}
-            @include('admin::settings._form')
+                @include('admin::settings._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

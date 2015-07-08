@@ -118,13 +118,14 @@ View::share('title', $title);
                                 ])
                             }}
 
-                            <div class="form-group">
-                                {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
-                                <div id="message_error"></div>
-                            </div>
+                                <div class="form-group">
+                                    {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
+                                    <div id="message_error"></div>
+                                </div>
 
-                            {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                                {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
 
+                                {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
 
                         </div>

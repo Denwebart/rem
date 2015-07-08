@@ -24,6 +24,7 @@ View::share('title', $title);
             </div>
             {{ Form::model($page, ['method' => 'PUT', 'route' => ['admin.pages.update', $page->id], 'id' => 'pagesForm', 'files' => true]) }}
                 @include('admin::pages._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

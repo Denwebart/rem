@@ -20,7 +20,8 @@ View::share('title', $title);
     <div class="content label-normal">
         <div class="row">
             {{ Form::model($honor, ['method' => 'POST', 'route' => ['admin.honors.store'], 'id' => 'honorsForm', 'files' => true]) }}
-            @include('admin::honors._form')
+                @include('admin::honors._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

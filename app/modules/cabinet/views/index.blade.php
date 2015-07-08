@@ -11,15 +11,15 @@ View::share('page', $title);
 
         {{ Form::open(['method' => 'GET', 'route' => ['users'], 'id' => 'search-users-form']) }}
 
-        <div class="col-md-10">
-            <div class="form-group">
-                {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
+            <div class="col-md-10">
+                <div class="form-group">
+                    {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
-        </div>
-
+            <div class="col-md-2">
+                {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
+            </div>
+            {{ Form::hidden('_token', csrf_token()) }}
         {{ Form::close() }}
 
         @if(count($users))

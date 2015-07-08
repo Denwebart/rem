@@ -26,33 +26,34 @@ View::share('title', $title);
                       'class' => '',
                       ])
                 }}
-                <h2 class="form-signin-heading">Вход</h2>
+                    <h2 class="form-signin-heading">Вход</h2>
 
-                <div class="form-group">
-                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'autofocus'=>'autofocus']); }}
-                    @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
-                </div>
-
-                <div class="form-group">
-                    {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*']); }}
-                    @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }} Запомнить меня
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-5 col-sm-offset-2">
-                        {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                    <div class="form-group">
+                        {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'autofocus'=>'autofocus']); }}
+                        @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                     </div>
-                </div>
 
-                <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
-                <a href="{{ URL::route('register') }}">Регистрация</a>
+                    <div class="form-group">
+                        {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*']); }}
+                        @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                    </div>
 
+                    <div class="checkbox">
+                        <label>
+                            {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }} Запомнить меня
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-5 col-sm-offset-2">
+                            {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                        </div>
+                    </div>
+
+                    <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
+                    <a href="{{ URL::route('register') }}">Регистрация</a>
+
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
         </div>

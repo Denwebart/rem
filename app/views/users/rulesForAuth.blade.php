@@ -63,6 +63,7 @@ View::share('areaWidget', $areaWidget);
                     </div>
                     {{ Form::submit('Подтвердить', ['id'=> 'submit', 'class' => 'btn btn-success pull-right', 'disabled' => true]) }}
 
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             @endif
 

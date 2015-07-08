@@ -48,6 +48,7 @@ View::share('title', $title);
                         <div class="col-md-2">
                             {{ Form::submit('Сохранить', ['class' => 'btn btn-success margin-top-25']) }}
                         </div>
+                        {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}
                 </div>
             </div>
@@ -100,6 +101,7 @@ View::share('title', $title);
                                         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                             <i class='fa fa-trash-o'></i>
                                         </button>
+                                        {{ Form::hidden('_token', csrf_token()) }}
                                     {{ Form::close() }}
 
                                     <div id="confirm" class="modal fade">

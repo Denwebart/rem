@@ -32,7 +32,8 @@ View::share('title', $title);
 
             <div class="row">
                 {{ Form::model($article, ['method' => 'PUT', 'route' => ['user.journal.update', 'login' => $user->getLoginForUrl(), 'id' => $article->id], 'id' => 'articleForm', 'files' => true]) }}
-                @include('cabinet::user._journalForm')
+                    @include('cabinet::user._journalForm')
+                    {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
             </div>
 

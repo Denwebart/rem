@@ -24,7 +24,8 @@ View::share('title', $title);
                 <h4 class="no-margin-top">{{ $rule->title }}</h4>
             </div>
             {{ Form::model($rule, ['method' => 'PUT', 'route' => ['admin.rules.update', $rule->id], 'id' => 'ruleForm']) }}
-            @include('admin::rules._form')
+                @include('admin::rules._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

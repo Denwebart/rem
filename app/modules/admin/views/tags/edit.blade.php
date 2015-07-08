@@ -24,6 +24,7 @@ View::share('title', $title);
             </div>
             {{ Form::model($tag, ['method' => 'PUT', 'route' => ['admin.tags.update', $tag->id], 'id' => 'tagsForm', 'files' => true]) }}
                 @include('admin::tags._form')
+                {{ Form::hidden('_token', csrf_token()) }}
             {{ Form::close() }}
         </div>
     </div>

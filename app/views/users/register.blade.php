@@ -36,6 +36,7 @@ View::share('title', $title);
                                 {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
                             </div>
                         </div>
+                        {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}
                 @else
                     @include('messages.bannedIp')

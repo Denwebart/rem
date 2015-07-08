@@ -20,115 +20,116 @@ View::share('title', $title);
         </div>
 
         {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->getLoginForUrl()], 'files' => true], ['id' => 'editProfile']) }}
-        <div class="col-lg-3">
-            <div class="avatar">
+            <div class="col-lg-3">
+                <div class="avatar">
 
-                {{ $user->getAvatar() }}
+                    {{ $user->getAvatar() }}
 
-                @if($user->avatar)
-                    <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
-                    @section('script')
-                        @parent
+                    @if($user->avatar)
+                        <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
+                        @section('script')
+                            @parent
 
-                        <script type="text/javascript">
-                            $('#delete-avatar').click(function(){
-                                if(confirm('Вы уверены, что хотите удалить изображение?')) {
-                                    $.ajax({
-                                        url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
-                                        dataType: "text json",
-                                        type: "POST",
-                                        data: {field: 'avatar'},
-                                        success: function(response) {
-                                            if(response.success){
-                                                $('#delete-avatar').css('display', 'none');
-                                                $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                            <script type="text/javascript">
+                                $('#delete-avatar').click(function(){
+                                    if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                                        $.ajax({
+                                            url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
+                                            dataType: "text json",
+                                            type: "POST",
+                                            data: {field: 'avatar'},
+                                            success: function(response) {
+                                                if(response.success){
+                                                    $('#delete-avatar').css('display', 'none');
+                                                    $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                                                }
                                             }
-                                        }
-                                    });
-                                }
-                            });
-                        </script>
-                    @stop
-                @endif
-            </div>
-            <div class="form-group">
-                {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary file-inputs']) }}
-                {{ $errors->first('avatar') }}
-            </div>
-        </div>
-        <div class="col-lg-9">
-
-            <div class="row">
-                <div class="col-lg-6">
-                    {{--<div class="form-group">--}}
-                        {{--{{ Form::label('login', 'Логин') }}--}}
-                        {{--{{ Form::text('login', $user->login, ['class' => 'form-control']) }}--}}
-                        {{--{{ $errors->first('login') }}--}}
-                    {{--</div>--}}
-                    <h2>{{{ $user->login }}}</h2>
+                                        });
+                                    }
+                                });
+                            </script>
+                        @stop
+                    @endif
                 </div>
-                <div class="col-lg-6">
-                    <div class="button-group">
-                        <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-arrow-left"></span>
-                            Назад
-                        </a>
+                <div class="form-group">
+                    {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary file-inputs']) }}
+                    {{ $errors->first('avatar') }}
+                </div>
+            </div>
+            <div class="col-lg-9">
 
-                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{--<div class="form-group">--}}
+                            {{--{{ Form::label('login', 'Логин') }}--}}
+                            {{--{{ Form::text('login', $user->login, ['class' => 'form-control']) }}--}}
+                            {{--{{ $errors->first('login') }}--}}
+                        {{--</div>--}}
+                        <h2>{{{ $user->login }}}</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="button-group">
+                            <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                Назад
+                            </a>
+
+                            {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row form-group">
-                <div class="col-lg-6">
-                    {{ Form::label('firstname', 'Имя') }}
-                    {{ Form::text('firstname', $user->firstname, ['class' => 'form-control']) }}
-                    {{ $errors->first('firstname') }}
+                <div class="row form-group">
+                    <div class="col-lg-6">
+                        {{ Form::label('firstname', 'Имя') }}
+                        {{ Form::text('firstname', $user->firstname, ['class' => 'form-control']) }}
+                        {{ $errors->first('firstname') }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ Form::label('lastname', 'Фамилия') }}
+                        {{ Form::text('lastname', $user->lastname, ['class' => 'form-control']) }}
+                        {{ $errors->first('lastname') }}
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    {{ Form::label('lastname', 'Фамилия') }}
-                    {{ Form::text('lastname', $user->lastname, ['class' => 'form-control']) }}
-                    {{ $errors->first('lastname') }}
+
+                <div class="form-group">
+                    {{ Form::label('email', 'Email') }}
+                    {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
+                    {{ $errors->first('email') }}
                 </div>
-            </div>
 
-            <div class="form-group">
-                {{ Form::label('email', 'Email') }}
-                {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
-                {{ $errors->first('email') }}
-            </div>
+                <div class="form-group">
+                    {{ Form::label('country', 'Страна') }}
+                    {{ Form::text('country', $user->country, ['class' => 'form-control']) }}
+                    {{ $errors->first('country') }}
+                </div>
 
-            <div class="form-group">
-                {{ Form::label('country', 'Страна') }}
-                {{ Form::text('country', $user->country, ['class' => 'form-control']) }}
-                {{ $errors->first('country') }}
-            </div>
+                <div class="form-group">
+                    {{ Form::label('city', 'Город') }}
+                    {{ Form::text('city', $user->city, ['class' => 'form-control']) }}
+                    {{ $errors->first('city') }}
+                </div>
 
-            <div class="form-group">
-                {{ Form::label('city', 'Город') }}
-                {{ Form::text('city', $user->city, ['class' => 'form-control']) }}
-                {{ $errors->first('city') }}
-            </div>
+                <div class="form-group">
+                    {{ Form::label('car_brand', 'Марка автомобиля / модель') }}
+                    {{ Form::text('car_brand', $user->car_brand, ['class' => 'form-control']) }}
+                    {{ $errors->first('car_brand') }}
+                </div>
 
-            <div class="form-group">
-                {{ Form::label('car_brand', 'Марка автомобиля / модель') }}
-                {{ Form::text('car_brand', $user->car_brand, ['class' => 'form-control']) }}
-                {{ $errors->first('car_brand') }}
-            </div>
+                <div class="form-group">
+                    {{ Form::label('profession', 'Профессия') }}
+                    {{ Form::text('profession', $user->profession, ['class' => 'form-control']) }}
+                    {{ $errors->first('profession') }}
+                </div>
 
-            <div class="form-group">
-                {{ Form::label('profession', 'Профессия') }}
-                {{ Form::text('profession', $user->profession, ['class' => 'form-control']) }}
-                {{ $errors->first('profession') }}
-            </div>
+                <div class="form-group">
+                    {{ Form::label('description', 'О себе') }}
+                    {{ Form::textarea('description', $user->description, ['class' => 'form-control']) }}
+                    {{ $errors->first('description') }}
+                </div>
 
-            <div class="form-group">
-                {{ Form::label('description', 'О себе') }}
-                {{ Form::textarea('description', $user->description, ['class' => 'form-control']) }}
-                {{ $errors->first('description') }}
             </div>
-
-        </div>
+            {{ Form::hidden('_token', csrf_token()) }}
         {{ Form::close() }}
     </div>
 @stop
