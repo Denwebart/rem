@@ -57,10 +57,10 @@ class UsersController extends BaseController
 		// Формируем базовый набор данных для авторизации
 		// (isActive => 1 нужно для того, чтобы аторизоваться могли только
 		// активированные пользователи)
-		$creds = array(
+		$creds = [
 			'password' => Input::get('password'),
 			'is_active'  => 1,
-		);
+		];
 
 		// В зависимости от того, что пользователь указал в поле login,
 		// дополняем авторизационные данные
@@ -71,33 +71,40 @@ class UsersController extends BaseController
 			$creds['login'] = $login;
 		}
 
-		// Пытаемся авторизовать пользователя
-		if (Auth::attempt($creds, Input::has('remember'))) {
-			Log::info("User [{$login}] successfully logged in.");
+		$validator = Validator::make($creds, User::$rules['login']);
 
-			Auth::user()->setIp(Request::ip());
+		if ($validator->passes()) {
+			// Пытаемся авторизовать пользователя
+			if (Auth::attempt($creds, Input::has('remember'))) {
+				Log::info("User [{$login}] successfully logged in.");
 
-			// Вытираем предыдущую сессию
-			Session::forget('user');
-			// Редирект в админку (если админ) или на предыдущую (для остальных)
-			if(Auth::user()->isAdmin()){
-				return Redirect::to('admin');
-			} else {
-				if(Session::has('previousUrl')) {
-					return Redirect::to(Session::get('previousUrl'));
+				Auth::user()->setIp(Request::ip());
+
+				// Вытираем предыдущую сессию
+				Session::forget('user');
+				// Редирект в админку (если админ) или на предыдущую (для остальных)
+				if(Auth::user()->isAdmin()){
+					return Redirect::to('admin');
 				} else {
-					return Redirect::to('/');
+					if(Session::has('previousUrl')) {
+						return Redirect::to(Session::get('previousUrl'));
+					} else {
+						return Redirect::to('/');
+					}
 				}
+			} else {
+				Log::info("User [{$login}] failed to login.");
 			}
-		} else {
-			Log::info("User [{$login}] failed to login.");
+
+			$message = "Неверный логин (email) или пароль, либо учетная запись еще не активирована.";
+
+			// Возвращаем пользователя назад на форму входа с временной сессионной
+			// переменной alert (withAlert)
+			return Redirect::back()->withAlert($message);
 		}
-
-		$alert = "Неверный логин (email) или пароля, либо учетная запись еще не активирована.";
-
-		// Возвращаем пользователя назад на форму входа с временной сессионной
-		// переменной alert (withAlert)
-		return Redirect::back()->withAlert($alert);
+		else {
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
 	}
 
 	public function getLogout()

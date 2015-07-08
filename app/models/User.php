@@ -129,7 +129,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'email'     => 'required|email|unique:users|max:150',
 			'login'  => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
 			'password'  => 'required|confirmed|min:6|max:100',
-//			'password_confirmation' => 'confirmed|min:6|max:100'
+		],
+		'login' => [
+			'login'  => 'required',
+			'password'  => 'required',
 		],
 		'create' => [
 			'password'  => 'required|confirmed|min:6|max:100',

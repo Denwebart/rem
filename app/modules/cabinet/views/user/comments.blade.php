@@ -56,10 +56,10 @@ View::share('title', $title);
                                     </div>
                                     <div class="on-page">
                                         На странице:
-                                        @if($comment->is_published)
+                                        @if($comment->page)
                                             <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
                                         @else
-                                            <a href="{{ URL::to($comment->page->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                            страница удалена
                                         @endif
                                     </div>
                                 </div>

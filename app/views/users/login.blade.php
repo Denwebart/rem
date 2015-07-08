@@ -29,12 +29,12 @@ View::share('title', $title);
                 <h2 class="form-signin-heading">Вход</h2>
 
                 <div class="form-group">
-                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'required'=>'required', 'autofocus'=>'autofocus']); }}
+                    {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'autofocus'=>'autofocus']); }}
                     @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                 </div>
 
                 <div class="form-group">
-                    {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*', 'required'=>'required']); }}
+                    {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*']); }}
                     @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
                 </div>
 
