@@ -28,9 +28,19 @@ class Honor extends \Eloquent
 		'description',
 	];
 
+	public function getValidationRules()
+	{
+		return [
+			'alias' => 'max:100|regex:/^[A-Za-z0-9\-\']+$/u',
+			'title' => 'required|unique:honors,title,' . $this->id . '|max:100',
+			'image' => 'mimes:jpeg,bmp,png|max:3072',
+			'description' => 'max:500',
+		];
+	}
+
 	public static $rules = [
 		'alias' => 'max:100|regex:/^[A-Za-z0-9\-\']+$/u',
-		'title' => 'required|max:100',
+		'title' => 'required|unique:honors|max:100',
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'description' => 'max:500',
 	];

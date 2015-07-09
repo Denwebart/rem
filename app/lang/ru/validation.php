@@ -115,6 +115,9 @@ return array(
 		'user_email' => [
 			'required_without_all' => 'Поле обязательно для заполнения.',
 		],
+		'title' => array(
+			'unique' => 'Награда с таким названием уже существует.',
+		),
 	),
 
 	/*

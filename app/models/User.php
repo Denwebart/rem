@@ -107,7 +107,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getValidationRules()
 	{
 		return [
-			'email' => 'required|email|unique:users,id,' . $this->id . '|max:150',
+			'email' => 'required|email|unique:users,email,' . $this->id . '|max:150',
 			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
@@ -150,8 +150,44 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'is_active' => 'boolean',
 			'is_agree' => 'boolean',
-		]
+		],
+		'update' => [
+			'email' => 'required|email|unique:users,email,:id|max:150',
+			'firstname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'role' => 'integer',
+			'points' => 'integer',
+			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
+			'description' => 'max:3000',
+			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє0-9 \-\']+$/u',
+			'profession' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'city' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'country' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+			'is_active' => 'boolean',
+			'is_agree' => 'boolean',
+			'is_banned' => 'boolean',
+		],
 	];
+
+	/**
+	 * Пока нигде не используется
+	 * @param $action
+	 * @param array $merge
+	 * @param bool $id
+	 * @return array
+	 */
+	public static function rules($action, $merge=[], $id=false)
+	{
+		$rules = SELF::$rules[$action];
+
+		if ($id) {
+			foreach ($rules as &$rule) {
+				$rule = str_replace(':id', $id, $rule);
+			}
+		}
+
+		return array_merge( $rules, $merge );
+	}
 
 	public static function boot()
 	{

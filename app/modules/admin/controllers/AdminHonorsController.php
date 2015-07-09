@@ -190,7 +190,7 @@ class AdminHonorsController extends \BaseController {
 	{
 		$honor = Honor::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Honor::$rules);
+		$validator = Validator::make($data = Input::all(), $honor->getValidationRules());
 
 		if ($validator->fails())
 		{
