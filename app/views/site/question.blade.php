@@ -62,7 +62,7 @@
         {{ $areaWidget->contentTop() }}
 
         <div class="content">
-            {{ $page->content }}
+            {{ $page->getContentWithWidget() }}
         </div>
 
         <!-- Подписка на вопрос ("Подписки") -->

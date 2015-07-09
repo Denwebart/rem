@@ -55,7 +55,7 @@
         {{ $areaWidget->contentTop() }}
 
         <div class="content">
-            {{ $page->content }}
+            {{ $page->getContentWithWidget() }}
 
             <ul class="tags">
                 @foreach($page->tags as $tag)

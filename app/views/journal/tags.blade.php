@@ -17,7 +17,7 @@
 
         @if($page->content)
             <div class="content">
-                {{ $page->content }}
+                {{ $page->getContentWithWidget() }}
             </div>
         @endif
 

@@ -327,6 +327,22 @@ class Page extends \Eloquent
 		return Str::limit($this->getTitle(), $length);
 	}
 
+	public function getContentWithWidget()
+	{
+		$result = preg_replace_callback('#\[\[(.+?)\]\]#is', function($matches) {
+			preg_match('/([0-9]+)/', $matches[1], $id);
+			$advertising = Advertising::whereId($id[1])
+				->whereType(Advertising::TYPE_ADVERTISING)
+				->get();
+			if(count($advertising)) {
+				return (string) View::make('widgets.area.inContent', compact('advertising'))->render();
+			} else {
+				return '';
+			}
+		}, $this->content);
+		return $result;
+	}
+
 	public function getRating()
 	{
 		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
@@ -385,6 +401,5 @@ class Page extends \Eloquent
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
-
 
 }
