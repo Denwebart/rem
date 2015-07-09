@@ -985,7 +985,7 @@ class CabinetUserController extends \BaseController
 				if($userPage->save()) {
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Страница сохранена.',
+						'message' => 'Страница сохранена в <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">"Сохраненное".</a>',
 						'whoSaved' => count($page->whoSaved)
 					));
 				}

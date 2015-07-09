@@ -56,10 +56,8 @@
                 </div>
             @endif
 
-            @if(Auth::check() && $page->isLastLevel())
-                <!-- Сохранение страницы в сохраненное -->
-                @include('widgets.savedPages')
-            @endif
+            <!-- Сохранение страницы в сохраненное -->
+            @include('widgets.savedPages')
 
             @if($page->showRating())
                 {{-- Рейтинг --}}

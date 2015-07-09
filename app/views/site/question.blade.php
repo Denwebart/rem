@@ -50,10 +50,10 @@
                 <span class="mdi-action-visibility"></span>
                 {{ $page->views }}
             </div>
-            @if(Auth::check())
-                <!-- Сохранение страницы в сохраненное -->
-                @include('widgets.savedPages')
-            @endif
+
+            <!-- Сохранение страницы в сохраненное -->
+            @include('widgets.savedPages')
+
             {{-- Рейтинг --}}
             @include('widgets.rating')
         </div>
