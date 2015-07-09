@@ -295,6 +295,8 @@
                 {{ $errors->first('content') }}
             </div>
 
+            {{ Form::hidden('backUrl', $backUrl) }}
+
             {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
             <a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">Отмена</a>
         </div>
