@@ -60,12 +60,19 @@ View::share('title', $title);
 
                 <div class="row">
                     <div class="col-lg-6">
-                        {{--<div class="form-group">--}}
-                            {{--{{ Form::label('login', 'Логин') }}--}}
-                            {{--{{ Form::text('login', $user->login, ['class' => 'form-control']) }}--}}
-                            {{--{{ $errors->first('login') }}--}}
-                        {{--</div>--}}
                         <h2>{{{ $user->login }}}</h2>
+                        <div class="form-group">
+                            {{ Form::label('email', 'Email') }}
+                            {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
+                            {{ $errors->first('email') }}
+                        </div>
+                        @if(Auth::user()->isAdmin() && 1 != $user->id)
+                            <div class="form-group">
+                                {{ Form::label('role', 'Роль') }}
+                                {{ Form::select('role', User::$roles, $user->role, ['class' => 'form-control']) }}
+                                {{ $errors->first('role') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="col-lg-6">
                         <div class="button-group">
@@ -78,7 +85,6 @@ View::share('title', $title);
                         </div>
                     </div>
                 </div>
-
                 <div class="row form-group">
                     <div class="col-lg-6">
                         {{ Form::label('firstname', 'Имя') }}
@@ -90,12 +96,6 @@ View::share('title', $title);
                         {{ Form::text('lastname', $user->lastname, ['class' => 'form-control']) }}
                         {{ $errors->first('lastname') }}
                     </div>
-                </div>
-
-                <div class="form-group">
-                    {{ Form::label('email', 'Email') }}
-                    {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
-                    {{ $errors->first('email') }}
                 </div>
 
                 <div class="form-group">

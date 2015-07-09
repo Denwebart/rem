@@ -57,6 +57,17 @@ View::share('title', $title);
             @endif
 
             <h2>{{{ $user->login }}}</h2>
+                
+            @if(Auth::check())
+                @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
+                    <p class="email">{{{ $user->email }}}</p>
+                @endif
+            @endif
+
+            @if($user->isAdmin() || $user->isModerator())
+                <p>{{ User::$roles[$user->role] }}</p>
+            @endif
+
             @if($user->getFullName())
                 <h3>{{{ $user->getFullName() }}}</h3>
             @endif
