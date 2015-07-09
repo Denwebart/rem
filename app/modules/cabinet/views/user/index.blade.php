@@ -57,7 +57,7 @@ View::share('title', $title);
             @endif
 
             <h2>{{{ $user->login }}}</h2>
-                
+
             @if(Auth::check())
                 @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
                     <p class="email">{{{ $user->email }}}</p>

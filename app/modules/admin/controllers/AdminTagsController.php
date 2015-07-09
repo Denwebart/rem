@@ -170,6 +170,32 @@ class AdminTagsController extends \BaseController {
 	}
 
 	/**
+	 * Удаление изображения
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteImage($id) {
+		if(Request::ajax())
+		{
+			$tag = Tag::findOrFail($id);
+			$imagePath = public_path() . '/uploads/' . $tag->getTable() . '/' . $tag->image;
+
+			// delete old image
+			if(File::exists($imagePath)) {
+				File::delete($imagePath);
+			}
+
+			$tag->image = null;
+			$tag->save();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
+	}
+
+	/**
 	 * Merge tags
 	 *
 	 * @return Response

@@ -18,7 +18,31 @@
 		{{ $errors->first('image') }}
 
 		@if($question->image)
-			{{ $question->getImage() }}
+			{{ $question->getImage(null, ['class' => 'page-image']) }}
+
+			<a href="javascript:void(0)" id="delete-image">Удалить</a>
+			@section('script')
+				@parent
+
+				<script type="text/javascript">
+					$('#delete-image').click(function(){
+						if(confirm('Вы уверены, что хотите удалить изображение?')) {
+							$.ajax({
+								url: '<?php echo URL::route('user.deleteImageFromPage', ['login' => $user->getLoginForUrl(), 'id' => $question->id]) ?>',
+								dataType: "text json",
+								type: "POST",
+								data: {field: 'image'},
+								success: function(response) {
+									if(response.success){
+										$('#delete-image').css('display', 'none');
+										$('.page-image').remove();
+									}
+								}
+							});
+						}
+					});
+				</script>
+			@stop
 		@endif
 	</div>
 </div>

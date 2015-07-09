@@ -8,12 +8,14 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
 	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'uses' => 'AdminPagesController@checkRelated']);
+	Route::post('pages/deleteImage/{id}', ['as' => 'admin.pages.deleteImage', 'uses' => 'AdminPagesController@deleteImage']);
 	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'uses' => 'AdminPagesController@openTree']);
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
+	Route::post('tags/deleteImage/{id}', ['as' => 'admin.tags.deleteImage', 'uses' => 'AdminTagsController@deleteImage']);
 	Route::resource('tags', 'AdminTagsController', ['except' => ['show']]);
 	Route::get('tags/merge', ['as' => 'admin.tags.merge', 'uses' => 'AdminTagsController@merge']);
 	Route::post('tags/merge_request', ['as' => 'admin.tags.postMerge', 'uses' => 'AdminTagsController@postMerge']);
@@ -37,6 +39,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('letters/markAsDeleted/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
 		Route::resource('settings', 'AdminSettingsController');
+		Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'uses' => 'AdminHonorsController@deleteImage']);
 		Route::resource('honors', 'AdminHonorsController');
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
@@ -78,6 +81,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
 	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'uses' => 'CabinetUserController@updateJournal']);
 	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'uses' => 'CabinetUserController@deleteJournal']);
+	Route::post('{login}/deleteImageFromPage/{id}', ['as' => 'user.deleteImageFromPage', 'uses' => 'CabinetUserController@deleteImageFromPage']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
 	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);

@@ -725,6 +725,32 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	/**
+	 * Удаление изображения из таблицы Page
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteImageFromPage($login, $id) {
+		if(Request::ajax())
+		{
+			$page = Page::findOrFail($id);
+			$imageDirectory = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
+
+			// delete old image with directory
+			if(File::exists($imageDirectory)) {
+				File::deleteDirectory($imageDirectory);
+			}
+
+			$page->image = null;
+			$page->save();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
+	}
+
 	public function comments($login)
 	{
 		$user = Auth::check()

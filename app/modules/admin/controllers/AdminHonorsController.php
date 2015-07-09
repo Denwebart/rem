@@ -242,4 +242,30 @@ class AdminHonorsController extends \BaseController {
 		return Redirect::route('admin.honors.index');
 	}
 
+	/**
+	 * Удаление изображения
+	 *
+	 * @param $id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteImage($id) {
+		if(Request::ajax())
+		{
+			$honor = Honor::findOrFail($id);
+			$imagePath = public_path() . '/uploads/' . $honor->getTable() . '/' . $honor->image;
+
+			// delete old image
+			if(File::exists($imagePath)) {
+				File::delete($imagePath);
+			}
+
+			$honor->image = null;
+			$honor->save();
+
+			return Response::json([
+				'success' => true,
+			]);
+		}
+	}
+
 }

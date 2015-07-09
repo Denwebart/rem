@@ -5,8 +5,8 @@ class BaseController extends Controller {
 	public function __construct()
 	{
 		// Perform CSRF check on all post/put/patch/delete requests
-		$this->beforeFilter('csrf', ['on' => ['post', 'put', 'patch', 'delete']]);
-		$this->beforeFilter('ajax', array('on' => array('delete', 'put', 'post')));
+//		$this->beforeFilter('csrf', ['on' => ['post', 'put', 'patch', 'delete']]);
+//		$this->beforeFilter('ajax', array('on' => array('delete', 'put', 'post')));
 	}
 
 	/**
