@@ -188,7 +188,14 @@ class AdminPagesController extends \BaseController {
 
 		$data['user_id'] = $page->user_id;
 
-		$validator = Validator::make($data, Page::$rules);
+		if(1 != $page->id) {
+			$rules = Page::$rules;
+		} else {
+			unset(Page::$rules['alias']);
+			$rules = Page::$rules + ['alias' => 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u'];
+		}
+
+		$validator = Validator::make($data, $rules);
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
