@@ -81,7 +81,7 @@ class AdminHonorsController extends \BaseController {
 			$inputData = Input::get('formData');
 			parse_str($inputData, $formFields);
 
-			$user = User::select([DB::raw('id, login, firstname, lastname, CONCAT(firstname, " ", lastname) AS fullname')])
+			$user = User::select([DB::raw('id, login, firstname, lastname, avatar, CONCAT(firstname, " ", lastname) AS fullname')])
 				->whereLogin($formFields['name'])
 				->orWhere(DB::raw('CONCAT(firstname, " ", lastname)'), '=', $formFields['name'])
 				->first();

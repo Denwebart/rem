@@ -72,7 +72,7 @@ class Honor extends \Eloquent
 	 */
 	public function users()
 	{
-		return $this->belongsToMany('User', 'users_honors');
+		return $this->belongsToMany('User', 'users_honors')->orderBy('users_honors.created_at', 'DESC');
 	}
 
 	public function getImage($prefix = null, $options = [])
