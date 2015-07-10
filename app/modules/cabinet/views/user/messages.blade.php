@@ -89,32 +89,42 @@ View::share('title', $title);
                         {{--</div>--}}
                     {{--@endif--}}
                 {{--@endforeach--}}
-
-                @foreach($messages as $message)
-                    <div class="row">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-7 col-md-offset-1">
-                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
-                                    {{ $message->message }}
+                @if(count($messages))
+                    @foreach($messages as $message)
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-7 col-md-offset-1">
+                                <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                    <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
+                                        {{ $message->message }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                    {{ $message->userSender->getAvatar('mini') }}
                                 </a>
+                                <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                    {{ $message->userSender->login }}
+                                </a>
+                                    <span class="date">
+                                        {{ DateHelper::dateForMessage($message->created_at) }}
+                                    </span>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                {{ $message->userSender->getAvatar('mini') }}
-                            </a>
-                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                {{ $message->userSender->login }}
-                            </a>
-                                <span class="date">
-                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                </span>
-                        </div>
-                    </div>
-                @endforeach
-
+                    @endforeach
+                @else
+                    @if(Auth::user()->is($user))
+                        <p>
+                            У вас нет сообщений.
+                        </p>
+                    @else
+                        <p>
+                            Сообщений нет.
+                        </p>
+                    @endif
+                @endif
             </div>
 
         </div>

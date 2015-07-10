@@ -47,6 +47,16 @@ View::share('title', $title);
                                         </div>
                                     </div>
                                 @endforeach
+                                @if(!count($user->images) && Auth::user()->is($user))
+                                    <p>
+                                        Вы еще не добавили ни одной фотографии автомобиля.
+                                        Вы можете добавить максимум 5 фотографий.
+                                    </p>
+                                @else
+                                    <p>
+                                        Фотографий нет.
+                                    </p>
+                                @endif
                             </div>
                         @else
                             @if(count($user->publishedImages))

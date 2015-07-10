@@ -49,60 +49,71 @@ View::share('title', $title);
 
                     <div id="questions">
 
-                        @foreach($questions as $question)
+                        @if(count($questions))
+                            @foreach($questions as $question)
 
-                            <div data-question-id="{{ $question->id }}" class="col-md-12">
-                                <div class="well">
-                                    @if(Auth::check())
-                                        @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
-                                            <div class="pull-right">
-                                                <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
-                                                    Редактировать
-                                                </a>
-                                                <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
-                                                    Удалить
-                                                </a>
-                                            </div>
+                                <div data-question-id="{{ $question->id }}" class="col-md-12">
+                                    <div class="well">
+                                        @if(Auth::check())
+                                            @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                                                <div class="pull-right">
+                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
+                                                        Редактировать
+                                                    </a>
+                                                    <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
+                                                        Удалить
+                                                    </a>
+                                                </div>
+                                            @endif
                                         @endif
-                                    @endif
-                                    <h3>
-                                        <a href="{{ URL::to($question->getUrl()) }}">
-                                            {{ $question->title }}
-                                        </a>
-                                    </h3>
-                                    <div class="date date-create">{{ $question->created_at }}</div>
+                                        <h3>
+                                            <a href="{{ URL::to($question->getUrl()) }}">
+                                                {{ $question->title }}
+                                            </a>
+                                        </h3>
+                                        <div class="date date-create">{{ $question->created_at }}</div>
 
-                                    <div>
-                                        @if($question->image)
-                                            {{ $question->getImage(null, ['width' => '100px']) }}
-                                        @endif
-                                        {{ $question->getIntrotext() }}
+                                        <div>
+                                            @if($question->image)
+                                                {{ $question->getImage(null, ['width' => '100px']) }}
+                                            @endif
+                                            {{ $question->getIntrotext() }}
+                                        </div>
+
+                                        <div class="answers">
+                                            Ответы:
+                                            @if(count($question->bestComments))
+                                                <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                            @endif
+                                            <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                                {{ count($question->publishedComments) }}
+                                            </a>
+                                        </div>
+
+                                        {{--<div class="status">--}}
+                                        {{--Статус:--}}
+                                        {{--{{ ($question->is_published) ? 'Опубликован' : 'Ожидает модерации' }}--}}
+                                        {{--</div>--}}
+
                                     </div>
-
-                                    <div class="answers">
-                                        Ответы:
-                                        @if(count($question->bestComments))
-                                            <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
-                                        @endif
-                                        <a href="{{ URL::to($question->getUrl()) }}#answers">
-                                            {{ count($question->publishedComments) }}
-                                        </a>
-                                    </div>
-
-                                    {{--<div class="status">--}}
-                                    {{--Статус:--}}
-                                    {{--{{ ($question->is_published) ? 'Опубликован' : 'Ожидает модерации' }}--}}
-                                    {{--</div>--}}
-
                                 </div>
+
+                            @endforeach
+
+                            <div>
+                                {{ $questions->links() }}
                             </div>
-
-                        @endforeach
-
-                        <div>
-                            {{ $questions->links() }}
-                        </div>
-
+                        @else
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    Вы еще не задали ни одного вопроса.
+                                </p>
+                            @else
+                                <p>
+                                    Вопросов нет.
+                                </p>
+                            @endif
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">

@@ -33,49 +33,59 @@ View::share('title', $title);
                     <h2>{{ $title }}</h2>
 
                     <div id="subscriptions">
-                        @foreach($subscriptions as $subscription)
-                            @if($subscription->page)
-                                <div data-page-id="{{ $subscription->page->id }}" class="well">
-                                    <div class="row">
-                                        @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
+                        @if(count($subscriptions))
+                            @foreach($subscriptions as $subscription)
+                                @if($subscription->page)
+                                    <div data-page-id="{{ $subscription->page->id }}" class="well">
+                                        <div class="row">
+                                            @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
 
-                                        <div class="col-md-12">
-                                            @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
-                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                    {{ DateHelper::dateFormat($notification->created_at) }}
-                                                    <br/>
-                                                    {{ $notification->message }}
-                                                </div>
-                                            @endforeach
+                                            <div class="col-md-12">
+                                                @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
+                                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                        {{ DateHelper::dateFormat($notification->created_at) }}
+                                                        <br/>
+                                                        {{ $notification->message }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div data-page-id="{{ $subscription->page_id }}" class="col-md-12">
+                                        <div class="well">
+                                            <div class="pull-right">
+                                                <a href="javascript:void(0)" id="remove-page" data-id="{{ $subscription->page_id }}">
+                                                    <i class="glyphicon glyphicon-floppy-remove"></i>
+                                                </a>
+                                            </div>
+                                            <div class="date date-create">
+                                                <i>
+                                                    Добавлена {{ DateHelper::dateFormat($subscription->created_at) }}
+                                                </i>
+                                            </div>
+                                            <div>
+                                                Статья, на которую вы были подписаны, была удалена.
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                            <div>
+                                {{ $subscriptions->links() }}
+                            </div>
+                        @else
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    Вы еще не подписались ни на один вопрос.
+                                </p>
                             @else
-                                <div data-page-id="{{ $subscription->page_id }}" class="col-md-12">
-                                    <div class="well">
-                                        <div class="pull-right">
-                                            <a href="javascript:void(0)" id="remove-page" data-id="{{ $subscription->page_id }}">
-                                                <i class="glyphicon glyphicon-floppy-remove"></i>
-                                            </a>
-                                        </div>
-                                        <div class="date date-create">
-                                            <i>
-                                                Добавлена {{ DateHelper::dateFormat($subscription->created_at) }}
-                                            </i>
-                                        </div>
-                                        <div>
-                                            Статья, на которую вы были подписаны, была удалена.
-                                        </div>
-                                    </div>
-                                </div>
+                                <p>
+                                    Подписок нет.
+                                </p>
                             @endif
-                        @endforeach
-
-                        <div>
-                            {{ $subscriptions->links() }}
-                        </div>
-
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">

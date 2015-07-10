@@ -42,35 +42,45 @@ View::share('title', $title);
                         @endif
                     @endif
 
-                    <div id="comments">
+                    <div id="answers">
+                        @if(count($answers))
+                            @foreach($answers as $answer)
 
-                        @foreach($answers as $answer)
-
-                            <div data-comment-id="{{ $answer->id }}" class="col-md-12">
-                                <div class="well">
-                                    <div class="date date-create">{{ $answer->created_at }}</div>
-                                    {{ $answer->comment }}
-                                    <div class="status">
-                                        Статус:
-                                        {{ ($answer->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
-                                    </div>
-                                    <div class="on-page">
-                                        На странице:
-                                        @if(($answer->is_published))
-                                            <a href="{{ URL::to($answer->getUrl()) }}">{{ $answer->page->getTitle() }}</a>
-                                        @else
-                                            <a href="{{ URL::to($answer->page->getUrl()) }}">{{ $answer->page->getTitle() }}</a>
-                                        @endif
+                                <div data-comment-id="{{ $answer->id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="date date-create">{{ $answer->created_at }}</div>
+                                        {{ $answer->comment }}
+                                        <div class="status">
+                                            Статус:
+                                            {{ ($answer->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                                        </div>
+                                        <div class="on-page">
+                                            На странице:
+                                            @if(($answer->is_published))
+                                                <a href="{{ URL::to($answer->getUrl()) }}">{{ $answer->page->getTitle() }}</a>
+                                            @else
+                                                <a href="{{ URL::to($answer->page->getUrl()) }}">{{ $answer->page->getTitle() }}</a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
+
+                            @endforeach
+
+                            <div>
+                                {{ $answers->links() }}
                             </div>
-
-                        @endforeach
-
-                        <div>
-                            {{ $answers->links() }}
-                        </div>
-
+                        @else
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    Вы еще не ответили ни на один вопрос.
+                                </p>
+                            @else
+                                <p>
+                                    Ответов нет.
+                                </p>
+                            @endif
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">

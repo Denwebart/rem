@@ -44,33 +44,44 @@ View::share('title', $title);
 
                     <div id="comments">
 
-                        @foreach($comments as $comment)
+                        @if(count($comments))
+                            @foreach($comments as $comment)
 
-                            <div data-comment-id="{{ $comment->id }}" class="col-md-12">
-                                <div class="well">
-                                    <div class="date date-create">{{ $comment->created_at }}</div>
-                                    {{ $comment->comment }}
-                                    <div class="status">
-                                        Статус:
-                                        {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
-                                    </div>
-                                    <div class="on-page">
-                                        На странице:
-                                        @if($comment->page)
-                                            <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
-                                        @else
-                                            страница удалена
-                                        @endif
+                                <div data-comment-id="{{ $comment->id }}" class="col-md-12">
+                                    <div class="well">
+                                        <div class="date date-create">{{ $comment->created_at }}</div>
+                                        {{ $comment->comment }}
+                                        <div class="status">
+                                            Статус:
+                                            {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                                        </div>
+                                        <div class="on-page">
+                                            На странице:
+                                            @if($comment->page)
+                                                <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                            @else
+                                                страница удалена
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
+
+                            @endforeach
+
+                            <div>
+                                {{ $comments->links() }}
                             </div>
-
-                        @endforeach
-
-                        <div>
-                            {{ $comments->links() }}
-                        </div>
-
+                        @else
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    Вы еще не создали ни одного комментария.
+                                </p>
+                            @else
+                                <p>
+                                    Комментариев нет.
+                                </p>
+                            @endif
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">

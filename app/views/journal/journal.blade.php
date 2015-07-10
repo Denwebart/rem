@@ -188,6 +188,16 @@
                 @endforeach
                 {{ $articles->links() }}
             </section><!--blog-area-->
+        @else
+            @if(Auth::user()->is($user))
+                <p>
+                    Вы еще не создали ни одной статьи.
+                </p>
+            @else
+                <p>
+                    Статей нет.
+                </p>
+            @endif
         @endif
 
         {{ $areaWidget->contentBottom() }}

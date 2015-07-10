@@ -77,6 +77,11 @@ View::share('title', $title);
 
             <h2>{{{ $user->login }}}</h2>
 
+            <p class="date date-register">
+                <span>Дата регистрации: </span>
+                {{{ DateHelper::dateFormat($user->created_at) }}}
+            </p>
+
             @if(Auth::check())
                 @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
                     <p class="email">{{{ $user->email }}}</p>

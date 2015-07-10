@@ -33,38 +33,49 @@ View::share('title', $title);
                     <h2>{{ $title }}</h2>
 
                     <div id="saved-pages">
-                        @foreach($pages as $page)
-                            @if($page->page)
-                                <div data-page-id="{{ $page->page->id }}" class="well">
-                                    <div class="row">
-                                        @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                        @if(count($pages))
+                            @foreach($pages as $page)
+                                @if($page->page)
+                                    <div data-page-id="{{ $page->page->id }}" class="well">
+                                        <div class="row">
+                                            @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div data-page-id="{{ $page->page_id }}" class="col-md-12">
+                                        <div class="well">
+                                            <div class="pull-right">
+                                                <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
+                                                    <i class="glyphicon glyphicon-floppy-remove"></i>
+                                                </a>
+                                            </div>
+                                            <div class="date date-create">
+                                                <i>
+                                                    Добавлена {{ DateHelper::dateFormat($page->created_at) }}
+                                                </i>
+                                            </div>
+                                            <div>
+                                                Страница была удалена
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+
+                            <div>
+                                {{ $pages->links() }}
+                            </div>
+                        @else
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    Вы еще ничего не сохранили.
+                                </p>
                             @else
-                                <div data-page-id="{{ $page->page_id }}" class="col-md-12">
-                                    <div class="well">
-                                        <div class="pull-right">
-                                            <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
-                                                <i class="glyphicon glyphicon-floppy-remove"></i>
-                                            </a>
-                                        </div>
-                                        <div class="date date-create">
-                                            <i>
-                                                Добавлена {{ DateHelper::dateFormat($page->created_at) }}
-                                            </i>
-                                        </div>
-                                        <div>
-                                            Страница была удалена
-                                        </div>
-                                    </div>
-                                </div>
+                                <p>
+                                    Сохраненных страниц нет.
+                                </p>
                             @endif
-                        @endforeach
-
-                        <div>
-                            {{ $pages->links() }}
-                        </div>
-
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-12">
