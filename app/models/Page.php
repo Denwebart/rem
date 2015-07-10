@@ -331,9 +331,23 @@ class Page extends \Eloquent
 	{
 		$result = preg_replace_callback('#\[\[(.+?)\]\]#is', function($matches) {
 			preg_match('/([0-9]+)/', $matches[1], $id);
+
+			$access = Auth::check() ? Advertising::ACCESS_FOR_REGISTERED : Advertising::ACCESS_FOR_GUEST;
+
 			$advertising = Advertising::whereId($id[1])
+			    ->whereIsActive(1)
 				->whereType(Advertising::TYPE_ADVERTISING)
+				->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
 				->get();
+
+			if(Auth::check()) {
+				if(Auth::user()->isAdmin()) {
+					$advertising = Advertising::whereId($id[1])
+						->whereType(Advertising::TYPE_ADVERTISING)
+						->get();
+				}
+			}
+
 			if(count($advertising)) {
 				return (string) View::make('widgets.area.inContent', compact('advertising'))->render();
 			} else {
