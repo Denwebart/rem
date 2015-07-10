@@ -53,7 +53,6 @@ View::share('title', $title);
                 <h3>Пользователи, у которых есть эта награда</h3>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
-                        @if(count($honor->users))
                         <table class="table table-hover table-striped" id="users-table">
                             <thead>
                             <tr>
@@ -78,19 +77,21 @@ View::share('title', $title);
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($honor->users as $user)
-                                @include('admin::honors.userRow')
-                            @endforeach
+                                @if(count($honor->users))
+                                    @foreach($honor->users as $user)
+                                        @include('admin::honors.userRow')
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
+
+                        @if(!count($honor->users))
+                            <p class="empty-users-table">Еще никто не награжден.</p>
+                        @endif
+
                         <div class="pull-left">
 
                         </div>
-                        @else
-                            <p>
-                                Еще никто не награжден.
-                            </p>
-                        @endif
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -136,7 +137,7 @@ View::share('title', $title);
 
                         // вывод пользователя
                         $('#users-table').find('tbody').prepend(data.userRowHtml);
-
+                        $('.empty-users-table').remove();
                     } // success
                     else {
                         var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
