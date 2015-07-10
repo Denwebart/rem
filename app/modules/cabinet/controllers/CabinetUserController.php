@@ -82,7 +82,9 @@ class CabinetUserController extends \BaseController
 	 */
 	public function postEdit($login)
 	{
-		$user = User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		$data = Input::all();
 		$data['firstname'] = StringHelper::mbUcFirst(Input::get('firstname'));
@@ -143,6 +145,51 @@ class CabinetUserController extends \BaseController
 		$user->update($data);
 
 		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
+	}
+
+	public function getChangePassword($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		View::share('user', $user);
+		return View::make('cabinet::user.changePassword');
+	}
+
+	/**
+	 * Смена пароля
+	 *
+	 * @param $login
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 */
+	public function postChangePassword($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$data = Input::all();
+
+		$validator = Validator::make($data, [
+			'password' => 'required|min:6|max:100',
+			'newpassword' => 'required|confirmed|min:6|max:100',
+		]);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		if (Hash::check($data['password'], Auth::user()->password)) {
+			$user->password = Hash::make($data['newpassword']);
+			$user->save();
+
+			return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()])->with('successMessage', 'Пароль успешно обновлен.');
+
+		} else {
+			return Redirect::back()->withErrors(['password' => 'Введенный пароль не совпадает с текущим.']);
+		}
+
 	}
 
 	/**

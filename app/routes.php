@@ -65,6 +65,8 @@ Route::group(['prefix' => 'honors'], function(){
 	Route::get('{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
 });
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
+	Route::get('{login}/changePassword', ['as' => 'user.changePassword', 'uses' => 'CabinetUserController@getChangePassword']);
+	Route::post('{login}/change_password_request', ['as' => 'user.postChangePassword', 'uses' => 'CabinetUserController@postChangePassword']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
 	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
 	Route::post('{login}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);

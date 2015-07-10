@@ -50,10 +50,29 @@ View::share('title', $title);
             @if(Auth::check())
                 @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
                     <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
-                        <span class="glyphicon glyphicon-edit"></span>
                         Редактировать
+                        <span class="mdi-editor-border-color"></span>
                     </a>
                 @endif
+            @endif
+
+            @if(Auth::check())
+                @if(Auth::user()->is($user))
+                    <div class="clearfix"></div>
+                    <a href="{{{ URL::route('user.changePassword', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
+                        Изменить пароль
+                        <!-- mdi-communication-vpn-key -->
+                        <!-- mdi-action-verified-user -->
+                        <span class="mdi-hardware-security"></span>
+                    </a>
+                @endif
+            @endif
+
+            @if(Session::has('successMessage'))
+                <div class="alert alert-dismissable alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ Session::get('successMessage') }}
+                </div>
             @endif
 
             <h2>{{{ $user->login }}}</h2>
