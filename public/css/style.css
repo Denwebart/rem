@@ -169,6 +169,9 @@ footer #navbar-bottom li {
     float: left;
     width: 45%;
 }
+#saved-pages .image {
+    float: left;
+}
 
 /*-- Sidebar Widget --*/
 

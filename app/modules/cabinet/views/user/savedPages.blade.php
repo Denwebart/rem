@@ -35,26 +35,9 @@ View::share('title', $title);
                     <div id="saved-pages">
                         @foreach($pages as $page)
                             @if($page->page)
-                                <div data-page-id="{{ $page->page->id }}" class="col-md-12">
-                                    <div class="well">
-                                        <div class="pull-right">
-                                            <a href="javascript:void(0)" class="remove-page" data-id="{{ $page->page->id }}">
-                                                <i class="glyphicon glyphicon-floppy-remove"></i>
-                                            </a>
-                                        </div>
-                                        <h3>
-                                            <a href="{{ URL::to($page->page->getUrl()) }}">
-                                                {{ $page->page->getTitle() }}
-                                            </a>
-                                        </h3>
-                                        <div class="date date-create">
-                                            <i>
-                                                Добавлена {{ DateHelper::dateFormat($page->created_at) }}
-                                            </i>
-                                        </div>
-                                        <div>
-                                            {{ $page->page->getIntrotext() }}
-                                        </div>
+                                <div data-page-id="{{ $page->page->id }}" class="well">
+                                    <div class="row">
+                                        @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
                                     </div>
                                 </div>
                             @else

@@ -68,7 +68,9 @@
         <p>{{ $article->getIntrotext() }}</p>
     </div>
     <div class="col-md-12">
-        <a class="pull-right" href="#">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
+            Читать полностью <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
 </div>
 <hr/>

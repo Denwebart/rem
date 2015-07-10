@@ -43,7 +43,7 @@ View::share('title', $title);
                 </div>
 
                 <div class="form-group">
-                    {{ Form::label('password', 'Пароль') }}
+                    {{ Form::label('password', 'Текущий пароль') }}
                     {{ Form::password('password', ['class' => 'form-control']) }}
                     @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
                 </div>

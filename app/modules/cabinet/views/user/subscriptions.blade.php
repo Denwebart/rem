@@ -35,36 +35,20 @@ View::share('title', $title);
                     <div id="subscriptions">
                         @foreach($subscriptions as $subscription)
                             @if($subscription->page)
-                                <div data-page-id="{{ $subscription->page->id }}" class="col-md-12">
-                                    <div class="well">
-                                        <div class="pull-right">
-                                            <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page->id }}">
-                                                {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
-                                                Отписаться
-                                            </a>
-                                        </div>
-                                        <h3>
-                                            <a href="{{ URL::to($subscription->page->getUrl()) }}">
-                                                {{ $subscription->page->getTitle() }}
-                                            </a>
-                                        </h3>
-                                        <div class="date date-create">
-                                            <i>
-                                                Добавлена в подписки {{ DateHelper::dateFormat($subscription->created_at) }}
-                                            </i>
-                                        </div>
-                                        <div>
-                                            {{ $subscription->page->getIntrotext() }}
-                                        </div>
+                                <div data-page-id="{{ $subscription->page->id }}" class="well">
+                                    <div class="row">
+                                        @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
 
-                                        @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
-                                            <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                {{ DateHelper::dateFormat($notification->created_at) }}
-                                                <br/>
-                                                {{ $notification->message }}
-                                            </div>
-                                        @endforeach
+                                        <div class="col-md-12">
+                                            @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
+                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                    {{ DateHelper::dateFormat($notification->created_at) }}
+                                                    <br/>
+                                                    {{ $notification->message }}
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             @else
