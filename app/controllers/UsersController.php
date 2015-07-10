@@ -17,9 +17,10 @@ class UsersController extends BaseController
 			return Redirect::route('register')->withErrors($validation)->withInput();
 		}
 
-		// Сама регистрация с уже проверенными данными=
+		// Сама регистрация с уже проверенными данными
 		$user = new User();
 		$user->fill(Input::all());
+		$user->password = Input::get('password');
 		$id = $user->register();
 
 		// Вывод информационного сообщения об успешности регистрации
@@ -94,6 +95,7 @@ class UsersController extends BaseController
 				}
 			} else {
 				Log::info("User [{$login}] failed to login.");
+				return Redirect::back()->withAlert("Произошла ошибка.");
 			}
 
 			$message = "Неверный логин (email) или пароль, либо учетная запись еще не активирована.";
