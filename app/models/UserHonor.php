@@ -5,7 +5,7 @@ class UserHonor extends Eloquent {
 
 	protected $table = 'users_honors';
 
-	protected $primaryKey = array('user_id','honor_id');
+	protected $primaryKey = ['user_id','honor_id'];
 
 	public $incrementing = false;
 

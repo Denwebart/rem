@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'uses' => 'AdminHonorsController@deleteImage']);
 		Route::resource('honors', 'AdminHonorsController');
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);
+		Route::post('honors/removeReward', ['as' => 'admin.honors.removeReward', 'uses' => 'AdminHonorsController@removeReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
 		Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
 		Route::resource('advertising', 'AdminАdvertisingController', ['except' => ['show']]);

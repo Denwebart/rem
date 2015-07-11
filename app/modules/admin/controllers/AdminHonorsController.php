@@ -75,6 +75,11 @@ class AdminHonorsController extends \BaseController {
 		return Response::json($result);
 	}
 
+	/**
+	 * Награждение пользователя
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function toReward()
 	{
 		if(Request::ajax()) {
@@ -110,6 +115,31 @@ class AdminHonorsController extends \BaseController {
 			} else {
 				return Response::json(array(
 					'success' => false,
+				));
+			}
+		}
+	}
+
+	/**
+	 * Снаятие награды
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function removeReward()
+	{
+		if(Request::ajax()) {
+			$userHonor = UserHonor::whereUserId(Input::get('user_id'))
+				->whereHonorId(Input::get('honor_id'))
+				->delete();
+			if ($userHonor) {
+				return Response::json(array(
+					'success' => true,
+					'message' => 'Награда снята.'
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => 'Не удалось снять награду.'
 				));
 			}
 		}

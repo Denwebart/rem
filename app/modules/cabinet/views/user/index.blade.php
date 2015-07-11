@@ -119,10 +119,18 @@ View::share('title', $title);
             <h2 id="honors">Награды</h2>
 
             @if(count($user->honors))
+                <div id="message"></div>
                 @foreach($user->honors as $honor)
-                    <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                        {{ $honor->getImage(null, ['width' => '75px']) }}
-                    </a>
+                    <div class="honor">
+                        <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
+                            {{ $honor->getImage(null, ['width' => '75px']) }}
+                        </a>
+                        @if(Auth::user()->isAdmin())
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-reward" data-honor-id="{{ $honor->id }}">
+                                <span class="mdi-content-clear"></span>
+                            </a>
+                        @endif
+                    </div>
                 @endforeach
             @else
                 @if(Auth::check())
@@ -141,4 +149,29 @@ View::share('title', $title);
 
         </div>
     </div>
+@stop
+
+@section('script')
+    @parent
+
+    @if(Auth::user()->isAdmin())
+        <script type="text/javascript">
+            $(".remove-reward").on('click', function() {
+                var $honor = $(this),
+                    honorId = $honor.data('honorId');
+                $.ajax({
+                    url: '<?php echo URL::route('admin.honors.removeReward') ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {honor_id: honorId, user_id: '<?php echo $user->id ?>'},
+                    success: function(response) {
+                        if(response.success){
+                            $('#message').text(response.message);
+                            $honor.parent().remove();
+                        }
+                    }
+                });
+            });
+        </script>
+    @endif
 @stop
