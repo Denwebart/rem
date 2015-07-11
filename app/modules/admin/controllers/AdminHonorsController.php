@@ -135,6 +135,8 @@ class AdminHonorsController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
+		$data['description'] = StringHelper::nofollowLinks($data['description']);
+
 		$validator = Validator::make($data, Honor::$rules);
 
 		if($validator->fails())
@@ -189,8 +191,10 @@ class AdminHonorsController extends \BaseController {
 	public function update($id)
 	{
 		$honor = Honor::findOrFail($id);
+		$data = Input::all();
+		$data['description'] = StringHelper::nofollowLinks($data['description']);
 
-		$validator = Validator::make($data = Input::all(), $honor->getValidationRules());
+		$validator = Validator::make($data, $honor->getValidationRules());
 
 		if ($validator->fails())
 		{

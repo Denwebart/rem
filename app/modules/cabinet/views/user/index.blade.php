@@ -116,7 +116,7 @@ View::share('title', $title);
                 <p>{{ $user->description }}</p>
             @endif
 
-            <h2>Награды</h2>
+            <h2 id="honors">Награды</h2>
 
             @if(count($user->honors))
                 @foreach($user->honors as $honor)

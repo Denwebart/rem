@@ -18,17 +18,27 @@ class CabinetController extends \BaseController
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction') ? Request::get('direction') : 'desc';
 
+		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments'];
 		if ($sortBy && $direction) {
-			if($direction == 'asc') {
-				$users = User::with('publishedArticles', 'publishedQuestions', 'publishedComments')
-					->get()->sortBy(function($user) use($sortBy) {
-						return $user->$sortBy->count();
-					});
+			if(in_array($sortBy, $relations)) {
+				if($direction == 'asc') {
+					$users = User::whereIsActive(1)
+						->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+						->get()->sortBy(function($user) use($sortBy) {
+							return $user->$sortBy->count();
+						});
+				} else {
+					$users = User::whereIsActive(1)
+						->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+						->get()->sortBy(function($user) use($sortBy) {
+							return $user->$sortBy->count();
+						})->reverse();
+				}
 			} else {
-				$users = User::with('publishedArticles', 'publishedQuestions', 'publishedComments')
-					->get()->sortBy(function($user) use($sortBy) {
-						return $user->$sortBy->count();
-					})->reverse();
+				$users = User::whereIsActive(1)
+					->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+					->orderBy($sortBy, $direction)
+					->paginate(10);
 			}
 		} else {
 			$users = User::whereIsActive(1)
