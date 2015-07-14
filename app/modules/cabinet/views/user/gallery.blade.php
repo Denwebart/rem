@@ -52,7 +52,7 @@ View::share('title', $title);
                                         Вы еще не добавили ни одной фотографии автомобиля.
                                         Вы можете добавить максимум 5 фотографий.
                                     </p>
-                                @else
+                                @elseif(!count($user->images))
                                     <p>
                                         Фотографий нет.
                                     </p>
@@ -109,10 +109,6 @@ View::share('title', $title);
                                         <div id="new-photo">
 
                                             <h3>Добавить фотографию</h3>
-
-                                            {{--<a href="" class="btn btn-default btn-lg">--}}
-                                            {{--<span class="glyphicon glyphicon-plus"></span>--}}
-                                            {{--</a>--}}
 
                                             {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
@@ -204,6 +200,9 @@ View::share('title', $title);
                             dataType: "text json",
                             type: "POST",
                             data: {imageId: imageId},
+                            beforeSend: function(request) {
+                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                            },
                             success: function(response) {
                                 if(response.success){
                                     $('[data-image-id=' + imageId + ']').remove();

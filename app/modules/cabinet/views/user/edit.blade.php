@@ -38,6 +38,9 @@ View::share('title', $title);
                                             dataType: "text json",
                                             type: "POST",
                                             data: {field: 'avatar'},
+                                            beforeSend: function(request) {
+                                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                            },
                                             success: function(response) {
                                                 if(response.success){
                                                     $('#delete-avatar').css('display', 'none');

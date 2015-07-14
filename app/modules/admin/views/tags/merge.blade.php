@@ -143,21 +143,29 @@ View::share('title', $title);
                 var $form = $('#merge-tags-form'),
                     data = $form.serialize(),
                     url = $form.attr('action');
-                var posting = $.post(url, { formData: data });
-                posting.done(function(response) {
-                    if(response.success) {
-                        var messageHtml = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+ response.message +'</div>';
-                        $('.message').html(messageHtml);
-                        $form.trigger('reset');
-                        var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
-                        $('.original-tags').html('');
-                        $('.original-tags').append('<div class="input first">' + inputHtml + '</div>');
-                        $('.has-success').removeClass('has-success');
-                    } else {
-                        $('#resultTag').parent().append('<small class="help-block" data-bv-validator-for="resultTag" data-bv-validator="notEmpty">'+ response.message +'</small>');
-                        $('#resultTag').parent().toggleClass("has-error has-success");
+                $.ajax({
+                    url: url,
+                    dataType: "text json",
+                    type: "POST",
+                    data: {formData: data},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            var messageHtml = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+ response.message +'</div>';
+                            $('.message').html(messageHtml);
+                            $form.trigger('reset');
+                            var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
+                            $('.original-tags').html('');
+                            $('.original-tags').append('<div class="input first">' + inputHtml + '</div>');
+                            $('.has-success').removeClass('has-success');
+                        } else {
+                            $('#resultTag').parent().append('<small class="help-block" data-bv-validator-for="resultTag" data-bv-validator="notEmpty">'+ response.message +'</small>');
+                            $('#resultTag').parent().toggleClass("has-error has-success");
+                        }
                     }
-                }); // done
+                });
             }
         });
 
@@ -167,12 +175,20 @@ View::share('title', $title);
             var $form = $(this),
                     data = $form.serialize(),
                     url = $form.attr('action');
-            var posting = $.post(url, { formData: data });
-            posting.done(function(response) {
-                if(response.success) {
-                    $('#search-result').html(response.resultHtml);
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    if(response.success) {
+                        $('#search-result').html(response.resultHtml);
+                    }
                 }
-            }); // done
+            });
         });
 
         // занесение выбранного тега в форму

@@ -19,6 +19,7 @@ if(Auth::check()){
     <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
     <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
     <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" href="{{ URL::to('favicon.ico') }}">
 

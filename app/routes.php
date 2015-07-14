@@ -7,44 +7,44 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('/', 'AdminController@index');
 	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
-	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'uses' => 'AdminPagesController@checkRelated']);
-	Route::post('pages/deleteImage/{id}', ['as' => 'admin.pages.deleteImage', 'uses' => 'AdminPagesController@deleteImage']);
+	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@checkRelated']);
+	Route::post('pages/deleteImage/{id}', ['as' => 'admin.pages.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@deleteImage']);
 	Route::resource('pages', 'AdminPagesController');
-	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'uses' => 'AdminPagesController@openTree']);
+	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@openTree']);
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
-	Route::post('tags/deleteImage/{id}', ['as' => 'admin.tags.deleteImage', 'uses' => 'AdminTagsController@deleteImage']);
+	Route::post('tags/deleteImage/{id}', ['as' => 'admin.tags.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@deleteImage']);
 	Route::resource('tags', 'AdminTagsController', ['except' => ['show']]);
 	Route::get('tags/merge', ['as' => 'admin.tags.merge', 'uses' => 'AdminTagsController@merge']);
-	Route::post('tags/merge_request', ['as' => 'admin.tags.postMerge', 'uses' => 'AdminTagsController@postMerge']);
+	Route::post('tags/merge_request', ['as' => 'admin.tags.postMerge', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@postMerge']);
 	Route::get('tags/autocomplete', ['as' => 'admin.tags.autocomplete', 'uses' => 'AdminTagsController@autocomplete']);
-	Route::post('tags/search', ['as' => 'admin.tags.search', 'uses' => 'AdminTagsController@search']);
+	Route::post('tags/search', ['as' => 'admin.tags.search', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@search']);
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
 		Route::get('users/banned', ['as' => 'admin.users.bannedUsers', 'uses' => 'AdminUsersController@bannedUsers']);
 		Route::get('users/ips', ['as' => 'admin.users.ips', 'uses' => 'AdminUsersController@ips']);
 		Route::get('users/bannedIps', ['as' => 'admin.users.bannedIps', 'uses' => 'AdminUsersController@bannedIps']);
-		Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'uses' => 'AdminUsersController@ban']);
-		Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'uses' => 'AdminUsersController@unban']);
-		Route::post('users/banIp', ['as' => 'admin.users.banIp', 'uses' => 'AdminUsersController@banIp']);
-		Route::post('users/banIp/{ipId}', ['as' => 'admin.users.banIp', 'uses' => 'AdminUsersController@banIp']);
-		Route::post('users/unbanIp/{id}', ['as' => 'admin.users.unbanIp', 'uses' => 'AdminUsersController@unbanIp']);
+		Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@ban']);
+		Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@unban']);
+		Route::post('users/banIp', ['as' => 'admin.users.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@banIp']);
+		Route::post('users/banIp/{ipId}', ['as' => 'admin.users.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@banIp']);
+		Route::post('users/unbanIp/{id}', ['as' => 'admin.users.unbanIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@unbanIp']);
 		Route::get('users/ipsAutocomplete', ['as' => 'admin.users.ipsAutocomplete', 'uses' => 'AdminUsersController@ipsAutocomplete']);
 		Route::resource('users', 'AdminUsersController');
-		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'uses' => 'AdminUsersController@changeRole']);
+		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@changeRole']);
 		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('letters', 'AdminLettersController');
-		Route::post('letters/markAsDeleted/{id}', ['as' => 'admin.letters.markAsDeleted', 'uses' => 'AdminLettersController@markAsDeleted']);
-		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'uses' => 'AdminLettersController@markAsNew']);
+		Route::post('letters/markAsDeleted/{id}', ['as' => 'admin.letters.markAsDeleted', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsDeleted']);
+		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsNew']);
 		Route::resource('settings', 'AdminSettingsController');
-		Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'uses' => 'AdminHonorsController@deleteImage']);
+		Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@deleteImage']);
 		Route::resource('honors', 'AdminHonorsController');
-		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'uses' => 'AdminHonorsController@toReward']);
-		Route::post('honors/removeReward', ['as' => 'admin.honors.removeReward', 'uses' => 'AdminHonorsController@removeReward']);
+		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@toReward']);
+		Route::post('honors/removeReward', ['as' => 'admin.honors.removeReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@removeReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
-		Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
+		Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
 		Route::resource('advertising', 'AdminАdvertisingController', ['except' => ['show']]);
 		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
 
@@ -67,35 +67,35 @@ Route::group(['prefix' => 'honors'], function(){
 });
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/changePassword', ['as' => 'user.changePassword', 'uses' => 'CabinetUserController@getChangePassword']);
-	Route::post('{login}/change_password_request', ['as' => 'user.postChangePassword', 'uses' => 'CabinetUserController@postChangePassword']);
+	Route::post('{login}/change_password_request', ['as' => 'user.postChangePassword', 'before' => 'csrf', 'uses' => 'CabinetUserController@postChangePassword']);
 	Route::get('{login}/edit', ['as' => 'user.edit', 'uses' => 'CabinetUserController@edit']);
-	Route::post('{login}/edit_request', ['as' => 'user.update', 'uses' => 'CabinetUserController@postEdit']);
-	Route::post('{login}/delete_avatar', ['as' => 'user.deleteAvatar', 'uses' => 'CabinetUserController@deleteAvatar']);
-	Route::post('{login}/gallery/uploadPhoto', ['as' => 'user.gallery.uploadPhoto', 'uses' => 'CabinetUserController@uploadPhoto']);
-	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'uses' => 'CabinetUserController@deletePhoto']);
-	Route::any('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'uses' => 'CabinetUserController@editPhoto']);
+	Route::post('{login}/edit_request', ['as' => 'user.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@postEdit']);
+	Route::post('{login}/delete_avatar', ['as' => 'user.deleteAvatar', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteAvatar']);
+	Route::post('{login}/gallery/uploadPhoto', ['as' => 'user.gallery.uploadPhoto', 'before' => 'csrf', 'uses' => 'CabinetUserController@uploadPhoto']);
+	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deletePhoto']);
+	Route::any('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'before' => 'csrf', 'uses' => 'CabinetUserController@editPhoto']);
 	Route::get('{login}/questions/create', ['as' => 'user.questions.create', 'uses' => 'CabinetUserController@createQuestion']);
-	Route::post('{login}/questions/store', ['as' => 'user.questions.store', 'uses' => 'CabinetUserController@storeQuestion']);
+	Route::post('{login}/questions/store', ['as' => 'user.questions.store', 'before' => 'csrf', 'uses' => 'CabinetUserController@storeQuestion']);
 	Route::get('{login}/questions/{id}/edit', ['as' => 'user.questions.edit', 'uses' => 'CabinetUserController@editQuestion']);
-	Route::put('{login}/questions/{id}', ['as' => 'user.questions.update', 'uses' => 'CabinetUserController@updateQuestion']);
-	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'uses' => 'CabinetUserController@deleteQuestion']);
+	Route::put('{login}/questions/{id}', ['as' => 'user.questions.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@updateQuestion']);
+	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteQuestion']);
 	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
-	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'uses' => 'CabinetUserController@storeJournal']);
+	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'before' => 'csrf', 'uses' => 'CabinetUserController@storeJournal']);
 	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
-	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'uses' => 'CabinetUserController@updateJournal']);
-	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'uses' => 'CabinetUserController@deleteJournal']);
-	Route::post('{login}/deleteImageFromPage/{id}', ['as' => 'user.deleteImageFromPage', 'uses' => 'CabinetUserController@deleteImageFromPage']);
+	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@updateJournal']);
+	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteJournal']);
+	Route::post('{login}/deleteImageFromPage/{id}', ['as' => 'user.deleteImageFromPage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteImageFromPage']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
-	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'uses' => 'CabinetUserController@markMessageAsRead']);
-	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'uses' => 'CabinetUserController@addMessage']);
+	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@markMessageAsRead']);
+	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
-	Route::post('{login}/savePage', ['as' => 'user.savePage', 'uses' => 'CabinetUserController@savePage']);
-	Route::post('{login}/removePage', ['as' => 'user.removePage', 'uses' => 'CabinetUserController@removePage']);
+	Route::post('{login}/savePage', ['as' => 'user.savePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@savePage']);
+	Route::post('{login}/removePage', ['as' => 'user.removePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@removePage']);
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
-	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'uses' => 'CabinetUserController@subscribe']);
-	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'uses' => 'CabinetUserController@unsubscribe']);
-	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'uses' => 'CabinetUserController@deleteNotification']);
+	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@subscribe']);
+	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@unsubscribe']);
+	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteNotification']);
 });
 Route::group(['prefix' => 'user'], function() {
 	Route::get('{login}', ['as' => 'user.profile', 'uses' => 'CabinetUserController@index']);
@@ -107,17 +107,17 @@ Route::group(['prefix' => 'user'], function() {
 
 /* Пользователи */
 Route::get('register', ['as' => 'register', 'uses' => 'UsersController@getRegister']);
-Route::post('register_request', ['as' => 'postRegister', 'uses' => 'UsersController@postRegister']);
+Route::post('register_request', ['as' => 'postRegister', 'before' => 'csrf', 'uses' => 'UsersController@postRegister']);
 Route::get('activate/{userId}/{activationCode}', ['as' => 'activate', 'uses' => 'UsersController@getActivate']);
 Route::get('login', ['as' => 'login', 'uses' => 'UsersController@getLogin']);
-Route::post('login_request', ['as' => 'postLogin', 'uses' => 'UsersController@postLogin']);
+Route::post('login_request', ['as' => 'postLogin', 'before' => 'csrf', 'uses' => 'UsersController@postLogin']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@getLogout']);
 
 Route::controller('password', 'RemindersController');
 
 /* Правила сайта */
 Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@getRules'])->where('rulesAlias', 'rules');
-Route::post('rules_request', ['as' => 'postRules', 'before' => 'authInCabinet', 'uses' => 'UsersController@postRules']);
+Route::post('rules_request', ['as' => 'postRules', 'before' => ['csrf', 'authInCabinet'], 'uses' => 'UsersController@postRules']);
 
 /* Фронт */
 
@@ -127,7 +127,7 @@ Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
 Route::get('top', ['as' => 'top', 'uses' => 'TopController@index']);
 
 Route::get('{contactAlias}.html', 'SiteController@contact')->where('contactAlias', 'kontakty');
-Route::post('contact_request', 'SiteController@contactPost');
+Route::post('contact_request', ['before' => 'csrf', 'uses' => 'SiteController@contactPost']);
 
 Route::get('{sitemapHtmlAlias}.html', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
@@ -146,10 +146,10 @@ Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->wher
 Route::get('{questionsAlias}/{alias}.html', 'SiteController@error404')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
 
-Route::post('add_comment/{id}', 'CommentsController@addComment');
-Route::post('comment/vote/{id}', 'CommentsController@vote');
-Route::post('comment/mark/{id}', 'CommentsController@mark');
-Route::post('rating/stars/{id}', ['as' => 'rating.stars', 'uses' => 'RatingController@stars']);
+Route::post('add_comment/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@addComment']);
+Route::post('comment/vote/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@vote']);
+Route::post('comment/mark/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@mark']);
+Route::post('rating/stars/{id}', [ 'before' => 'csrf-ajax', 'as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');
 Route::get('{categoryAlias}/{alias}{suffix}', 'SiteController@secondLevel')->where('suffix', '.html');

@@ -15,19 +15,7 @@ View::share('title', $title);
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
-            @if(Auth::check())
-                @if(!Auth::user()->is($user))
-                    <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary">
-                        Написать личное сообщение
-                    </a>
-                @endif
-                @if(Auth::user()->isAdmin())
-                    @include('widgets.ban', ['user' => $user])
-                @endif
-            @endif
+            @include('cabinet::user.userInfo')
 
             {{ $areaWidget->leftSidebar() }}
         </div>
@@ -159,18 +147,23 @@ View::share('title', $title);
             $(".remove-reward").on('click', function() {
                 var $honor = $(this),
                     honorId = $honor.data('honorId');
-                $.ajax({
-                    url: '<?php echo URL::route('admin.honors.removeReward') ?>',
-                    dataType: "text json",
-                    type: "POST",
-                    data: {honor_id: honorId, user_id: '<?php echo $user->id ?>'},
-                    success: function(response) {
-                        if(response.success){
-                            $('#message').text(response.message);
-                            $honor.parent().remove();
+                if(confirm('Вы уверены, что хотите забрать награду у пользователя?')) {
+                    $.ajax({
+                        url: '<?php echo URL::route('admin.honors.removeReward') ?>',
+                        dataType: "text json",
+                        type: "POST",
+                        data: {honor_id: honorId, user_id: '<?php echo $user->id ?>'},
+                        beforeSend: function(request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function(response) {
+                            if(response.success){
+                                $('#message').text(response.message);
+                                $honor.parent().remove();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         </script>
     @endif

@@ -134,39 +134,48 @@
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
-            var posting = $.post(url, { formData: data });
-            posting.done(function(data) {
-                if(data.fail) {
-                    $.each(data.errors, function(index, value) {
-                        var errorDiv = '.' + index + '_error';
-                        $form.find(errorDiv).parent().addClass('has-error');
-                        $form.find(errorDiv).empty().append(value);
-                    });
-                    $form.find('.successMessage').empty();
-                }
-                if(data.success) {
-                    var successContent = '<div class="alert alert-dismissable alert-info">' +
-                            '<button type="button" class="close" data-dismiss="alert">×</button>' +
-                            '{{ $successMessage }}' +
-                            '</div>';
-                    $form.find('.successMessage').html(successContent);
-                    $form.trigger('reset');
-                    $form.find('.error').empty();
-                    for (instance in CKEDITOR.instances) {
-                        CKEDITOR.instances[instance].updateElement();
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(data) {
+                    if(data.fail) {
+                        $.each(data.errors, function(index, value) {
+                            var errorDiv = '.' + index + '_error';
+                            $form.find(errorDiv).parent().addClass('has-error');
+                            $form.find(errorDiv).empty().append(value);
+                        });
+                        $form.find('.successMessage').empty();
                     }
-                    for (instance in CKEDITOR.instances) {
-                        CKEDITOR.instances[instance].setData('');
-                    }
-                    // вывод комментария
-                    if(0 == data.parent_id){
-                        $('.comments').append(data.commentHtml);
-                    } else {
-                        $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
-                    }
+                    if(data.success) {
+                        var successContent = '<div class="alert alert-dismissable alert-info">' +
+                                '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                                '{{ $successMessage }}' +
+                                '</div>';
+                        $form.find('.successMessage').html(successContent);
+                        $form.trigger('reset');
+                        $form.find('.error').empty();
+                        for (instance in CKEDITOR.instances) {
+                            CKEDITOR.instances[instance].updateElement();
+                        }
+                        for (instance in CKEDITOR.instances) {
+                            CKEDITOR.instances[instance].setData('');
+                        }
+                        // вывод комментария
+                        if(0 == data.parent_id){
+                            $('.comments').append(data.commentHtml);
+                        } else {
+                            $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
+                        }
 
-                } //success
-            }); //done
+                    } //success
+                }
+            });
+
         });
 
         // Раскрытие формы для ответа на комментарий
@@ -202,6 +211,9 @@
                 dataType: "text json",
                 type: "POST",
                 data: {mark: '<?php echo Comment::MARK_BEST ?>'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
                 success: function(response) {
                     if(response.success){
                         $markTag.html('<i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>');
@@ -227,6 +239,9 @@
                 dataType: "text json",
                 type: "POST",
                 data: {vote: 'like'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
                 success: function(response) {
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
@@ -244,6 +259,9 @@
                 dataType: "text json",
                 type: "POST",
                 data: {vote: 'dislike'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
                 success: function(response) {
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);

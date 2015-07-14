@@ -135,6 +135,6 @@ class Comment extends \Eloquent
 
 	public function getUrl()
 	{
-		return URL::to($this->page->getUrl() . '#comment-' . $this->id);
+		return ($this->page) ? URL::to($this->page->getUrl() . '#comment-' . $this->id) : '';
 	}
 }

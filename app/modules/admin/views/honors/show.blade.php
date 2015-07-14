@@ -123,28 +123,35 @@ View::share('title', $title);
             var $form = $(this),
                     data = $form.serialize(),
                     url = $form.attr('action');
-            var posting = $.post(url, { formData: data });
-            posting.done(function(data) {
-                if(data.userNotFound) {
-                    var errorContent = 'Такого пользователя нет';
-                    $form.find('.error').html(errorContent);
-                } else {
-                    if(data.success) {
-                        var successContent = '<h3>Пользователь награжден</h3>';
-                        $form.find('.message').html(successContent);
-                        $form.trigger('reset');
-                        $form.find('.error').empty();
-
-                        // вывод пользователя
-                        $('#users-table').find('tbody').prepend(data.userRowHtml);
-                        $('.empty-users-table').remove();
-                    } // success
-                    else {
-                        var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
-                        $form.find('.message').html(errorContent);
-                    } // user not found
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    if(response.userNotFound) {
+                        var errorContent = 'Такого пользователя нет';
+                        $form.find('.error').html(errorContent);
+                    } else {
+                        if(response.success) {
+                            var successContent = '<h3>Пользователь награжден</h3>';
+                            $form.find('.message').html(successContent);
+                            $form.trigger('reset');
+                            $form.find('.error').empty();
+                            // вывод пользователя
+                            $('#users-table').find('tbody').prepend(response.userRowHtml);
+                            $('.empty-users-table').remove();
+                        } // success
+                        else {
+                            var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
+                            $form.find('.message').html(errorContent);
+                        } // user not found
+                    }
                 }
-            }); // done
+            });
         });
     </script>
 

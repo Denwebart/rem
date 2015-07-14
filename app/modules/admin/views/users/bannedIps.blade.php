@@ -128,31 +128,37 @@ View::share('title', $title);
             var $form = $(this),
                     data = $form.serialize(),
                     url = $form.attr('action');
-            var posting = $.post(url, { formData: data });
-            posting.done(function(data) {
-                if(data.success) {
-                    var successContent = '<h3>IP-адрес забанен.</h3>';
-                    $form.find('.message').html(successContent);
-                    $form.trigger('reset');
-                    $form.find('.error').empty();
-                    $form.find('.error').parent().removeClass('has-error');
-                    // вывод ip-адреса
-                    $('#banned-ips-table').find('tbody').prepend(data.ipRowHtml);
-
-                } // success
-                else {
-                    if(data.fail) {
-                        $.each(data.errors, function(index, value) {
-                            var errorDiv = '.' + index + '_error';
-                            $form.find(errorDiv).parent().addClass('has-error');
-                            $form.find(errorDiv).empty().append(value);
-                        });
-                        $form.find('.message').empty();
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    if(response.success){
+                        var successContent = '<h3>IP-адрес забанен.</h3>';
+                        $form.find('.message').html(successContent);
+                        $form.trigger('reset');
+                        $form.find('.error').empty();
+                        $form.find('.error').parent().removeClass('has-error');
+                        // вывод ip-адреса
+                        $('#banned-ips-table').find('tbody').prepend(response.ipRowHtml);
                     } else {
-                        $form.find('.message').html(data.message);
+                        if(response.fail) {
+                            $.each(response.errors, function(index, value) {
+                                var errorDiv = '.' + index + '_error';
+                                $form.find(errorDiv).parent().addClass('has-error');
+                                $form.find(errorDiv).empty().append(value);
+                            });
+                            $form.find('.message').empty();
+                        } else {
+                            $form.find('.message').html(data.message);
+                        }
                     }
-                } // user not found
-            }); // done
+                }
+            });
         });
 
         // разбанить
@@ -166,6 +172,9 @@ View::share('title', $title);
                         dataType: "text json",
                         type: "POST",
                         data: {},
+                        beforeSend: function(request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
                         success: function(response) {
                             if(response.success){
                                 $('[data-ip-id='+ ipId +']').remove();

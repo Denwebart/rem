@@ -154,6 +154,9 @@ View::share('title', $title);
                     dataType: "text json",
                     type: "POST",
                     data: {messageId: messageId},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
                     success: function(response) {
                         if(response.success){
                             $('[data-message-id= ' + messageId + ']').removeClass('new-message');
@@ -182,41 +185,49 @@ View::share('title', $title);
                 var $form = $(this),
                         data = $form.serialize(),
                         url = $form.attr('action');
-                var posting = $.post(url, { formData: data });
-                posting.done(function(response) {
-                    if(response.fail) {
-                        $.each(response.errors, function(index, value) {
-                            var errorDiv = '#' + index + '_error';
-                            $(errorDiv).addClass('required');
-                            $(errorDiv).empty().append(value);
-                        });
-                        $('#successMessage').empty();
-                    }
-                    if(response.success) {
-                        var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
-                                '<div class="col-md-2">' +
+                $.ajax({
+                    url: url,
+                    dataType: "text json",
+                    type: "POST",
+                    data: {formData: data},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.fail) {
+                            $.each(response.errors, function(index, value) {
+                                var errorDiv = '#' + index + '_error';
+                                $(errorDiv).addClass('required');
+                                $(errorDiv).empty().append(value);
+                            });
+                            $('#successMessage').empty();
+                        }
+                        if(response.success) {
+                            var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
+                                    '<div class="col-md-2">' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +
                                     '<?php echo Auth::user()->getAvatar('mini')?></a>' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>">' +
                                     '<?php echo Auth::user()->login ?>' +
                                     '</a>' +
                                     '<br><span class="date">' + response.messageCreadedAt + '</span>' +
-                                '</div>' +
-                                '<div class="col-md-7">' +
-                                    '<div class="well new-message">' +
-                                        response.message
                                     '</div>' +
-                                '</div>' +
-                                '<div class="col-md-2"></div>' +
+                                    '<div class="col-md-7">' +
+                                    '<div class="well new-message">' +
+                                    response.message
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-md-2"></div>' +
                             '</div>';
 
-                        $("#messages").append(newMessage);
-                        setTimeout(function(){
-                            $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
-                        }, 300);
-                        $($form).trigger('reset');
-                    } //success
-                }); //done
+                            $("#messages").append(newMessage);
+                            setTimeout(function(){
+                                $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
+                            }, 300);
+                            $($form).trigger('reset');
+                        } //success
+                    }
+                });
             });
         </script>
     @endif

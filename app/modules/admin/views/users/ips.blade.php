@@ -178,6 +178,9 @@ View::share('title', $title);
                             url: '/admin/users/banIp/' + ipId,
                             dataType: "text json",
                             type: "POST",
+                            beforeSend: function(request) {
+                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                            },
                             success: function(response) {
                                 if(response.success){
                                     $('#message').text(response.message);
@@ -204,6 +207,9 @@ View::share('title', $title);
                         dataType: "text json",
                         type: "POST",
                         data: {},
+                        beforeSend: function(request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
                         success: function(response) {
                             if(response.success){
                                 $('#message').text(response.message);
