@@ -6,15 +6,15 @@
  * @property integer $id 
  * @property string $ip 
  * @property boolean $is_banned 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
+ * @property \Carbon\Carbon $ban_at
+ * @property \Carbon\Carbon $unban_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\UserIp[] $usersIps 
  * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users 
  * @method static \Illuminate\Database\Query\Builder|\Ip whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Ip whereIp($value)
  * @method static \Illuminate\Database\Query\Builder|\Ip whereIsBanned($value)
- * @method static \Illuminate\Database\Query\Builder|\Ip whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Ip whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ip whereBanAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Ip whereUnbanAt($value)
  */
 
 class Ip extends \Eloquent

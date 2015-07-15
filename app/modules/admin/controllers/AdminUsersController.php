@@ -223,6 +223,7 @@ class AdminUsersController extends \BaseController {
 					} else {
 						$ip = new Ip();
 						$ip->ip = $formFields['ip'];
+						$ip->is_banned = 0;
 					}
 				}
 			} else {
