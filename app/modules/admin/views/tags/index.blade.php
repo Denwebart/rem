@@ -85,7 +85,7 @@ View::share('title', $title);
                                 <td>{{ $tag->id }}</td>
                                 <td>{{ $tag->getImage(null, ['width' => '50px']) }}</td>
                                 <td>
-                                    <a href="{{ URL::route('search', ['tag' => $tag->title]) }}" target="_blank">
+                                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" target="_blank">
                                         {{ $tag->title }}
                                     </a>
                                 </td>

@@ -101,7 +101,7 @@ View::share('title', $title);
         // автокомплит для тега, с которым сливаем
         $(".autocomplete").autocomplete({
             source: "<?php echo URL::route('admin.tags.autocomplete') ?>",
-            minLength: 2,
+            minLength: 1,
             select: function(e, ui) {
                 $(this).val(ui.item.value);
                 $("#merge-tags-form").find('.error').empty();
@@ -160,9 +160,12 @@ View::share('title', $title);
                             $('.original-tags').html('');
                             $('.original-tags').append('<div class="input first">' + inputHtml + '</div>');
                             $('.has-success').removeClass('has-success');
+                            $('#search-result').html('');
+                            inputNumber = 1;
                         } else {
                             $('#resultTag').parent().append('<small class="help-block" data-bv-validator-for="resultTag" data-bv-validator="notEmpty">'+ response.message +'</small>');
                             $('#resultTag').parent().toggleClass("has-error has-success");
+                            $('#merge-tags-button').removeAttr('disabled');
                         }
                     }
                 });
@@ -196,7 +199,7 @@ View::share('title', $title);
             var $link = $(this);
             var tagId = $link.data('tagId');
             if(!$link.hasClass('selected')) {
-                var linkText = $link.find('.text').text().trim();
+                var linkText = $link.find('.tag-title').text().trim();
                 var deleteInputHtml = '<a type="button" class="btn btn-danger btn-circle delete-input"><i class="glyphicon glyphicon-remove"></i></a>';
                 if(inputNumber == 1) {
                     $("[id^='tags']").val(linkText);
@@ -213,13 +216,14 @@ View::share('title', $title);
                     var inputHtml = '<input value="'+ linkText +'" class="form-control" placeholder="" name="tags['+inputNumber+']" id="tags['+inputNumber+']" type="text">';
                     $('.original-tags').append('<div class="form-group input has-success" data-tag-id="'+ tagId +'">' + plusHtml + inputHtml + deleteInputHtml + '</div>');
                 }
-                $('#merge-tags-button').attr('disabled', false);
-                $link.removeClass('btn-default').addClass('btn-info');
+                $('#merge-tags-button').removeAttr('disabled');
+                $link.find('.tag-title').removeClass('btn-outline');
                 $link.addClass('selected');
                 inputNumber++;
             }
             else {
-                $link.removeClass('selected').removeClass('btn-info').addClass('btn-default');
+                $link.find('.tag-title').addClass('btn-outline');
+                $link.removeClass('selected');
                 var input = $('.original-tags').find('[data-tag-id='+ tagId +']');
                 if(!input.hasClass('first')) {
                     input.remove();
@@ -245,7 +249,8 @@ View::share('title', $title);
         $(".original-tags").on('click', '.delete-input', function() {
             var $deleteLink = $(this);
             var tagId = $deleteLink.parent().data('tagId');
-            $('#search-result').find('[data-tag-id='+ tagId +']').removeClass('selected').removeClass('btn-info').addClass('btn-default');
+            $('#search-result').find('[data-tag-id='+ tagId +']').removeClass('selected');
+            $('#search-result').find('[data-tag-id='+ tagId +']').find('.tag-title').addClass('btn-outline');
             $deleteLink.parent().attr('data-tag-id', '');
             if(!$deleteLink.parent().hasClass('first')) {
                 $deleteLink.parent().remove();

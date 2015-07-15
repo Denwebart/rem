@@ -49,7 +49,7 @@ class AdminTagsController extends \BaseController {
 	{
 		$data = Input::all();
 
-		$validator = Validator::make($data, Tag::$rules);
+		$validator = Validator::make($data, Tag::rules(), Tag::$messages);
 
 		if ($validator->fails())
 		{
@@ -118,7 +118,7 @@ class AdminTagsController extends \BaseController {
 
 		$data = Input::all();
 
-		$validator = Validator::make($data, Tag::$rules);
+		$validator = Validator::make($data, Tag::rules($tag->id), Tag::$messages);
 
 		if ($validator->fails())
 		{

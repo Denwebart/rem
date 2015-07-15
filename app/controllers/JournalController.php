@@ -23,7 +23,6 @@ class JournalController extends BaseController
 			Session::put('user.urlPrevious', URL::current());
 
 		});
-
 	}
 
 	public function index($alias)

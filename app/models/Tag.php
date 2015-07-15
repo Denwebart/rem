@@ -13,8 +13,23 @@ class Tag extends \Eloquent
 
 	public static $rules = [
 		'image' => 'mimes:jpeg,bmp,png|max:1024',
-		'title' => 'required|max:100',
+		'title' => 'required|unique:tags,title,:id|max:100',
 	];
+
+	public static $messages = array(
+		'title.unique' => 'Такой тег уже существует.',
+	);
+
+	public static function rules($id = false, $merge = [])
+	{
+		$rules = self::$rules;
+		if ($id) {
+			foreach ($rules as &$rule) {
+				$rule = str_replace(':id', $id, $rule);
+			}
+		}
+		return array_merge($rules, $merge);
+	}
 
 	public static function boot()
 	{
