@@ -1,3 +1,7 @@
+<?php/*
+    require_once base_path() . '/vendor/autoload.php';
+    use Anhskohbo\NoCaptcha\NoCaptcha;*/
+?>
 <div id="comment-{{ $comment->id }}" class="media">
     <a href="javascript:void(0)" class="pull-left close-comment">-</a>
     @if($comment->user)
@@ -125,7 +129,24 @@
                             <div class="comment_error error text-danger"></div>
                         </div>
 
-                        {{ Form::captcha() }}
+{{--                        {{ Form::captcha(['id' => 'captcha-' . $comment->id]) }}--}}
+                        <?php
+                            // $captcha1 = new NoCaptcha(Config::get('settings.nocaptchaSecret'), Config::get('settings.nocaptchaSitekey'));
+                        ?>
+                        <div id="recaptcha-{{ $comment->id }}" class="captcha"></div>
+                        @section('captcha')
+                            @parent
+                                var recaptcha<?php echo $comment->id ?> = grecaptcha.render('recaptcha-<?php echo $comment->id ?>', {
+                                    'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
+                                    'theme' : 'light',
+                                    'callback' : Recaptcha.focus_response_field
+                                });
+                        @endsection
+
+                        {{--<script src="https://www.google.com/recaptcha/api.js" async defer></script>--}}
+                        {{--<div class="g-recaptcha" data-sitekey="{{ Config::get('settings.nocaptchaSitekey') }}"></div>--}}
+
+{{--                        {{ $captcha1->display(['id' => 'captcha-' . $comment->id]) }}--}}
                         @if ($errors->has('g-recaptcha-response'))
                             <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
                         @endif

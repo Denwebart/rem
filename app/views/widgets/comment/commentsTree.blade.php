@@ -1,3 +1,9 @@
+<?php
+        /*
+    require_once base_path() . '/vendor/autoload.php';
+    use Anhskohbo\NoCaptcha\NoCaptcha;
+        */
+?>
 <section id="comments-widget">
     {{--Лучшие ответы--}}
     @if(Page::TYPE_QUESTION == $page->type)
@@ -92,7 +98,24 @@
                         <div class="comment_error error text-danger"></div>
                     </div>
 
-                    {{ Form::captcha() }}
+{{--                    {{ Form::captcha(['id' => 'captcha-0']) }}--}}
+                    <?php
+                        //$captcha0 = new NoCaptcha(Config::get('settings.nocaptchaSecret'), Config::get('settings.nocaptchaSitekey'));
+                    ?>
+                    <div id="recaptcha-0" class="captcha"></div>
+                    @section('captcha')
+                        @parent
+                            var recaptcha0 = grecaptcha.render('recaptcha-0', {
+                                    'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
+                                    'theme' : 'light',
+                                    'callback' : Recaptcha.focus_response_field
+                            });
+                    @endsection
+
+                    {{--<script src="https://www.google.com/recaptcha/api.js" async defer></script>--}}
+                    {{--<div class="g-recaptcha" data-sitekey="{{ Config::get('settings.nocaptchaSitekey') }}"></div>--}}
+
+{{--                    {{ $captcha0->display(['id' => 'captcha-0']) }}--}}
                     @if ($errors->has('g-recaptcha-response'))
                         <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
                     @endif
@@ -123,6 +146,16 @@
         CKEDITOR.replaceAll('editor');
     </script>
 
+    <!-- captcha -->
+    <!--->
+    <script src="https://www.google.com/recaptcha/api.js?onload=captcha&render=explicit" async defer></script>
+    <script>
+        var captcha = function() {
+           @yield('captcha')
+        };
+    </script>
+    <!-->
+    <!-- captcha -->
 
     <script type="text/javascript">
 

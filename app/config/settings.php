@@ -31,4 +31,8 @@ return [
 	'defaultPublishedTime' => '10:00:00',
 
 	'numberOfUserImages' => 5,
+
+	// nocaptcha
+	'nocaptchaSecret'  => getenv('NOCAPTCHA_SECRET') ?: '6LdhyQETAAAAAIYg3kSuajrmL5HZoQ7OVfraZtk6',
+	'nocaptchaSitekey' => getenv('NOCAPTCHA_SITEKEY') ?: '6LdhyQETAAAAAD8bazOIeedB2t9po-JhWvSwBBfT',
 ];
