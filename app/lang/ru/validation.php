@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -21,12 +21,12 @@ return array(
 	"alpha_num"            => "The :attribute may only contain letters and numbers.",
 	"array"                => "The :attribute must be an array.",
 	"before"               => "The :attribute must be a date before :date.",
-	"between"              => array(
+	"between"              => [
 		"numeric" => "The :attribute must be between :min and :max.",
 		"file"    => "The :attribute must be between :min and :max kilobytes.",
 		"string"  => "The :attribute must be between :min and :max characters.",
 		"array"   => "The :attribute must have between :min and :max items.",
-	),
+	],
 	"boolean"              => "The :attribute field must be true or false.",
 	"confirmed"            => "The :attribute confirmation does not match.",
 	"date"                 => "The :attribute is not a valid date.",
@@ -40,19 +40,19 @@ return array(
 	"in"                   => "The selected :attribute is invalid.",
 	"integer"              => "The :attribute must be an integer.",
 	"ip"                   => "Неверный ip-адрес.",
-	"max"                  => array(
+	"max"                  => [
 		"numeric" => "Значение не может быть больше :max.",
 		"file"    => "The :attribute may not be greater than :max kilobytes.",
 		"string"  => "Поле должно содержать не более :max символов.",
 		"array"   => "The :attribute may not have more than :max items.",
-	),
+	],
 	"mimes"                => "The :attribute must be a file of type: :values.",
-	"min"                  => array(
+	"min"                  => [
 		"numeric" => "Значение не может быть меньше :min.",
 		"file"    => "The :attribute must be at least :min kilobytes.",
 		"string"  => "Поле должно содержать не менее :min символов.",
 		"array"   => "The :attribute must have at least :min items.",
-	),
+	],
 	"not_in"               => "The selected :attribute is invalid.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
@@ -63,12 +63,12 @@ return array(
 	"required_without"     => "The :attribute field is required when :values is not present.",
 	"required_without_all" => "The :attribute field is required when none of :values are present.",
 	"same"                 => "The :attribute and :other must match.",
-	"size"                 => array(
+	"size"                 => [
 		"numeric" => "The :attribute must be :size.",
 		"file"    => "The :attribute must be :size kilobytes.",
 		"string"  => "The :attribute must be :size characters.",
 		"array"   => "The :attribute must contain :size items.",
-	),
+	],
 	"unique"               => "The :attribute has already been taken.",
 	"url"                  => "The :attribute format is invalid.",
 	"timezone"             => "The :attribute must be a valid zone.",
@@ -84,47 +84,50 @@ return array(
 	|
 	*/
 
-	'custom' => array(
-		'name' => array(
+	'custom' => [
+		'name' => [
 			'regex' => 'Поле может содержать только буквы и пробелы.',
-		),
-		'alias' => array(
+		],
+		'alias' => [
 			'regex' => 'Поле может содержать только латинские буквы, дефис и цыфры.',
-		),
-		'parent_id' => array(
+		],
+		'parent_id' => [
 			'required' => 'Выбор категории обязателен.',
-		),
-		'login' => array(
+		],
+		'login' => [
 			'unique' => 'Пользователь с таким логином уже зарегистрирован.',
 			'regex' => 'Можно использовать только буквы латинского алфавита (a–z), цифры и знак дефиса.',
-		),
-		'email' => array(
+		],
+		'email' => [
 			'unique' => 'Пользователь с таким email уже зарегистрирован.',
-		),
-		'password' => array(
+		],
+		'password' => [
 			"min" => "Слишком короткий пароль (минимум :min символов).",
 			"max" => "Слишком длинный пароль (минимум :max символов).",
 			"confirmed" => "Пароли не совпадают. Повторите попытку.",
-		),
-		'newpassword' => array(
+		],
+		'newpassword' => [
 			"min" => "Слишком короткий пароль (минимум :min символов).",
 			"max" => "Слишком длинный пароль (минимум :max символов).",
 			"confirmed" => "Пароли не совпадают. Повторите попытку.",
-		),
-		'password_confirmation' => array(
+		],
+		'password_confirmation' => [
 			"min" => "Слишком короткий пароль (минимум :min символов).",
 			"confirmed" => "Пароли не совпадают. Повторите попытку.",
-		),
+		],
 		'user_name' => [
 			'required_without_all' => 'Поле обязательно для заполнения.',
 		],
 		'user_email' => [
 			'required_without_all' => 'Поле обязательно для заполнения.',
 		],
-		'title' => array(
+		'title' => [
 			'unique' => 'Награда с таким названием уже существует.',
-		),
-	),
+		],
+		'g-recaptcha-response' => [
+			'required_without_all' => 'Поле обязательно для неавторизованных пользователей.',
+		],
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -137,6 +140,6 @@ return array(
 	|
 	*/
 
-	'attributes' => array(),
+	'attributes' => [],
 
-);
+];

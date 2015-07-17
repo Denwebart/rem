@@ -106,9 +106,8 @@
                     @section('captcha')
                         @parent
                             var recaptcha0 = grecaptcha.render('recaptcha-0', {
-                                    'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
-                                    'theme' : 'light',
-                                    'callback' : Recaptcha.focus_response_field
+                                'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
+                                'theme' : 'light'
                             });
                     @endsection
 
@@ -148,9 +147,9 @@
 
     <!-- captcha -->
     <!--->
-    <script src="https://www.google.com/recaptcha/api.js?onload=captcha&render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit" async defer></script>
     <script>
-        var captcha = function() {
+        var onloadCaptcha = function() {
            @yield('captcha')
         };
     </script>

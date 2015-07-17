@@ -138,8 +138,7 @@
                             @parent
                                 var recaptcha<?php echo $comment->id ?> = grecaptcha.render('recaptcha-<?php echo $comment->id ?>', {
                                     'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
-                                    'theme' : 'light',
-                                    'callback' : Recaptcha.focus_response_field
+                                    'theme' : 'light'
                                 });
                         @endsection
 
