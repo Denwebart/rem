@@ -19,7 +19,7 @@ class JournalController extends BaseController
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with('parent.parent', 'user', 'tags')
+			->with('parent.parent', 'user', 'tags', 'whoSaved', 'publishedComments')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -52,14 +52,14 @@ class JournalController extends BaseController
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
 				$articles = Page::whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
-					->with('parent.parent', 'tags')
+					->with('parent.parent', 'tags', 'whoSaved', 'publishedComments', 'user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$articles = Page::whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
 					->whereIsPublished(1)
-					->with('parent.parent', 'tags')
+					->with('parent.parent', 'tags', 'whoSaved', 'publishedComments', 'user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
@@ -67,7 +67,7 @@ class JournalController extends BaseController
 			$articles = Page::whereType(Page::TYPE_ARTICLE)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
-				->with('parent.parent', 'tags')
+				->with('parent.parent', 'tags', 'whoSaved', 'publishedComments', 'user')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}

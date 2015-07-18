@@ -39,6 +39,7 @@ class CommentWidget
 			->with('title', $this->title)
 			->with('formTitle', $this->formTitle)
 			->with('successMessage', Auth::check() ? $this->successMessage : $this->successMessageIfNotAuth)
+			->with('isBannedIp', Ip::isBanned())
 			->render();
 	}
 

@@ -30,7 +30,7 @@
     <div class="comment-form" id="add-comment">
         <h3>{{ $formTitle }}</h3>
 
-        @if(!Ip::isBanned())
+        @if(!$isBannedIp)
             @if(Auth::check())
                 @if(!Auth::user()->is_banned)
                     @if(!Auth::user()->is_agree)

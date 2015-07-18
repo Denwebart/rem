@@ -57,7 +57,7 @@
 
         <div class="reply-comment-form" id="reply-comment-form-{{$comment->id}}" @if(Request::has('reply')) @if($comment->id != Request::get('reply')) style="display: none;" @endif @else style="display: none;" @endif>
 
-            @if(!Ip::isBanned())
+            @if(!$isBannedIp)
                 @if(Auth::check())
                     @if(!Auth::user()->is_banned)
                         @if(!Auth::user()->is_agree)

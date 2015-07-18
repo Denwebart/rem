@@ -47,13 +47,14 @@ class SiteController extends BaseController {
 
 		$page->setViews();
 
+		// вывод страниц блогом, учитывая подкатегории
 		$categoryArray = $page->publishedChildren->lists('id');
 		if(count($categoryArray)) {
 			$children = Page::where(function($query) use ($categoryArray, $page){
 				$query->whereIn('parent_id', $categoryArray)
 					->orWhere('parent_id', $page->id);
 			})->whereIsContainer(0)
-				->with('parent.parent')
+				->with('parent.parent', 'user', 'publishedComments', 'whoSaved')
 				->paginate(10);
 		} else {
 			$children = [];
@@ -88,7 +89,7 @@ class SiteController extends BaseController {
 				$query->whereIn('parent_id', $categoryArray)
 					->orWhere('parent_id', $page->id);
 			})->whereIsContainer(0)
-				->with('parent.parent')
+				->with('parent.parent', 'user', 'publishedComments', 'whoSaved')
 				->paginate(10);
 		} else {
 			$children = [];
@@ -126,7 +127,7 @@ class SiteController extends BaseController {
 
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user', 'publishedComments', 'bestComments', 'publishedAnswers')
+			->with('parent.parent', 'user', 'bestComments', 'publishedAnswers', 'whoSaved', 'subscribers')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -148,7 +149,7 @@ class SiteController extends BaseController {
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
+			->with('parent.parent', 'user', 'bestComments', 'publishedAnswers', 'whoSaved', 'subscribers')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -180,7 +181,7 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent'])
+			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent', 'publishedChildren.user'])
 			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'menu_title', 'title']);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
