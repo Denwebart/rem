@@ -4,29 +4,10 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
-		View::share('areaWidget', $areaWidget);
-
-		$this->beforeFilter(function()
+		$this->afterFilter(function()
 		{
-			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
-
-			if(URL::current() != $urlPrevious)
-			{
-				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
-
-				$page = Page::getPageByAlias($alias)->first();
-				if(is_object($page)) {
-					$page->views = $page->views + 1;
-//					$page->updated_at = $page->updated_at;
-					$page->save();
-				}
-			}
-
 			Session::put('user.urlPrevious', URL::current());
-
 		}, ['except' => ['contactPost', 'sitemapXml']]);
-
 	}
 
 	public function index()
@@ -34,20 +15,28 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
-		$articles = Page::whereIsPublished(1)
+		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
+			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->where('parent_id', '!=', 0)
 			->whereType(Page::TYPE_PAGE)
-			->with('parent.parent')
+			->with('parent.parent', 'user', 'publishedComments', 'whoSaved')
 			->whereIsContainer(0)
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
-		View::share('page', Page::getPageByAlias()->firstOrFail());
+
+		$page = Page::getPageByAlias()->firstOrFail();
+		$page->setViews();
+
+		View::share('page', $page);
 		return View::make('site.index', compact('articles'));
 	}
 
 	public function firstLevel($alias, $suffix = null)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
 
 		if(!$page->is_container && is_null($suffix)) {
@@ -55,6 +44,8 @@ class SiteController extends BaseController {
 		} elseif($page->is_container && !is_null($suffix)) {
 			return Response::view('errors.404', [], 404);
 		}
+
+		$page->setViews();
 
 		$categoryArray = $page->publishedChildren->lists('id');
 		if(count($categoryArray)) {
@@ -74,6 +65,9 @@ class SiteController extends BaseController {
 
 	public function secondLevel($categoryAlias, $alias, $suffix = null)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
 
 		$page = Page::getPageByAlias($alias)
@@ -85,6 +79,8 @@ class SiteController extends BaseController {
 		} elseif($page->is_container && !is_null($suffix)) {
 			return Response::view('errors.404', [], 404);
 		}
+
+		$page->setViews();
 
 		$categoryArray = $page->publishedChildren->lists('id');
 		if(count($categoryArray)) {
@@ -104,6 +100,9 @@ class SiteController extends BaseController {
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
@@ -112,6 +111,8 @@ class SiteController extends BaseController {
 		if($parentCategoryAlias != $page->parent->parent->alias){
 			return Response::view('errors.404', [], 404);
 		}
+
+		$page->setViews();
 
 		$children = [];
 		View::share('page', $page);
@@ -129,7 +130,10 @@ class SiteController extends BaseController {
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page->setViews();
+
+		View::share('page', $page);
 		return View::make('site.questions', compact('questions'));
 	}
 
@@ -139,6 +143,8 @@ class SiteController extends BaseController {
 		View::share('areaWidget', $areaWidget);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page->setViews();
+
 		$questions = Page::whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
@@ -160,19 +166,27 @@ class SiteController extends BaseController {
 			->whereParentId($category->id)
 			->with('parent.parent', 'user', 'comments', 'bestComments')
 			->firstOrFail();
+		$page->setViews();
+
 		View::share('page', $page);
 		return View::make('site.question');
 	}
 
 	public function sitemapHtml($alias)
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent'])
 			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'menu_title', 'title']);
 
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page->setViews();
+
+		View::share('page', $page);
 		return View::make('site.sitemapHtml', compact('pages'));
 	}
 
@@ -190,7 +204,13 @@ class SiteController extends BaseController {
 
 	public function contact($alias)
 	{
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page->setViews();
+
+		View::share('page', $page);
 		return View::make('site.contact');
 	}
 
@@ -253,6 +273,9 @@ class SiteController extends BaseController {
 
 	public function error404()
 	{
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
+
 		return Response::view('errors.404', [], 404);
 	}
 

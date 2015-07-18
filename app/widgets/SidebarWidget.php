@@ -138,7 +138,7 @@ class SidebarWidget
 		    ->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->limit($limit)
-			->with('parent.parent', 'user', 'comments')
+			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
 			->orderBy('created_at', 'DESC')
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title', 'menu_title']);
 

@@ -6,7 +6,7 @@ class MenuWidget
 	{
 		$pages = Page::whereIn('id', [10, 11, 60])
 			->where('is_published', 1)
-			->get(['id', 'is_published', 'alias', 'is_container', 'menu_title', 'title']);
+			->get(['id', 'is_published', 'alias', 'type', 'is_container', 'menu_title', 'title']);
 		return (string) View::make('widgets.menu.top', compact('pages'))->render();
 	}
 
@@ -15,8 +15,8 @@ class MenuWidget
 		$pages = Page::whereParentId(0)
 			->whereNotIn('id', [10, 11, 60, 58])
 			->where('is_published', 1)
-			->with(['publishedChildren'])
-			->get(['id', 'is_published', 'alias', 'is_container', 'menu_title', 'title', 'show_submenu']);
+			->with('publishedChildren.parent')
+			->get(['id', 'is_published', 'alias', 'type', 'is_container', 'menu_title', 'title', 'show_submenu']);
 		return (string) View::make('widgets.menu.main', compact('pages'))->render();
 	}
 
@@ -25,7 +25,7 @@ class MenuWidget
 		$pages = Page::whereParentId(0)
 			->whereNotIn('id', [60, 58])
 			->where('is_published', 1)
-			->get(['id', 'is_published', 'alias', 'is_container', 'menu_title', 'title']);
+			->get(['id', 'is_published', 'alias', 'type', 'is_container', 'menu_title', 'title']);
 		return (string) View::make('widgets.menu.bottom', compact('pages'))->render();
 	}
 }

@@ -29,5 +29,4 @@
         </div>
         <div class="list-group-separator"></div>
     @endforeach
-
 </div>

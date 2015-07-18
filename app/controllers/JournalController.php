@@ -5,23 +5,9 @@ class JournalController extends BaseController
 
 	public function __construct()
 	{
-		$this->beforeFilter(function()
+		$this->afterFilter(function()
 		{
-			$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
-
-			if(URL::current() != $urlPrevious)
-			{
-				$alias = (Route::current()->getParameter('alias')) ? Route::current()->getParameter('alias') : '/';
-
-				$page = Page::getPageByAlias($alias)->first();
-				if(is_object($page)) {
-					$page->views = $page->views + 1;
-					$page->save();
-				}
-			}
-
 			Session::put('user.urlPrevious', URL::current());
-
 		});
 	}
 
@@ -37,8 +23,10 @@ class JournalController extends BaseController
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
-		View::share('page', Page::getPageByAlias($alias)->firstOrFail());
+		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page->setViews();
 
+		View::share('page', $page);
 		return View::make('journal.index', compact('articles'));
 	}
 
@@ -85,7 +73,6 @@ class JournalController extends BaseController
 		}
 
 		View::share('page', $page);
-
 		return View::make('journal.journal', compact('articles', 'user', 'journalAlias'));
 	}
 
@@ -103,8 +90,10 @@ class JournalController extends BaseController
 			->whereUserId($user->id)
 			->with('parent.parent', 'tags')
 			->firstOrFail();
-		View::share('page', $page);
 
+		$page->setViews();
+
+		View::share('page', $page);
 		return View::make('journal.article', compact('user', 'journalAlias'));
 	}
 
@@ -117,17 +106,12 @@ class JournalController extends BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
-		$page = Page::whereAlias('tag')->firstOrFail();
-
-//		$tags = Tag::has('pages')->get();
-
 		$tagsByAlphabet = Tag::getByAlphabet();
 
-//		echo '<pre>';
-//		dd($tagsByAlphabet);
+		$page = Page::whereAlias('tag')->firstOrFail();
+		$page->setViews();
 
 		View::share('page', $page);
-
 		return View::make('journal.tags', compact('tagsByAlphabet', 'journalAlias'));
 	}
 
@@ -150,7 +134,6 @@ class JournalController extends BaseController
 		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
 
 		View::share('page', $page);
-
 		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias'));
 	}
 

@@ -416,4 +416,13 @@ class Page extends \Eloquent
 			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
+	public function setViews()
+	{
+		$urlPrevious = (Session::has('user.urlPrevious')) ? Session::get('user.urlPrevious') : URL::previous();
+		if(URL::current() != $urlPrevious)
+		{
+			DB::table('pages')->where('id', $this->id)->update(['views' => $this->views + 1]);
+		}
+	}
+
 }
