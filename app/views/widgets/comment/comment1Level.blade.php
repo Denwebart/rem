@@ -129,10 +129,7 @@
                             <div class="comment_error error text-danger"></div>
                         </div>
 
-{{--                        {{ Form::captcha(['id' => 'captcha-' . $comment->id]) }}--}}
-                        <?php
-                            // $captcha1 = new NoCaptcha(Config::get('settings.nocaptchaSecret'), Config::get('settings.nocaptchaSitekey'));
-                        ?>
+                        <!-- captcha -->
                         <div id="recaptcha-{{ $comment->id }}" class="captcha"></div>
                         @section('captcha')
                             @parent
@@ -141,14 +138,7 @@
                                     'theme' : 'light'
                                 });
                         @endsection
-
-                        {{--<script src="https://www.google.com/recaptcha/api.js" async defer></script>--}}
-                        {{--<div class="g-recaptcha" data-sitekey="{{ Config::get('settings.nocaptchaSitekey') }}"></div>--}}
-
-{{--                        {{ $captcha1->display(['id' => 'captcha-' . $comment->id]) }}--}}
-                        @if ($errors->has('g-recaptcha-response'))
-                            <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
-                        @endif
+                        <div class="g-recaptcha-response_error error text-danger"></div>
 
                         {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-prime btn-mid']) }}
                         {{ Form::hidden('_token', csrf_token()) }}

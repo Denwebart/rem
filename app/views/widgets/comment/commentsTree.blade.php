@@ -98,10 +98,7 @@
                         <div class="comment_error error text-danger"></div>
                     </div>
 
-{{--                    {{ Form::captcha(['id' => 'captcha-0']) }}--}}
-                    <?php
-                        //$captcha0 = new NoCaptcha(Config::get('settings.nocaptchaSecret'), Config::get('settings.nocaptchaSitekey'));
-                    ?>
+                    <!-- captcha -->
                     <div id="recaptcha-0" class="captcha"></div>
                     @section('captcha')
                         @parent
@@ -110,14 +107,7 @@
                                 'theme' : 'light'
                             });
                     @endsection
-
-                    {{--<script src="https://www.google.com/recaptcha/api.js" async defer></script>--}}
-                    {{--<div class="g-recaptcha" data-sitekey="{{ Config::get('settings.nocaptchaSitekey') }}"></div>--}}
-
-{{--                    {{ $captcha0->display(['id' => 'captcha-0']) }}--}}
-                    @if ($errors->has('g-recaptcha-response'))
-                        <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
-                    @endif
+                    <div class="g-recaptcha-response_error error text-danger"></div>
 
                     {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
                     {{ Form::hidden('_token', csrf_token()) }}
@@ -158,6 +148,7 @@
 
     <script type="text/javascript">
 
+        // Отправка комментария
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             for (instance in CKEDITOR.instances) {
@@ -170,6 +161,7 @@
                 url: url,
                 dataType: "text json",
                 type: "POST",
+                async: true,
                 data: {formData: data},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));

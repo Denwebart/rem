@@ -21,7 +21,7 @@ class CommentsController extends BaseController
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
 				'is_published' => Auth::check() ? 1 : 0,
-				'g-recaptcha-response' => Auth::check() ? '' : Input::get('g-recaptcha-response'),
+				'g-recaptcha-response' => Auth::check() ? '' : $formFields['g-recaptcha-response'],
 			];
 
 			if(isset($formFields['user_name'])) {
@@ -30,6 +30,15 @@ class CommentsController extends BaseController
 			if(isset($formFields['user_email'])) {
 				Session::set('user.user_email', $formFields['user_email']);
 			}
+
+			// проверка капчи
+//			$response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=YOUR-SECRET-KEY-HERE&response=" . $captcha);
+//			if ($response . success == false) {
+//				echo 'SPAM';
+//				http_response_code(401); // It's SPAM! RETURN SOME KIND OF ERROR
+//			} else {
+//				// Everything is ok and you can proceed by executing your login, signup, update etc scripts
+//			}
 
 			$validator = Validator::make($userData, Comment::$rules);
 
