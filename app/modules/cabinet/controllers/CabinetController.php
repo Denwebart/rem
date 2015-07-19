@@ -18,31 +18,31 @@ class CabinetController extends \BaseController
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction') ? Request::get('direction') : 'desc';
 
-		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments'];
+		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'honors'];
 		if ($sortBy && $direction) {
 			if(in_array($sortBy, $relations)) {
 				if($direction == 'asc') {
 					$users = User::whereIsActive(1)
-						->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+						->with($relations)
 						->get()->sortBy(function($user) use($sortBy) {
 							return $user->$sortBy->count();
 						});
 				} else {
 					$users = User::whereIsActive(1)
-						->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+						->with($relations)
 						->get()->sortBy(function($user) use($sortBy) {
 							return $user->$sortBy->count();
 						})->reverse();
 				}
 			} else {
 				$users = User::whereIsActive(1)
-					->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+					->with($relations)
 					->orderBy($sortBy, $direction)
 					->paginate(10);
 			}
 		} else {
 			$users = User::whereIsActive(1)
-				->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+				->with($relations)
 				->orderBy('role', 'ASC')
 				->orderBy('created_at', 'ASC')
 				->paginate(10);
@@ -56,7 +56,7 @@ class CabinetController extends \BaseController
 				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
 				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
 				->orWhere('login', 'like', "$name%")
-//				->with('publishedArticles', 'publishedQuestions', 'publishedComments')
+				->with($relations)
 				->paginate(10);
 		}
 

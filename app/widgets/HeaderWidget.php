@@ -41,6 +41,7 @@ class HeaderWidget
 	public function newLetters() {
 		return Letter::whereNull('read_at')
 				->whereNull('deleted_at')
+				->with('user')
 				->orderBy('created_at', 'DESC')
 				->get();
 	}
