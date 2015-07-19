@@ -24,7 +24,7 @@ class JournalController extends BaseController
 		$articles = Page::whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with('parent.parent', 'user', 'tags', 'whoSaved', 'publishedComments')
+			->with('parent', 'user', 'tags', 'whoSaved', 'publishedComments')
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -138,8 +138,10 @@ class JournalController extends BaseController
 		$page->meta_desc = 'Статьи по тегу "' . $tag->title . '"';
 		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
 
+		$articles = $tag->pages()->with('parent', 'tags', 'whoSaved', 'publishedComments', 'user')->paginate(10);
+
 		View::share('page', $page);
-		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias'));
+		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias', 'articles'));
 	}
 
 	public function tagAutocomplete() {

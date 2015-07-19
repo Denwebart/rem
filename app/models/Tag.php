@@ -69,7 +69,7 @@ class Tag extends \Eloquent
 
 	public static function getByAlphabet()
 	{
-		$tags = self::orderBy('title', 'ASC')->has('pages')->get();
+		$tags = self::orderBy('title', 'ASC')->has('pages')->with('pages')->get();
 
 		$tagsByAlphabet = [];
 		foreach ($tags as $item) {
