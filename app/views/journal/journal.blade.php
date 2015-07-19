@@ -77,21 +77,25 @@
                     @endif
                 @endif
 
-                @if($headerWidget->isBannedIp)
-                    <div class="row">
-                        <div class="col-md-12">
-                            @include('messages.bannedIp')
-                        </div>
-                    </div>
+                @if(Auth::check())
+                    @if(Auth::user()->is($user))
+                        @if($headerWidget->isBannedIp)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @include('messages.bannedIp')
+                                </div>
+                            </div>
+                        @endif
+                        @if($user->is_banned)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @include('cabinet::user.banMessage')
+                                </div>
+                            </div>
+                        @endif
+                    @endif
                 @endif
-                @if($user->is_banned)
-                    <div class="row">
-                        <div class="col-md-12">
-                            @include('cabinet::user.banMessage')
-                        </div>
-                    </div>
-                @endif
-
+                
                 @if(count($articles))
                     <section id="blog-area" class="blog">
                         <div class="count">

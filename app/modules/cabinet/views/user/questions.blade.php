@@ -42,15 +42,19 @@ View::share('title', $title);
                             @endif
                         @endif
                     </div>
-                    @if($headerWidget->isBannedIp)
-                        <div class="col-md-12">
-                            @include('messages.bannedIp')
-                        </div>
-                    @endif
-                    @if($user->is_banned)
-                        <div class="col-md-12">
-                            @include('cabinet::user.banMessage')
-                        </div>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            @if($headerWidget->isBannedIp)
+                                <div class="col-md-12">
+                                    @include('messages.bannedIp')
+                                </div>
+                            @endif
+                            @if($user->is_banned)
+                                <div class="col-md-12">
+                                    @include('cabinet::user.banMessage')
+                                </div>
+                            @endif
+                        @endif
                     @endif
                 </div>
 

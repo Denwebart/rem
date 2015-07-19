@@ -119,10 +119,12 @@ View::share('title', $title);
                             <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
                                 {{ $honor->getImage(null, ['width' => '75px']) }}
                             </a>
-                            @if(Auth::user()->isAdmin())
-                                <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-reward" data-honor-id="{{ $honor->id }}">
-                                    <span class="mdi-content-clear"></span>
-                                </a>
+                            @if(Auth::check())
+                                @if(Auth::user()->isAdmin())
+                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-reward" data-honor-id="{{ $honor->id }}">
+                                        <span class="mdi-content-clear"></span>
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     @endforeach
@@ -139,7 +141,7 @@ View::share('title', $title);
                     @endif
                 @endif
             </div>
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 {{ $areaWidget->contentBottom() }}
             </div>
         </div>
@@ -149,29 +151,31 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    @if(Auth::user()->isAdmin())
-        <script type="text/javascript">
-            $(".remove-reward").on('click', function() {
-                var $honor = $(this),
-                    honorId = $honor.data('honorId');
-                if(confirm('Вы уверены, что хотите забрать награду у пользователя?')) {
-                    $.ajax({
-                        url: '<?php echo URL::route('admin.honors.removeReward') ?>',
-                        dataType: "text json",
-                        type: "POST",
-                        data: {honor_id: honorId, user_id: '<?php echo $user->id ?>'},
-                        beforeSend: function(request) {
-                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                        },
-                        success: function(response) {
-                            if(response.success){
-                                $('#message').text(response.message);
-                                $honor.parent().remove();
+    @if(Auth::check())
+        @if(Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $(".remove-reward").on('click', function() {
+                    var $honor = $(this),
+                            honorId = $honor.data('honorId');
+                    if(confirm('Вы уверены, что хотите забрать награду у пользователя?')) {
+                        $.ajax({
+                            url: '<?php echo URL::route('admin.honors.removeReward') ?>',
+                            dataType: "text json",
+                            type: "POST",
+                            data: {honor_id: honorId, user_id: '<?php echo $user->id ?>'},
+                            beforeSend: function(request) {
+                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                            },
+                            success: function(response) {
+                                if(response.success){
+                                    $('#message').text(response.message);
+                                    $honor.parent().remove();
+                                }
                             }
-                        }
-                    });
-                }
-            });
-        </script>
+                        });
+                    }
+                });
+            </script>
+        @endif
     @endif
 @stop
