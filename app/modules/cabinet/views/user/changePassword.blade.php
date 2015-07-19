@@ -6,27 +6,24 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        Мой профиль
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    Мой профиль
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
 
-        <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
-        </div>
-        <div class="col-lg-9">
-
-            {{ Form::model($user, ['method' => 'POST', 'route' => ['user.postChangePassword', $user->getLoginForUrl()], 'id' => 'changePassword']) }}
+        <div class="row">
+            <div class="col-lg-12">
+                {{ Form::model($user, ['method' => 'POST', 'route' => ['user.postChangePassword', $user->getLoginForUrl()], 'id' => 'changePassword']) }}
                 <div class="row">
                     <div class="col-lg-6">
                         <h2>{{{ $title }}}</h2>
@@ -60,7 +57,8 @@ View::share('title', $title);
                     @if ($errors->has('newpassword_confirmation')) <p class="text-danger">{{ $errors->first('newpassword_confirmation') }}</p> @endif
                 </div>
                 {{ Form::hidden('_token', csrf_token()) }}
-            {{ Form::close() }}
+                {{ Form::close() }}
+            </div>
         </div>
     </div>
 @stop

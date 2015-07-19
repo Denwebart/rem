@@ -6,36 +6,29 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
 
-        <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
-        </div>
-        <div class="col-lg-9">
-            <h2>{{ (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login }}</h2>
-
-            Загрузка новой фотографии
-            <div id="new-photo">
-
-                <h3>{{ $title }}</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>{{ $title }}</h2>
 
                 {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
 
@@ -69,7 +62,6 @@ View::share('title', $title);
                 {{ Form::close() }}
 
             </div>
-
         </div>
     </div>
 @stop

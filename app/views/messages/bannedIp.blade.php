@@ -1,4 +1,4 @@
-<div class="alert alert-dismissable alert-warning">
+<div class="alert alert-dismissable alert-danger">
     <h4>Ваш IP-адрес был забанен!</h4>
     <p>
         IP-адрес {{ Request::ip() }} был забанен.

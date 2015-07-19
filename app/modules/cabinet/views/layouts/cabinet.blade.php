@@ -81,16 +81,7 @@
 <div class="container" id="cabinet">
     <div class="row">
 
-        <div class="col-lg-10 col-md-6">
-            @if(Session::has('rulesSuccessMessage'))
-                <div class="alert alert-dismissable alert-success">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    {{ Session::get('rulesSuccessMessage') }}
-                </div>
-            @endif
-
-            @yield('content')
-        </div>
+        @yield('content')
 
         <div class="col-lg-2 col-md-3" id="users-menu">
             <ul>

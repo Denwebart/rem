@@ -6,117 +6,117 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
-
-        <div class="col-lg-3">
-            <div id="companions">
-                <div class="header">
-                    <h3>Собеседники</h3>
-                </div>
-                <div class="body">
-                    @foreach($companions as $item)
-                        <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}" data-user-id="{{ $item->id }}">
-                            <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->getLoginForUrl()]) }}">
-                                {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
-                                <span>{{ $item->login }}</span>
-                                @if($numberOfMessages = count($item->sentMessagesForUser))
-                                    <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
-                                @endif
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+    <div class="col-lg-3 col-md-3">
+        <div id="companions">
+            <div class="header">
+                <h3>Собеседники</h3>
             </div>
-        </div>
-        <div class="col-lg-9">
-            <h2>
-                {{ $title }}
-                @if($companion->getFullName())
-                    ({{ $companion->getFullName() }})
-                @endif
-            </h2>
-
-            <div id="messages">
-                @if(isset($messages))
-                    @foreach($messages as $message)
-
-                    <div class="row">
-                            <div class="col-md-2">
-                                @if($user->id == $message->userSender->id)
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
-                                        {{ $message->userSender->getAvatar('mini') }}
-                                    </a>
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                        {{ $message->userSender->login }}
-                                    </a>
-                                    <span class="date">
-                                        {{ DateHelper::dateForMessage($message->created_at) }}
-                                    </span>
-                                @endif
-                            </div>
-
-                            @if($user->id == $message->userSender->id)
-                                <div class="col-md-7">
-                                    <div class="well">
-                                        {{ $message->message }}
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-md-7 col-md-offset-1">
-                                    <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                        {{ $message->message }}
-                                    </div>
-                                </div>
+            <div class="body">
+                @foreach($companions as $item)
+                    <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}" data-user-id="{{ $item->id }}">
+                        <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->getLoginForUrl()]) }}">
+                            {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
+                            <span>{{ $item->login }}</span>
+                            @if($numberOfMessages = count($item->sentMessagesForUser))
+                                <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
                             @endif
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
 
-                            <div class="col-md-2">
-                                @if($companion->id == $message->userSender->id)
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                        {{ $message->userSender->getAvatar('mini') }}
-                                    </a>
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                        {{ $message->userSender->login }}
-                                    </a>
-                                    <span class="date">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>
+                    {{ $title }}
+                    @if($companion->getFullName())
+                        ({{ $companion->getFullName() }})
+                    @endif
+                </h2>
+
+                <div id="messages">
+                    @if(isset($messages))
+                        @foreach($messages as $message)
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    @if($user->id == $message->userSender->id)
+                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
+                                            {{ $message->userSender->getAvatar('mini') }}
+                                        </a>
+                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                            {{ $message->userSender->login }}
+                                        </a>
+                                        <span class="date">
                                         {{ DateHelper::dateForMessage($message->created_at) }}
                                     </span>
+                                    @endif
+                                </div>
+
+                                @if($user->id == $message->userSender->id)
+                                    <div class="col-md-7">
+                                        <div class="well">
+                                            {{ $message->message }}
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="col-md-7 col-md-offset-1">
+                                        <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                            {{ $message->message }}
+                                        </div>
+                                    </div>
                                 @endif
+
+                                <div class="col-md-2">
+                                    @if($companion->id == $message->userSender->id)
+                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                            {{ $message->userSender->getAvatar('mini') }}
+                                        </a>
+                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                            {{ $message->userSender->login }}
+                                        </a>
+                                        <span class="date">
+                                        {{ DateHelper::dateForMessage($message->created_at) }}
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                    @endforeach
-                @endif
-            </div>
+                        @endforeach
+                    @endif
+                </div>
 
-            {{--Отправка нового сообщения--}}
-            @if(Auth::user()->is($user))
+                {{--Отправка нового сообщения--}}
+                @if(Auth::user()->is($user))
 
-                @if(!Ip::isBanned())
-                    @if(!$user->is_banned)
-                        <div id="message-form-container well">
-                            <h3>Отправить сообщение</h3>
+                    @if(!Ip::isBanned())
+                        @if(!$user->is_banned)
+                            <div id="message-form-container well">
+                                <h3>Отправить сообщение</h3>
 
-                            {{ Form::open([
-                                  'action' => ['CabinetUserController@addMessage', 'login' => $user->getLoginForUrl(), 'companionId' => $companion->id],
-                                  'id' => 'message-form',
-                                ])
-                            }}
+                                {{ Form::open([
+                                      'action' => ['CabinetUserController@addMessage', 'login' => $user->getLoginForUrl(), 'companionId' => $companion->id],
+                                      'id' => 'message-form',
+                                    ])
+                                }}
 
                                 <div class="form-group">
                                     {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
@@ -126,18 +126,18 @@ View::share('title', $title);
                                 {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
 
                                 {{ Form::hidden('_token', csrf_token()) }}
-                            {{ Form::close() }}
+                                {{ Form::close() }}
 
-                        </div>
-                        <!-- end of #message-form -->
+                            </div>
+                            <!-- end of #message-form -->
+                        @else
+                            @include('cabinet::user.banMessage')
+                        @endif
                     @else
-                        @include('cabinet::user.banMessage')
+                        @include('messages.bannedIp')
                     @endif
-                @else
-                    @include('messages.bannedIp')
                 @endif
-            @endif
-
+            </div>
         </div>
     </div>
 @stop

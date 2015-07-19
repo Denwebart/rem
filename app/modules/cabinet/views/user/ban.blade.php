@@ -6,33 +6,32 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
 
-        <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
+        {{ $areaWidget->leftSidebar() }}
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>{{ $title }}</h2>
+
+                @include('cabinet::user.banMessage')
             </div>
-
-            {{ $areaWidget->leftSidebar() }}
-
-        </div>
-        <div class="col-lg-9">
-            <h2>{{ $title }}</h2>
-
-            @include('cabinet::user.banMessage')
-
-            {{ $areaWidget->contentBottom() }}
+            <div class="col-lg-12">
+                {{ $areaWidget->contentBottom() }}
+            </div>
         </div>
     </div>
 @stop

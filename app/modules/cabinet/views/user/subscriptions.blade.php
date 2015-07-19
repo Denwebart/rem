@@ -6,97 +6,93 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
 
-        <div class="col-lg-3">
-            @include('cabinet::user.userInfo')
+        {{ $areaWidget->leftSidebar() }}
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
 
-            {{ $areaWidget->leftSidebar() }}
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>{{ $title }}</h2>
 
-        </div>
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>{{ $title }}</h2>
+                <div id="subscriptions">
+                    @if(count($subscriptions))
+                        @foreach($subscriptions as $subscription)
+                            @if($subscription->page)
+                                <div data-page-id="{{ $subscription->page->id }}" class="well">
+                                    <div class="row">
+                                        @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
 
-                    <div id="subscriptions">
-                        @if(count($subscriptions))
-                            @foreach($subscriptions as $subscription)
-                                @if($subscription->page)
-                                    <div data-page-id="{{ $subscription->page->id }}" class="well">
-                                        <div class="row">
-                                            @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
-
-                                            <div class="col-md-12">
-                                                @foreach($subscription->notifications as $notification)
-                                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                        {{ DateHelper::dateFormat($notification->created_at) }}
-                                                        <br/>
-                                                        {{ $notification->message }}
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div data-page-id="{{ $subscription->page_id }}" class="well">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h3>
-                                                    <div class="pull-right">
-                                                        <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page_id }}">
-                                                            Отписаться
-                                                        </a>
-                                                    </div>
-                                                </h3>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="date date-saved">
-                                                    <i>
-                                                        Сохранено {{ DateHelper::dateFormat($subscription->created_at) }}
-                                                    </i>
+                                        <div class="col-md-12">
+                                            @foreach($subscription->notifications as $notification)
+                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                    {{ DateHelper::dateFormat($notification->created_at) }}
+                                                    <br/>
+                                                    {{ $notification->message }}
                                                 </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <p>
-                                                    Статья, на которую вы были подписаны, была удалена.
-                                                </p>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
-                            <div>
-                                {{ $subscriptions->links() }}
-                            </div>
-                        @else
-                            @if(Auth::user()->is($user))
-                                <p>
-                                    Вы еще не подписались ни на один вопрос.
-                                </p>
+                                </div>
                             @else
-                                <p>
-                                    Подписок нет.
-                                </p>
+                                <div data-page-id="{{ $subscription->page_id }}" class="well">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>
+                                                <div class="pull-right">
+                                                    <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page_id }}">
+                                                        Отписаться
+                                                    </a>
+                                                </div>
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="date date-saved">
+                                                <i>
+                                                    Сохранено {{ DateHelper::dateFormat($subscription->created_at) }}
+                                                </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p>
+                                                Статья, на которую вы были подписаны, была удалена.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
+                        @endforeach
+                        <div>
+                            {{ $subscriptions->links() }}
+                        </div>
+                    @else
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не подписались ни на один вопрос.
+                            </p>
+                        @else
+                            <p>
+                                Подписок нет.
+                            </p>
                         @endif
-                    </div>
+                    @endif
                 </div>
-                <div class="col-lg-12">
-                    {{ $areaWidget->contentBottom() }}
-                </div>
+            </div>
+            <div class="col-lg-12">
+                {{ $areaWidget->contentBottom() }}
             </div>
         </div>
     </div>

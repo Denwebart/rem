@@ -6,87 +6,83 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                    </a>
-                </li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
 
-        <div class="col-lg-3">
-            @include('cabinet::user.userInfo')
+        {{ $areaWidget->leftSidebar() }}
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
+                </a>
+            </li>
+            <li>{{ $title }}</li>
+        </ol>
 
-            {{ $areaWidget->leftSidebar() }}
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>{{ $title }}</h2>
 
-        </div>
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>{{ $title }}</h2>
-
-                    <div id="saved-pages">
-                        @if(count($pages))
-                            @foreach($pages as $page)
-                                @if($page->page)
-                                    <div data-page-id="{{ $page->page->id }}" class="well">
-                                        <div class="row">
-                                            @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
-                                        </div>
+                <div id="saved-pages-area" class="blog">
+                    @if(count($pages))
+                        @foreach($pages as $page)
+                            @if($page->page)
+                                <div data-page-id="{{ $page->page->id }}" class="well">
+                                    <div class="row">
+                                        @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
                                     </div>
-                                @else
-                                    <div data-page-id="{{ $page->page_id }}" class="well">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h3>
-                                                    <div class="pull-right">
-                                                        <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
-                                                            <i class="glyphicon glyphicon-floppy-remove"></i>
-                                                        </a>
-                                                    </div>
-                                                </h3>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="date date-saved">
-                                                    <i>
-                                                        Сохранено {{ DateHelper::dateFormat($page->created_at) }}
-                                                    </i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <p>
-                                                    Статья, которую вы сохранили, была удалена.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-
-                            <div>
-                                {{ $pages->links() }}
-                            </div>
-                        @else
-                            @if(Auth::user()->is($user))
-                                <p>
-                                    Вы еще ничего не сохранили.
-                                </p>
+                                </div>
                             @else
-                                <p>
-                                    Сохраненных страниц нет.
-                                </p>
+                                <div data-page-id="{{ $page->page_id }}" class="well">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>
+                                                <div class="pull-right">
+                                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
+                                                        <i class="glyphicon glyphicon-floppy-remove"></i>
+                                                    </a>
+                                                </div>
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="date date-saved">
+                                                <i>
+                                                    Сохранено {{ DateHelper::dateFormat($page->created_at) }}
+                                                </i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p>
+                                                Статья, которую вы сохранили, была удалена.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
+                        @endforeach
+
+                        <div>
+                            {{ $pages->links() }}
+                        </div>
+                    @else
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще ничего не сохранили.
+                            </p>
+                        @else
+                            <p>
+                                Сохраненных страниц нет.
+                            </p>
                         @endif
-                    </div>
+                    @endif
                 </div>
-                <div class="col-lg-12">
-                    {{ $areaWidget->contentBottom() }}
-                </div>
+            </div>
+            <div class="col-lg-12">
+                {{ $areaWidget->contentBottom() }}
             </div>
         </div>
     </div>
