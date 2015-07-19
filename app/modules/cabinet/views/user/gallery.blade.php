@@ -32,9 +32,9 @@ View::share('title', $title);
                     <h2>{{ $title }}</h2>
 
                     @if(Auth::check())
-                        @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                        @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
                             <div id="lists-of-images">
-                                @foreach($user->images as $image)
+                                @foreach($images as $image)
                                     <div class="item row" data-image-id="{{ $image->id }}">
                                         <div class="col-md-5">
                                             {{ $image->getImage() }}
@@ -47,12 +47,12 @@ View::share('title', $title);
                                         </div>
                                     </div>
                                 @endforeach
-                                @if(!count($user->images) && Auth::user()->is($user))
+                                @if(!count($images) && Auth::user()->is($user))
                                     <p>
                                         Вы еще не добавили ни одной фотографии автомобиля.
                                         Вы можете добавить максимум 5 фотографий.
                                     </p>
-                                @elseif(!count($user->images))
+                                @elseif(!count($images))
                                     <p>
                                         Фотографий нет.
                                     </p>
@@ -103,9 +103,9 @@ View::share('title', $title);
 
                         {{--Загрузка новой фотографии--}}
                         @if(Auth::user()->is($user))
-                            @if(!Ip::isBanned())
+                            @if(!$headerWidget->isBannedIp)
                                 @if(!$user->is_banned)
-                                    @if(Config::get('settings.numberOfUserImages') > count($user->images))
+                                    @if(Config::get('settings.numberOfUserImages') > count($images))
                                         <div id="new-photo">
 
                                             <h3>Добавить фотографию</h3>

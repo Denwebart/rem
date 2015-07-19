@@ -16,7 +16,7 @@ class Subscription extends Eloquent {
 
 	public function notifications()
 	{
-		return $this->hasMany('SubscriptionNotification', 'subscription_id');
+		return $this->hasMany('SubscriptionNotification', 'subscription_id')->orderBy('created_at', 'DESC');
 	}
 
 	public static function boot()

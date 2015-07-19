@@ -1,10 +1,5 @@
 <?php $menuWidget = app('MenuWidget') ?>
 <?php $sidebarWidget = app('SidebarWidget') ?>
-<?php
-if(Auth::check()){
-    $headerWidget = app('HeaderWidget');
-}
-?>
 <!doctype html>
 <html lang="ru">
 

@@ -232,8 +232,11 @@ class CabinetUserController extends \BaseController
 				? Auth::user()
 				: User::whereLogin($login)->whereIsActive(1)->firstOrFail())
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$images = $user->images()->with('user')->get();
+
 		View::share('user', $user);
-		return View::make('cabinet::user.gallery');
+		return View::make('cabinet::user.gallery', compact('images'));
 	}
 
 	public function uploadPhoto($login)
@@ -1010,7 +1013,7 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$pages = UserPage::whereUserId($user->id)
-			->with('page.parent.parent')
+			->with('page.parent.parent', 'page.user', 'page.whoSaved', 'page.publishedAnswers', 'page.publishedComments', 'page.bestComments', 'page.subscribers', 'page.tags')
 			->orderBy('created_at', 'DESC')
 			->paginate(10);
 		View::share('user', $user);
@@ -1073,7 +1076,7 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 		$subscriptions = Subscription::whereUserId($user->id)
-			->with('page.parent.parent')
+			->with('page.parent.parent', 'page.user', 'page.whoSaved', 'page.publishedAnswers', 'page.bestComments', 'page.subscribers', 'page.tags', 'notifications')
 			->orderBy('created_at', 'DESC')
 			->paginate(10);
 

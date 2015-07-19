@@ -33,7 +33,7 @@ View::share('title', $title);
 
                     @if(Auth::check())
                         @if(Auth::user()->is($user))
-                            @if(!Ip::isBanned())
+                            @if(!$headerWidget->isBannedIp)
                                 @if(!$user->is_banned)
                                     <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
                                         Задать вопрос
@@ -55,7 +55,7 @@ View::share('title', $title);
                                 <div data-question-id="{{ $question->id }}" class="col-md-12">
                                     <div class="well">
                                         @if(Auth::check())
-                                            @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                                            @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
                                                 <div class="pull-right">
                                                     <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
                                                         Редактировать

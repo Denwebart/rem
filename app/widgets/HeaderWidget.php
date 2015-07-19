@@ -9,6 +9,7 @@ class HeaderWidget
 	public $newQuestions;
 	public $newArticles;
 	public $newComments;
+	public $isBannedIp;
 
 	public function __construct()
 	{
@@ -21,6 +22,7 @@ class HeaderWidget
 			$this->newLetters = $this->newLetters();
 		}
 		$this->newMessages = $this->newMessages();
+		$this->isBannedIp = Ip::isBanned();
 	}
 
 	public function show($page = null)

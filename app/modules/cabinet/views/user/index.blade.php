@@ -30,13 +30,13 @@ View::share('title', $title);
                     @include('cabinet::user.banMessage')
                 @endif
 
-                @if(Auth::user()->is($user) && Ip::isBanned())
+                @if(Auth::user()->is($user) && $headerWidget->isBannedIp)
                     @include('messages.bannedIp')
                 @endif
             @endif
 
             @if(Auth::check())
-                @if((Auth::user()->is($user) && !IP::isBanned() && !$user->is_banned) || Auth::user()->isAdmin())
+                @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
                     <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
                         Редактировать
                         <span class="mdi-editor-border-color"></span>

@@ -41,7 +41,7 @@ View::share('title', $title);
                                             @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
 
                                             <div class="col-md-12">
-                                                @foreach($subscription->notifications()->orderBy('created_at', 'DESC')->get() as $notification)
+                                                @foreach($subscription->notifications as $notification)
                                                     <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
                                                         <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
                                                         {{ DateHelper::dateFormat($notification->created_at) }}

@@ -4,6 +4,11 @@ class SearchController extends BaseController
 {
 	public function __construct()
 	{
+		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+		}
+
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SEARCH]);
 		View::share('areaWidget', $areaWidget);
 	}

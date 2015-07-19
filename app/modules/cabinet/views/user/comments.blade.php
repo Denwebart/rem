@@ -36,7 +36,7 @@ View::share('title', $title);
                         @if(Auth::user()->is($user))
                             @if($user->is_banned)
                                 @include('cabinet::user.banMessage')
-                            @elseif(Ip::isBanned())
+                            @elseif($headerWidget->isBannedIp)
                                 @include('messages.bannedIp')
                             @endif
                         @endif

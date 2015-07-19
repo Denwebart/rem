@@ -90,7 +90,7 @@
 
         @if(Auth::check())
             @if(Auth::user()->is($user))
-                @if(!Ip::isBanned())
+                @if(!$headerWidget->isBannedIp)
                     @if(!$user->is_banned)
                         <div class="row">
                             <div class="col-md-12">
@@ -149,7 +149,7 @@
                                 </div>
                             </div>
                             @if(Auth::check())
-                                @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                     <div class="buttons pull-left">
                                         <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
                                             <span class="mdi-editor-mode-edit"></span>

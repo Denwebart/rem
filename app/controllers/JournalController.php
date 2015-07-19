@@ -5,6 +5,11 @@ class JournalController extends BaseController
 
 	public function __construct()
 	{
+		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+		}
+
 		$this->afterFilter(function()
 		{
 			Session::put('user.urlPrevious', URL::current());
