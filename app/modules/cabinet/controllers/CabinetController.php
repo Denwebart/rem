@@ -11,6 +11,11 @@ class CabinetController extends \BaseController
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
 		}
+
+		$this->afterFilter(function()
+		{
+			Session::put('user.urlPrevious', URL::current());
+		});
 	}
 
 	public function index()
@@ -89,6 +94,7 @@ class CabinetController extends \BaseController
 	public function honors()
 	{
 		$page = Page::whereAlias('honors')->firstOrFail();
+		$page->setViews();
 
 		View::share('page', $page);
 		return View::make('cabinet::honors');
