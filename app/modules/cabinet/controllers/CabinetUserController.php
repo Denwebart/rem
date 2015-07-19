@@ -813,14 +813,14 @@ class CabinetUserController extends \BaseController
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
 				$comments = Comment::whereUserId($user->id)
 					->whereIsAnswer(0)
-					->with('page.parent.parent')
+					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$comments = Comment::whereUserId($user->id)
 					->whereIsPublished(1)
 					->whereIsAnswer(0)
-					->with('page.parent.parent')
+					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
@@ -828,7 +828,7 @@ class CabinetUserController extends \BaseController
 			$comments = Comment::whereUserId($user->id)
 				->whereIsPublished(1)
 				->whereIsAnswer(0)
-				->with('page.parent.parent')
+				->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}
@@ -849,14 +849,14 @@ class CabinetUserController extends \BaseController
 			if(Auth::user()->is($user) || Auth::user()->isAdmin()) {
 				$answers = Comment::whereUserId($user->id)
 					->whereIsAnswer(1)
-					->with('page.parent.parent')
+					->with('page.parent.parent', 'user', 'publishedChildren')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
 				$answers = Comment::whereUserId($user->id)
 					->whereIsPublished(1)
 					->whereIsAnswer(1)
-					->with('page.parent.parent')
+					->with('page.parent.parent', 'user', 'publishedChildren')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
@@ -864,7 +864,7 @@ class CabinetUserController extends \BaseController
 			$answers = Comment::whereUserId($user->id)
 				->whereIsPublished(1)
 				->whereIsAnswer(1)
-				->with('page.parent.parent')
+				->with('page.parent.parent', 'user', 'publishedChildren')
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}

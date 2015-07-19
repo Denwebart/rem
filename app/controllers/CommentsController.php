@@ -12,7 +12,7 @@ class CommentsController extends BaseController
 			$page = Page::findOrFail($id);
 
 			$userData = [
-				'is_answer' => (Page::TYPE_QUESTION == $page->type) ? 1 : 0,
+				'is_answer' => (Page::TYPE_QUESTION == $page->type && 0 ==$formFields['parent_id']) ? 1 : 0,
 				'page_id' => $id,
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::check() ? Auth::user()->id : null,

@@ -42,47 +42,121 @@ View::share('title', $title);
                         @endif
                     @endif
 
-                    <div id="comments">
+                    @if(count($comments))
 
-                        @if(count($comments))
+                        <section id="comments-area" class="blog">
+                            <div class="count">
+                                Показано комментариев: <span>{{ $comments->count() }}</span>.
+                                Всего: <span>{{ $comments->getTotal() }}</span>.
+                            </div>
+
                             @foreach($comments as $comment)
 
-                                <div data-comment-id="{{ $comment->id }}" class="col-md-12">
-                                    <div class="well">
-                                        <div class="date date-create">{{ $comment->created_at }}</div>
-                                        {{ $comment->comment }}
-                                        <div class="status">
-                                            Статус:
-                                            {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                                <div data-comment-id="{{ $comment->id }}" class="well">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>
+                                                @if($comment->page)
+                                                    <a href="{{ URL::to($comment->getUrl()) }}">
+                                                        {{ $comment->page->title }}
+                                                    </a>
+                                                @else
+                                                    страница удалена
+                                                @endif
+                                                <div class="pull-right">
+                                                    @if(Auth::check())
+                                                        @if((Auth::user()->is($comment->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                                            <div class="buttons pull-left">
+                                                                {{--<a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $comment->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">--}}
+                                                                    {{--<span class="mdi-editor-mode-edit"></span>--}}
+                                                                {{--</a>--}}
+                                                                {{--<a href="javascript:void(0)" class="btn btn-danger btn-sm delete-question" data-id="{{ $comment->id }}" title="Удалить статью">--}}
+                                                                    {{--<span class="mdi-content-clear"></span>--}}
+                                                                {{--</a>--}}
+                                                                <div class="status">
+                                                                    Статус:
+                                                                    {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </h3>
                                         </div>
-                                        <div class="on-page">
-                                            На странице:
-                                            @if($comment->page)
-                                                <a href="{{ URL::to($comment->getUrl()) }}">{{ $comment->page->getTitle() }}</a>
+                                        <div class="col-md-12">
+                                            <div class="date pull-left" title="Дата публикации">
+                                                <span class="mdi-action-today"></span>
+                                                {{ DateHelper::dateFormat($comment->created_at) }}
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="rating pull-left" title="Оценка комментария">
+                                                    <span class="mdi-action-thumbs-up-down"></span>
+                                                    {{ $comment->votes_like - $comment->votes_dislike }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            {{ $comment->comment }}
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            @if(0 == $comment->parent_id)
+                                                <div class="answers">
+                                                    Ответы на комментарий:
+                                                    <a href="{{ URL::to($comment->getUrl()) }}">
+                                                        {{ count($comment->publishedChildren) }}
+                                                    </a>
+                                                </div>
                                             @else
-                                                страница удалена
+                                                <div class="parent-comment">
+                                                    @if(!$comment->parent->is_answer)
+                                                        Ответ на комментарий:
+                                                    @else
+                                                        Комментарий к ответу:
+                                                    @endif
+                                                    <div class="comment">
+                                                        <div class="date pull-left" title="Дата публикации">
+                                                            <span class="mdi-action-today"></span>
+                                                            {{ DateHelper::dateFormat($comment->parent->created_at) }}
+                                                        </div>
+                                                        <div class="user pull-left" title="@if(!$comment->parent->is_answer) Автор комментария @else Автор ответа @endif">
+                                                            @if($comment->parent->user)
+                                                                <a href="{{ URL::route('user.profile', ['login' => $comment->parent->user->getLoginForUrl() ]) }}" class="author">
+                                                                    {{ $comment->parent->user->getAvatar('mini', ['width' => '25px']) }}
+                                                                    {{ $comment->parent->user->login }}
+                                                                </a>
+                                                            @else
+                                                                <a href="javascript:void(0)" class="author">
+                                                                    {{ (new User)->getAvatar('mini', ['width' => '25px']) }}
+                                                                    {{ $comment->parent->user_name }}
+                                                                </a>
+                                                            @endif
+                                                        </div>
+                                                        <a href="{{ URL::to($comment->page->getUrl()) }}#comment-{{ $comment->parent->id }}">
+                                                            {{ $comment->parent->comment }}
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-
                             @endforeach
-
-                            <div>
-                                {{ $comments->links() }}
-                            </div>
+                            
+                            {{ $comments->links() }}
+                        </section>
+                    @else
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не создали ни одного комментария.
+                            </p>
                         @else
-                            @if(Auth::user()->is($user))
-                                <p>
-                                    Вы еще не создали ни одного комментария.
-                                </p>
-                            @else
-                                <p>
-                                    Комментариев нет.
-                                </p>
-                            @endif
+                            <p>
+                                Комментариев нет.
+                            </p>
                         @endif
-                    </div>
+                    @endif
                 </div>
                 <div class="col-lg-12">
                     {{ $areaWidget->contentBottom() }}

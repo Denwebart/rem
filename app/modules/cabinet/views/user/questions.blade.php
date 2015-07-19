@@ -35,9 +35,13 @@ View::share('title', $title);
                         @if(Auth::user()->is($user))
                             @if(!$headerWidget->isBannedIp)
                                 @if(!$user->is_banned)
-                                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                        Задать вопрос
-                                    </a>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                                Задать вопрос
+                                            </a>
+                                        </div>
+                                    </div>
                                 @else
                                     @include('cabinet::user.banMessage')
                                 @endif
@@ -47,74 +51,113 @@ View::share('title', $title);
                         @endif
                     @endif
 
-                    <div id="questions">
-
-                        @if(count($questions))
+                    @if(count($questions))
+                        <section id="questions-area" class="blog">
+                            <div class="count">
+                                Показано вопросов: <span>{{ $questions->count() }}</span>.
+                                Всего: <span>{{ $questions->getTotal() }}</span>.
+                            </div>
                             @foreach($questions as $question)
-
-                                <div data-question-id="{{ $question->id }}" class="col-md-12">
-                                    <div class="well">
-                                        @if(Auth::check())
-                                            @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                <div data-question-id="{{ $question->id }}" class="well">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>
+                                                @if(count($question->bestComments))
+                                                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                                @endif
+                                                <a href="{{ URL::to($question->getUrl()) }}">
+                                                    {{ $question->title }}
+                                                </a>
                                                 <div class="pull-right">
-                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info">
-                                                        Редактировать
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete-question" data-id="{{ $question->id }}">
-                                                        Удалить
-                                                    </a>
+                                                    @if(Auth::check())
+                                                        @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                                            <div class="buttons pull-left">
+                                                                <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
+                                                                    <span class="mdi-editor-mode-edit"></span>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-sm delete-question" data-id="{{ $question->id }}" title="Удалить статью">
+                                                                    <span class="mdi-content-clear"></span>
+                                                                </a>
+                                                                <div class="status">
+                                                                    Статус:
+                                                                    {{ ($question->is_published) ? 'Опубликован' : 'Неопубликован' }}
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endif
                                                 </div>
-                                            @endif
-                                        @endif
-                                        <h3>
-                                            <a href="{{ URL::to($question->getUrl()) }}">
-                                                {{ $question->title }}
-                                            </a>
-                                        </h3>
-                                        <div class="date date-create">{{ $question->created_at }}</div>
-
-                                        <div>
-                                            @if($question->image)
-                                                {{ $question->getImage(null, ['width' => '100px']) }}
-                                            @endif
-                                            {{ $question->getIntrotext() }}
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="date pull-left" title="Дата публикации">
+                                                <span class="mdi-action-today"></span>
+                                                {{ DateHelper::dateFormat($question->published_at) }}
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="views pull-left" title="Количество просмотров">
+                                                    <span class="mdi-action-visibility"></span>
+                                                    {{ $question->views }}
+                                                </div>
+                                                <div class="saved pull-left" title="Сколько пользователей сохранили">
+                                                    <span class="mdi-content-archive"></span>
+                                                    {{ count($question->whoSaved) }}
+                                                </div>
+                                                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                                                    <span class="mdi-action-grade"></span>
+                                                    {{ $question->getRating() }} ({{ $question->voters }})
+                                                </div>
+                                                <div class="rating pull-left" title="Количество подписавшихся на вопрос">
+                                                    <span class="mdi-maps-local-library"></span>
+                                                    {{ count($question->subscribers) }}
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="answers">
-                                            Ответы:
-                                            @if(count($question->bestComments))
-                                                <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
-                                            @endif
-                                            <a href="{{ URL::to($question->getUrl()) }}#answers">
-                                                {{ count($question->publishedComments) }}
+                                        <div class="col-md-12">
+                                            <a href="{{ URL::to($question->getUrl()) }}" class="image">
+                                                {{ $question->getImage(null, ['width' => '200px']) }}
                                             </a>
+                                            <p>{{ $question->getIntrotext() }}</p>
+                                            @if(count($question->tags))
+                                                <ul class="tags">
+                                                    @foreach($question->tags as $tag)
+                                                        <li>
+                                                            <a href="{{ URL::route('journal.tag', ['journalAlias' => $question->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                                                                {{ $tag->title }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </div>
-
-                                        {{--<div class="status">--}}
-                                        {{--Статус:--}}
-                                        {{--{{ ($question->is_published) ? 'Опубликован' : 'Ожидает модерации' }}--}}
-                                        {{--</div>--}}
-
+                                        <div class="col-md-12">
+                                            <div class="answers">
+                                                Ответы:
+                                                @if(count($question->bestComments))
+                                                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                                @endif
+                                                <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                                    {{ count($question->publishedAnswers) }}
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             @endforeach
 
-                            <div>
-                                {{ $questions->links() }}
-                            </div>
+                            {{ $questions->links() }}
+                        </section>
+                    @else
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не задали ни одного вопроса.
+                            </p>
                         @else
-                            @if(Auth::user()->is($user))
-                                <p>
-                                    Вы еще не задали ни одного вопроса.
-                                </p>
-                            @else
-                                <p>
-                                    Вопросов нет.
-                                </p>
-                            @endif
+                            <p>
+                                Вопросов нет.
+                            </p>
                         @endif
-                    </div>
+                    @endif
                 </div>
                 <div class="col-lg-12">
                     {{ $areaWidget->contentBottom() }}
