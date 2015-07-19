@@ -20,12 +20,9 @@ View::share('title', $title);
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
+            @include('cabinet::user.userInfo')
 
             {{ $areaWidget->leftSidebar() }}
-
         </div>
         <div class="col-lg-9">
             <div class="row">

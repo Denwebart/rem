@@ -1,6 +1,19 @@
-<div>
-    <div class="avatar">
-        {{ $user->getAvatar() }}
+<div class="row" id="user-info">
+    <div class="col-md-10" style="padding: 0">
+        <div class="avatar">
+            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                {{ $user->getAvatar() }}
+            </a>
+        </div>
+    </div>
+    <div class="col-md-2" style="padding: 0">
+        <div class="honors">
+            @foreach($user->honors as $honor)
+                <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
+                    {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title, 'alt' => $honor->title]) }}
+                </a>
+            @endforeach
+        </div>
     </div>
 
     @if($user->is_banned)
@@ -25,3 +38,4 @@
         @endif
     @endif
 </div>
+<div class="clearfix"></div>

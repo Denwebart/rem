@@ -78,10 +78,10 @@
 
 {{ $menuWidget->mainMenu() }}
 
-<div class="container">
+<div class="container" id="cabinet">
     <div class="row">
 
-        <div class="col-lg-11 col-md-6">
+        <div class="col-lg-10 col-md-6">
             @if(Session::has('rulesSuccessMessage'))
                 <div class="alert alert-dismissable alert-success">
                     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -92,7 +92,7 @@
             @yield('content')
         </div>
 
-        <div class="col-lg-1 col-md-3" id="users-menu">
+        <div class="col-lg-2 col-md-3" id="users-menu">
             <ul>
                 <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">

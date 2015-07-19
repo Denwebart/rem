@@ -20,36 +20,39 @@ View::share('title', $title);
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
+            @include('cabinet::user.userInfo')
 
             {{ $areaWidget->leftSidebar() }}
         </div>
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>{{ $title }}</h2>
-
-                    @if(Auth::check())
-                        @if(Auth::user()->is($user))
-                            @if(!$headerWidget->isBannedIp)
-                                @if(!$user->is_banned)
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                                Задать вопрос
-                                            </a>
-                                        </div>
-                                    </div>
-                                @else
-                                    @include('cabinet::user.banMessage')
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h2>{{ $title }}</h2>
+                        </div>
+                        <div class="col-md-4">
+                            @if(Auth::check())
+                                @if(Auth::user()->is($user))
+                                    @if(!$headerWidget->isBannedIp)
+                                        @if(!$user->is_banned)
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                                        Задать вопрос
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @else
+                                            @include('cabinet::user.banMessage')
+                                        @endif
+                                    @else
+                                        @include('messages.bannedIp')
+                                    @endif
                                 @endif
-                            @else
-                                @include('messages.bannedIp')
                             @endif
-                        @endif
-                    @endif
+                        </div>
+                    </div>
 
                     @if(count($questions))
                         <section id="questions-area" class="blog">

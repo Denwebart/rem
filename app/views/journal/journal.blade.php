@@ -17,9 +17,7 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
+            @include('cabinet::user.userInfo')
 
             {{ $areaWidget->leftSidebar() }}
         </div>
@@ -34,16 +32,7 @@
                     </h2>
 
                     <div class="content row journal-user-info">
-                        <div class="col-md-5">
-                            <div class="honors">
-                                @foreach($user->honors as $honor)
-                                    <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}" class="pull-left">
-                                        {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title, 'alt' => $honor->title]) }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="col-md-7">
+                        <div class="col-md-12">
                             <ul class="info">
                                 <li>
                                     Статей:
