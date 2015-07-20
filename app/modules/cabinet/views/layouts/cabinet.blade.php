@@ -145,6 +145,11 @@
                         <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">
                             <span class="glyphicon glyphicon-heart-empty"></span>
                             <span>{{ Auth::user()->is($user) ? 'Мои подписки' : 'Подписки'}}</span>
+                            @if(Auth::user()->is($user))
+                                @if($newSubscriptionsNotifications = count($headerWidget->newSubscriptionsNotifications()))
+                                    <small class="label label-info">{{ $newSubscriptionsNotifications }}</small>
+                                @endif
+                            @endif
                         </a>
                     </li>
                 @endif

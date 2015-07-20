@@ -5,6 +5,7 @@ class HeaderWidget
 	public $newLetters;
 	public $deletedLetters;
 	public $newMessages;
+	public $newSubscriptionsNotifications;
 	public $newUsers;
 	public $newQuestions;
 	public $newArticles;
@@ -22,6 +23,7 @@ class HeaderWidget
 			$this->newLetters = $this->newLetters();
 		}
 		$this->newMessages = $this->newMessages();
+		$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
 		$this->isBannedIp = Ip::isBanned();
 	}
 
@@ -52,6 +54,15 @@ class HeaderWidget
 		return Message::whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
 			->with('userSender')
+			->orderBy('created_at', 'DESC')
+			->get();
+	}
+
+	public function newSubscriptionsNotifications() {
+		return SubscriptionNotification::whereHas('subscription', function($query){
+				$query->whereUserId(Auth::user()->id);
+			})
+			->with('subscription')
 			->orderBy('created_at', 'DESC')
 			->get();
 	}
