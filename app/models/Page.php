@@ -357,6 +357,15 @@ class Page extends \Eloquent
 		return $result;
 	}
 
+	public function getContentWithoutWidget()
+	{
+		$result = preg_replace_callback('#\[\[(.+?)\]\]#is', function() {
+			return '';
+		}, $this->content);
+
+		return $result;
+	}
+
 	public function getRating()
 	{
 		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
@@ -379,7 +388,9 @@ class Page extends \Eloquent
 
 	public function getIntrotext()
 	{
-		return ($this->introtext) ? $this->introtext : StringHelper::closeTags(Str::limit($this->content, 500, '...'));
+		return ($this->introtext)
+			? $this->introtext
+			: StringHelper::closeTags(Str::limit($this->getContentWithoutWidget(), 500, '...'));
 	}
 
 	public static function getContainer()
