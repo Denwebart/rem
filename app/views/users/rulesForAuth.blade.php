@@ -9,37 +9,35 @@ View::share('areaWidget', $areaWidget);
 ?>
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}">Главная</a></li>
-                <li>{{ $title }}</li>
-            </ol>
-        </div>
+    <div class="col-lg-3 col-md-3">
+        @include('cabinet::user.userInfo')
+    </div>
+    <div class="col-lg-7 col-md-7">
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li>{{ $title }}</li>
+        </ol>
 
-        <div class="col-lg-3">
-            <div class="avatar">
-                {{ $user->getAvatar() }}
-            </div>
-        </div>
-        <div class="col-lg-9 well">
-            <h2>{{ $title }}</h2>
+        <div class="row">
+            <div class="col-lg-12" id="content">
+                <h2>{{ $title }}</h2>
 
-            @if($page->content)
-                <div class="content">
-                    {{ $page->getContentWithWidget() }}
-                </div>
-            @endif
+                @if($page->content)
+                    <div class="content">
+                        {{ $page->getContentWithWidget() }}
+                    </div>
+                @endif
 
-            @if(Session::has('message'))
-                <div class="alert alert-dismissable alert-danger">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <p>{{ Session::get('message') }}</p>
-                </div>
-            @endif
+                @if(Session::has('message'))
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <p>{{ Session::get('message') }}</p>
+                    </div>
+                @endif
 
-            @if(count($rules))
-                {{ Form::open(['action' => ['UsersController@postRules'], 'role' => 'form', 'class' => '']) }}
+                @if(count($rules))
+                    {{ Form::open(['action' => ['UsersController@postRules'], 'role' => 'form', 'class' => '']) }}
                     {{ Form::hidden('backUrl', $backUrl) }}
                     <div id="rules">
                         @foreach($rules as $key => $rule)
@@ -61,9 +59,9 @@ View::share('areaWidget', $areaWidget);
                     {{ Form::submit('Подтвердить', ['id'=> 'submit', 'class' => 'btn btn-success pull-right', 'disabled' => true]) }}
 
                     {{ Form::hidden('_token', csrf_token()) }}
-                {{ Form::close() }}
-            @endif
-
+                    {{ Form::close() }}
+                @endif
+            </div>
         </div>
     </div>
 @stop
