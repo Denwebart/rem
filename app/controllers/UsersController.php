@@ -135,6 +135,9 @@ class UsersController extends BaseController
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		if(Auth::check()){
+			$headerWidget = app('HeaderWidget');
+			View::share('headerWidget', $headerWidget);
+
 			if(!Auth::user()->is_agree) {
 				$backUrl = Request::get('backUrl')
 					? urldecode(Request::get('backUrl'))

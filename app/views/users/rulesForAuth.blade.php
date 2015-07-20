@@ -4,9 +4,6 @@
 $title = 'Соглашение с правилами сайта';
 View::share('title', $title);
 
-$headerWidget = app('HeaderWidget');
-View::share('headerWidget', $headerWidget);
-
 $areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CABINET]);
 View::share('areaWidget', $areaWidget);
 ?>

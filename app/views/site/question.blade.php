@@ -22,7 +22,12 @@
 
         <div class="row">
             <div class="col-md-9">
-                <h2>{{ $page->title }}</h2>
+                <h2>
+                    @if(count($page->bestComments))
+                        <i class="mdi-action-done mdi-success" style="font-size: 26px;" title="Вопрос решен"></i>
+                    @endif
+                    {{ $page->title }}
+                </h2>
             </div>
             <div class="col-md-3">
                 @if($page->showRating())
@@ -33,41 +38,37 @@
         </div>
 
         <div class="page-info">
-            <div class="answers-count pull-left" title="Количество ответов">
-                <span class="mdi-communication-forum"></span>
-                <a href="#answers">
+            <div class="pull-left">
+                <div class="user pull-left">
+                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                        {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                        <span class="login pull-left">{{ $page->user->login }}</span>
+                    </a>
+                </div>
+                <div class="date pull-left" title="Дата публикации">
+                    <span class="icon mdi-action-today"></span>
+                    <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
+                </div>
+            </div>
+            <div class="pull-right">
+                <div class="answers-count pull-left" title="Количество ответов">
+                    <span class="icon mdi-communication-forum"></span>
+                    <a href="#answers">
                     <span class="count-comments">
                         {{ count($page->publishedAnswers) }}
                     </span>
-                </a>
-            </div>
-            @if(count($page->bestComments))
-                <div class="best-answers pull-left" title="Вопрос решен">
-                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
-                    <span class="text-success">Есть решение</span>
+                    </a>
                 </div>
-            @endif
 
-            <div class="user pull-left">
-                <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                    {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                    <span class="login pull-left">{{ $page->user->login }}</span>
-                </a>
-            </div>
-            <div class="date pull-left" title="Дата публикации">
-                <span class="mdi-action-today"></span>
-                {{ DateHelper::dateFormat($page->published_at) }}
-            </div>
-            <div class="views pull-left" title="Количество просмотров">
-                <span class="mdi-action-visibility"></span>
-                {{ $page->views }}
-            </div>
+                <div class="views pull-left" title="Количество просмотров">
+                    <span class="icon mdi-action-visibility"></span>
+                    <span>{{ $page->views }}</span>
+                </div>
 
-            <!-- Сохранение страницы в сохраненное -->
-            @include('widgets.savedPages')
-
+                <!-- Сохранение страницы в сохраненное -->
+                @include('widgets.savedPages')
+            </div>
         </div>
-        <div class="clearfix"></div>
 
         {{ $areaWidget->contentTop() }}
 

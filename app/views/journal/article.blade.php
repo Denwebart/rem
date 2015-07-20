@@ -31,33 +31,36 @@
         </div>
 
         <div class="page-info">
-            <div class="user pull-left">
-                <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                    {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                    <span class="login pull-left">{{ $page->user->login }}</span>
-                </a>
+            <div class="pull-left">
+                <div class="user pull-left">
+                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                        {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                        <span class="login pull-left">{{ $page->user->login }}</span>
+                    </a>
+                </div>
+                <div class="date pull-left" title="Дата публикации">
+                    <span class="icon mdi-action-today"></span>
+                    <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
+                </div>
             </div>
-            <div class="date pull-left" title="Дата публикации">
-                <span class="mdi-action-today"></span>
-                {{ DateHelper::dateFormat($page->published_at) }}
-            </div>
-            <div class="views pull-left" title="Количество просмотров">
-                <span class="mdi-action-visibility"></span>
-                {{ $page->views }}
-            </div>
-            <div class="comments-count pull-left" title="Количество комментариев">
-                <span class="mdi-communication-messenger"></span>
-                <a href="#comments">
+
+            <div class="pull-right">
+                <div class="views pull-left" title="Количество просмотров">
+                    <span class="icon mdi-action-visibility"></span>
+                    <span>{{ $page->views }}</span>
+                </div>
+                <div class="comments-count pull-left" title="Количество комментариев">
+                    <span class="mdi-communication-messenger"></span>
+                    <a href="#comments">
                     <span class="count-comments">
                         {{ count($page->publishedComments) }}
                     </span>
-                </a>
+                    </a>
+                </div>
+                <!-- Сохранение страницы в сохраненное -->
+                @include('widgets.savedPages')
             </div>
-
-            <!-- Сохранение страницы в сохраненное -->
-            @include('widgets.savedPages')
         </div>
-        <div class="clearfix"></div>
 
         {{ $areaWidget->contentTop() }}
 

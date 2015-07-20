@@ -20,6 +20,7 @@ a:focus {
 }
 .h1, .h2, .h3, h1, h2, h3 {
     margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 .margin-top-10 {
@@ -104,14 +105,81 @@ a:focus {
 }
 
 /* Rating */
+#rating {
+    margin-top: -5px;
+}
 #rating #rate-votes {
     font-size: 26px;
+    line-height: 26px;
     text-align: center;
 }
 #rating #rate-voters {
     text-align: center;
     font-size: 12px;
 }
+.page-info {
+    display: inline-block;
+    width: 100%;
+    background: rgba(229, 229, 229, 0.7);
+    padding: 4px 10px 0;
+    box-sizing: content-box;
+    margin-left: -10px;
+    margin-bottom: 15px;
+}
+.page-info div {
+    margin-right: 10px;
+}
+.page-info div:last-child {
+    margin-right: 0;
+}
+.page-info .user a {
+    display: inline-block;
+}
+.page-info .user a span {
+    padding-left: 2px;
+    line-height: 25px;
+}
+.page-info .date span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .date span:not(.icon) {
+    font-size: 12px;
+    font-style: italic;
+    padding-left: 2px;
+}
+.page-info .views span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .views span:not(.icon) {
+    padding-left: 2px;
+}
+.page-info .comments-count span,
+.page-info .answers-count span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .comments-count a,
+.page-info .answers-count a {
+    float: left;
+    line-height: 25px;
+    padding-left: 2px;
+}
+.page-info #saved-pages a {
+    float: left;
+    line-height: 25px;
+}
+.page-info #saved-pages a span {
+    float: left;
+    line-height: 25px;
+}
+.page-info #saved-pages .whoSaved {
+    float: left;
+    line-height: 25px;
+    padding-left: 5px;
+}
+
 
 /*-- End Content --*/
 
