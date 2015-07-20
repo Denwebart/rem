@@ -66,6 +66,9 @@ class CommentsController extends BaseController
 						'success' => true,
 						'parent_id' => $comment->parent_id,
 						'commentHtml' => $commentHtml,
+						'countComments' => (Page::TYPE_QUESTION == $page->type)
+							? count($page->publishedAnswers) - count($page->bestComments)
+							: count($page->publishedComments),
 					));
 				}
 			}

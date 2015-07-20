@@ -102,6 +102,17 @@ a:focus {
 .content {
     font-size: 16px;
 }
+
+/* Rating */
+#rating #rate-votes {
+    font-size: 26px;
+    text-align: center;
+}
+#rating #rate-voters {
+    text-align: center;
+    font-size: 12px;
+}
+
 /*-- End Content --*/
 
 /*-- Navbar --*/

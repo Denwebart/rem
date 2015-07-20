@@ -16,8 +16,8 @@
         $("#jRate").jRate({
             rating: '<?php echo $page->getRating(); ?>',
             precision: 0, // целое число
-            width: 30,
-            height: 30,
+            width: 25,
+            height: 25,
             startColor: '#79AEDB',
             endColor: '#004B7D',
             //readOnly: "<?php //echo Auth::check() ? (!Auth::user()->is($page->user) ? 1 : 0) : 1 ?>",
@@ -46,8 +46,8 @@
                         $("#jRate").jRate({
                             rating: response.rating,
                             precision: 0, // целое число
-                            width: 30,
-                            height: 30,
+                            width: 25,
+                            height: 25,
                             startColor: '#79AEDB',
                             endColor: '#004B7D',
                             onSet: function(rating) {
@@ -61,8 +61,8 @@
                         $("#jRate").jRate({
                             rating: response.rating,
                             precision: 0, // целое число
-                            width: 30,
-                            height: 30,
+                            width: 25,
+                            height: 25,
                             startColor: '#79AEDB',
                             endColor: '#004B7D',
                             onSet: function(rating) {

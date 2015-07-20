@@ -20,13 +20,25 @@
 
     <section id="content" class="well">
 
-        <h2>{{ $page->title }}</h2>
+        <div class="row">
+            <div class="col-md-9">
+                <h2>{{ $page->title }}</h2>
+            </div>
+            <div class="col-md-3">
+                @if($page->showRating())
+                    {{-- Рейтинг --}}
+                    @include('widgets.rating')
+                @endif
+            </div>
+        </div>
 
         <div class="page-info">
-            <div class="answers pull-left" title="Количество ответов">
+            <div class="answers-count pull-left" title="Количество ответов">
                 <span class="mdi-communication-forum"></span>
                 <a href="#answers">
-                    {{ count($page->publishedAnswers) }}
+                    <span class="count-comments">
+                        {{ count($page->publishedAnswers) }}
+                    </span>
                 </a>
             </div>
             @if(count($page->bestComments))
@@ -54,8 +66,6 @@
             <!-- Сохранение страницы в сохраненное -->
             @include('widgets.savedPages')
 
-            {{-- Рейтинг --}}
-            @include('widgets.rating')
         </div>
         <div class="clearfix"></div>
 

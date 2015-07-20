@@ -2,16 +2,20 @@
 
 @section('content')
 	<section id="content" class="well">
-		@if($page->title)
-			<h2>{{ $page->title }}</h2>
-		@endif
-
-        <div class="page-info">
-            @if($page->showRating())
-                {{-- Рейтинг --}}
-                @include('widgets.rating')
-            @endif
+        <div class="row">
+            <div class="col-md-9">
+                @if($page->title)
+                    <h2>{{ $page->title }}</h2>
+                @endif
+            </div>
+            <div class="col-md-3">
+                @if($page->showRating())
+                    {{-- Рейтинг --}}
+                    @include('widgets.rating')
+                @endif
+            </div>
         </div>
+
         <div class="clearfix"></div>
 
 		{{ $areaWidget->contentTop() }}

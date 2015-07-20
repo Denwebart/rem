@@ -14,9 +14,23 @@
 
     {{--Ответы (все, кроме лучших)--}}
     <h3>{{ $title }}
-        <span class="count-comments">
-            ({{ count($page->publishedAnswers) - count($page->bestComments) }})
-        </span>
+        @if(Page::TYPE_QUESTION == $page->type)
+            <span class="count-comments">
+                (
+                <span class="count-comments">
+                    {{ count($page->publishedAnswers) - count($page->bestComments) }}
+                </span>
+                )
+            </span>
+        @else
+            <span>
+                (
+                <span class="count-comments">
+                    {{ count($page->publishedComments) }}
+                </span>
+                )
+            </span>
+        @endif
     </h3>
 
     <div class="comments">
@@ -195,6 +209,7 @@
                         } else {
                             $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
                         }
+                        $('.count-comments').text(data.countComments);
 
                     } //success
                 }

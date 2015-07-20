@@ -22,9 +22,19 @@
 
 	<section id="content" class="well">
 
-		@if($page->title)
-			<h2>{{ $page->title }}</h2>
-		@endif
+        <div class="row">
+            <div class="col-md-9">
+                @if($page->title)
+                    <h2>{{ $page->title }}</h2>
+                @endif
+            </div>
+            <div class="col-md-3">
+                @if($page->showRating())
+                    {{-- Рейтинг --}}
+                    @include('widgets.rating')
+                @endif
+            </div>
+        </div>
 
         <div class="page-info">
             @if($page->isLastLevel())
@@ -48,21 +58,18 @@
             @endif
 
             @if($page->showComments())
-                <div class="comments pull-left" title="Количество комментариев">
+                <div class="comments-count pull-left" title="Количество комментариев">
                     <span class="mdi-communication-messenger"></span>
                     <a href="#comments">
-                        {{ count($page->publishedComments) }}
+                        <span class="count-comments">
+                            {{ count($page->publishedComments) }}
+                        </span>
                     </a>
                 </div>
             @endif
 
             <!-- Сохранение страницы в сохраненное -->
             @include('widgets.savedPages')
-
-            @if($page->showRating())
-                {{-- Рейтинг --}}
-                @include('widgets.rating')
-            @endif
         </div>
         <div class="clearfix"></div>
 
