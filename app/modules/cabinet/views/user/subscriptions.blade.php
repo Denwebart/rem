@@ -27,8 +27,13 @@ View::share('title', $title);
             <div class="col-lg-12">
                 <h2>{{ $title }}</h2>
 
-                <div id="subscriptions">
-                    @if(count($subscriptions))
+                @if(count($subscriptions))
+                    <section id="subscriptions-area" class="blog">
+                        <div class="count">
+                            Показано подписок: <span>{{ $subscriptions->count() }}</span>.
+                            Всего: <span>{{ $subscriptions->getTotal() }}</span>.
+                        </div>
+
                         @foreach($subscriptions as $subscription)
                             @if($subscription->page)
                                 <div data-page-id="{{ $subscription->page->id }}" class="well">
@@ -78,18 +83,18 @@ View::share('title', $title);
                         <div>
                             {{ $subscriptions->links() }}
                         </div>
+                    </section>
+                @else
+                    @if(Auth::user()->is($user))
+                        <p>
+                            Вы еще не подписались ни на один вопрос.
+                        </p>
                     @else
-                        @if(Auth::user()->is($user))
-                            <p>
-                                Вы еще не подписались ни на один вопрос.
-                            </p>
-                        @else
-                            <p>
-                                Подписок нет.
-                            </p>
-                        @endif
+                        <p>
+                            Подписок нет.
+                        </p>
                     @endif
-                </div>
+                @endif
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}

@@ -59,8 +59,7 @@
                         </ul>
                     </div>
                 </div>
-
-
+                
                 @if(Auth::check())
                     @if(Auth::user()->is($user))
                         @if(!$headerWidget->isBannedIp)
@@ -95,7 +94,7 @@
                         @endif
                     @endif
                 @endif
-                
+
                 @if(count($articles))
                     <section id="blog-area" class="blog">
                         <div class="count">

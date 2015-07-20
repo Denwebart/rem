@@ -39,6 +39,11 @@ View::share('title', $title);
 
                 @if(count($answers))
                     <section id="answers-area" class="blog">
+                        <div class="count">
+                            Показано ответов: <span>{{ $answers->count() }}</span>.
+                            Всего: <span>{{ $answers->getTotal() }}</span>.
+                        </div>
+
                         @foreach($answers as $answer)
                             <div data-comment-id="{{ $answer->id }}" class="well">
                                 <div class="row">

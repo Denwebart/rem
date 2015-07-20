@@ -27,8 +27,13 @@ View::share('title', $title);
             <div class="col-lg-12">
                 <h2>{{ $title }}</h2>
 
-                <div id="saved-pages-area" class="blog">
-                    @if(count($pages))
+                @if(count($pages))
+                    <section id="saved-pages-area" class="blog">
+                        <div class="count">
+                            Показано сохраненных страниц: <span>{{ $pages->count() }}</span>.
+                            Всего: <span>{{ $pages->getTotal() }}</span>.
+                        </div>
+
                         @foreach($pages as $page)
                             @if($page->page)
                                 <div data-page-id="{{ $page->page->id }}" class="well">
@@ -68,18 +73,18 @@ View::share('title', $title);
                         <div>
                             {{ $pages->links() }}
                         </div>
+                    </section>
+                @else
+                    @if(Auth::user()->is($user))
+                        <p>
+                            Вы еще ничего не сохранили.
+                        </p>
                     @else
-                        @if(Auth::user()->is($user))
-                            <p>
-                                Вы еще ничего не сохранили.
-                            </p>
-                        @else
-                            <p>
-                                Сохраненных страниц нет.
-                            </p>
-                        @endif
+                        <p>
+                            Сохраненных страниц нет.
+                        </p>
                     @endif
-                </div>
+                @endif
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}
