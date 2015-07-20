@@ -14,18 +14,26 @@
 
         {{ $areaWidget->contentTop() }}
 
-        <p>Найдено статей: {{ count($tag->pages) }}</p>
+        @if($page->content)
+            <div class="content">
+                {{ $page->getContentWithWidget() }}
+            </div>
+        @endif
 
         {{ $areaWidget->contentMiddle() }}
 
-        @if(count($tag->pages))
-            <section id="blog-area">
+        @if(count($articles))
+            <section id="blog-area" class="blog">
+                <div class="count">
+                    Показано статей: <span>{{ $articles->count() }}</span>.
+                    Всего: <span>{{ $articles->getTotal() }}</span>.
+                </div>
+
                 @foreach($articles as $article)
                     @include('journal.articleInfo')
                 @endforeach
-                <div>
-{{--                    {{ $pages->links() }}--}}
-                </div>
+
+                {{ $articles->links() }}
             </section><!--blog-area-->
         @endif
 

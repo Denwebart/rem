@@ -25,7 +25,7 @@
 
         @if(count($tagsByAlphabet))
 
-            <section id="letters-area">
+            <section id="tags-area">
                 @foreach($tagsByAlphabet as $letter => $tags)
                     <a href="#{{ $letter }}" class="btn btn-info btn-sm">
                         {{ $letter }}

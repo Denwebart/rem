@@ -65,7 +65,7 @@
         <ul class="tags">
             @foreach($article->tags as $tag)
                 <li>
-                    <a href="{{ URL::route('journal.tag', ['journalAlias' => $page->alias, 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
+                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}">
                         {{ $tag->title }}
                     </a>
                 </li>

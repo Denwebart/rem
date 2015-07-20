@@ -138,7 +138,9 @@ class JournalController extends BaseController
 		$page->meta_desc = 'Статьи по тегу "' . $tag->title . '"';
 		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
 
-		$articles = $tag->pages()->with('parent', 'tags', 'whoSaved', 'publishedComments', 'user')->paginate(10);
+		$articles = $tag->pages()
+			->with('parent', 'tags', 'whoSaved', 'publishedComments', 'user')
+			->paginate(10);
 
 		View::share('page', $page);
 		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias', 'articles'));
