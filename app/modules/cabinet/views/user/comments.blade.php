@@ -128,9 +128,13 @@ View::share('title', $title);
                                                             </a>
                                                         @endif
                                                     </div>
-                                                    <a href="{{ URL::to($comment->page->getUrl()) }}#comment-{{ $comment->parent->id }}">
+                                                    @if($comment->page)
+                                                        <a href="{{ URL::to($comment->page->getUrl()) }}#comment-{{ $comment->parent->id }}">
+                                                            {{ $comment->parent->comment }}
+                                                        </a>
+                                                    @else
                                                         {{ $comment->parent->comment }}
-                                                    </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         @endif
