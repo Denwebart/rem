@@ -58,15 +58,17 @@ class AdvertisingPage extends \Eloquent
 
 	public static function add($advertising, $pages)
 	{
-		AdvertisingPage::whereAdvertisingId($advertising->id)->delete();
-		$advertisingPageData = [];
-		foreach($pages as $pageType => $value) {
-			$advertisingPageData[] = [
-				'advertising_id' => $advertising->id,
-				'page_type' => $pageType,
-			];
+		if(is_array($pages)) {
+			AdvertisingPage::whereAdvertisingId($advertising->id)->delete();
+			$advertisingPageData = [];
+			foreach($pages as $pageType => $value) {
+				$advertisingPageData[] = [
+					'advertising_id' => $advertising->id,
+					'page_type' => $pageType,
+				];
+			}
+			DB::table('advertising_pages')->insert($advertisingPageData);
 		}
-		DB::table('advertising_pages')->insert($advertisingPageData);
 	}
 
 }
