@@ -24,6 +24,9 @@ class SidebarWidget
 			case (Advertising::WIDGET_QUESTIONS):
 				return $this->questions($limit);
 				break;
+			case (Advertising::WIDGET_ANSWERS):
+				return $this->answers($limit);
+				break;
 		}
 	}
 
@@ -118,9 +121,29 @@ class SidebarWidget
 	public function comments($limit = 9)
 	{
 		$comments = Comment::whereIsPublished(1)
+			->whereIsAnswer(0)
 			->limit($limit)
 			->with('page.parent.parent', 'user')
 			->orderBy('created_at', 'DESC')
+			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
+
+		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+	}
+
+	/**
+	 * Ответы (лучшие ответы)
+	 *
+	 * @param int $limit Количество записей
+	 * @return string
+	 */
+	public function answers($limit = 9)
+	{
+		$comments = Comment::whereIsPublished(1)
+			->whereIsAnswer(1)
+			->whereMark(Comment::MARK_BEST)
+			->limit($limit)
+			->with('page.parent.parent', 'user')
+			->orderBy('updated_at', 'DESC')
 			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
 
 		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
