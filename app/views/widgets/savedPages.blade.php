@@ -73,8 +73,8 @@
         </script>
     @endsection
 @else
-    <div class="saved pull-left" title="Сколько пользователей сохранили">
-        <span class="mdi-content-archive"></span>
-        {{ count($page->whoSaved) }}
+    <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+        <span class="icon mdi-content-archive"></span>
+        <span>{{ count($page->whoSaved) }}</span>
     </div>
 @endif

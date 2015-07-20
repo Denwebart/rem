@@ -120,11 +120,14 @@ a:focus {
 .page-info {
     display: inline-block;
     width: 100%;
-    background: rgba(229, 229, 229, 0.7);
+    background: rgba(229, 229, 229, 0.5);
     padding: 4px 10px 0;
     box-sizing: content-box;
     margin-left: -10px;
     margin-bottom: 15px;
+}
+.blog .page-info {
+    margin-bottom: 0;
 }
 .page-info div {
     margin-right: 10px;
@@ -178,6 +181,20 @@ a:focus {
     float: left;
     line-height: 25px;
     padding-left: 5px;
+}
+.page-info .saved-count span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .saved-count span:not(.icon) {
+    padding-left: 2px;
+}
+.page-info .rating span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .rating span:not(.icon) {
+    padding-left: 2px;
 }
 
 

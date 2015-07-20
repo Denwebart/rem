@@ -7,34 +7,38 @@
         </h3>
     </div>
     <div class="col-md-12">
-        <div class="user pull-left">
-            <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
-                {{ $article->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                <span class="login pull-left">{{ $article->user->login }}</span>
-            </a>
-        </div>
-        <div class="date pull-left" title="Дата публикации">
-            <span class="mdi-action-today"></span>
-            {{ DateHelper::dateFormat($article->published_at) }}
-        </div>
-        <div class="pull-right">
-            <div class="views pull-left" title="Количество просмотров">
-                <span class="mdi-action-visibility"></span>
-                {{ $article->views }}
+        <div class="page-info">
+            <div class="pull-left">
+                <div class="user pull-left">
+                    <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
+                        {{ $article->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                        <span class="login pull-left">{{ $article->user->login }}</span>
+                    </a>
+                </div>
+                <div class="date pull-left" title="Дата публикации">
+                    <span class="icon mdi-action-today"></span>
+                    <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
+                </div>
             </div>
-            <div class="comments pull-left" title="Количество комментариев">
-                <span class="mdi-communication-messenger"></span>
-                <a href="{{ URL::to($article->getUrl() . '#comments') }}">
-                    {{ count($article->publishedComments) }}
-                </a>
-            </div>
-            <div class="saved pull-left" title="Сколько пользователей сохранили">
-                <span class="mdi-content-archive"></span>
-                {{ count($article->whoSaved) }}
-            </div>
-            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                <span class="mdi-action-grade"></span>
-                {{ $article->getRating() }} ({{ $article->voters }})
+            <div class="pull-right">
+                <div class="views pull-left" title="Количество просмотров">
+                    <span class="icon mdi-action-visibility"></span>
+                    <span>{{ $article->views }}</span>
+                </div>
+                <div class="comments-count pull-left" title="Количество комментариев">
+                    <span class="icon mdi-communication-messenger"></span>
+                    <a href="{{ URL::to($article->getUrl() . '#comments') }}">
+                        <span>{{ count($article->publishedComments) }}</span>
+                    </a>
+                </div>
+                <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+                    <span class="icon mdi-content-archive"></span>
+                    <span>{{ count($article->whoSaved) }}</span>
+                </div>
+                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                    <span class="icon mdi-action-grade"></span>
+                    <span>{{ $article->getRating() }} ({{ $article->voters }})</span>
+                </div>
             </div>
         </div>
     </div>
