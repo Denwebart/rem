@@ -8,7 +8,7 @@
     {{--Лучшие ответы--}}
     @if(Page::TYPE_QUESTION == $page->type)
         <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }}>
-            @include('widgets.comment.bestComments')
+            @include('widgets.comment.bestComments', ['isBannedIp' => $isBannedIp])
         </div>
     @endif
 
@@ -22,7 +22,7 @@
     <div class="comments">
         @foreach($comments as $comment)
             <!-- Comment -->
-            @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment])
+            @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment, 'isBannedIp' => $isBannedIp])
         @endforeach
     </div>
     <!-- end of .comments -->

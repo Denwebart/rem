@@ -35,7 +35,7 @@
         </h4>
         <div>{{ $comment->comment }}</div>
 
-        @include('widgets.comment.vote')
+        @include('widgets.comment.vote', ['isBannedIp' => $isBannedIp,])
 
         {{--Отметить лучшие ответы--}}
         @if($comment->mark == Comment::MARK_BEST)
@@ -152,7 +152,7 @@
         <!-- Nested Comment -->
         <div class="children-comments">
             @foreach($comment->publishedChildren as $commentLevel2)
-                @include('widgets.comment.comment2Level', ['page' => $page, 'commentLevel2' => $commentLevel2])
+                @include('widgets.comment.comment2Level', ['page' => $page, 'commentLevel2' => $commentLevel2, 'isBannedIp' => $isBannedIp])
             @endforeach
         </div>
         <!-- End Nested Comment -->

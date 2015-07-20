@@ -6,5 +6,5 @@
 
 @foreach($bestComments as $comment)
     <!-- Comment -->
-    @include('widgets.comment.comment1Level')
+    @include('widgets.comment.comment1Level', ['isBannedIp' => $isBannedIp])
 @endforeach

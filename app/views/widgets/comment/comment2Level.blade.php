@@ -30,7 +30,7 @@
         </h4>
         <div>{{ $commentLevel2->comment }}</div>
 
-        @include('widgets.comment.vote', ['comment' => $commentLevel2])
+        @include('widgets.comment.vote', ['comment' => $commentLevel2, 'isBannedIp' => $isBannedIp,])
 
     </div>
 </div>

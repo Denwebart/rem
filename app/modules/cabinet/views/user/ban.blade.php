@@ -24,7 +24,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="content">
                 <h2>{{ $title }}</h2>
 
                 @include('cabinet::user.banMessage')

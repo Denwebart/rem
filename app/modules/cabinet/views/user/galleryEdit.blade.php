@@ -27,7 +27,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" id="content">
                 <h2>{{ $title }}</h2>
 
                 {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}

@@ -59,7 +59,7 @@ View::share('title', $title);
             </ol>
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" id="content">
                     <div class="row">
                         <div class="col-lg-6">
                             <h2>{{{ $user->login }}}</h2>

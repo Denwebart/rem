@@ -39,7 +39,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12" id="content">
                 <h2>{{ $title }}</h2>
 
                 @if(Auth::check())

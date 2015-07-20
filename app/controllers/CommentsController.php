@@ -57,8 +57,8 @@ class CommentsController extends BaseController
 					// return success message
 					if(Auth::check()) {
 						$commentHtml = (0 == $comment->parent_id)
-							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->render()
-							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('commentLevel2', $comment)->render();
+							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->render()
+							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->with('commentLevel2', $comment)->render();
 					} else {
 						$commentHtml = '';
 					}
@@ -125,13 +125,13 @@ class CommentsController extends BaseController
 						'success' => true,
 						'votesLike' => $comment->votes_like,
 						'votesDislike' => $comment->votes_dislike,
-						'message' => 'Спасибо, Ваш голос принят!'
+						'message' => 'Спасибо, Ваш голос принят!',
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Вы уже голосовали.'
+					'message' => 'Вы уже голосовали.',
 				));
 			}
 
@@ -168,15 +168,15 @@ class CommentsController extends BaseController
 						->with(['user', 'publishedChildren.user'])
 						->whereMark(Comment::MARK_BEST)
 						->get();
-					$page = $comment->page;
+					$page = $comment->page()->with('publishedComments', 'bestComments')->first();
 
 					// return success message
 					return Response::json(array(
 						'success' => true,
 						'message' => 'Ответ отмечен как лучший.',
-						'bestCommentsHtml' => (string) View::make('widgets.comment.bestComments', compact('bestComments', 'page'))->render(),
-						'countComments' => count($comment->page->publishedComments) - count($comment->page->bestComments),
-						'countBestComments' => count($comment->page->bestComments),
+						'bestCommentsHtml' => (string) View::make('widgets.comment.bestComments', compact('bestComments', 'page'))->with('isBannedIp', Ip::isBanned())->render(),
+						'countComments' => count($page->publishedAnswers) - count($page->bestComments),
+						'countBestComments' => count($page->bestComments),
 					));
 				}
 			}

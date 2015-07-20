@@ -21,7 +21,7 @@
         </ol>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="content">
                 <h2>
                     Бортовой журнал пользователя
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">

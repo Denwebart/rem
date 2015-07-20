@@ -6,9 +6,6 @@ body {
 .container {
     width: 1300px;
 }
-a {
-    color: #337AB7;
-}
 a:hover,
 a:focus {
     outline: none;
@@ -98,6 +95,10 @@ a:focus {
 }
 
 /*-- Content --*/
+#content a:not(.btn) {
+    color: #1292CE;
+    text-decoration: underline;
+}
 .content {
     font-size: 16px;
 }
@@ -110,6 +111,8 @@ a:focus {
 }
 #navbar-top .navbar-nav > li > a {
     padding: 5px 5px;
+    color: #1292CE;
+    text-decoration: underline;
 }
 #navbar-top .navbar-nav > li > a:hover,
 #navbar-top .navbar-nav > li > a:focus,
@@ -162,6 +165,9 @@ footer #navbar-bottom li {
 /*-- Breadcrumbs --*/
 .breadcrumb {
     font-size: 12px;
+}
+.breadcrumb a {
+    color: #1292CE;
 }
 
 /*-- Blog area --*/
@@ -238,6 +244,9 @@ footer #navbar-bottom li {
     position: relative;
     text-align: center;
     margin-bottom: 15px;
+}
+.area .advertising a {
+    color: #1292CE;
 }
 .area.edit {
     border: 2px dotted #bbbbbb;

@@ -19,7 +19,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" id="content">
                 @if(Session::has('rulesSuccessMessage'))
                     <div class="alert alert-dismissable alert-success">
                         <button type="button" class="close" data-dismiss="alert">×</button>

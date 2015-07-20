@@ -18,8 +18,8 @@
             precision: 0, // целое число
             width: 30,
             height: 30,
-            startColor: '#84BCE6',
-            endColor: '#2D4C7F',
+            startColor: '#79AEDB',
+            endColor: '#004B7D',
             //readOnly: "<?php //echo Auth::check() ? (!Auth::user()->is($page->user) ? 1 : 0) : 1 ?>",
             // onSet, onChange
             onSet: function(rating) {
@@ -48,8 +48,8 @@
                             precision: 0, // целое число
                             width: 30,
                             height: 30,
-                            startColor: '#84BCE6',
-                            endColor: '#2D4C7F',
+                            startColor: '#79AEDB',
+                            endColor: '#004B7D',
                             onSet: function(rating) {
                                 sendAjaxRating();
                             }
@@ -63,8 +63,8 @@
                             precision: 0, // целое число
                             width: 30,
                             height: 30,
-                            startColor: '#84BCE6',
-                            endColor: '#2D4C7F',
+                            startColor: '#79AEDB',
+                            endColor: '#004B7D',
                             onSet: function(rating) {
                                 sendAjaxRating();
                             }

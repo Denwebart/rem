@@ -22,7 +22,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="content">
                 {{ Form::model($user, ['method' => 'POST', 'route' => ['user.postChangePassword', $user->getLoginForUrl()], 'id' => 'changePassword']) }}
                 <div class="row">
                     <div class="col-lg-6">
