@@ -31,12 +31,12 @@
                         <div class="form-group advertising" style="display: none">
                             {{ Form::label('code-advertising', 'HTML/JavaScript') }}
                             {{ Form::textarea('code-advertising', $advertising->code, ['class' => 'form-control']) }}
-                            {{ $errors->first('code-advertising') }}
+                            {{ $errors->first('code') }}
                         </div>
                         <div class="form-group widget" style="display: none">
                             {{ Form::label('code-widget', 'Выберите виджет') }}
                             {{ Form::select('code-widget', ['' => '-'] + Advertising::$widgets, $advertising->code, ['class' => 'form-control']) }}
-                            {{ $errors->first('code-widget') }}
+                            {{ $errors->first('code') }}
 
                             {{ Form::label('limit', 'Количество элементов') }}
                             {{ Form::number('limit', $advertising->limit, ['class' => 'form-control']) }}

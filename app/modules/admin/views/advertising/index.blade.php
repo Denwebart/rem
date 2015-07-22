@@ -50,7 +50,11 @@ View::share('title', $title);
                                         @if(Advertising::TYPE_ADVERTISING == $item->type)
                                             {{ $item->description }}
                                         @else
-                                            {{ Advertising::$widgets[$item->code] }} (кол-во: {{ $item->limit }})
+                                            @if($item->code)
+                                                {{ Advertising::$widgets[$item->code] }} (кол-во: {{ $item->limit }})
+                                            @else
+                                                <p>Виджет не выбран.</p>
+                                            @endif
                                             @if($item->description)
                                                 <hr style="margin: 0">
                                                 {{ $item->description }}
