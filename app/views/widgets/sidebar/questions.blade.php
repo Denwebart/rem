@@ -9,9 +9,12 @@
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
-                    {{ DateHelper::getRelativeTime($question->published_at) }}
-                    <br/>
-                    <span class="font-mini">{{ DateHelper::dateFormat($question->published_at) }}</span>
+                    <span class="relative-date">
+                        {{ DateHelper::getRelativeTime($question->published_at) }}
+                    </span>
+                    <span class="full-date font-mini">
+                        {{ DateHelper::dateFormat($question->published_at) }}
+                    </span>
                 </div>
                 <p class="list-group-item-text" style="clear: both">
                     <a href="{{ URL::to($question->getUrl()) }}">

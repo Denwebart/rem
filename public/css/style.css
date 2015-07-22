@@ -305,6 +305,15 @@ footer #navbar-bottom li {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+.list-group .list-group-item .created-date {
+    text-align: right;
+}
+.list-group .list-group-item .created-date span {
+    display: block;
+}
+.list-group .list-group-item .created-date span.full-date {
+    color: #777777;
+}
 
 /* RSS, Favorites, Search buttons */
 #favorites-widget a,
