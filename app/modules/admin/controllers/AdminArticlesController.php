@@ -88,13 +88,15 @@ class AdminArticlesController extends \BaseController {
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			if($image->width() > 225) {
-				$image->save($imagePath . 'origin_' . $fileName)
+				$image->insert(public_path('images/watermark.png'))
+					->save($imagePath . 'origin_' . $fileName)
 					->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);
 			} else {
-				$image->save($imagePath . $fileName);
+				$image->insert(public_path('images/watermark.png'))
+					->save($imagePath . $fileName);
 			}
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 
@@ -200,13 +202,15 @@ class AdminArticlesController extends \BaseController {
 			}
 
 			if($image->width() > 225) {
-				$image->save($imagePath . 'origin_' . $fileName)
+				$image->insert(public_path('images/watermark.png'))
+					->save($imagePath . 'origin_' . $fileName)
 					->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);
 			} else {
-				$image->save($imagePath . $fileName);
+				$image->insert(public_path('images/watermark.png'))
+					->save($imagePath . $fileName);
 			}
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 
