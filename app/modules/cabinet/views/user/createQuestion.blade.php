@@ -25,7 +25,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-lg-12" id="content">
+            <div class="col-lg-12 content">
                 <h2>{{ $title }}</h2>
 
                 <div class="row">

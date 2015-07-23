@@ -96,12 +96,14 @@ a:focus {
 }
 
 /*-- Content --*/
-#content a:not(.btn) {
-    color: #1292CE;
-    text-decoration: underline;
-}
 .content {
     font-size: 16px;
+}
+/* links */
+#content a:not(.btn),
+.content a:not(.btn) {
+    color: #1292CE;
+    text-decoration: underline;
 }
 
 /* Rating */
