@@ -60,4 +60,22 @@ class Setting extends \Eloquent
 		'value' => 'required|max:500',
 		'is_active' => 'required',
 	];
+
+	/**
+	 * Получение настроек для сайта
+	 *
+	 */
+	public static function getSettings()
+	{
+		$settings = Setting::whereCategory('Site')
+			->whereIsActive(1)
+			->get()
+			->toArray();
+		$result = [];
+		foreach($settings as $setting) {
+			$result[$setting['key']] = $setting;
+		}
+
+		return $result;
+	}
 }

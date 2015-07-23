@@ -13,11 +13,11 @@
                     <div class="col-md-7">
                         <div id="site-title">
                             <h1>
-                                Школа авторемонта
+                                {{ $settings['siteTitle']['value'] }}
                                 <br>
-                        <span class="slogan">
-                            Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками
-                        </span>
+                                <span class="slogan">
+                                    {{ $settings['siteSlogan']['value'] }}
+                                </span>
                             </h1>
                         </div>
                     </div>

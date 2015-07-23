@@ -2,6 +2,11 @@
 
 class BaseController extends Controller {
 
+	public function __construct()
+	{
+		View::share('settings', Setting::getSettings());
+	}
+
 	/**
 	 * Setup the layout used by the controller.
 	 *
@@ -23,5 +28,4 @@ class BaseController extends Controller {
 			'redirect'  => $redirect,
 		));
 	}
-
 }

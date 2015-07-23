@@ -5,6 +5,8 @@ class CabinetUserController extends \BaseController
 {
 	public function __construct()
 	{
+		parent::__construct();
+
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CABINET]);
 		View::share('areaWidget', $areaWidget);
 

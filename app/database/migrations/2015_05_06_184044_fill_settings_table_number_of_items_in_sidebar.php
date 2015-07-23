@@ -75,7 +75,7 @@ class FillSettingsTableNumberOfItemsInSidebar extends Migration {
 
 	public function down()
 	{
-		DB::table('settings')->whereIn('key', ['latest', 'best', 'popular', 'unpopular', 'comments', 'questions'])->delete();
+		DB::table('settings')->whereIn('key', ['countOfLatest', 'countOfBest', 'countOfPopular', 'countOfUnpopular', 'countOfComments', 'countOfQuestions'])->delete();
 
 		Schema::table('settings', function(Blueprint $table)
 		{

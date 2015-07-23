@@ -4,6 +4,8 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
+		parent::__construct();
+
 		if(Auth::check()){
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
