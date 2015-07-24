@@ -23,6 +23,9 @@
 
         @if($page->content)
             <div class="content">
+                @if($page->image)
+                    {{ $page->getImage() }}
+                @endif
                 {{ $page->getContentWithWidget() }}
             </div>
         @endif

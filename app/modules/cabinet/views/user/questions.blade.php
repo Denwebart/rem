@@ -121,9 +121,11 @@ View::share('title', $title);
                                     </div>
 
                                     <div class="col-md-12">
-                                        <a href="{{ URL::to($question->getUrl()) }}" class="image">
-                                            {{ $question->getImage(null, ['width' => '200px']) }}
-                                        </a>
+                                        @if($question->image)
+                                            <a href="{{ URL::to($question->getUrl()) }}" class="image">
+                                                {{ $question->getImage(null, ['width' => '200px']) }}
+                                            </a>
+                                        @endif
                                         <p>{{ $question->getIntrotext() }}</p>
                                     </div>
                                     <div class="col-md-12">

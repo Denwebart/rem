@@ -65,6 +65,9 @@
         {{ $areaWidget->contentTop() }}
 
         <div class="content">
+            @if($page->image)
+                {{ $page->getImage() }}
+            @endif
             {{ $page->getContentWithWidget() }}
 
             <ul class="tags">

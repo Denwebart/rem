@@ -157,9 +157,11 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <a href="{{ URL::to($article->getUrl()) }}" class="image">
-                                            {{ $article->getImage(null, ['width' => '200px']) }}
-                                        </a>
+                                        @if($article->image)
+                                            <a href="{{ URL::to($article->getUrl()) }}" class="image">
+                                                {{ $article->getImage(null, ['width' => '200px']) }}
+                                            </a>
+                                        @endif
                                         <p>{{ $article->getIntrotext() }}</p>
                                         @if(count($article->tags))
                                             <ul class="tags">

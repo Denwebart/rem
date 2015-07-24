@@ -66,9 +66,11 @@
             </div>
             <div class="clearfix"></div>
         @endif
-        <a href="{{ URL::to($article->getUrl()) }}" class="image">
-            {{ $article->getImage() }}
-        </a>
+        @if($article->image)
+            <a href="{{ URL::to($article->getUrl()) }}" class="image">
+                {{ $article->getImage() }}
+            </a>
+        @endif
         <p>{{ $article->getIntrotext() }}</p>
     </div>
     <div class="col-md-12">

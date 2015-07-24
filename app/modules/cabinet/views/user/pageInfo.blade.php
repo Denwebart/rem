@@ -93,9 +93,11 @@
         <div class="clearfix"></div>
     @endif
 
-    <a href="{{ URL::to($page->getUrl()) }}" class="image">
-        {{ $page->getImage(null, ['width' => '200px']) }}
-    </a>
+    @if($page->image)
+        <a href="{{ URL::to($page->getUrl()) }}" class="image">
+            {{ $page->getImage(null, ['width' => '200px']) }}
+        </a>
+    @endif
     <p>{{ $page->getIntrotext() }}</p>
     @if(count($page->tags))
         <ul class="tags">

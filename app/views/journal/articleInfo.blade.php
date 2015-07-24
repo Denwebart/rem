@@ -58,9 +58,11 @@
             </a>
         </div>
         <div class="clearfix"></div>
-        <a href="{{ URL::to($article->getUrl()) }}" class="image">
-            {{ $article->getImage() }}
-        </a>
+        @if($article->image)
+            <a href="{{ URL::to($article->getUrl()) }}" class="image">
+                {{ $article->getImage() }}
+            </a>
+        @endif
         <p>{{ $article->getIntrotext() }}</p>
         <ul class="tags">
             @foreach($article->tags as $tag)
