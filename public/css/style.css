@@ -23,6 +23,7 @@ a:focus {
     margin-bottom: 15px;
 }
 
+/* Отступы */
 .margin-top-10 {
     margin-top: 10px;
 }
@@ -282,39 +283,54 @@ footer #navbar-bottom li {
 }
 
 /*-- Sidebar Widget --*/
-
-.list-group .list-group-item .row-picture i {
+.sidebar-widget .list-group-separator {
+    margin: 7px 0;
+}
+.sidebar-widget .list-group-item .row-picture a {
+    color: #333333;
+}
+.sidebar-widget .list-group-item .row-picture img {
+    width: 50px;
+    height: 50px;
+}
+.sidebar-widget .list-group-item .row-picture i {
     background: none !important;
     color: inherit !important;
     display: inline !important;
     line-height: inherit !important;
 }
-.list-group .list-group-item .row-picture span {
+.sidebar-widget .list-group-item .row-picture span {
     position: relative;
     top: -3px;
 }
-.list-group .list-group-item .row-picture .date,
-.list-group .list-group-item .row-picture .rate {
+.sidebar-widget .list-group-item .row-picture .date,
+.sidebar-widget .list-group-item .row-picture .rate {
     width: 56px;
     display: block;
 }
-.list-group .list-group-item .row-picture .date i {
+.sidebar-widget .list-group-item .row-picture .date i {
     font-size: 30px;
 }
-.list-group .list-group-item .row-picture img.square,
-.list-group .list-group-item .row-action-primary img.square {
+.sidebar-widget .list-group-item .row-picture img.square,
+.sidebar-widget .list-group-item .row-action-primary img.square {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-.list-group .list-group-item .created-date {
+.sidebar-widget .list-group-item .created-date {
     text-align: right;
+    margin-right: -10px;
 }
-.list-group .list-group-item .created-date span {
+.sidebar-widget .list-group-item .created-date span {
     display: block;
+    font-size: 12px;
+    font-style: italic;
 }
-.list-group .list-group-item .created-date span.full-date {
+.sidebar-widget .list-group-item .created-date span.full-date {
     color: #777777;
+}
+.sidebar-widget .row-content {
+    text-align: left;
 }
 
 /* RSS, Favorites, Search buttons */
@@ -389,6 +405,9 @@ footer #navbar-bottom li {
 .area.edit [class^="mdi-"],
 .area.edit [class*="mdi-"] {
     font-size: 18px;
+}
+.area .advertising-body h4 {
+    margin-bottom: 20px;
 }
 
 /* Search Widget */

@@ -1,5 +1,8 @@
 <div id="latest-sidebar-widget" class="list-group sidebar-widget">
     @foreach($questions as $key => $question)
+        @if($key != 0)
+            <div class="list-group-separator"></div>
+        @endif
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
@@ -9,11 +12,8 @@
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
-                    <span class="relative-date">
+                    <span class="relative-date" title="{{ DateHelper::dateFormat($question->published_at) }}">
                         {{ DateHelper::getRelativeTime($question->published_at) }}
-                    </span>
-                    <span class="full-date font-mini">
-                        {{ DateHelper::dateFormat($question->published_at) }}
                     </span>
                 </div>
                 <p class="list-group-item-text" style="clear: both">
@@ -32,7 +32,5 @@
                 </p>
             </div>
         </div>
-        <div class="list-group-separator"></div>
     @endforeach
-
 </div>

@@ -26,11 +26,17 @@ class StringHelper
 	 *
 	 * @param $html
 	 * @param $size
+	 * @param $end
 	 * @return string
 	 */
-	public static function limit($html, $size, $end = '...'){
-		$string = strip_tags($html);
-		return mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $size,'utf-8'),' ', 'utf-8'),'utf-8') . $end;
+	public static function limit($html, $size, $end = '...')
+	{
+		if(mb_strlen($html) > $size) {
+			$string = strip_tags($html);
+			return mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $size,'utf-8'),' ', 'utf-8'),'utf-8') . $end;
+		} else {
+			return strip_tags($html);
+		}
 	}
 
 	/**

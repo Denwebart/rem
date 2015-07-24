@@ -1,5 +1,8 @@
 <div id="latest-sidebar-widget" class="list-group sidebar-widget">
-    @foreach($pages as $page)
+    @foreach($pages as $key => $page)
+        @if($key != 0)
+            <div class="list-group-separator"></div>
+        @endif
         <div class="list-group-item">
             <div class="row-picture">
                 <div class="date">
@@ -16,6 +19,5 @@
                 </a>
             </div>
         </div>
-        <div class="list-group-separator"></div>
     @endforeach
 </div>

@@ -18,7 +18,6 @@
     <!-- material -->
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,100,100italic,700,700italic&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
     {{ HTML::style('css/bootstrap.min.css') }}
-    {{ HTML::style('css/style.css') }}
     <link href="/material/css/material-fullpalette.min.css" rel="stylesheet">
     <link href="/material/css/ripples.min.css" rel="stylesheet">
     <link href="/material/css/snackbar.min.css" rel="stylesheet">
@@ -55,6 +54,8 @@
         .icon-preview:hover span { display: block; cursor: text; }
 
     </style>
+
+    {{ HTML::style('css/style.css') }}
 
     @yield('style')
 

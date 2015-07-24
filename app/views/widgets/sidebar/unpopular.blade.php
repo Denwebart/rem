@@ -1,5 +1,8 @@
 <div id="unpopular-sidebar-widget" class="list-group sidebar-widget">
-    @foreach($pages as $page)
+    @foreach($pages as $key => $page)
+        @if($key != 0)
+            <div class="list-group-separator"></div>
+        @endif
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::to($page->getUrl()) }}">
@@ -18,7 +21,5 @@
                 </p>
             </div>
         </div>
-        <div class="list-group-separator"></div>
     @endforeach
-
 </div>

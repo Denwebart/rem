@@ -1,5 +1,8 @@
 <div id="answers-sidebar-widget" class="list-group sidebar-widget">
-    @foreach($answers as $answer)
+    @foreach($answers as $key => $answer)
+        @if($key != 0)
+            <div class="list-group-separator"></div>
+        @endif
         <div class="list-group-item">
             <div class="row-picture">
                 @if($answer->user)
@@ -16,20 +19,16 @@
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
-                    <span class="relative-date">
+                    <span class="relative-date date" title="{{ DateHelper::dateFormat($answer->created_at) }}">
                         {{ DateHelper::getRelativeTime($answer->created_at) }}
-                    </span>
-                    <span class="full-date font-mini">
-                        {{ DateHelper::dateFormat($answer->created_at) }}
                     </span>
                 </div>
                 <p class="list-group-item-text" style="clear: both">
                     <a href="{{ URL::to($answer->getUrl()) }}">
-                        {{ $answer->comment }}
+                        {{ StringHelper::limit($answer->comment, 70) }}
                     </a>
                 </p>
             </div>
         </div>
-        <div class="list-group-separator"></div>
     @endforeach
 </div>
