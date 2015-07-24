@@ -429,36 +429,7 @@ class CabinetUserController extends \BaseController
 		$page = Page::create($data);
 
 		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			if($image->width() > 225) {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
-						$constraint->aspectRatio();
-					})
-					->save($imagePath . $fileName);
-			} else {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . $fileName);
-			}
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-
-			$image->crop($cropSize, $cropSize)
-				->resize(50, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'mini_' . $fileName);
-
-			$page->image = $fileName;
-			$page->save();
-		}
-		// загрузка изображения
+		$page->setImage($data['image']);
 
 		// подписка на свой вопрос
 		$subscription = new Subscription();
@@ -512,51 +483,10 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
-			if($image->width() > 225) {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
-						$constraint->aspectRatio();
-					})
-					->save($imagePath . $fileName);
-			} else {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . $fileName);
-			}
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-
-			$image->crop($cropSize, $cropSize)
-				->resize(50, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'mini_' . $fileName);
-
-			$data['image'] = $fileName;
-		} else {
-			$data['image'] = $page->image;
-		}
-		// загрузка изображения
-
 		$page->update($data);
+
+		// загрузка изображения
+		$page->setImage($data['image']);
 
 		return Redirect::route('user.questions', ['login' => $login]);
 	}
@@ -615,47 +545,7 @@ class CabinetUserController extends \BaseController
 		$page = Page::create($data);
 
 		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
-			if($image->width() > 225) {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
-						$constraint->aspectRatio();
-					})
-					->save($imagePath . $fileName);
-			} else {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . $fileName);
-			}
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-
-			$image->crop($cropSize, $cropSize)
-				->resize(50, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'mini_' . $fileName);
-
-			$page->image = $fileName;
-			$page->save();
-		}
-		// загрузка изображения
+		$page->setImage($data['image']);
 
 		// добавление тегов
 		Tag::addTag($page, Input::get('tags'));
@@ -710,51 +600,10 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if(File::exists($imagePath . $page->image)) {
-				File::delete($imagePath . $page->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $page->image)){
-				File::delete($imagePath . 'origin_' . $page->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $page->image)){
-				File::delete($imagePath . 'mini_' . $page->image);
-			}
-
-			if($image->width() > 225) {
-				$image->insert(public_path('images/watermark.png'))
-				    ->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
-						$constraint->aspectRatio();
-					})
-					->save($imagePath . $fileName);
-			} else {
-				$image->insert(public_path('images/watermark.png'))
-					->save($imagePath . $fileName);
-			}
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-
-			$image->crop($cropSize, $cropSize)
-				->resize(50, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'mini_' . $fileName);
-
-			$data['image'] = $fileName;
-		} else {
-			$data['image'] = $page->image;
-		}
-		// загрузка изображения
-
 		$page->update($data);
+
+		// загрузка изображения
+		$page->setImage($data['image']);
 
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));

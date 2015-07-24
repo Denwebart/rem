@@ -371,21 +371,6 @@ class Page extends \Eloquent
 		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
 	}
 
-	public function getImage($prefix = null, $options = [])
-	{
-		if(isset($options['class'])) {
-			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
-		} else {
-			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
-		}
-		$prefix = is_null($prefix) ? '' : ($prefix . '_');
-		if($this->image){
-			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image, $this->image_alt, $options);
-		} else {
-			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $this->image_alt, $options);
-		}
-	}
-
 	public function getIntrotext()
 	{
 		return ($this->introtext)
@@ -433,6 +418,77 @@ class Page extends \Eloquent
 		if(URL::current() != $urlPrevious)
 		{
 			DB::table('pages')->where('id', $this->id)->update(['views' => $this->views + 1]);
+		}
+	}
+
+	/**
+	 * Получение изображения
+	 *
+	 * @param null $prefix
+	 * @param array $options
+	 * @return string
+	 */
+	public function getImage($prefix = null, $options = [])
+	{
+		if(isset($options['class'])) {
+			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
+		} else {
+			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
+		}
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		if($this->image){
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image, $this->image_alt, $options);
+		} else {
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $this->image_alt, $options);
+		}
+	}
+
+	/**
+	 * Загрузка изображения
+	 *
+	 * @param $postImage
+	 */
+	public function setImage($postImage)
+	{
+		if(isset($postImage)){
+
+			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->id . '/';
+			$image = Image::make($postImage->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $this->image)) {
+				File::delete($imagePath . $this->image);
+			}
+			if(File::exists($imagePath . 'origin_' . $this->image)){
+				File::delete($imagePath . 'origin_' . $this->image);
+			}
+			if(File::exists($imagePath . 'mini_' . $this->image)){
+				File::delete($imagePath . 'mini_' . $this->image);
+			}
+
+			if($image->width() > 225) {
+				$image->insert(public_path('images/watermark-500.png'), 'center')
+					->save($imagePath . 'origin_' . $fileName)
+					->resize(225, null, function ($constraint) {
+						$constraint->aspectRatio();
+					})
+					->save($imagePath . $fileName);
+			} else {
+				$image->insert(public_path('images/watermark-225.png'))
+					->save($imagePath . $fileName);
+			}
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+
+			$image->crop($cropSize, $cropSize)
+				->resize(50, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'mini_' . $fileName);
+
+			$this->image = $fileName;
+			$this->save();
 		}
 	}
 
