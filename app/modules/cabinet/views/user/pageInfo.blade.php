@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <h3>
         @if(count($page->bestComments))
-            <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+            <i class="mdi-action-done mdi-success"></i>
         @endif
         <a href="{{ URL::to($page->getUrl()) }}">
             {{ $page->title }}

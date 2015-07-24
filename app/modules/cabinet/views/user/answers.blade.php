@@ -84,7 +84,7 @@ View::share('title', $title);
                                         <div class="pull-right">
                                             @if(Comment::MARK_BEST == $answer->mark)
                                                 <div class="best pull-left">
-                                                    <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                                                    <i class="mdi-action-done mdi-success"></i>
                                                 </div>
                                             @endif
                                             <div class="rating pull-left" title="Оценка комментария">

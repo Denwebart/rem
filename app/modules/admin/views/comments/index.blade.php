@@ -46,14 +46,23 @@ View::share('title', $title);
                                             </a>
                                         @else
                                             {{{ $comment->user_name }}}
+                                            <br/>
                                             ({{{ $comment->user_email }}})
                                         @endif
                                     </td>
-                                    <td>{{ $comment->ip->ip }}</td>
                                     <td>
-                                        <a href="{{ URL::to($comment->page->getUrl()) }}">
-                                            {{ $comment->page->getTitle() }}
-                                        </a>
+                                        @if($comment->ip)
+                                            {{ $comment->ip->ip }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($comment->page)
+                                            <a href="{{ URL::to($comment->page->getUrl()) }}">
+                                                {{ $comment->page->getTitle() }}
+                                            </a>
+                                        @else
+                                            <i>страница удалена</i>
+                                        @endif
                                     </td>
                                     <td>{{ $comment->comment }}</td>
                                     <td>
@@ -66,9 +75,6 @@ View::share('title', $title);
                                     <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>
                                     <td>{{ (('0000-00-00 00:00:00' != $comment->published_at)) ? DateHelper::dateFormat($comment->published_at) : '-'}}</td>
                                     <td>
-                                        {{--<a class="btn btn-success btn-sm" href="{{ URL::route('admin.comments.show', $comment->id) }}">--}}
-                                        {{--<i class="fa fa-search-plus "></i>--}}
-                                        {{--</a>--}}
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
                                             <i class="fa fa-edit "></i>
                                         </a>

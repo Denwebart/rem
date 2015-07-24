@@ -24,7 +24,7 @@
                 <p>
                     Ответов:
                     @if(count($question->bestComments))
-                        <i class="mdi-action-done mdi-success" title="Есть решение" style="font-size: 20pt;"></i>
+                        <i class="mdi-action-done mdi-success" title="Есть решение"></i>
                     @endif
                     <a href="{{ URL::to($question->getUrl()) }}#answers">
                         {{ count($question->publishedComments) }}

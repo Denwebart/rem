@@ -61,7 +61,7 @@
                 <div class="answers">
                     Ответы:
                     @if(count($question->bestComments))
-                        <i class="mdi-action-done mdi-success" style="font-size: 20pt;"></i>
+                        <i class="mdi-action-done mdi-success"></i>
                     @endif
                     <a href="{{ URL::to($question->getUrl()) }}#answers">
                         {{ count($question->publishedAnswers) }}
