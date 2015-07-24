@@ -46,7 +46,7 @@ return [
 		"string"  => "Поле должно содержать не более :max символов.",
 		"array"   => "The :attribute may not have more than :max items.",
 	],
-	"mimes"                => "The :attribute must be a file of type: :values.",
+	"mimes"                => "Поле должно быть файлом одного из следующих типов: :values.",
 	"min"                  => [
 		"numeric" => "Значение не может быть меньше :min.",
 		"file"    => "The :attribute must be at least :min kilobytes.",
@@ -127,6 +127,7 @@ return [
 		'title' => [
 			'unique' => 'Награда с таким названием уже существует.',
 		],
+
 		'g-recaptcha-response' => [
 			'required_without_all' => 'Поле обязательно для неавторизованных пользователей.',
 		],

@@ -52,6 +52,13 @@ class Tag extends \Eloquent
 		return $this->hasMany('PageTag', 'tag_id');
 	}
 
+	/**
+	 * Получение изображения
+	 *
+	 * @param null $prefix
+	 * @param array $options
+	 * @return string
+	 */
 	public function getImage($prefix = null, $options = [])
 	{
 		if(isset($options['class'])) {
@@ -64,6 +71,37 @@ class Tag extends \Eloquent
 			return HTML::image('/uploads/' . $this->getTable() . '/' . $prefix . $this->image, $this->title, $options);
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultTagImage'), $this->title, $options);
+		}
+	}
+
+	/**
+	 * Загрузка изображения
+	 *
+	 * @param $postImage
+	 */
+	public function setImage($postImage)
+	{
+		if(isset($postImage)){
+
+			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/';
+			$image = Image::make($postImage->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if(File::exists($imagePath . $this->image)) {
+				File::delete($imagePath . $this->image);
+			}
+
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+			$image->crop($cropSize, $cropSize)
+				->resize(300, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . $fileName);
+
+			$this->image = $fileName;
+			$this->save();
 		}
 	}
 

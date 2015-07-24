@@ -56,26 +56,10 @@ class AdminTagsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		$tag = Tag::create($data);
+
 		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . (new Tag)->getTable() . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . $fileName);
-
-			$data['image'] = $fileName;
-		}
-		// загрузка изображения
-
-		Tag::create($data);
+		$tag->setImage($data['image']);
 
 		return Redirect::route('admin.tags.index');
 	}
@@ -125,33 +109,10 @@ class AdminTagsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		// загрузка изображения
-		if(isset($data['image'])){
-
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $tag->getTable() . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if(File::exists($imagePath . $tag->image)) {
-				File::delete($imagePath . $tag->image);
-			}
-
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . $fileName);
-
-			$data['image'] = $fileName;
-		} else {
-			$data['image'] = $tag->image;
-		}
-		// загрузка изображения
-
 		$tag->update($data);
+
+		// загрузка изображения
+		$tag->setImage($data['image']);
 
 		return Redirect::route('admin.tags.index');
 	}

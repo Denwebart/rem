@@ -174,27 +174,10 @@ class AdminHonorsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
+		$honor = Honor::create($data);
+
 		// загрузка изображения
-		if(isset($data['image'])){
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . (new Honor)->getTable() . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			$newFileName = TranslitHelper::make($data['title']) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
-
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . $newFileName);
-
-			$data['image'] = $newFileName;
-		}
-		// загрузка изображения
-
-		Honor::create($data);
+		$honor->setImage($data['image']);
 
 		return Redirect::route('admin.honors.index');
 	}
@@ -231,34 +214,10 @@ class AdminHonorsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		// загрузка изображения
-		if(isset($data['image'])){
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $honor->getTable() . '/';
-			$image = Image::make($data['image']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if(File::exists($imagePath . $honor->image)) {
-				File::delete($imagePath . $honor->image);
-			}
-
-			$newFileName = TranslitHelper::make($data['title']) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
-
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . $newFileName);
-
-			$data['image'] = $newFileName;
-		} else {
-			$data['image'] = $honor->image;
-		}
-		// загрузка изображения
-
 		$honor->update($data);
+
+		// загрузка изображения
+		$honor->setImage($data['image']);
 
 		return Redirect::route('admin.honors.index');
 	}

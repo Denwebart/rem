@@ -469,15 +469,27 @@ class Page extends \Eloquent
 				File::delete($imagePath . 'mini_' . $this->image);
 			}
 
+			if($image->width() < 300) {
+				$watermark = 'images/watermark-300.png';
+			} elseif($image->width() < 500) {
+				$watermark = 'images/watermark-500.png';
+			} elseif($image->width() > 1000) {
+				$watermark = 'images/watermark-1000.png';
+			} elseif($image->width() > 1500) {
+				$watermark = 'images/watermark-1500.png';
+			} else {
+				$watermark = 'images/watermark.png';
+			}
+
 			if($image->width() > 225) {
-				$image->insert(public_path('images/watermark-500.png'), 'center')
+				$image->insert(public_path($watermark), 'center')
 					->save($imagePath . 'origin_' . $fileName)
 					->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);
 			} else {
-				$image->insert(public_path('images/watermark-225.png'))
+				$image->insert(public_path($watermark))
 					->save($imagePath . $fileName);
 			}
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();

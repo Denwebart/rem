@@ -101,50 +101,11 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		// загрузка изображения
-		if(isset($data['avatar'])){
-
-			$fileName = TranslitHelper::generateFileName($data['avatar']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
-			$image = Image::make($data['avatar']->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old avatar
-			if(File::exists($imagePath . $user->avatar)) {
-				File::delete($imagePath . $user->avatar);
-			}
-			if(File::exists($imagePath . 'origin_' . $user->avatar)){
-				File::delete($imagePath . 'origin_' . $user->avatar);
-			}
-			if(File::exists($imagePath . 'mini_' . $user->avatar)){
-				File::delete($imagePath . 'mini_' . $user->avatar);
-			}
-
-			if($image->width() > 225) {
-				$image->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
-						$constraint->aspectRatio();
-					})
-					->save($imagePath . $fileName);
-			} else {
-				$image->save($imagePath . $fileName);
-			}
-			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
-
-			$image->crop($cropSize, $cropSize)
-				->resize(50, null, function ($constraint) {
-					$constraint->aspectRatio();
-			})->save($imagePath . 'mini_' . $fileName);
-
-			$data['avatar'] = $fileName;
-		} else {
-			$data['avatar'] = $user->avatar;
-		}
-		// загрузка изображения
-
 		$data['description'] = StringHelper::nofollowLinks($data['description']);
 		$user->update($data);
+
+		// загрузка изображения
+		$user->setAvatar($data['avatar']);
 
 		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
 	}

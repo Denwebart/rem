@@ -305,6 +305,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->firstname . $separator . $this->lastname;
 	}
 
+	/**
+	 * Получение изображения
+	 *
+	 * @param null $prefix
+	 * @param array $options
+	 * @return string
+	 */
 	public function getAvatar($prefix = null, $options = [])
 	{
 		$alt = 'Аватарка пользователя ' . $this->login . ' ('. $this->getFullName() .')';
@@ -319,6 +326,53 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->login . '/' . $prefix . $this->avatar, $alt, $options);
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $alt, $options);
+		}
+	}
+
+	/**
+	 * Загрузка изображения
+	 *
+	 * @param $postImage
+	 */
+	public function setAvatar($postImage)
+	{
+		if(isset($postImage)){
+
+			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->login . '/';
+			$image = Image::make($postImage->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old avatar
+			if(File::exists($imagePath . $this->avatar)) {
+				File::delete($imagePath . $this->avatar);
+			}
+			if(File::exists($imagePath . 'origin_' . $this->avatar)){
+				File::delete($imagePath . 'origin_' . $this->avatar);
+			}
+			if(File::exists($imagePath . 'mini_' . $this->avatar)){
+				File::delete($imagePath . 'mini_' . $this->avatar);
+			}
+
+			if($image->width() > 225) {
+				$image->save($imagePath . 'origin_' . $fileName)
+					->resize(225, null, function ($constraint) {
+						$constraint->aspectRatio();
+					})
+					->save($imagePath . $fileName);
+			} else {
+				$image->save($imagePath . $fileName);
+			}
+			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+
+			$image->crop($cropSize, $cropSize)
+				->resize(50, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'mini_' . $fileName);
+
+			$this->avatar = $fileName;
+			$this->save();
 		}
 	}
 
