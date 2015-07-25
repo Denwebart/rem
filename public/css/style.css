@@ -1,7 +1,7 @@
 body {
     padding: 0 0 20px !important;
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
-    background: url('../images/natural_paper.png') repeat;
+    background: url('../images/Light-aluminum-Grey-Seamless.jpg') repeat;
 }
 .container {
     width: 1300px;
@@ -283,11 +283,18 @@ footer #navbar-bottom li {
 }
 
 /*-- Sidebar Widget --*/
+.sidebar-widget .list-group-item .row-content {
+    width: calc(100% - 72px);
+}
 .sidebar-widget .list-group-separator {
-    margin: 7px 0;
+    margin: 7px 15px 7px 0;
+}
+.sidebar-widget .list-group-item .row-picture {
+    text-align: center;
 }
 .sidebar-widget .list-group-item .row-picture a {
     color: #333333;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .sidebar-widget .list-group-item .row-picture img {
     width: 50px;
@@ -295,9 +302,7 @@ footer #navbar-bottom li {
 }
 .sidebar-widget .list-group-item .row-picture i {
     background: none !important;
-    color: inherit !important;
     display: inline !important;
-    line-height: inherit !important;
 }
 .sidebar-widget .list-group-item .row-picture span {
     position: relative;
@@ -316,21 +321,89 @@ footer #navbar-bottom li {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    margin-top: 5px;
 }
 .sidebar-widget .list-group-item .created-date {
     text-align: right;
-    margin-right: -10px;
 }
 .sidebar-widget .list-group-item .created-date span {
     display: block;
     font-size: 12px;
     font-style: italic;
+    color: #444444;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .sidebar-widget .list-group-item .created-date span.full-date {
     color: #777777;
 }
-.sidebar-widget .row-content {
+.sidebar-widget .list-group-item {
     text-align: left;
+}
+.sidebar-widget .icon {
+    margin-right: 2px;
+}
+.sidebar-widget .count {
+    line-height: 24px;
+}
+.sidebar-widget .views .count {
+    line-height: 26px;
+}
+
+/* Sidebar Widget - Questions */
+#questions-sidebar-widget .answers {
+    margin: 5px 0 0 0;
+}
+#questions-sidebar-widget .answers .best {
+    color: #4CAF50;
+    font-weight: bold;
+}
+/* Sidebar Widget - Popular */
+#popular-sidebar-widget .views,
+#unpopular-sidebar-widget .views {
+    display: block;
+}
+/* Sidebar Widget - Latest */
+#latest-sidebar-widget .list-group-separator {
+    margin: 7px 15px;
+}
+#latest-sidebar-widget .list-group-separator::before {
+    width: 100%;
+}
+#latest-sidebar-widget .date {
+    margin-bottom: 5px;
+}
+#latest-sidebar-widget .date .text {
+    line-height: 28px;
+    font-style: italic;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+/* Sidebar Widget - Best */
+#best-sidebar-widget .rate {
+    position: relative;
+}
+#best-sidebar-widget .rate .rate-votes {
+    display: block;
+}
+#best-sidebar-widget .rate .rate-votes .icon {
+    font-size: 60px;
+    line-height: 50px;
+    color: #ffffff;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+}
+#best-sidebar-widget .rate .rate-votes span {
+    z-index: 9;
+    top: 4px;
+    margin-left: 5px;
+    font-size: 24px;
+    line-height: 50px;
+}
+#best-sidebar-widget .rate .rate-voters {
+    font-size: 12px;
+    color: #444444;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* RSS, Favorites, Search buttons */
@@ -408,6 +481,7 @@ footer #navbar-bottom li {
 }
 .area .advertising-body h4 {
     margin-bottom: 20px;
+    text-shadow: 0px 2px 0px rgba(255, 255, 255, 0.5);
 }
 
 /* Search Widget */

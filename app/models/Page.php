@@ -368,7 +368,7 @@ class Page extends \Eloquent
 
 	public function getRating()
 	{
-		return ($this->voters) ? round($this->votes / $this->voters, 2) : "0";
+		return ($this->voters) ? round($this->votes / $this->voters, 1) : "0";
 	}
 
 	public function getIntrotext()
@@ -430,6 +430,7 @@ class Page extends \Eloquent
 	 */
 	public function getImage($prefix = null, $options = [])
 	{
+		$options['title'] = $this->image_alt;
 		if(isset($options['class'])) {
 			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 		} else {

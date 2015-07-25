@@ -5,9 +5,11 @@
         @endif
         <div class="list-group-item">
             <div class="row-picture">
-                <i class="mdi-action-grade"></i>
                 <div class="rate">
-                    <div class="rate-votes">{{ $page->getRating() }}</div>
+                    <div class="rate-votes">
+                        <span>{{ $page->getRating() }}</span>
+                        <i class="icon mdi-action-grade"></i>
+                    </div>
                     <div class="rate-voters">
                         ({{ $page->voters }})
                     </div>

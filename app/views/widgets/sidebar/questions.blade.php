@@ -1,4 +1,4 @@
-<div id="latest-sidebar-widget" class="list-group sidebar-widget">
+<div id="questions-sidebar-widget" class="list-group sidebar-widget">
     @foreach($questions as $key => $question)
         @if($key != 0)
             <div class="list-group-separator"></div>
@@ -16,20 +16,25 @@
                         {{ DateHelper::getRelativeTime($question->published_at) }}
                     </span>
                 </div>
-                <p class="list-group-item-text" style="clear: both">
-                    <a href="{{ URL::to($question->getUrl()) }}">
-                        {{ $question->getTitle() }}
-                    </a>
+                <p class="list-group-item-text row" style="clear: both">
+                    <div class="col-md-10" style="padding: 0">
+                        <a href="{{ URL::to($question->getUrl()) }}">
+                            {{ $question->getTitle() }}
+                        </a>
+                    </div>
+                    <div class="col-md-2" style="padding: 0">
+                        @if(count($question->bestComments))
+                            <i class="mdi-action-done mdi-success" title="Есть решение" style="font-size: 50px; line-height: 40px"></i>
+                        @endif
+                    </div>
                 </p>
-                <p>
-                    Ответов:
-                    @if(count($question->bestComments))
-                        <i class="mdi-action-done mdi-success" title="Есть решение"></i>
-                    @endif
-                    <a href="{{ URL::to($question->getUrl()) }}#answers">
-                        {{ count($question->publishedComments) }}
+                <div class="clearfix"></div>
+                <div class="answers pull-right">
+                    <span class="icon mdi-communication-forum pull-left" title="Количество ответов"></span>
+                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count pull-left @if(count($question->bestComments)) best @endif">
+                        {{ count($question->publishedAnswers) }}
                     </a>
-                </p>
+                </div>
             </div>
         </div>
     @endforeach

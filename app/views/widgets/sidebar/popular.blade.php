@@ -6,14 +6,15 @@
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::to($page->getUrl()) }}">
-                    <img class="square" src="/images/mini_default-image.jpg" alt="icon">
+                    {{ $page->getImage('mini', ['class' => 'square']) }}
                 </a>
-                <div class="views">
-                    <i class="mdi-image-remove-red-eye"></i>
-                    <span>{{ $page->views }}</span>
-                </div>
             </div>
             <div class="row-content">
+                <div class="views pull-right">
+                    <i class="icon mdi-image-remove-red-eye pull-left"></i>
+                    <span class="count pull-left">{{ $page->views }}</span>
+                </div>
+                <div class="clearfix"></div>
                 <p class="list-group-item-text">
                     <a href="{{ URL::to($page->getUrl()) }}">
                         {{ $page->getTitle() }}

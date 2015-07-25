@@ -87,7 +87,7 @@ class SidebarWidget
 			->orderBy('views', 'DESC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
 	}
@@ -107,7 +107,7 @@ class SidebarWidget
 			->orderBy('views', 'ASC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
 	}
@@ -161,7 +161,7 @@ class SidebarWidget
 		    ->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->limit($limit)
-			->with('parent.parent', 'user', 'publishedComments', 'bestComments')
+			->with('parent.parent', 'user', 'publishedAnswers', 'bestComments')
 			->orderBy('created_at', 'DESC')
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title', 'menu_title']);
 
