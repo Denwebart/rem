@@ -96,13 +96,7 @@
     </div>
 </div>
 
-<footer class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            {{ $menuWidget->bottomMenu() }}
-        </div>
-    </div>
-</footer>
+@include('footer')
 
 <!-- JS -->
 {{HTML::script('js/jquery-1.10.2.min.js')}}
