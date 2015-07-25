@@ -7,7 +7,11 @@ View::share('title', $title);
 
 @section('content')
 <div class="page-head">
-    <h1><i class="fa fa-home"></i> {{ $title }} <small></small></h1>
+    <h1>
+        <i class="fa fa-home"></i>
+        {{ $title }}
+        <small></small>
+    </h1>
 </div>
 
 <div class="content">

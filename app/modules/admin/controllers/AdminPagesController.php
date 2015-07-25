@@ -73,6 +73,8 @@ class AdminPagesController extends \BaseController {
 			$data['type'] = Page::TYPE_ARTICLE;
 		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
 			$data['type'] = Page::TYPE_QUESTION;
+		} else {
+			$data['type'] = Page::TYPE_PAGE;
 		}
 
 		$data['user_id'] = Auth::user()->id;
@@ -158,6 +160,8 @@ class AdminPagesController extends \BaseController {
 			$data['type'] = Page::TYPE_ARTICLE;
 		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
 			$data['type'] = Page::TYPE_QUESTION;
+		} else {
+			$data['type'] = Page::TYPE_PAGE;
 		}
 
 		$data['user_id'] = $page->user_id;

@@ -14,41 +14,61 @@
                 {{ Form::label('parent_id', 'Родитель', ['class' => 'control-label']) }}
                 {{ Form::select('parent_id', Page::getContainer(), $page->parent_id, ['class' => 'form-control']) }}
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('alias')) has-error @endif">
                 {{ Form::label('alias', 'Алиас') }}
                 {{ Form::text('alias', $page->alias, ['class' => 'form-control']) }}
-                {{ $errors->first('alias') }}
+                @if($errors->has('alias'))
+                    <small class="help-block">
+                        {{ $errors->first('alias') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Заголовок') }}
                 {{ Form::text('title', $page->title, ['class' => 'form-control']) }}
-                {{ $errors->first('title') }}
+                @if($errors->has('title'))
+                    <small class="help-block">
+                        {{ $errors->first('title') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('menu_title')) has-error @endif">
                         {{ Form::label('menu_title', 'Заголовок меню') }}
                         {{ Form::text('menu_title', $page->menu_title, ['class' => 'form-control']) }}
-                        {{ $errors->first('menu_title') }}
+                        @if($errors->has('menu_title'))
+                            <small class="help-block">
+                                {{ $errors->first('menu_title') }}
+                            </small>
+                        @endif
                     </div>
-                    <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
                         {{ Form::label('is_container', 'Содержит подпункты') }}
                         {{ Form::hidden('is_container', 0) }}
                         {{ Form::checkbox('is_container', 1) }}
                     </div>
-                    <div class="col-sm-3">
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
                         {{ Form::label('show_submenu', 'Показывать подменю') }}
                         {{ Form::hidden('show_submenu', 0) }}
                         {{ Form::checkbox('show_submenu', 1) }}
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('image')) has-error @endif">
                         {{ Form::label('image', 'Изображение') }}<br/>
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                        {{ $errors->first('image') }}
+                        @if($errors->has('image'))
+                            <small class="help-block">
+                                {{ $errors->first('image') }}
+                            </small>
+                        @endif
 
                         @if($page->image)
                             {{ $page->getImage(null, ['class' => 'page-image']) }}
@@ -81,9 +101,16 @@
                             @stop
                         @endif
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('image_alt')) has-error @endif">
                         {{ Form::label('image_alt', 'Альт к изображению') }}
                         {{ Form::textarea('image_alt', $page->image_alt, ['class' => 'form-control', 'rows' => 4]) }}
+                        @if($errors->has('image_alt'))
+                            <small class="help-block">
+                                {{ $errors->first('image_alt') }}
+                            </small>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -220,20 +247,32 @@
             <h3>Мета-теги SEO</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_title')) has-error @endif">
                 {{ Form::label('meta_title', 'Мета-тег Title') }}
                 {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 2]) }}
-                {{ $errors->first('meta_title') }}
+                @if($errors->has('meta_title'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_title') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_desc')) has-error @endif">
                 {{ Form::label('meta_desc', 'Мета-тег Description') }}
                 {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 3]) }}
-                {{ $errors->first('meta_desc') }}
+                @if($errors->has('meta_desc'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_desc') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_key')) has-error @endif">
                 {{ Form::label('meta_key', 'Мета-тег Keywords') }}
                 {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 3]) }}
-                {{ $errors->first('meta_key') }}
+                @if($errors->has('meta_key'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_key') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>
@@ -243,14 +282,16 @@
             <h3>Дата публикации</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
                         {{ Form::label('is_published', 'Опубликован') }}
                         {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
                         {{ Form::checkbox('is_published', 1) }}
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('published_at')) has-error @endif">
                         {{ Form::label('published_at', 'Дата публикации') }}
 
                         <div class="input-group">
@@ -263,8 +304,11 @@
                                 {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
                             </span>
                         </div>
-
-                        {{ $errors->first('published_at') }}
+                        @if($errors->has('published_at'))
+                            <small class="help-block">
+                                {{ $errors->first('published_at') }}
+                            </small>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -285,17 +329,25 @@
                     </div>
                 </div>
                 <div class="box-body no-padding" style="display: none">
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('introtext')) has-error @endif">
                         {{ Form::textarea('introtext', $page->introtext, ['class' => 'form-control editor']) }}
-                        {{ $errors->first('introtext') }}
+                        @if($errors->has('introtext'))
+                            <small class="help-block">
+                                {{ $errors->first('introtext') }}
+                            </small>
+                        @endif
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group @if($errors->has('content')) has-error @endif">
                 {{ Form::label('content', 'Контент') }}
                 {{ Form::textarea('content', $page->content, ['class' => 'form-control editor']) }}
-                {{ $errors->first('content') }}
+                @if($errors->has('content'))
+                    <small class="help-block">
+                        {{ $errors->first('content') }}
+                    </small>
+                @endif
             </div>
 
             {{ Form::hidden('backUrl', $backUrl) }}

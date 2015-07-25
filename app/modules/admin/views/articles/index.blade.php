@@ -9,7 +9,9 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
 
 @section('content')
 <div class="page-head">
-    <h1><i class="fa fa-file-o"></i> {{ $title }}
+    <h1>
+        <i class="fa fa-file-o"></i>
+        {{ $title }}
         <small>статьи из бортового журнала</small>
     </h1>
     <ol class="breadcrumb">

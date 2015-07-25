@@ -7,7 +7,11 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-trash-o"></i> {{ $title }} <small></small></h1>
+        <h1>
+            <i class="fa fa-trash-o"></i>
+            {{ $title }}
+            <small></small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::to('admin.letters.index') }}">Письма</a></li>

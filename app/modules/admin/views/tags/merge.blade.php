@@ -7,7 +7,10 @@ View::share('title', $title);
 
 @section('content')
 <div class="page-head">
-    <h1><h1><i class="fa fa-tags"></i><h1><i class="fa fa-plus"></i><h1><i class="fa fa-tags"></i>
+    <h1>
+        <i class="fa fa-tags"></i>
+        <i class="fa fa-plus"></i>
+        <i class="fa fa-tags"></i>
             {{ $title }}
         <small>слияние похожих тегов</small>
     </h1>

@@ -7,9 +7,12 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-ban"></i><i class="fa fa-users"></i>
+        <h1>
+            <i class="fa fa-ban"></i>
+            <i class="fa fa-users"></i>
             {{ $title }}
-            <small>забаненные пользователи сайта</small></h1>
+            <small>забаненные пользователи сайта</small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>
