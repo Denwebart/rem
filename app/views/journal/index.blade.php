@@ -49,7 +49,10 @@
                     Показано статей: <span>{{ $articles->count() }}</span>.
                     Всего: <span>{{ $articles->getTotal() }}</span>.
                 </div>
-                @foreach($articles as $article)
+                @foreach($articles as $key => $article)
+                    @if(0 != $key)
+                        <hr/>
+                    @endif
                     @include('journal.articleInfo')
                 @endforeach
                 {{ $articles->links() }}

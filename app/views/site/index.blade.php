@@ -36,7 +36,10 @@
                 Показано: <span>{{ $articles->count() }}</span>.
                 Всего: <span>{{ $articles->getTotal() }}</span>.
             </div>
-			@foreach($articles as $article)
+			@foreach($articles as $key => $article)
+                @if(0 != $key)
+                    <hr/>
+                @endif
 				@include('site.postInfo')
 			@endforeach
 			{{ $articles->links() }}

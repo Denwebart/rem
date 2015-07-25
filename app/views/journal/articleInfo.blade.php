@@ -78,4 +78,3 @@
         <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
 </div>
-<hr/>

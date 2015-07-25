@@ -48,7 +48,10 @@
                     Показано: <span>{{ $questions->count() }}</span>.
                     Всего: <span>{{ $questions->getTotal() }}</span>.
                 </div>
-                @foreach($questions as $question)
+                @foreach($questions as $key => $question)
+                    @if(0 != $key)
+                        <hr/>
+                    @endif
                     @include('site.questionInfo')
                 @endforeach
                 {{ $questions->links() }}

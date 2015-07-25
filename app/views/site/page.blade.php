@@ -97,7 +97,10 @@
                     Показано: <span>{{ $children->count() }}</span>.
                     Всего: <span>{{ $children->getTotal() }}</span>.
                 </div>
-				@foreach($children as $child)
+				@foreach($children as $key => $child)
+                    @if(0 != $key)
+                        <hr/>
+                    @endif
                     @include('site.postInfo', ['article' => $child])
 				@endforeach
 				{{ $children->links() }}
