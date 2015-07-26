@@ -44,19 +44,28 @@
                     </a>
                 </h3>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
+                @if(Auth::check())
+                    @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                        <div class="buttons pull-right">
+                            <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
+                                <span class="icon mdi-editor-mode-edit"></span>
+                            </a>
+                        </div>
+                    @endif
+                @endif
+            </div>
+            <div class="col-md-2">
                 <div class="answers-text">
                     <span>Ответов:</span>
                 </div>
                 <div class="answers-value">
-                    <div>
-                        @if(count($question->bestComments))
-                            <i class="icon mdi-action-done mdi-success" title="Есть решение"></i>
-                        @endif
-                        <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
-                            {{ count($question->publishedAnswers) }}
-                        </a>
-                    </div>
+                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
+                        {{ count($question->publishedAnswers) }}
+                    </a>
+                    @if(count($question->bestComments))
+                        <i class="icon mdi-action-done mdi-success" title="Есть решение"></i>
+                    @endif
                 </div>
             </div>
             <div class="col-md-9">
@@ -71,17 +80,6 @@
                             </a>
                         </div>
                     </div>
-                @endif
-            </div>
-            <div class="col-md-3">
-                @if(Auth::check())
-                    @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
-                        <div class="buttons pull-right">
-                            <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
-                                <span class="icon mdi-editor-mode-edit"></span>
-                            </a>
-                        </div>
-                    @endif
                 @endif
             </div>
         </div>

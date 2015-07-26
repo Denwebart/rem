@@ -26,7 +26,7 @@
         {{ $areaWidget->contentMiddle() }}
 
         @if(count($articles))
-            <section id="blog-area" class="blog">
+            <section id="articles-area" class="blog">
                 <div class="count">
                     Показано статей: <span>{{ $articles->count() }}</span>.
                     Всего: <span>{{ $articles->getTotal() }}</span>.

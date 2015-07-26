@@ -107,6 +107,9 @@ a:focus {
     text-decoration: underline;
 }
 
+.blog .image {
+    margin: 5px 10px 5px 0px;
+}
 .blog .category {
     line-height: 24px;
     display: inline-block;
@@ -203,36 +206,35 @@ a:focus {
     padding-left: 2px;
 }
 
-/* Questions Area */
-#questions-area .user {
+/* Questions Area, Articles Area */
+#questions-area .user,
+#articles-area .user {
     text-align: center;
 }
-#questions-area .user a {
+#questions-area .user a,
+#articles-area .user a {
     display: inline-block;
 }
-#questions-area .page-info {
+#questions-area .page-info,
+#articles-area .page-info {
     padding: 4px 10px 5px;
+}
+#questions-area .answers-text {
+    margin-top: 7px;
 }
 #questions-area .answers-text,
 #questions-area .answers-value {
     text-align: center;
 }
-#questions-area .answers-text span {
-
-}
-#questions-area .answers-value div {
-    width: auto;
-    display: inline-block;
-}
 #questions-area .answers-value .icon {
     font-size: 50px;
     line-height: 35px;
-    float: left;
+    margin-right: -10px;
+    margin-top: -10px;
 }
 #questions-area .answers-value a.count {
     font-size: 24px;
     line-height: 40px;
-    float: left;
     text-decoration: none;
 }
 #questions-area .answers-value a.count.best {
@@ -240,10 +242,27 @@ a:focus {
 }
 
 /* кнопки редактирования для авторизованных пользователей */
-#questions-area .buttons {
+#questions-area .buttons,
+#articles-area .buttons {
     width: 100%;
     text-align: center;
     height: 24px;
+    margin-top: 5px;
+}
+
+/* Tags */
+.tags {
+    list-style: none;
+    padding: 0;
+}
+.tags li {
+    float: left;
+    margin-right: 5px;
+}
+.tags li a.tag {
+    text-transform: none;
+    padding: 1px 7px;
+    margin: 2px 0;
 }
 
 /* Rating */
