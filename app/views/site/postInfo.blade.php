@@ -45,16 +45,20 @@
     <div class="col-md-12">
         @if(Request::is('/'))
             <div class="category pull-right">
-                Категория:
-                @if($article->parent->parent)
-                    <a href="{{ URL::to($article->parent->parent->getUrl()) }}">
-                        {{ $article->parent->parent->getTitle() }}
+                <div class="text pull-left">
+                    Категория:
+                </div>
+                <div class="link pull-left">
+                    @if($article->parent->parent)
+                        <a href="{{ URL::to($article->parent->parent->getUrl()) }}">
+                            {{ $article->parent->parent->getTitle() }}
+                        </a>
+                        /
+                    @endif
+                    <a href="{{ URL::to($article->parent->getUrl()) }}">
+                        {{ $article->parent->getTitle() }}
                     </a>
-                    /
-                @endif
-                <a href="{{ URL::to($article->parent->getUrl()) }}">
-                    {{ $article->parent->getTitle() }}
-                </a>
+                </div>
             </div>
             <div class="clearfix"></div>
         @elseif($page->id != $article->parent_id)

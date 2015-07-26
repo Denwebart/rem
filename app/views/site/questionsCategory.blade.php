@@ -43,7 +43,7 @@
         @endif
 
         @if(count($questions))
-            <section id="blog-area" class="blog">
+            <section id="questions-area" class="blog">
                 <div class="count">
                     Показано: <span>{{ $questions->count() }}</span>.
                     Всего: <span>{{ $questions->getTotal() }}</span>.

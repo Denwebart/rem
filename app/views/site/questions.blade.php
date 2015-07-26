@@ -43,14 +43,14 @@
         @endif
 
         @if(count($page->publishedChildren))
-            <section id="blog-area" class="blog">
+            <section id="questions-area" class="blog">
                 <div class="count">
                     Показано: <span>{{ $questions->count() }}</span>.
                     Всего: <span>{{ $questions->getTotal() }}</span>.
                 </div>
                 @foreach($questions as $key => $question)
                     @if(0 != $key)
-                        <hr/>
+                        <hr>
                     @endif
                     @include('site.questionInfo')
                 @endforeach

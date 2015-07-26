@@ -107,19 +107,15 @@ a:focus {
     text-decoration: underline;
 }
 
-/* Rating */
-#rating {
-    margin-top: -5px;
+.blog .category {
+    line-height: 24px;
+    display: inline-block;
 }
-#rating #rate-votes {
-    font-size: 26px;
-    line-height: 26px;
-    text-align: center;
+.blog .category .text {
+    margin-right: 5px;
+    font-style: italic;
 }
-#rating #rate-voters {
-    text-align: center;
-    font-size: 12px;
-}
+
 .page-info {
     display: inline-block;
     width: 100%;
@@ -199,7 +195,70 @@ a:focus {
 .page-info .rating span:not(.icon) {
     padding-left: 2px;
 }
+.page-info .subscribers span {
+    float: left;
+    line-height: 25px;
+}
+.page-info .subscribers span:not(.icon) {
+    padding-left: 2px;
+}
 
+/* Questions Area */
+#questions-area .user {
+    text-align: center;
+}
+#questions-area .user a {
+    display: inline-block;
+}
+#questions-area .page-info {
+    padding: 4px 10px 5px;
+}
+#questions-area .answers-text,
+#questions-area .answers-value {
+    text-align: center;
+}
+#questions-area .answers-text span {
+
+}
+#questions-area .answers-value div {
+    width: auto;
+    display: inline-block;
+}
+#questions-area .answers-value .icon {
+    font-size: 50px;
+    line-height: 35px;
+    float: left;
+}
+#questions-area .answers-value a.count {
+    font-size: 24px;
+    line-height: 40px;
+    float: left;
+    text-decoration: none;
+}
+#questions-area .answers-value a.count.best {
+    color: #4CAF50;
+}
+
+/* кнопки редактирования для авторизованных пользователей */
+#questions-area .buttons {
+    width: 100%;
+    text-align: center;
+    height: 24px;
+}
+
+/* Rating */
+#rating {
+    margin-top: -5px;
+}
+#rating #rate-votes {
+    font-size: 26px;
+    line-height: 26px;
+    text-align: center;
+}
+#rating #rate-voters {
+    text-align: center;
+    font-size: 12px;
+}
 
 /*-- End Content --*/
 
@@ -300,7 +359,6 @@ footer #navbar-bottom li {
     text-align: center;
 }
 .sidebar-widget .list-group-item .row-picture a {
-    color: #333333;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .sidebar-widget .list-group-item .row-picture img {
