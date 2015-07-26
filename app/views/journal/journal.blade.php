@@ -96,7 +96,7 @@
                 @endif
 
                 @if(count($articles))
-                    <section id="blog-area" class="blog">
+                    <section id="articles-area" class="blog">
                         <div class="count">
                             Показано статей: <span>{{ $articles->count() }}</span>.
                             Всего: <span>{{ $articles->getTotal() }}</span>.
@@ -104,54 +104,63 @@
                         @foreach($articles as $article)
                             <div data-article-id="{{ $article->id }}" class="well">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        @if(Auth::check())
+                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                                <div class="status pull-left">
+                                                    @if($article->is_published)
+                                                        <span class="mdi-image-brightness-1 mdi-success" title="Опубликована"></span>
+                                                    @else
+                                                        <span class="mdi-image-brightness-1 mdi-danger" title="Не опубликована"></span>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        @endif
                                         <h3>
                                             <a href="{{ URL::to($article->getUrl()) }}">
                                                 {{ $article->title }}
                                             </a>
-                                            <div class="pull-right">
-                                                @if(Auth::check())
-                                                    @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
-                                                        <div class="buttons pull-left">
-                                                            <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">
-                                                                <span class="mdi-editor-mode-edit"></span>
-                                                            </a>
-                                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm delete-article" data-id="{{ $article->id }}" title="Удалить статью">
-                                                                <span class="mdi-content-clear"></span>
-                                                            </a>
-                                                            <div class="status">
-                                                                Статус:
-                                                                {{ ($article->is_published) ? 'Опубликована' : 'Неопубликована' }}
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
                                         </h3>
                                     </div>
+                                    <div class="col-md-2">
+                                        @if(Auth::check())
+                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                                <div class="buttons">
+                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью">
+                                                        <span class="mdi-editor-mode-edit"></span>
+                                                    </a>
+                                                    <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью">
+                                                        <span class="mdi-content-clear"></span>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </div>
                                     <div class="col-md-12">
-                                        <div class="date pull-left" title="Дата публикации">
-                                            <span class="mdi-action-today"></span>
-                                            {{ DateHelper::dateFormat($article->published_at) }}
-                                        </div>
-                                        <div class="pull-right">
-                                            <div class="views pull-left" title="Количество просмотров">
-                                                <span class="mdi-action-visibility"></span>
-                                                {{ $article->views }}
+                                        <div class="page-info">
+                                            <div class="date pull-left" title="Дата публикации">
+                                                <span class="icon mdi-action-today"></span>
+                                                <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
                                             </div>
-                                            <div class="comments pull-left" title="Количество комментариев">
-                                                <span class="mdi-communication-messenger"></span>
-                                                <a href="{{ URL::to($article->getUrl() . '#comments') }}">
-                                                    {{ count($article->publishedComments) }}
-                                                </a>
-                                            </div>
-                                            <div class="saved pull-left" title="Сколько пользователей сохранили">
-                                                <span class="mdi-content-archive"></span>
-                                                {{ count($article->whoSaved) }}
-                                            </div>
-                                            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                                                <span class="mdi-action-grade"></span>
-                                                {{ $article->getRating() }} ({{ $article->voters }})
+                                            <div class="pull-right">
+                                                <div class="views pull-left" title="Количество просмотров">
+                                                    <span class="icon mdi-action-visibility"></span>
+                                                    <span>{{ $article->views }}</span>
+                                                </div>
+                                                <div class="comments-count pull-left" title="Количество комментариев">
+                                                    <span class="icon mdi-communication-messenger"></span>
+                                                    <a href="{{ URL::to($article->getUrl() . '#comments') }}">
+                                                        {{ count($article->publishedComments) }}
+                                                    </a>
+                                                </div>
+                                                <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+                                                    <span class="icon mdi-content-archive"></span>
+                                                    <span>{{ count($article->whoSaved) }}</span>
+                                                </div>
+                                                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                                                    <span class="icon mdi-action-grade"></span>
+                                                    <span>{{ $article->getRating() }} ({{ $article->voters }})</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
