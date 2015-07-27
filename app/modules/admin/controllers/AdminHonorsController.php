@@ -177,7 +177,8 @@ class AdminHonorsController extends \BaseController {
 		$honor = Honor::create($data);
 
 		// загрузка изображения
-		$honor->setImage($data['image']);
+		$honor->image = $honor->setImage($data['image']);
+		$honor->save();
 
 		return Redirect::route('admin.honors.index');
 	}
@@ -214,10 +215,10 @@ class AdminHonorsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$honor->update($data);
-
 		// загрузка изображения
-		$honor->setImage($data['image']);
+		$data['image'] = $honor->setImage($data['image']);
+
+		$honor->update($data);
 
 		return Redirect::route('admin.honors.index');
 	}

@@ -59,7 +59,8 @@ class AdminTagsController extends \BaseController {
 		$tag = Tag::create($data);
 
 		// загрузка изображения
-		$tag->setImage($data['image']);
+		$tag->image = $tag->setImage($data['image']);
+		$tag->save();
 
 		return Redirect::route('admin.tags.index');
 	}
@@ -109,10 +110,10 @@ class AdminTagsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$tag->update($data);
-
 		// загрузка изображения
-		$tag->setImage($data['image']);
+		$data['image'] = $tag->setImage($data['image']);
+
+		$tag->update($data);
 
 		return Redirect::route('admin.tags.index');
 	}

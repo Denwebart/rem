@@ -89,7 +89,8 @@ class AdminPagesController extends \BaseController {
 		$page = Page::create($data);
 
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$page->image = $page->setImage($data['image']);
+		$page->save();
 
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
@@ -179,10 +180,10 @@ class AdminPagesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$page->update($data);
-
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$data['image'] = $page->setImage($data['image']);
+
+		$page->update($data);
 
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);

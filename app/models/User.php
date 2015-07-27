@@ -333,6 +333,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Загрузка изображения
 	 *
 	 * @param $postImage
+	 * @return mixed|string
 	 */
 	public function setAvatar($postImage)
 	{
@@ -371,8 +372,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			$this->avatar = $fileName;
-			$this->save();
+			return $fileName;
+		} else {
+			return $this->avatar;
 		}
 	}
 

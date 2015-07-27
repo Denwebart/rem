@@ -100,8 +100,9 @@ class Tag extends \Eloquent
 					$constraint->aspectRatio();
 				})->save($imagePath . $fileName);
 
-			$this->image = $fileName;
-			$this->save();
+			return $fileName;
+		} else {
+			return $this->image;
 		}
 	}
 

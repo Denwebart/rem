@@ -92,10 +92,10 @@ View::share('title', $title);
                                         @if(Auth::check())
                                             @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="buttons">
-                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
+                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
                                                         <span class="mdi-editor-mode-edit"></span>
                                                     </a>
-                                                    <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $question->id }}" title="Удалить статью">
+                                                    <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">
                                                         <span class="mdi-content-clear"></span>
                                                     </a>
                                                 </div>

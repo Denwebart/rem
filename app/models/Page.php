@@ -448,6 +448,7 @@ class Page extends \Eloquent
 	 * Загрузка изображения
 	 *
 	 * @param $postImage
+	 * @return mixed|string
 	 */
 	public function setImage($postImage)
 	{
@@ -500,8 +501,9 @@ class Page extends \Eloquent
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
 
-			$this->image = $fileName;
-			$this->save();
+			return $fileName;
+		} else {
+			return $this->image;
 		}
 	}
 

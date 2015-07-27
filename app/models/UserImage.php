@@ -81,6 +81,13 @@ class UserImage extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
+	/**
+	 * Получение изображения
+	 *
+	 * @param null $prefix
+	 * @param array $options
+	 * @return string
+	 */
 	public function getImage($prefix = null, $options = [])
 	{
 		if(isset($options['class'])) {
@@ -91,6 +98,38 @@ class UserImage extends \Eloquent
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->image){
 			return HTML::image('/uploads/' . $this->table . '/' . $this->user->login . '/' . $prefix . $this->image, trim(strip_tags($this->description)), $options);
+		}
+	}
+
+	/**
+	 * Загрузка изображения
+	 *
+	 * @param $postImage
+	 * @param $user
+	 * @return mixed|string
+	 */
+	public function setImage($postImage, $user)
+	{
+		if(isset($postImage)){
+
+			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
+
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $user->login . '/';
+
+			$image = Image::make($postImage->getRealPath());
+
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+
+			// delete old image
+			if (File::exists($imagePath . $this->image)) {
+				File::delete($imagePath . $this->image);
+			}
+
+			$image->save($imagePath . $fileName);
+
+			return $fileName;
+		} else {
+			return $this->image;
 		}
 	}
 

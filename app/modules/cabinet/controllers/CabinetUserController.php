@@ -102,10 +102,11 @@ class CabinetUserController extends \BaseController
 		}
 
 		$data['description'] = StringHelper::nofollowLinks($data['description']);
-		$user->update($data);
 
 		// загрузка изображения
-		$user->setAvatar($data['avatar']);
+		$data['avatar'] = $user->setAvatar($data['avatar']);
+
+		$user->update($data);
 
 		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
 	}
@@ -217,30 +218,12 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$usersImage = new UserImage();
+		$usersImage = UserImage::create($data);
 
 		// загрузка изображения
-		if(isset($data['image'])) {
-			$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-			$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
-			$image = Image::make($data['image']->getRealPath());
-
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			// delete old image
-			if (File::exists($imagePath . $usersImage->image)) {
-				File::delete($imagePath . $usersImage->image);
-			}
-
-			$image->save($imagePath . $fileName);
-
-			$data['image'] = $fileName;
-		}
-		// загрузка изображения
-
-		$usersImage->fill($data);
+		$usersImage->image = $usersImage->setImage($data['image'], $user);
 		$usersImage->save();
+
 
 		return Redirect::route('user.gallery', ['login' => $user->login]);
 
@@ -287,27 +270,7 @@ class CabinetUserController extends \BaseController
 			}
 
 			// загрузка изображения
-			if(isset($data['image'])) {
-				$fileName = TranslitHelper::generateFileName($data['image']->getClientOriginalName());
-
-				$imagePath = public_path() . '/uploads/' . $usersImage->getTable() . '/' . $user->login . '/';
-
-				$image = Image::make($data['image']->getRealPath());
-
-				File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-				// delete old image
-				if (File::exists($imagePath . $usersImage->image)) {
-					File::delete($imagePath . $usersImage->image);
-				}
-
-				$image->save($imagePath . $fileName);
-
-				$data['image'] = $fileName;
-			} else {
-				$data['image'] = $usersImage->image;
-			}
-			// загрузка изображения
+			$data['image'] = $usersImage->setImage($data['image'], $user);
 
 			$data['description'] = StringHelper::nofollowLinks($data['description']);
 
@@ -390,7 +353,8 @@ class CabinetUserController extends \BaseController
 		$page = Page::create($data);
 
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$page->image = $page->setImage($data['image']);
+		$page->save();
 
 		// подписка на свой вопрос
 		$subscription = new Subscription();
@@ -444,10 +408,10 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$page->update($data);
-
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$data['image'] = $page->setImage($data['image']);
+
+		$page->update($data);
 
 		return Redirect::route('user.questions', ['login' => $login]);
 	}
@@ -506,7 +470,8 @@ class CabinetUserController extends \BaseController
 		$page = Page::create($data);
 
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$page->image = $page->setImage($data['image']);
+		$page->save();
 
 		// добавление тегов
 		Tag::addTag($page, Input::get('tags'));
@@ -561,10 +526,10 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$page->update($data);
-
 		// загрузка изображения
-		$page->setImage($data['image']);
+		$data['image'] = $page->setImage($data['image']);
+
+		$page->update($data);
 
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));

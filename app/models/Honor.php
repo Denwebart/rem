@@ -125,8 +125,9 @@ class Honor extends \Eloquent
 					$constraint->aspectRatio();
 				})->save($imagePath . $newFileName);
 
-			$this->image = $newFileName;
-			$this->save();
+			return $newFileName;
+		} else {
+			return $this->image;
 		}
 	}
 }
