@@ -378,9 +378,18 @@ class Page extends \Eloquent
 			: StringHelper::closeTags(Str::limit($this->getContentWithoutWidget(), 500, '...'));
 	}
 
-	public static function getContainer()
+	public static function getContainer($withChildren = true)
 	{
-		return ['0' => 'Нет'] + self::whereIsContainer(1)->lists('menu_title', 'id');
+		$categoriesArray = [];
+		foreach (self::whereIsContainer(1)->whereParentId(0)->get() as $page) {
+			$categoriesArray[$page->id] = $page->getTitle();
+			if($withChildren && $page->type != Page::TYPE_JOURNAL) {
+				foreach($page->children()->whereIsContainer(1)->get() as $child) {
+					$categoriesArray[$child->id] = ' --- ' . $child->getTitle();
+				}
+			}
+		}
+		return $categoriesArray;
 	}
 
 	public static function getQuestionsCategory()

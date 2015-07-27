@@ -5,8 +5,12 @@
         </div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::textarea('value', $setting->comment, ['class' => 'form-control']) }}
-                {{ $errors->first('value') }}
+                @if($setting->key != 'categoriesOnMainPage')
+                    {{ Form::textarea('value', $setting->value, ['class' => 'form-control']) }}
+                    {{ $errors->first('value') }}
+                @else
+                    {{ Form::select('value[]', Page::getContainer(), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
+                @endif
             </div>
         </div>
     </div>

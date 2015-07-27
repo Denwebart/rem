@@ -4,7 +4,7 @@ class BaseController extends Controller {
 
 	public function __construct()
 	{
-		View::share('settings', Setting::getSettings());
+		View::share('settings', Setting::getSettings(['Site']));
 	}
 
 	/**

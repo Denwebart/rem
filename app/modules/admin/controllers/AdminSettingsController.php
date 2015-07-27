@@ -63,7 +63,12 @@ class AdminSettingsController extends \BaseController {
 	{
 		$setting = Setting::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), Setting::$rules);
+		$data = Input::all();
+		if(is_array($data['value'])) {
+			$data['value'] = implode($data['value'], ', ');
+		}
+
+		$validator = Validator::make($data, Setting::$rules);
 
 		if ($validator->fails())
 		{

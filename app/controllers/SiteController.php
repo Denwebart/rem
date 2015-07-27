@@ -22,11 +22,13 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
+		$categories = Setting::whereKey('categoriesOnMainPage')->first();
+
 		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
-			->whereIsPublished(1)
+			->whereIn('parent_id', explode(',', $categories->value))
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('parent_id', '!=', 0)
-			->whereType(Page::TYPE_PAGE)
+//			->where('parent_id', '!=', 0)
+//			->whereType(Page::TYPE_PAGE)
 			->with('parent.parent', 'user', 'publishedComments', 'whoSaved')
 			->whereIsContainer(0)
 			->orderBy('published_at', 'DESC')

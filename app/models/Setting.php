@@ -65,9 +65,9 @@ class Setting extends \Eloquent
 	 * Получение настроек для сайта
 	 *
 	 */
-	public static function getSettings()
+	public static function getSettings($category = [])
 	{
-		$settings = Setting::whereCategory('Site')
+		$settings = Setting::whereIn('category', $category)
 			->whereIsActive(1)
 			->get()
 			->toArray();
