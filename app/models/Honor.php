@@ -101,6 +101,7 @@ class Honor extends \Eloquent
 	 * Загрузка изображения
 	 *
 	 * @param $postImage
+	 * @return string
 	 */
 	public function setImage($postImage)
 	{

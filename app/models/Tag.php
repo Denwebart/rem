@@ -40,6 +40,11 @@ class Tag extends \Eloquent
 			$tag->pagesTags()->delete();
 			File::delete(public_path() . '/uploads/' . $tag->getTable() . '/' . $tag->image);
 		});
+
+		static::saving(function($tag)
+		{
+			$tag->title = mb_strtolower($tag->title);
+		});
 	}
 
 	public function pages()
@@ -78,6 +83,7 @@ class Tag extends \Eloquent
 	 * Загрузка изображения
 	 *
 	 * @param $postImage
+	 * @return mixed|string
 	 */
 	public function setImage($postImage)
 	{
