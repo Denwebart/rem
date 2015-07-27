@@ -246,6 +246,16 @@ a:focus {
     margin: 0 7px 0 0;
 }
 
+/* Subscriptions Area, Saved Pages Area */
+#saved-pages-area .date-saved,
+#subscriptions-area .date-saved {
+    margin: 0 0 7px 0;
+}
+#saved-pages-area .date-saved .date,
+#subscriptions-area .date-saved .date {
+    font-style: italic;
+}
+
 /* кнопки редактирования для авторизованных пользователей */
 #questions-area .buttons,
 #articles-area .buttons {

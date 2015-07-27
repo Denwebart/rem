@@ -126,11 +126,11 @@
                                         @if(Auth::check())
                                             @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="buttons">
-                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
-                                                        <span class="icon mdi-editor-mode-edit"></span>
-                                                    </a>
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
                                                         <span class="icon mdi-content-clear"></span>
+                                                    </a>
+                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
+                                                        <span class="icon mdi-editor-mode-edit"></span>
                                                     </a>
                                                 </div>
                                             @endif

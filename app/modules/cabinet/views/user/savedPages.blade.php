@@ -44,20 +44,22 @@ View::share('title', $title);
                             @else
                                 <div data-page-id="{{ $page->page_id }}" class="well">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <h3>
-                                                <div class="pull-right">
-                                                    <a href="javascript:void(0)" id="remove-page" data-id="{{ $page->page_id }}">
-                                                        <i class="glyphicon glyphicon-floppy-remove"></i>
-                                                    </a>
-                                                </div>
-                                            </h3>
+                                        <div class="col-md-10">
+                                            <h3></h3>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="buttons">
+                                                <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
+                                                    <i class="icon mdi-content-archive"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="date date-saved">
-                                                <i>
-                                                    Сохранено {{ DateHelper::dateFormat($page->created_at) }}
-                                                </i>
+                                                <div class="date date-saved">
+                                                    <span class="text">Сохранено</span>
+                                                    <span class="date">{{ DateHelper::dateFormat($page->created_at) }}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">

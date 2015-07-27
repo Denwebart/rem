@@ -55,20 +55,20 @@ View::share('title', $title);
                             @else
                                 <div data-page-id="{{ $subscription->page_id }}" class="well">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <h3>
-                                                <div class="pull-right">
-                                                    <a href="javascript:void(0)" class="unsubscribe" data-id="{{ $subscription->page_id }}">
-                                                        Отписаться
-                                                    </a>
-                                                </div>
-                                            </h3>
+                                        <div class="col-md-10">
+                                            <h3></h3>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="buttons">
+                                                <a href="javascript:void(0)" class="pull-right unsubscribe" data-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                    Отписаться
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="date date-saved">
-                                                <i>
-                                                    Сохранено {{ DateHelper::dateFormat($subscription->created_at) }}
-                                                </i>
+                                                <span class="text">Подписка оформлена</span>
+                                                <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-12">

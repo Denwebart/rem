@@ -92,11 +92,11 @@ View::share('title', $title);
                                         @if(Auth::check())
                                             @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="buttons">
-                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
-                                                        <span class="mdi-editor-mode-edit"></span>
-                                                    </a>
                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">
                                                         <span class="mdi-content-clear"></span>
+                                                    </a>
+                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
+                                                        <span class="mdi-editor-mode-edit"></span>
                                                     </a>
                                                 </div>
                                             @endif
@@ -130,6 +130,17 @@ View::share('title', $title);
                                     </div>
 
                                     <div class="col-md-12">
+                                        <div class="category pull-right">
+                                            <div class="text pull-left">
+                                                Категория:
+                                            </div>
+                                            <div class="link pull-left">
+                                                <a href="{{ URL::to($question->parent->getUrl()) }}">
+                                                    {{ $question->parent->getTitle() }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
                                         @if($question->image)
                                             <a href="{{ URL::to($question->getUrl()) }}" class="image">
                                                 {{ $question->getImage(null, ['width' => '200px']) }}
