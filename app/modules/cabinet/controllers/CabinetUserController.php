@@ -783,7 +783,7 @@ class CabinetUserController extends \BaseController
 					//return success message
 					return Response::json(array(
 						'success' => true,
-						'message' => $message->message,
+						'message' => StringHelper::addFancybox($message->message, 'group-message-' . $message->id),
 						'messageId' => $message->id,
 						'messageCreadedAt' => DateHelper::dateForMessage($message->created_at),
 					));

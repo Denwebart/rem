@@ -96,7 +96,7 @@ View::share('title', $title);
                                 <div class="col-md-7 col-md-offset-1">
                                     <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
                                         <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
-                                            {{ $message->message }}
+                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                         </a>
                                     </div>
                                 </div>
@@ -129,3 +129,22 @@ View::share('title', $title);
         </div>
     </div>
 @stop
+
+@section('style')
+    @parent
+
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+@endsection
+
+@section('script')
+    @parent
+
+    <!-- FancyBox2 -->
+    {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
+@endsection

@@ -74,13 +74,13 @@ View::share('title', $title);
                                 @if($user->id == $message->userSender->id)
                                     <div class="col-md-7">
                                         <div class="well">
-                                            {{ $message->message }}
+                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                         </div>
                                     </div>
                                 @else
                                     <div class="col-md-7 col-md-offset-1">
                                         <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                            {{ $message->message }}
+                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                         </div>
                                     </div>
                                 @endif
@@ -119,7 +119,7 @@ View::share('title', $title);
                                 }}
 
                                 <div class="form-group">
-                                    {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
+                                    {{ Form::textarea('message', '', ['class' => 'form-control editor', 'id' => 'message', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
                                     <div id="message_error"></div>
                                 </div>
 
@@ -142,8 +142,36 @@ View::share('title', $title);
     </div>
 @stop
 
+@section('style')
+    @parent
+
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+@endsection
+
 @section('script')
     @parent
+
+    <!-- FancyBox2 -->
+    {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
+
+    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        CKEDITOR.config.toolbar = [
+            {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
+            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
+            {name: 'links', items: ['Link', 'Unlink']},
+            {name: 'image', items: ['Image']},
+            { name: 'smiley', items: ['Smiley']}
+        ];
+        CKEDITOR.replace('message');
+    </script>
+
     @if(Auth::user()->is($user))
         {{-- Отметить сообщение как прочитанное --}}
         <script type="text/javascript">
@@ -182,6 +210,12 @@ View::share('title', $title);
 
             $("#message-form").submit(function(event) {
                 event.preventDefault ? event.preventDefault() : event.returnValue = false;
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].setData('');
+                }
                 var $form = $(this),
                         data = $form.serialize(),
                         url = $form.attr('action');
@@ -203,6 +237,12 @@ View::share('title', $title);
                             $('#successMessage').empty();
                         }
                         if(response.success) {
+                            for (instance in CKEDITOR.instances) {
+                                CKEDITOR.instances[instance].updateElement();
+                            }
+                            for (instance in CKEDITOR.instances) {
+                                CKEDITOR.instances[instance].setData('');
+                            }
                             var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
                                     '<div class="col-md-2">' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +
