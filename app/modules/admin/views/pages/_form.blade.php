@@ -394,8 +394,14 @@
 
     <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script type="text/javascript">
-        CKEDITOR.replaceAll('editor')
+//        CKEDITOR.replaceAll('editor');
+        var csrf = '{{csrf_token()}}' ;
+
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: '{{URL::action("ImageUploadController@postImageUpload", $page->id)}}?_token='+csrf
+        });
     </script>
+
 
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>

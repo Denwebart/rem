@@ -168,9 +168,6 @@
             for (instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
             }
-            for (instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].setData('');
-            }
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
