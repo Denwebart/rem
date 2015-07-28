@@ -9,7 +9,7 @@
                     {{ Form::textarea('value', $setting->value, ['class' => 'form-control']) }}
                     {{ $errors->first('value') }}
                 @else
-                    {{ Form::select('value[]', Page::getContainer(), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
+                    {{ Form::select('value[]', Page::getContainer(true, false), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
                 @endif
             </div>
         </div>

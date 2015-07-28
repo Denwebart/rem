@@ -26,6 +26,9 @@
     <link href="/material/css/ripples.min.css" rel="stylesheet">
     <link href="/material/css/snackbar.min.css" rel="stylesheet">
 
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+
     <style>
         body{padding-top:50px}#banner{border-bottom:none}.page-header h1{font-size:4em}.bs-docs-section{margin-top:8em}.bs-component{position:relative}.bs-component .modal{position:relative;top:auto;right:auto;left:auto;bottom:auto;z-index:1;display:block}.bs-component .modal-dialog{width:90%}.bs-component .popover{position:relative;display:inline-block;width:220px;margin:20px}#source-button{position:absolute;top:0;right:0;z-index:100;font-weight:bold;padding: 5px 10px;}.progress{margin-bottom:10px}footer{margin:5em 0}footer li{float:left;margin-right:1.5em;margin-bottom:1.5em}footer p{clear:left;margin-bottom:0}.splash{padding:4em 0 0;background-color:#141d27;color:#fff;text-align:center}.splash h1{font-size:4em}.splash #social{margin:2em 0}.splash .alert{margin:2em 0}.section-tout{padding:4em 0 3em;border-bottom:1px solid rgba(0,0,0,0.05);background-color:#eaf1f1}.section-tout .fa{margin-right:.5em}.section-tout p{margin-bottom:3em}.section-preview{padding:4em 0 4em}.section-preview .preview{margin-bottom:4em;background-color:#eaf1f1}.section-preview .preview .image{position:relative}.section-preview .preview .image:before{box-shadow:inset 0 0 0 1px rgba(0,0,0,0.1);position:absolute;top:0;left:0;width:100%;height:100%;content:"";pointer-events:none}.section-preview .preview .options{padding:1em 2em 2em;border:1px solid rgba(0,0,0,0.05);border-top:none;text-align:center}.section-preview .preview .options p{margin-bottom:2em}.section-preview .dropdown-menu{text-align:left}.section-preview .lead{margin-bottom:2em}@media (max-width:767px){.section-preview .image img{width:100%}}.sponsor{text-align:center}.sponsor a:hover{text-decoration:none}@media (max-width:767px){#banner{margin-bottom:2em;text-align:center}}
         .infobox .btn-sup { color: rgba(0,0,0,0.5); font-weight: bold; font-size: 15px; line-height: 30px; }
@@ -115,11 +118,12 @@
 @include('footer')
 
 <!-- JS -->
-{{HTML::script('js/jquery-1.10.2.min.js')}}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+{{--{{HTML::script('js/jquery-1.10.2.min.js')}}--}}
 {{HTML::script('js/bootstrap.min.js')}}
 
 <script>
-    (function(){
+    (function() {
 
         var $button = $("<div id='source-button' class='btn btn-primary btn-xs'>&lt; &gt;</div>").click(function(){
             var index =  $('.bs-component').index( $(this).parent() );
@@ -180,6 +184,14 @@
 <script>
     $(function() {
         $.material.init();
+    });
+</script>
+
+<!-- FancyBox2 -->
+{{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".fancybox").fancybox();
     });
 </script>
 

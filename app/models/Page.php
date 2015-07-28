@@ -334,18 +334,24 @@ class Page extends \Eloquent
 
 			$access = Auth::check() ? Advertising::ACCESS_FOR_REGISTERED : Advertising::ACCESS_FOR_GUEST;
 
-			$advertising = Advertising::whereId($id[1])
-			    ->whereIsActive(1)
-				->whereType(Advertising::TYPE_ADVERTISING)
-				->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
-				->get();
-
 			if(Auth::check()) {
 				if(Auth::user()->isAdmin()) {
 					$advertising = Advertising::whereId($id[1])
 						->whereType(Advertising::TYPE_ADVERTISING)
 						->get();
+				} else {
+					$advertising = Advertising::whereId($id[1])
+						->whereIsActive(1)
+						->whereType(Advertising::TYPE_ADVERTISING)
+						->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
+						->get();
 				}
+			} else {
+				$advertising = Advertising::whereId($id[1])
+					->whereIsActive(1)
+					->whereType(Advertising::TYPE_ADVERTISING)
+					->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
+					->get();
 			}
 
 			if(count($advertising)) {
@@ -353,7 +359,7 @@ class Page extends \Eloquent
 			} else {
 				return '';
 			}
-		}, $this->content);
+		}, StringHelper::addFancybox($this->content, 'group-content'));
 		return $result;
 	}
 
@@ -378,7 +384,7 @@ class Page extends \Eloquent
 			: StringHelper::closeTags(Str::limit($this->getContentWithoutWidget(), 500, '...'));
 	}
 
-	public static function getContainer($withChildren = true)
+	public static function getContainer($withChildren = true, $withEmptyField = true)
 	{
 		$categoriesArray = [];
 		foreach (self::whereIsContainer(1)->whereParentId(0)->get() as $page) {
@@ -389,7 +395,7 @@ class Page extends \Eloquent
 				}
 			}
 		}
-		return $categoriesArray;
+		return (($withEmptyField) ? ['0' => 'Нет'] : []) + $categoriesArray;
 	}
 
 	public static function getQuestionsCategory()
@@ -445,12 +451,22 @@ class Page extends \Eloquent
 		} else {
 			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
 		}
-		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->image){
-			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image, $this->image_alt, $options);
+			return HTML::image($this->getImageLink($prefix), $this->image_alt, $options);
 		} else {
+			$prefix = is_null($prefix) ? '' : ($prefix . '_');
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $this->image_alt, $options);
 		}
+	}
+
+	/**
+	 * Получение ссылки на изображение
+	 * @param null $prefix
+	 * @return string
+	 */
+	public function getImageLink($prefix = null) {
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image;
 	}
 
 	/**

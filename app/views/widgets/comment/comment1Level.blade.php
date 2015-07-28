@@ -33,7 +33,9 @@
                 @endif()
             @endif()
         </h4>
-        <div>{{ $comment->comment }}</div>
+        <div>
+            {{ StringHelper::addFancybox($comment->comment, 'group-comment-' . $comment->id) }}
+        </div>
 
         @include('widgets.comment.vote', ['isBannedIp' => $isBannedIp,])
 

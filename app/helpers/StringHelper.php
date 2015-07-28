@@ -152,4 +152,23 @@ class StringHelper
 		return mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding)
 		. mb_substr($str, 1, null, $encoding);
 	}
+
+	/**
+	 * Добавление Fancybox к изображениям в тексте.
+	 *
+	 * @param $html
+	 * @return mixed
+	 */
+	public static function addFancybox($html, $group = false)
+	{
+		return preg_replace_callback('/(<img(.+?)src="(.*?)"(.+?)>)/iu', function($image) use($group) {
+			$group = ($group) ? 'rel="'. $group .'"' : '';
+			if(!strpos($image[3], '/js/ckeditor/plugins/smiley/')) {
+				return '<a href="' . $image[3] . '" class="fancybox" '. $group .'>' . $image[0] . '</a>';
+			} else {
+				return $image[0];
+			}
+		}, $html);
+	}
+
 }

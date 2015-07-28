@@ -95,10 +95,19 @@ class UserImage extends \Eloquent
 		} else {
 			$options['class'] = 'img-responsive';
 		}
-		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->image){
-			return HTML::image('/uploads/' . $this->table . '/' . $this->user->login . '/' . $prefix . $this->image, trim(strip_tags($this->description)), $options);
+			return HTML::image($this->getImageLink($prefix), trim(strip_tags($this->description)), $options);
 		}
+	}
+
+	/**
+	 * Получение ссылки на изображение
+	 * @param null $prefix
+	 * @return string
+	 */
+	public function getImageLink($prefix = null) {
+		$prefix = is_null($prefix) ? '' : ($prefix . '_');
+		return '/uploads/' . $this->table . '/' . $this->user->login . '/' . $prefix . $this->image;
 	}
 
 	/**

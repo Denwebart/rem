@@ -24,6 +24,11 @@ View::share('areaWidget', $areaWidget);
                 <h2>{{ $title }}</h2>
 
                 @if($page->content)
+                    @if($page->image)
+                        <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                            {{ $page->getImage() }}
+                        </a>
+                    @endif
                     <div class="content">
                         {{ $page->getContentWithWidget() }}
                     </div>

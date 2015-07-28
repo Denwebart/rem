@@ -33,7 +33,9 @@ View::share('title', $title);
                             @foreach($images as $image)
                                 <div class="item row" data-image-id="{{ $image->id }}">
                                     <div class="col-md-5">
-                                        {{ $image->getImage() }}
+                                        <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
+                                            {{ $image->getImage() }}
+                                        </a>
                                     </div>
                                     <div class="col-md-7">
                                         <a href="javascript:void(0)" class="btn btn-danger delete-photo" data-id="{{ $image->id }}">Удалить</a>
@@ -118,8 +120,23 @@ View::share('title', $title);
     </div>
 @stop
 
+@section('style')
+    @parent
+
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+@endsection
+
 @section('script')
     @parent
+
+    <!-- FancyBox2 -->
+    {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
 
     <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script type="text/javascript">
