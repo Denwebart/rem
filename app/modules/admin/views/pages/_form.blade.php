@@ -343,6 +343,7 @@
             <div class="form-group @if($errors->has('content')) has-error @endif">
                 {{ Form::label('content', 'Контент') }}
                 {{ Form::textarea('content', $page->content, ['class' => 'form-control editor']) }}
+
                 @if($errors->has('content'))
                     <small class="help-block">
                         {{ $errors->first('content') }}
@@ -364,6 +365,65 @@
 
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
     <script src="/js/jquery-ui.min.js"></script>
+
+    <!-- TinyMCE -->
+    {{ Html::script('js/tinymce/tinymce.min.js') }}
+    {{--<script type="text/javascript">--}}
+
+        {{--function elFinderBrowser (field_name, url, type, win) {--}}
+            {{--tinymce.activeEditor.windowManager.open({--}}
+                {{--file: '/elfinder/tinymce',--}}
+                {{--title: 'elFinder 2.0',--}}
+                {{--width: 900,--}}
+                {{--height: 450,--}}
+                {{--resizable: 'yes'--}}
+            {{--}, {--}}
+                {{--setUrl: function (url) {--}}
+                    {{--win.document.getElementById(field_name).value = url;--}}
+                {{--}--}}
+            {{--});--}}
+            {{--return false;--}}
+        {{--}--}}
+
+        {{--tinymce.init({--}}
+            {{--plugins: [--}}
+                {{--"advlist autolink lists link image charmap print preview hr anchor pagebreak",--}}
+                {{--"searchreplace wordcount visualblocks visualchars code fullscreen",--}}
+                {{--"insertdatetime media nonbreaking save table contextmenu directionality",--}}
+                {{--"emoticons template paste textcolor colorpicker textpattern imagetools"--}}
+            {{--],--}}
+            {{--toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",--}}
+            {{--toolbar2: "print preview media | forecolor backcolor emoticons",--}}
+            {{--image_advtab: true,--}}
+            {{--language: 'ru',--}}
+            {{--selector: ".editor",--}}
+            {{--file_browser_callback : elFinderBrowser--}}
+        {{--});--}}
+    {{--</script>--}}
+
+
+    <script type="text/javascript">
+        tinymce.init({
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern imagetools"
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
+            language: 'ru',
+            selector: ".editor",
+
+            file_browser_callback : function elFinderBrowser (field_name, url, type, win) {
+
+            }
+        });
+    </script>
+
+
+
 @stop
 
 @section('script')
@@ -392,15 +452,8 @@
         });
     </script>
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-//        CKEDITOR.replaceAll('editor');
-        var csrf = '{{csrf_token()}}' ;
 
-        CKEDITOR.replace('content', {
-            filebrowserUploadUrl: '{{URL::action("ImageUploadController@postImageUpload", $page->id)}}?_token='+csrf
-        });
-    </script>
+
 
 
     <!-- iCheck -->

@@ -4,7 +4,9 @@
 			{{ $menuWidget->bottomMenu() }}
 		</div>
 		<div class="col-md-12">
-			{{ $settings['copyright']['value'] }}
+            @if(isset($settings))
+                {{ $settings['copyright']['value'] }}
+            @endif
 		</div>
 	</div>
 </footer>

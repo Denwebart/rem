@@ -2,10 +2,14 @@
 
 Route::pattern('alias', '[A-Za-z0-9-_]+');
 
+Route::get('elfinder', 'Barryvdh\Elfinder\ElfinderController@showIndex');
+Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
+Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
+
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
+
 	Route::get('/', 'AdminController@index');
-	Route::post('postImageUpload/{pageId}', ['before' => 'csrf', 'uses' => 'ImageUploadController@postImageUpload']);
 	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
 	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@checkRelated']);

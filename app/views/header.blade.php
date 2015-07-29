@@ -13,10 +13,14 @@
                     <div class="col-md-7">
                         <div id="site-title">
                             <h1>
-                                {{ $settings['siteTitle']['value'] }}
+                                @if(isset($settings))
+                                    {{ $settings['siteTitle']['value'] }}
+                                @endif
                                 <br>
                                 <span class="slogan">
-                                    {{ $settings['siteSlogan']['value'] }}
+                                    @if(isset($settings))
+                                        {{ $settings['siteSlogan']['value'] }}
+                                    @endif
                                 </span>
                             </h1>
                         </div>

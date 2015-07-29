@@ -9,7 +9,9 @@
 	  	"doctrine/dbal": "~2.3",
 	    "anhskohbo/no-captcha": "1.*",
 		"intervention/image": "~2.1",
-	    "thujohn/rss": "~1.0"
+	    "thujohn/rss": "~1.0",
+        "illuminate/support": "4.x",
+        "barryvdh/laravel-elfinder": "0.2"
 	},
 	"require-dev": {
 	  "way/generators": "~2.0",
@@ -37,6 +39,7 @@
 		"post-update-cmd": [
 		  "php artisan clear-compiled",
 		  "php artisan ide-helper:generate",
+          "php artisan elfinder:publish",
 		  "php artisan optimize"
 		],
 		"post-create-project-cmd": [
