@@ -6,6 +6,9 @@ Route::get('elfinder', 'Barryvdh\Elfinder\ElfinderController@showIndex');
 Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
 Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
 
+Route::get('uploadImage', 'ImageUploadController@getImageUpload');
+Route::post('postUploadImage/{pageId}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
+
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 

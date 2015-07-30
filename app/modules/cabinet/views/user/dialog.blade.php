@@ -118,14 +118,18 @@ View::share('title', $title);
                                     ])
                                 }}
 
-                                <div class="form-group">
-                                    {{ Form::textarea('message', '', ['class' => 'form-control editor', 'id' => 'message', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
-                                    <div id="message_error"></div>
-                                </div>
+                                    <div class="form-group">
+                                        {{ Form::textarea('message', '', ['class' => 'form-control editor', 'id' => 'message', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
+                                        <div id="message_error"></div>
+                                    </div>
 
-                                {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                                    <!-- TinyMCE image -->
+                                    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
-                                {{ Form::hidden('_token', csrf_token()) }}
+                                    {{ Form::hidden('_token', csrf_token()) }}
+
+                                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+
                                 {{ Form::close() }}
 
                             </div>
@@ -147,6 +151,10 @@ View::share('title', $title);
 
     <!-- FancyBox2 -->
     <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', ['page' => $message])
 @endsection
 
 @section('script')
@@ -158,18 +166,6 @@ View::share('title', $title);
         $(document).ready(function() {
             $(".fancybox").fancybox();
         });
-    </script>
-
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.config.toolbar = [
-            {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
-            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
-            {name: 'links', items: ['Link', 'Unlink']},
-            {name: 'image', items: ['Image']},
-            { name: 'smiley', items: ['Smiley']}
-        ];
-        CKEDITOR.replace('message');
     </script>
 
     @if(Auth::user()->is($user))

@@ -351,6 +351,9 @@
                 @endif
             </div>
 
+            <!-- TinyMCE image -->
+            {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
             {{ Form::hidden('backUrl', $backUrl) }}
 
             {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
@@ -367,63 +370,8 @@
     <script src="/js/jquery-ui.min.js"></script>
 
     <!-- TinyMCE -->
-    {{ Html::script('js/tinymce/tinymce.min.js') }}
-    {{--<script type="text/javascript">--}}
-
-        {{--function elFinderBrowser (field_name, url, type, win) {--}}
-            {{--tinymce.activeEditor.windowManager.open({--}}
-                {{--file: '/elfinder/tinymce',--}}
-                {{--title: 'elFinder 2.0',--}}
-                {{--width: 900,--}}
-                {{--height: 450,--}}
-                {{--resizable: 'yes'--}}
-            {{--}, {--}}
-                {{--setUrl: function (url) {--}}
-                    {{--win.document.getElementById(field_name).value = url;--}}
-                {{--}--}}
-            {{--});--}}
-            {{--return false;--}}
-        {{--}--}}
-
-        {{--tinymce.init({--}}
-            {{--plugins: [--}}
-                {{--"advlist autolink lists link image charmap print preview hr anchor pagebreak",--}}
-                {{--"searchreplace wordcount visualblocks visualchars code fullscreen",--}}
-                {{--"insertdatetime media nonbreaking save table contextmenu directionality",--}}
-                {{--"emoticons template paste textcolor colorpicker textpattern imagetools"--}}
-            {{--],--}}
-            {{--toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",--}}
-            {{--toolbar2: "print preview media | forecolor backcolor emoticons",--}}
-            {{--image_advtab: true,--}}
-            {{--language: 'ru',--}}
-            {{--selector: ".editor",--}}
-            {{--file_browser_callback : elFinderBrowser--}}
-        {{--});--}}
-    {{--</script>--}}
-
-
-    <script type="text/javascript">
-        tinymce.init({
-            plugins: [
-                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor colorpicker textpattern imagetools"
-            ],
-            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            toolbar2: "print preview media | forecolor backcolor emoticons",
-            image_advtab: true,
-            language: 'ru',
-            selector: ".editor",
-
-            file_browser_callback : function elFinderBrowser (field_name, url, type, win) {
-
-            }
-        });
-    </script>
-
-
-
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('admin::tinymce-init', ['page' => $page])
 @stop
 
 @section('script')
@@ -451,10 +399,6 @@
             $("#published_at_time").text("<?php echo Config::get('settings.defaultPublishedTime')?>");
         });
     </script>
-
-
-
-
 
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>

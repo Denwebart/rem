@@ -4,72 +4,54 @@ class ImageUploadController extends BaseController
 {
 	public function postImageUpload($pageId)
 	{
-		$input = Input::all();
+		if(Request::ajax()) {
 
-		$rules = [
-			'upload' => 'image|max:15000|required',
-		];
+			$data = Input::all();
 
-		$validation = Validator::make($input, $rules);
+			$rules = [
+				'image' => 'image|max:15000|required',
+			];
 
-		if ($validation->fails())
-		{
-			return Response::make($validation->messages(), 400);
-		}
+			$validation = Validator::make($data, $rules);
 
-		$file = Input::file('upload');
+			if ($validation->fails())
+			{
+				return Response::json(array(
+					'fail' => true,
+					'errors' => $validation->getMessageBag()->toArray(),
+				));
+			}
 
-		$fileName = TranslitHelper::generateFileName($file->getClientOriginalName());
+			$file = $data['image'];
 
-		$imagePath = public_path() . '/uploads/' . (new Page)->getTable() . '/' . $pageId . '/';
-		$image = Image::make($file->getRealPath());
-		File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
+			$fileName = TranslitHelper::generateFileName($file->getClientOriginalName());
 
-		if($image->width() < 300) {
-			$watermark = 'images/watermark-300.png';
-		} elseif($image->width() < 500) {
-			$watermark = 'images/watermark-500.png';
-		} elseif($image->width() > 1000) {
-			$watermark = 'images/watermark-1000.png';
-		} elseif($image->width() > 1500) {
-			$watermark = 'images/watermark-1500.png';
-		} else {
-			$watermark = 'images/watermark.png';
-		}
+			$imagePath = public_path() . '/uploads/' . (new Page)->getTable() . '/' . $pageId . '/';
+			$image = Image::make($file->getRealPath());
+			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
-		if($image->width() > 225) {
+			if($image->width() < 300) {
+				$watermark = 'images/watermark-300.png';
+			} elseif($image->width() < 500) {
+				$watermark = 'images/watermark-500.png';
+			} elseif($image->width() > 1000) {
+				$watermark = 'images/watermark-1000.png';
+			} elseif($image->width() > 1500) {
+				$watermark = 'images/watermark-1500.png';
+			} else {
+				$watermark = 'images/watermark.png';
+			}
+
 			$image->insert(public_path($watermark), 'center')
-				->save($imagePath . 'origin_' . $fileName)
-				->resize(225, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})
 				->save($imagePath . $fileName);
-		} else {
-			$image->insert(public_path($watermark))
-				->save($imagePath . $fileName);
+
+			$imageUrl = URL::to('/uploads/' . (new Page)->getTable() . '/' . $pageId . '/' . $fileName);
+
+			return Response::json(array(
+				'success' => true,
+				'imageUrl' => $imageUrl
+			));
 		}
-		$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 
-		$image->crop($cropSize, $cropSize)
-			->resize(50, null, function ($constraint) {
-				$constraint->aspectRatio();
-			})->save($imagePath . 'mini_' . $fileName);
-
-		return public_path() . '/uploads/' . (new Page)->getTable() . '/' . $pageId . '/' . $fileName;
-
-//		dd($file->getClientOriginalName());
-
-//		$pageId->gallery->addPhoto($file); //saving file to server and path to DB
-//		return URL::to($pageId->gallery->path.'/'.$file->getClientOriginalName());
 	}
 }
-
-//<script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-//    <script type="text/javascript">
-////        CKEDITOR.replaceAll('editor');
-//        var csrf = '{{csrf_token()}}' ;
-//
-//        CKEDITOR.replace('content', {
-//            filebrowserUploadUrl: '{{URL::action("ImageUploadController@postImageUpload", $page->id)}}?_token='+csrf
-//        });
-//    </script>

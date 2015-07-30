@@ -72,11 +72,7 @@ View::share('title', $title);
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи по тегу', 'pages') }}
                                 </th>
-                                <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.tags.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
-                                </th>
+                                <th class="button-column"></th>
                             </tr>
                         </thead>
                         <tbody>

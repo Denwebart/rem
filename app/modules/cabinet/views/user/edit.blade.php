@@ -14,31 +14,6 @@ View::share('title', $title);
 
                 @if($user->avatar)
                     <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
-                @section('script')
-                    @parent
-
-                    <script type="text/javascript">
-                        $('#delete-avatar').click(function(){
-                            if(confirm('Вы уверены, что хотите удалить изображение?')) {
-                                $.ajax({
-                                    url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
-                                    dataType: "text json",
-                                    type: "POST",
-                                    data: {field: 'avatar'},
-                                    beforeSend: function(request) {
-                                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                                    },
-                                    success: function(response) {
-                                        if(response.success){
-                                            $('#delete-avatar').css('display', 'none');
-                                            $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
-                                        }
-                                    }
-                                });
-                            }
-                        });
-                    </script>
-                @stop
                 @endif
             </div>
             <div class="form-group">
@@ -121,32 +96,30 @@ View::share('title', $title);
                     </div>
                     <div class="form-group">
                         {{ Form::label('description', 'О себе') }}
-                        {{ Form::textarea('description', $user->description, ['class' => 'form-control']) }}
+                        {{ Form::textarea('description', $user->description, ['class' => 'form-control editor']) }}
                         {{ $errors->first('description') }}
                     </div>
                     {{ Form::hidden('_token', csrf_token()) }}
                 </div>
             </div>
         </div>
+
+        <!-- TinyMCE image -->
+        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
     {{ Form::close() }}
+@endsection
+
+@section('style')
+    @parent
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', ['page' => $user])
 @stop
 
 @section('script')
     @parent
-
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('description', {
-            toolbar: [
-                [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
-                { name: 'links', items: [ 'Link', 'Unlink'] },
-                { name: 'image', items: ['Image']},
-                { name: 'smiley', items: ['Smiley']}
-            ]
-        })
-    </script>
 
     <!-- File Input -->
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
@@ -157,6 +130,29 @@ View::share('title', $title);
             var file = this.files[0];
             if (file.size > 5242880) {
                 $(this).parent().parent().append('Недопустимый размер файла.');
+            }
+        });
+    </script>
+
+    <!-- Delete Avatar -->
+    <script type="text/javascript">
+        $('#delete-avatar').click(function(){
+            if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                $.ajax({
+                    url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {field: 'avatar'},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#delete-avatar').css('display', 'none');
+                            $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                        }
+                    }
+                });
             }
         });
     </script>

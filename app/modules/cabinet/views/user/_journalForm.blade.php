@@ -81,6 +81,9 @@
         </div>
     </div>
 
+    <!-- TinyMCE image -->
+    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
 	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 	<a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
 </div>
@@ -89,23 +92,14 @@
     @parent
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
     <script src="/js/jquery-ui.min.js"></script>
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', ['page' => $article])
 @endsection
 
 @section('script')
     @parent
-
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('content', {
-            toolbar: [
-                [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
-                { name: 'links', items: [ 'Link', 'Unlink'] },
-                { name: 'smiley', items: ['Smiley']}
-            ]
-        })
-    </script>
 
     <script type="text/javascript">
         $(document).ready(function() {

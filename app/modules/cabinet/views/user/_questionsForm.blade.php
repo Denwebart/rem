@@ -56,25 +56,23 @@
 		{{ $errors->first('content') }}
 	</div>
 
+    <!-- TinyMCE image -->
+    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
 	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 	<a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
 </div>
 
+@section('style')
+    @parent
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', ['page' => $question])
+@stop
+
 @section('script')
 	@parent
-
-	<script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		CKEDITOR.replace('content', {
-			toolbar: [
-				[ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ],
-				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-				{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript' ] },
-				{ name: 'links', items: [ 'Link', 'Unlink'] },
-				{ name: 'smiley', items: ['Smiley']}
-			]
-		})
-	</script>
 
 	<!-- File Input -->
 	<script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>

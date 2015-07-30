@@ -59,7 +59,7 @@
         <div class="box-title"></div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::textarea('description', $honor->description, ['class' => 'form-control']) }}
+                {{ Form::textarea('description', $honor->description, ['class' => 'form-control editor']) }}
                 {{ $errors->first('description') }}
             </div>
         </div>
@@ -67,17 +67,23 @@
 </div>
 
 <div class="col-md-12">
+    <!-- TinyMCE image -->
+    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ URL::route('admin.honors.index') }}" class="btn btn-primary">Отмена</a>
 </div>
 
-@section('script')
+@section('style')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('description')
-    </script>
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('admin::tinymce-init', ['page' => $honor])
+@stop
+
+@section('script')
+    @parent
 
     <!-- File Input -->
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>

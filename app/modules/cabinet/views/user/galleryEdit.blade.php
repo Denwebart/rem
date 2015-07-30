@@ -49,7 +49,7 @@ View::share('title', $title);
 
                             <div class="form-group">
                                 {{ Form::label('description', 'Описание изображения') }}
-                                {{ Form::textarea('description', $image->description, ['class' => 'form-control']) }}
+                                {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
                                 {{ $errors->first('description') }}
                             </div>
 
@@ -58,28 +58,28 @@ View::share('title', $title);
                             </div>
                         </div>
                     </div>
-                    {{ Form::hidden('_token', csrf_token()) }}
-                {{ Form::close() }}
 
+                    <!-- TinyMCE image -->
+                    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
+                    {{ Form::hidden('_token', csrf_token()) }}
+
+                {{ Form::close() }}
             </div>
         </div>
     </div>
 @stop
 
-@section('script')
+@section('style')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('description', {
-            toolbar: [
-                {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
-                {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
-                {name: 'links', items: ['Link', 'Unlink']},
-                { name: 'smiley', items: ['Smiley']}
-            ]
-        })
-    </script>
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', ['page' => $image])
+@stop
+
+@section('script')
+    @parent
 
     <!-- File Input -->
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
