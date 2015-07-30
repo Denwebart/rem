@@ -123,41 +123,43 @@
                     @endsection
                     <div class="g-recaptcha-response_error error text-danger"></div>
 
-                    {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
                     {{ Form::hidden('_token', csrf_token()) }}
+
+                    {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
                 {{ Form::close() }}
             @endif
         @else
             @include('messages.bannedIp')
         @endif
+
+        <!-- TinyMCE image -->
+        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
     </div>
     <!-- end of .comment-form -->
 </section> <!-- end of .comments-area -->
 
+@section('style')
+    @parent
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('tinymce-init', [
+        'page' => $page,
+        'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'
+    ])
+@stop
+
 @section('script')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.config.toolbar = [
-            {name: 'paragraph', items: ['NumberedList', 'BulletedList']},
-            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike']},
-            {name: 'links', items: ['Link', 'Unlink']},
-            {name: 'image', items: ['Image']},
-            { name: 'smiley', items: ['Smiley']}
-        ];
-        CKEDITOR.replaceAll('editor');
-    </script>
-
     <!-- captcha -->
-    <!--->
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit" async defer></script>
     <script>
         var onloadCaptcha = function() {
            @yield('captcha')
         };
     </script>
-    <!-->
     <!-- captcha -->
 
     <script type="text/javascript">

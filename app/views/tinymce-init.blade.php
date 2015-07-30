@@ -1,3 +1,8 @@
+<?php
+    if(!isset($toolbar)) {
+        $toolbar = 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image media emoticons | print preview';
+    }
+?>
 <script type="text/javascript">
     tinymce.init({
         plugins: [
@@ -7,7 +12,7 @@
             "emoticons template paste textcolor colorpicker textpattern imagetools"
         ],
         menubar:false,
-        toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image media emoticons | print preview",
+        toolbar1: "<?php echo $toolbar ?>",
         language: 'ru',
         selector: ".editor",
         file_browser_callback : function (field_name, url, type, win) {

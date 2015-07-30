@@ -26,7 +26,7 @@ class ImageUploadController extends BaseController
 
 			$fileName = TranslitHelper::generateFileName($file->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . (new Page)->getTable() . '/' . $pageId . '/';
+			$imagePath = public_path() . '/uploads/' . (new Page)->getTable() . '/' . $pageId . '/editor/';
 			$image = Image::make($file->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
@@ -45,7 +45,7 @@ class ImageUploadController extends BaseController
 			$image->insert(public_path($watermark), 'center')
 				->save($imagePath . $fileName);
 
-			$imageUrl = URL::to('/uploads/' . (new Page)->getTable() . '/' . $pageId . '/' . $fileName);
+			$imageUrl = URL::to('/uploads/' . (new Page)->getTable() . '/' . $pageId . '/editor/' . $fileName);
 
 			return Response::json(array(
 				'success' => true,

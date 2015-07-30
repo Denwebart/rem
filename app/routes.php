@@ -2,13 +2,6 @@
 
 Route::pattern('alias', '[A-Za-z0-9-_]+');
 
-Route::get('elfinder', 'Barryvdh\Elfinder\ElfinderController@showIndex');
-Route::any('elfinder/connector', 'Barryvdh\Elfinder\ElfinderController@showConnector');
-Route::get('elfinder/tinymce', 'Barryvdh\Elfinder\ElfinderController@showTinyMCE4');
-
-Route::get('uploadImage', 'ImageUploadController@getImageUpload');
-Route::post('postUploadImage/{pageId}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
-
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 
@@ -128,8 +121,10 @@ Route::controller('password', 'RemindersController');
 Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@getRules'])->where('rulesAlias', 'rules');
 Route::post('rules_request', ['as' => 'postRules', 'before' => ['csrf', 'authInCabinet'], 'uses' => 'UsersController@postRules']);
 
-/* Фронт */
+/* Загрузка изображений TinyMCE */
+Route::post('postUploadImage/{pageId}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
 
+/* Фронт */
 Route::get('/', 'SiteController@index');
 
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
