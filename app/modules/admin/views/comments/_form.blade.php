@@ -16,7 +16,7 @@
         </div>
         <div class="box-body">
             <div class="form-group">
-                {{ Form::textarea('comment', $comment->comment, ['class' => 'form-control']) }}
+                {{ Form::textarea('comment', $comment->comment, ['class' => 'form-control editor']) }}
                 {{ $errors->first('comment') }}
             </div>
         </div>
@@ -47,17 +47,23 @@
 </div>
 
 <div class="col-md-12">
+    <!-- TinyMCE image -->
+    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ URL::route('admin.comments.index') }}" class="btn btn-primary">Отмена</a>
 </div>
 
-@section('script')
+@section('style')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('comment')
-    </script>
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('admin::tinymce-init', ['page' => $comment])
+@stop
+
+@section('script')
+    @parent
 
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>

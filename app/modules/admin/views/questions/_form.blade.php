@@ -221,6 +221,9 @@
                 {{ $errors->first('content') }}
             </div>
 
+            <!-- TinyMCE image -->
+            {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
             {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
             <a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">Отмена</a>
         </div>
@@ -233,6 +236,10 @@
 
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
     <script src="/js/jquery-ui.min.js"></script>
+
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('admin::tinymce-init', ['page' => $page])
 @stop
 
 @section('script')
@@ -259,11 +266,6 @@
         }).on('changeDate', function(ev){
             $("#published_at_time").text("<?php echo Config::get('settings.defaultPublishedTime')?>");
         });
-    </script>
-
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replaceAll('editor')
     </script>
 
     <!-- iCheck -->

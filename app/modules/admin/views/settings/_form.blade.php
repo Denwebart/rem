@@ -47,11 +47,6 @@
 @section('script')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('comment')
-    </script>
-
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
     <script type="text/javascript">

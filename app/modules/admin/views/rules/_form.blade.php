@@ -12,7 +12,7 @@
 
             <div class="form-group">
                 {{ Form::label('description', 'Текст правила') }}
-                {{ Form::textarea('description', $rule->description, ['class' => 'form-control']) }}
+                {{ Form::textarea('description', $rule->description, ['class' => 'form-control editor']) }}
                 {{ $errors->first('description') }}
             </div>
         </div>
@@ -47,17 +47,23 @@
 </div>
 
 <div class="col-md-12">
+    <!-- TinyMCE image -->
+    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">Отмена</a>
 </div>
 
-@section('script')
+@section('style')
     @parent
 
-    <script src="/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('description')
-    </script>
+    <!-- TinyMCE -->
+    {{ HTML::script('js/tinymce/tinymce.min.js') }}
+    @include('admin::tinymce-init', ['page' => $rule])
+@stop
+
+@section('script')
+    @parent
 
     <!-- iCheck -->
     <script src="/backend/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
@@ -69,5 +75,4 @@
             });
         });
     </script>
-
 @stop
