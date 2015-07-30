@@ -220,15 +220,7 @@ class AdminPagesController extends \BaseController {
 		if(Request::ajax())
 		{
 			$page = Page::findOrFail($id);
-			$imageDirectory = public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/';
-
-			// delete old image with directory
-			if(File::exists($imageDirectory)) {
-				File::deleteDirectory($imageDirectory);
-			}
-
-			$page->image = null;
-			$page->save();
+			$page->deleteImage();
 
 			return Response::json([
 				'success' => true,

@@ -141,6 +141,7 @@ class Page extends \Eloquent
 		{
 			// удаление похожих при удалении
 			$page->relatedPages()->delete();
+			//удаление папки с изображениями
 			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
 		});
 
@@ -486,15 +487,7 @@ class Page extends \Eloquent
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			// delete old image
-			if(File::exists($imagePath . $this->image)) {
-				File::delete($imagePath . $this->image);
-			}
-			if(File::exists($imagePath . 'origin_' . $this->image)){
-				File::delete($imagePath . 'origin_' . $this->image);
-			}
-			if(File::exists($imagePath . 'mini_' . $this->image)){
-				File::delete($imagePath . 'mini_' . $this->image);
-			}
+			$this->deleteImage();
 
 			if($image->width() < 300) {
 				$watermark = 'images/watermark-300.png';
@@ -530,6 +523,28 @@ class Page extends \Eloquent
 		} else {
 			return $this->image;
 		}
+	}
+
+	/**
+	 * Удаление изображения
+	 */
+	public function deleteImage()
+	{
+		$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->id . '/';
+
+		// delete old image
+		if(File::exists($imagePath . $this->image)) {
+			File::delete($imagePath . $this->image);
+		}
+		if(File::exists($imagePath . 'origin_' . $this->image)){
+			File::delete($imagePath . 'origin_' . $this->image);
+		}
+		if(File::exists($imagePath . 'mini_' . $this->image)){
+			File::delete($imagePath . 'mini_' . $this->image);
+		}
+
+		$this->image = null;
+		$this->save();
 	}
 
 }
