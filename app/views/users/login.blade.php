@@ -32,16 +32,20 @@ View::share('title', $title);
                         {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'autofocus'=>'autofocus']); }}
                         @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
                     </div>
-
                     <div class="form-group">
                         {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*']); }}
                         @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
                     </div>
-
                     <div class="checkbox">
                         <label>
                             {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }} Запомнить меня
                         </label>
+                    </div>
+                    <div class="form-group">
+                        {{ Form::captcha() }}
+                        @if ($errors->has('g-recaptcha-response'))
+                            <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+                        @endif
                     </div>
 
                     <div class="form-group">

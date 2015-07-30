@@ -32,6 +32,12 @@ View::share('title', $title);
                             @if ($errors->has('password_confirmation')) <p class="text-danger">{{ $errors->first('password_confirmation') }}</p> @endif
                         </div>
                         <div class="form-group">
+                            {{ Form::captcha() }}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+                            @endif
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-5 col-sm-offset-2">
                                 {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
                             </div>

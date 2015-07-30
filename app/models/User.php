@@ -129,11 +129,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'email'       => 'required|email|unique:users|max:150',
 			'login'       => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
 			'password'    => 'required|confirmed|min:6|max:100',
+			'g-recaptcha-response' => 'required|captcha'
 		],
 		'login' => [
 			'login'       => 'required_without_all:email',
 			'email'       => 'required_without_all:login|email',
 			'password'    => 'required',
+			'g-recaptcha-response' => 'required|captcha'
 		],
 		'create' => [
 			'password'    => 'required|confirmed|min:6|max:100',
