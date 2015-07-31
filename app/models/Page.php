@@ -547,4 +547,22 @@ class Page extends \Eloquent
 		$this->save();
 	}
 
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/editor/';
+	}
+
+	/**
+	 * Получение пути для загрузки изображения для комментариев через редактор
+	 *
+	 * @return string
+	 */
+	public function getCommentImagePath() {
+		return '/uploads/' . (new Comment)->getTable() . '/page-' . $this->id . '/';
+	}
+
 }

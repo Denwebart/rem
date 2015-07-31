@@ -142,4 +142,13 @@ class UserImage extends \Eloquent
 		}
 	}
 
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->user->login . '/editor/';
+	}
+
 }

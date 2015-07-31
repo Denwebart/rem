@@ -131,4 +131,14 @@ class Honor extends \Eloquent
 			return $this->image;
 		}
 	}
+
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/editor/';
+	}
+
 }

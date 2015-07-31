@@ -154,7 +154,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['page' => $message])
+    @include('tinymce-init', ['imagePath' => $user->getMessageImagePath()])
 @endsection
 
 @section('script')
@@ -206,12 +206,6 @@ View::share('title', $title);
 
             $("#message-form").submit(function(event) {
                 event.preventDefault ? event.preventDefault() : event.returnValue = false;
-                for (instance in CKEDITOR.instances) {
-                    CKEDITOR.instances[instance].updateElement();
-                }
-                for (instance in CKEDITOR.instances) {
-                    CKEDITOR.instances[instance].setData('');
-                }
                 var $form = $(this),
                         data = $form.serialize(),
                         url = $form.attr('action');
@@ -233,12 +227,6 @@ View::share('title', $title);
                             $('#successMessage').empty();
                         }
                         if(response.success) {
-                            for (instance in CKEDITOR.instances) {
-                                CKEDITOR.instances[instance].updateElement();
-                            }
-                            for (instance in CKEDITOR.instances) {
-                                CKEDITOR.instances[instance].setData('');
-                            }
                             var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
                                     '<div class="col-md-2">' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +

@@ -95,7 +95,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['page' => $article])
+    @include('tinymce-init', ['imagePath' => $page->getImageEditorPath()])
 @endsection
 
 @section('script')

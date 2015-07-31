@@ -381,6 +381,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->login . '/editor/';
+	}
+
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getMessageImagePath() {
+		return '/uploads/' . (new Message)->getTable() . '/' . $this->login . '/';
+	}
+
+	/**
 	 * Ip-адреса пользователя
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -133,7 +133,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['page' => $image])
+    @include('tinymce-init', ['imagePath' => '/uploads/' . (new UserImage)->getTable() . '/' . $user->login . '/editor/'])
 @endsection
 
 @section('script')

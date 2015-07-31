@@ -21,7 +21,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('postUploadImage', ['pageId' => $page->id]) ?>',
+                    url: '<?php echo URL::route('postUploadImage', ['path' => urlencode($imagePath)]) ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,

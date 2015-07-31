@@ -18,4 +18,12 @@ class Rule extends \Eloquent
 		'description' => 'required|max:2000',
 	];
 
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/editor/';
+	}
 }

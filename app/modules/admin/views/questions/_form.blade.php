@@ -239,7 +239,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['page' => $page])
+    @include('admin::tinymce-init', ['imagePath' => $page->getImageEditorPath()])
 @stop
 
 @section('script')

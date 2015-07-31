@@ -59,7 +59,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['page' => $comment])
+    @include('admin::tinymce-init', ['imagePath' => $comment->page->getCommentImagePath()])
 @stop
 
 @section('script')

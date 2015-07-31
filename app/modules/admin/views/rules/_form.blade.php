@@ -59,7 +59,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['page' => $rule])
+    @include('admin::tinymce-init', ['imagePath' => $rule->getImageEditorPath()])
 @stop
 
 @section('script')

@@ -79,7 +79,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['page' => $honor])
+    @include('admin::tinymce-init', ['imagePath' => $honor->getImageEditorPath()])
 @stop
 
 @section('script')

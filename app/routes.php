@@ -122,7 +122,7 @@ Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@get
 Route::post('rules_request', ['as' => 'postRules', 'before' => ['csrf', 'authInCabinet'], 'uses' => 'UsersController@postRules']);
 
 /* Загрузка изображений TinyMCE */
-Route::post('postUploadImage/{pageId}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
+Route::post('postUploadImage/{path}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
 
 /* Фронт */
 Route::get('/', 'SiteController@index');

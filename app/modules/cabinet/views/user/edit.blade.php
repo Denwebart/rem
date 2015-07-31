@@ -115,7 +115,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['page' => $user])
+    @include('tinymce-init', ['imagePath' => $user->getImageEditorPath()])
 @stop
 
 @section('script')

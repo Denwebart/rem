@@ -145,7 +145,7 @@
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', [
-        'page' => $page,
+        'imagePath' => $page->getCommentImagePath(),
         'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'
     ])
 @stop
@@ -167,9 +167,6 @@
         // Отправка комментария
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
-            for (instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].updateElement();
-            }
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
@@ -199,12 +196,6 @@
                         $form.find('.successMessage').html(successContent);
                         $form.trigger('reset');
                         $form.find('.error').empty();
-                        for (instance in CKEDITOR.instances) {
-                            CKEDITOR.instances[instance].updateElement();
-                        }
-                        for (instance in CKEDITOR.instances) {
-                            CKEDITOR.instances[instance].setData('');
-                        }
                         // вывод комментария
                         if(0 == data.parent_id){
                             $('.comments').append(data.commentHtml);
