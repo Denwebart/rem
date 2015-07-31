@@ -1,6 +1,6 @@
 <li class="dropdown dropdown-letters">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-envelope"></i>
+        <i class="material-icons">local_post_office</i>
         @if(count($letters))
             <span class="label label-success">
                 {{ count($letters) }}
@@ -8,7 +8,11 @@
         @endif
     </a>
     <ul class="dropdown-menu">
-        <li class="header"><i class="fa fa-envelope"></i> Новые письма: <span>{{ count($letters) }}</span></li>
+        <li class="header">
+            <i class="material-icons">local_post_office</i>
+            Новые письма:
+            <span>{{ count($letters) }}</span>
+        </li>
         <li>
             <ul>
                 @foreach($letters as $letter)
@@ -28,7 +32,7 @@
                                 {{ $letter->user_name }}
                             @endif
                             <small>
-                                <i class="fa fa-clock-o"></i>
+                                <i class="material-icons">access_time</i>
                                 {{ DateHelper::getRelativeTime($letter->created_at) }}
                             </small>
                         </h4>

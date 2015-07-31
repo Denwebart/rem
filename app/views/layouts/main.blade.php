@@ -25,6 +25,8 @@
     <link href="/material/css/material.min.css" rel="stylesheet">
     <link href="/material/css/ripples.min.css" rel="stylesheet">
     <link href="/material/css/snackbar.min.css" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- FancyBox2 -->
     <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />

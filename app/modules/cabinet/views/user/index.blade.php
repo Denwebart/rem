@@ -94,7 +94,7 @@ View::share('title', $title);
                                     @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
                                         <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
                                             Редактировать
-                                            <span class="mdi-editor-border-color"></span>
+                                            <i class="material-icons">mode_edit</i>
                                         </a>
                                     @endif
                                 @endif
@@ -106,7 +106,7 @@ View::share('title', $title);
                                             Изменить пароль
                                             <!-- mdi-communication-vpn-key -->
                                             <!-- mdi-action-verified-user -->
-                                            <span class="mdi-hardware-security"></span>
+                                            <i class="material-icons">security</i>
                                         </a>
                                     @endif
                                 @endif
@@ -140,8 +140,8 @@ View::share('title', $title);
                                     </a>
                                     @if(Auth::check())
                                         @if(Auth::user()->isAdmin())
-                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-reward" data-honor-id="{{ $honor->id }}">
-                                                <span class="mdi-content-clear"></span>
+                                            <a href="javascript:void(0)" class="remove-reward" data-honor-id="{{ $honor->id }}">
+                                                <i class="material-icons mdi-danger">cancel</i>
                                             </a>
                                         @endif
                                     @endif

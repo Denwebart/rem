@@ -72,16 +72,16 @@ View::share('title', $title);
                                             @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="status pull-left">
                                                     @if($question->is_published)
-                                                        <span class="mdi-image-brightness-1 mdi-success" title="Опубликован"></span>
+                                                        <i class="material-icons mdi-success" title="Опубликован">lens</i>
                                                     @else
-                                                        <span class="mdi-image-brightness-1 mdi-danger" title="Не опубликован"></span>
+                                                        <i class="material-icons mdi-danger" title="Не опубликован">lens</i>
                                                     @endif
                                                 </div>
                                             @endif
                                         @endif
                                         <h3>
                                             @if(count($question->bestComments))
-                                                <i class="mdi-action-done mdi-success"></i>
+                                                <i class="material-icons mdi-success">done</i>
                                             @endif
                                             <a href="{{ URL::to($question->getUrl()) }}">
                                                 {{ $question->title }}
@@ -93,10 +93,10 @@ View::share('title', $title);
                                             @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="buttons">
                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">
-                                                        <span class="mdi-content-clear"></span>
+                                                        <i class="material-icons">delete</i>
                                                     </a>
                                                     <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
-                                                        <span class="mdi-editor-mode-edit"></span>
+                                                        <i class="material-icons">mode-edit</i>
                                                     </a>
                                                 </div>
                                             @endif
@@ -105,24 +105,24 @@ View::share('title', $title);
                                     <div class="col-md-12">
                                         <div class="page-info">
                                             <div class="date pull-left" title="Дата публикации">
-                                                <span class="icon mdi-action-today"></span>
+                                                <i class="material-icons">today</i>
                                                 <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
                                             </div>
                                             <div class="pull-right">
                                                 <div class="views pull-left" title="Количество просмотров">
-                                                    <span class="icon mdi-action-visibility"></span>
+                                                    <i class="material-icons">visibility</i>
                                                     <span>{{ $question->views }}</span>
                                                 </div>
                                                 <div class="saved-count pull-left" title="Сколько пользователей сохранили">
-                                                    <span class="icon mdi-content-archive"></span>
+                                                    <i class="material-icons">archive</i>
                                                     <span>{{ count($question->whoSaved) }}</span>
                                                 </div>
                                                 <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                                                    <span class="icon mdi-action-grade"></span>
+                                                    <i class="material-icons">grade</i>
                                                     <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
                                                 </div>
                                                 <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
-                                                    <span class="icon mdi-maps-local-library"></span>
+                                                    <i class="material-icons">local_library</i>
                                                     <span>{{ count($question->subscribers) }}</span>
                                                 </div>
                                             </div>
@@ -157,7 +157,7 @@ View::share('title', $title);
                                                 {{ count($question->publishedAnswers) }}
                                             </a>
                                             @if(count($question->bestComments))
-                                                <i class="icon mdi-action-done mdi-success" title="Есть решение"></i>
+                                                <i class="material-icons mdi-success" title="Есть решение">done</i>
                                             @endif
                                         </div>
                                     </div>

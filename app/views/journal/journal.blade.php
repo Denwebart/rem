@@ -109,9 +109,9 @@
                                             @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="status pull-left">
                                                     @if($article->is_published)
-                                                        <span class="mdi-image-brightness-1 mdi-success" title="Опубликована" data-toggle="tooltip" data-placement="top"></span>
+                                                        <i class="material-icons mdi-success" title="Опубликована" data-toggle="tooltip" data-placement="top">lens</i>
                                                     @else
-                                                        <span class="mdi-image-brightness-1 mdi-danger" title="Не опубликована" data-toggle="tooltip" data-placement="top"></span>
+                                                        <i class="material-icons mdi-danger" title="Не опубликована" data-toggle="tooltip" data-placement="top">lens</i>
                                                     @endif
                                                 </div>
                                             @endif
@@ -127,10 +127,10 @@
                                             @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                 <div class="buttons">
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
-                                                        <span class="icon mdi-content-clear"></span>
+                                                        <i class="material-icons">delete</i>
                                                     </a>
                                                     <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
-                                                        <span class="icon mdi-editor-mode-edit"></span>
+                                                        <i class="material-icons">mode-edit</i>
                                                     </a>
                                                 </div>
                                             @endif
@@ -139,26 +139,26 @@
                                     <div class="col-md-12">
                                         <div class="page-info">
                                             <div class="date pull-left" title="Дата публикации" data-toggle="tooltip" data-placement="top">
-                                                <span class="icon mdi-action-today"></span>
+                                                <i class="material-icons">today</i>
                                                 <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
                                             </div>
                                             <div class="pull-right">
                                                 <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
-                                                    <span class="icon mdi-action-visibility"></span>
+                                                    <i class="material-icons">visibility</i>
                                                     <span>{{ $article->views }}</span>
                                                 </div>
                                                 <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="top">
-                                                    <span class="icon mdi-communication-messenger"></span>
+                                                    <i class="material-icons">chat_bubble</i>
                                                     <a href="{{ URL::to($article->getUrl() . '#comments') }}">
                                                         {{ count($article->publishedComments) }}
                                                     </a>
                                                 </div>
                                                 <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
-                                                    <span class="icon mdi-content-archive"></span>
+                                                    <i class="material-icons">archive</i>
                                                     <span>{{ count($article->whoSaved) }}</span>
                                                 </div>
                                                 <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top">
-                                                    <span class="icon mdi-action-grade"></span>
+                                                    <i class="material-icons">grade</i>
                                                     <span>{{ $article->getRating() }} ({{ $article->voters }})</span>
                                                 </div>
                                             </div>
@@ -186,7 +186,8 @@
                                     </div>
                                     <div class="col-md-12">
                                         <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
-                                            Читать полностью <span class="glyphicon glyphicon-chevron-right"></span>
+                                            Читать полностью
+                                            <i class="material-icons">chevron_right</i>
                                         </a>
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@ h2, .h2 {
 #users-menu ul > li {
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 7px;
+    margin: 7px 0;
     height: 32px;
 }
 #users-menu ul > li:first-child {
@@ -42,8 +42,16 @@ h2, .h2 {
 #users-menu ul > li:hover,
 #users-menu ul > li:focus,
 #users-menu ul > li.active {
-    background: #F2F2F2;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    /*background: #F2F2F2;*/
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);*/
+    background: #337AB7 none repeat scroll 0% 0%;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+#users-menu ul > li:hover a,
+#users-menu ul > li:focus a,
+#users-menu ul > li.active a {
+    color: #FFF;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
 }
 #users-menu ul > li > a {
     color: #232323;
@@ -58,10 +66,16 @@ h2, .h2 {
     font-size: 14px;
     line-height: 22px;
 }
+#users-menu ul > li > a i.material-icons {
+    float: left;
+    font-size: 24px;
+    line-height: 22px;
+    margin-right: 5px;
+}
 #users-menu ul > li > a .glyphicon,
 #users-menu ul > li > a .fa,
 #users-menu ul > li > a .icon {
-    font-size: 20px;
+    font-size: 24px;
     line-height: 20px;
     margin: 0 5px;
 }

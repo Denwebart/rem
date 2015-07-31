@@ -1,19 +1,23 @@
 <li class="dropdown dropdown-messages">
     @if(count($messages))
         <a href="" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-send"></i>
+            <i class="material-icons">send</i>
             <span class="label label-info">
                 {{ count($messages) }}
             </span>
         </a>
     @else
         <a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">
-            <i class="fa fa-send"></i>
+            <i class="material-icons">send</i>
         </a>
     @endif
     @if(count($messages))
         <ul class="dropdown-menu">
-            <li class="header"><i class="fa fa-envelope"></i> Новые личные сообщения: <span>{{ count($messages) }}</span></li>
+            <li class="header">
+                <i class="material-icons">send</i>
+                Новые личные сообщения:
+                <span>{{ count($messages) }}</span>
+            </li>
             <li>
                 <ul>
                     @foreach($messages as $message)
@@ -24,7 +28,7 @@
                             </div>
                             <h4>{{ $message->userSender->login }}
                                 <small>
-                                    <i class="fa fa-clock-o"></i>
+                                    <i class="material-icons">access_time</i>
                                     {{ DateHelper::getRelativeTime($message->created_at) }}
                                 </small>
                             </h4>

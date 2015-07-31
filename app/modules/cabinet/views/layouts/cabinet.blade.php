@@ -25,6 +25,8 @@
     <link href="/material/css/material-fullpalette.min.css" rel="stylesheet">
     <link href="/material/css/ripples.min.css" rel="stylesheet">
     <link href="/material/css/snackbar.min.css" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
         body{padding-top:50px}#banner{border-bottom:none}.page-header h1{font-size:4em}.bs-docs-section{margin-top:8em}.bs-component{position:relative}.bs-component .modal{position:relative;top:auto;right:auto;left:auto;bottom:auto;z-index:1;display:block}.bs-component .modal-dialog{width:90%}.bs-component .popover{position:relative;display:inline-block;width:220px;margin:20px}#source-button{position:absolute;top:0;right:0;z-index:100;font-weight:bold;padding: 5px 10px;}.progress{margin-bottom:10px}footer{margin:5em 0}footer li{float:left;margin-right:1.5em;margin-bottom:1.5em}footer p{clear:left;margin-bottom:0}.splash{padding:4em 0 0;background-color:#141d27;color:#fff;text-align:center}.splash h1{font-size:4em}.splash #social{margin:2em 0}.splash .alert{margin:2em 0}.section-tout{padding:4em 0 3em;border-bottom:1px solid rgba(0,0,0,0.05);background-color:#eaf1f1}.section-tout .fa{margin-right:.5em}.section-tout p{margin-bottom:3em}.section-preview{padding:4em 0 4em}.section-preview .preview{margin-bottom:4em;background-color:#eaf1f1}.section-preview .preview .image{position:relative}.section-preview .preview .image:before{box-shadow:inset 0 0 0 1px rgba(0,0,0,0.1);position:absolute;top:0;left:0;width:100%;height:100%;content:"";pointer-events:none}.section-preview .preview .options{padding:1em 2em 2em;border:1px solid rgba(0,0,0,0.05);border-top:none;text-align:center}.section-preview .preview .options p{margin-bottom:2em}.section-preview .dropdown-menu{text-align:left}.section-preview .lead{margin-bottom:2em}@media (max-width:767px){.section-preview .image img{width:100%}}.sponsor{text-align:center}.sponsor a:hover{text-decoration:none}@media (max-width:767px){#banner{margin-bottom:2em;text-align:center}}
@@ -88,37 +90,37 @@
             <ul>
                 <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="glyphicon glyphicon-user"></span>
+                        <i class="material-icons">account_box</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль') : 'Профиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="fa fa-car"></span>
+                        <i class="material-icons">directions_car</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <i class="material-icons">help</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы') : 'Вопросы' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.journal') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                        <span class="glyphicon glyphicon-book"></span>
+                        <i class="material-icons">chrome_reader_mode</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой журнал' : 'Бортовой журнал') : 'Бортовой журнал' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="icon mdi-communication-messenger"></span>
+                        <i class="material-icons">chat_bubble</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои комментарии' : 'Комментарии') : 'Комментарии' }}</span>
                     </a>
                 </li>
                 <li class="{{ Route::is('user.answers') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
-                        <span class="icon mdi-communication-forum"></span>
+                        <i class="material-icons">question_answer</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои ответы' : 'Ответы') : 'Ответы' }}</span>
                     </a>
                 </li>
@@ -126,7 +128,7 @@
                     @if(Auth::user()->is($user) || Auth::user()->isAdmin())
                         <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
                             <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
-                                <span class="glyphicon glyphicon-send"></span>
+                                <i class="material-icons">send</i>
                                 <span>Личные сообщения</span>
                                 @if(Auth::user()->is($user))
                                     @if($newMessages = count($headerWidget->newMessages))
@@ -137,14 +139,14 @@
                         </li>
                         <li class="messages {{ Route::is('user.savedPages') ? 'active' : '' }}">
                             <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl()]) }}">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="material-icons">archive</i>
                                 <span>Сохранённое</span>
                             </a>
                         </li>
                     @endif
                     <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
                         <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">
-                            <span class="glyphicon glyphicon-heart-empty"></span>
+                            <i class="material-icons">local_library</i>
                             <span>{{ Auth::user()->is($user) ? 'Мои подписки' : 'Подписки'}}</span>
                             @if(Auth::user()->is($user))
                                 @if($newSubscriptionsNotifications = count($headerWidget->newSubscriptionsNotifications()))

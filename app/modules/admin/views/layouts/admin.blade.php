@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/backend/css/animate/animate.min.css" />
     <link rel="stylesheet" href="/backend/css/iCheck/all.css" />
     <link rel="stylesheet" href="/backend/css/style.css" />
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     @yield('style')
 
