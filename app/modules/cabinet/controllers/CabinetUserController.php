@@ -89,6 +89,7 @@ class CabinetUserController extends \BaseController
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 		$data = Input::all();
+
 		$data['firstname'] = StringHelper::mbUcFirst(Input::get('firstname'));
 		$data['lastname'] = StringHelper::mbUcFirst(Input::get('lastname'));
 		$data['car_brand'] = StringHelper::mbUcFirst(Input::get('car_brand'));

@@ -11,6 +11,8 @@
         image_advtab: true,
         language: 'ru',
         selector: ".editor",
+        image_title: true,
+        imagetools_toolbar: 'imageoptions',
         file_browser_callback : function (field_name, url, type, win) {
 
             $("input[name='editor_image']").trigger('click');
