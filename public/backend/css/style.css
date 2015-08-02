@@ -99,6 +99,16 @@ form.as-button {
 }
 
 /* Header==================================================*/
+#header-widget .material-icons {
+    font-size: 20px;
+    float: left;
+}
+#header-widget .navbar .nav > li {
+    height: 50px;
+}
+#header-widget .navbar .nav > li > a {
+    display: inline-block;
+}
 header {
     position: absolute;
     top: 0;

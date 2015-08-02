@@ -333,8 +333,8 @@ footer #navbar-bottom li {
     display: inline-block;
 }
 .navbar .navbar-nav > li > a {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
+    padding-top: 15px;
+    padding-bottom: 15px;
     font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 .navbar #navbar-main .navbar-nav > li > a {
@@ -667,9 +667,20 @@ footer #navbar-bottom li {
     -webkit-transition: 0.25s;
     transition: 0.25s;
 }
-
 #header-widget .navbar .nav a {
     color: #5e5e5e;
+    line-height: 20px;
+}
+#header-widget .navbar .nav > li {
+    height: 50px;
+}
+#header-widget .navbar .nav > li > a {
+    display: inline-block;
+}
+#header-widget .navbar .nav > li > a:hover,
+#header-widget .navbar .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #EEE;
 }
 #header-widget .nav .open > a,
 #header-widget .nav .open > a:hover,
@@ -755,15 +766,23 @@ footer #navbar-bottom li {
     font-weight: 600;
     height: 50px;
     display: block;
+    line-height: 50px;
 }
 
 #header-widget .logo i {
     margin-right: 8px;
     background: none;
-    /*box-shadow: inset 4px 0 0 0 #191919;*/
-    padding: 15px 15px;
+    float: left;
+    line-height: 50px;
+    padding: 0 15px;
 }
-
+#header-widget .widget-user a {
+    padding: 14px 15px 11px;
+}
+#header-widget .material-icons {
+    font-size: 20px;
+    float: left;
+}
 .fixed > #header-widget, .fixed .leftside, .fixed .navbar {
     position: fixed;
 }

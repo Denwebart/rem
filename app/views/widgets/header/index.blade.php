@@ -52,9 +52,7 @@
                 @if(Auth::user()->isAdmin() && !Request::is('admin*'))
                     <li style="margin-right: 10px">
                         <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу">
-                            <span>
-                                <i class="material-icons">attach_money</i>
-                            </span>
+                            <i class="material-icons">attach_money</i>
                         </a>
                     </li>
                 @endif
@@ -62,10 +60,8 @@
                 @if(!is_null($page) && Auth::user()->isAdmin())
                     <li style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="">
-                            <span>
-                                <i class="material-icons">mode_edit</i>
-                                Редактировать
-                            </span>
+                            <i class="material-icons">mode_edit</i>
+                            Редактировать
                         </a>
                     </li>
                 @endif
@@ -97,8 +93,8 @@
                     <li style="margin-right: 10px">
                         <a href="{{ URL::to('/') }}" class="" target="_blank">
                         <span>
-                            <i class="material-icons">chevron_right</i>
                             Перейти на сайт
+                            <i class="material-icons pull-right">chevron_right</i>
                         </span>
                         </a>
                     </li>
@@ -115,7 +111,7 @@
                         {{ $user->getAvatar('mini', ['class' => 'pull-left']) }}
                         <span>
                             {{ $user->login }}
-                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons pull-right">arrow_drop_down</i>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
