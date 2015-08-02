@@ -54,7 +54,7 @@ View::share('title', $title);
                         <div class="col-lg-6">
                             <div class="button-group">
                                 <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                    <i class="material-icons">keyboard_arrow_left</i>
                                     Назад
                                 </a>
 

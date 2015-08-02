@@ -30,7 +30,7 @@
                         @if (!Auth::check())
                             <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-sm btn-login">
                                 Войти
-                                <i class="glyphicon glyphicon-log-in"></i>
+                                <i class="material-icons">exit_to_app</i>
                             </a>
                             <br>
                             <a href="{{ URL::route('register') }}" class="pull-right btn-register">
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <button type="submit" class="btn btn-default btn-raised" style="width: 100%">
-                                            <i class="mdi-action-search"></i>
+                                            <i class="material-icons">search</i>
                                             <span>Найти</span>
                                             <div class="ripple-wrapper"></div>
                                         </button>

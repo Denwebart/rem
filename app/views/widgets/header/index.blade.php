@@ -77,7 +77,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header">
-                            <i class="material-icons">notifications</i>You have 5 new notifications
+                            <i class="material-icons">notifications</i>
+                            You have 5 new notifications
                         </li>
                         <li>
                             <ul>
@@ -96,7 +97,7 @@
                     <li style="margin-right: 10px">
                         <a href="{{ URL::to('/') }}" class="" target="_blank">
                         <span>
-                            <i class="glyphicon glyphicon-arrow-right"></i>
+                            <i class="material-icons">chevron_right</i>
                             Перейти на сайт
                         </span>
                         </a>

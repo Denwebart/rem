@@ -11,7 +11,7 @@
             @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                 <div class="buttons pull-right">
                     <a href="{{ URL::route('user.journal.edit', ['login' => $article->user->getLoginForUrl(),'id' => $article->id]) }}" class="" title="Редактировать статью">
-                        <span class="icon mdi-editor-mode-edit"></span>
+                        <i class="material-icons">exit_to_app</i>
                     </a>
                 </div>
             @endif
@@ -30,26 +30,26 @@
     <div class="col-md-10">
         <div class="page-info">
             <div class="date pull-left" title="Дата публикации">
-                <span class="icon mdi-action-today"></span>
+                <i class="material-icons">today</i>
                 <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
             </div>
             <div class="pull-right">
                 <div class="views pull-left" title="Количество просмотров">
-                    <span class="icon mdi-action-visibility"></span>
+                    <i class="material-icons">visibility</i>
                     <span>{{ $article->views }}</span>
                 </div>
                 <div class="comments-count pull-left" title="Количество комментариев">
-                    <span class="icon mdi-communication-messenger"></span>
+                    <i class="material-icons">chat_bubble</i>
                     <a href="{{ URL::to($article->getUrl() . '#comments') }}">
                         <span>{{ count($article->publishedComments) }}</span>
                     </a>
                 </div>
                 <div class="saved-count pull-left" title="Сколько пользователей сохранили">
-                    <span class="icon mdi-content-archive"></span>
+                    <i class="material-icons">archive</i>
                     <span>{{ count($article->whoSaved) }}</span>
                 </div>
                 <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                    <span class="icon mdi-action-grade"></span>
+                    <i class="material-icons">grade</i>
                     <span>{{ $article->getRating() }} ({{ $article->voters }})</span>
                 </div>
             </div>
@@ -85,6 +85,9 @@
         @endif
     </div>
     <div class="col-md-12">
-        <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">Читать полностью <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
+            Читать полностью
+            <i class="material-icons">chevron_right</i>
+        </a>
     </div>
 </div>

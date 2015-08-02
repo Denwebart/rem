@@ -60,7 +60,7 @@
                         {{ Form::hidden("tags[$tag->id]", $tag->title) }}
                         <a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">{{ $tag->title }}</a>
                         <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">
-                            <i class="glyphicon glyphicon-remove"></i>
+                            <i class="material-icons">close</i>
                         </a>
                     </div>
                 @endforeach
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-xs-2">
                     <a href="javascript:void(0)" class="btn btn-success btn-circle add-tag">
-                        <i class="glyphicon glyphicon-ok"></i>
+                        <i class="material-icons">done</i>
                     </a>
                 </div>
             </div>
@@ -155,12 +155,12 @@
                             '<input name="'+ addedTagInputName +'" value="'+ addedTagTitle +'" type="hidden">' +
                             '<a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">'+ addedTagTitle +'</a>' +
                             '<a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">' +
-                            '<i class="glyphicon glyphicon-remove"></i>' +
+                            '<i class="material-icons">close</i>' +
                             '</a></div>';
 
                     $tagBlock.find('.tags').append(html);
                     $('#tag-input').val('');
-                    $tagBlock.find('.show-add-tag').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
+                    $tagBlock.find('.show-add-tag').toggleClass('btn-info btn-warning').html('<i class="material-icons">close</i>');
                 }
             }
 
