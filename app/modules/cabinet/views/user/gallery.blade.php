@@ -26,41 +26,62 @@ View::share('title', $title);
         <div class="row">
             <div class="col-lg-12" id="content">
                 <h2>{{ $title }}</h2>
-
-                @if(Auth::check())
-                    @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
-                        <div id="lists-of-images">
-                            @foreach($images as $image)
-                                <div class="item row" data-image-id="{{ $image->id }}">
-                                    <div class="col-md-5">
-                                        <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
-                                            {{ $image->getImage() }}
-                                        </a>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <a href="javascript:void(0)" class="btn btn-danger delete-photo" data-id="{{ $image->id }}">Удалить</a>
-                                        <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="btn btn-info">Редактировать</a>
-                                        <h3>{{ $image->title }}</h3>
-                                        {{ $image->description }}
-                                    </div>
+                <div id="list-of-images" class="row">
+                    @foreach($images as $image)
+                        <div class="item" data-image-id="{{ $image->id }}">
+                            <div class="col-md-4">
+                                <div class="image">
+                                    <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
+                                        {{ $image->getImage() }}
+                                    </a>
+                                    @if(Auth::check())
+                                        @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                            <div class="buttons">
+                                                <a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">
+                                                    <i class="material-icons">delete</i>
+                                                </a>
+                                                <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">
+                                                    <i class="material-icons">mode-edit</i>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endif
                                 </div>
-                            @endforeach
-                            @if(!count($images) && Auth::user()->is($user))
-                                <p>
-                                    Вы еще не добавили ни одной фотографии автомобиля.
-                                    Вы можете добавить максимум 5 фотографий.
-                                </p>
-                            @elseif(!count($images))
-                                <p>
-                                    Фотографий нет.
-                                </p>
-                            @endif
+                                <div class="image-description">
+                                    <h4>
+                                        {{ $image->title }}
+                                        @if(Auth::check())
+                                            @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                                <div class="buttons">
+                                                    <a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">
+                                                        <i class="material-icons">delete</i>
+                                                    </a>
+                                                    <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">
+                                                        <i class="material-icons">mode-edit</i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </h4>
+                                    {{ $image->description }}
+                                </div>
+                            </div>
                         </div>
-                    @else
-                        @include('cabinet::user.galleryForNotAuthorized')
+                    @endforeach
+                    @if(!count($images) && Auth::user()->is($user))
+                        <p>
+                            Вы еще не добавили ни одной фотографии автомобиля.
+                            Вы можете добавить максимум 5 фотографий.
+                        </p>
+                    @elseif(!count($images))
+                        <p>
+                            Фотографий нет.
+                        </p>
                     @endif
+                </div>
 
-                    {{--Загрузка новой фотографии--}}
+                {{--Загрузка новой фотографии--}}
+                @if(Auth::check())
                     @if(Auth::user()->is($user))
                         @if(!$headerWidget->isBannedIp)
                             @if(!$user->is_banned)
@@ -71,36 +92,32 @@ View::share('title', $title);
 
                                         {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                                                        {{ $errors->first('image') }}
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+                                                    {{ $errors->first('image') }}
                                                 </div>
-                                                <div class="col-lg-8">
-                                                    <div class="form-group">
-                                                        {{ Form::label('title', 'Заголовок изображения') }}
-                                                        {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                                        {{ $errors->first('title') }}
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        {{ Form::label('description', 'Описание изображения') }}
-                                                        {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
-                                                        {{ $errors->first('description') }}
-                                                    </div>
-
-                                                    <div class="button-group">
-                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-                                                    </div>
+                                                <div class="form-group">
+                                                    {{ Form::label('title', 'Заголовок изображения') }}
+                                                    {{ Form::text('title', null, ['class' => 'form-control']) }}
+                                                    {{ $errors->first('title') }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ Form::label('description', 'Описание изображения') }}
+                                                    {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
+                                                    {{ $errors->first('description') }}
+                                                </div>
+                                                <div class="button-group">
+                                                    {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <!-- TinyMCE image -->
-                                            {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+                                        <!-- TinyMCE image -->
+                                        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
-                                            {{ Form::hidden('_token', csrf_token()) }}
+                                        {{ Form::hidden('_token', csrf_token()) }}
 
                                         {{ Form::close() }}
                                     </div>
@@ -114,8 +131,6 @@ View::share('title', $title);
                             @include('messages.bannedIp')
                         @endif
                     @endif
-                @else
-                    @include('cabinet::user.galleryForNotAuthorized')
                 @endif
             </div>
             <div class="col-lg-12">

@@ -33,26 +33,28 @@ View::share('title', $title);
                 {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
 
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                {{ $image->getImage() }}
-                                {{ Form::file('image', ['title' => 'Загрузить изображения', 'class' => 'btn btn-primary file-inputs']) }}
-                                {{ $errors->first('image') }}
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+                                        {{ $errors->first('image') }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    {{ $image->getImage() }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
                             <div class="form-group">
                                 {{ Form::label('title', 'Заголовок изображения') }}
                                 {{ Form::text('title', $image->title, ['class' => 'form-control']) }}
                                 {{ $errors->first('title') }}
                             </div>
-
                             <div class="form-group">
                                 {{ Form::label('description', 'Описание изображения') }}
                                 {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
                                 {{ $errors->first('description') }}
                             </div>
-
                             <div class="button-group">
                                 {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
                             </div>
@@ -75,7 +77,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $image->getImageEditorPath()])
+    @include('tinymce-init', ['imagePath' => $image->getImageEditorPath(), 'toolbar' => 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons'])
 @stop
 
 @section('script')

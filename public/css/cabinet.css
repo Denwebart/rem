@@ -132,10 +132,17 @@ h2, .h2 {
     margin: 10px 0 0 10px;
 }
 
-/*-- Галерея --*/
-.carousel-control.right,
-.carousel-control.left {
-    background: none;
+/*-- Галерея (Мой автомобиль) --*/
+#list-of-images .image {
+    position: relative;
+}
+#list-of-images .image .buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#list-of-images .image-description .buttons {
+    float: right;
 }
 
 /*-- End Профиль пользователя --*/
