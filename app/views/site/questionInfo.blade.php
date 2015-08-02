@@ -14,24 +14,24 @@
             <div class="col-md-12">
                 <div class="page-info">
                     <div class="date pull-left" title="Дата публикации">
-                        <span class="icon mdi-action-today"></span>
+                        <i class="material-icons">today</i>
                         <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
                     </div>
                     <div class="pull-right">
                         <div class="views pull-left" title="Количество просмотров">
-                            <span class="icon mdi-action-visibility"></span>
+                            <i class="material-icons">visibility</i>
                             <span>{{ $question->views }}</span>
                         </div>
                         <div class="saved-count pull-left" title="Сколько пользователей сохранили">
-                            <span class="icon mdi-content-archive"></span>
+                            <i class="material-icons">archive</i>
                             <span>{{ count($question->whoSaved) }}</span>
                         </div>
                         <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                            <span class="icon mdi-action-grade"></span>
+                            <i class="material-icons">grade</i>
                             <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
                         </div>
                         <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
-                            <span class="icon mdi-maps-local-library"></span>
+                            <i class="material-icons">local_library</i>
                             <span>{{ count($question->subscribers) }}</span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                         <div class="buttons pull-right">
                             <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
-                                <span class="icon mdi-editor-mode-edit"></span>
+                                <i class="material-icons">mode_edit</i>
                             </a>
                         </div>
                     @endif
@@ -64,7 +64,7 @@
                         {{ count($question->publishedAnswers) }}
                     </a>
                     @if(count($question->bestComments))
-                        <i class="icon mdi-action-done mdi-success" title="Есть решение"></i>
+                        <i class="material-icons mdi-success" title="Есть решение" style="font-size: 26px">done</i>
                     @endif
                 </div>
             </div>

@@ -5,7 +5,7 @@
         @endif
         <div class="list-group-item">
             <div class="date pull-left">
-                <i class="icon mdi-action-event pull-left"></i>
+                <i class="material-icons pull-left">today</i>
                 <span class="text pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
             </div>
             <div class="clearfix"></div>

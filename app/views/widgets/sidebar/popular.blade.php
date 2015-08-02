@@ -11,7 +11,7 @@
             </div>
             <div class="row-content">
                 <div class="views pull-right">
-                    <i class="icon mdi-image-remove-red-eye pull-left"></i>
+                    <i class="material-icons pull-left">visibility</i>
                     <span class="count pull-left">{{ $page->views }}</span>
                 </div>
                 <div class="clearfix"></div>

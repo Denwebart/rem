@@ -23,7 +23,7 @@
             @if(Auth::check())
                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                     <a href="{{ URL::route('admin.comments.edit', ['id' => $commentLevel2->id]) }}">
-                        <i class="mdi-content-create"></i>
+                        <i class="material-icons">mode_edit</i>
                     </a>
                 @endif()
             @endif()

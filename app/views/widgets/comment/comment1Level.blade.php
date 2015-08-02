@@ -28,7 +28,7 @@
             @if(Auth::check())
                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                     <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id]) }}">
-                        <i class="mdi-content-create"></i>
+                        <i class="material-icons">mode_edit</i>
                     </a>
                 @endif()
             @endif()
@@ -42,7 +42,7 @@
         {{--Отметить лучшие ответы--}}
         @if($comment->mark == Comment::MARK_BEST)
             <div class="mark-comment pull-right" data-mark-comment-id="{{ $comment->id }}">
-                <i class="mdi-action-done mdi-success" style="font-size: 40pt;" title="Лучший ответ"></i>
+                <i class="material-icons mdi-success" title="Лучший ответ" style="font-size: 40pt;">done</i>
             </div>
         @elseif(Auth::check())
             @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)

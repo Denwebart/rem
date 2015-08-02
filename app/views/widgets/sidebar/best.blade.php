@@ -8,7 +8,7 @@
                 <div class="rate">
                     <div class="rate-votes">
                         <span>{{ $page->getRating() }}</span>
-                        <i class="icon mdi-action-grade"></i>
+                        <i class="material-icons">grade</i>
                     </div>
                     <div class="rate-voters">
                         ({{ $page->voters }})

@@ -39,18 +39,18 @@
                     </a>
                 </div>
                 <div class="date pull-left" title="Дата публикации">
-                    <span class="icon mdi-action-today"></span>
+                    <i class="material-icons">today</i>
                     <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>
             </div>
 
             <div class="pull-right">
                 <div class="views pull-left" title="Количество просмотров">
-                    <span class="icon mdi-action-visibility"></span>
+                    <i class="material-icons">visibility</i>
                     <span>{{ $page->views }}</span>
                 </div>
                 <div class="comments-count pull-left" title="Количество комментариев">
-                    <span class="mdi-communication-messenger"></span>
+                    <i class="material-icons">chat_bubble</i>
                     <a href="#comments">
                     <span class="count-comments">
                         {{ count($page->publishedComments) }}

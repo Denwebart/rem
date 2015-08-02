@@ -197,7 +197,7 @@ View::share('title', $title);
                                 $('#users-menu .messages small').remove();
                                 // как ссылка
                                 $('#header-widget .dropdown-messages .dropdown-toggle').remove();
-                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="fa fa-send"></i></a>');
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
                             }
                         }
                     }

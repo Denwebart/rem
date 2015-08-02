@@ -248,7 +248,7 @@
                 },
                 success: function(response) {
                     if(response.success){
-                        $markTag.html('<i class="mdi-action-done mdi-success" style="font-size: 40pt;"></i>');
+                        $markTag.html('<i class="material-icons mdi-success" title="Лучший ответ" style="font-size: 40pt;">done</i>');
                         $markTag.append('<div class="message">' + response.message + '</div>');
                         $('#comment-' + commentId).remove();
                         $('#best-comments').show();

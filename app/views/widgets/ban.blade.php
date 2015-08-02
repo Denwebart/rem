@@ -2,12 +2,12 @@
     <div class="buttons" data-ban-button-id="{{ $user->id }}">
         @if(!$user->is_banned)
             <a href="javascript:void(0)" class="btn btn-primary btn-sm banned-link ban" data-id="{{ $user->id }}">
-                <i class="fa fa-lock"></i>
+                <i class="material-icons">lock</i>
                 Забанить
             </a>
         @else
             <a href="javascript:void(0)" class="btn btn-primary btn-sm banned-link unban" data-id="{{ $user->id }}">
-                <i class="fa fa-unlock"></i>
+                <i class="material-icons">lock_open</i>
                 Разбанить
             </a>
         @endif
@@ -82,7 +82,7 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#message').text(response.message);
-                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-unlock"></i> Разбанить');
+                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock_open</i> Разбанить');
                                 } else {
                                     $('#message').text(response.message);
                                 }
@@ -108,7 +108,7 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#message').text(response.message);
-                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="fa fa-lock"></i> Забанить');
+                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock</i> Забанить');
                                 } else {
                                     $('#message').text(response.message);
                                 }

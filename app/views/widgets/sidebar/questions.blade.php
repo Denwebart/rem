@@ -24,13 +24,13 @@
                     </div>
                     <div class="col-md-2" style="padding: 0">
                         @if(count($question->bestComments))
-                            <i class="mdi-action-done mdi-success" title="Есть решение" style="font-size: 50px; line-height: 40px"></i>
+                            <i class="material-icons mdi-success" title="Есть решение" style="font-size: 50pt; line-height: 40px">done</i>
                         @endif
                     </div>
                 </p>
                 <div class="clearfix"></div>
                 <div class="answers pull-right">
-                    <span class="icon mdi-communication-forum pull-left" title="Количество ответов"></span>
+                    <i class="material-icons pull-left" title="Количество ответов">chat_bubble</i>
                     <a href="{{ URL::to($question->getUrl()) }}#answers" class="count pull-left @if(count($question->bestComments)) best @endif">
                         {{ count($question->publishedAnswers) }}
                     </a>

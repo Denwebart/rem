@@ -104,8 +104,6 @@ View::share('title', $title);
                                     @if(Auth::user()->is($user))
                                         <a href="{{{ URL::route('user.changePassword', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
                                             Изменить пароль
-                                            <!-- mdi-communication-vpn-key -->
-                                            <!-- mdi-action-verified-user -->
                                             <i class="material-icons">security</i>
                                         </a>
                                     @endif

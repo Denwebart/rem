@@ -2,13 +2,13 @@
     <div id="saved-pages" class="saved pull-left">
         @if(!Auth::user()->hasInSaved($page->id))
             <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"'>
-                <span class="icon mdi-content-archive"></span>
+                <i class="material-icons">archive</i>
                 <span>Сохранить себе</span>
             </a>
         @else
             <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного'>
-                <span class="icon mdi-content-archive"></span>
-                <span>Удалить</span>
+                <i class="material-icons">archive</i>
+                <span>Убрать</span>
             </a>
         @endif
         <span class="whoSaved" title="Сколько пользователей сохранили">
@@ -35,7 +35,7 @@
                     success: function(response) {
                         if(response.success){
                             $("#save-page-message").html(response.message);
-                            $link.html('<span class="icon mdi-content-archive"></span><span>Удалить</span>');
+                            $link.html('<i class="material-icons">archive</i><span>Убрать</span>');
                             $link.attr('id', 'remove-page');
                             $link.attr('title', 'Убрать статью из сохраненного');
                             $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
@@ -60,7 +60,7 @@
                     success: function(response) {
                         if(response.success){
                             $("#save-page-message").html(response.message);
-                            $link.html('<span class="icon mdi-content-archive"></span><span>Сохранить себе</span>');
+                            $link.html('<i class="material-icons">archive</i><span>Сохранить себе</span>');
                             $link.attr('id', 'save-page');
                             $link.attr('title', 'Если вам понравилась статья, вы можете добавить ее в "Сохраненное"');
                             $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
@@ -74,7 +74,7 @@
     @endsection
 @else
     <div class="saved-count pull-left" title="Сколько пользователей сохранили">
-        <span class="icon mdi-content-archive"></span>
+        <i class="material-icons">archive</i>
         <span>{{ count($page->whoSaved) }}</span>
     </div>
 @endif

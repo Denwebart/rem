@@ -24,7 +24,7 @@
             <div class="col-md-9">
                 <h2>
                     @if(count($page->bestComments))
-                        <i class="mdi-action-done mdi-success" style="font-size: 26px;" title="Вопрос решен"></i>
+                        <i class="material-icons mdi-success" title="Есть решение" style="font-size: 26px">done</i>
                     @endif
                     {{ $page->title }}
                 </h2>
