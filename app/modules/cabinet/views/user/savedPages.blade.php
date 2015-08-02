@@ -50,7 +50,7 @@ View::share('title', $title);
                                         <div class="col-md-2">
                                             <div class="buttons">
                                                 <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
-                                                    <i class="icon mdi-content-archive"></i>
+                                                    <i class="material-icons">close</i>
                                                 </a>
                                             </div>
                                         </div>

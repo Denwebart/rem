@@ -62,12 +62,6 @@ View::share('title', $title);
                                                 @if(Auth::check())
                                                     @if((Auth::user()->is($comment->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                         <div class="buttons pull-left">
-                                                            {{--<a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $comment->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">--}}
-                                                            {{--<span class="mdi-editor-mode-edit"></span>--}}
-                                                            {{--</a>--}}
-                                                            {{--<a href="javascript:void(0)" class="btn btn-danger btn-sm delete-question" data-id="{{ $comment->id }}" title="Удалить статью">--}}
-                                                            {{--<span class="mdi-content-clear"></span>--}}
-                                                            {{--</a>--}}
                                                             <div class="status">
                                                                 Статус:
                                                                 {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
@@ -80,12 +74,12 @@ View::share('title', $title);
                                     </div>
                                     <div class="col-md-12">
                                         <div class="date pull-left" title="Дата публикации">
-                                            <span class="mdi-action-today"></span>
+                                            <i class="material-icons">today</i>
                                             {{ DateHelper::dateFormat($comment->created_at) }}
                                         </div>
                                         <div class="pull-right">
                                             <div class="rating pull-left" title="Оценка комментария">
-                                                <span class="mdi-action-thumbs-up-down"></span>
+                                                <i class="material-icons">thumbs_up_down</i>
                                                 {{ $comment->votes_like - $comment->votes_dislike }}
                                             </div>
                                         </div>
@@ -112,7 +106,7 @@ View::share('title', $title);
                                                 @endif
                                                 <div class="comment">
                                                     <div class="date pull-left" title="Дата публикации">
-                                                        <span class="mdi-action-today"></span>
+                                                        <i class="material-icons">today</i>
                                                         {{ DateHelper::dateFormat($comment->parent->created_at) }}
                                                     </div>
                                                     <div class="user pull-left" title="@if(!$comment->parent->is_answer) Автор комментария @else Автор ответа @endif">

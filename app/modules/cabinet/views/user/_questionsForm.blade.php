@@ -68,7 +68,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $page->getImageEditorPath()])
+    @include('tinymce-init', ['imagePath' => $question->getImageEditorPath()])
 @stop
 
 @section('script')

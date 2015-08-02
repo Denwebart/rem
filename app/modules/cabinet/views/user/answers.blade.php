@@ -60,12 +60,6 @@ View::share('title', $title);
                                                 @if(Auth::check())
                                                     @if((Auth::user()->is($answer->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                                                         <div class="buttons pull-left">
-                                                            {{--<a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $answer->id]) }}" class="btn btn-info btn-sm" title="Редактировать статью">--}}
-                                                            {{--<span class="mdi-editor-mode-edit"></span>--}}
-                                                            {{--</a>--}}
-                                                            {{--<a href="javascript:void(0)" class="btn btn-danger btn-sm delete-question" data-id="{{ $answer->id }}" title="Удалить статью">--}}
-                                                            {{--<span class="mdi-content-clear"></span>--}}
-                                                            {{--</a>--}}
                                                             <div class="status">
                                                                 Статус:
                                                                 {{ ($answer->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
@@ -78,17 +72,17 @@ View::share('title', $title);
                                     </div>
                                     <div class="col-md-12">
                                         <div class="date pull-left" title="Дата публикации">
-                                            <span class="mdi-action-today"></span>
+                                            <i class="material-icons">today</i>
                                             {{ DateHelper::dateFormat($answer->created_at) }}
                                         </div>
                                         <div class="pull-right">
                                             @if(Comment::MARK_BEST == $answer->mark)
                                                 <div class="best pull-left">
-                                                    <i class="mdi-action-done mdi-success"></i>
+                                                    <i class="material-icons mdi-success">done</i>
                                                 </div>
                                             @endif
                                             <div class="rating pull-left" title="Оценка комментария">
-                                                <span class="mdi-action-thumbs-up-down"></span>
+                                                <i class="material-icons">thumbs_up_down</i>
                                                 {{ $answer->votes_like - $answer->votes_dislike }}
                                             </div>
                                         </div>

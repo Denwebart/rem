@@ -1,7 +1,7 @@
 <div class="col-md-10">
     <h3>
         @if(count($page->bestComments))
-            <i class="icon mdi-action-done mdi-success"></i>
+            <i class="material-icons mdi-success">done</i>
         @endif
         <a href="{{ URL::to($page->getUrl()) }}">
             {{ $page->title }}
@@ -12,11 +12,10 @@
     <div class="buttons">
         @if('user.savedPages' == Route::currentRouteName())
             <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
-                <i class="icon mdi-content-archive"></i>
+                <i class="material-icons">close</i>
             </a>
         @elseif('user.subscriptions' == Route::currentRouteName())
             <a href="javascript:void(0)" class="pull-right unsubscribe" data-id="{{ $page->id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                {{--<i class="glyphicon glyphicon-floppy-remove"></i>--}}
                 Отписаться
             </a>
         @endif
@@ -44,40 +43,40 @@
             </a>
         </div>
         <div class="date pull-left" title="Дата публикации" data-toggle="tooltip" data-placement="top">
-            <span class="icon mdi-action-today"></span>
+            <i class="material-icons">today</i>
             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
         </div>
         <div class="pull-right">
             <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
-                <span class="icon mdi-action-visibility"></span>
+                <i class="material-icons">visibility</i>
                 <span>{{ $page->views }}</span>
             </div>
             @if(Page::TYPE_QUESTION == $page->type)
                 <div class="comments-count pull-left" title="Количество ответов" data-toggle="tooltip" data-placement="top">
-                    <span class="icon mdi-communication-forum"></span>
+                    <i class="material-icons">question_answer</i>
                     <a href="{{ URL::to($page->getUrl() . '#answers') }}">
                         {{ count($page->publishedAnswers) }}
                     </a>
                 </div>
             @else
                 <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="top">
-                    <span class="icon mdi-communication-messenger"></span>
+                    <i class="material-icons">chat_bubble</i>
                     <a href="{{ URL::to($page->getUrl() . '#comments') }}">
                         {{ count($page->publishedComments) }}
                     </a>
                 </div>
             @endif
             <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
-                <span class="icon mdi-content-archive"></span>
+                <i class="material-icons">archive</i>
                 <span>{{ count($page->whoSaved) }}</span>
             </div>
             <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top">
-                <span class="icon mdi-action-grade"></span>
+                <i class="material-icons">grade</i>
                 <span>{{ $page->getRating() }} ({{ $page->voters }})</span>
             </div>
             @if(Page::TYPE_QUESTION == $page->type)
                 <div class="rating pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="top">
-                    <span class="icon mdi-maps-local-library"></span>
+                    <i class="material-icons">local_library</i>
                     <span>{{ count($page->subscribers) }}</span>
                 </div>
             @endif
@@ -125,6 +124,7 @@
 </div>
 <div class="col-md-12">
     <a class="pull-right" href="{{ URL::to($page->getUrl()) }}">
-        Читать полностью <span class="glyphicon glyphicon-chevron-right"></span>
+        Читать полностью
+        <i class="material-icons">chevron_right</i>
     </a>
 </div>
