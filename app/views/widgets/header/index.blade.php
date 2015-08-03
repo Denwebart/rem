@@ -171,10 +171,17 @@
                             </a>
                         </li>
                         <li class="footer">
-                            <a href="{{ URL::route('logout') }}">
-                                <i class="material-icons">power_settings_new</i>
-                                Выход
-                            </a>
+                            @if(isset($backUrlLogout))
+                                <a href="{{ URL::route('logout', ['backUrl' => urlencode($backUrlLogout)]) }}">
+                                    <i class="material-icons">power_settings_new</i>
+                                    Выход
+                                </a>
+                            @else
+                                <a href="{{ URL::route('logout') }}">
+                                    <i class="material-icons">power_settings_new</i>
+                                    Выход
+                                </a>
+                            @endif
                         </li>
                     </ul>
                 </li>

@@ -51,6 +51,7 @@ class CabinetUserController extends \BaseController
 			if(Auth::user()->getLoginForUrl() != $login && !Auth::user()->isAdmin()) {
 				App::abort(403, 'Unauthorized action.');
 			}
+			View::share('backUrlLogout', '/');
 
 		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'subscriptions']]);
 	}

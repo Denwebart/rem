@@ -95,7 +95,6 @@ class UsersController extends BaseController
 				}
 			} else {
 				Log::info("User [{$login}] failed to login.");
-				return Redirect::back()->withAlert("Произошла ошибка.");
 			}
 
 			$message = "Неверный логин (email) или пароль, либо учетная запись еще не активирована.";
@@ -114,13 +113,15 @@ class UsersController extends BaseController
 		if(Auth::check()){
 			Auth::logout();
 		}
+
 		Session::forget('user');
-		if(preg_match('#^'.Config::get('app.url').'user#', URL::previous()) || preg_match('#^'.Config::get('app.url').'admin#', URL::previous()))
-		{
+
+		if(strpos(URL::previous(), Config::get('settings.siteUrl').'/admin')) {
 			return Redirect::to('/');
-		}
-		else {
+		} elseif(is_null(Request::get('backUrl'))) {
 			return Redirect::to(URL::previous());
+		} else {
+			return Redirect::to(urldecode(Request::get('backUrl')));
 		}
 	}
 
