@@ -34,12 +34,12 @@ View::share('page', $title);
                 </div>
                 <div class="col-md-3">
                     <div class="form-group month" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
-                        {{ Form::select('month', DateHelper::$monthsList, date('n'), ['class' => 'form-control', 'id' => 'month']) }}
+                        {{ Form::select('month', DateHelper::$monthsList, Request::has('month') ? Request::get('month') : date('n'), ['class' => 'form-control', 'id' => 'month']) }}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group year" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
-                        {{ Form::selectYear('year', 2015, date('Y'), date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
+                        {{ Form::selectYear('year', 2015, date('Y'), Request::has('year') ? Request::get('year') : date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
                     </div>
                 </div>
                 {{ Form::hidden('direction', Request::get('direction')) }}

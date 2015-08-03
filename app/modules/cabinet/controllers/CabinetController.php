@@ -25,6 +25,8 @@ class CabinetController extends \BaseController
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
 		$interval = Request::has('interval') ? Request::get('interval') : User::INTERVAL_ALL_TIMES;
+		$month = Request::has('month') ? Request::get('month') : date('n');
+		$year = Request::has('year') ? Request::get('year') : date('Y');
 
 		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'honors'];
 		$name = trim(Input::get('name'));
@@ -39,13 +41,12 @@ class CabinetController extends \BaseController
 				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
 				->orWhere('login', 'like', "$name%");
 		}
-		if ($sortBy && $direction) {
-			if(!in_array($sortBy, $relations)){
-				$query = $query->orderBy($sortBy, $direction);
-			}
-		} else {
-			$query = $query->orderBy('role', 'ASC')
-				->orderBy('created_at', 'ASC');
+
+		if(User::INTERVAL_MONTH == $interval) {
+			$query = $query->whereBetween('created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s')]);
+		}
+		if(User::INTERVAL_YEAR == $interval) {
+			$query = $query->whereBetween('created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s')]);
 		}
 
 		if ($sortBy && $direction) {
@@ -59,8 +60,13 @@ class CabinetController extends \BaseController
 						return $user->$sortBy->count();
 					})->reverse();
 				}
+			} else {
+				$query = $query->orderBy($sortBy, $direction);
+				$users = $query->paginate(10);
 			}
 		} else {
+			$query = $query->orderBy('role', 'ASC')
+				->orderBy('created_at', 'ASC');
 			$users = $query->paginate(10);
 		}
 
