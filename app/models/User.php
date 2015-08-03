@@ -534,11 +534,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION);
 	}
 
-	public function publishedQuestions()
+	public function publishedQuestions($year = null, $month = null)
 	{
-		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
-			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'));
+		if(is_null($year) && is_null($month)) {
+			return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
+				->whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'));
+		} else {
+			return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
+				->whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->whereBetween('published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 30, $year))]);
+		}
 	}
 
 	/**

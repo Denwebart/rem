@@ -42,12 +42,12 @@ class CabinetController extends \BaseController
 				->orWhere('login', 'like', "$name%");
 		}
 
-		if(User::INTERVAL_MONTH == $interval) {
-			$query = $query->whereBetween('created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s')]);
-		}
-		if(User::INTERVAL_YEAR == $interval) {
-			$query = $query->whereBetween('created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s')]);
-		}
+//		if(User::INTERVAL_MONTH == $interval) {
+//			$query = $query->where('created_at', '>', date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)));
+//		}
+//		if(User::INTERVAL_YEAR == $interval) {
+//			$query = $query->where('created_at', '>', date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)));
+//		}
 
 		if ($sortBy && $direction) {
 			if(in_array($sortBy, $relations)) {
