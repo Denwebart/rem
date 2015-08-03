@@ -14,9 +14,8 @@ View::share('page', $title);
     <section id="content">
         <h2>{{ $title }}</h2>
 
-        <div class="row">
-            {{ Form::open(['method' => 'GET', 'route' => ['users'], 'id' => 'search-users-form']) }}
-
+        {{ Form::open(['method' => 'GET', 'route' => ['users'], 'id' => 'search-users-form']) }}
+            <div class="row">
                 <div class="col-md-10">
                     <div class="form-group">
                         {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
@@ -25,9 +24,24 @@ View::share('page', $title);
                 <div class="col-md-2">
                     {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
                 </div>
-                {{ Form::hidden('_token', csrf_token()) }}
-            {{ Form::close() }}
-        </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ Form::select('interval', User::$intervals, Request::get('interval'), ['class' => 'form-control', 'id' => 'interval']) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group month" @if(User::INTERVAL_MONTH != Request::get('interval')) style="display: none" @endif>
+                        {{ Form::select('month', ['январь', 'февраль'], null, ['class' => 'form-control', 'id' => 'month']) }}
+                    </div>
+                    <div class="form-group year" @if(User::INTERVAL_YEAR != Request::get('interval')) style="display: none" @endif>
+                        {{ Form::select('year', [2014, 2015], null, ['class' => 'form-control', 'id' => 'year']) }}
+                    </div>
+                </div>
+            </div>
+        {{ Form::close() }}
 
         <div class="row">
             @if(count($users))
@@ -120,14 +134,14 @@ View::share('page', $title);
                             @endforeach
                         </tbody>
                     </table>
-{{--                    {{ $users->links() }}--}}
+                    {{ $users->links() }}
                 </div>
             </div>
         @else
             <p>Пользователь не найден.</p>
         @endif
 
-       `{{ $areaWidget->contentBottom() }}
+       {{ $areaWidget->contentBottom() }}
     </section>
 @stop
 
@@ -141,13 +155,35 @@ View::share('page', $title);
     @parent
 
     <script type="text/javascript">
-        $("#name").autocomplete({
-            source: "<?php echo URL::route('users.autocomplete') ?>",
-            minLength: 1,
-            select: function(e, ui) {
-                $("#search-users-form #name").val(ui.item.value);
+        $(document).ready(function() {
+
+            // автокомплит пользователей
+            $("#name").autocomplete({
+                source: "<?php echo URL::route('users.autocomplete') ?>",
+                minLength: 1,
+                select: function(e, ui) {
+                    $("#search-users-form #name").val(ui.item.value);
+                    $("#search-users-form").submit();
+                }
+            });
+
+            // отправка формы после выбора
+            $("select[id^='interval'], select[id^='month'], select[id^='year']").on('change', function(){
                 $("#search-users-form").submit();
-            }
+            });
+
+            // исключение пустых полей формы
+            $("#search-users-form").submit(function() {
+                if($("#name").val() == "") {
+                    $("#name").prop("disabled", true);
+                }
+                if($("#month").val() == 0) {
+                    $("#month").prop("disabled", true);
+                }
+                if($("#year").val() == 0) {
+                    $("#year").prop("disabled", true);
+                }
+            });
         });
     </script>
 

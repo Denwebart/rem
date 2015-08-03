@@ -90,6 +90,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		self::ROLE_USER => 'Пользователь',
 	];
 
+	const INTERVAL_ALL_TIMES = 'all_times';
+	const INTERVAL_MONTH = 'month';
+	const INTERVAL_YEAR = 'year';
+
+	public static $intervals = [
+		self::INTERVAL_ALL_TIMES => 'За все время',
+		self::INTERVAL_MONTH => 'За месяц',
+		self::INTERVAL_YEAR => 'За год',
+	];
+
 	protected $fillable = [
 		'login',
 		'email',
