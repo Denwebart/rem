@@ -23,48 +23,45 @@ class CabinetController extends \BaseController
 	public function index()
 	{
 		$sortBy = Request::get('sortBy');
-		$direction = Request::get('direction') ? Request::get('direction') : 'desc';
+		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
+		$interval = Request::has('interval') ? Request::get('interval') : User::INTERVAL_ALL_TIMES;
 
 		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'honors'];
+		$name = trim(Input::get('name'));
+
+		$query = new User;
+		$query = $query->whereIsActive(1);
+		$query = $query->with($relations);
+
+		if($name) {
+			$query = $query->select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
+				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
+				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
+				->orWhere('login', 'like', "$name%");
+		}
+		if ($sortBy && $direction) {
+			if(!in_array($sortBy, $relations)){
+				$query = $query->orderBy($sortBy, $direction);
+			}
+		} else {
+			$query = $query->orderBy('role', 'ASC')
+				->orderBy('created_at', 'ASC');
+		}
+
 		if ($sortBy && $direction) {
 			if(in_array($sortBy, $relations)) {
 				if($direction == 'asc') {
-					$users = User::whereIsActive(1)
-						->with($relations)
-						->get()->sortBy(function($user) use($sortBy) {
+					$users = $query->get()->sortBy(function($user) use($sortBy) {
 							return $user->$sortBy->count();
 						});
 				} else {
-					$users = User::whereIsActive(1)
-						->with($relations)
-						->get()->sortBy(function($user) use($sortBy) {
-							return $user->$sortBy->count();
-						})->reverse();
+					$users = $query->get()->sortBy(function($user) use($sortBy) {
+						return $user->$sortBy->count();
+					})->reverse();
 				}
-			} else {
-				$users = User::whereIsActive(1)
-					->with($relations)
-					->orderBy($sortBy, $direction)
-					->paginate(10);
 			}
 		} else {
-			$users = User::whereIsActive(1)
-				->with($relations)
-				->orderBy('role', 'ASC')
-				->orderBy('created_at', 'ASC')
-				->paginate(10);
-		}
-
-		$name = trim(Input::get('name'));
-
-		if($name) {
-			$users = User::select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
-				->whereIsActive(1)
-				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
-				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
-				->orWhere('login', 'like', "$name%")
-				->with($relations)
-				->paginate(10);
+			$users = $query->paginate(10);
 		}
 
 		return View::make('cabinet::index', compact('users'))->with('name', $name);

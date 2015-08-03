@@ -2,6 +2,21 @@
 
 class DateHelper
 {
+	public static $monthsList = [
+		'1' => 'Январь',
+		'2' => 'Февраль',
+		'3' => 'Март',
+		'4' => 'Апрель',
+		'5' => 'Май',
+		'6' => 'Июнь',
+		'7' => 'Июль',
+		'8' => 'Август',
+		'9' => 'Сентябрь',
+		'10' => 'Октябрь',
+		'11' => 'Ноябрь',
+		'12' => 'Декабрь',
+	];
+
     protected static $months = [
 		'1' => 'Января',
 		'2' => 'Февраля',
@@ -47,7 +62,7 @@ class DateHelper
 			$month = ($isShortMonth) ?
 				self::$shortMonths[date('n', $timestamp)] : self::$months[date('n', $timestamp)];
 			$time = ($withTime) ? " H:i" : "";
-			return date("d $month Y" . $time, $timestamp);
+			return date("j $month Y" . $time, $timestamp);
 		} else {
 			return '-';
 		}

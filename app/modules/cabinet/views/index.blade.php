@@ -27,19 +27,23 @@ View::share('page', $title);
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::select('interval', User::$intervals, Request::get('interval'), ['class' => 'form-control', 'id' => 'interval']) }}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group month" @if(User::INTERVAL_MONTH != Request::get('interval')) style="display: none" @endif>
-                        {{ Form::select('month', ['январь', 'февраль'], null, ['class' => 'form-control', 'id' => 'month']) }}
-                    </div>
-                    <div class="form-group year" @if(User::INTERVAL_YEAR != Request::get('interval')) style="display: none" @endif>
-                        {{ Form::select('year', [2014, 2015], null, ['class' => 'form-control', 'id' => 'year']) }}
+                <div class="col-md-3">
+                    <div class="form-group month" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
+                        {{ Form::select('month', DateHelper::$monthsList, date('n'), ['class' => 'form-control', 'id' => 'month']) }}
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group year" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
+                        {{ Form::selectYear('year', 2015, date('Y'), date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
+                    </div>
+                </div>
+                {{ Form::hidden('direction', Request::get('direction')) }}
+                {{ Form::hidden('sortBy', Request::get('sortBy')) }}
             </div>
         {{ Form::close() }}
 
@@ -47,30 +51,45 @@ View::share('page', $title);
             @if(count($users))
                 <div id="users" class="col-md-12">
                     <table class="table table-striped table-hover">
+                        <?php
+                            $parameters = [];
+                            if(Request::has('name')) {
+                                $parameters['name'] = Request::get('name');
+                            }
+                            if(Request::has('interval')) {
+                                $parameters['interval'] = Request::get('interval');
+                            }
+                            if(Request::has('month')) {
+                                $parameters['month'] = Request::get('month');
+                            }
+                            if(Request::has('year')) {
+                                $parameters['year'] = Request::get('year');
+                            }
+                        ?>
                         <thead>
                             <tr>
                                 <th></th>
                                 <th></th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors', $parameters) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points') }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points', $parameters) }}
                                 </th>
                             </tr>
                         </thead>
@@ -94,7 +113,7 @@ View::share('page', $title);
                                         @endif
                                     </td>
                                     <td>
-                                        {{ date('d/m/Y', strtotime($user->created_at)) }}
+                                        {{ DateHelper::dateFormat($user->created_at, false) }}
                                     </td>
                                     <td>
                                         <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
@@ -134,7 +153,7 @@ View::share('page', $title);
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $users->links() }}
+{{--                    {{ $users->links() }}--}}
                 </div>
             </div>
         @else
@@ -177,11 +196,21 @@ View::share('page', $title);
                 if($("#name").val() == "") {
                     $("#name").prop("disabled", true);
                 }
+                if($("#interval").val() == '<?php echo User::INTERVAL_ALL_TIMES ?>') {
+                    $("#month").prop("disabled", true);
+                    $("#year").prop("disabled", true);
+                }
                 if($("#month").val() == 0) {
                     $("#month").prop("disabled", true);
                 }
                 if($("#year").val() == 0) {
                     $("#year").prop("disabled", true);
+                }
+                if($("[name='direction']").val() == 0) {
+                    $("[name='direction']").prop("disabled", true);
+                }
+                if($("[name='sortBy']").val() == 0) {
+                    $("[name='sortBy']").prop("disabled", true);
                 }
             });
         });
