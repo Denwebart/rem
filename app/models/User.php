@@ -74,9 +74,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	const POINTS_FOR_COMMENT = 1;
 	const POINTS_FOR_ANSWER = 1;
-	const POINTS_FOR_GOOD_ANSWER = 1;
 	const POINTS_FOR_BEST_ANSWER = 4;
-	const POINTS_FOR_QUESTION = 3;
+	const POINTS_FOR_QUESTION = 0;
 	const POINTS_FOR_ARTICLE = 5;
 
 	const ROLE_NONE = 0;
@@ -471,7 +470,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function comments()
 	{
-		return $this->hasMany('Comment', 'user_id');
+		return $this->hasMany('Comment', 'user_id')->whereIsAnswer(0);
 	}
 
 	/**
@@ -481,7 +480,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function publishedComments()
 	{
-		return $this->hasMany('Comment', 'user_id')->whereIsPublished(1);
+		return $this->hasMany('Comment', 'user_id')->whereIsPublished(1)->whereIsAnswer(0);
 	}
 
 	/**
@@ -670,4 +669,82 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->save();
 	}
 
+	/**
+	 * Лучший писатель прошедшего месяца
+	 * (по баллам за статьи)
+	 *
+	 */
+	public static function getBestWriter($year = null, $month = null)
+	{
+		if(is_null($month)) {
+			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
+			$month = $lastMonth->format('m');
+			$year = $lastMonth->format('Y');
+		}
+
+		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->where('pages.type', '=', Page::TYPE_ARTICLE)
+			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('articlesPoints', 'DESC')
+			->orderBy('articlesCount', 'DESC')
+			->limit(3)
+			->get();
+	}
+
+	/**
+	 * Лучший советчик прошедшего месяца
+	 * (по баллам за ответы)
+	 *
+	 */
+	public static function getBestRespondent($year = null, $month = null)
+	{
+		if(is_null($month)) {
+			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
+			$month = $lastMonth->format('m');
+			$year = $lastMonth->format('Y');
+		}
+
+		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->where('comments.is_answer', '=', 1)
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('answersPoints', 'DESC')
+			->orderBy('countBestAnswers', 'DESC')
+			->orderBy('answersCount', 'DESC')
+			->limit(3)
+			->get();
+	}
+
+	/**
+	 * Лучший комментатор прошедшего месяца
+	 * (по баллам за комментарии)
+	 *
+	 */
+	public static function getBestCommentator($year = null, $month = null)
+	{
+		if(is_null($month)) {
+			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
+			$month = $lastMonth->format('m');
+			$year = $lastMonth->format('Y');
+		}
+
+		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->where('comments.is_answer', '=', 0)
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('commentsPoints', 'DESC')
+			->orderBy('commentsCount', 'DESC')
+			->limit(3)
+			->get();
+	}
 }

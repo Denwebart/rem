@@ -84,7 +84,7 @@
     <div class="row">
 
         <div class="col-lg-3 col-md-3">
-            <div id="best-sidebar-widget" class="list-group sidebar-widget">
+            <div id="honors-sidebar-widget" class="list-group sidebar-widget">
                 <h4>Список наград</h4>
 
                 @foreach(Honor::all() as $item)

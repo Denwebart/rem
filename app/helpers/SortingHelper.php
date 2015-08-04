@@ -8,7 +8,7 @@ class SortingHelper {
 		if(Request::get('sortBy') == $column) {
 			$direction = (Request::get('direction') == 'desc') ? 'asc' : 'desc';
 		} else {
-			$direction = Request::get('direction');
+			$direction = Request::has('direction') ? Request::get('direction') : 'desc';
 		}
 		$icon = Request::get('sortBy') == $column ? self::getIcon($direction) : '';
 		return HTML::decode(link_to_route(

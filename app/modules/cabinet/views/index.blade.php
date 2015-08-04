@@ -1,9 +1,170 @@
-@extends('layouts.users')
+@extends('cabinet::layouts.users')
 
 <?php
 $title = 'Все пользователи';
 View::share('page', $title);
 ?>
+
+@section('leftSidebar')
+    <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
+        <h4>Лидеры месяца <span class="small pull-right">Июль 2015</span></h4>
+        <hr/>
+
+        <h5>Лучший писатель</h5>
+        @foreach(User::getBestWriter() as $key => $user)
+            @if($key == 0)
+                <div class="list-group-item best">
+                    <div class="well">
+                        <div class="row-picture">
+                            {{ $key + 1 }}.
+                            <a href="">
+                                {{ $user->getAvatar('mini') }}
+                            </a>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллы за статьи: {{ $user->articlesPoints }}</p>
+                            <p>Количество статей: {{ $user->articlesCount }}</p>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="list-group-item">
+                    <div class="row-picture">
+                        {{ $key + 1 }}.
+                        <a href="">
+                            {{ $user->getAvatar('mini') }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p class="list-group-item-text" style="clear: both">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->login }}
+                            </a>
+                            <br/>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->getFullName() }}
+                            </a>
+                        </p>
+                        <p>Баллы за статьи: {{ $user->articlesPoints }}</p>
+                        <p>Количество статей: {{ $user->articlesCount }}</p>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+
+        <h5>Лучший советчик</h5>
+        @foreach(User::getBestRespondent() as $key => $user)
+            @if($key == 0)
+                <div class="list-group-item best">
+                    <div class="well">
+                        <div class="row-picture">
+                            {{ $key + 1 }}.
+                            <a href="">
+                                {{ $user->getAvatar('mini') }}
+                            </a>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллы за ответы: {{ $user->answersPoints }}</p>
+                            <p>Количество ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="list-group-item">
+                    <div class="row-picture">
+                        {{ $key + 1 }}.
+                        <a href="">
+                            {{ $user->getAvatar('mini') }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p class="list-group-item-text" style="clear: both">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->login }}
+                            </a>
+                            <br/>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->getFullName() }}
+                            </a>
+                        </p>
+                        <p>Баллы за ответы: {{ $user->answersPoints }}</p>
+                        <p>Количество ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+
+        <h5>Лучший комментатор</h5>
+        @foreach(User::getBestCommentator() as $key => $user)
+            @if($key == 0)
+                <div class="list-group-item best">
+                    <div class="well">
+                        <div class="row-picture">
+                            {{ $key + 1 }}.
+                            <a href="">
+                                {{ $user->getAvatar('mini') }}
+                            </a>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллы за комментарии: {{ $user->commentsPoints }}</p>
+                            <p>Количество комментариев: {{ $user->commentsCount }}</p>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="list-group-item">
+                    <div class="row-picture">
+                        {{ $key + 1 }}.
+                        <a href="">
+                            {{ $user->getAvatar('mini') }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p class="list-group-item-text" style="clear: both">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->login }}
+                            </a>
+                            <br/>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                {{ $user->getFullName() }}
+                            </a>
+                        </p>
+                        <p>Баллы за комментарии: {{ $user->commentsPoints }}</p>
+                        <p>Количество комментариев: {{ $user->commentsCount }}</p>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+
+    </div>
+@endsection
 
 @section('content')
     <ol class="breadcrumb">
