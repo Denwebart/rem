@@ -32,21 +32,25 @@ class CabinetController extends \BaseController
 		$name = trim(Input::get('name'));
 
 		$query = new User;
-		$query = $query->whereIsActive(1);
+		$query = $query->where('users.is_active', '=', 1);
 		$query = $query->with($relations);
 
+		$query->join('pages as articles', 'articles.user_id', '=', 'users.id', 'left outer')
+			->where('articles.type', '=', Page::TYPE_QUESTION);
+		$query->select([DB::raw('users.*, CONCAT(users.firstname, " ", users.lastname) AS fullname, count(articles.id) as questionsCount')]);
+		$query->groupBy('users.id');
+
 		if($name) {
-			$query = $query->select([DB::raw('*, CONCAT(firstname, " ", lastname) AS fullname')])
-				->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE', "$name%")
-				->orWhere(DB::raw('CONCAT(lastname, " ", firstname)'), 'LIKE', "$name%")
-				->orWhere('login', 'like', "$name%");
+			$query = $query->where(DB::raw('CONCAT(users.firstname, " ", users.lastname)'), 'LIKE', "$name%")
+				->orWhere(DB::raw('CONCAT(users.lastname, " ", users.firstname)'), 'LIKE', "$name%")
+				->orWhere('users.login', 'LIKE', "$name%");
 		}
 
 //		if(User::INTERVAL_MONTH == $interval) {
-//			$query = $query->where('created_at', '>', date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)));
+//
+////		;
 //		}
 //		if(User::INTERVAL_YEAR == $interval) {
-//			$query = $query->where('created_at', '>', date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)));
 //		}
 
 		if ($sortBy && $direction) {
@@ -65,8 +69,8 @@ class CabinetController extends \BaseController
 				$users = $query->paginate(10);
 			}
 		} else {
-			$query = $query->orderBy('role', 'ASC')
-				->orderBy('created_at', 'ASC');
+			$query = $query->orderBy('users.role', 'ASC')
+				->orderBy('users.created_at', 'ASC');
 			$users = $query->paginate(10);
 		}
 

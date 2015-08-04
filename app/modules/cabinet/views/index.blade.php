@@ -201,7 +201,7 @@ View::share('page', $title);
                 </div>
                 <div class="col-md-3">
                     <div class="form-group year" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
-                        {{ Form::selectYear('year', 2015, date('Y'), Request::has('year') ? Request::get('year') : date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
+                        {{ Form::selectYear('year', 2014, date('Y'), Request::has('year') ? Request::get('year') : date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -289,7 +289,7 @@ View::share('page', $title);
                                     </td>
                                     <td>
                                         <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedQuestions(Request::get('year'), Request::get('month'))->get()) }}
+                                            {{ $user->questionsCount }}
                                         </a>
                                     </td>
                                     <td>

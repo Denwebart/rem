@@ -533,18 +533,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION);
 	}
 
-	public function publishedQuestions($year = null, $month = null)
+	public function publishedQuestions()
 	{
-		if(is_null($year) && is_null($month)) {
-			return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
-				->whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'));
-		} else {
-			return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
-				->whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->whereBetween('published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 30, $year))]);
-		}
+		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'));
 	}
 
 	/**
@@ -638,14 +631,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return (Auth::user()->subscriptions()->wherePageId($pageId)->first()) ? true : false;
 	}
-
-//	public static function getWhoHaveNoHonor($honorId)
-//	{
-//		$list = self::whereDoesntHave('honors')
-//			->orWhereHas('honors', function($query) use($honorId) {
-//				$query->where('honor_id', '!=', $honorId);
-//			})->lists('login', 'id');
-//	}
 
 	/**
 	 * Начисление баллов пользователю
