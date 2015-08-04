@@ -7,7 +7,13 @@ View::share('page', $title);
 
 @section('leftSidebar')
     <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
-        <h4>Лидеры месяца <span class="small pull-right">Июль 2015</span></h4>
+        <h4>Лидеры месяца
+            <span class="small pull-right">
+                <?php $lastMonth = date_create(date('d-m-Y') . ' first day of last month'); ?>
+                {{ DateHelper::$monthsList[$lastMonth->format('n')] }}
+                {{ $lastMonth->format('Y') }}
+            </span>
+        </h4>
         <hr/>
 
         <h5>Лучший писатель</h5>
