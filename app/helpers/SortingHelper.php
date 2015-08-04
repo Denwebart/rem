@@ -5,7 +5,11 @@ class SortingHelper {
 
 	public static function sortingLink($route, $title, $column, $params = [])
 	{
-		$direction = (Request::get('direction') == 'asc') ? 'desc' : 'asc';
+		if(Request::get('sortBy') == $column) {
+			$direction = (Request::get('direction') == 'desc') ? 'asc' : 'desc';
+		} else {
+			$direction = Request::get('direction');
+		}
 		$icon = Request::get('sortBy') == $column ? self::getIcon($direction) : '';
 		return HTML::decode(link_to_route(
 			$route,
