@@ -24,9 +24,6 @@ class CabinetController extends \BaseController
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
-		$interval = Request::has('interval') ? Request::get('interval') : User::INTERVAL_ALL_TIMES;
-		$month = Request::has('month') ? Request::get('month') : date('n');
-		$year = Request::has('year') ? Request::get('year') : date('Y');
 
 		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'honors'];
 		$name = trim(Input::get('name'));
@@ -35,23 +32,11 @@ class CabinetController extends \BaseController
 		$query = $query->where('users.is_active', '=', 1);
 		$query = $query->with($relations);
 
-		$query->join('pages as articles', 'articles.user_id', '=', 'users.id', 'left outer')
-			->where('articles.type', '=', Page::TYPE_QUESTION);
-		$query->select([DB::raw('users.*, CONCAT(users.firstname, " ", users.lastname) AS fullname, count(articles.id) as questionsCount')]);
-		$query->groupBy('users.id');
-
 		if($name) {
 			$query = $query->where(DB::raw('CONCAT(users.firstname, " ", users.lastname)'), 'LIKE', "$name%")
 				->orWhere(DB::raw('CONCAT(users.lastname, " ", users.firstname)'), 'LIKE', "$name%")
 				->orWhere('users.login', 'LIKE', "$name%");
 		}
-
-//		if(User::INTERVAL_MONTH == $interval) {
-//
-////		;
-//		}
-//		if(User::INTERVAL_YEAR == $interval) {
-//		}
 
 		if ($sortBy && $direction) {
 			if(in_array($sortBy, $relations)) {

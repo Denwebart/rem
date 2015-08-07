@@ -192,71 +192,36 @@ View::share('page', $title);
                     {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        {{ Form::select('interval', User::$intervals, Request::get('interval'), ['class' => 'form-control', 'id' => 'interval']) }}
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group year" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval')) style="display: none" @endif>
-                        {{ Form::selectYear('year', 2014, date('Y'), Request::has('year') ? Request::get('year') : date('Y'), ['class' => 'form-control', 'id' => 'year']) }}
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group month" @if(!Request::has('interval') || User::INTERVAL_ALL_TIMES == Request::get('interval') || User::INTERVAL_YEAR == Request::get('interval')) style="display: none" @endif>
-                        {{ Form::select('month', DateHelper::$monthsList, Request::has('month') ? Request::get('month') : date('n'), ['class' => 'form-control', 'id' => 'month']) }}
-                    </div>
-                </div>
-                {{ Form::hidden('direction', Request::get('direction')) }}
-                {{ Form::hidden('sortBy', Request::get('sortBy')) }}
-            </div>
         {{ Form::close() }}
 
         <div class="row">
             @if(count($users))
                 <div id="users" class="col-md-12">
                     <table class="table table-striped table-hover">
-                        <?php
-                            $parameters = [];
-                            if(Request::has('name')) {
-                                $parameters['name'] = Request::get('name');
-                            }
-                            if(Request::has('interval')) {
-                                $parameters['interval'] = Request::get('interval');
-                            }
-                            if(Request::has('month')) {
-                                $parameters['month'] = Request::get('month');
-                            }
-                            if(Request::has('year')) {
-                                $parameters['year'] = Request::get('year');
-                            }
-                        ?>
                         <thead>
                             <tr>
                                 <th></th>
                                 <th></th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points', $parameters) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points') }}
                                 </th>
                             </tr>
                         </thead>
