@@ -19,9 +19,9 @@ class AdminHonorsController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
 		if ($sortBy && $direction) {
-			$honors = Honor::orderBy($sortBy, $direction)->with('users')->paginate(10);
+			$honors = Honor::orderBy($sortBy, $direction)->with('users.userHonors')->paginate(10);
 		} else {
-			$honors = Honor::orderBy('id', 'DESC')->with('users')->paginate(10);
+			$honors = Honor::orderBy('id', 'DESC')->with('users.userHonors')->paginate(10);
 		}
 
 		return View::make('admin::honors.index', compact('honors'));
@@ -35,7 +35,7 @@ class AdminHonorsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$honor = Honor::with('users')->findOrFail($id);
+		$honor = Honor::with('users.userHonors')->findOrFail($id);
 
 		return View::make('admin::honors.show', compact('honor'));
 	}
@@ -231,7 +231,13 @@ class AdminHonorsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Honor::destroy($id);
+		$honor = Honor::find($id);
+		if(is_null($honor->key)) {
+			$honor->delete();
+		} else {
+			return Redirect::route('admin.honors.index')
+				->with('warningMessage', 'Эту награду нельзя удалить.');
+		}
 
 		return Redirect::route('admin.honors.index');
 	}

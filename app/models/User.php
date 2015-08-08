@@ -587,6 +587,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->belongsToMany('Honor', 'users_honors');
 	}
 
+	public function userHonors()
+	{
+		return $this->hasMany('UserHonor', 'user_id');
+	}
+
 	/**
 	 * Сообщения о бане (дата и причина бана пользователя)
 	 *
@@ -658,6 +663,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Лучший писатель прошедшего месяца
 	 * (по баллам за статьи)
 	 *
+	 * @param null $year
+	 * @param null $month
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
 	 */
 	public static function getBestWriter($year = null, $month = null, $limit = 3)
 	{
@@ -684,8 +693,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Лучший советчик прошедшего месяца
 	 * (по баллам за ответы)
 	 *
+	 * @param null $year
+	 * @param null $month
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
 	 */
-	public static function getBestRespondent($year = null, $month = null)
+	public static function getBestRespondent($year = null, $month = null, $limit = 3)
 	{
 		if(is_null($month)) {
 			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
@@ -703,7 +716,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			->orderBy('answersPoints', 'DESC')
 			->orderBy('countBestAnswers', 'DESC')
 			->orderBy('answersCount', 'DESC')
-			->limit(3)
+			->limit($limit)
 			->get();
 	}
 
@@ -711,8 +724,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Лучший комментатор прошедшего месяца
 	 * (по баллам за комментарии)
 	 *
+	 * @param null $year
+	 * @param null $month
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
 	 */
-	public static function getBestCommentator($year = null, $month = null)
+	public static function getBestCommentator($year = null, $month = null, $limit = 3)
 	{
 		if(is_null($month)) {
 			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
@@ -729,7 +746,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			->groupBy('users.id')
 			->orderBy('commentsPoints', 'DESC')
 			->orderBy('commentsCount', 'DESC')
-			->limit(3)
+			->limit($limit)
 			->get();
 	}
 }

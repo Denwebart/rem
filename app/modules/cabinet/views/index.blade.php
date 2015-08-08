@@ -270,11 +270,17 @@ View::share('page', $title);
                                     <td>
                                         Награды:
                                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
-                                            {{ count($user->honors) }}
+                                            {{ count($user->userHonors) }}
                                         </a>
-                                        @foreach($user->honors as $honor)
-                                            <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                                                {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title, 'alt' => $honor->title]) }}
+                                        @foreach($user->userHonors as $userHonor)
+                                            <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                                {{ $userHonor->honor->getImage(null, [
+                                                    'width' => '25px',
+                                                    'title' => !is_null($userHonor->comment)
+                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                        : $userHonor->honor->title,
+                                                    'alt' => $userHonor->honor->title])
+                                                }}
                                             </a>
                                         @endforeach
                                     </td>

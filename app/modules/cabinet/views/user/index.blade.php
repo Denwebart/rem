@@ -129,16 +129,22 @@ View::share('title', $title);
                     <div class="col-md-12">
                         <h2 id="honors">Награды</h2>
 
-                        @if(count($user->honors))
+                        @if(count($user->userHonors))
                             <div id="message"></div>
-                            @foreach($user->honors as $honor)
+                            @foreach($user->userHonors as $userHonor)
                                 <div class="honor">
-                                    <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                                        {{ $honor->getImage(null, ['width' => '75px']) }}
+                                    <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                        {{ $userHonor->honor->getImage(null, [
+                                        'width' => '75px',
+                                        'title' => !is_null($userHonor->comment)
+                                            ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                            : $userHonor->honor->title,
+                                        'alt' => $userHonor->honor->title
+                                        ]) }}
                                     </a>
                                     @if(Auth::check())
-                                        @if(Auth::user()->isAdmin())
-                                            <a href="javascript:void(0)" class="remove-reward" data-honor-id="{{ $honor->id }}">
+                                        @if(Auth::user()->isAdmin() && is_null($userHonor->honor->key))
+                                            <a href="javascript:void(0)" class="remove-reward" data-honor-id="{{ $userHonor->honor->id }}">
                                                 <i class="material-icons mdi-danger">cancel</i>
                                             </a>
                                         @endif

@@ -9,9 +9,15 @@
     <td>{{ $user->getFullName() }}</td>
     <td></td>
     <td>
-        @foreach($user->honors as $userHonor)
-            <a href="{{ URL::route('admin.honors.show', ['id' => $userHonor->id]) }}">
-                {{ $userHonor->getImage(null, ['width' => '25px']) }}
+        @foreach($user->userHonors as $userHonor)
+            <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
+                {{ $userHonor->honor->getImage(null, [
+                    'width' => '25px',
+                    'title' => !is_null($userHonor->comment)
+                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                        : $userHonor->honor->title,
+                    'alt' => $userHonor->honor->title])
+                }}
             </a>
         @endforeach
     </td>

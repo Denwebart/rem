@@ -22,6 +22,9 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
+                @if(Session::has('warningMessage'))
+                    <p>{{ Session::get('warningMessage') }}</p>
+                @endif
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">
@@ -68,32 +71,32 @@ View::share('title', $title);
                                             <i class="fa fa-edit "></i>
                                         </a>
 
-                                        @if(Auth::user()->isAdmin())
+                                        @if(Auth::user()->isAdmin() && is_null($honor->key))
                                             {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.honors.destroy', $honor->id), 'class' => 'as-button')) }}
                                                 <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                                                     <i class='fa fa-trash-o'></i>
                                                 </button>
                                                 {{ Form::hidden('_token', csrf_token()) }}
                                             {{ Form::close() }}
-                                        @endif
 
-                                        <div id="confirm" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Удаление</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Вы уверены, что хотите удалить?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success delete" data-dismiss="modal">Да</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
+                                            <div id="confirm" class="modal fade">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            <h4 class="modal-title">Удаление</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Вы уверены, что хотите удалить?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-success delete" data-dismiss="modal">Да</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

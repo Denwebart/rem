@@ -117,9 +117,15 @@ View::share('title', $title);
                                     </td>
                                     <td>{{ DateHelper::dateFormat($user->created_at) }}</td>
                                     <td>
-                                        @foreach($user->honors as $honor)
+                                        @foreach($user->userHonors as $userHonor)
                                             <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
-                                                {{ $honor->getImage(null, ['width' => '25px']) }}
+                                                {{ $userHonor->honor->getImage(null, [
+                                                    'width' => '25px',
+                                                    'title' => !is_null($userHonor->comment)
+                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                        : $userHonor->honor->title,
+                                                    'alt' => $userHonor->honor->title])
+                                                }}
                                             </a>
                                         @endforeach
                                     </td>

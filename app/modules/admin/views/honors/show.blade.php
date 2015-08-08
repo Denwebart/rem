@@ -29,29 +29,31 @@ View::share('title', $title);
                 {{ $honor->description }}
             </div>
             <div class="col-md-8">
-                <h3>Наградить</h3>
+                @if(is_null($honor->key))
+                    <h3>Наградить</h3>
 
-                {{ Form::open([
-                    'action' => ['AdminHonorsController@toReward'],
-                    'id' => 'to-reward-form',
-                ]) }}
+                    {{ Form::open([
+                        'action' => ['AdminHonorsController@toReward'],
+                        'id' => 'to-reward-form',
+                    ]) }}
 
-                    <div class="message"></div>
+                        <div class="message"></div>
 
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            {{ Form::hidden('honor_id', $honor->id, ['id' => 'honor_id']) }}
-                            {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
-                            <div class="error"></div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                {{ Form::hidden('honor_id', $honor->id, ['id' => 'honor_id']) }}
+                                {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
+                                <div class="error"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        {{ Form::submit('Наградить', ['class' => 'btn btn-success']) }}
-                    </div>
-                    {{ Form::hidden('_token', csrf_token()) }}
-                {{ Form::close() }}
+                        <div class="col-md-2">
+                            {{ Form::submit('Наградить', ['class' => 'btn btn-success']) }}
+                        </div>
+                        {{ Form::hidden('_token', csrf_token()) }}
+                    {{ Form::close() }}
+                    <hr>
+                @endif
 
-                <hr>
                 <h3>Пользователи, у которых есть эта награда</h3>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">

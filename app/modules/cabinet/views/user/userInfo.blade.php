@@ -8,9 +8,15 @@
     </div>
     <div class="col-md-2" style="padding: 0">
         <div class="honors">
-            @foreach($user->honors as $honor)
-                <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}">
-                    {{ $honor->getImage(null, ['width' => '25px', 'title' => $honor->title, 'alt' => $honor->title]) }}
+            @foreach($user->userHonors as $userHonor)
+                <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                    {{ $userHonor->honor->getImage(null, [
+                        'width' => '25px',
+                        'title' => !is_null($userHonor->comment)
+                            ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                            : $userHonor->honor->title,
+                        'alt' => $userHonor->honor->title])
+                    }}
                 </a>
             @endforeach
         </div>

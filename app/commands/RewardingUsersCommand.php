@@ -22,8 +22,6 @@ class RewardingUsersCommand extends Command {
 
 	/**
 	 * Create a new command instance.
-	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -37,18 +35,103 @@ class RewardingUsersCommand extends Command {
 	 */
 	public function fire()
 	{
-		$bestWriter = User::getBestWriter(null, null, 1);
-		$bestRespondent = User::getBestRespondent(null, null, 1);
-		$bestCommentator = User::getBestCommentator(null, null, 1);
+		$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
+		$month = $lastMonth->format('m');
+		$year = $lastMonth->format('Y');
+
+		$bestWriter = User::getBestWriter($year, $month, 1);
+		$bestRespondent = User::getBestRespondent($year, $month, 1);
+		$bestCommentator = User::getBestCommentator($year, $month, 1);
 
 		if($bestWriter->first()) {
-			$this->info('Best Writer: ' . $bestWriter->first()->login);
+			$user = $bestWriter->first();
+			$honor = Honor::whereKey('bestWriterOfMonth')->first();
+
+			if($honor) {
+				$this->info('Best Writer: ' . $user->login);
+
+				$data = array(
+					'user_id' => $user->id,
+					'honor_id' => $honor->id,
+					'comment' => 'Лучший писатель за '.
+						mb_strtolower(DateHelper::$monthsList[$lastMonth->format('n')]) . ' ' .
+						$lastMonth->format('Y') .' года.'
+				);
+
+				$userHonor = UserHonor::whereHonorId($honor->id)
+					->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
+					->first();
+
+				if (!$userHonor) {
+					if(UserHonor::create($data)){
+						$this->info(' -- Best Writer ('. $user->login .') of the '. $lastMonth->format('M Y') .' year was rewarded.');
+					}
+				} else {
+					$this->info(' -- Best Writer of the '. $lastMonth->format('M Y') .' year already rewarded ('. $userHonor->user->login .').');
+				}
+			} else {
+				$this->error(' -- Best Writer of the '. $lastMonth->format('M Y') .' year not rewarded (reward not found).');
+			}
 		}
-		if($bestWriter->first()) {
-			$this->comment('Best Respondent: ' . $bestRespondent->first()->login);
+		if($bestRespondent->first()) {
+			$user = $bestRespondent->first();
+			$honor = Honor::whereKey('bestRespondentOfMonth')->first();
+
+			if($honor) {
+				$this->info('Best Respondent: ' . $user->login);
+
+				$data = array(
+					'user_id' => $user->id,
+					'honor_id' => $honor->id,
+					'comment' => 'Лучший советчик за '.
+						mb_strtolower(DateHelper::$monthsList[$lastMonth->format('n')]) . ' ' .
+						$lastMonth->format('Y') .' года.'
+				);
+
+				$userHonor = UserHonor::whereHonorId($honor->id)
+					->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
+					->first();
+
+				if (!$userHonor) {
+					if(UserHonor::create($data)){
+						$this->info(' -- Best Respondent ('. $user->login .') of the '. $lastMonth->format('M Y') .' year was rewarded.');
+					}
+				} else {
+					$this->info(' -- Best Respondent of the '. $lastMonth->format('M Y') .' year already rewarded ('. $userHonor->user->login .').');
+				}
+			} else {
+				$this->error(' -- Best Respondent of the '. $lastMonth->format('M Y') .' year not rewarded (reward not found).');
+			}
 		}
-		if($bestWriter->first()) {
-			$this->question('Best Commentator: ' . $bestCommentator->first()->login);
+		if($bestCommentator->first()) {
+			$user = $bestCommentator->first();
+			$honor = Honor::whereKey('bestCommentatorOfMonth')->first();
+
+			if($honor) {
+				$this->info('Best Commentator: ' . $user->login);
+
+				$data = array(
+					'user_id' => $user->id,
+					'honor_id' => $honor->id,
+					'comment' => 'Лучший комментатор за '.
+						mb_strtolower(DateHelper::$monthsList[$lastMonth->format('n')]) . ' ' .
+						$lastMonth->format('Y') .' года.'
+				);
+
+				$userHonor = UserHonor::whereHonorId($honor->id)
+					->where('created_at', '>=', \Carbon\Carbon::now()->subMonth())
+					->first();
+
+				if (!$userHonor) {
+					if(UserHonor::create($data)){
+						$this->info(' -- Best Commentator ('. $user->login .') of the '. $lastMonth->format('M Y') .' year was rewarded.');
+					}
+				} else {
+					$this->info(' -- Best Commentator of the '. $lastMonth->format('M Y') .' year already rewarded ('. $userHonor->user->login .').');
+				}
+			} else {
+				$this->error(' -- Best Commentator of the '. $lastMonth->format('M Y') .' year not rewarded (reward not found).');
+			}
 		}
 
 	}

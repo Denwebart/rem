@@ -4,12 +4,14 @@
  * Honor
  *
  * @property integer $id 
- * @property string $alias 
- * @property string $title 
+ * @property string $key
+ * @property string $alias
+ * @property string $title
  * @property string $image 
  * @property string $description 
  * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users 
  * @method static \Illuminate\Database\Query\Builder|\Honor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereKey($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereAlias($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereImage($value)
@@ -51,11 +53,14 @@ class Honor extends \Eloquent
 
 		static::saving(function($model)
 		{
-			TranslitHelper::generateAlias($model, true);
+			if(is_null($model->key)) {
+				TranslitHelper::generateAlias($model, true);
+			}
 		});
 
 		static::deleted(function($model)
 		{
+			$model->honorUsers()->delete();
 			File::delete(public_path() . '/uploads/' . $model->getTable() . '/' . $model->image);
 		});
 	}
@@ -73,6 +78,11 @@ class Honor extends \Eloquent
 	public function users()
 	{
 		return $this->belongsToMany('User', 'users_honors')->orderBy('users_honors.created_at', 'DESC');
+	}
+
+	public function honorUsers()
+	{
+		return $this->hasMany('UserHonor', 'honor_id');
 	}
 
 	/**

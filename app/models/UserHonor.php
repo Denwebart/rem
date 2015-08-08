@@ -5,18 +5,15 @@ class UserHonor extends Eloquent {
 
 	protected $table = 'users_honors';
 
-	protected $primaryKey = ['user_id','honor_id'];
-
-	public $incrementing = false;
-
 	protected $fillable = [
 		'user_id',
 		'honor_id',
+		'comment',
 	];
 
 	public function user()
 	{
-		return $this->belongsTo('Honor', 'user_id');
+		return $this->belongsTo('User', 'user_id');
 	}
 
 	public function honor()

@@ -21,14 +21,17 @@ class AdminUsersController extends \BaseController {
 		if ($sortBy && $direction) {
 			if ($sortBy == 'fullname') {
 				$users = User::orderBy('firstname', $direction)
+					->with('userHonors')
 					->orderBy('lastname', $direction)
 					->paginate(10);
 			} else {
 				$users = User::orderBy($sortBy, $direction)
+					->with('userHonors')
 					->paginate(10);
 			}
 		} else {
 			$users = User::orderBy('role', 'ASC')
+				->with('userHonors')
 				->paginate(10);
 		}
 
@@ -76,10 +79,12 @@ class AdminUsersController extends \BaseController {
 			if ($sortBy == 'fullname') {
 				$users = User::orderBy('firstname', $direction)
 					->orderBy('lastname', $direction)
+					->with('userHonors')
 					->whereIsBanned(1)
 					->paginate(10);
 			} else {
 				$users = User::orderBy($sortBy, $direction)
+					->with('userHonors')
 					->whereIsBanned(1)
 					->paginate(10);
 			}
@@ -90,6 +95,7 @@ class AdminUsersController extends \BaseController {
 //				->groupBy('ban_notifications.user_id')
 //				->join('users','users.id','=','planets.user_id')
 //				->orderBy('last_ban_at', 'DESC')
+				->with('userHonors')
 				->whereIsBanned(1)
 				->paginate(10);
 		}

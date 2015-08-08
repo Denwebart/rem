@@ -25,7 +25,7 @@ class CabinetController extends \BaseController
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
 
-		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'honors'];
+		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'userHonors'];
 		$name = trim(Input::get('name'));
 
 		$query = new User;
