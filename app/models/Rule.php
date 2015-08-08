@@ -12,11 +12,22 @@ class Rule extends \Eloquent
 	];
 
 	public static $rules = [
-		'position' => 'required|integer|unique:rules',
+		'position' => 'required|integer|unique:rules,position,:id',
 		'is_published' => 'boolean',
 		'title' => 'required|max:500',
 		'description' => 'required|max:2000',
 	];
+
+	public static function rules($id = false, $merge = [])
+	{
+		$rules = SELF::$rules;
+		if ($id) {
+			foreach ($rules as &$rule) {
+				$rule = str_replace(':id', $id, $rule);
+			}
+		}
+		return array_merge( $rules, $merge );
+	}
 
 	/**
 	 * Получение пути для загрузки изображения через редактор

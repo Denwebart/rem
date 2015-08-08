@@ -48,7 +48,7 @@ class AdminRulesController extends \BaseController {
 	{
 		$data = Input::all();
 
-		$validator = Validator::make($data, Rule::$rules);
+		$validator = Validator::make($data, Rule::rules());
 
 		if ($validator->fails())
 		{
@@ -83,7 +83,7 @@ class AdminRulesController extends \BaseController {
 	{
 		$rule = Rule::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), rule::$rules);
+		$validator = Validator::make($data = Input::all(), Rule::rules($rule->id));
 
 		if ($validator->fails())
 		{
