@@ -659,7 +659,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * (по баллам за статьи)
 	 *
 	 */
-	public static function getBestWriter($year = null, $month = null)
+	public static function getBestWriter($year = null, $month = null, $limit = 3)
 	{
 		if(is_null($month)) {
 			$lastMonth = date_create(date('d-m-Y') . ' first day of last month');
@@ -676,7 +676,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			->groupBy('users.id')
 			->orderBy('articlesPoints', 'DESC')
 			->orderBy('articlesCount', 'DESC')
-			->limit(3)
+			->limit($limit)
 			->get();
 	}
 
