@@ -11,4 +11,5 @@
 |
 */
 
-Artisan::add(new RewardingUsersCommand);
+Artisan::add(new RewardingBestOfMonthCommand);
+Artisan::add(new RewardingBestOfYearCommand);

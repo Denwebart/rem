@@ -679,7 +679,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
 			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
 			->where('pages.type', '=', Page::TYPE_ARTICLE)
-			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('articlesPoints', 'DESC')
+			->orderBy('articlesCount', 'DESC')
+			->limit($limit)
+			->get();
+	}
+
+	/**
+	 * Лучший писатель прошедшего года
+	 * (по баллам за статьи)
+	 *
+	 * @param null $year
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getBestWriterOfYear($year = null, $limit = 3)
+	{
+		if(is_null($year)) {
+			$lastYear = date_create(date('d-m-Y') . ' first day of last year');
+			$year = $lastYear->format('Y');
+		}
+
+		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->where('pages.type', '=', Page::TYPE_ARTICLE)
+			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
 			->where('users.is_banned', '=', 0)
 			->groupBy('users.id')
@@ -709,7 +737,36 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
 			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
 			->where('comments.is_answer', '=', 1)
-			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('answersPoints', 'DESC')
+			->orderBy('countBestAnswers', 'DESC')
+			->orderBy('answersCount', 'DESC')
+			->limit($limit)
+			->get();
+	}
+
+	/**
+	 * Лучший советчик прошедшего года
+	 * (по баллам за ответы)
+	 *
+	 * @param null $year
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getBestRespondentOfYear($year = null, $limit = 3)
+	{
+		if(is_null($year)) {
+			$lastYear = date_create(date('d-m-Y') . ' first day of last year');
+			$year = $lastYear->format('Y');
+		}
+
+		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->where('comments.is_answer', '=', 1)
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
 			->where('users.is_banned', '=', 0)
 			->groupBy('users.id')
@@ -740,7 +797,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
 			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
 			->where('comments.is_answer', '=', 0)
-			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
+			->where('users.role', '=', User::ROLE_USER)
+			->where('users.is_banned', '=', 0)
+			->groupBy('users.id')
+			->orderBy('commentsPoints', 'DESC')
+			->orderBy('commentsCount', 'DESC')
+			->limit($limit)
+			->get();
+	}
+
+	/**
+	 * Лучший комментатор прошедшего года
+	 * (по баллам за комментарии)
+	 *
+	 * @param null $year
+	 * @param int $limit
+	 * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+	 */
+	public static function getBestCommentatorOfYear($year = null, $limit = 3)
+	{
+		if(is_null($year)) {
+			$lastYear = date_create(date('d-m-Y') . ' first day of last year');
+			$year = $lastYear->format('Y');
+		}
+
+		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->where('comments.is_answer', '=', 0)
+			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
 			->where('users.is_banned', '=', 0)
 			->groupBy('users.id')

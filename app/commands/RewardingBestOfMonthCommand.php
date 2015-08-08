@@ -4,14 +4,14 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class RewardingUsersCommand extends Command {
+class RewardingBestOfMonthCommand extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'reward';
+	protected $name = 'reward:month';
 
 	/**
 	 * The console command description.
