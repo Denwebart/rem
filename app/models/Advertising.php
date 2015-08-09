@@ -72,6 +72,7 @@ class Advertising extends \Eloquent
 	const WIDGET_COMMENTS = 5;
 	const WIDGET_QUESTIONS = 6;
 	const WIDGET_ANSWERS = 7;
+	const WIDGET_TAGS = 8;
 
 	public static $widgets = [
 		self::WIDGET_LATEST => 'Самое новое',
@@ -81,6 +82,7 @@ class Advertising extends \Eloquent
 		self::WIDGET_COMMENTS => 'Комментарии',
 		self::WIDGET_QUESTIONS => 'Новые вопросы',
 		self::WIDGET_ANSWERS => 'Лучшие ответы',
+		self::WIDGET_TAGS => 'Теги',
 	];
 
 	protected $fillable = [

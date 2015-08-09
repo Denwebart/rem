@@ -27,6 +27,9 @@ class SidebarWidget
 			case (Advertising::WIDGET_ANSWERS):
 				return $this->answers($limit);
 				break;
+			case (Advertising::WIDGET_TAGS):
+				return $this->tags($limit);
+				break;
 		}
 	}
 
@@ -166,6 +169,24 @@ class SidebarWidget
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title', 'menu_title']);
 
 		return (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
+	}
+
+	/**
+	 * Вопросы пользователей (новые вопросы)
+	 *
+	 * @param int $limit Количество записей
+	 * @return string
+	 */
+	public function tags($limit = 20)
+	{
+		$tags = Tag::with('pages')
+			->limit($limit)
+			->get()
+			->sortBy(function($tag) {
+					return $tag->pages->count();
+			})->reverse();
+
+		return (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
 	}
 
 	/**
