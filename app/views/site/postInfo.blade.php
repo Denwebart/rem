@@ -76,6 +76,19 @@
             </a>
         @endif
         <p>{{ $article->getIntrotext() }}</p>
+        @if(Page::TYPE_ARTICLE == $article->type)
+            @if(count($article->tags))
+                <ul class="tags">
+                    @foreach($article->tags as $tag)
+                        <li>
+                            <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-info">
+                                {{ $tag->title }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        @endif
     </div>
     <div class="col-md-12">
         <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
