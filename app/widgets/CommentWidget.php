@@ -13,25 +13,25 @@ class CommentWidget
 			$comments = Comment::whereIsPublished(1)
 				->whereParentId(0)
 				->wherePageId($page->id)
-				->orderBy('created_at')
+				->orderBy('created_at', 'DESC')
 				->with(['user', 'publishedChildren.user'])
 				->whereMark(0)
-				->get();
+				->paginate(20);
 
 			$bestComments = Comment::whereIsPublished(1)
 				->whereParentId(0)
 				->wherePageId($page->id)
-				->orderBy('created_at')
+				->orderBy('created_at', 'DESC')
 				->with(['user', 'publishedChildren.user'])
 				->whereMark(Comment::MARK_BEST)
-				->get();
+				->paginate(20);
 		} else {
 			$comments = Comment::whereIsPublished(1)
 				->whereParentId(0)
 				->wherePageId($page->id)
-				->orderBy('created_at')
+				->orderBy('created_at', 'DESC')
 				->with(['user', 'publishedChildren.user'])
-				->get();
+				->paginate(20);
 			$bestComments = [];
 		}
 

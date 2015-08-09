@@ -1,18 +1,12 @@
-<?php
-        /*
-    require_once base_path() . '/vendor/autoload.php';
-    use Anhskohbo\NoCaptcha\NoCaptcha;
-        */
-?>
 <section id="comments-widget">
-    {{--Лучшие ответы--}}
+    {{-- Лучшие --}}
     @if(Page::TYPE_QUESTION == $page->type)
         <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }}>
             @include('widgets.comment.bestComments', ['isBannedIp' => $isBannedIp])
         </div>
     @endif
 
-    {{--Ответы (все, кроме лучших)--}}
+    {{-- Все, кроме лучших --}}
     <h3>{{ $title }}
         @if(Page::TYPE_QUESTION == $page->type)
             <span class="count-comments">
@@ -33,11 +27,18 @@
         @endif
     </h3>
 
-    <div class="comments">
-        @foreach($comments as $comment)
-            <!-- Comment -->
-            @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment, 'isBannedIp' => $isBannedIp])
-        @endforeach
+    <div id="comments-area">
+        <div class="count">
+            Показано комментариев: <span>{{ $comments->count() }}</span>.
+            Всего: <span>{{ $comments->getTotal() }}</span>.
+        </div>
+        <div class="comments">
+            @foreach($comments as $comment)
+                <!-- Comment -->
+                @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment, 'isBannedIp' => $isBannedIp])
+            @endforeach
+        </div>
+        {{ $comments->links() }}
     </div>
     <!-- end of .comments -->
 
@@ -74,7 +75,7 @@
                             </a>
 
                             <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                                 <div class="comment_error error text-danger"></div>
                             </div>
 
@@ -108,7 +109,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                         <div class="comment_error error text-danger"></div>
                     </div>
 
@@ -168,7 +169,7 @@
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var parentCommentId = $(this).find('textarea').data('parentCommentId');
-            tinyMCE.get("comment-" + parentCommentId).save();
+            tinyMCE.get("comment-textarea-" + parentCommentId).save();
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
@@ -201,12 +202,24 @@
                         $form.find('.error').empty();
                         // вывод комментария
                         if(0 == data.parent_id){
-                            $('.comments').append(data.commentHtml);
+                            $('.comments').prepend(data.commentHtml);
                         } else {
                             $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
                         }
                         $('.count-comments').text(data.countComments);
 
+                        // скролл на новый комментарий
+//                        var scrollTop = $('#comment-' + data.comment_id).offset().top;
+//                        $(document).scrollTop(scrollTop);
+                        $('html, body').animate({
+                            scrollTop: $('#comment-' + data.comment_id).offset().top - 50
+                        }, 1000);
+
+                        // отметить комментарий как новый
+                        $('#comment-' + data.comment_id).addClass('new-comment');
+                        setTimeout(function() {
+                            $('#comment-' + data.comment_id).css('background', 'none');
+                        }, 3000);
                     } //success
                 }
             });

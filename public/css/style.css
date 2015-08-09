@@ -626,6 +626,14 @@ footer #navbar-bottom li {
     background: #AAE0FF;
 }
 
+.new-comment {
+    background: #C1E2B3;
+    transition-duration: 2.5s;
+    -ms-transition-duration: 2.5s;
+    -o-transition-duration: 2.5s;
+    -moz-transition-duration: 2.5s;
+    -webkit-transition-duration: 2.5s;
+}
 
 /*-- Профиль пользователя, журнал пользователя --*/
 

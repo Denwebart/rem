@@ -65,6 +65,7 @@ class CommentsController extends BaseController
 					return Response::json(array(
 						'success' => true,
 						'parent_id' => $comment->parent_id,
+						'comment_id' => $comment->id,
 						'commentHtml' => $commentHtml,
 						'countComments' => (Page::TYPE_QUESTION == $page->type)
 							? count($page->publishedAnswers) - count($page->bestComments)

@@ -78,13 +78,13 @@ View::share('title', $title);
 
                                     @if($user->id == $message->userSender->id)
                                         <div class="col-md-7">
-                                            <div class="well">
+                                            <div class="message">
                                                 {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                             </div>
                                         </div>
                                     @else
                                         <div class="col-md-7 col-md-offset-1">
-                                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                            <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
                                                 {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                             </div>
                                         </div>
@@ -115,7 +115,7 @@ View::share('title', $title);
 
                     @if(!Ip::isBanned())
                         @if(!$user->is_banned)
-                            <div id="message-form-container well">
+                            <div id="message-form-container">
                                 <h3>Отправить сообщение</h3>
 
                                 {{ Form::open([
@@ -273,7 +273,7 @@ View::share('title', $title);
                                     '<br><span class="date">' + response.messageCreadedAt + '</span>' +
                                     '</div>' +
                                     '<div class="col-md-7">' +
-                                    '<div class="well new-message">' +
+                                    '<div class="message new-message">' +
                                     response.message
                             '</div>' +
                             '</div>' +
@@ -281,10 +281,12 @@ View::share('title', $title);
                             '</div>';
 
                             $("#messages-area").append(newMessage);
-                            setTimeout(function(){
-                                $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
-                            }, 300);
                             $($form).trigger('reset');
+
+                            // отметить сообщение как новое
+                            setTimeout(function() {
+                                $("[data-message-id=" + response.messageId + "]").find('.new-message').css('background', '#ffffff');
+                            }, 3000);
                         } //success
                     }
                 });
