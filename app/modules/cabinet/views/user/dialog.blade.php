@@ -241,6 +241,7 @@ View::share('title', $title);
 
             $("#message-form").submit(function(event) {
                 event.preventDefault ? event.preventDefault() : event.returnValue = false;
+                tinyMCE.get("message").save();
                 var $form = $(this),
                         data = $form.serialize(),
                         url = $form.attr('action');

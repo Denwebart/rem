@@ -74,7 +74,7 @@
                             </a>
 
                             <div class="form-group">
-                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                                 <div class="comment_error error text-danger"></div>
                             </div>
 
@@ -108,7 +108,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                        {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                         <div class="comment_error error text-danger"></div>
                     </div>
 
@@ -117,7 +117,7 @@
                     @section('captcha')
                         @parent
                             var recaptcha0 = grecaptcha.render('recaptcha-0', {
-                                'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
+                                'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>',
                                 'theme' : 'light'
                             });
                     @endsection
@@ -167,6 +167,8 @@
         // Отправка комментария
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var parentCommentId = $(this).find('textarea').data('parentCommentId');
+            tinyMCE.get("comment-" + parentCommentId).save();
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
@@ -195,6 +197,7 @@
                                 '</div>';
                         $form.find('.successMessage').html(successContent);
                         $form.trigger('reset');
+                        tinyMCE.activeEditor.setContent('');
                         $form.find('.error').empty();
                         // вывод комментария
                         if(0 == data.parent_id){

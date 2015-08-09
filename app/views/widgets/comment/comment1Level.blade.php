@@ -93,7 +93,7 @@
                                 </a>
 
                                 <div class="form-group">
-                                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                                    {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-' . $comment->id, 'data-parent-comment-id' => $comment->id , 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                                     <div class="comment_error error text-danger"></div>
                                 </div>
 
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="form-group">
-                            {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
+                            {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-' . $comment->id, 'data-parent-comment-id' => $comment->id , 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
                             <div class="comment_error error text-danger"></div>
                         </div>
 

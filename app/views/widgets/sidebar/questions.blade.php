@@ -22,9 +22,9 @@
                             {{ $question->getTitle() }}
                         </a>
                     </div>
-                    <div class="col-md-2" style="padding: 0">
+                    <div class="col-md-2" style="padding: 0; display: inline-block;">
                         @if(count($question->bestComments))
-                            <i class="material-icons mdi-success" title="Есть решение" style="font-size: 50pt; line-height: 40px">done</i>
+                            <i class="material-icons mdi-success" title="Есть решение" style="font-size: 40pt; line-height: 40px">done</i>
                         @endif
                     </div>
                 </p>
