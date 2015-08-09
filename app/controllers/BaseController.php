@@ -4,6 +4,11 @@ class BaseController extends Controller {
 
 	public function __construct()
 	{
+		// последняя активность пользователя
+		if(Auth::check()){
+			Auth::user()->setLastActivity();
+		}
+
 		View::share('settings', Setting::getSettings(['Site']));
 	}
 

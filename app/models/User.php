@@ -28,7 +28,8 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property boolean $is_agree
  * @property string $activationCode 
  * @property string $remember_token 
- * @property string $password 
+ * @property string $password
+ * @property \Carbon\Carbon $last_activity
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $receivedMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessagesForUser 
@@ -64,6 +65,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereActivationCode($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereLastAvtivity($value)
  */
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
@@ -657,6 +659,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function removePoints($points) {
 		$this->points = $this->points - $points;
 		$this->save();
+	}
+
+	public function setLastActivity()
+	{
+		$this->last_activity = \Carbon\Carbon::now();
+		$this->save();
+	}
+
+	public function isOnline()
+	{
+		return ($this->last_activity < \Carbon\Carbon::now()->subMinutes(2))
+			? false
+			: true;
 	}
 
 	/**

@@ -202,6 +202,7 @@ View::share('page', $title);
                             <tr>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
                                 </th>
@@ -228,6 +229,13 @@ View::share('page', $title);
                         <tbody>
                             @foreach($users as $user)
                                 <tr>
+                                    <td>
+                                        @if($user->isOnline())
+                                            <i class="material-icons mdi-success" title="Онлайн" data-toggle="tooltip" data-placement="top">lens</i>
+                                        @else
+                                            <i class="material-icons mdi-default" title="Офлайн" data-toggle="tooltip" data-placement="top">lens</i>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                                             {{ $user->getAvatar('mini') }}

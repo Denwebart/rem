@@ -5,6 +5,18 @@
                 {{ $user->getAvatar() }}
             </a>
         </div>
+        <div class="status">
+            @if($user->isOnline())
+                <i class="material-icons mdi-success" title="Онлайн" data-toggle="tooltip" data-placement="top">lens</i>
+                Сейчас на сайте
+            @else
+                <i class="material-icons mdi-default" title="Офлайн" data-toggle="tooltip" data-placement="top">lens</i>
+                Последний раз был
+                <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
+                    {{ DateHelper::getRelativeTime($user->last_activity) }}
+                </span>
+            @endif
+        </div>
     </div>
     <div class="col-md-2" style="padding: 0">
         <div class="honors">
