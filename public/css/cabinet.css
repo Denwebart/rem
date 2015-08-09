@@ -131,6 +131,12 @@ h2, .h2 {
     float: left;
     margin: 10px 0 0 10px;
 }
+#messages-area {
+    overflow: auto;
+    max-height: 600px;
+    padding: 0px 20px 0 0;
+}
+
 
 /*-- Галерея (Мой автомобиль) --*/
 #list-of-images .image {

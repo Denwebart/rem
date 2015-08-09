@@ -52,57 +52,63 @@ View::share('title', $title);
                     @endif
                 </h2>
 
-                <div id="messages">
-                    @if(isset($messages))
-                        @foreach($messages as $message)
+                @if(isset($messages))
+                    <div id="messages-area" class="blog">
+                        <div class="count">
+                            Показано сообщений: <span>{{ $messages->count() }}</span>.
+                            Всего: <span>{{ $messages->getTotal() }}</span>.
+                        </div>
+                        {{ $messages->links() }}
+                        <div class="scroll">
+                            @foreach($messages->reverse() as $message)
+                                <div class="row item">
+                                    <div class="col-md-2">
+                                        @if($user->id == $message->userSender->id)
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
+                                                {{ $message->userSender->getAvatar('mini') }}
+                                            </a>
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                                {{ $message->userSender->login }}
+                                            </a>
+                                            <span class="date">
+                                            {{ DateHelper::dateForMessage($message->created_at) }}
+                                        </span>
+                                        @endif
+                                    </div>
 
-                            <div class="row">
-                                <div class="col-md-2">
                                     @if($user->id == $message->userSender->id)
-                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
-                                            {{ $message->userSender->getAvatar('mini') }}
-                                        </a>
-                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                            {{ $message->userSender->login }}
-                                        </a>
-                                        <span class="date">
-                                        {{ DateHelper::dateForMessage($message->created_at) }}
-                                    </span>
-                                    @endif
-                                </div>
-
-                                @if($user->id == $message->userSender->id)
-                                    <div class="col-md-7">
-                                        <div class="well">
-                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                        <div class="col-md-7">
+                                            <div class="well">
+                                                {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                            </div>
                                         </div>
-                                    </div>
-                                @else
-                                    <div class="col-md-7 col-md-offset-1">
-                                        <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                    @else
+                                        <div class="col-md-7 col-md-offset-1">
+                                            <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                                {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                            </div>
                                         </div>
-                                    </div>
-                                @endif
-
-                                <div class="col-md-2">
-                                    @if($companion->id == $message->userSender->id)
-                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                            {{ $message->userSender->getAvatar('mini') }}
-                                        </a>
-                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                            {{ $message->userSender->login }}
-                                        </a>
-                                        <span class="date">
-                                        {{ DateHelper::dateForMessage($message->created_at) }}
-                                    </span>
                                     @endif
-                                </div>
-                            </div>
 
-                        @endforeach
-                    @endif
-                </div>
+                                    <div class="col-md-2">
+                                        @if($companion->id == $message->userSender->id)
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                                {{ $message->userSender->getAvatar('mini') }}
+                                            </a>
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
+                                                {{ $message->userSender->login }}
+                                            </a>
+                                            <span class="date">
+                                            {{ DateHelper::dateForMessage($message->created_at) }}
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    {{--{{ $messages->links() }}--}}
+                @endif
 
                 {{--Отправка нового сообщения--}}
                 @if(Auth::user()->is($user))
@@ -167,6 +173,35 @@ View::share('title', $title);
             $(".fancybox").fancybox();
         });
     </script>
+
+    <!-- Scroll -->
+    {{ HTML::script('js/jquery.waypoints.min.js') }}
+    {{ HTML::script('js/infinite.min.js') }}
+    <script type="text/javascript">
+        var infinite = new Waypoint.Infinite({
+            element: $('.scroll')[0],
+            items: '.scroll',
+            more: '.pagination li.active + li a',
+            context: $('#messages-area'),
+            offset: '50%'
+        })
+    </script>
+
+    {{--{{ HTML::script('js/jquery.jscroll.min.js') }}--}}
+    {{--<script type="text/javascript">--}}
+        {{--$(function() {--}}
+            {{--$('.scroll').jscroll({--}}
+                {{--autoTrigger: true,--}}
+                {{--nextSelector: '.pagination li.active + li a',--}}
+                {{--contentSelector: 'div.scroll',--}}
+                {{--pagingSelector: '.pagination',--}}
+                {{--callback: function() {--}}
+                    {{--$('ul.pagination:visible:first').hide();--}}
+                {{--}--}}
+            {{--});--}}
+        {{--});--}}
+    {{--</script>--}}
+
 
     @if(Auth::user()->is($user))
         {{-- Отметить сообщение как прочитанное --}}
@@ -244,7 +279,7 @@ View::share('title', $title);
                             '<div class="col-md-2"></div>' +
                             '</div>';
 
-                            $("#messages").append(newMessage);
+                            $("#messages-area").append(newMessage);
                             setTimeout(function(){
                                 $("[data-message-id^=" + response.messageId + "]").removeClass('new-message');
                             }, 300);

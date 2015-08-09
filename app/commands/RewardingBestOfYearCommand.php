@@ -70,7 +70,10 @@ class RewardingBestOfYearCommand extends Command {
 			} else {
 				$this->error(' -- Best Writer of the '. $lastYear->format('Y') .' year not rewarded (reward not found).');
 			}
+		} else {
+			$this->info('Best Writer of the '. $lastYear->format('Y') .' year not found.');
 		}
+
 		if($bestRespondent->first()) {
 			$user = $bestRespondent->first();
 			$honor = Honor::whereKey('bestRespondentOfYear')->first();
@@ -99,7 +102,10 @@ class RewardingBestOfYearCommand extends Command {
 			} else {
 				$this->error(' -- Best Respondent of the '. $lastYear->format('Y') .' year not rewarded (reward not found).');
 			}
+		} else {
+			$this->info('Best Respondent of the '. $lastYear->format('Y') .' year not found.');
 		}
+
 		if($bestCommentator->first()) {
 			$user = $bestCommentator->first();
 			$honor = Honor::whereKey('bestCommentatorOfYear')->first();
@@ -128,8 +134,9 @@ class RewardingBestOfYearCommand extends Command {
 			} else {
 				$this->error(' -- Best Commentator of the '. $lastYear->format('Y') .' year not rewarded (reward not found).');
 			}
+		} else {
+			$this->info('Best Commentator of the '. $lastYear->format('Y') .' year not found.');
 		}
-
 	}
 
 	/**

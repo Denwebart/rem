@@ -711,8 +711,8 @@ class CabinetUserController extends \BaseController
 				$q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
 			})
 			->with('userSender', 'userRecipient')
-			->orderBy('created_at', 'ASC')
-			->get();
+			->orderBy('created_at', 'DESC')
+			->paginate(5);
 
 		$companions = User::whereHas('sentMessages', function($q) use ($user)
 			{
