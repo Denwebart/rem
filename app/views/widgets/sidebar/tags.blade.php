@@ -4,4 +4,7 @@
             {{ $tag->title }} ({{ count($tag->pages) }})
         </a>
     @endforeach
+    <div>
+        <a href="{{ URL::route('journal.tags', ['journalAlias' => Config::get('settings.journalAlias')]) }}">Все теги</a>
+    </div>
 </div>
