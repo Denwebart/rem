@@ -11,7 +11,7 @@
             @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
                 <div class="buttons pull-right">
                     <a href="{{ URL::route('user.journal.edit', ['login' => $article->user->getLoginForUrl(),'id' => $article->id]) }}" class="" title="Редактировать статью">
-                        <i class="material-icons">exit_to_app</i>
+                        <i class="material-icons">edit_mode</i>
                     </a>
                 </div>
             @endif

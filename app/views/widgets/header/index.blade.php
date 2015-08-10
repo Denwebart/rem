@@ -66,6 +66,17 @@
                     </li>
                 @endif
 
+                @if(Request::is('admin*'))
+                    <li style="margin-right: 10px">
+                        <a href="{{ URL::to('/') }}" class="" target="_blank">
+                    <span>
+                        Перейти на сайт
+                        <i class="material-icons pull-right">chevron_right</i>
+                    </span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="dropdown dropdown-notifications">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="material-icons">notifications</i>
@@ -88,17 +99,6 @@
                         <li class="footer"><a href="#">View all notification</a></li>
                     </ul>
                 </li>
-
-                @if(Request::is('admin*'))
-                    <li style="margin-right: 10px">
-                        <a href="{{ URL::to('/') }}" class="" target="_blank">
-                        <span>
-                            Перейти на сайт
-                            <i class="material-icons pull-right">chevron_right</i>
-                        </span>
-                        </a>
-                    </li>
-                @endif
 
                 {{ $messages }}
 

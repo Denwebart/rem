@@ -168,10 +168,16 @@ View::share('title', $title);
                         {{ $questions->links() }}
                     </section>
                 @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            Вы еще не задали ни одного вопроса.
-                        </p>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не задали ни одного вопроса.
+                            </p>
+                        @else
+                            <p>
+                                Вопросов нет.
+                            </p>
+                        @endif
                     @else
                         <p>
                             Вопросов нет.

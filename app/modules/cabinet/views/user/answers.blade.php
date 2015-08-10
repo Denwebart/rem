@@ -107,10 +107,16 @@ View::share('title', $title);
                         {{ $answers->links() }}
                     </section>
                 @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            Вы еще не ответили ни на один вопрос.
-                        </p>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не ответили ни на один вопрос.
+                            </p>
+                        @else
+                            <p>
+                                Ответов нет.
+                            </p>
+                        @endif
                     @else
                         <p>
                             Ответов нет.

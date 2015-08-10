@@ -140,10 +140,16 @@ View::share('title', $title);
                         {{ $comments->links() }}
                     </section>
                 @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            Вы еще не создали ни одного комментария.
-                        </p>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не создали ни одного комментария.
+                            </p>
+                        @else
+                            <p>
+                                Комментариев нет.
+                            </p>
+                        @endif
                     @else
                         <p>
                             Комментариев нет.

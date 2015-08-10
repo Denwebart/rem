@@ -68,12 +68,18 @@ View::share('title', $title);
                             </div>
                         </div>
                     @endforeach
-                    @if(!count($images) && Auth::user()->is($user))
-                        <p>
-                            Вы еще не добавили ни одной фотографии автомобиля.
-                            Вы можете добавить максимум 5 фотографий.
-                        </p>
-                    @elseif(!count($images))
+                    @if(Auth::check())
+                        @if(!count($images) && Auth::user()->is($user))
+                            <p>
+                                Вы еще не добавили ни одной фотографии автомобиля.
+                                Вы можете добавить максимум 5 фотографий.
+                            </p>
+                        @elseif(!count($images))
+                            <p>
+                                Фотографий нет.
+                            </p>
+                        @endif
+                    @else
                         <p>
                             Фотографий нет.
                         </p>

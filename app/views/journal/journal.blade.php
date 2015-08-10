@@ -25,7 +25,10 @@
                 <h2>
                     Бортовой журнал пользователя
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
-                        {{ $user->login }} ({{ $user->getFullName() }})
+                        {{ $user->login }}
+                        @if($user->getFullName())
+                            ({{ $user->getFullName() }})
+                        @endif
                     </a>
                 </h2>
 
@@ -197,10 +200,16 @@
                         {{ $articles->links() }}
                     </section><!--blog-area-->
                 @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            Вы еще не создали ни одной статьи.
-                        </p>
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще не создали ни одной статьи.
+                            </p>
+                        @else
+                            <p>
+                                Статей нет.
+                            </p>
+                        @endif
                     @else
                         <p>
                             Статей нет.
