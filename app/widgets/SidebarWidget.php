@@ -180,6 +180,7 @@ class SidebarWidget
 	public function tags($limit = 20)
 	{
 		$tags = Tag::has('pages')
+			->with('pages')
 			->limit($limit)
 			->get()
 			->sortBy(function($tag) {

@@ -130,7 +130,7 @@ View::share('title', $title);
             var $link = $(this);
             var notificationId = $link.data('id');
             $.ajax({
-                url: "{{ URL::route('user.deleteNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                url: "{{ URL::route('user.deleteSubscriptionNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
                 dataType: "text json",
                 type: "POST",
                 data: {notificationId: notificationId},

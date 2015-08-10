@@ -3,7 +3,7 @@
         <i class="material-icons">local_post_office</i>
         @if(count($letters))
             <span class="label label-success">
-                {{ count($letters) }}
+                {{ $letters->getTotal() }}
             </span>
         @endif
     </a>
@@ -11,7 +11,11 @@
         <li class="header">
             <i class="material-icons">local_post_office</i>
             Новые письма:
-            <span>{{ count($letters) }}</span>
+            @if($letters->count() < $letters->getTotal())
+                <span>{{ $letters->count() }} из {{ $letters->getTotal() }}</span>
+            @else
+                <span>{{ $letters->count() }}</span>
+            @endif
         </li>
         <li>
             <ul>
@@ -51,6 +55,10 @@
                 @endforeach
             </ul>
         </li>
-        <li class="footer"><a href="{{ URL::route('admin.letters.index') }}">Показать все письма</a></li>
+        <li class="footer">
+            <a href="{{ URL::route('admin.letters.index') }}">
+                Показать все
+            </a>
+        </li>
     </ul>
 </li>

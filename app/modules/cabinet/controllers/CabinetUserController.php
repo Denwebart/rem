@@ -28,7 +28,7 @@ class CabinetUserController extends \BaseController
 				}
 			}
 
-		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteNotification', 'getChangePassword', 'postChangePassword']]);
+		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification']]);
 
 		// бан пользователя
 		$this->beforeFilter(function()
@@ -43,7 +43,7 @@ class CabinetUserController extends \BaseController
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteNotification']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification']]);
 
 		$this->beforeFilter(function()
 		{
@@ -923,7 +923,7 @@ class CabinetUserController extends \BaseController
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function deleteNotification()
+	public function deleteSubscriptionNotification()
 	{
 		if(Request::ajax()) {
 			$notificationId = Input::get('notificationId');
@@ -932,6 +932,53 @@ class CabinetUserController extends \BaseController
 				$notification->delete();
 				return Response::json(array(
 					'success' => true,
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
+
+	public function notifications($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$notifications = Notification::whereUserId(Auth::user()->id)
+			->with('user')
+			->orderBy('created_at', 'DESC')
+			->orderBy('id', 'DESC')
+			->paginate(20);
+
+		View::share('user', $user);
+
+		return View::make('cabinet::user.notifications', compact('notifications'));
+	}
+
+	/**
+	 * Удаление уведомления
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteNotification()
+	{
+		if(Request::ajax()) {
+			$notificationId = Input::get('notificationId');
+
+			$notifications = Notification::whereUserId(Auth::user()->id)
+				->with('user')
+				->orderBy('created_at', 'DESC')
+				->orderBy('id', 'DESC')
+				->count();
+
+			if($notification = Notification::find($notificationId)) {
+				$notification->delete();
+				return Response::json(array(
+					'success' => true,
+					'newNotifications' => $notifications
 				));
 			} else {
 				return Response::json(array(

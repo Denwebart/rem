@@ -5,6 +5,7 @@ class HeaderWidget
 	public $newLetters;
 	public $deletedLetters;
 	public $newMessages;
+	public $newNotifications;
 	public $newSubscriptionsNotifications;
 	public $newUsers;
 	public $newQuestions;
@@ -23,6 +24,7 @@ class HeaderWidget
 			$this->newLetters = $this->newLetters();
 		}
 		$this->newMessages = $this->newMessages();
+		$this->newNotifications = $this->newNotifications();
 		$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
 		$this->isBannedIp = Ip::isBanned();
 	}
@@ -38,24 +40,35 @@ class HeaderWidget
 		$messages = $this->newMessages;
 		$messages = (string) View::make('widgets.header.messages', compact('messages'));
 
-		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'page'))->with('user', Auth::user())->render();
+		$notifications = $this->newNotifications;
+		$notifications = (string) View::make('widgets.header.notifications', compact('notifications'));
+
+		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'notifications', 'page'))->with('user', Auth::user())->render();
 	}
 
 
-	public function newLetters() {
+	public function newLetters($limit = 5) {
 		return Letter::whereNull('read_at')
-				->whereNull('deleted_at')
-				->with('user')
-				->orderBy('created_at', 'DESC')
-				->get();
+			->whereNull('deleted_at')
+			->with('user')
+			->orderBy('created_at', 'DESC')
+			->paginate($limit);
 	}
 
-	public function newMessages() {
+	public function newMessages($limit = 5) {
 		return Message::whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
 			->with('userSender')
 			->orderBy('created_at', 'DESC')
-			->get();
+			->paginate($limit);
+	}
+
+	public function newNotifications($limit = 20) {
+		return Notification::whereUserId(Auth::user()->id)
+			->with('user')
+			->orderBy('created_at', 'DESC')
+			->orderBy('id', 'DESC')
+			->paginate($limit);
 	}
 
 	public function newSubscriptionsNotifications() {

@@ -77,28 +77,7 @@
                     </li>
                 @endif
 
-                <li class="dropdown dropdown-notifications">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">notifications</i>
-                        <span class="label label-warning">5</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">
-                            <i class="material-icons">notifications</i>
-                            You have 5 new notifications
-                        </li>
-                        <li>
-                            <ul>
-                                <li><a href="#"><i class="fa fa-users success"></i> New user registered</a></li>
-                                <li><a href="#"><i class="fa fa-heart info"></i> Jane liked your post</a></li>
-                                <li><a href="#"><i class="fa fa-envelope warning"></i> You got a message from Jean</a></li>
-                                <li><a href="#"><i class="fa fa-info success"></i> Privacy settings have been changed</a></li>
-                                <li><a href="#"><i class="fa fa-comments danger"></i> New comments waiting approval</a></li>
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all notification</a></li>
-                    </ul>
-                </li>
+                {{ $notifications }}
 
                 {{ $messages }}
 
@@ -168,6 +147,12 @@
                             <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl() ]) }}">
                                 <i class="material-icons">local_library</i>
                                 Мои подписки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::route('user.notifications', ['login' => $user->getLoginForUrl() ]) }}">
+                                <i class="material-icons">notifications</i>
+                                Мои уведомления
                             </a>
                         </li>
                         <li class="footer">

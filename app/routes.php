@@ -97,6 +97,8 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
 	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@subscribe']);
 	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@unsubscribe']);
+	Route::post('{login}/deleteSubscriptionNotification', ['as' => 'user.deleteSubscriptionNotification', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteSubscriptionNotification']);
+	Route::get('{login}/notifications', ['as' => 'user.notifications', 'uses' => 'CabinetUserController@notifications']);
 	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteNotification']);
 });
 Route::group(['prefix' => 'user'], function() {

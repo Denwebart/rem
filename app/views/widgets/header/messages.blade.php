@@ -3,7 +3,7 @@
         <a href="" class="dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons">send</i>
             <span class="label label-info">
-                {{ count($messages) }}
+                {{ $messages->getTotal() }}
             </span>
         </a>
     @else
@@ -16,7 +16,11 @@
             <li class="header">
                 <i class="material-icons">send</i>
                 Новые личные сообщения:
-                <span>{{ count($messages) }}</span>
+                @if($messages->count() < $messages->getTotal())
+                    <span>{{ $messages->count() }} из {{ $messages->getTotal() }}</span>
+                @else
+                    <span>{{ $messages->count() }}</span>
+                @endif
             </li>
             <li>
                 <ul>
@@ -38,7 +42,11 @@
                     @endforeach
                 </ul>
             </li>
-            <li class="footer"><a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">Показать все сообщения</a></li>
+            <li class="footer">
+                <a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">
+                    Показать все
+                </a>
+            </li>
         </ul>
     @endif
 </li>
