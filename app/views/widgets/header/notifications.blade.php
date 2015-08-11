@@ -15,10 +15,14 @@
         <li class="header">
             <i class="material-icons">notifications</i>
             Уведомления:
-            @if($notifications->count() < $notifications->getTotal())
-                <span>{{ $notifications->count() }} из {{ $notifications->getTotal() }}</span>
+            @if(count($notifications))
+                @if($notifications->count() < $notifications->getTotal())
+                    <span>{{ $notifications->count() }} из {{ $notifications->getTotal() }}</span>
+                @else
+                    <span>{{ $notifications->count() }}</span>
+                @endif
             @else
-                <span>{{ $notifications->count() }}</span>
+                <span>{{ count($notifications) }}</span>
             @endif
         </li>
         <li>

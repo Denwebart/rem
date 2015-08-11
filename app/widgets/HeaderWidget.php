@@ -63,7 +63,7 @@ class HeaderWidget
 			->paginate($limit);
 	}
 
-	public function newNotifications($limit = 20) {
+	public function newNotifications($limit = 5) {
 		return Notification::whereUserId(Auth::user()->id)
 			->with('user')
 			->orderBy('created_at', 'DESC')

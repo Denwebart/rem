@@ -27,52 +27,10 @@ View::share('title', $title);
             <div class="col-lg-12" id="content">
                 <h2>{{ $title }}</h2>
 
-                @if(count($notifications))
-                    <section id="notifications-area" class="blog">
-                        <div class="count">
-                            Показано уведомлений: <span>{{ $notifications->count() }}</span>.
-                            Всего: <span>{{ $notifications->getTotal() }}</span>.
-                        </div>
-
-                        @foreach($notifications as $notification)
-                            <div data-notification-id="{{ $notification->id }}" class="well">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <h3>
-                                            {{ Notification::$typeIcons[$notification->type] }}
-                                            {{ $notification->message }}
-                                        </h3>
-                                        <div class="date pull-left" title="Дата уведомления" data-toggle="tooltip" data-placement="top">
-                                            <i class="material-icons">today</i>
-                                            <span>{{ DateHelper::dateFormat($notification->created_at) }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="buttons">
-                                            <a href="javascript:void(0)" class="pull-right remove-notification" data-id="{{ $notification->id }}" title="Удалить уведомление" data-toggle="tooltip" data-placement="top">
-                                                <i class="material-icons">close</i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-
-                        <div>
-                            {{ $notifications->links() }}
-                        </div>
-                    </section>
-                @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            У вас нет уведомлений.
-                        </p>
-                    @else
-                        <p>
-                            Уведомлений нет.
-                        </p>
-                    @endif
-                @endif
+                <!-- Список уведомлений -->
+                <div class="list">
+                    @include('cabinet::user.notificationsList')
+                </div>
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}
@@ -98,6 +56,7 @@ View::share('title', $title);
                 },
                 success: function(response) {
                     if(response.success){
+                        $('#content .list').html(response.notificationsList);
                         if(response.newNotifications != 0) {
                             $('#header-widget .dropdown-notifications .dropdown-toggle span').text(response.newNotifications);
                             $('#header-widget .dropdown-notifications .dropdown-menu .header span').text(response.newNotifications);
@@ -111,7 +70,6 @@ View::share('title', $title);
                             $('#header-widget .dropdown-notifications .dropdown-toggle').remove();
                             $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
                         }
-                        $('[data-notification-id=' + notificationId + ']').remove();
                     }
                 }
             });

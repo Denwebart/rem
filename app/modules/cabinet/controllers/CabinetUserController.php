@@ -968,17 +968,19 @@ class CabinetUserController extends \BaseController
 		if(Request::ajax()) {
 			$notificationId = Input::get('notificationId');
 
-			$notifications = Notification::whereUserId(Auth::user()->id)
-				->with('user')
-				->orderBy('created_at', 'DESC')
-				->orderBy('id', 'DESC')
-				->count();
-
 			if($notification = Notification::find($notificationId)) {
 				$notification->delete();
+
+				$notifications = Notification::whereUserId(Auth::user()->id)
+					->with('user')
+					->orderBy('created_at', 'DESC')
+					->orderBy('id', 'DESC')
+					->paginate(20);
+
 				return Response::json(array(
 					'success' => true,
-					'newNotifications' => $notifications
+					'newNotifications' => count($notifications),
+					'notificationsList' => (string) View::make('cabinet::user.notificationsList', compact('notifications'))->with('user', Auth::user())->render()
 				));
 			} else {
 				return Response::json(array(
