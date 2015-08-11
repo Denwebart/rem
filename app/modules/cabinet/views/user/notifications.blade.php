@@ -43,35 +43,37 @@ View::share('title', $title);
     @parent
 
     <script type="text/javascript">
-        $(".remove-notification").on('click', function() {
-            var $link = $(this);
-            var notificationId = $link.data('id');
-            $.ajax({
-                url: "{{ URL::route('user.deleteNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
-                dataType: "text json",
-                type: "POST",
-                data: {notificationId: notificationId},
-                beforeSend: function(request) {
-                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
-                success: function(response) {
-                    if(response.success){
-                        $('#content .list').html(response.notificationsList);
-                        if(response.newNotifications != 0) {
-                            $('#header-widget .dropdown-notifications .dropdown-toggle span').text(response.newNotifications);
-                            $('#header-widget .dropdown-notifications .dropdown-menu .header span').text(response.newNotifications);
-                            $('#header-widget .dropdown-notifications .dropdown-menu [data-notification-id= ' + notificationId + ']').remove();
-                            $('#users-menu .notifications small').text(response.newNotifications);
-                        } else {
-                            $('#header-widget .dropdown-notifications .dropdown-toggle span').remove();
-                            $('#header-widget .dropdown-notifications .dropdown-menu').remove();
-                            $('#users-menu .notifications small').remove();
-                            // как ссылка
-                            $('#header-widget .dropdown-notifications .dropdown-toggle').remove();
-                            $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
+        $(document).ready(function() {
+            $(".list").on('click', '.remove-notification', function() {
+                var $link = $(this);
+                var notificationId = $link.data('id');
+                $.ajax({
+                    url: "{{ URL::route('user.deleteNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                    dataType: "text json",
+                    type: "POST",
+                    data: {notificationId: notificationId},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#content .list').html(response.notificationsList);
+                            if(response.newNotifications != 0) {
+                                $('#header-widget .dropdown-notifications .dropdown-toggle span').text(response.newNotifications);
+                                $('#header-widget .dropdown-notifications .dropdown-menu .header span').text(response.newNotifications);
+                                $('#header-widget .dropdown-notifications .dropdown-menu [data-notification-id= ' + notificationId + ']').remove();
+                                $('#users-menu .notifications small').text(response.newNotifications);
+                            } else {
+                                $('#header-widget .dropdown-notifications .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-notifications .dropdown-menu').remove();
+                                $('#users-menu .notifications small').remove();
+                                // как ссылка
+                                $('#header-widget .dropdown-notifications .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
+                            }
                         }
                     }
-                }
+                });
             });
         });
     </script>
