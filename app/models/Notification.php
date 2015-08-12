@@ -61,30 +61,13 @@ class Notification extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
-//	public static function addNotification($pageModel, $message)
-//	{
-//		if(Auth::check()) {
-//			$users = User::whereHas('subscriptions', function ($query) use ($pageModel) {
-//					$query->wherePageId($pageModel->id);
-//				})
-//				->where('id', '!=', Auth::user()->id)
-//				->get();
-//		} else {
-//			$users = User::whereHas('subscriptions', function ($query) use ($pageModel) {
-//					$query->wherePageId($pageModel->id);
-//				})->get();
-//		}
-//		if(count($users)) {
-//			$data = [];
-//			foreach($users as $user) {
-//				$data[] = [
-//					'subscription_id' => $user->subscriptions()->wherePageId($pageModel->id)->first()->id,
-//					'message' => $message,
-//					'created_at'=> date('Y-m-d H:i:s'),
-//				];
-//			}
-//			SubscriptionNotification::insert($data);
-//		}
-//	}
+	public function add($userModel, $type)
+	{
+		self::create([
+			'user_id' => $userModel->id,
+			'type' => $type,
+			'message' => $this->getMessage(),
+		]);
+	}
 
 }

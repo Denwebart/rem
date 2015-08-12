@@ -610,6 +610,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 //		return $this->hasMany('BanNotification', 'user_id')->latest('ban_notifications.ban_at');
 	}
 
+	/**
+	 * Уведомления пользователя
+	 *
+	 * @return mixed
+	 */
+	public function notifications()
+	{
+		return $this->hasMany('Notification', 'user_id')->orderBy('created_at', 'DESC');
+	}
+
 	public function setBanNotification($message)
 	{
 		BanNotification::create([
@@ -617,6 +627,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'message' => $message,
 			'ban_at' => date('Y:m:d H:i:s'),
 		]);
+	}
+
+	public function setNotification($type)
+	{
+		$notification = new Notification();
+		$notification->type = $type;
+
+		Notification::add($this, $type);
 	}
 
 	/**

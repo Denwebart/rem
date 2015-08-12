@@ -121,6 +121,7 @@ class AdminUsersController extends \BaseController {
 			if(!$user->isAdmin()) {
 				$user->is_banned = 1;
 				$user->setBanNotification($formFields['message']);
+				$user->setNotification(Notification::TYPE_BANNED);
 				if($user->save()) {
 					return Response::json(array(
 						'success' => true,

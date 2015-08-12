@@ -161,8 +161,8 @@
                                 <i class="material-icons">notifications</i>
                                 <span>{{ Auth::user()->is($user) ? 'Мои уведомления' : 'Уведомления'}}</span>
                                 @if(Auth::user()->is($user))
-                                    @if($newNotifications = count($headerWidget->newNotifications))
-                                        <small class="label label-info">{{ $newNotifications }}</small>
+                                    @if(count($headerWidget->newNotifications))
+                                        <small class="label label-info">{{ $headerWidget->newNotifications->getTotal() }}</small>
                                     @endif
                                 @endif
                             </a>
