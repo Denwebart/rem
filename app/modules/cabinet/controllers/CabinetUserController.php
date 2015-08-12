@@ -927,10 +927,11 @@ class CabinetUserController extends \BaseController
 	public function unsubscribe()
 	{
 		if(Request::ajax()) {
-			$page = Page::find(Input::get('pageId'));
+			$pageId = Input::get('pageId');
 
-			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($page->id)->first()) {
+			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
 				$subscription->delete();
+				$page = Page::find(Input::get('pageId'));
 				if($page) {
 					$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION, [
 						'[user]' => $subscription->user->login,
@@ -942,7 +943,7 @@ class CabinetUserController extends \BaseController
 				return Response::json(array(
 					'success' => true,
 					'message' => 'Подписка отменена.',
-					'subscribers' => count(Page::whereId($page->id)->first()->subscribers),
+					'subscribers' => ($page) ? count(Page::whereId($page->id)->first()->subscribers) : '',
 				));
 			} else {
 				return Response::json(array(
