@@ -54,12 +54,36 @@ class CommentsController extends BaseController
 					if($comment->user) {
 						if($comment->is_answer) {
 							$comment->user->addPoints(User::POINTS_FOR_ANSWER);
-							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED);
-							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => $comment->comment,
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER, [
+								'[user]' => $comment->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => $comment->comment,
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
 						} else {
 							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
-							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED);
-							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
+								'[linkToComment]' => URL::to($comment->getUrl()),
+								'[comment]' => $comment->comment,
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT, [
+								'[user]' => $comment->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => $comment->comment,
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
 						}
 					}
 					// return success message
@@ -103,19 +127,62 @@ class CommentsController extends BaseController
 				}
 			}
 
-			$isVote = Session::has('user.rating.comment') ? (in_array($commentId, Session::get('user.rating.comment')) ? 1 : 0) : 0;
+			$isVote = Session::has('user.rating.comment')
+				? (in_array($commentId, Session::get('user.rating.comment')) ? 1 : 0) : 0;
 
 			if (!$isVote) {
 				$vote = Input::get('vote');
+				$userLogin = ('' != Input::get('userLogin'))
+					? trim(Input::get('userLogin'))
+					: 'Незарегистрированный пользователь';
+				$linkToUser = ('' != Input::get('userLogin'))
+					? URL::route('user.profile', ['login' => strtolower($userLogin)])
+					: '';
 
 				$comment = Comment::findOrFail($commentId);
 
 				if(Comment::VOTE_LIKE == $vote) {
 					$comment->votes_like = $comment->votes_like + 1;
-					$comment->user->setNotification(Notification::TYPE_COMMENT_LIKED);
+					if($comment->is_answer) {
+						$comment->user->setNotification(Notification::TYPE_ANSWER_LIKED, [
+							'[user]' => $userLogin,
+							'[linkToUser]' => $linkToUser,
+							'[linkToAnswer]' => URL::to($comment->getUrl()),
+							'[answer]' => $comment->comment,
+							'[pageTitle]' => $comment->page->getTitle(),
+							'[linkToPage]' => URL::to($comment->page->getUrl())
+						]);
+					} else {
+						$comment->user->setNotification(Notification::TYPE_COMMENT_LIKED, [
+							'[user]' => $userLogin,
+							'[linkToUser]' => $linkToUser,
+							'[linkToComment]' => URL::to($comment->getUrl()),
+							'[comment]' => $comment->comment,
+							'[pageTitle]' => $comment->page->getTitle(),
+							'[linkToPage]' => URL::to($comment->page->getUrl())
+						]);
+					}
 				} elseif(Comment::VOTE_DISLIKE == $vote) {
 					$comment->votes_dislike = $comment->votes_dislike + 1;
-					$comment->user->setNotification(Notification::TYPE_COMMENT_DISLIKED);
+					if($comment->is_answer) {
+						$comment->user->setNotification(Notification::TYPE_ANSWER_DISLIKED, [
+							'[user]' => $userLogin,
+							'[linkToUser]' => $linkToUser,
+							'[linkToAnswer]' => URL::to($comment->getUrl()),
+							'[answer]' => $comment->comment,
+							'[pageTitle]' => $comment->page->getTitle(),
+							'[linkToPage]' => URL::to($comment->page->getUrl())
+						]);
+					} else {
+						$comment->user->setNotification(Notification::TYPE_COMMENT_DISLIKED, [
+							'[user]' => $userLogin,
+							'[linkToUser]' => $linkToUser,
+							'[linkToComment]' => URL::to($comment->getUrl()),
+							'[comment]' => $comment->comment,
+							'[pageTitle]' => $comment->page->getTitle(),
+							'[linkToPage]' => URL::to($comment->page->getUrl())
+						]);
+					}
 				}
 
 				if ($comment->save()) {
@@ -125,18 +192,38 @@ class CommentsController extends BaseController
 						if(($comment->votes_like - $comment->votes_dislike) == "-1") {
 							if($comment->is_answer) {
 								$comment->user->removePoints(User::POINTS_FOR_ANSWER);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED, [
+									'[linkToAnswer]' => URL::to($comment->getUrl()),
+									'[answer]' => $comment->comment,
+									'[pageTitle]' => $comment->page->getTitle(),
+									'[linkToPage]' => URL::to($comment->page->getUrl())
+								]);
 							} else {
 								$comment->user->removePoints(User::POINTS_FOR_COMMENT);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED, [
+									'[linkToComment]' => URL::to($comment->getUrl()),
+									'[comment]' => $comment->comment,
+									'[pageTitle]' => $comment->page->getTitle(),
+									'[linkToPage]' => URL::to($comment->page->getUrl())
+								]);
 							}
 						} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
 							if($comment->is_answer) {
 								$comment->user->addPoints(User::POINTS_FOR_ANSWER);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
+									'[linkToAnswer]' => URL::to($comment->getUrl()),
+									'[answer]' => $comment->comment,
+									'[pageTitle]' => $comment->page->getTitle(),
+									'[linkToPage]' => URL::to($comment->page->getUrl())
+								]);
 							} else {
 								$comment->user->addPoints(User::POINTS_FOR_COMMENT);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
+									'[linkToComment]' => URL::to($comment->getUrl()),
+									'[comment]' => $comment->comment,
+									'[pageTitle]' => $comment->page->getTitle(),
+									'[linkToPage]' => URL::to($comment->page->getUrl())
+								]);
 							}
 						}
 					}
@@ -185,8 +272,14 @@ class CommentsController extends BaseController
 					// adding points for comment
 					if($comment->mark == Comment::MARK_BEST && $comment->user) {
 						$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
-						$comment->user->setNotification(Notification::TYPE_BEST_ANSWER);
-						$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED);
+						$variable = [
+							'[linkToPage]' => URL::to($comment->page->getUrl()),
+							'[pageTitle]' => $comment->page->getTitle(),
+							'[linkToAnswer]' => URL::to($comment->getUrl()),
+							'[answer]' => $comment->comment,
+						];
+						$comment->user->setNotification(Notification::TYPE_BEST_ANSWER, $variable);
+						$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED, $variable);
 					}
 
 					$bestComments = Comment::whereIsPublished(1)

@@ -88,6 +88,17 @@ class AdminPagesController extends \BaseController {
 
 		$page = Page::create($data);
 
+		// начисление баллов за статью, уведомление
+		if(Page::TYPE_QUESTION == $page->type) {
+			$page->user->addPoints(User::POINTS_FOR_QUESTION);
+		} else {
+			$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl())
+			]);
+		}
+
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
 		$page->save();
@@ -205,7 +216,19 @@ class AdminPagesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Page::destroy($id);
+		$page = Page::find($id);
+		if(Page::TYPE_QUESTION == $page->type) {
+			$page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+				'[pageTitle]' => $page->getTitle(),
+			]);
+			$page->user->removePoints(User::POINTS_FOR_QUESTION);
+		} else {
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+				'[pageTitle]' => $page->getTitle(),
+			]);
+			$page->user->removePoints(User::POINTS_FOR_ARTICLE);
+		}
+		$page->delete();
 
 		return Redirect::back();
 	}

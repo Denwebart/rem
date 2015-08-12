@@ -77,6 +77,9 @@ class AdminQuestionsController extends \BaseController {
 
 		$page = Page::create($data);
 
+		// начисление баллов за вопрос
+		$page->user->addPoints(User::POINTS_FOR_QUESTION);
+
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
 		$page->save();
@@ -177,6 +180,10 @@ class AdminQuestionsController extends \BaseController {
 	public function destroy($id)
 	{
 		$page = Page::whereType(Page::TYPE_QUESTION)->whereId($id)->firstOrFail();
+		$page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+			'[pageTitle]' => $page->getTitle(),
+		]);
+		$page->user->removePoints(User::POINTS_FOR_QUESTION);
 		$page->delete();
 
 		return Redirect::route('admin.questions.index');

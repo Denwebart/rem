@@ -41,12 +41,24 @@ class RatingController extends BaseController {
 				}
 
 				$rating = Input::get('rating');
+				$userLogin = ('' != Input::get('userLogin'))
+					? trim(Input::get('userLogin'))
+					: 'Незарегистрированный пользователь';
+				$linkToUser = ('' != Input::get('userLogin'))
+					? URL::route('user.profile', ['login' => strtolower($userLogin)])
+					: '';
 
 				$page->votes = $page->votes + $rating;
 				$page->voters = $page->voters + 1;
 
 				if ($page->save()) {
-					$page->user->setNotification(Notification::TYPE_RATING);
+					$page->user->setNotification(Notification::TYPE_RATING, [
+						'[user]' => $userLogin,
+						'[linkToUser]' => $linkToUser,
+						'[rating]' => $rating,
+						'[linkToPage]' => URL::to($page->getUrl()),
+						'[pageTitle]' => $page->getTitle(),
+					]);
 
 					$sessionArray = Session::get('user.rating.page');
 					$sessionArray[] = $page->id;

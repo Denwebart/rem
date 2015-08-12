@@ -59,7 +59,9 @@ class AdminUsersController extends \BaseController {
 			$user = User::find($id);
 			$user->role = $role;
 			if($user->save()) {
-				$user->setNotification(Notification::TYPE_ROLE_CHANGED);
+				$user->setNotification(Notification::TYPE_ROLE_CHANGED, [
+					'[role]' => mb_strtolower(User::$roles[$role]),
+				]);
 				return Response::json(array(
 					'success' => true,
 				));
@@ -122,7 +124,7 @@ class AdminUsersController extends \BaseController {
 			if(!$user->isAdmin()) {
 				$user->is_banned = 1;
 				$user->setBanNotification($formFields['message']);
-				$user->setNotification(Notification::TYPE_BANNED);
+				$user->setNotification(Notification::TYPE_BANNED, ['[banMessage]' => $formFields['message']]);
 				if($user->save()) {
 					return Response::json(array(
 						'success' => true,

@@ -286,7 +286,7 @@
                 url: '/comment/vote/' + commentId,
                 dataType: "text json",
                 type: "POST",
-                data: {vote: 'like'},
+                data: {vote: 'like', 'userLogin': '<?php echo Auth::check() ? Auth::user()->login : '' ?>'},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
@@ -306,7 +306,7 @@
                 url: '/comment/vote/' + commentId,
                 dataType: "text json",
                 type: "POST",
-                data: {vote: 'dislike'},
+                data: {vote: 'dislike', 'userLogin': '<?php echo Auth::check() ? Auth::user()->login : '' ?>'},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },

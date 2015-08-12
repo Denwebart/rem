@@ -18,13 +18,18 @@ class Notification extends \Eloquent
 	const TYPE_NEW_ANSWER = 12;
 	const TYPE_COMMENT_LIKED = 13;
 	const TYPE_COMMENT_DISLIKED = 14;
-	const TYPE_BEST_ANSWER = 15;
-	const TYPE_RATING = 16;
-	const TYPE_SUBSCRIBED_ON_QUESTION = 17;
-	const TYPE_SUBSCRIBED_ON_JOURNAL = 18;
-	const TYPE_UNSUBSCRIBED_FROM_QUESTION = 19;
-	const TYPE_UNSUBSCRIBED_FROM_JOURNAL = 20;
-	const TYPE_ROLE_CHANGED = 21;
+	const TYPE_ANSWER_LIKED = 15;
+	const TYPE_ANSWER_DISLIKED = 16;
+	const TYPE_BEST_ANSWER = 17;
+	const TYPE_RATING = 18;
+	const TYPE_SUBSCRIBED_ON_QUESTION = 19;
+	const TYPE_SUBSCRIBED_ON_JOURNAL = 20;
+	const TYPE_UNSUBSCRIBED_FROM_QUESTION = 21;
+	const TYPE_UNSUBSCRIBED_FROM_JOURNAL = 22;
+	const TYPE_ROLE_CHANGED = 23;
+	const TYPE_COMMENT_DELETED = 24;
+	const TYPE_ANSWER_DELETED = 25;
+	const TYPE_QUESTION_DELETED = 26;
 
 	public static $typeIcons = [
 		self::TYPE_POINTS_FOR_COMMENT_ADDED => '<i class="material-icons success">attach_money</i>',
@@ -41,6 +46,8 @@ class Notification extends \Eloquent
 		self::TYPE_NEW_ANSWER => '<i class="material-icons info">question_answer</i>',
 		self::TYPE_COMMENT_LIKED => '<i class="material-icons success">thumb_up</i>',
 		self::TYPE_COMMENT_DISLIKED => '<i class="material-icons warning">thumb_down</i>',
+		self::TYPE_ANSWER_LIKED => '<i class="material-icons success">thumb_up</i>',
+		self::TYPE_ANSWER_DISLIKED => '<i class="material-icons warning">thumb_down</i>',
 		self::TYPE_BEST_ANSWER => '<i class="material-icons success">done</i>',
 		self::TYPE_RATING => '<i class="material-icons info">star_rate</i>',
 		self::TYPE_SUBSCRIBED_ON_QUESTION => '<i class="material-icons info">local_library</i>',
@@ -48,6 +55,9 @@ class Notification extends \Eloquent
 		self::TYPE_UNSUBSCRIBED_FROM_QUESTION => '<i class="material-icons info">local_library</i>',
 		self::TYPE_UNSUBSCRIBED_FROM_JOURNAL => '<i class="material-icons info">local_library</i>',
 		self::TYPE_ROLE_CHANGED => '<i class="material-icons">perm_identity</i>',
+		self::TYPE_COMMENT_DELETED => '<i class="material-icons">delete</i>',
+		self::TYPE_ANSWER_DELETED => '<i class="material-icons">delete</i>',
+		self::TYPE_QUESTION_DELETED => '<i class="material-icons">delete</i>',
 	];
 
 	protected $fillable = [
@@ -67,18 +77,22 @@ class Notification extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
-	public function add($userModel, $notificationType)
+	public function add($userModel, $notificationType, $variables = [])
 	{
 		self::create([
 			'user_id' => $userModel->id,
 			'type' => $notificationType,
-			'message' => $this->getMessage($notificationType),
+			'message' => $this->getMessage($notificationType, $variables),
 		]);
 	}
 
-	private function getMessage($notificationType)
+	private function getMessage($notificationType, $variables)
 	{
-		return self::$typeIcons[$notificationType];
+		$notificationMessage = NotificationMessage::find($notificationType);
+
+		if($notificationMessage) {
+			return strtr($notificationMessage->message, $variables);
+		}
 	}
 
 }

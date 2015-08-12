@@ -32,7 +32,7 @@
                 url: '<?php echo URL::route('rating.stars', ['id' => $page->id]) ?>',
                 dataType: "text json",
                 type: "POST",
-                data: {rating: rating},
+                data: {rating: rating, 'userLogin': '<?php echo Auth::check() ? Auth::user()->login : '' ?>'},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },

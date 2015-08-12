@@ -629,10 +629,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		]);
 	}
 
-	public function setNotification($notificationType)
+	public function setNotification($notificationType, $variables = [])
 	{
 		$notification = new Notification();
-		$notification->add($this, $notificationType);
+		$notification->add($this, $notificationType, $variables);
 	}
 
 	/**

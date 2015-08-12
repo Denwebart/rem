@@ -108,6 +108,12 @@ class CabinetUserController extends \BaseController
 		// загрузка изображения
 		$data['avatar'] = $user->setAvatar($data['avatar']);
 
+		if($user->role != $data['role']) {
+			$user->setNotification(Notification::TYPE_ROLE_CHANGED, [
+				'[role]' => mb_strtolower(User::$roles[$data['role']]),
+			]);
+		}
+
 		$user->update($data);
 
 		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
@@ -364,7 +370,7 @@ class CabinetUserController extends \BaseController
 		$subscription->page_id = $page->id;
 		$subscription->save();
 
-		Auth::user()->addPoints(User::POINTS_FOR_QUESTION);
+		$page->user->addPoints(User::POINTS_FOR_QUESTION);
 
 		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
 	}
@@ -429,8 +435,12 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_QUESTION)
 				->firstOrFail();
+			$pageTitle = $question->getTitle();
 			if($question->delete()) {
-				Auth::user()->removePoints(User::POINTS_FOR_QUESTION);
+				$user->removePoints(User::POINTS_FOR_QUESTION);
+				$user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+					'[pageTitle]' => $pageTitle,
+				]);
 			}
 
 			return Response::json([
@@ -482,7 +492,10 @@ class CabinetUserController extends \BaseController
 
 		// добавление баллов, уведомления
 		$page->user->addPoints(User::POINTS_FOR_ARTICLE);
-		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED);
+		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+			'[pageTitle]' => $page->getTitle(),
+			'[linkToPage]' => URL::to($page->getUrl())
+		]);
 
 		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => Auth::user()->getLoginForUrl()]);
 	}
@@ -554,9 +567,12 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_ARTICLE)
 				->firstOrFail();
+			$pageTitle = $article->getTitle();
 			if($article->delete()) {
 				$user->removePoints(User::POINTS_FOR_ARTICLE);
-				$user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED);
+				$user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+					'[pageTitle]' => $pageTitle,
+				]);
 			}
 
 			return Response::json([
@@ -886,7 +902,12 @@ class CabinetUserController extends \BaseController
 
 				if($subscription->save()) {
 					if($subscription->page) {
-						$subscription->page->user->setNotification(Notification::TYPE_SUBSCRIBED_ON_QUESTION);
+						$subscription->page->user->setNotification(Notification::TYPE_SUBSCRIBED_ON_QUESTION, [
+							'[user]' => $subscription->user->login,
+							'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+							'[pageTitle]' => $subscription->page->getTitle(),
+							'[linkToPage]' => URL::to($subscription->page->getUrl()),
+						]);
 					}
 					return Response::json(array(
 						'success' => true,
@@ -911,7 +932,12 @@ class CabinetUserController extends \BaseController
 			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($page->id)->first()) {
 				$subscription->delete();
 				if($page) {
-					$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION);
+					$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION, [
+						'[user]' => $subscription->user->login,
+						'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+						'[pageTitle]' => $subscription->page->getTitle(),
+						'[linkToPage]' => URL::to($subscription->page->getUrl()),
+					]);
 				}
 				return Response::json(array(
 					'success' => true,

@@ -78,6 +78,13 @@ class AdminArticlesController extends \BaseController {
 
 		$page = Page::create($data);
 
+		// начисление баллов за статью, уведомление
+		$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+			'[pageTitle]' => $page->getTitle(),
+			'[linkToPage]' => URL::to($page->getUrl())
+		]);
+
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
 		$page->save();
@@ -184,6 +191,10 @@ class AdminArticlesController extends \BaseController {
 	public function destroy($id)
 	{
 		$page = Page::whereType(Page::TYPE_ARTICLE)->whereId($id)->firstOrFail();
+		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+			'[pageTitle]' => $page->getTitle(),
+		]);
+		$page->user->removePoints(User::POINTS_FOR_ARTICLE);
 		$page->delete();
 
 		return Redirect::route('admin.articles.index');

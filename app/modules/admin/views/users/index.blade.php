@@ -84,7 +84,7 @@ View::share('title', $title);
                                 <tr data-user-id="{{ $user->id }}" @if($user->is_banned) class="danger" @endif>
                                     <td>{{ $user->id }}</td>
                                     <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
+                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                                             {{ $user->getAvatar('mini') }}
                                         </a>
                                     </td>
@@ -118,7 +118,7 @@ View::share('title', $title);
                                     <td>{{ DateHelper::dateFormat($user->created_at) }}</td>
                                     <td>
                                         @foreach($user->userHonors as $userHonor)
-                                            <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
+                                            <a href="{{ URL::route('admin.honors.show', ['id' => $userHonor->id]) }}">
                                                 {{ $userHonor->honor->getImage(null, [
                                                     'width' => '25px',
                                                     'title' => !is_null($userHonor->comment)
