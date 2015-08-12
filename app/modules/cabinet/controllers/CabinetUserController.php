@@ -480,7 +480,9 @@ class CabinetUserController extends \BaseController
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));
 
-		Auth::user()->addPoints(User::POINTS_FOR_ARTICLE);
+		// добавление баллов, уведомления
+		$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED);
 
 		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => Auth::user()->getLoginForUrl()]);
 	}
@@ -553,7 +555,8 @@ class CabinetUserController extends \BaseController
 				->whereType(Page::TYPE_ARTICLE)
 				->firstOrFail();
 			if($article->delete()) {
-				Auth::user()->removePoints(User::POINTS_FOR_ARTICLE);
+				$user->removePoints(User::POINTS_FOR_ARTICLE);
+				$user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED);
 			}
 
 			return Response::json([
@@ -882,6 +885,9 @@ class CabinetUserController extends \BaseController
 				$subscription->page_id = $pageId;
 
 				if($subscription->save()) {
+					if($subscription->page) {
+						$subscription->page->user->setNotification(Notification::TYPE_SUBSCRIBED_ON_QUESTION);
+					}
 					return Response::json(array(
 						'success' => true,
 						'message' => 'Подписка оформлена.',
@@ -900,14 +906,17 @@ class CabinetUserController extends \BaseController
 	public function unsubscribe()
 	{
 		if(Request::ajax()) {
-			$pageId = Input::get('pageId');
+			$page = Page::find(Input::get('pageId'));
 
-			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
+			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($page->id)->first()) {
 				$subscription->delete();
+				if($page) {
+					$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION);
+				}
 				return Response::json(array(
 					'success' => true,
 					'message' => 'Подписка отменена.',
-					'subscribers' => count(Page::whereId($pageId)->first()->subscribers),
+					'subscribers' => count(Page::whereId($page->id)->first()->subscribers),
 				));
 			} else {
 				return Response::json(array(

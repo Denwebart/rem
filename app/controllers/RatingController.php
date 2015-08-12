@@ -46,6 +46,7 @@ class RatingController extends BaseController {
 				$page->voters = $page->voters + 1;
 
 				if ($page->save()) {
+					$page->user->setNotification(Notification::TYPE_RATING);
 
 					$sessionArray = Session::get('user.rating.page');
 					$sessionArray[] = $page->id;

@@ -12,7 +12,7 @@ class CommentsController extends BaseController
 			$page = Page::findOrFail($id);
 
 			$userData = [
-				'is_answer' => (Page::TYPE_QUESTION == $page->type && 0 ==$formFields['parent_id']) ? 1 : 0,
+				'is_answer' => (Page::TYPE_QUESTION == $page->type && 0 == $formFields['parent_id']) ? 1 : 0,
 				'page_id' => $id,
 				'parent_id' => $formFields['parent_id'],
 				'user_id' => Auth::check() ? Auth::user()->id : null,
@@ -52,7 +52,15 @@ class CommentsController extends BaseController
 				if ($comment = Comment::create($userData)) {
 					// adding points for comment
 					if($comment->user) {
-						$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+						if($comment->is_answer) {
+							$comment->user->addPoints(User::POINTS_FOR_ANSWER);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED);
+							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER);
+						} else {
+							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED);
+							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT);
+						}
 					}
 					// return success message
 					if(Auth::check()) {
@@ -104,8 +112,10 @@ class CommentsController extends BaseController
 
 				if(Comment::VOTE_LIKE == $vote) {
 					$comment->votes_like = $comment->votes_like + 1;
+					$comment->user->setNotification(Notification::TYPE_COMMENT_LIKED);
 				} elseif(Comment::VOTE_DISLIKE == $vote) {
 					$comment->votes_dislike = $comment->votes_dislike + 1;
+					$comment->user->setNotification(Notification::TYPE_COMMENT_DISLIKED);
 				}
 
 				if ($comment->save()) {
@@ -113,9 +123,21 @@ class CommentsController extends BaseController
 					// removing or adding points for comment
 					if($comment->user) {
 						if(($comment->votes_like - $comment->votes_dislike) == "-1") {
-							$comment->user->removePoints(User::POINTS_FOR_COMMENT);
+							if($comment->is_answer) {
+								$comment->user->removePoints(User::POINTS_FOR_ANSWER);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED);
+							} else {
+								$comment->user->removePoints(User::POINTS_FOR_COMMENT);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED);
+							}
 						} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
-							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+							if($comment->is_answer) {
+								$comment->user->addPoints(User::POINTS_FOR_ANSWER);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED);
+							} else {
+								$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED);
+							}
 						}
 					}
 
@@ -163,6 +185,8 @@ class CommentsController extends BaseController
 					// adding points for comment
 					if($comment->mark == Comment::MARK_BEST && $comment->user) {
 						$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
+						$comment->user->setNotification(Notification::TYPE_BEST_ANSWER);
+						$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED);
 					}
 
 					$bestComments = Comment::whereIsPublished(1)

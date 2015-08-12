@@ -59,6 +59,7 @@ class AdminUsersController extends \BaseController {
 			$user = User::find($id);
 			$user->role = $role;
 			if($user->save()) {
+				$user->setNotification(Notification::TYPE_ROLE_CHANGED);
 				return Response::json(array(
 					'success' => true,
 				));
@@ -153,6 +154,7 @@ class AdminUsersController extends \BaseController {
 					$banNotification = $user->banNotifications()->first();
 					$banNotification->unban_at = date('Y:m:d H:i:s');
 					$banNotification->save();
+					$user->setNotification(Notification::TYPE_UNBANNED);
 					return Response::json(array(
 						'success' => true,
 						'message' => 'Пользователь разбанен.'

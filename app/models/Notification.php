@@ -22,6 +22,9 @@ class Notification extends \Eloquent
 	const TYPE_RATING = 16;
 	const TYPE_SUBSCRIBED_ON_QUESTION = 17;
 	const TYPE_SUBSCRIBED_ON_JOURNAL = 18;
+	const TYPE_UNSUBSCRIBED_FROM_QUESTION = 19;
+	const TYPE_UNSUBSCRIBED_FROM_JOURNAL = 20;
+	const TYPE_ROLE_CHANGED = 21;
 
 	public static $typeIcons = [
 		self::TYPE_POINTS_FOR_COMMENT_ADDED => '<i class="material-icons success">attach_money</i>',
@@ -42,6 +45,9 @@ class Notification extends \Eloquent
 		self::TYPE_RATING => '<i class="material-icons info">star_rate</i>',
 		self::TYPE_SUBSCRIBED_ON_QUESTION => '<i class="material-icons info">local_library</i>',
 		self::TYPE_SUBSCRIBED_ON_JOURNAL => '<i class="material-icons info">local_library</i>',
+		self::TYPE_UNSUBSCRIBED_FROM_QUESTION => '<i class="material-icons info">local_library</i>',
+		self::TYPE_UNSUBSCRIBED_FROM_JOURNAL => '<i class="material-icons info">local_library</i>',
+		self::TYPE_ROLE_CHANGED => '<i class="material-icons">perm_identity</i>',
 	];
 
 	protected $fillable = [
@@ -61,13 +67,18 @@ class Notification extends \Eloquent
 		return $this->belongsTo('User', 'user_id');
 	}
 
-	public function add($userModel, $type)
+	public function add($userModel, $notificationType)
 	{
 		self::create([
 			'user_id' => $userModel->id,
-			'type' => $type,
-			'message' => $this->getMessage(),
+			'type' => $notificationType,
+			'message' => $this->getMessage($notificationType),
 		]);
+	}
+
+	private function getMessage($notificationType)
+	{
+		return self::$typeIcons[$notificationType];
 	}
 
 }
