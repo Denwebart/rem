@@ -72,7 +72,7 @@ class UsersController extends BaseController
 			$creds['login'] = $login;
 		}
 
-		$validator = Validator::make($creds + ['g-recaptcha-response' => Input::get('g-recaptcha-response')], User::$rules['login']);
+		$validator = Validator::make($creds /* + ['g-recaptcha-response' => Input::get('g-recaptcha-response')]*/, User::$rules['login']);
 
 		if ($validator->passes()) {
 			// Пытаемся авторизовать пользователя

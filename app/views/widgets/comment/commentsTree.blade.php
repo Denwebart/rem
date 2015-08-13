@@ -65,8 +65,6 @@
                             ])
                         }}
 
-                            <div class="successMessage"></div>
-
                             {{ Form::hidden('parent_id', 0); }}
 
                             <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
@@ -92,8 +90,6 @@
                       'id' => 'comment-form-0',
                     ])
                 }}
-
-                    <div class="successMessage"></div>
 
                     {{ Form::hidden('parent_id', 0); }}
 
@@ -189,14 +185,10 @@
                             $form.find(errorDiv).parent().addClass('has-error');
                             $form.find(errorDiv).empty().append(value);
                         });
-                        $form.find('.successMessage').empty();
                     }
                     if(data.success) {
-                        var successContent = '<div class="alert alert-dismissable alert-info">' +
-                                '<button type="button" class="close" data-dismiss="alert">×</button>' +
-                                '{{ $successMessage }}' +
-                                '</div>';
-                        $form.find('.successMessage').html(successContent);
+                        var successContent = '<?php echo View::make('widgets.siteMessages.info', ['siteMessage' => $successMessage])->render() ?>';
+                        $('#site-messages').prepend(successContent);
                         $form.trigger('reset');
                         tinyMCE.activeEditor.setContent('');
                         $form.find('.error').empty();
@@ -209,8 +201,6 @@
                         $('.count-comments').text(data.countComments);
 
                         // скролл на новый комментарий
-//                        var scrollTop = $('#comment-' + data.comment_id).offset().top;
-//                        $(document).scrollTop(scrollTop);
                         $('html, body').animate({
                             scrollTop: $('#comment-' + data.comment_id).offset().top - 50
                         }, 1000);

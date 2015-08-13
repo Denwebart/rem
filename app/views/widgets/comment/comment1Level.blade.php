@@ -83,8 +83,6 @@
                                 ])
                             }}
 
-                                <div class="successMessage"></div>
-
                                 {{ Form::hidden('parent_id', $comment->id); }}
 
                                 <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
@@ -110,8 +108,6 @@
                               'id' => 'comment-form-' . $comment->id,
                             ])
                         }}
-
-                        <div class="successMessage"></div>
 
                         {{ Form::hidden('parent_id', $comment->id); }}
 
