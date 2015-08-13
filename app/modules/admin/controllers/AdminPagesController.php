@@ -64,7 +64,7 @@ class AdminPagesController extends \BaseController {
 			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
 			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
 		} elseif(Input::get('is_published') && !Input::get('published_at')) {
-			$data['published_at'] = date('Y:m:d H:i:s');
+			$data['published_at'] = \Carbon\Carbon::now();
 		} else {
 			$data['published_at'] = null;
 		}
