@@ -22,6 +22,9 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">
                     Правила сайта
                 </a>
+                <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-primary">
+                    Шаблоны уведомлений
+                </a>
             </div>
 
             <div class="col-xs-12">

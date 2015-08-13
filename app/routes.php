@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
 		Route::resource('advertising', 'AdminАdvertisingController', ['except' => ['show']]);
 		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
+		Route::resource('notificationsMessages', 'AdminNotificationsMessagesController', ['except' => ['show', 'create', 'destroy']]);
 
 		// Копия базы
 //		Route::get('backup', function(){
