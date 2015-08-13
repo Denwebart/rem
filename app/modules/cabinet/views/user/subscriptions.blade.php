@@ -35,49 +35,123 @@ View::share('title', $title);
                         </div>
 
                         @foreach($subscriptions as $subscription)
-                            @if($subscription->page)
-                                <div data-page-id="{{ $subscription->page->id }}" class="well">
-                                    <div class="row">
-                                        @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
+                            @if($subscription->onPage())
+                                @if($subscription->page)
+                                    <div data-subscription-object-id="{{ $subscription->page->id }}" class="well">
+                                        <div class="row">
+                                            @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
 
-                                        <div class="col-md-12">
-                                            @foreach($subscription->notifications as $notification)
-                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                    {{ DateHelper::dateFormat($notification->created_at) }}
-                                                    <br/>
-                                                    {{ $notification->message }}
+                                            <div class="col-md-12">
+                                                @foreach($subscription->notifications as $notification)
+                                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                        {{ DateHelper::dateFormat($notification->created_at) }}
+                                                        <br/>
+                                                        {{ $notification->message }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div data-subscription-object-id="{{ $subscription->page_id }}" class="well">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h3></h3>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="buttons">
+                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                        Отписаться
+                                                    </a>
                                                 </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div data-page-id="{{ $subscription->page_id }}" class="well">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <h3></h3>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="buttons">
-                                                <a href="javascript:void(0)" class="pull-right unsubscribe" data-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                                                    Отписаться
-                                                </a>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="date date-saved">
+                                                    <span class="text">Подписка оформлена</span>
+                                                    <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p>
+                                                    Статья, на которую вы были подписаны, была удалена.
+                                                </p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="date date-saved">
-                                                <span class="text">Подписка оформлена</span>
-                                                <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
+                                    </div>
+                                @endif
+                            @elseif($subscription->onJournal())
+                                @if($subscription->userJournal)
+                                    <div data-subscription-object-id="{{ $subscription->userJournal->id }}" class="well">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                @if($subscription->userJournal->avatar)
+                                                    <a href="{{ URL::route('user.journal', ['login' => $subscription->userJournal->getLoginForUrl()]) }}" class="avatar">
+                                                        {{ $subscription->userJournal->getAvatar('mini') }}
+                                                    </a>
+                                                @endif
+                                                <h3>
+                                                    <a href="{{ URL::route('user.journal', ['login' => $subscription->userJournal->getLoginForUrl()]) }}">
+                                                        Бортовой журнал пользователя
+                                                        {{ $subscription->userJournal->login }}
+                                                        @if($subscription->userJournal->getFullName())
+                                                            ({{ $subscription->userJournal->getFullName() }})
+                                                        @endif
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="buttons">
+                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                        Отписаться
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="date date-saved">
+                                                    <span class="text">Подписка оформлена</span>
+                                                    <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                @foreach($subscription->notifications as $notification)
+                                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                        {{ DateHelper::dateFormat($notification->created_at) }}
+                                                        <br/>
+                                                        {{ $notification->message }}
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <p>
-                                                Статья, на которую вы были подписаны, была удалена.
-                                            </p>
+                                    </div>
+                                @else
+                                    <div data-subscription-object-id="{{ $subscription->journal_id }}" class="well">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h3></h3>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="buttons">
+                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                        Отписаться
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="date date-saved">
+                                                    <span class="text">Подписка оформлена</span>
+                                                    <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p>
+                                                    Журнал пользователя был удален.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             @endif
                         @endforeach
                         <div>
@@ -109,18 +183,19 @@ View::share('title', $title);
     <script type="text/javascript">
         $(".unsubscribe").on('click', function() {
             var $link = $(this);
-            var pageId = $link.data('id');
+            var subscriptionObjectId = $link.data('subscriptionObjectId');
+            var subscriptionField = $link.data('subscriptionField');
             $.ajax({
                 url: "{{ URL::route('user.unsubscribe', ['login' => Auth::user()->getLoginForUrl()]) }}",
                 dataType: "text json",
                 type: "POST",
-                data: {pageId: pageId},
+                data: {subscriptionObjectId: subscriptionObjectId, subscriptionField: subscriptionField},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function(response) {
                     if(response.success){
-                        $('[data-page-id=' + pageId + ']').remove();
+                        $('[data-subscription-object-id=' + subscriptionObjectId + ']').remove();
                     }
                 }
             });

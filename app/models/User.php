@@ -580,6 +580,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Подписчики пользователя (подписка на журнал)
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function subscribers()
+	{
+		return $this->hasMany('Subscription', 'journal_id');
+	}
+
+	/**
 	 * Награды пользователя
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -650,9 +660,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @return bool
 	 */
-	public function subscribed($pageId)
+	public function subscribed($subscriptionObjectId, $subscriptionField)
 	{
-		return (Auth::user()->subscriptions()->wherePageId($pageId)->first()) ? true : false;
+		return (Auth::user()->subscriptions()->where($subscriptionField, '=', $subscriptionObjectId)->first())
+			? true
+			: false;
 	}
 
 	/**

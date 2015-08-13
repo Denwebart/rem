@@ -893,27 +893,46 @@ class CabinetUserController extends \BaseController
 	public function subscribe()
 	{
 		if(Request::ajax()) {
-			$pageId = Input::get('pageId');
+			$subscriptionObjectId = Input::get('subscriptionObjectId');
+			$subscriptionField = Input::get('subscriptionField');
 
-			if(!Auth::user()->subscribed($pageId)) {
+			if(!Auth::user()->subscribed($subscriptionObjectId, $subscriptionField)) {
 				$subscription = new Subscription();
 				$subscription->user_id = Auth::user()->id;
-				$subscription->page_id = $pageId;
+				if(Subscription::FIELD_PAGE_ID == $subscriptionField) {
+					$subscription->page_id = $subscriptionObjectId;
+				} else {
+					$subscription->journal_id = $subscriptionObjectId;
+				}
 
 				if($subscription->save()) {
-					if($subscription->page) {
-						$subscription->page->user->setNotification(Notification::TYPE_SUBSCRIBED_ON_QUESTION, [
-							'[user]' => $subscription->user->login,
-							'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
-							'[pageTitle]' => $subscription->page->getTitle(),
-							'[linkToPage]' => URL::to($subscription->page->getUrl()),
-						]);
+					if(Subscription::FIELD_PAGE_ID == $subscriptionField) {
+						if($subscription->page) {
+							$subscription->page->user->setNotification(Notification::TYPE_SUBSCRIBED_ON_QUESTION, [
+								'[user]' => $subscription->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+								'[pageTitle]' => $subscription->page->getTitle(),
+								'[linkToPage]' => URL::to($subscription->page->getUrl()),
+							]);
+						}
+						return Response::json(array(
+							'success' => true,
+							'message' => 'Подписка оформлена.',
+							'subscribers' => count($subscription->page->subscribers),
+						));
+					} else {
+						if($subscription->userJournal) {
+							$subscription->userJournal->setNotification(Notification::TYPE_SUBSCRIBED_ON_JOURNAL, [
+								'[user]' => $subscription->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+							]);
+						}
+						return Response::json(array(
+							'success' => true,
+							'message' => 'Подписка оформлена.',
+							'subscribers' => count($subscription->userJournal->subscribers),
+						));
 					}
-					return Response::json(array(
-						'success' => true,
-						'message' => 'Подписка оформлена.',
-						'subscribers' => count(Page::whereId($pageId)->first()->subscribers),
-					));
 				}
 			} else {
 				return Response::json(array(
@@ -927,24 +946,44 @@ class CabinetUserController extends \BaseController
 	public function unsubscribe()
 	{
 		if(Request::ajax()) {
-			$pageId = Input::get('pageId');
+			$subscriptionObjectId = Input::get('subscriptionObjectId');
+			$subscriptionField = Input::get('subscriptionField');
 
-			if($subscription = Subscription::whereUserId(Auth::user()->id)->wherePageId($pageId)->first()) {
+			$subscription = Subscription::whereUserId(Auth::user()->id)
+				->where($subscriptionField, '=', $subscriptionObjectId)
+				->first();
+
+			if($subscription) {
 				$subscription->delete();
-				$page = Page::find(Input::get('pageId'));
-				if($page) {
-					$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION, [
-						'[user]' => $subscription->user->login,
-						'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
-						'[pageTitle]' => $subscription->page->getTitle(),
-						'[linkToPage]' => URL::to($subscription->page->getUrl()),
-					]);
+				if(Subscription::FIELD_PAGE_ID == $subscriptionField) {
+					$page = Page::find(Input::get('subscriptionObjectId'));
+					if($page) {
+						$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION, [
+							'[user]' => $subscription->user->login,
+							'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+							'[pageTitle]' => $subscription->page->getTitle(),
+							'[linkToPage]' => URL::to($subscription->page->getUrl()),
+						]);
+					}
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Подписка отменена.',
+						'subscribers' => ($page) ? count($page->subscribers) : '',
+					));
+				} else {
+					$userJournal = User::find(Input::get('subscriptionObjectId'));
+					if($userJournal) {
+						$userJournal->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_JOURNAL, [
+							'[user]' => $subscription->user->login,
+							'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+						]);
+					}
+					return Response::json(array(
+						'success' => true,
+						'message' => 'Подписка отменена.',
+						'subscribers' => ($userJournal) ? count($userJournal->subscribers) : '',
+					));
 				}
-				return Response::json(array(
-					'success' => true,
-					'message' => 'Подписка отменена.',
-					'subscribers' => ($page) ? count(Page::whereId($page->id)->first()->subscribers) : '',
-				));
 			} else {
 				return Response::json(array(
 					'success' => false,

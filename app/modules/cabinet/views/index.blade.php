@@ -262,7 +262,7 @@ View::share('page', $title);
                                     </td>
                                     <td>
                                         <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ $user->questionsCount }}
+                                            {{ count($user->publishedQuestions) }}
                                         </a>
                                     </td>
                                     <td>

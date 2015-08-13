@@ -33,7 +33,7 @@
                 </h2>
 
                 <div class="content row journal-user-info">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <ul class="info">
                             <li>
                                 Статей:
@@ -60,6 +60,12 @@
                                 </a>
                             </li>
                         </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Подписка на журнал пользователя ("Подписки") -->
+                        @if(!Auth::user()->is($user))
+                            @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
+                        @endif
                     </div>
                 </div>
 

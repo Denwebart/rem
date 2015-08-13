@@ -85,6 +85,16 @@
             @endif
         </div>
 
+        <!-- Подписка на журнал пользователя ("Подписки") -->
+        @if(!Auth::user()->is($user))
+            @include('widgets.subscribe', [
+                'subscriptionObject' => $page->user,
+                'subscriptionField' => Subscription::FIELD_JOURNAL_ID,
+                'subscribeButtonTitle' => 'Подписаться на журнал',
+                'unsubscribeButtonTitle' => 'Отменить подписку на журнал',
+            ])
+        @endif
+
         {{ $areaWidget->contentMiddle() }}
 
         {{-- Читайте также --}}

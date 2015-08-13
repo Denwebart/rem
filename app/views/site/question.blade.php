@@ -82,7 +82,7 @@
         </div>
 
         <!-- Подписка на вопрос ("Подписки") -->
-        @include('widgets.subscribe')
+        @include('widgets.subscribe', ['subscriptionObject' => $page, 'subscriptionField' => Subscription::FIELD_PAGE_ID])
 
         {{ $areaWidget->contentMiddle() }}
 

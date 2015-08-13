@@ -15,7 +15,7 @@
                 <i class="material-icons">close</i>
             </a>
         @elseif('user.subscriptions' == Route::currentRouteName())
-            <a href="javascript:void(0)" class="pull-right unsubscribe" data-id="{{ $page->id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+            <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
                 Отписаться
             </a>
         @endif
