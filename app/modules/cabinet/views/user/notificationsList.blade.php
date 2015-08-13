@@ -20,9 +20,11 @@
                     </div>
                     <div class="col-md-2">
                         <div class="buttons">
-                            <a href="javascript:void(0)" class="pull-right remove-notification" data-id="{{ $notification->id }}" title="Удалить уведомление" data-toggle="tooltip" data-placement="top">
-                                <i class="material-icons">close</i>
-                            </a>
+                            @if(Auth::user()->is($user))
+                                <a href="javascript:void(0)" class="pull-right remove-notification" data-id="{{ $notification->id }}" title="Удалить уведомление" data-toggle="tooltip" data-placement="top">
+                                    <i class="material-icons">close</i>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

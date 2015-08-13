@@ -49,9 +49,11 @@ View::share('title', $title);
                                         </div>
                                         <div class="col-md-2">
                                             <div class="buttons">
-                                                <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
-                                                    <i class="material-icons">close</i>
-                                                </a>
+                                                @if(Auth::user()->is($user))
+                                                    <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
+                                                        <i class="material-icons">close</i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -98,24 +100,26 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    <script type="text/javascript">
-        $(".remove-page").on('click', function() {
-            var $link = $(this);
-            var pageId = $link.data('id');
-            $.ajax({
-                url: "{{ URL::route('user.removePage', ['login' => Auth::user()->getLoginForUrl()]) }}",
-                dataType: "text json",
-                type: "POST",
-                data: {pageId: pageId},
-                beforeSend: function(request) {
-                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
-                success: function(response) {
-                    if(response.success){
-                        $('[data-page-id=' + pageId + ']').remove();
+    @if(Auth::user()->is($user))
+        <script type="text/javascript">
+            $(".remove-page").on('click', function() {
+                var $link = $(this);
+                var pageId = $link.data('id');
+                $.ajax({
+                    url: "{{ URL::route('user.removePage', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                    dataType: "text json",
+                    type: "POST",
+                    data: {pageId: pageId},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('[data-page-id=' + pageId + ']').remove();
+                        }
                     }
-                }
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 @endsection

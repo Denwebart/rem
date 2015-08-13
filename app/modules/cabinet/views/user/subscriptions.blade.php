@@ -61,9 +61,11 @@ View::share('title', $title);
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="buttons">
-                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                                                        Отписаться
-                                                    </a>
+                                                    @if(Auth::user()->is($user))
+                                                        <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                            Отписаться
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -102,9 +104,11 @@ View::share('title', $title);
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="buttons">
-                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                                                        Отписаться
-                                                    </a>
+                                                    @if(Auth::user()->is($user))
+                                                        <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                            Отписаться
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
@@ -133,9 +137,11 @@ View::share('title', $title);
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="buttons">
-                                                    <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                                                        Отписаться
-                                                    </a>
+                                                    @if(Auth::user()->is($user))
+                                                        <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
+                                                            Отписаться
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
