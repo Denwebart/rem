@@ -95,9 +95,11 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@savePage']);
 	Route::post('{login}/removePage', ['as' => 'user.removePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@removePage']);
+	Route::post('{login}/removeAllPages', ['as' => 'user.removeAllPages', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@removeAllPages']);
 	Route::get('{login}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'CabinetUserController@subscriptions']);
 	Route::post('{login}/subscribe', ['as' => 'user.subscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@subscribe']);
 	Route::post('{login}/unsubscribe', ['as' => 'user.unsubscribe', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@unsubscribe']);
+	Route::post('{login}/unsubscribeFromAll', ['as' => 'user.unsubscribeFromAll', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@unsubscribeFromAll']);
 	Route::post('{login}/deleteSubscriptionNotification', ['as' => 'user.deleteSubscriptionNotification', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteSubscriptionNotification']);
 	Route::get('{login}/notifications', ['as' => 'user.notifications', 'uses' => 'CabinetUserController@notifications']);
 	Route::post('{login}/deleteNotification', ['as' => 'user.deleteNotification', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteNotification']);

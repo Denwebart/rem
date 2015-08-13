@@ -28,7 +28,7 @@ class CabinetUserController extends \BaseController
 				}
 			}
 
-		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		// бан пользователя
 		$this->beforeFilter(function()
@@ -43,7 +43,7 @@ class CabinetUserController extends \BaseController
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		$this->beforeFilter(function()
 		{
@@ -876,6 +876,26 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	public function removeAllPages()
+	{
+		if(Request::ajax()) {
+
+			$savedPages = UserPage::whereUserId(Auth::user()->id);
+
+			if($savedPages->count()) {
+				$savedPages->delete();
+
+				return Response::json(array(
+					'success' => true,
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
+
 	public function subscriptions($login)
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
@@ -970,7 +990,7 @@ class CabinetUserController extends \BaseController
 						'message' => 'Подписка отменена.',
 						'subscribers' => ($page) ? count($page->subscribers) : '',
 					));
-				} else {
+				} elseif(Subscription::FIELD_JOURNAL_ID == $subscriptionField) {
 					$userJournal = User::find(Input::get('subscriptionObjectId'));
 					if($userJournal) {
 						$userJournal->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_JOURNAL, [
@@ -988,6 +1008,53 @@ class CabinetUserController extends \BaseController
 				return Response::json(array(
 					'success' => false,
 					'message' => 'Подписка уже отменена.'
+				));
+			}
+		}
+	}
+
+	/**
+	 * Отписаться от всего
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function unsubscribeFromAll()
+	{
+		if(Request::ajax()) {
+
+			$subscriptions = Subscription::whereUserId(Auth::user()->id);
+
+			if($subscriptions->count()) {
+				$deletedSubscriptions = $subscriptions->get();
+				$subscriptions->delete();
+
+				foreach($deletedSubscriptions as $subscription) {
+					if($subscription->onPage()) {
+						$page = Page::find($subscription->page_id);
+						if($page) {
+							$page->user->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_QUESTION, [
+								'[user]' => $subscription->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+								'[pageTitle]' => $subscription->page->getTitle(),
+								'[linkToPage]' => URL::to($subscription->page->getUrl()),
+							]);
+						}
+ 					} elseif($subscription->onJournal()) {
+						$userJournal = User::find($subscription->journal_id);
+						if($userJournal) {
+							$userJournal->setNotification(Notification::TYPE_UNSUBSCRIBED_FROM_JOURNAL, [
+								'[user]' => $subscription->user->login,
+								'[linkToUser]' => URL::route('user.profile', ['login' => $subscription->user->getLoginForUrl()]),
+							]);
+						}
+					}
+				}
+
+				return Response::json(array(
+					'success' => true,
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
 				));
 			}
 		}

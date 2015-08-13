@@ -51,6 +51,8 @@
                 <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary">
                     Написать личное сообщение
                 </a>
+                <!-- Подписка на журнал пользователя ("Подписки") -->
+                @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
             @endif
             @if(Auth::user()->isAdmin())
                 @include('widgets.ban', ['user' => $user])

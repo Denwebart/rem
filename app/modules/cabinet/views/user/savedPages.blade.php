@@ -25,70 +25,85 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <h2>{{ $title }}</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>{{ $title }}</h2>
+                    </div>
+                    <div class="col-md-4">
+                        @if(Auth::user()->is($user))
+                            @if(count($pages))
+                                <a href="javascript:void(0)" class="btn btn-primary pull-right" id="remove-all-pages" title="Удалить все сохраненные страницы" data-toggle="tooltip">
+                                    Удалить все
+                                </a>
+                            @endif
+                        @endif
+                    </div>
+                </div>
 
-                @if(count($pages))
-                    <section id="saved-pages-area" class="blog">
-                        <div class="count">
-                            Показано сохраненных страниц: <span>{{ $pages->count() }}</span>.
-                            Всего: <span>{{ $pages->getTotal() }}</span>.
-                        </div>
+                <div class="list">
+                    @if(count($pages))
+                        <section id="saved-pages-area" class="blog">
+                            <div class="count">
+                                Показано сохраненных страниц: <span>{{ $pages->count() }}</span>.
+                                Всего: <span>{{ $pages->getTotal() }}</span>.
+                            </div>
 
-                        @foreach($pages as $page)
-                            @if($page->page)
-                                <div data-page-id="{{ $page->page->id }}" class="well">
-                                    <div class="row">
-                                        @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                            @foreach($pages as $page)
+                                @if($page->page)
+                                    <div data-page-id="{{ $page->page->id }}" class="well">
+                                        <div class="row">
+                                            @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <div data-page-id="{{ $page->page_id }}" class="well">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <h3></h3>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="buttons">
-                                                @if(Auth::user()->is($user))
-                                                    <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
-                                                        <i class="material-icons">close</i>
-                                                    </a>
-                                                @endif
+                                @else
+                                    <div data-page-id="{{ $page->page_id }}" class="well">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h3></h3>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="date date-saved">
-                                                <div class="date date-saved">
-                                                    <span class="text">Сохранено</span>
-                                                    <span class="date">{{ DateHelper::dateFormat($page->created_at) }}</span>
+                                            <div class="col-md-2">
+                                                <div class="buttons">
+                                                    @if(Auth::user()->is($user))
+                                                        <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->page_id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
+                                                            <i class="material-icons">close</i>
+                                                        </a>
+                                                    @endif
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <p>
-                                                Статья, которую вы сохранили, была удалена.
-                                            </p>
+                                            <div class="col-md-12">
+                                                <div class="date date-saved">
+                                                    <div class="date date-saved">
+                                                        <span class="text">Сохранено</span>
+                                                        <span class="date">{{ DateHelper::dateFormat($page->created_at) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p>
+                                                    Статья, которую вы сохранили, была удалена.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endif
-                        @endforeach
+                                @endif
+                            @endforeach
 
-                        <div>
-                            {{ $pages->links() }}
-                        </div>
-                    </section>
-                @else
-                    @if(Auth::user()->is($user))
-                        <p>
-                            Вы еще ничего не сохранили.
-                        </p>
+                            <div>
+                                {{ $pages->links() }}
+                            </div>
+                        </section>
                     @else
-                        <p>
-                            Сохраненных страниц нет.
-                        </p>
+                        @if(Auth::user()->is($user))
+                            <p>
+                                Вы еще ничего не сохранили.
+                            </p>
+                        @else
+                            <p>
+                                Сохраненных страниц нет.
+                            </p>
+                        @endif
                     @endif
-                @endif
+                </div>
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}
@@ -119,6 +134,30 @@ View::share('title', $title);
                         }
                     }
                 });
+            });
+
+            $('#remove-all-pages').on('click', function(){
+                var $button = $(this);
+                if(confirm('Вы уверены, что хотите удалить все сохраненные страницы?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.removeAllPages', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $button.parent().find('.tooltip').remove();
+                                $button.remove();
+                                $('#content .list').html('<p>Вы еще ничего не сохранили.</p>');
+                            } else {
+                                $('#content').append('У вас нет сохраненных страниц.');
+                            }
+                        }
+                    });
+                }
             });
         </script>
     @endif
