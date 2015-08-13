@@ -22,11 +22,21 @@ View::share('title', $title);
             <div class="col-md-12" id="content">
                 <div class="row">
                     <div class="col-md-8">
+
+                        <!-- всплывающее сообщение - согласие с правилами сайта -->
                         @if(Session::has('rulesSuccessMessage'))
-                            <div class="alert alert-dismissable alert-success">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ Session::get('rulesSuccessMessage') }}
-                            </div>
+                            @section('siteMessages')
+                                @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
+                                @parent
+                            @endsection
+                        @endif
+
+                        <!-- всплывающее сообщение - пароль изменен -->
+                        @if(Session::has('successMessage'))
+                            @section('siteMessages')
+                                @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
+                                @parent
+                            @endsection
                         @endif
 
                         @if(Auth::check())
@@ -41,13 +51,6 @@ View::share('title', $title);
                             @if(Auth::user()->is($user) && $headerWidget->isBannedIp)
                                 @include('messages.bannedIp')
                             @endif
-                        @endif
-
-                        @if(Session::has('successMessage'))
-                            <div class="alert alert-dismissable alert-info">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ Session::get('successMessage') }}
-                            </div>
                         @endif
 
                         <h2>{{{ $user->login }}}</h2>

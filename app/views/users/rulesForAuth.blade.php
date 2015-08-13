@@ -34,11 +34,12 @@ View::share('areaWidget', $areaWidget);
                     </div>
                 @endif
 
-                @if(Session::has('message'))
-                    <div class="alert alert-dismissable alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <p>{{ Session::get('message') }}</p>
-                    </div>
+                <!-- всплывающее сообщение - ошибка: согласие не со всеми правилами -->
+                @if(Session::has('rulesErrorMessage'))
+                    @section('siteMessages')
+                        @include('widgets.siteMessages.danger', ['siteMessage' => Session::get('rulesErrorMessage')])
+                        @parent
+                    @endsection
                 @endif
 
                 @if(count($rules))

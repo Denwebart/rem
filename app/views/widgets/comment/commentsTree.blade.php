@@ -52,11 +52,12 @@
                         @include('messages.rulesAgreeForComments', ['type' => $page->type, 'backUrl' => Request::url() . '#add-comment'])
                     @else
 
+                        <!-- всплывающее сообщение - согласие с правилами сайта -->
                         @if(Session::has('rulesSuccessMessage') && !Request::has('reply'))
-                            <div class="alert alert-dismissable alert-success">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                {{ Session::get('rulesSuccessMessage') }}
-                            </div>
+                            @section('siteMessages')
+                                @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
+                                @parent
+                            @endsection
                         @endif
 
                         {{ Form::open([

@@ -28,11 +28,13 @@
 		{{ $areaWidget->contentMiddle() }}
 
 		<section id="contact-form-area">
+
+            <!-- всплывающее сообщение - отправка контактной формы -->
 			@if(Session::has('successMessage'))
-                <div class="alert alert-dismissable alert-info">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    {{ Session::get('successMessage') }}
-                </div>
+                @section('siteMessages')
+                    @include('widgets.siteMessages.info', ['siteMessage' => Session::get('successMessage')])
+                    @parent
+                @endsection
 			@endif
 
 			{{ Form::open([

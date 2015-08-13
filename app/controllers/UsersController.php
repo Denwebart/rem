@@ -172,7 +172,7 @@ class UsersController extends BaseController
 				return Redirect::to(Input::get('backUrl'))->with('rulesSuccessMessage', 'Спасибо, что согласились с правилами сайта.');
 			}
 		} else {
-			return Redirect::route('rules')->with('message', 'Вы не подтвердили согласие со всеми правилами сайта.');
+			return Redirect::route('rules')->with('rulesErrorMessage', 'Вы не подтвердили согласие со всеми правилами сайта.');
 		}
 	}
 }
