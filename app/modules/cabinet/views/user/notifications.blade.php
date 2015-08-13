@@ -25,7 +25,18 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <h2>{{ $title }}</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>{{ $title }}</h2>
+                    </div>
+                    <div class="col-md-4">
+                        @if(count($notifications))
+                            <a href="javascript:void(0)" class="btn btn-primary pull-right" id="delete-all-notifications" title="Удалить все уведомления" data-toggle="tooltip">
+                                Удалить все
+                            </a>
+                        @endif
+                    </div>
+                </div>
 
                 <!-- Список уведомлений -->
                 <div class="list">
@@ -64,6 +75,7 @@ View::share('title', $title);
                                 $('#header-widget .dropdown-notifications .dropdown-menu [data-notification-id= ' + notificationId + ']').remove();
                                 $('#users-menu .notifications small').text(response.newNotifications);
                             } else {
+                                $('#delete-all-notifications').remove();
                                 $('#header-widget .dropdown-notifications .dropdown-toggle span').remove();
                                 $('#header-widget .dropdown-notifications .dropdown-menu').remove();
                                 $('#users-menu .notifications small').remove();
@@ -74,6 +86,35 @@ View::share('title', $title);
                         }
                     }
                 });
+            });
+
+            $('#delete-all-notifications').on('click', function(){
+                if(confirm('Вы уверены, что хотите удалить все уведомления?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.deleteAllNotifications', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#delete-all-notifications').remove();
+                                $('#content .list').html('<p>У вас нет уведомлений.</p>');
+
+                                $('#header-widget .dropdown-notifications .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-notifications .dropdown-menu').remove();
+                                $('#users-menu .notifications small').remove();
+                                // как ссылка
+                                $('#header-widget .dropdown-notifications .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
+                            } else {
+                                $('#content').append('У вас нет уведомлений.');
+                            }
+                        }
+                    });
+                }
             });
         });
     </script>

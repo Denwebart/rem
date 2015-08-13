@@ -28,7 +28,7 @@ class CabinetUserController extends \BaseController
 				}
 			}
 
-		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification']]);
+		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		// бан пользователя
 		$this->beforeFilter(function()
@@ -43,7 +43,7 @@ class CabinetUserController extends \BaseController
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'subscriptions', 'subscribe', 'unsubscribe', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		$this->beforeFilter(function()
 		{
@@ -1056,6 +1056,26 @@ class CabinetUserController extends \BaseController
 					'success' => true,
 					'newNotifications' => count($notifications),
 					'notificationsList' => (string) View::make('cabinet::user.notificationsList', compact('notifications'))->with('user', Auth::user())->render()
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
+
+	public function deleteAllNotifications()
+	{
+		if(Request::ajax()) {
+
+			$notifications = Notification::whereUserId(Auth::user()->id);
+
+			if($notifications->count()) {
+				$notifications->delete();
+
+				return Response::json(array(
+					'success' => true,
 				));
 			} else {
 				return Response::json(array(
