@@ -318,9 +318,15 @@ class Page extends \Eloquent
 
 	public function getTitleForBreadcrumbs()
 	{
-		$maxLength = 65;
+		$maxLength = 75;
 		if($this->parent) {
 			$parentLength = Str::length($this->parent->getTitle());
+			if($this->parent->parent) {
+				$parentLength = $parentLength + Str::length($this->parent->parent->getTitle());
+			}
+			if(self::TYPE_ARTICLE == $this->type) {
+				$parentLength = $parentLength + (2 * Str::length($this->user->login));
+			}
 			$length = $maxLength - $parentLength;
 		} else {
 			$length = $maxLength;

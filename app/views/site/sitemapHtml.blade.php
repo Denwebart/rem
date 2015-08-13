@@ -3,7 +3,7 @@
 @section('content')
 	<ol class="breadcrumb">
 		<li><a href="{{ URL::to('/') }}">Главная</a></li>
-		<li>{{ $page->getTitle() }}</li>
+		<li>{{ $page->getTitleForBreadcrumbs() }}</li>
 	</ol>
 
 	<section id="content" class="well">

@@ -10,7 +10,7 @@
                 </a>
             </li>
         @endif
-        <li>{{ $page->getTitle() }}</li>
+        <li>{{ $page->getTitleForBreadcrumbs() }}</li>
     </ol>
 
     <section id="content" class="well">
