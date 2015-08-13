@@ -10,3 +10,5 @@
 		</div>
 	</div>
 </footer>
+
+@include('widgets.siteMessages.siteMessages')

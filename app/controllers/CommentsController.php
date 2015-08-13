@@ -122,7 +122,7 @@ class CommentsController extends BaseController
 				if(Auth::user()->is_banned) {
 					return Response::json(array(
 						'success' => false,
-						'message' => 'Вы забанены администратором сайта и не можете голосовать.'
+						'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Вы забанены администратором сайта и не можете голосовать.'])->render(),
 					));
 				}
 			}
@@ -238,13 +238,13 @@ class CommentsController extends BaseController
 						'success' => true,
 						'votesLike' => $comment->votes_like,
 						'votesDislike' => $comment->votes_dislike,
-						'message' => 'Спасибо, Ваш голос принят!',
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Спасибо, Ваш голос принят!'])->render(),
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Вы уже голосовали.',
+					'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Вы уже голосовали.'])->render(),
 				));
 			}
 

@@ -4,7 +4,6 @@
     <div id="rate-stars">
         <div id="jRate"></div>
     </div>
-    <div id="rate-message"></div>
 </div>
 
 @section('script')
@@ -38,9 +37,11 @@
                 },
                 success: function(response) {
                     if(response.success){
+                        // всплывающее сообщение
+                        $('#site-messages').prepend(response.message);
+
                         $('#rate-votes').text(response.rating);
                         $('#rate-voters span').text(response.voters);
-                        $('#rate-message').text(response.message);
                         $('#jRate').remove();
                         $('#rate-stars').append('<div id="jRate"></div>');
                         $("#jRate").jRate({
@@ -55,7 +56,9 @@
                             }
                         });
                     } else {
-                        $('#rate-message').text(response.message);
+                        // всплывающее сообщение
+                        $('#site-messages').prepend(response.message);
+
                         $('#jRate').remove();
                         $('#rate-stars').append('<div id="jRate"></div>');
                         $("#jRate").jRate({

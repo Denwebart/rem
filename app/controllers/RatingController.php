@@ -13,7 +13,9 @@ class RatingController extends BaseController {
 				return Response::json(array(
 					'success' => false,
 					'rating' => $page->getRating(),
-					'message' => 'Ваш IP-адрес забанен администратором сайта, вы не можете голосовать.'
+					'message' => (string) View::make('widgets.siteMessages.danger', [
+						'siteMessage' => 'Ваш IP-адрес забанен администратором сайта, вы не можете голосовать.'
+					])->render(),
 				));
 			}
 
@@ -22,7 +24,9 @@ class RatingController extends BaseController {
 					return Response::json(array(
 						'success' => false,
 						'rating' => $page->getRating(),
-						'message' => 'Вы забанены администратором сайта и не можете голосовать.'
+						'message' => (string) View::make('widgets.siteMessages.danger', [
+							'siteMessage' => 'Вы забанены администратором сайта и не можете голосовать.'
+						])->render(),
 					));
 				}
 			}
@@ -34,8 +38,8 @@ class RatingController extends BaseController {
 							'success' => false,
 							'rating' => $page->getRating(),
 							'message' => (Page::TYPE_QUESTION == $page->type)
-								? 'Вы не можете голосовать за свой вопрос.'
-								: 'Вы не можете голосовать за свою статью.',
+								? (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Вы не можете голосовать за свой вопрос.'])->render()
+								: (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Вы не можете голосовать за свою статью.'])->render(),
 						));
 					}
 				}
@@ -71,18 +75,16 @@ class RatingController extends BaseController {
 						'rating' => $page->getRating(),
 						'votes' => $page->votes,
 						'voters' => $page->voters,
-						'message' => 'Спасибо, Ваш голос принят!',
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Спасибо, Ваш голос принят!'])->render(),
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
 					'rating' => $page->getRating(),
-					'message' => 'Вы уже голосовали.',
+					'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Вы уже голосовали.'])->render(),
 				));
 			}
-
 		}
 	}
-
 }

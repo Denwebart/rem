@@ -293,9 +293,9 @@
                 success: function(response) {
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
-                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                        $('#site-messages').prepend(response.message);
                     } else {
-                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                        $('#site-messages').prepend(response.message);
                     }
                 }
             });
@@ -313,9 +313,9 @@
                 success: function(response) {
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
-                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                        $('#site-messages').prepend(response.message);
                     } else {
-                        $('[data-vote-comment-id='+ commentId +']').find('.vote-message').text(response.message);
+                        $('#site-messages').prepend(response.message);
                     }
                 }
             });
