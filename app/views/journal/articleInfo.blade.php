@@ -85,7 +85,7 @@
         @endif
     </div>
     <div class="col-md-12">
-        <a class="pull-right" href="{{ URL::to($article->getUrl()) }}">
+        <a class="pull-right read-more" href="{{ URL::to($article->getUrl()) }}">
             Читать полностью
             <i class="material-icons">chevron_right</i>
         </a>

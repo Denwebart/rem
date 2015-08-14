@@ -49,13 +49,10 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-5 col-sm-offset-2">
-                            {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-                        </div>
+                        {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                        <a href="{{ URL::route('register') }}">Регистрация</a>
+                        <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a>
                     </div>
-
-                    <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a><br />
-                    <a href="{{ URL::route('register') }}">Регистрация</a>
 
                     {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}

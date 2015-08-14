@@ -38,9 +38,8 @@ View::share('title', $title);
                             @endif
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-5 col-sm-offset-2">
-                                {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-                            </div>
+                            {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                            <a href="{{ URL::route('login') }}">Войти</a>
                         </div>
                         {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}

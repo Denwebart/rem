@@ -28,9 +28,11 @@
                     <div class="col-md-5">
                         {{ $menuWidget->topMenu() }}
                         @if (!Auth::check())
-                            <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-sm btn-login">
-                                Войти
-                                <i class="material-icons">exit_to_app</i>
+                            <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
+                                <span>
+                                    <span class="text">Войти</span>
+                                    <i class="material-icons">exit_to_app</i>
+                                </span>
                             </a>
                             <br>
                             <a href="{{ URL::route('register') }}" class="pull-right btn-register">

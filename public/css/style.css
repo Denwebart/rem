@@ -39,10 +39,18 @@ a:focus {
 .margin-bottom-20 {
     margin-bottom: 20px;
 }
+/* Buttons */
 .button-group {
     display: inline-block;
     float: right;
     margin: 23px 0 0;
+}
+.btn {
+    text-transform: none;
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+.btn-primary:hover:not(.btn-link):not(.btn-flat) {
+    background: #03A9F4;
 }
 .font-mini {
     font-size: 10px;
@@ -91,7 +99,24 @@ a:focus {
 /*-- Header--*/
 .btn-login {
     width: 136px;
+    padding-top: 1px;
+    padding-bottom: 3px;
+    line-height: 24px;
 }
+.btn-login span {
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+}
+.btn-login span .text,
+.btn-login span .material-icons {
+    float: left;
+    line-height: 24px;
+}
+.btn-login span .material-icons {
+    margin-left: 5px;
+}
+
 .btn-register {
     clear: both;
 }
@@ -108,7 +133,7 @@ a:focus {
 }
 
 .blog .image {
-    margin: 5px 10px 5px 0px;
+    margin: 5px 10px 5px 0;
 }
 .blog .category {
     line-height: 24px;
@@ -131,6 +156,9 @@ a:focus {
 .blog .page-info {
     margin-bottom: 0;
 }
+.page-info .material-icons {
+    float: left;
+}
 .page-info div {
     margin-right: 10px;
 }
@@ -142,67 +170,51 @@ a:focus {
 }
 .page-info .user a span {
     padding-left: 2px;
-    line-height: 25px;
+    line-height: 24px;
 }
 .page-info .date span {
     float: left;
-    line-height: 25px;
-}
-.page-info .date span:not(.icon) {
-    font-size: 12px;
-    font-style: italic;
+    line-height: 24px;
     padding-left: 2px;
+    font-style: italic;
 }
 .page-info .views span {
     float: left;
-    line-height: 25px;
-}
-.page-info .views span:not(.icon) {
+    line-height: 24px;
     padding-left: 2px;
-}
-.page-info .comments-count span,
-.page-info .answers-count span {
-    float: left;
-    line-height: 25px;
 }
 .page-info .comments-count a,
 .page-info .answers-count a {
     float: left;
-    line-height: 25px;
+    line-height: 24px;
     padding-left: 2px;
 }
 .page-info #saved-pages a {
     float: left;
-    line-height: 25px;
+    line-height: 24px;
 }
 .page-info #saved-pages a span {
     float: left;
-    line-height: 25px;
+    line-height: 24px;
 }
 .page-info #saved-pages .whoSaved {
     float: left;
-    line-height: 25px;
+    line-height: 24px;
     padding-left: 5px;
 }
 .page-info .saved-count span {
     float: left;
-    line-height: 25px;
-}
-.page-info .saved-count span:not(.icon) {
+    line-height: 24px;
     padding-left: 2px;
 }
 .page-info .rating span {
     float: left;
-    line-height: 25px;
-}
-.page-info .rating span:not(.icon) {
+    line-height: 24px;
     padding-left: 2px;
 }
 .page-info .subscribers span {
     float: left;
-    line-height: 25px;
-}
-.page-info .subscribers span:not(.icon) {
+    line-height: 24px;
     padding-left: 2px;
 }
 
@@ -318,7 +330,7 @@ a:focus {
 #navbar-top .navbar-nav > li > a:hover,
 #navbar-top .navbar-nav > li > a:focus,
 #navbar-top .navbar-nav > li.active > a {
-    text-decoration: underline;
+    text-decoration: none;
     background: none;
 }
 /*-- Main menu --*/
@@ -383,6 +395,9 @@ a:focus {
 #blog-area .image {
     width: 45%;
 }
+.read-more .material-icons {
+    float: right;
+}
 
 /*-- Sidebar Widget --*/
 .sidebar-widget .list-group-item .row-content {
@@ -391,11 +406,15 @@ a:focus {
 .sidebar-widget .list-group-separator {
     margin: 7px 15px 7px 0;
 }
+.sidebar-widget .list-group-item .material-icons:not(.mdi-success) {
+    color: #777777;
+}
 .sidebar-widget .list-group-item .row-picture {
     text-align: center;
 }
-.sidebar-widget .list-group-item .row-picture a {
+.sidebar-widget .list-group-item .row-picture .login {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: #333333;
 }
 .sidebar-widget .list-group-item .row-picture img {
     width: 50px;
@@ -440,7 +459,7 @@ a:focus {
 .sidebar-widget .list-group-item {
     text-align: left;
 }
-.sidebar-widget .icon {
+.sidebar-widget .material-icons {
     margin-right: 2px;
 }
 .sidebar-widget .count {
@@ -453,10 +472,6 @@ a:focus {
 /* Sidebar Widget - Questions */
 #questions-sidebar-widget .answers {
     margin: 5px 0 0 0;
-}
-#questions-sidebar-widget .answers .best {
-    color: #4CAF50;
-    font-weight: bold;
 }
 /* Sidebar Widget - Popular */
 #popular-sidebar-widget .views,
@@ -485,7 +500,7 @@ a:focus {
 #best-sidebar-widget .rate .rate-votes {
     display: block;
 }
-#best-sidebar-widget .rate .rate-votes .icon {
+#best-sidebar-widget .rate .rate-votes .material-icons {
     font-size: 60px;
     line-height: 50px;
     color: #ffffff;
@@ -731,6 +746,23 @@ footer .copyright a {
 }
 .back-to-top:hover {
     opacity: 1;
+}
+
+/* Login Layout ==================================================*/
+#login-layout .btn {
+    margin: 0 15px 0 0;
+}
+#login-layout .g-recaptcha {
+    margin-top: 15px;
+}
+#login-layout a {
+    display: inline-block;
+    line-height: 36px;
+    margin-right: 15px;
+    text-decoration: underline;
+}
+#login-layout a:hover {
+    text-decoration: none;
 }
 
 /*-- Полоса уведомлений для авторизованных пользователей --*/

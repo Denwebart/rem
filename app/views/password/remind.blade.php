@@ -28,9 +28,7 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-5 col-sm-offset-2">
-                            {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-                        </div>
+                        {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
                     </div>
 
                     {{ Form::hidden('_token', csrf_token()) }}

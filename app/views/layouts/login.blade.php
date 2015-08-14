@@ -64,19 +64,24 @@
 </head>
 <body id="login-layout">
 
-<!-- Header -->
-<header></header>
+<div class="before-footer-content">
+    <!-- Header -->
+    <header></header>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            @yield('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                @yield('content')
+            </div>
         </div>
     </div>
 </div>
 
+<?php $menuWidget = app('MenuWidget') ?>
+@include('footer')
+
 <!-- JS -->
-{{HTML::script('js/jquery-1.10.2.min.js')}}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 {{HTML::script('js/bootstrap.min.js')}}
 
 <script>

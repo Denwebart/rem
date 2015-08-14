@@ -8,12 +8,12 @@
                 @if($answer->user)
                     <a href="{{ URL::route('user.profile', ['login' => $answer->user->getLoginForUrl()]) }}">
                         {{ $answer->user->getAvatar('mini', ['class' => 'circle']) }}
-                        {{ $answer->user->login }}
+                        <span class="login">{{ $answer->user->login }}</span>
                     </a>
                 @else
                     <a href="{{ URL::to($answer->getUrl()) }}">
                         {{ (new User)->getAvatar('mini', ['class' => 'circle']) }}
-                        {{ $answer->user_name }}
+                        <span class="login">{{ $answer->user_name }}</span>
                     </a>
                 @endif
             </div>

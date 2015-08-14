@@ -101,7 +101,7 @@
 @include('footer')
 
 <!-- JS -->
-{{HTML::script('js/jquery-1.10.2.min.js')}}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 {{HTML::script('js/bootstrap.min.js')}}
 
 <script>

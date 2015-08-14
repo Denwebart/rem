@@ -7,7 +7,7 @@
             <div class="row-picture">
                 <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
                     {{ $question->user->getAvatar('mini', ['class' => 'circle']) }}
-                    {{ $question->user->login }}
+                    <span class="login">{{ $question->user->login }}</span>
                 </a>
             </div>
             <div class="row-content">
@@ -24,13 +24,17 @@
                     </div>
                     <div class="col-md-2" style="padding: 0; display: inline-block;">
                         @if(count($question->bestComments))
-                            <i class="material-icons mdi-success" title="Есть решение" style="font-size: 40pt; line-height: 40px">done</i>
+                            <a href="{{ URL::to($question->getUrl()) }}#best-comments" class="icon pull-left best">
+                                <i class="material-icons mdi-success" title="Есть решение" style="font-size: 40pt; line-height: 40px">done</i>
+                            </a>
                         @endif
                     </div>
                 </p>
                 <div class="clearfix"></div>
                 <div class="answers pull-right">
-                    <i class="material-icons pull-left" title="Количество ответов">chat_bubble</i>
+                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="icon pull-left @if(count($question->bestComments)) best @endif">
+                        <i class="material-icons pull-left" title="Количество ответов">chat_bubble</i>
+                    </a>
                     <a href="{{ URL::to($question->getUrl()) }}#answers" class="count pull-left @if(count($question->bestComments)) best @endif">
                         {{ count($question->publishedAnswers) }}
                     </a>

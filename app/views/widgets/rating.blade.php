@@ -17,7 +17,7 @@
             precision: 0, // целое число
             width: 25,
             height: 25,
-            startColor: '#79AEDB',
+            startColor: '#03A9F4',
             endColor: '#004B7D',
             //readOnly: "<?php //echo Auth::check() ? (!Auth::user()->is($page->user) ? 1 : 0) : 1 ?>",
             // onSet, onChange
@@ -49,7 +49,7 @@
                             precision: 0, // целое число
                             width: 25,
                             height: 25,
-                            startColor: '#79AEDB',
+                            startColor: '#03A9F4',
                             endColor: '#004B7D',
                             onSet: function(rating) {
                                 sendAjaxRating();
@@ -66,7 +66,7 @@
                             precision: 0, // целое число
                             width: 25,
                             height: 25,
-                            startColor: '#79AEDB',
+                            startColor: '#03A9F4',
                             endColor: '#004B7D',
                             onSet: function(rating) {
                                 sendAjaxRating();

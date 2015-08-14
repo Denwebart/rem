@@ -11,9 +11,10 @@
 
             <div class="col-md-12">
                 <!-- Копирайт -->
-                @if(isset($settings))
+                @if(isset($settings['copyright']))
                     <div class="copyright">
                         {{ $settings['copyright']['value'] }}
+                        2010 - {{ \Carbon\Carbon::now()->year }}
                     </div>
                 @endif
             </div>
