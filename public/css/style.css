@@ -684,6 +684,9 @@ a:focus {
 }
 
 /*-- Профиль пользователя, журнал пользователя --*/
+#profile h2 {
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+}
 
 /* Статус online/offline */
 .profile-user-status {
@@ -704,6 +707,15 @@ a:focus {
 }
 .profile-user-status .tooltip {
     text-shadow: none;
+}
+
+/* Дата регистрации пользователя */
+.date.date-register {
+    line-height: 24px;
+}
+.date.date-register span {
+    font-style: italic;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Аватарка пользователя */

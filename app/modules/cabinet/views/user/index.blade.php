@@ -19,7 +19,7 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-md-12" id="content">
+            <div class="col-md-12" id="content profile">
                 <div class="row">
                     <div class="col-md-8">
 
@@ -56,8 +56,10 @@ View::share('title', $title);
                         <h2>{{{ $user->login }}}</h2>
 
                         <p class="date date-register">
-                            <span>Дата регистрации: </span>
-                            {{{ DateHelper::dateFormat($user->created_at) }}}
+                            <i class="material-icons pull-left">today</i>
+                            <span title="Дата регистрации" data-toggle="tooltip" data-placement="top">
+                                {{{ DateHelper::dateFormat($user->created_at) }}}
+                            </span>
                         </p>
 
                         @if(Auth::check())

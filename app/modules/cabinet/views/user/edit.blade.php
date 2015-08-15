@@ -8,14 +8,14 @@ View::share('title', $title);
 @section('content')
     {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->getLoginForUrl()], 'files' => true], ['id' => 'editProfile']) }}
         <div class="col-lg-3 col-md-3">
-            <div class="avatar">
-
-                {{ $user->getAvatar() }}
-
-                @if($user->avatar)
-                    <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
-                @endif
+            <div class="profile-user-avatar">
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="">
+                    {{ $user->getAvatar(null, ['class' => 'avatar']) }}
+                </a>
             </div>
+            @if($user->avatar)
+                <a href="javascript:void(0)" id="delete-avatar">Удалить</a>
+            @endif
             <div class="form-group">
                 {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary file-inputs']) }}
                 {{ $errors->first('avatar') }}
@@ -150,7 +150,7 @@ View::share('title', $title);
                         if(response.success){
                             $('#site-messages').prepend(response.message);
                             $('#delete-avatar').css('display', 'none');
-                            $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                            $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
                         }
                     }
                 });

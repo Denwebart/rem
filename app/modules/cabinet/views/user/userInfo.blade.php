@@ -5,20 +5,22 @@
                 {{ $user->getAvatar(null, ['class' => 'avatar']) }}
             </a>
         </div>
-        <div class="profile-user-status">
-            @if($user->isOnline())
-                <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                <span class="text pull-left">Сейчас на сайте</span>
-            @else
-                <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                <span class="text pull-left">
-                    Был на сайте
-                    <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
-                        {{ DateHelper::getRelativeTime($user->last_activity) }}
+        @if(!Auth::user()->is($user))
+            <div class="profile-user-status">
+                @if($user->isOnline())
+                    <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                    <span class="text pull-left">Сейчас на сайте</span>
+                @else
+                    <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                    <span class="text pull-left">
+                        Был на сайте
+                        <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
+                            {{ DateHelper::getRelativeTime($user->last_activity) }}
+                        </span>
                     </span>
-                </span>
-            @endif
-        </div>
+                @endif
+            </div>
+        @endif
     </div>
     <div class="col-md-2" style="padding: 0">
         <div class="honors">
