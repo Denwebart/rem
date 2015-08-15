@@ -128,13 +128,13 @@ class AdminUsersController extends \BaseController {
 				if($user->save()) {
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Пользователь забанен.'
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Пользователь забанен.'])
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Администратора нельзя забанить.'
+					'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Администратора нельзя забанить.'])
 				));
 			}
 		}
@@ -159,13 +159,13 @@ class AdminUsersController extends \BaseController {
 					$user->setNotification(Notification::TYPE_UNBANNED);
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Пользователь разбанен.'
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Пользователь разбанен.'])
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Администратора нельзя разбанить, так как нельзя и забанить.'
+					'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Администратора нельзя разбанить, так как нельзя и забанить.'])
 				));
 			}
 		}

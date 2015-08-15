@@ -216,7 +216,10 @@ View::share('title', $title);
                 },
                 success: function(response) {
                     if(response.success){
+                        $('#site-messages').prepend(response.message);
                         $('[data-subscription-object-id=' + subscriptionObjectId + ']').remove();
+                    } else {
+                        $('#site-messages').prepend(response.message);
                     }
                 }
             });
@@ -235,11 +238,12 @@ View::share('title', $title);
                     },
                     success: function (response) {
                         if (response.success) {
+                            $('#site-messages').prepend(response.message);
                             $button.parent().find('.tooltip').remove();
                             $button.remove();
                             $('#content .list').html('<p>Вы еще не подписались ни на один вопрос или журнал пользователя.</p>');
                         } else {
-                            $('#content').append('У вас нет подписок.');
+                            $('#site-messages').prepend(response.message);
                         }
                     }
                 });

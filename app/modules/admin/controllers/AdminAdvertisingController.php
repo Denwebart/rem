@@ -155,13 +155,13 @@ class AdminАdvertisingController extends \BaseController {
 					'success' => true,
 					'isActive' => $advertising->is_active,
 					'message' => ($advertising->is_active)
-						? 'Рекламный блок включен.'
-						: 'Рекламный блок выключен.',
+						? (string) View::make('widgets.siteMessages.info', ['siteMessage' => 'Рекламный блок включен.'])
+						: (string) View::make('widgets.siteMessages.info', ['siteMessage' => 'Рекламный блок выключен.']),
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Что-то пошло не так.'
+					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Что-то пошло не так.'])
 				));
 			}
 		}

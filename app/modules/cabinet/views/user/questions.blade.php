@@ -211,7 +211,8 @@ View::share('title', $title);
                                 return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                             },
                             success: function(response) {
-                                if(response.success){
+                                if(response.success) {
+                                    $('#site-messages').prepend(response.message);
                                     $('[data-question-id=' + questionId + ']').remove();
                                 }
                             }

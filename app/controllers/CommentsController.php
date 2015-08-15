@@ -294,7 +294,7 @@ class CommentsController extends BaseController
 					// return success message
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Ответ отмечен как лучший.',
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ответ отмечен как лучший.'])->render(),
 						'bestCommentsHtml' => (string) View::make('widgets.comment.bestComments', compact('bestComments', 'page'))->with('isBannedIp', Ip::isBanned())->render(),
 						'countComments' => count($page->publishedAnswers) - count($page->bestComments),
 						'countBestComments' => count($page->bestComments),

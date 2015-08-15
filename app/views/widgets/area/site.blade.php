@@ -51,7 +51,7 @@
                 },
                 success: function(response) {
                     if(response.success){
-                        console.log($('[data-advertising-id='+ advertisingId +']'));
+                        $('#site-messages').prepend(response.message);
                         if(response.isActive) {
                             $('[data-advertising-id='+ advertisingId +']').removeClass('not-active');
                             $button.attr('title', 'Выключить этот рекламный блок на этой старинце.').html('<i class="material-icons">visibility_off</i>');
@@ -61,11 +61,10 @@
                         }
                         $button.attr('data-is-active', response.isActive);
                     } else {
-                        alert(response.message)
+                        $('#site-messages').prepend(response.message);
                     }
                 }
             });
         });
-
     </script>
 @endsection

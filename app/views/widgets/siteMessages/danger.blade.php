@@ -1,9 +1,1 @@
-@if(isset($siteMessage))
-    <div class="alert alert-dismissable alert-danger">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        @if(isset($siteMessageTitle))
-            <strong>{{ $siteMessageTitle }}</strong>
-        @endif
-        {{ $siteMessage }}
-    </div>
-@endif
+@if(isset($siteMessage))<div class="alert alert-dismissable alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>@if(isset($siteMessageTitle))<strong>{{ $siteMessageTitle }}</strong>@endif{{ $siteMessage }}</div>@endif

@@ -13,8 +13,6 @@
         @endif
     </div>
 
-    <div id="message"></div>
-
     <div class="modal fade unban-modal" data-unban-modal-id="{{ $user->id }}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -81,10 +79,10 @@
                             },
                             success: function(response) {
                                 if(response.success){
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock_open</i> Разбанить');
                                 } else {
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });
@@ -107,10 +105,10 @@
                             },
                             success: function(response) {
                                 if(response.success){
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock</i> Забанить');
                                 } else {
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });

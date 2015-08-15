@@ -32,6 +32,7 @@
                                 },
                                 success: function(response) {
                                     if(response.success){
+                                        $('#site-messages').prepend(response.message);
                                         $('#delete-image').css('display', 'none');
                                         $('.page-image').remove();
                                     }

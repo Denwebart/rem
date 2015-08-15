@@ -186,6 +186,7 @@ View::share('title', $title);
                             },
                             success: function(response) {
                                 if(response.success){
+                                    $('#site-messages').prepend(response.message);
                                     $('[data-image-id=' + imageId + ']').remove();
                                 }
                             }

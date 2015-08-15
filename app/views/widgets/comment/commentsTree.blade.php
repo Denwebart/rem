@@ -188,7 +188,7 @@
                         });
                     }
                     if(data.success) {
-                        var successContent = '<?php echo View::make('widgets.siteMessages.info', ['siteMessage' => $successMessage])->render() ?>';
+                        var successContent = '@include('widgets.siteMessages.info', ['siteMessage' => $successMessage])';
                         $('#site-messages').prepend(successContent);
                         $form.trigger('reset');
                         tinyMCE.activeEditor.setContent('');
@@ -255,6 +255,7 @@
                 },
                 success: function(response) {
                     if(response.success){
+                        $('#site-messages').prepend(response.message);
                         $markTag.html('<i class="material-icons mdi-success" title="Лучший ответ" style="font-size: 40pt;">done</i>');
                         $markTag.append('<div class="message">' + response.message + '</div>');
                         $('#comment-' + commentId).remove();

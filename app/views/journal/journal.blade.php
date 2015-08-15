@@ -251,6 +251,7 @@
                             },
                             success: function(response) {
                                 if(response.success){
+                                    $('#site-messages').prepend(response.message);
                                     $('[data-article-id=' + articleId + ']').remove();
                                 }
                             }

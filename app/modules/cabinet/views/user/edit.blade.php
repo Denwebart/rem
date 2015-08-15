@@ -148,6 +148,7 @@ View::share('title', $title);
                     },
                     success: function(response) {
                         if(response.success){
+                            $('#site-messages').prepend(response.message);
                             $('#delete-avatar').css('display', 'none');
                             $('.avatar img').attr('src', response.imageUrl).addClass('avatar-default');
                         }

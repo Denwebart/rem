@@ -27,7 +27,6 @@
                 </div>
             @endif
         </div>
-        <div id="subscribe-message"></div>
     </div>
 </div>
 
@@ -49,12 +48,12 @@
                     },
                     success: function(response) {
                         if(response.success){
-                            $("#subscribe-message").text(response.message);
+                            $('#site-messages').prepend(response.message);
                             $link.find('.text-link').text('<?php echo $unsubscribeButtonTitle ?>');
                             $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'unsubscribe');
                         } else {
-                            $("#subscribe-message").text(response.message);
+                            $('#site-messages').prepend(response.message);
                         }
                     }
                 });
@@ -73,12 +72,12 @@
                     },
                     success: function(response) {
                         if(response.success){
-                            $("#subscribe-message").text(response.message);
+                            $('#site-messages').prepend(response.message);
                             $link.find('.text-link').text('<?php echo $subscribeButtonTitle ?>');
                             $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'subscribe');
                         } else {
-                            $("#subscribe-message").text(response.message);
+                            $('#site-messages').prepend(response.message);
                         }
                     }
                 });

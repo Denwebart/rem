@@ -103,6 +103,7 @@ View::share('title', $title);
                             },
                             success: function (response) {
                                 if (response.success) {
+                                    $('#site-messages').prepend(response.message);
                                     $('#delete-all-notifications').remove();
                                     $('#content .list').html('<p>У вас нет уведомлений.</p>');
 
@@ -113,7 +114,7 @@ View::share('title', $title);
                                     $('#header-widget .dropdown-notifications .dropdown-toggle').remove();
                                     $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
                                 } else {
-                                    $('#content').append('У вас нет уведомлений.');
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });

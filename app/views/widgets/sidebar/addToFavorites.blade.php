@@ -30,7 +30,8 @@
                         return true;
                     } else {
                         // Unknown
-                        alert('Нажмите Ctrl-D чтобы добавить страницу в закладки');
+                        var message = '@include('widgets.siteMessages.warning', ['siteMessage' => 'Нажмите Ctrl-D чтобы добавить страницу в закладки.'])';
+                        $('#site-messages').prepend(message);
                     }
                 }
             }

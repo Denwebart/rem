@@ -108,10 +108,12 @@ class CabinetUserController extends \BaseController
 		// загрузка изображения
 		$data['avatar'] = $user->setAvatar($data['avatar']);
 
-		if($user->role != $data['role']) {
-			$user->setNotification(Notification::TYPE_ROLE_CHANGED, [
-				'[role]' => mb_strtolower(User::$roles[$data['role']]),
-			]);
+		if(isset($data['role'])) {
+			if($user->role != $data['role']) {
+				$user->setNotification(Notification::TYPE_ROLE_CHANGED, [
+					'[role]' => mb_strtolower(User::$roles[$data['role']]),
+				]);
+			}
 		}
 
 		$user->update($data);
@@ -192,6 +194,7 @@ class CabinetUserController extends \BaseController
 
 			return Response::json([
 				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Фотография удалена.']),
 				'imageUrl' => Config::get('settings.defaultAvatar'),
 			]);
 		}
@@ -255,6 +258,7 @@ class CabinetUserController extends \BaseController
 
 			return Response::json([
 				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Изображение удалено.'])
 			]);
 		}
 	}
@@ -445,6 +449,7 @@ class CabinetUserController extends \BaseController
 
 			return Response::json([
 				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Вопрос удален.'])
 			]);
 		}
 	}
@@ -578,6 +583,7 @@ class CabinetUserController extends \BaseController
 
 			return Response::json([
 				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Статья удалена.'])
 			]);
 		}
 	}
@@ -604,6 +610,7 @@ class CabinetUserController extends \BaseController
 
 			return Response::json([
 				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Изображение удалено.'])
 			]);
 		}
 	}
@@ -842,14 +849,18 @@ class CabinetUserController extends \BaseController
 				if($userPage->save()) {
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Страница сохранена в <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">"Сохраненное".</a>',
+						'message' => (string) View::make('widgets.siteMessages.success', [
+							'siteMessage' => 'Страница сохранена в <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">"Сохраненное".</a>'
+						]),
 						'whoSaved' => count($page->whoSaved)
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Страница уже сохранена.',
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'Страница уже сохранена.'
+					]),
 				));
 			}
 		}
@@ -865,13 +876,17 @@ class CabinetUserController extends \BaseController
 				UserPage::whereUserId(Auth::user()->id)->wherePageId($pageId)->delete();
 				return Response::json(array(
 					'success' => true,
-					'message' => 'Страница удалена из сохраненных.',
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Страница удалена из сохраненного.'
+					]),
 					'whoSaved' => count($page->whoSaved)
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Страница уже удалена из сохраненных.',
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'Страница уже удалена из сохраненного.'
+					]),
 				));
 			}
 		}
@@ -888,10 +903,16 @@ class CabinetUserController extends \BaseController
 
 				return Response::json(array(
 					'success' => true,
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Все страницы удалены из сохраненного.'
+					]),
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'У вас нет сохраненных страниц.'
+					]),
 				));
 			}
 		}
@@ -938,7 +959,9 @@ class CabinetUserController extends \BaseController
 						}
 						return Response::json(array(
 							'success' => true,
-							'message' => 'Подписка оформлена.',
+							'message' => (string) View::make('widgets.siteMessages.success', [
+								'siteMessage' => 'Подписка оформлена.'
+							]),
 							'subscribers' => count($subscription->page->subscribers),
 						));
 					} else {
@@ -950,7 +973,9 @@ class CabinetUserController extends \BaseController
 						}
 						return Response::json(array(
 							'success' => true,
-							'message' => 'Подписка оформлена.',
+							'message' => (string) View::make('widgets.siteMessages.success', [
+								'siteMessage' => 'Подписка оформлена.'
+							]),
 							'subscribers' => count($subscription->userJournal->subscribers),
 						));
 					}
@@ -958,7 +983,9 @@ class CabinetUserController extends \BaseController
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Подписка уже оформлена.'
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'Подписка уже оформлена.'
+					]),
 				));
 			}
 		}
@@ -988,7 +1015,9 @@ class CabinetUserController extends \BaseController
 					}
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Подписка отменена.',
+						'message' => (string) View::make('widgets.siteMessages.success', [
+							'siteMessage' => 'Подписка отменена.'
+						]),
 						'subscribers' => ($page) ? count($page->subscribers) : '',
 					));
 				} elseif(Subscription::FIELD_JOURNAL_ID == $subscriptionField) {
@@ -1001,14 +1030,18 @@ class CabinetUserController extends \BaseController
 					}
 					return Response::json(array(
 						'success' => true,
-						'message' => 'Подписка отменена.',
+						'message' => (string) View::make('widgets.siteMessages.success', [
+							'siteMessage' => 'Подписка отменена.'
+						]),
 						'subscribers' => ($userJournal) ? count($userJournal->subscribers) : '',
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
-					'message' => 'Подписка уже отменена.'
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'Подписка уже отменена.'
+					]),
 				));
 			}
 		}
@@ -1052,10 +1085,16 @@ class CabinetUserController extends \BaseController
 
 				return Response::json(array(
 					'success' => true,
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Все подписки отменены.'
+					]),
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'У вас нет подписок.'
+					]),
 				));
 			}
 		}
@@ -1144,10 +1183,16 @@ class CabinetUserController extends \BaseController
 
 				return Response::json(array(
 					'success' => true,
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Все уведомления удалены.'
+					]),
 				));
 			} else {
 				return Response::json(array(
 					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'У вас нет уведомлений.'
+					]),
 				));
 			}
 		}

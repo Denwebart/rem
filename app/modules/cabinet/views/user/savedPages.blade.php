@@ -130,7 +130,10 @@ View::share('title', $title);
                     },
                     success: function(response) {
                         if(response.success){
+                            $("#site-messages").prepend(response.message);
                             $('[data-page-id=' + pageId + ']').remove();
+                        } else {
+                            $('#site-messages').prepend(response.message);
                         }
                     }
                 });
@@ -149,11 +152,12 @@ View::share('title', $title);
                         },
                         success: function (response) {
                             if (response.success) {
+                                $("#site-messages").prepend(response.message);
                                 $button.parent().find('.tooltip').remove();
                                 $button.remove();
                                 $('#content .list').html('<p>Вы еще ничего не сохранили.</p>');
                             } else {
-                                $('#content').append('У вас нет сохраненных страниц.');
+                                $("#site-messages").prepend(response.message);
                             }
                         }
                     });
