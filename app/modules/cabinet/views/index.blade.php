@@ -23,8 +23,13 @@ View::share('page', $title);
                     <div class="well">
                         <div class="row-picture">
                             {{ $key + 1 }}.
-                            <a href="">
-                                {{ $user->getAvatar('mini') }}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                @endif
                             </a>
                         </div>
                         <div class="row-content">
@@ -46,8 +51,13 @@ View::share('page', $title);
                 <div class="list-group-item">
                     <div class="row-picture">
                         {{ $key + 1 }}.
-                        <a href="">
-                            {{ $user->getAvatar('mini') }}
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                            @endif
                         </a>
                     </div>
                     <div class="row-content">
@@ -74,8 +84,13 @@ View::share('page', $title);
                     <div class="well">
                         <div class="row-picture">
                             {{ $key + 1 }}.
-                            <a href="">
-                                {{ $user->getAvatar('mini') }}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                @endif
                             </a>
                         </div>
                         <div class="row-content">
@@ -97,8 +112,13 @@ View::share('page', $title);
                 <div class="list-group-item">
                     <div class="row-picture">
                         {{ $key + 1 }}.
-                        <a href="">
-                            {{ $user->getAvatar('mini') }}
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                            @endif
                         </a>
                     </div>
                     <div class="row-content">
@@ -125,8 +145,13 @@ View::share('page', $title);
                     <div class="well">
                         <div class="row-picture">
                             {{ $key + 1 }}.
-                            <a href="">
-                                {{ $user->getAvatar('mini') }}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                @endif
                             </a>
                         </div>
                         <div class="row-content">
@@ -148,8 +173,13 @@ View::share('page', $title);
                 <div class="list-group-item">
                     <div class="row-picture">
                         {{ $key + 1 }}.
-                        <a href="">
-                            {{ $user->getAvatar('mini') }}
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                            @endif
                         </a>
                     </div>
                     <div class="row-content">
@@ -202,7 +232,6 @@ View::share('page', $title);
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th></th>
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
                                 </th>
@@ -230,15 +259,13 @@ View::share('page', $title);
                             @foreach($users as $user)
                                 <tr>
                                     <td>
-                                        @if($user->isOnline())
-                                            <i class="material-icons mdi-success" title="Онлайн" data-toggle="tooltip" data-placement="top">lens</i>
-                                        @else
-                                            <i class="material-icons mdi-default" title="Офлайн" data-toggle="tooltip" data-placement="top">lens</i>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ $user->getAvatar('mini') }}
+                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
+                                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                            @if($user->isOnline())
+                                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                            @else
+                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                            @endif
                                         </a>
                                     </td>
                                     <td>

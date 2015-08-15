@@ -1,19 +1,21 @@
 <div class="row" id="user-info">
     <div class="col-md-10" style="padding-right: 0">
-        <div class="avatar">
-            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                {{ $user->getAvatar() }}
+        <div class="profile-user-avatar">
+            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="">
+                {{ $user->getAvatar(null, ['class' => 'avatar']) }}
             </a>
         </div>
-        <div class="status">
+        <div class="profile-user-status">
             @if($user->isOnline())
-                <i class="material-icons mdi-success" title="Онлайн" data-toggle="tooltip" data-placement="top">lens</i>
-                Сейчас на сайте
+                <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                <span class="text pull-left">Сейчас на сайте</span>
             @else
-                <i class="material-icons mdi-default" title="Офлайн" data-toggle="tooltip" data-placement="top">lens</i>
-                Последний раз был
-                <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
-                    {{ DateHelper::getRelativeTime($user->last_activity) }}
+                <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                <span class="text pull-left">
+                    Был на сайте
+                    <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
+                        {{ DateHelper::getRelativeTime($user->last_activity) }}
+                    </span>
                 </span>
             @endif
         </div>

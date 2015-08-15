@@ -22,9 +22,14 @@
                 @foreach($letters as $letter)
                 <li>
                     <a href="{{ URL::route('admin.letters.show', ['id' => $letter->id]) }}">
-                        <div class="pull-left">
+                        <div class="pull-left avatar-link">
                             @if($letter->user)
-                                {{ $letter->user->getAvatar('mini', ['class' => 'img-rounded']) }}
+                                {{ $letter->user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($letter->user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($letter->user->last_activity) }}"></span>
+                                @endif
                             @else
                                 {{ HTML::image(Config::get('settings.mini_defaultAvatar'), $letter->user_name, ['class' => 'img-responsive avatar-default img-rounded']) }}
                             @endif

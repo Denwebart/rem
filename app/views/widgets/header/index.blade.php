@@ -87,7 +87,7 @@
 
                 <li class="dropdown widget-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ $user->getAvatar('mini', ['class' => 'pull-left']) }}
+                        {{ $user->getAvatar('mini', ['class' => 'pull-left avatar']) }}
                         <span>
                             {{ $user->login }}
                             <i class="material-icons pull-right">arrow_drop_down</i>

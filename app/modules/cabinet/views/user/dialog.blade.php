@@ -4,27 +4,9 @@
 $title = (Auth::user()->is($user)) ? 'Сообщения от пользователя ' . $companion->login : 'Сообщения пользователю '. $user->login .' от пользователя ' . $companion->login;
 View::share('title', $title);
 ?>
-
 @section('content')
     <div class="col-lg-3 col-md-3">
-        <div id="companions">
-            <div class="header">
-                <h3>Собеседники</h3>
-            </div>
-            <div class="body">
-                @foreach($companions as $item)
-                    <div class="companion{{ ($companion->id == $item->id) ? ' active' : '' }}" data-user-id="{{ $item->id }}">
-                        <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $item->getLoginForUrl()]) }}">
-                            {{ $item->getAvatar('mini', ['class' => 'img-responsive']) }}
-                            <span>{{ $item->login }}</span>
-                            @if($numberOfMessages = count($item->sentMessagesForUser))
-                                <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
-                            @endif
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        @include('cabinet::user.companions', ['companions' => $companions, 'companionId' => $companion->id])
     </div>
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
@@ -64,8 +46,13 @@ View::share('title', $title);
                                 <div class="row item">
                                     <div class="col-md-2">
                                         @if($user->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right">
-                                                {{ $message->userSender->getAvatar('mini') }}
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background">
+                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                @if($message->userSender->isOnline())
+                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                                @else
+                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                                @endif
                                             </a>
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                                 {{ $message->userSender->login }}
@@ -92,8 +79,13 @@ View::share('title', $title);
 
                                     <div class="col-md-2">
                                         @if($companion->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                                {{ $message->userSender->getAvatar('mini') }}
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                @if($message->userSender->isOnline())
+                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                                @else
+                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                                @endif
                                             </a>
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
                                                 {{ $message->userSender->login }}
@@ -266,7 +258,7 @@ View::share('title', $title);
                             var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
                                     '<div class="col-md-2">' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +
-                                    '<?php echo Auth::user()->getAvatar('mini')?></a>' +
+                                    '<?php echo Auth::user()->getAvatar('mini', ['class' => 'avatar circle'])?></a>' +
                                     '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>">' +
                                     '<?php echo Auth::user()->login ?>' +
                                     '</a>' +

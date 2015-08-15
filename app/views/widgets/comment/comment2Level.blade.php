@@ -1,11 +1,16 @@
-<div class="media" id="comment-{{ $commentLevel2->id }}" >
+<div id="comment-{{ $commentLevel2->id }}" >
     @if($commentLevel2->user)
-        <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
-            {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object']) }}
+        <a class="pull-left avatar-link" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
+            {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+            @if($commentLevel2->user->isOnline())
+                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+            @else
+                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($commentLevel2->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+            @endif
         </a>
     @else
         <a class="pull-left" href="javascript:void(0)">
-            {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
+            {{ (new User)->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
         </a>
     @endif
     <div class="media-body">

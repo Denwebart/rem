@@ -10,6 +10,7 @@ h2, .h2 {
 /*-- Информация о пользователе --*/
 #user-info .honors {
     margin: 5px 0;
+    text-align: center;
 }
 #user-info .honors a {
     display: inline-block;
@@ -122,26 +123,25 @@ h2, .h2 {
 #companions .companion {
     padding: 10px;
     height: 70px;
-    /*border-bottom: 1px #E3E3E3 solid;*/
+    display: inline-block;
+    width: 100%;
 }
-#companions .companion.active  {
-    background: #E3E3E3;
-}
+#companions .companion.active,
 #companions .companion:hover  {
     background: #F5F5F5;
 }
-#companions .companion:last-child {
-    border-bottom: none;
+#companions .companion.active .is-online-status,
+#companions .companion:hover .is-online-status {
+    border-color: #F5F5F5;
 }
 #companions .companion a {
-    display: inline-block;
-    width: 100%;
+
 }
 #companions .companion img {
     float: left;
     width: 50px;
 }
-#companions .companion a span {
+#companions .companion .login-link span {
     float: left;
     margin: 10px 0 0 10px;
 }

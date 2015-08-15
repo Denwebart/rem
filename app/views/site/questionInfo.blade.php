@@ -1,8 +1,13 @@
 <div class="row item" data-question-id="{{ $question->id }}">
     <div class="col-md-2">
         <div class="user">
-            <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
-                {{ $question->user->getAvatar('mini', ['class' => 'pull-left']) }}
+            <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link">
+                {{ $question->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
+                @if($question->user->isOnline())
+                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                @else
+                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                @endif
             </a>
             <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
                 <span class="login pull-left">{{ $question->user->login }}</span>

@@ -141,7 +141,7 @@ class SidebarWidget
 	 */
 	public function answers($limit = 9)
 	{
-		$comments = Comment::whereIsPublished(1)
+		$answers = Comment::whereIsPublished(1)
 			->whereIsAnswer(1)
 			->whereMark(Comment::MARK_BEST)
 			->limit($limit)
@@ -149,7 +149,7 @@ class SidebarWidget
 			->orderBy('updated_at', 'DESC')
 			->get(['id', 'parent_id', 'page_id', 'user_id', 'created_at', 'is_published', 'comment']);
 
-		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+		return (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
 	}
 
 	/**

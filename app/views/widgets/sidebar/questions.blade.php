@@ -5,8 +5,15 @@
         @endif
         <div class="list-group-item">
             <div class="row-picture">
+                <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                    {{ $question->user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                    @if($question->user->isOnline())
+                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                    @else
+                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                    @endif
+                </a>
                 <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
-                    {{ $question->user->getAvatar('mini', ['class' => 'circle']) }}
                     <span class="login">{{ $question->user->login }}</span>
                 </a>
             </div>

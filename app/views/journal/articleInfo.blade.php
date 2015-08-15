@@ -19,8 +19,13 @@
     </div>
     <div class="col-md-2">
         <div class="user">
-            <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
-                {{ $article->user->getAvatar('mini', ['class' => 'pull-left']) }}
+            <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}" class="avatar-link">
+                {{ $article->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
+                @if($article->user->isOnline())
+                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                @else
+                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($article->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                @endif
             </a>
             <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
                 <span class="login pull-left">{{ $article->user->login }}</span>

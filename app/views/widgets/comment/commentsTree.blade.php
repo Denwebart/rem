@@ -68,10 +68,15 @@
 
                             {{ Form::hidden('parent_id', 0); }}
 
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
+                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
                                 <span>{{  Auth::user()->login }}</span>
                             </a>
+
+                            <div class="clearfix"></div>
 
                             <div class="form-group">
                                 {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}

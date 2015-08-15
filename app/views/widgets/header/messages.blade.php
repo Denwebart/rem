@@ -27,8 +27,13 @@
                     @foreach($messages as $message)
                     <li data-message-id="{{ $message->id }}">
                         <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
-                            <div class="pull-left">
-                                {{ $message->userSender->getAvatar('mini', ['class' => 'img-rounded']) }}
+                            <div class="pull-left avatar-link">
+                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($message->userSender->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}"></span>
+                                @endif
                             </div>
                             <h4>{{ $message->userSender->login }}
                                 <small>

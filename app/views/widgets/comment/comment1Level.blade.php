@@ -2,15 +2,20 @@
     require_once base_path() . '/vendor/autoload.php';
     use Anhskohbo\NoCaptcha\NoCaptcha;*/
 ?>
-<div id="comment-{{ $comment->id }}" class="media">
+<div id="comment-{{ $comment->id }}">
     <a href="javascript:void(0)" class="pull-left close-comment">-</a>
     @if($comment->user)
-        <a class="pull-left" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-            {{ $comment->user->getAvatar('mini', ['class' => 'media-object']) }}
+        <a class="pull-left avatar-link" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
+            {{ $comment->user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+            @if($comment->user->isOnline())
+                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+            @else
+                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+            @endif
         </a>
     @else
         <a class="pull-left" href="javascript:void(0)">
-            {{ (new User)->getAvatar('mini', ['class' => 'media-object']) }}
+            {{ (new User)->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
         </a>
     @endif
     <div class="media-body">
@@ -86,10 +91,15 @@
 
                                 {{ Form::hidden('parent_id', $comment->id); }}
 
-                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}">
-                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object']) }}
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
+                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                </a>
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
                                     <span>{{  Auth::user()->login }}</span>
                                 </a>
+
+                                <div class="clearfix"></div>
 
                                 <div class="form-group">
                                     {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-' . $comment->id, 'data-parent-comment-id' => $comment->id , 'placeholder' => 'Комментарий*', 'rows' => 3]); }}

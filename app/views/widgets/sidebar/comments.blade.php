@@ -6,13 +6,20 @@
         <div class="list-group-item">
             <div class="row-picture">
                 @if($comment->user)
+                    <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                        {{ $comment->user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                        @if($comment->user->isOnline())
+                            <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                        @else
+                            <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                        @endif
+                    </a>
                     <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                        {{ $comment->user->getAvatar('mini', ['class' => 'circle']) }}
                         <span class="login">{{ $comment->user->login }}</span>
                     </a>
                 @else
                     <a href="{{ URL::to($comment->getUrl()) }}">
-                        {{ (new User)->getAvatar('mini', ['class' => 'circle']) }}
+                        {{ (new User)->getAvatar('mini', ['class' => 'avatar circle']) }}
                         <span class="login">{{ $comment->user_name }}</span>
                     </a>
                 @endif
