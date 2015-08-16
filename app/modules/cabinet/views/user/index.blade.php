@@ -101,7 +101,7 @@ View::share('title', $title);
                                     @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
                                         <div class="col-md-6">
                                             <p class="user-data-row email">
-                                                <span title="Email виден только вам">
+                                                <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
                                                     <i class="material-icons">email</i>
                                                     <span>
                                                         {{{ $user->email }}}
