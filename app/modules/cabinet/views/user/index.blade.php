@@ -19,155 +19,214 @@ View::share('title', $title);
         </ol>
 
         <div class="row">
-            <div class="col-md-12" id="content profile">
-                <div class="row">
-                    <div class="col-md-8">
+            <div class="col-md-12" id="content">
+                <div id="profile" class="well">
+                    <div class="row">
+                        <div class="col-md-12">
 
-                        <!-- всплывающее сообщение - согласие с правилами сайта -->
-                        @if(Session::has('rulesSuccessMessage'))
-                            @section('siteMessages')
-                                @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
-                                @parent
-                            @endsection
-                        @endif
-
-                        <!-- всплывающее сообщение - пароль изменен -->
-                        @if(Session::has('successMessage'))
-                            @section('siteMessages')
-                                @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
-                                @parent
-                            @endsection
-                        @endif
-
-                        @if(Auth::check())
-                            @if(Auth::user()->is($user) && !Auth::user()->is_agree)
-                                @include('messages.rulesAgree')
+                            <!-- всплывающее сообщение - согласие с правилами сайта -->
+                            @if(Session::has('rulesSuccessMessage'))
+                                @section('siteMessages')
+                                    @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
+                                    @parent
+                                @endsection
                             @endif
 
-                            @if(Auth::user()->is($user) && Auth::user()->is_banned)
-                                @include('cabinet::user.banMessage')
+                            <!-- всплывающее сообщение - пароль изменен -->
+                            @if(Session::has('successMessage'))
+                                @section('siteMessages')
+                                    @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
+                                    @parent
+                                @endsection
                             @endif
 
-                            @if(Auth::user()->is($user) && $headerWidget->isBannedIp)
-                                @include('messages.bannedIp')
-                            @endif
-                        @endif
-
-                        <h2>{{{ $user->login }}}</h2>
-
-                        <p class="date date-register">
-                            <i class="material-icons pull-left">today</i>
-                            <span title="Дата регистрации" data-toggle="tooltip" data-placement="top">
-                                {{{ DateHelper::dateFormat($user->created_at) }}}
-                            </span>
-                        </p>
-
-                        @if(Auth::check())
-                            @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                <p class="email">{{{ $user->email }}}</p>
-                            @endif
-                        @endif
-
-                        @if($user->isAdmin() || $user->isModerator())
-                            <p>{{ User::$roles[$user->role] }}</p>
-                        @endif
-
-                        @if($user->getFullName())
-                            <h3>{{{ $user->getFullName() }}}</h3>
-                        @endif
-
-                        @if($user->country)
-                            <p>{{{ $user->country }}}</p>
-                        @endif
-
-                        @if($user->city)
-                            <p>{{{ $user->city }}}</p>
-                        @endif
-
-                        @if($user->car_brand)
-                            <p>{{{ $user->car_brand }}}</p>
-                        @endif
-
-                        @if($user->profession)
-                            <p>{{{ $user->profession }}}</p>
-                        @endif
-                    </div>
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                @if(Auth::check())
-                                    @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
-                                        <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
-                                            Редактировать
-                                            <i class="material-icons">mode_edit</i>
-                                        </a>
-                                    @endif
+                            @if(Auth::check())
+                                @if(Auth::user()->is($user) && !Auth::user()->is_agree)
+                                    @include('messages.rulesAgree')
                                 @endif
-                            </div>
-                            <div class="col-md-12">
-                                @if(Auth::check())
-                                    @if(Auth::user()->is($user))
-                                        <a href="{{{ URL::route('user.changePassword', ['login' => $user->getLoginForUrl()]) }}}" class="pull-right">
-                                            Изменить пароль
-                                            <i class="material-icons">security</i>
-                                        </a>
-                                    @endif
+
+                                @if(Auth::user()->is($user) && Auth::user()->is_banned)
+                                    @include('cabinet::user.banMessage')
                                 @endif
-                            </div>
-                            <div class="col-md-12">
-                                <div class="well margin-top-20">
-                                    <h4>
-                                        Баллов:
-                                        <span class="count">
-                                            {{ $user->points }}
+
+                                @if(Auth::user()->is($user) && $headerWidget->isBannedIp)
+                                    @include('messages.bannedIp')
+                                @endif
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h2>
+                                        <span class="login">
+                                            {{{ $user->login }}}
                                         </span>
-                                    </h4>
+                                        @if($user->getFullName())
+                                            |
+                                            <span class="fullname">{{{ $user->getFullName() }}}</span>
+                                        @endif
+                                    </h2>
+                                </div>
+                                <div class="col-md-2">
+                                    @if(Auth::check())
+                                        <div class="buttons pull-right">
+                                            @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                                <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-left" title="Редактировать профиль" data-toggle="tooltip" data-placement="top">
+                                                    <i class="material-icons">mode_edit</i>
+                                                </a>
+                                            @endif
+                                            @if(Auth::user()->is($user))
+                                                <a href="{{{ URL::route('user.changePassword', ['login' => $user->getLoginForUrl()]) }}}" class="pull-left" title="Поменять пароль" data-toggle="tooltip" data-placement="top">
+                                                    <i class="material-icons">security</i>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                @if($user->isAdmin() || $user->isModerator())
+                                    <div class="col-md-6">
+                                        <p class="user-data-row role">
+                                            <span title="Права" data-toggle="tooltip" data-placement="right">
+                                                <i class="material-icons">perm_identity</i>
+                                                <span>
+                                                    {{ User::$roles[$user->role] }}
+                                                </span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                @endif
+                                @if(Auth::check())
+                                    @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                        <div class="col-md-6">
+                                            <p class="user-data-row email">
+                                                <span title="Email виден только вам">
+                                                    <i class="material-icons">email</i>
+                                                    <span>
+                                                        {{{ $user->email }}}
+                                                    </span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="user-data-row date date-register">
+                                        <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
+                                            <i class="material-icons pull-left">today</i>
+                                            <span>
+                                                {{{ DateHelper::dateFormat($user->created_at) }}}
+                                            </span>
+                                        </span>
+                                    </p>
+
+                                    @if($user->country || $user->city)
+                                        <p class="user-data-row location">
+                                            <span title="Местоположение" data-toggle="tooltip" data-placement="right">
+                                                <i class="material-icons">place</i>
+                                                <span>
+                                                    @if($user->country)
+                                                        <span class="country">
+                                                        {{{ $user->country }}}@if($user->city),@endif
+                                                    </span>
+                                                    @endif
+                                                    @if($user->city)
+                                                        <span class="city">
+                                                        {{{ $user->city }}}
+                                                    </span>
+                                                    @endif
+                                                </span>
+                                            </span>
+                                        </p>
+                                    @endif
+                                </div>
+                                <div class="col-md-6">
+                                    @if($user->car_brand)
+                                        <p class="user-data-row car-brand">
+                                    <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
+                                        <i class="material-icons">directions_car</i>
+                                        <span>
+                                            {{{ $user->car_brand }}}
+                                        </span>
+                                    </span>
+                                        </p>
+                                    @endif
+
+                                    @if($user->profession)
+                                        <p class="user-data-row profession">
+                                    <span title="Профессия" data-toggle="tooltip" data-placement="right">
+                                        <i class="material-icons">school</i>
+                                        <span>
+                                            {{{ $user->profession }}}
+                                        </span>
+                                    </span>
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        @if($user->description)
-                            <p>{{ $user->description }}</p>
-                        @endif
-                    </div>
-                    <div class="col-md-12">
-                        <h2 id="honors">Награды</h2>
+                        {{--<div class="col-md-4">--}}
+                            {{--<div class="row">--}}
 
-                        @if(count($user->userHonors))
-                            <div id="message"></div>
-                            @foreach($user->userHonors as $userHonor)
-                                <div class="honor">
-                                    <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
-                                        {{ $userHonor->honor->getImage(null, [
-                                        'width' => '75px',
-                                        'title' => !is_null($userHonor->comment)
-                                            ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
-                                            : $userHonor->honor->title,
-                                        'alt' => $userHonor->honor->title
-                                        ]) }}
-                                    </a>
-                                    @if(Auth::check())
-                                        @if(Auth::user()->isAdmin() && is_null($userHonor->honor->key))
-                                            <a href="javascript:void(0)" class="remove-reward" data-honor-id="{{ $userHonor->honor->id }}">
-                                                <i class="material-icons mdi-danger">cancel</i>
-                                            </a>
-                                        @endif
-                                    @endif
-                                </div>
-                            @endforeach
-                        @else
-                            @if(Auth::check())
-                                @if(!Auth::user()->is($user))
-                                    Нет наград.
-                                @else
-                                    У Вас нет наград. Узнать о том, как можно получить награду, можно
-                                    <a href="">здесь</a>.
-                                @endif
-                            @else
-                                Нет наград.
+                                {{--<div class="col-md-12">--}}
+                                    {{--<div class="well margin-top-20">--}}
+                                        {{--<h4>--}}
+                                            {{--Баллов:--}}
+                                            {{--<span class="count">--}}
+                                                {{--{{ $user->points }}--}}
+                                            {{--</span>--}}
+                                        {{--</h4>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        <div class="col-md-12">
+                            @if($user->description)
+                                <p>{{ $user->description }}</p>
                             @endif
-                        @endif
+                        </div>
+                        <div class="col-md-12">
+                            <h2 id="honors">Награды</h2>
+
+                            @if(count($user->userHonors))
+                                <div id="message"></div>
+                                @foreach($user->userHonors as $userHonor)
+                                    <div class="honor">
+                                        <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                            {{ $userHonor->honor->getImage(null, [
+                                            'width' => '75px',
+                                            'title' => !is_null($userHonor->comment)
+                                                ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                : $userHonor->honor->title,
+                                            'alt' => $userHonor->honor->title
+                                            ]) }}
+                                        </a>
+                                        @if(Auth::check())
+                                            @if(Auth::user()->isAdmin() && is_null($userHonor->honor->key))
+                                                <a href="javascript:void(0)" class="remove-reward" data-honor-id="{{ $userHonor->honor->id }}">
+                                                    <i class="material-icons mdi-danger">cancel</i>
+                                                </a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                @if(Auth::check())
+                                    @if(!Auth::user()->is($user))
+                                        Нет наград.
+                                    @else
+                                        У Вас нет наград. Узнать о том, как можно получить награду, можно
+                                        <a href="">здесь</a>.
+                                    @endif
+                                @else
+                                    Нет наград.
+                                @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,7 +235,7 @@ View::share('title', $title);
             </div>
         </div>
     </div>
-@stop
+@endsection
 
 @section('script')
     @parent
@@ -208,4 +267,4 @@ View::share('title', $title);
             </script>
         @endif
     @endif
-@stop
+@endsection

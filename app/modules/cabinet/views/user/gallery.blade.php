@@ -25,107 +25,109 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <h2>{{ $title }}</h2>
-                <div id="list-of-images" class="row">
-                    @foreach($images as $image)
-                        <div class="item" data-image-id="{{ $image->id }}">
-                            <div class="col-md-4">
-                                <div class="image">
-                                    <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
-                                        {{ $image->getImage() }}
-                                    </a>
-                                </div>
-                                <div class="image-description">
-                                    <h4>
-                                        {{ $image->title }}
-                                        @if(Auth::check())
-                                            @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
-                                                <div class="buttons">
-                                                    <a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">
-                                                        <i class="material-icons">delete</i>
-                                                    </a>
-                                                    <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">
-                                                        <i class="material-icons">mode-edit</i>
-                                                    </a>
-                                                </div>
+                <div class="well">
+                    <h2>{{ $title }}</h2>
+                    <div id="list-of-images" class="row">
+                        @foreach($images as $image)
+                            <div class="item" data-image-id="{{ $image->id }}">
+                                <div class="col-md-4">
+                                    <div class="image">
+                                        <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
+                                            {{ $image->getImage() }}
+                                        </a>
+                                    </div>
+                                    <div class="image-description">
+                                        <h4>
+                                            {{ $image->title }}
+                                            @if(Auth::check())
+                                                @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                                    <div class="buttons">
+                                                        <a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">
+                                                            <i class="material-icons">delete</i>
+                                                        </a>
+                                                        <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">
+                                                            <i class="material-icons">mode-edit</i>
+                                                        </a>
+                                                    </div>
+                                                @endif
                                             @endif
-                                        @endif
-                                    </h4>
-                                    {{ $image->description }}
+                                        </h4>
+                                        {{ $image->description }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                    @if(Auth::check())
-                        @if(!count($images) && Auth::user()->is($user))
-                            <p>
-                                Вы еще не добавили ни одной фотографии автомобиля.
-                                Вы можете добавить максимум 5 фотографий.
-                            </p>
-                        @elseif(!count($images))
+                        @endforeach
+                        @if(Auth::check())
+                            @if(!count($images) && Auth::user()->is($user))
+                                <p>
+                                    Вы еще не добавили ни одной фотографии автомобиля.
+                                    Вы можете добавить максимум 5 фотографий.
+                                </p>
+                            @elseif(!count($images))
+                                <p>
+                                    Фотографий нет.
+                                </p>
+                            @endif
+                        @else
                             <p>
                                 Фотографий нет.
                             </p>
                         @endif
-                    @else
-                        <p>
-                            Фотографий нет.
-                        </p>
-                    @endif
-                </div>
+                    </div>
 
-                {{--Загрузка новой фотографии--}}
-                @if(Auth::check())
-                    @if(Auth::user()->is($user))
-                        @if(!$headerWidget->isBannedIp)
-                            @if(!$user->is_banned)
-                                @if(Config::get('settings.numberOfUserImages') > count($images))
-                                    <div id="new-photo">
+                    {{--Загрузка новой фотографии--}}
+                    @if(Auth::check())
+                        @if(Auth::user()->is($user))
+                            @if(!$headerWidget->isBannedIp)
+                                @if(!$user->is_banned)
+                                    @if(Config::get('settings.numberOfUserImages') > count($images))
+                                        <div id="new-photo">
 
-                                        <h3>Добавить фотографию</h3>
+                                            <h3>Добавить фотографию</h3>
 
-                                        {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
+                                            {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                                                    {{ $errors->first('image') }}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{ Form::label('title', 'Заголовок изображения') }}
-                                                    {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                                    {{ $errors->first('title') }}
-                                                </div>
-                                                <div class="form-group">
-                                                    {{ Form::label('description', 'Описание изображения') }}
-                                                    {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
-                                                    {{ $errors->first('description') }}
-                                                </div>
-                                                <div class="button-group">
-                                                    {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+                                                        {{ $errors->first('image') }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ Form::label('title', 'Заголовок изображения') }}
+                                                        {{ Form::text('title', null, ['class' => 'form-control']) }}
+                                                        {{ $errors->first('title') }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ Form::label('description', 'Описание изображения') }}
+                                                        {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
+                                                        {{ $errors->first('description') }}
+                                                    </div>
+                                                    <div class="button-group">
+                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <!-- TinyMCE image -->
+                                            {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
+                                            {{ Form::hidden('_token', csrf_token()) }}
+
+                                            {{ Form::close() }}
                                         </div>
-
-                                        <!-- TinyMCE image -->
-                                        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
-
-                                        {{ Form::hidden('_token', csrf_token()) }}
-
-                                        {{ Form::close() }}
-                                    </div>
+                                    @else
+                                        Больше фотографий добавить нельзя :(
+                                    @endif
                                 @else
-                                    Больше фотографий добавить нельзя :(
+                                    @include('cabinet::user.banMessage')
                                 @endif
                             @else
-                                @include('cabinet::user.banMessage')
+                                @include('messages.bannedIp')
                             @endif
-                        @else
-                            @include('messages.bannedIp')
                         @endif
                     @endif
-                @endif
+                </div>
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}

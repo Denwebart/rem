@@ -732,7 +732,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
 			->where('pages.type', '=', Page::TYPE_ARTICLE)
 			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -760,7 +760,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
 			->where('pages.type', '=', Page::TYPE_ARTICLE)
 			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -790,7 +790,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
 			->where('comments.is_answer', '=', 1)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -819,7 +819,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
 			->where('comments.is_answer', '=', 1)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -850,7 +850,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
 			->where('comments.is_answer', '=', 0)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -878,7 +878,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->select([DB::raw('users.id, users.login, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
 			->where('comments.is_answer', '=', 0)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)

@@ -116,7 +116,7 @@ class UsersController extends BaseController
 			Auth::user()->setOnline(0);
 			Auth::logout();
 		}
-		
+
 		if(strpos(URL::previous(), Config::get('settings.siteUrl').'/admin')) {
 			return Redirect::to('/');
 		} elseif(is_null(Request::get('backUrl'))) {

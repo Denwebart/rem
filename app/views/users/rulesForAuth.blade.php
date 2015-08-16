@@ -21,52 +21,58 @@ View::share('areaWidget', $areaWidget);
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <h2>{{ $title }}</h2>
+                <div class="well">
+                    <h2>{{ $title }}</h2>
 
-                @if($page->content)
-                    @if($page->image)
-                        <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
-                            {{ $page->getImage() }}
-                        </a>
+                    @if($page->content)
+                        @if($page->image)
+                            <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                                {{ $page->getImage() }}
+                            </a>
+                        @endif
+                        <div class="content">
+                            {{ $page->getContentWithWidget() }}
+                        </div>
                     @endif
-                    <div class="content">
-                        {{ $page->getContentWithWidget() }}
-                    </div>
-                @endif
 
-                <!-- всплывающее сообщение - ошибка: согласие не со всеми правилами -->
-                @if(Session::has('rulesErrorMessage'))
-                    @section('siteMessages')
-                        @include('widgets.siteMessages.danger', ['siteMessage' => Session::get('rulesErrorMessage')])
-                        @parent
-                    @endsection
-                @endif
+                    <!-- всплывающее сообщение - ошибка: согласие не со всеми правилами -->
+                    @if(Session::has('rulesErrorMessage'))
+                        @section('siteMessages')
+                            @include('widgets.siteMessages.danger', ['siteMessage' => Session::get('rulesErrorMessage')])
+                            @parent
+                        @endsection
+                    @endif
 
-                @if(count($rules))
-                    {{ Form::open(['action' => ['UsersController@postRules'], 'role' => 'form', 'class' => '']) }}
-                    {{ Form::hidden('backUrl', $backUrl) }}
-                    <div id="rules">
-                        @foreach($rules as $key => $rule)
-                            <div class="row rule {{ (0 == $key) ? '' : 'opacity'}}" data-rule-id="{{ $key }}">
-                                <div class="col-md-1">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" data-checkbox-rule-id="{{ $key }}" class="checkbox-input" name="rules[{{ $key }}]" {{ (0 == $key) ? '' : 'disabled="disabled"'}}>
-                                        </label>
-                                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @if(count($rules))
+                                {{ Form::open(['action' => ['UsersController@postRules'], 'role' => 'form', 'class' => '']) }}
+                                {{ Form::hidden('backUrl', $backUrl) }}
+                                <div id="rules">
+                                    @foreach($rules as $key => $rule)
+                                        <div class="row rule {{ (0 == $key) ? '' : 'opacity'}}" data-rule-id="{{ $key }}">
+                                            <div class="col-md-1">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" data-checkbox-rule-id="{{ $key }}" class="checkbox-input" name="rules[{{ $key }}]" {{ (0 == $key) ? '' : 'disabled="disabled"'}}>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-11">
+                                                <h3>{{ $rule->position }}. {{ $rule->title }}</h3>
+                                                {{ $rule->description }}
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <div class="col-md-11">
-                                    <h3>{{ $rule->position }}. {{ $rule->title }}</h3>
-                                    {{ $rule->description }}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    {{ Form::submit('Подтвердить', ['id'=> 'submit', 'class' => 'btn btn-success pull-right', 'disabled' => true]) }}
+                                {{ Form::submit('Подтвердить', ['id'=> 'submit', 'class' => 'btn btn-success pull-right', 'disabled' => true]) }}
 
-                    {{ Form::hidden('_token', csrf_token()) }}
-                    {{ Form::close() }}
-                @endif
+                                {{ Form::hidden('_token', csrf_token()) }}
+                                {{ Form::close() }}
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

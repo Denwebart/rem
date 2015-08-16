@@ -56,6 +56,10 @@ a:focus {
 .btn-primary:hover:not(.btn-link):not(.btn-flat) {
     background: #03A9F4;
 }
+.buttons a {
+    margin-left: 10px;
+}
+
 .font-mini {
     font-size: 10px;
     font-style: italic;
@@ -686,6 +690,19 @@ a:focus {
 /*-- Профиль пользователя, журнал пользователя --*/
 #profile h2 {
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+#profile .user-data-row {
+    line-height: 24px;
+    clear: both;
+    display: inline-block;
+    width: 100%;
+}
+#profile .user-data-row span i,
+#profile .user-data-row span > span {
+    float: left;
+}
+#profile .user-data-row span i {
+    margin-right: 5px;
 }
 
 /* Статус online/offline */
