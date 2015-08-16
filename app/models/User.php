@@ -26,10 +26,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property boolean $is_active 
  * @property boolean $is_banned
  * @property boolean $is_agree
- * @property string $activationCode 
+ * @property string $activationCode
  * @property string $remember_token 
  * @property string $password
  * @property \Carbon\Carbon $last_activity
+ * @property boolean $is_online
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $receivedMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessagesForUser 
@@ -66,6 +67,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePassword($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereLastAvtivity($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereIsOnline($value)
  */
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
@@ -695,11 +697,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->save();
 	}
 
+	public function setOnline($is_online)
+	{
+		$this->is_online = $is_online;
+		$this->save();
+	}
+
 	public function isOnline()
 	{
-		return ($this->last_activity < \Carbon\Carbon::now()->subMinutes(2))
-			? false
-			: true;
+		if(0 == $this->is_online) {
+			return false;
+		} else {
+			return ($this->last_activity < \Carbon\Carbon::now()->subMinutes(2))
+				? false
+				: true;
+		}
 	}
 
 	/**

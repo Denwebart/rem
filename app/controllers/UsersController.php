@@ -80,6 +80,7 @@ class UsersController extends BaseController
 				Log::info("User [{$login}] successfully logged in.");
 
 				Auth::user()->setIp(Request::ip());
+				Auth::user()->setOnline(1);
 
 				// Вытираем предыдущую сессию
 				Session::forget('user');
@@ -111,11 +112,11 @@ class UsersController extends BaseController
 	public function getLogout()
 	{
 		if(Auth::check()){
+			Session::forget('user');
+			Auth::user()->setOnline(0);
 			Auth::logout();
 		}
-
-		Session::forget('user');
-
+		
 		if(strpos(URL::previous(), Config::get('settings.siteUrl').'/admin')) {
 			return Redirect::to('/');
 		} elseif(is_null(Request::get('backUrl'))) {

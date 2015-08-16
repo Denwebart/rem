@@ -551,7 +551,7 @@ a:focus {
 .area .advertising {
     position: relative;
     text-align: center;
-    margin-bottom: 15px;
+    /*display: inline-block;*/
 }
 .area .advertising a {
     color: #1292CE;
@@ -592,7 +592,7 @@ a:focus {
     font-size: 18px;
 }
 .area .advertising-body h4 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
 
