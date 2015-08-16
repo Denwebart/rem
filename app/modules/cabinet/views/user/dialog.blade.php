@@ -46,7 +46,7 @@ View::share('title', $title);
                                 <div class="row item">
                                     <div class="col-md-2">
                                         @if($user->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background">
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background display-inline-block">
                                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
                                                 @if($message->userSender->isOnline())
                                                     <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
@@ -79,7 +79,7 @@ View::share('title', $title);
 
                                     <div class="col-md-2">
                                         @if($companion->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
                                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
                                                 @if($message->userSender->isOnline())
                                                     <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>

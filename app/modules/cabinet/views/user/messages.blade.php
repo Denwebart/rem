@@ -84,7 +84,7 @@ View::share('title', $title);
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
                                         {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
                                         @if($message->userSender->isOnline())
                                             <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
