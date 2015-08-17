@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-1">
         @if(Auth::check())
-            @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+            @if((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned && $article->isEditable()) || Auth::user()->isAdmin())
                 <div class="buttons pull-right">
                     <a href="{{ URL::route('user.journal.edit', ['login' => $article->user->getLoginForUrl(),'id' => $article->id]) }}" class="" title="Редактировать статью">
                         <i class="material-icons">edit_mode</i>

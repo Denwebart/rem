@@ -10,7 +10,7 @@ class CabinetUserController extends \BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CABINET]);
 		View::share('areaWidget', $areaWidget);
 
-		if(Auth::check()){
+		if(Auth::check()) {
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
 		}
@@ -389,6 +389,10 @@ class CabinetUserController extends \BaseController
 			->whereType(Page::TYPE_QUESTION)
 			->firstOrFail();
 
+		if(!$question->isEditable()) {
+			return Response::view('errors.404', [], 404);
+		}
+
 		View::share('user', $user);
 		return View::make('cabinet::user.editQuestion', compact('question'));
 	}
@@ -439,6 +443,14 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_QUESTION)
 				->firstOrFail();
+
+			if(!$question->isEditable()) {
+				return Response::json([
+					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Вы не можете удалить вопрос.'])
+				]);
+			}
+
 			$pageTitle = $question->getTitle();
 			if($question->delete()) {
 				$user->removePoints(User::POINTS_FOR_QUESTION);
@@ -517,6 +529,10 @@ class CabinetUserController extends \BaseController
 			->with('tags')
 			->firstOrFail();
 
+		if(!$article->isEditable()) {
+			return Response::view('errors.404', [], 404);
+		}
+
 		View::share('user', $user);
 		return View::make('cabinet::user.editJournal', compact('article'));
 	}
@@ -573,6 +589,12 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_ARTICLE)
 				->firstOrFail();
+			if(!$article->isEditable()) {
+				return Response::json([
+					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Вы не можете удалить статью.'])
+				]);
+			}
 			$pageTitle = $article->getTitle();
 			if($article->delete()) {
 				$user->removePoints(User::POINTS_FOR_ARTICLE);

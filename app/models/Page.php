@@ -571,4 +571,11 @@ class Page extends \Eloquent
 		return '/uploads/' . (new Comment)->getTable() . '/page-' . $this->id . '/';
 	}
 
+	public function isEditable()
+	{
+		return ($this->published_at < \Carbon\Carbon::now()->subHours(1))
+			? false
+			: true;
+	}
+
 }

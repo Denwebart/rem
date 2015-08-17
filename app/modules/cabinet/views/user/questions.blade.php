@@ -90,7 +90,7 @@ View::share('title', $title);
                                     </div>
                                     <div class="col-md-2">
                                         @if(Auth::check())
-                                            @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                            @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
                                                 <div class="buttons">
                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">
                                                         <i class="material-icons">delete</i>
@@ -214,6 +214,8 @@ View::share('title', $title);
                                 if(response.success) {
                                     $('#site-messages').prepend(response.message);
                                     $('[data-question-id=' + questionId + ']').remove();
+                                } else {
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });

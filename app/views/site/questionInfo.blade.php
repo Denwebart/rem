@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-1">
                 @if(Auth::check())
-                    @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                    @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
                         <div class="buttons pull-right">
                             <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
                                 <i class="material-icons">mode_edit</i>

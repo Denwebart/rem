@@ -133,7 +133,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         @if(Auth::check())
-                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
+                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $article->isEditable()) || Auth::user()->isAdmin())
                                                 <div class="buttons">
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">delete</i>
@@ -253,6 +253,8 @@
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
                                     $('[data-article-id=' + articleId + ']').remove();
+                                } else {
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });
