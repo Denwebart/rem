@@ -63,9 +63,18 @@
                     </div>
                     <div class="col-md-6">
                         <!-- Подписка на журнал пользователя ("Подписки") -->
-                        @if(!Auth::user()->is($user))
-                            @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
+                        @if(Auth::check())
+                            @if(!Auth::user()->is($user))
+                                @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
+                            @endif
                         @endif
+
+                        <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
+                            {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
+                            <span class="count pull-left">
+                                {{ $user->points }}
+                            </span>
+                        </div>
                     </div>
                 </div>
 

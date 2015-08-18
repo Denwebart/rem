@@ -52,6 +52,11 @@ a:focus {
 }
 .btn {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    line-height: 24px;
+}
+.btn i {
+    float: left;
+    margin-right: 5px;
 }
 .btn-primary:hover:not(.btn-link):not(.btn-flat) {
     background: #03A9F4;
@@ -122,7 +127,8 @@ a:focus {
     line-height: 24px;
 }
 .btn-login span .material-icons {
-    margin-left: 5px;
+    margin: 0 0 0 5px;
+    float: right;
 }
 
 .btn-register {
@@ -688,21 +694,15 @@ a:focus {
 }
 
 /*-- Профиль пользователя, журнал пользователя --*/
-#profile h2 {
-    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+#user-info {
+    margin-bottom: 20px;
 }
-#profile .user-data-row {
-    line-height: 24px;
-    clear: both;
-    display: inline-block;
-    width: 100%;
+#user-info .banned {
+    line-height: 44px;
+    margin-left: 20px;
 }
-#profile .user-data-row span i,
-#profile .user-data-row span > span {
-    float: left;
-}
-#profile .user-data-row span i {
-    margin-right: 5px;
+#user-info .banned .unban {
+    color: #F44336;
 }
 
 /* Статус online/offline */

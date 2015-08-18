@@ -5,21 +5,23 @@
                 {{ $user->getAvatar(null, ['class' => 'avatar']) }}
             </a>
         </div>
-        @if(!Auth::user()->is($user))
-            <div class="profile-user-status">
-                @if($user->isOnline())
-                    <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                    <span class="text pull-left">Сейчас на сайте</span>
-                @else
-                    <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                    <span class="text pull-left">
-                        Был на сайте
-                        <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
-                            {{ DateHelper::getRelativeTime($user->last_activity) }}
+        @if(Auth::check())
+            @if(!Auth::user()->is($user))
+                <div class="profile-user-status">
+                    @if($user->isOnline())
+                        <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                        <span class="text pull-left">Сейчас на сайте</span>
+                    @else
+                        <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                        <span class="text pull-left">
+                            Был на сайте
+                            <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
+                                {{ DateHelper::getRelativeTime($user->last_activity) }}
+                            </span>
                         </span>
-                    </span>
-                @endif
-            </div>
+                    @endif
+                </div>
+            @endif
         @endif
     </div>
     <div class="col-md-2" style="padding: 0">
@@ -52,11 +54,10 @@
 
         @if(Auth::check())
             @if(!Auth::user()->is($user))
-                <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary">
-                    Написать личное сообщение
+                <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm send-message pull-left">
+                    <i class="material-icons">send</i>
+                    Написать сообщение
                 </a>
-                <!-- Подписка на журнал пользователя ("Подписки") -->
-                @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
             @endif
             @if(Auth::user()->isAdmin())
                 @include('widgets.ban', ['user' => $user])

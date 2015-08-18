@@ -88,13 +88,30 @@ View::share('title', $title);
                         </div>
                     </div>
 
-                    
-
-                    <a href="{{ URL::back() }}">Редактировать</a>
-
+                    <a href="#" class="btn btn-primary">Редактировать</a>
+                    <a href="#" class="btn btn-success">Сохранить</a>
 
                 </section>
             </div>
         </div>
     </div>
 @stop
+
+@section('style')
+    @parent
+
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+@endsection
+
+@section('script')
+    @parent
+
+    <!-- FancyBox2 -->
+    {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
+@endsection

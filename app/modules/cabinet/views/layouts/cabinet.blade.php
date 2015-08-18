@@ -100,7 +100,7 @@
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
                     </a>
                 </li>
-                <li class="{{ Route::is('user.questions') ? 'active' : '' }}">
+                <li class="{{ Request::is('user/'. $user->getLoginForUrl() . '/questions/*') ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
                         <i class="material-icons">help</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы') : 'Вопросы' }}</span>

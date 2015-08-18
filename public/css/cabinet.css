@@ -165,5 +165,43 @@ h2, .h2 {
     float: right;
 }
 
-/*-- End Профиль пользователя --*/
+/*-- Профиль пользователя --*/
+#profile h2 {
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+#profile .user-data-row {
+    line-height: 24px;
+    clear: both;
+    display: inline-block;
+    width: 100%;
+}
+#profile .user-data-row span i,
+#profile .user-data-row span > span {
+    float: left;
+}
+#profile .user-data-row span i {
+    margin-right: 5px;
+}
+/* Баллы */
+#profile .points .count {
+    margin-left: 10px;
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 36px;
+    line-height: 60px;
+}
 
+/* Награды */
+#profile .honor {
+    float: left;
+    width: 50px;
+    margin-right: 7px;
+    position: relative;
+}
+#profile .honor.for-admin {
+    margin-top: 15px;
+}
+#profile .honor a.remove-reward {
+    position: absolute;
+    top: -20px;
+    right: -10px;
+}

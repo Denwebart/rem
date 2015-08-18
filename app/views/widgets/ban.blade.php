@@ -1,14 +1,12 @@
 @if(!$user->isAdmin())
-    <div class="buttons" data-ban-button-id="{{ $user->id }}">
+    <div class="banned buttons pull-left" data-ban-button-id="{{ $user->id }}">
         @if(!$user->is_banned)
-            <a href="javascript:void(0)" class="btn btn-primary btn-sm banned-link ban" data-id="{{ $user->id }}">
+            <a href="javascript:void(0)" class="banned-link ban" data-id="{{ $user->id }}" title="Забанить">
                 <i class="material-icons">lock</i>
-                Забанить
             </a>
         @else
-            <a href="javascript:void(0)" class="btn btn-primary btn-sm banned-link unban" data-id="{{ $user->id }}">
+            <a href="javascript:void(0)" class="banned-link unban" data-id="{{ $user->id }}" title="Разбанить">
                 <i class="material-icons">lock_open</i>
-                Разбанить
             </a>
         @endif
     </div>
@@ -80,7 +78,10 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
-                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock_open</i> Разбанить');
+                                    $('[data-ban-button-id='+ userId +']').find('.banned-link')
+                                            .toggleClass('ban unban')
+                                            .html('<i class="material-icons">lock_open</i>')
+                                            .attr('title', 'Разбанить');
                                 } else {
                                     $('#site-messages').prepend(response.message);
                                 }
@@ -106,7 +107,10 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
-                                    $('[data-ban-button-id='+ userId +']').find('.banned-link').toggleClass('ban unban').html('<i class="material-icons">lock</i> Забанить');
+                                    $('[data-ban-button-id='+ userId +']').find('.banned-link')
+                                            .toggleClass('ban unban')
+                                            .html('<i class="material-icons">lock</i>')
+                                            .attr('title', 'Забанить');
                                 } else {
                                     $('#site-messages').prepend(response.message);
                                 }
