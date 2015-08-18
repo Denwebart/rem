@@ -54,7 +54,7 @@
                                                 [
                                                     'class' => 'form-control floating-label',
                                                     'id' => 'query',
-                                                    'placeholder' => 'Поиск',
+                                                    'placeholder' => 'Поиск по сайту',
                                                     'data-hint' => 'Введите фразу для поиска, например: "Замена антифриза"'
                                                 ]
                                             ) }}

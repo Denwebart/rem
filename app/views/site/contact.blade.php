@@ -95,7 +95,6 @@
                         </div>
                     </div>
 
-                    <!-- Multiple Checkboxes (inline) -->
                     <div class="form-group">
                         {{ Form::label('subject', 'Отправить копию этого сообщения на Ваш адрес e-mail', ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-8">

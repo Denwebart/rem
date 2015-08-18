@@ -168,7 +168,7 @@ View::share('title', $title);
                                     @endif
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
+                                    <div class="points" title="Количество баллов" data-toggle="tooltip" data-placement="top">
                                         {{ Html::image('images/coins.png', '', ['width' => '60px', 'class' => 'pull-left']) }}
                                         <span class="count pull-left">
                                             {{ $user->points }}

@@ -45,7 +45,7 @@ class Letter extends \Eloquent
 	public static $rules = [
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
 		'user_ip' => 'ip',
-		'user_name' => 'required_without_all:user_id|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u|min:3',
+		'user_name' => 'required_without_all:user_id|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u|min:3',
 		'user_email' => 'required_without_all:user_id|email',
 		'subject' => 'max:500',
 		'message' => 'required|min:5',

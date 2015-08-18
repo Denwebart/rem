@@ -66,7 +66,7 @@ class Comment extends \Eloquent
 		'page_id' => 'required|numeric',
 		'parent_id' => 'required|numeric',
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
-		'user_name' => 'required_without_all:user_id|max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
+		'user_name' => 'required_without_all:user_id|max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
 		'user_email' => 'required_without_all:user_id|email|max:150',
 		'user_ip' => 'ip',
 		'is_published' => 'boolean',

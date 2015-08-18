@@ -25,7 +25,7 @@ class CabinetController extends \BaseController
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
 
-		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'userHonors'];
+		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'userHonors.honor', 'honors'];
 		$name = trim(Input::get('name'));
 
 		$query = new User;
@@ -33,9 +33,22 @@ class CabinetController extends \BaseController
 		$query = $query->with($relations);
 
 		if($name) {
-			$query = $query->where(DB::raw('CONCAT(users.firstname, " ", users.lastname)'), 'LIKE', "$name%")
-				->orWhere(DB::raw('CONCAT(users.lastname, " ", users.firstname)'), 'LIKE', "$name%")
-				->orWhere('users.login', 'LIKE', "$name%");
+			$name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $name))));
+			$query = $query->where(function($q) use ($name) {
+				$q->where(DB::raw('LOWER(CONCAT(users.login, " ", users.firstname, " ", users.lastname))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(CONCAT(users.login, " ", users.lastname, " ", users.firstname))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(CONCAT(users.lastname, " ", users.firstname, " ", users.login))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(CONCAT(users.firstname, " ", users.lastname, " ", users.login))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(CONCAT(users.firstname, " ", users.login, " ", users.lastname))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(CONCAT(users.lastname, " ", users.login, " ", users.firstname))'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+			});
+		}
+
+		$is_online = (Input::get('is_online') == 1) ? 1 : 0;
+		if($is_online) {
+			$query = $query->whereIsOnline(1);
+			$query = $query->where('last_activity', '>', \Carbon\Carbon::now()->subMinutes(2));
 		}
 
 		if ($sortBy && $direction) {
@@ -56,10 +69,12 @@ class CabinetController extends \BaseController
 		} else {
 			$query = $query->orderBy('users.role', 'ASC')
 				->orderBy('users.created_at', 'ASC');
+//			$users = $query->toSql();
+//			dd(date('Y-m-d H:i:s'), $users);
 			$users = $query->paginate(10);
 		}
 
-		return View::make('cabinet::index', compact('users'))->with('name', $name);
+		return View::make('cabinet::index', compact('users'))->with('name', $name)->with('is_online', $is_online);
 	}
 
 	public function autocomplete() {

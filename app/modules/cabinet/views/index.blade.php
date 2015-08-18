@@ -213,13 +213,25 @@ View::share('page', $title);
 
         {{ Form::open(['method' => 'GET', 'route' => ['users'], 'id' => 'search-users-form']) }}
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <div class="form-group">
                         {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
                     </div>
                 </div>
                 <div class="col-md-2">
-                    {{ Form::submit('Найти', ['class' => 'btn btn-success']) }}
+                    <div class="checkbox">
+                        <label>
+                            {{ Form::checkbox('is_online', 1, $is_online, ['id' => 'is-online']); }}
+                            Только онлайн
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="material-icons">search</i>
+                        <span>Найти</span>
+                        <div class="ripple-wrapper"></div>
+                    </button>
                 </div>
             </div>
         {{ Form::close() }}
