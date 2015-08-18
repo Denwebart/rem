@@ -60,8 +60,9 @@
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
-	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 	<a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
+	{{ Form::submit('Предпросмотр', ['name' => 'preview', 'class' => 'btn btn-warning']) }}
+	{{ Form::submit('Сохранить', ['name' => 'save', 'class' => 'btn btn-success']) }}
 </div>
 
 @section('style')

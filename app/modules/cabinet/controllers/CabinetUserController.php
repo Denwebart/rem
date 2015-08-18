@@ -389,7 +389,7 @@ class CabinetUserController extends \BaseController
 			->whereType(Page::TYPE_QUESTION)
 			->firstOrFail();
 
-		if(!$question->isEditable()) {
+		if(!$question->isEditable() && Auth::user()->isUser()) {
 			return Response::view('errors.404', [], 404);
 		}
 
@@ -412,7 +412,11 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 1;
+		if(Input::get('save')) {
+			$data['is_published'] = 1;
+		} elseif(Input::get('preview')) {
+			$data['is_published'] = 0;
+		}
 		$data['meta_title'] = $data['title'];
 		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
@@ -429,7 +433,25 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
-		return Redirect::route('user.questions', ['login' => $login]);
+		if(Input::get('save')) {
+			return Redirect::route('user.questions', ['login' => $login]);
+		} elseif(Input::get('preview')) {
+			return Redirect::route('user.page.preview', ['login' => $login, 'id' => $page->id]);
+		}
+	}
+
+	public function preview($login, $id)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		$page = Page::whereId($id)
+			->whereUserId($user->id)
+			->whereType(Page::TYPE_QUESTION)
+			->firstOrFail();
+
+		View::share('user', $user);
+		return View::make('cabinet::user.preview', compact('page'));
 	}
 
 	public function deleteQuestion($login)
@@ -444,7 +466,7 @@ class CabinetUserController extends \BaseController
 				->whereType(Page::TYPE_QUESTION)
 				->firstOrFail();
 
-			if(!$question->isEditable()) {
+			if(!$question->isEditable() && Auth::user()->isUser()) {
 				return Response::json([
 					'success' => false,
 					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Вы не можете удалить вопрос.'])
@@ -529,7 +551,7 @@ class CabinetUserController extends \BaseController
 			->with('tags')
 			->firstOrFail();
 
-		if(!$article->isEditable()) {
+		if(!$article->isEditable() && Auth::user()->isUser()) {
 			return Response::view('errors.404', [], 404);
 		}
 
@@ -589,7 +611,7 @@ class CabinetUserController extends \BaseController
 				->whereUserId($user->id)
 				->whereType(Page::TYPE_ARTICLE)
 				->firstOrFail();
-			if(!$article->isEditable()) {
+			if(!$article->isEditable() && Auth::user()->isUser()) {
 				return Response::json([
 					'success' => false,
 					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Вы не можете удалить статью.'])
@@ -608,6 +630,53 @@ class CabinetUserController extends \BaseController
 				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Статья удалена.'])
 			]);
 		}
+	}
+
+	/**
+	 * Предпросмотр вопроса
+	 *
+	 * @param $login
+	 * @return \Illuminate\Http\Response|\Illuminate\View\View
+	 */
+	public function questionPreview($login, $id = null)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$data = Input::all();
+
+		$data['type'] = Page::TYPE_QUESTION;
+		$data['user_id'] = $user->id;;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['is_published'] = 0;
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		if(is_null($id)) {
+			$page = Page::create($data);
+			$page->image = $page->setImage($data['image']);
+			$page->save();
+		} else {
+			$page = Page::whereId($id)
+				->whereUserId($user->id)
+				->whereType(Page::TYPE_QUESTION)
+				->firstOrFail();
+			$data['image'] = $page->setImage($data['image']);
+			$page->update($data);
+		}
+
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
+		// удаление тегов
+		Tag::deleteTag($page, Input::get('tags'));
+
+		return Redirect::route('user.preview', ['login' => Auth::user()->getLoginForUrl()]);
 	}
 
 	/**

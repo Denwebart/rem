@@ -1,6 +1,6 @@
 <?php
     if(!isset($toolbar)) {
-        $toolbar = 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image media emoticons | print preview';
+        $toolbar = 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image media emoticons';
     }
 ?>
 <script type="text/javascript">
