@@ -390,7 +390,7 @@ class CabinetUserController extends \BaseController
 			->firstOrFail();
 
 		if(!$question->isEditable() && Auth::user()->isUser()) {
-			return Response::view('errors.404', [], 404);
+			return Response::view('errors.editable403', ['user' => $user], 403);
 		}
 
 		View::share('user', $user);
@@ -552,7 +552,7 @@ class CabinetUserController extends \BaseController
 			->firstOrFail();
 
 		if(!$article->isEditable() && Auth::user()->isUser()) {
-			return Response::view('errors.404', [], 404);
+			return Response::view('errors.editable403', ['user' => $user], 403);
 		}
 
 		View::share('user', $user);
