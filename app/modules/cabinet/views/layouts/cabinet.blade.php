@@ -88,25 +88,25 @@
 
         <div class="col-lg-2 col-md-3" id="users-menu">
             <ul>
-                <li class="{{ Route::is('user.profile') ? 'active' : '' }}">
+                <li class="{{ (Route::is('user.profile') || Route::is('user.edit') || Route::is('user.changePassword')) ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         <i class="material-icons">account_box</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль') : 'Профиль' }}</span>
                     </a>
                 </li>
-                <li class="{{ Route::is('user.gallery') ? 'active' : '' }}">
+                <li class="{{ (Route::is('user.gallery') || Route::is('user.gallery.editPhoto')) ? 'active' : '' }}">
                     <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
                         <i class="material-icons">directions_car</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
                     </a>
                 </li>
-                <li class="{{ Request::is('user/'. $user->getLoginForUrl() . '/questions/*') ? 'active' : '' }}">
+                <li class="{{ (Route::is('user.questions') || Route::is('user.questions.edit') || Route::is('user.questions.create')) ? 'active' : '' }}">
                     <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
                         <i class="material-icons">help</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы') : 'Вопросы' }}</span>
                     </a>
                 </li>
-                <li class="{{ Route::is('user.journal') ? 'active' : '' }}">
+                <li class="{{ (Route::is('user.journal') || Route::is('user.journal.edit') || Route::is('user.journal.create')) ? 'active' : '' }}">
                     <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                         <i class="material-icons">chrome_reader_mode</i>
                         <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой журнал' : 'Бортовой журнал') : 'Бортовой журнал' }}</span>
@@ -126,7 +126,7 @@
                 </li>
                 @if(Auth::check())
                     @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-                        <li class="messages {{ Route::is('user.messages') ? 'active' : '' }}">
+                        <li class="messages {{ (Route::is('user.messages') || Route::is('user.dialog')) ? 'active' : '' }}">
                             <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
                                 <i class="material-icons">send</i>
                                 <span>Личные сообщения</span>
