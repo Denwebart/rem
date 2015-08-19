@@ -144,7 +144,21 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => '/uploads/' . (new UserImage)->getTable() . '/' . $user->login . '/editor/'])
+
+    <script type="text/javascript">
+        tinymce.init({
+            plugins: [
+                "advlist lists link",
+                "wordcount",
+                "emoticons"
+            ],
+            menubar:false,
+            toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
+            language: 'ru',
+            selector: ".editor"
+        });
+    </script>
+
 @endsection
 
 @section('script')

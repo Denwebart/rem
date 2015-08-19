@@ -19,9 +19,8 @@
     <link rel="icon" href="{{ URL::to('favicon.ico') }}">
 
     <!-- material -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,100,100italic,700,700italic&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
     {{ HTML::style('css/bootstrap.min.css') }}
-    <link href="/material/css/roboto.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,100,100italic,700,700italic&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
     <link href="/material/css/material.min.css" rel="stylesheet">
     <link href="/material/css/ripples.min.css" rel="stylesheet">
     <link href="/material/css/snackbar.min.css" rel="stylesheet">
@@ -243,7 +242,6 @@
 <script src="/material/js/material.min.js"></script>
 <script src="/material/js/snackbar.min.js"></script>
 
-<script src="/material/js/jquery.nouislider.min.js"></script>
 <script>
     $(function() {
         $.material.init();

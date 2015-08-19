@@ -220,6 +220,7 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereLogin($login)->firstOrFail();
 		$data = Input::all();
+		$data['description'] = StringHelper::nofollowLinks($data['description']);
 		$data['user_id'] = $user->id;
 		$data['is_published'] = 1;
 		$validator = Validator::make($data, UserImage::$rules);
@@ -272,6 +273,7 @@ class CabinetUserController extends \BaseController
 
 		if($data = Input::all()) {
 
+			$data['description'] = StringHelper::nofollowLinks($data['description']);
 			$data['user_id'] = $user->id;
 			$data['is_published'] = 1;
 			$validator = Validator::make($data, UserImage::$rulesEdit);
@@ -283,8 +285,6 @@ class CabinetUserController extends \BaseController
 
 			// загрузка изображения
 			$data['image'] = $usersImage->setImage($data['image'], $user);
-
-			$data['description'] = StringHelper::nofollowLinks($data['description']);
 
 			if($usersImage->update($data)) {
 				return Redirect::route('user.gallery', ['login' => $user->login]);

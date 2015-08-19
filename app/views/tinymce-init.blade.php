@@ -6,10 +6,10 @@
 <script type="text/javascript">
     tinymce.init({
         plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "advlist autolink lists link image charmap hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars",
             "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor colorpicker textpattern imagetools"
+            "emoticons template paste textcolor textpattern imagetools"
         ],
         menubar:false,
         toolbar1: "<?php echo $toolbar ?>",

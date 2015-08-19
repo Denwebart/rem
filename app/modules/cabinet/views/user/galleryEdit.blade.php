@@ -77,7 +77,20 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $image->getImageEditorPath(), 'toolbar' => 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons'])
+
+    <script type="text/javascript">
+        tinymce.init({
+            plugins: [
+                "advlist lists link",
+                "wordcount",
+                "emoticons"
+            ],
+            menubar:false,
+            toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
+            language: 'ru',
+            selector: ".editor"
+        });
+    </script>
 @stop
 
 @section('script')
