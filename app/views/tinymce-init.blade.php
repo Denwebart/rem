@@ -6,10 +6,10 @@
 <script type="text/javascript">
     tinymce.init({
         plugins: [
-            "advlist autolink lists link image charmap hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars",
-            "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor textpattern imagetools"
+            "advlist lists link image",
+            "wordcount",
+            "media table contextmenu",
+            "emoticons imagetools"
         ],
         menubar:false,
         toolbar1: "<?php echo $toolbar ?>",
@@ -19,6 +19,10 @@
         imagetools_toolbar: 'imageoptions',
         image_advtab: true,
         file_browser_callback : function (field_name, url, type, win) {
+            console.log(type);
+            if (type == 'file' || type == 'media') {
+                return false;
+            }
 
             $("input[name='editor_image']").trigger('click');
 
@@ -45,4 +49,16 @@
             });
         }
     });
+
+//    window.onload = function() {
+////        tinyMCE.activeEditor.windowManager.close(function() {
+////            console.log('close');
+////        });
+//        $('[aria-label="Insert/edit link"]').on('click', function() {
+//            console.log('asfdasf');
+////            console.log($('[aria-label="Insert link"]'));
+//
+//            $('[aria-label="Insert link"]').find('.mce-open').remove();
+//        });
+//    };
 </script>
