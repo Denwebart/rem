@@ -50,6 +50,9 @@ a:focus {
     float: right;
     margin: 23px 0 0;
 }
+.button-group.without-margin {
+    margin: 0;
+}
 .btn {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     line-height: 24px;
