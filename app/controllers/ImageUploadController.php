@@ -49,9 +49,9 @@ class ImageUploadController extends BaseController
 
 			return Response::json(array(
 				'success' => true,
-				'imageUrl' => $imageUrl
+				'imageUrl' => $imageUrl,
+				'imageName' => $fileName,
 			));
 		}
-
 	}
 }

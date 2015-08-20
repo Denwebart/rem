@@ -476,6 +476,11 @@ class Page extends \Eloquent
 		return '/uploads/' . $this->getTable() . '/' . $this->id . '/' . $prefix . $this->image;
 	}
 
+	public function getImagePath()
+	{
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/';
+	}
+
 	/**
 	 * Загрузка изображения
 	 *

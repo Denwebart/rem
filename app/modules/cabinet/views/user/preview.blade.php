@@ -49,11 +49,9 @@
                 </div>
 
                 <div class="content">
-                    @if($page->image)
-                        <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
-                            {{ $page->getImage() }}
-                        </a>
-                    @endif
+                    <a class="fancybox" rel="group-content" href="{{ $page->image }}">
+                        <img src="{{ $page->image }}" alt=""/>
+                    </a>
                     {{ $page->getContentWithWidget() }}
                 </div>
             </div>

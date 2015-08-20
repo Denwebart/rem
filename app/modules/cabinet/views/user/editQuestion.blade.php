@@ -26,7 +26,7 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12 content">
-                <div id="form">
+                <div id="form-area">
                     <h2>{{ $title }}</h2>
 
                     <div class="row">
@@ -36,9 +36,7 @@ View::share('title', $title);
                         {{ Form::close() }}
                     </div>
                 </div>
-                <div id="preview" style="display: none">
-
-                </div>
+                <div id="preview" style="display: none"></div>
             </div>
         </div>
     </div>

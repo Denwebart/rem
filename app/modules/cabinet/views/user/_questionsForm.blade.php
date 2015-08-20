@@ -14,12 +14,14 @@
 <div class="col-md-5">
 	<div class="form-group">
 		{{ Form::label('image', 'Изображение') }}<br/>
-		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs', 'id' => 'image']) }}
+        {{ Form::hidden('image-url', $question->getImagePath() . $question->image, ['id' => 'image-name']) }}
 		{{ $errors->first('image') }}
 
 		@if($question->image)
-			{{ $question->getImage(null, ['class' => 'page-image']) }}
-
+            <div id="page-image">
+			    {{ $question->getImage(null, ['class' => 'page-image']) }}
+            </div>
 			<a href="javascript:void(0)" id="delete-image">Удалить</a>
 			@section('script')
 				@parent
@@ -124,7 +126,7 @@
 						});
 					}
 					if(data.success) {
-						$('#form').hide();
+						$('#form-area').hide();
 						$('#preview').show().html(data.previewHtml);
 					} //success
 				}
@@ -132,7 +134,7 @@
 		});
 
 		$('#preview').on('click', '.preview-edit', function() {
-			$('#form').show();
+			$('#form-area').show();
 			$('#preview').hide();
 		});
 
@@ -140,5 +142,29 @@
 			$("#questionForm").submit();
 		});
 	</script>
+
+    <script type="text/javascript">
+        $('#image').change(function () {
+            var fileData = new FormData();
+            fileData.append('image', $('#image')[0].files[0]);
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo URL::route('postUploadImage', ['path' => urlencode($question->getImagePath())]) ?>',
+                data: fileData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    if(response.success) {
+                        $('#page-image').html('<img src="'+ response.imageUrl +'" class="img-responsive page-image" title="" alt="">');
+                        $('#image-url').val(response.imageUrl);
+                    }
+                }
+            });
+        });
+    </script>
 
 @stop

@@ -415,10 +415,12 @@ class CabinetUserController extends \BaseController
 		$page = new Page();
 
 		$data = $formFields;
+		$data['image'] = $data['image-url'];
 		$data['user_id'] = $user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['published_at'] = \Carbon\Carbon::now();
 
+		unset(Page::$rulesForUsers['image']);
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
 		if ($validator->fails())
