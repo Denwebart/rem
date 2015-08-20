@@ -61,8 +61,8 @@
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
 	<a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
-	{{ Form::submit('Предпросмотр', ['name' => 'preview', 'class' => 'btn btn-warning']) }}
-	{{ Form::submit('Сохранить', ['name' => 'save', 'class' => 'btn btn-success']) }}
+	<a href="javascript:void(0)" class="btn btn-warning preview">Предпросмотр</a>
+	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 </div>
 
 @section('style')
@@ -71,6 +71,9 @@
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', ['imagePath' => $question->getImageEditorPath()])
+
+	<!-- FancyBox2 -->
+	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 @stop
 
 @section('script')
@@ -86,6 +89,55 @@
 			if (file.size > 5242880) {
 				$(this).parent().parent().append('Недопустимый размер файла.');
 			}
+		});
+	</script>
+
+	<!-- FancyBox2 -->
+	{{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".fancybox").fancybox();
+		});
+	</script>
+
+	<script type="text/javascript">
+		$('.preview').on('click', function() {
+			tinyMCE.get("content").save();
+			var $form = $('form'),
+				data = $form.serialize(),
+				url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl()])?>';
+			$.ajax({
+				url: url,
+				dataType: "text json",
+				type: "POST",
+				async: true,
+				data: {formData: data},
+				beforeSend: function(request) {
+					return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+				},
+				success: function(data) {
+					if(data.fail) {
+						$.each(data.errors, function(index, value) {
+							var errorDiv = '.' + index + '_error';
+							$form.find(errorDiv).parent().addClass('has-error');
+							$form.find(errorDiv).empty().append(value);
+						});
+					}
+					if(data.success) {
+						$('#form').hide();
+						$('#preview').show().html(data.previewHtml);
+					} //success
+				}
+			});
+		});
+
+		$('#preview').on('click', '.preview-edit', function() {
+			$('#form').show();
+			$('#preview').hide();
+		});
+
+		$('#preview').on('click', '.preview-save', function() {
+			$("#questionForm").submit();
 		});
 	</script>
 

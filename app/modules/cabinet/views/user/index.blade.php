@@ -131,13 +131,13 @@ View::share('title', $title);
                                                 <span>
                                                     @if($user->country)
                                                         <span class="country">
-                                                        {{{ $user->country }}}@if($user->city),@endif
-                                                    </span>
+                                                            {{{ $user->country }}}@if($user->city),&nbsp;@endif
+                                                        </span>
                                                     @endif
                                                     @if($user->city)
                                                         <span class="city">
-                                                        {{{ $user->city }}}
-                                                    </span>
+                                                            {{{ $user->city }}}
+                                                        </span>
                                                     @endif
                                                 </span>
                                             </span>

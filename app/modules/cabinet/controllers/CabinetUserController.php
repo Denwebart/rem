@@ -397,6 +397,46 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.editQuestion', compact('question'));
 	}
 
+	/**
+	 * Предварительный просмотр
+	 *
+	 * @param $login
+	 * @return \Illuminate\View\View
+	 */
+	public function preview($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$inputData = Input::get('formData');
+		parse_str($inputData, $formFields);
+
+		$page = new Page();
+
+		$data = $formFields;
+		$data['user_id'] = $user->id;
+		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['published_at'] = \Carbon\Carbon::now();
+
+		$validator = Validator::make($data, Page::$rulesForUsers);
+
+		if ($validator->fails())
+		{
+			return Response::json(array(
+				'fail' => true,
+				'errors' => $validator->getMessageBag()->toArray(),
+			));
+		}
+
+		$page->fill($data);
+
+		return Response::json(array(
+			'success' => true,
+			'previewHtml' => (string) View::make('cabinet::user.preview', compact('page'))->render(),
+		));
+	}
+
 	public function updateQuestion($login, $id)
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
@@ -412,11 +452,7 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		if(Input::get('save')) {
-			$data['is_published'] = 1;
-		} elseif(Input::get('preview')) {
-			$data['is_published'] = 0;
-		}
+		$data['is_published'] = 1;
 		$data['meta_title'] = $data['title'];
 		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
 		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
@@ -433,26 +469,22 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
-		if(Input::get('save')) {
-			return Redirect::route('user.questions', ['login' => $login]);
-		} elseif(Input::get('preview')) {
-			return Redirect::route('user.page.preview', ['login' => $login, 'id' => $page->id]);
-		}
+		return Redirect::route('user.questions', ['login' => $login]);
 	}
 
-	public function preview($login, $id)
-	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
-			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
-		$page = Page::whereId($id)
-			->whereUserId($user->id)
-			->whereType(Page::TYPE_QUESTION)
-			->firstOrFail();
-
-		View::share('user', $user);
-		return View::make('cabinet::user.preview', compact('page'));
-	}
+//	public function preview($login, $id)
+//	{
+//		$user = (Auth::user()->getLoginForUrl() == $login)
+//			? Auth::user()
+//			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+//		$page = Page::whereId($id)
+//			->whereUserId($user->id)
+//			->whereType(Page::TYPE_QUESTION)
+//			->firstOrFail();
+//
+//		View::share('user', $user);
+//		return View::make('cabinet::user.preview', compact('page'));
+//	}
 
 	public function deleteQuestion($login)
 	{
@@ -638,46 +670,46 @@ class CabinetUserController extends \BaseController
 	 * @param $login
 	 * @return \Illuminate\Http\Response|\Illuminate\View\View
 	 */
-	public function questionPreview($login, $id = null)
-	{
-		$user = (Auth::user()->getLoginForUrl() == $login)
-			? Auth::user()
-			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
-
-		$data = Input::all();
-
-		$data['type'] = Page::TYPE_QUESTION;
-		$data['user_id'] = $user->id;;
-		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 0;
-
-		$validator = Validator::make($data, Page::$rulesForUsers);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		if(is_null($id)) {
-			$page = Page::create($data);
-			$page->image = $page->setImage($data['image']);
-			$page->save();
-		} else {
-			$page = Page::whereId($id)
-				->whereUserId($user->id)
-				->whereType(Page::TYPE_QUESTION)
-				->firstOrFail();
-			$data['image'] = $page->setImage($data['image']);
-			$page->update($data);
-		}
-
-		// добавление тегов
-		Tag::addTag($page, Input::get('tags'));
-		// удаление тегов
-		Tag::deleteTag($page, Input::get('tags'));
-
-		return Redirect::route('user.preview', ['login' => Auth::user()->getLoginForUrl()]);
-	}
+//	public function questionPreview($login, $id = null)
+//	{
+//		$user = (Auth::user()->getLoginForUrl() == $login)
+//			? Auth::user()
+//			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+//
+//		$data = Input::all();
+//
+//		$data['type'] = Page::TYPE_QUESTION;
+//		$data['user_id'] = $user->id;;
+//		$data['content'] = StringHelper::nofollowLinks($data['content']);
+//		$data['is_published'] = 0;
+//
+//		$validator = Validator::make($data, Page::$rulesForUsers);
+//
+//		if ($validator->fails())
+//		{
+//			return Redirect::back()->withErrors($validator)->withInput();
+//		}
+//
+//		if(is_null($id)) {
+//			$page = Page::create($data);
+//			$page->image = $page->setImage($data['image']);
+//			$page->save();
+//		} else {
+//			$page = Page::whereId($id)
+//				->whereUserId($user->id)
+//				->whereType(Page::TYPE_QUESTION)
+//				->firstOrFail();
+//			$data['image'] = $page->setImage($data['image']);
+//			$page->update($data);
+//		}
+//
+//		// добавление тегов
+//		Tag::addTag($page, Input::get('tags'));
+//		// удаление тегов
+//		Tag::deleteTag($page, Input::get('tags'));
+//
+//		return Redirect::route('user.preview', ['login' => Auth::user()->getLoginForUrl()]);
+//	}
 
 	/**
 	 * Удаление изображения из таблицы Page

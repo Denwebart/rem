@@ -26,13 +26,18 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12 content">
-                <h2>{{ $title }}</h2>
+                <div id="form">
+                    <h2>{{ $title }}</h2>
 
-                <div class="row">
-                    {{ Form::model($question, ['method' => 'PUT', 'route' => ['user.questions.update', 'login' => $user->getLoginForUrl(), 'id' => $question->id], 'id' => 'questionForm', 'files' => true]) }}
-                    @include('cabinet::user._questionsForm')
-                    {{ Form::hidden('_token', csrf_token()) }}
-                    {{ Form::close() }}
+                    <div class="row">
+                        {{ Form::model($question, ['method' => 'PUT', 'route' => ['user.questions.update', 'login' => $user->getLoginForUrl(), 'id' => $question->id], 'id' => 'questionForm', 'files' => true]) }}
+                        @include('cabinet::user._questionsForm')
+                        {{ Form::hidden('_token', csrf_token()) }}
+                        {{ Form::close() }}
+                    </div>
+                </div>
+                <div id="preview" style="display: none">
+
                 </div>
             </div>
         </div>

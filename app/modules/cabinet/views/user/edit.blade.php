@@ -22,7 +22,7 @@ View::share('title', $title);
                 </div>
                 <div class="col-md-2" style="padding: 0">
                     @if($user->avatar)
-                        <a href="javascript:void(0)" id="delete-avatar" class="pull-left">
+                        <a href="javascript:void(0)" id="delete-avatar" class="pull-left" title="Удалить аватарку" data-toggle="tooltip">
                             <i class="material-icons">delete</i>
                         </a>
                     @endif
