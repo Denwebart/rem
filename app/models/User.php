@@ -371,9 +371,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 				File::delete($imagePath . 'mini_' . $this->avatar);
 			}
 
-			if($image->width() > 225) {
+			if($image->width() > 260) {
 				$image->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
+					->resize(260, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);

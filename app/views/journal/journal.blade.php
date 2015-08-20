@@ -148,7 +148,7 @@
                                                         <i class="material-icons">delete</i>
                                                     </a>
                                                     <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
-                                                        <i class="material-icons">mode-edit</i>
+                                                        <i class="material-icons">edit</i>
                                                     </a>
                                                 </div>
                                             @endif

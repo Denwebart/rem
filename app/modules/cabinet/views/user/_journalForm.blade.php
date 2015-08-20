@@ -1,21 +1,19 @@
-<div class="col-md-7">
-	<div class="form-group">
-		{{ Form::label('title', 'Заголовок') }}
-		{{ Form::text('title', $article->title, ['class' => 'form-control']) }}
-		{{ $errors->first('title') }}
-	</div>
+<div class="col-md-12">
+    <div class="pull-right margin-bottom-20">
+        {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+        <a href="javascript:void(0)" class="btn btn-warning btn-sm btn-sm preview">Предпросмотр</a>
+        <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">Отмена</a>
+    </div>
 </div>
-
-<div class="col-md-5">
-	<div class="form-group">
-		{{ Form::label('image', 'Изображение') }}<br/>
-		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-		{{ $errors->first('image') }}
-
+<div class="col-md-4">
+    <div class="form-group">
         @if($article->image)
-            {{ $article->getImage(null, ['class' => 'page-image']) }}
-
-            <a href="javascript:void(0)" id="delete-image">Удалить</a>
+            <div id="page-image" class="margin-bottom-10">
+                {{ $article->getImage(null, ['class' => 'page-image']) }}
+                <a href="javascript:void(0)" id="delete-image">
+                    <i class="material-icons">delete</i>
+                </a>
+            </div>
             @section('script')
                 @parent
 
@@ -43,6 +41,16 @@
                 </script>
             @stop
         @endif
+
+        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+        {{ $errors->first('image') }}
+    </div>
+</div>
+<div class="col-md-8">
+	<div class="form-group">
+		{{ Form::label('title', 'Заголовок') }}
+		{{ Form::text('title', $article->title, ['class' => 'form-control']) }}
+		{{ $errors->first('title') }}
 	</div>
 </div>
 <div class="col-md-12">
@@ -74,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col-xs-2">
-                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-tag">
+                    <a href="javascript:void(0)" class="btn btn-success btn-sm btn-circle add-tag">
                         <i class="material-icons">done</i>
                     </a>
                 </div>
@@ -84,9 +92,6 @@
 
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
-
-	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-	<a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('style')

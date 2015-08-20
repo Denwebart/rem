@@ -16,13 +16,13 @@ View::share('title', $title);
                         </a>
                     </div>
                     <div class="form-group">
-                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm file-inputs']) }}
+                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
                         {{ $errors->first('avatar') }}
                     </div>
                 </div>
                 <div class="col-md-2" style="padding: 0">
                     @if($user->avatar)
-                        <a href="javascript:void(0)" id="delete-avatar" class="pull-left" title="Удалить аватарку" data-toggle="tooltip">
+                        <a href="javascript:void(0)" id="delete-avatar" class="pull-right" title="Удалить аватарку" data-toggle="tooltip">
                             <i class="material-icons">delete</i>
                         </a>
                     @endif
@@ -64,7 +64,7 @@ View::share('title', $title);
                                 <div class="button-group without-margin">
                                     <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
-                                        Назад
+                                        Отмена
                                     </a>
 
                                     {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}

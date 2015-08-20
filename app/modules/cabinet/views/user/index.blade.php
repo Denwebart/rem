@@ -71,7 +71,7 @@ View::share('title', $title);
                                         <div class="buttons pull-right">
                                             @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
                                                 <a href="{{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}}" class="pull-left" title="Редактировать профиль" data-toggle="tooltip" data-placement="top">
-                                                    <i class="material-icons">mode_edit</i>
+                                                    <i class="material-icons">edit</i>
                                                 </a>
                                             @endif
                                             @if(Auth::user()->is($user))

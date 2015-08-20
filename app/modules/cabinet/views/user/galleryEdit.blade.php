@@ -29,44 +29,54 @@ View::share('title', $title);
         <div class="row">
             <div class="col-md-12" id="content">
                 <h2>{{ $title }}</h2>
-
-                {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
-
+                <div class="well">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                                        {{ $errors->first('image') }}
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    {{ $image->getImage() }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('title', 'Заголовок изображения') }}
-                                {{ Form::text('title', $image->title, ['class' => 'form-control']) }}
-                                {{ $errors->first('title') }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('description', 'Описание изображения') }}
-                                {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
-                                {{ $errors->first('description') }}
-                            </div>
-                            <div class="button-group">
-                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                        <div class="col-md-12">
+                            <div class="buttons pull-right">
+                                <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
+                                    <i class="material-icons">keyboard_arrow_left</i>
+                                    Отмена
+                                </a>
+                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                             </div>
                         </div>
                     </div>
 
-                    <!-- TinyMCE image -->
-                    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+                    {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
 
-                    {{ Form::hidden('_token', csrf_token()) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {{ $image->getImage(null, ['class' => 'margin-bottom-10']) }}
+                                        <div class="form-group">
+                                            {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+                                            {{ $errors->first('image') }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            {{ Form::label('title', 'Заголовок изображения') }}
+                                            {{ Form::text('title', $image->title, ['class' => 'form-control']) }}
+                                            {{ $errors->first('title') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('description', 'Описание изображения') }}
+                                    {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
+                                    {{ $errors->first('description') }}
+                                </div>
+                            </div>
+                        </div>
 
-                {{ Form::close() }}
+                        <!-- TinyMCE image -->
+                        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+
+                        {{ Form::hidden('_token', csrf_token()) }}
+
+                    {{ Form::close() }}
+                </div>
             </div>
         </div>
     </div>

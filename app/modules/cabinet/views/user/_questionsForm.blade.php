@@ -1,56 +1,63 @@
-<div class="col-md-7">
-	<div class="form-group">
-		{{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
-		{{ Form::select('parent_id', Page::getQuestionsCategory(), $question->parent_id, ['class' => 'form-control']) }}
-		{{ $errors->first('parent_id') }}
-	</div>
-	<div class="form-group">
-		{{ Form::label('title', 'Заголовок') }}
-		{{ Form::text('title', $question->title, ['class' => 'form-control']) }}
-		{{ $errors->first('title') }}
-	</div>
+<div class="col-md-12">
+    <div class="pull-right margin-bottom-20">
+        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">Отмена</a>
+        <a href="javascript:void(0)" class="btn btn-warning btn-sm preview">Предпросмотр</a>
+        {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+    </div>
 </div>
-
-<div class="col-md-5">
-	<div class="form-group">
-		{{ Form::label('image', 'Изображение') }}<br/>
-		{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs', 'id' => 'image']) }}
-        {{ Form::hidden('image-url', $question->getImagePath() . $question->image, ['id' => 'image-name']) }}
-		{{ $errors->first('image') }}
-
-		@if($question->image)
-            <div id="page-image">
-			    {{ $question->getImage(null, ['class' => 'page-image']) }}
+<div class="col-md-4">
+    <div class="form-group">
+        @if($question->image)
+            <div id="page-image" class="margin-bottom-10">
+                {{ $question->getImage(null, ['class' => 'page-image']) }}
+                <a href="javascript:void(0)" id="delete-image" title="Удалить изображение" data-toggle="tooltip">
+                    <i class="material-icons">delete</i>
+                </a>
             </div>
-			<a href="javascript:void(0)" id="delete-image">Удалить</a>
-			@section('script')
-				@parent
+            @section('script')
+                @parent
 
-				<script type="text/javascript">
-					$('#delete-image').click(function(){
-						if(confirm('Вы уверены, что хотите удалить изображение?')) {
-							$.ajax({
-								url: '<?php echo URL::route('user.deleteImageFromPage', ['login' => $user->getLoginForUrl(), 'id' => $question->id]) ?>',
-								dataType: "text json",
-								type: "POST",
-								data: {field: 'image'},
-								beforeSend: function(request) {
-									return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-								},
-								success: function(response) {
-									if(response.success){
-										$('#site-messages').prepend(response.message);
-										$('#delete-image').css('display', 'none');
-										$('.page-image').remove();
-									}
-								}
-							});
-						}
-					});
-				</script>
-			@stop
-		@endif
-	</div>
+                <script type="text/javascript">
+                    $('#delete-image').click(function(){
+                        if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                            $.ajax({
+                                url: '<?php echo URL::route('user.deleteImageFromPage', ['login' => $user->getLoginForUrl(), 'id' => $question->id]) ?>',
+                                dataType: "text json",
+                                type: "POST",
+                                data: {field: 'image'},
+                                beforeSend: function(request) {
+                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                },
+                                success: function(response) {
+                                    if(response.success){
+                                        $('#site-messages').prepend(response.message);
+                                        $('#delete-image').css('display', 'none');
+                                        $('.page-image').remove();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                </script>
+            @stop
+        @endif
+
+        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-full btn-sm file-inputs', 'id' => 'image']) }}
+        {{ Form::hidden('image-url', $question->getImagePath() . $question->image, ['id' => 'image-name']) }}
+        {{ $errors->first('image') }}
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="form-group">
+        {{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
+        {{ Form::select('parent_id', Page::getQuestionsCategory(), $question->parent_id, ['class' => 'form-control']) }}
+        {{ $errors->first('parent_id') }}
+    </div>
+    <div class="form-group">
+        {{ Form::label('title', 'Заголовок') }}
+        {{ Form::text('title', $question->title, ['class' => 'form-control']) }}
+        {{ $errors->first('title') }}
+    </div>
 </div>
 <div class="col-md-12">
 	<div class="form-group">
@@ -61,10 +68,6 @@
 
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
-
-	<a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary">Отмена</a>
-	<a href="javascript:void(0)" class="btn btn-warning preview">Предпросмотр</a>
-	{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
 </div>
 
 @section('style')

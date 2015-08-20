@@ -65,104 +65,180 @@ View::share('title', $title);
                             Всего: <span>{{ $questions->getTotal() }}</span>.
                         </div>
                         @foreach($questions as $question)
-                            <div data-question-id="{{ $question->id }}" class="well">
+                            <div class="well item" data-question-id="{{ $question->id }}">
                                 <div class="row">
-                                    <div class="col-md-10">
-                                        @if(Auth::check())
-                                            @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
-                                                <div class="status pull-left">
-                                                    @if($question->is_published)
-                                                        <i class="material-icons mdi-success" title="Опубликован">lens</i>
-                                                    @else
-                                                        <i class="material-icons mdi-danger" title="Не опубликован">lens</i>
-                                                    @endif
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="page-info">
+                                                    <div class="date pull-left" title="Дата публикации">
+                                                        <i class="material-icons">today</i>
+                                                        <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
+                                                    </div>
+                                                    <div class="pull-right">
+                                                        <div class="views pull-left" title="Количество просмотров">
+                                                            <i class="material-icons">visibility</i>
+                                                            <span>{{ $question->views }}</span>
+                                                        </div>
+                                                        <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+                                                            <i class="material-icons">archive</i>
+                                                            <span>{{ count($question->whoSaved) }}</span>
+                                                        </div>
+                                                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                                                            <i class="material-icons">grade</i>
+                                                            <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
+                                                        </div>
+                                                        <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                                                            <i class="material-icons">local_library</i>
+                                                            <span>{{ count($question->subscribers) }}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            @endif
-                                        @endif
-                                        <h3>
-                                            @if(count($question->bestComments))
-                                                <i class="material-icons mdi-success">done</i>
-                                            @endif
-                                            <a href="{{ URL::to($question->getUrl()) }}">
-                                                {{ $question->title }}
-                                            </a>
-                                        </h3>
-                                    </div>
-                                    <div class="col-md-2">
-                                        @if(Auth::check())
-                                            @if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
-                                                <div class="buttons">
-                                                    <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">
-                                                        <i class="material-icons">delete</i>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <h3>
+                                                    <a href="{{ URL::to($question->getUrl()) }}">
+                                                        {{ $question->title }}
                                                     </a>
-                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">
-                                                        <i class="material-icons">mode-edit</i>
-                                                    </a>
-                                                </div>
-                                            @endif
-                                        @endif
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="page-info">
-                                            <div class="date pull-left" title="Дата публикации">
-                                                <i class="material-icons">today</i>
-                                                <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
+                                                </h3>
                                             </div>
-                                            <div class="pull-right">
-                                                <div class="views pull-left" title="Количество просмотров">
-                                                    <i class="material-icons">visibility</i>
-                                                    <span>{{ $question->views }}</span>
-                                                </div>
-                                                <div class="saved-count pull-left" title="Сколько пользователей сохранили">
-                                                    <i class="material-icons">archive</i>
-                                                    <span>{{ count($question->whoSaved) }}</span>
-                                                </div>
-                                                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
-                                                    <i class="material-icons">grade</i>
-                                                    <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
-                                                </div>
-                                                <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
-                                                    <i class="material-icons">local_library</i>
-                                                    <span>{{ count($question->subscribers) }}</span>
+                                            <div class="col-md-3">
+                                                <div class="row">
+                                                    <div class="col-md-6" style="padding-right: 0">
+                                                        @if(Auth::check())
+                                                            @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
+                                                                <div class="buttons pull-right">
+                                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать вопрос">
+                                                                        <i class="material-icons">mode_edit</i>
+                                                                    </a>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="answers-text">
+                                                            <span>Ответов:</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="answers-value">
+                                                            <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
+                                                                {{ count($question->publishedAnswers) }}
+                                                            </a>
+                                                            @if(count($question->bestComments))
+                                                                <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                                                    <i class="material-icons mdi-success" title="Есть решение">done</i>
+                                                                </a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="category pull-right">
-                                            <div class="text pull-left">
-                                                Категория:
+                                            <div class="col-md-9">
+                                                <div class="category">
+                                                    <div class="text pull-left">
+                                                        Категория:
+                                                    </div>
+                                                    <div class="link pull-left">
+                                                        <a href="{{ URL::to($question->parent->getUrl()) }}">
+                                                            {{ $question->parent->getTitle() }}
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="link pull-left">
-                                                <a href="{{ URL::to($question->parent->getUrl()) }}">
-                                                    {{ $question->parent->getTitle() }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        @if($question->image)
-                                            <a href="{{ URL::to($question->getUrl()) }}" class="image">
-                                                {{ $question->getImage(null, ['width' => '200px']) }}
-                                            </a>
-                                        @endif
-                                        <p>{{ $question->getIntrotext() }}</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="answers-text pull-left">
-                                            <span>Ответов:</span>
-                                        </div>
-                                        <div class="answers-value pull-left">
-                                            <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
-                                                {{ count($question->publishedAnswers) }}
-                                            </a>
-                                            @if(count($question->bestComments))
-                                                <i class="material-icons mdi-success" title="Есть решение">done</i>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
+                            {{--<div data-question-id="{{ $question->id }}" class="well">--}}
+                                {{--<div class="row">--}}
+                                    {{--<div class="col-md-10">--}}
+                                        {{--<h3>--}}
+                                            {{--<a href="{{ URL::to($question->getUrl()) }}">--}}
+                                                {{--{{ $question->title }}--}}
+                                            {{--</a>--}}
+                                            {{--@if(count($question->bestComments))--}}
+                                                {{--<i class="material-icons mdi-success">done</i>--}}
+                                            {{--@endif--}}
+                                        {{--</h3>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-md-2">--}}
+                                        {{--@if(Auth::check())--}}
+                                            {{--@if((Auth::user()->is($question->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())--}}
+                                                {{--<div class="buttons">--}}
+                                                    {{--<a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить статью">--}}
+                                                        {{--<i class="material-icons">delete</i>--}}
+                                                    {{--</a>--}}
+                                                    {{--<a href="{{ URL::route('user.questions.edit', ['login' => $user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать статью">--}}
+                                                        {{--<i class="material-icons">edit</i>--}}
+                                                    {{--</a>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                        {{--@endif--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<div class="page-info">--}}
+                                            {{--<div class="date pull-left" title="Дата публикации">--}}
+                                                {{--<i class="material-icons">today</i>--}}
+                                                {{--<span>{{ DateHelper::dateFormat($question->published_at) }}</span>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="pull-right">--}}
+                                                {{--<div class="views pull-left" title="Количество просмотров">--}}
+                                                    {{--<i class="material-icons">visibility</i>--}}
+                                                    {{--<span>{{ $question->views }}</span>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="saved-count pull-left" title="Сколько пользователей сохранили">--}}
+                                                    {{--<i class="material-icons">archive</i>--}}
+                                                    {{--<span>{{ count($question->whoSaved) }}</span>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="rating pull-left" title="Рейтинг (количество проголосовавших)">--}}
+                                                    {{--<i class="material-icons">grade</i>--}}
+                                                    {{--<span>{{ $question->getRating() }} ({{ $question->voters }})</span>--}}
+                                                {{--</div>--}}
+                                                {{--<div class="subscribers pull-left" title="Количество подписавшихся на вопрос">--}}
+                                                    {{--<i class="material-icons">local_library</i>--}}
+                                                    {{--<span>{{ count($question->subscribers) }}</span>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<div class="category pull-right">--}}
+                                            {{--<div class="text pull-left">--}}
+                                                {{--Категория:--}}
+                                            {{--</div>--}}
+                                            {{--<div class="link pull-left">--}}
+                                                {{--<a href="{{ URL::to($question->parent->getUrl()) }}">--}}
+                                                    {{--{{ $question->parent->getTitle() }}--}}
+                                                {{--</a>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="clearfix"></div>--}}
+                                        {{--@if($question->image)--}}
+                                            {{--<a href="{{ URL::to($question->getUrl()) }}" class="image">--}}
+                                                {{--{{ $question->getImage(null, ['width' => '200px']) }}--}}
+                                            {{--</a>--}}
+                                        {{--@endif--}}
+                                        {{--<p>{{ $question->getIntrotext() }}</p>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<div class="answers-text pull-left">--}}
+                                            {{--<span>Ответов:</span>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="answers-value pull-left">--}}
+                                            {{--<a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">--}}
+                                                {{--{{ count($question->publishedAnswers) }}--}}
+                                            {{--</a>--}}
+                                            {{--@if(count($question->bestComments))--}}
+                                                {{--<i class="material-icons mdi-success" title="Есть решение">done</i>--}}
+                                            {{--@endif--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                         @endforeach
 
                         {{ $questions->links() }}

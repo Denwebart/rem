@@ -22,6 +22,9 @@ a:focus {
     margin-top: 5px;
     margin-bottom: 15px;
 }
+/*h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {*/
+    /*text-decoration: underline;*/
+/*}*/
 .display-block {
     display: block;
 }
@@ -41,6 +44,9 @@ a:focus {
 .margin-left-20 {
     margin-left: 20px;
 }
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
 .margin-bottom-20 {
     margin-bottom: 20px;
 }
@@ -57,6 +63,9 @@ a:focus {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     line-height: 24px;
 }
+.btn-full {
+    width: 100%;
+}
 .btn i {
     float: left;
     margin-right: 5px;
@@ -65,7 +74,13 @@ a:focus {
     background: #03A9F4;
 }
 .buttons a {
-    margin-left: 10px;
+    margin-left: 5px;
+}
+.material-icons {
+    width: 30px;
+}
+.tooltip {
+    min-width: 120px;
 }
 
 .font-mini {
@@ -147,6 +162,12 @@ a:focus {
 .content a:not(.btn) {
     color: #1292CE;
     text-decoration: underline;
+}
+#content h1 a, .content h1 a,
+#content h2 a, .content h2 a,
+#content h3 a, .content h3 a,
+#content h4 a, .content h4 a {
+    text-decoration: none !important;
 }
 
 .blog .image {
@@ -253,18 +274,21 @@ a:focus {
 }
 #questions-area .answers-text,
 #questions-area .answers-value {
-    text-align: center;
+    text-align: right;
+    position: relative;
 }
-#questions-area .answers-value .icon {
-    font-size: 50px;
-    line-height: 35px;
-    margin-right: -10px;
-    margin-top: -10px;
+#questions-area .answers-value .material-icons {
+    font-size: 32px;
+    line-height: 40px;
+    float: right;
+    margin-right: 5px;
 }
 #questions-area .answers-value a.count {
     font-size: 24px;
     line-height: 40px;
     text-decoration: none;
+    margin: 0;
+    float: right;
 }
 #questions-area .answers-value a.count.best {
     color: #4CAF50;
@@ -740,11 +764,15 @@ a:focus {
 
 /* Аватарка пользователя */
 .profile-user-avatar {
+    width: 100%;
+    max-width: 260px;
     margin: 0 0 5px;
     display: inline-block;
     background: rgba(0, 0, 0, 0.1);
 }
 .profile-user-avatar img {
+    width: 100%;
+    max-width: 260px;
     padding: 5px;
     border: 1px solid #E6E6E6;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);

@@ -33,7 +33,7 @@
             @if(Auth::check())
                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                     <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id]) }}">
-                        <i class="material-icons">mode_edit</i>
+                        <i class="material-icons">edit</i>
                     </a>
                 @endif()
             @endif()

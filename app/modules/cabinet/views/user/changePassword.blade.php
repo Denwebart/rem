@@ -23,17 +23,15 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+                <h2>{{{ $title }}}</h2>
                 <div id="change-password" class="well">
                     {{ Form::model($user, ['method' => 'POST', 'route' => ['user.postChangePassword', $user->getLoginForUrl()], 'id' => 'change-password-form']) }}
                     <div class="row">
-                        <div class="col-lg-6">
-                            <h2>{{{ $title }}}</h2>
-                        </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="button-group without-margin">
                                 <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                     <i class="material-icons">keyboard_arrow_left</i>
-                                    Назад
+                                    Отмена
                                 </a>
                                 {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                             </div>

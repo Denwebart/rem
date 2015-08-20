@@ -60,7 +60,7 @@
                 @if(!is_null($page) && Auth::user()->isAdmin())
                     <li style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="">
-                            <i class="material-icons">mode_edit</i>
+                            <i class="material-icons">edit</i>
                             Редактировать
                         </a>
                     </li>

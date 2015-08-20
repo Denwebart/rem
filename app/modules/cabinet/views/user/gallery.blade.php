@@ -25,36 +25,85 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+                <h2>{{ $title }}</h2>
                 <div class="well">
-                    <h2>{{ $title }}</h2>
-                    <div id="list-of-images" class="row">
+                    <div id="list-of-images">
                         @foreach($images as $image)
                             <div class="item" data-image-id="{{ $image->id }}">
-                                <div class="col-md-4">
-                                    <div class="image">
-                                        <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
-                                            {{ $image->getImage() }}
-                                        </a>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="image">
+                                            <a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">
+                                                {{ $image->getImage() }}
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="image-description">
-                                        <h4>
-                                            {{ $image->title }}
-                                            @if(Auth::check())
-                                                @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
-                                                    <div class="buttons">
-                                                        <a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">
-                                                            <i class="material-icons">delete</i>
-                                                        </a>
-                                                        <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">
-                                                            <i class="material-icons">mode-edit</i>
-                                                        </a>
+                                    <div class="col-md-7">
+                                        <div class="image-description">
+                                            <div class="row">
+                                                @if(Auth::check())
+                                                    @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                                        <div class="col-md-8">
+                                                            <h4>
+                                                                {{ $image->title }}
+                                                            </h4>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="buttons pull-right">
+                                                                <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-left" title="Редактировать изображение" data-toggle="tooltip">
+                                                                    <i class="material-icons">edit</i>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="delete-photo pull-left" data-id="{{ $image->id }}" title="Удалить изображение" data-toggle="tooltip">
+                                                                    <i class="material-icons">delete</i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-12">
+                                                            <h4>
+                                                                {{ $image->title }}
+                                                            </h4>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <div class="col-md-12">
+                                                        <h4>
+                                                            {{ $image->title }}
+                                                        </h4>
                                                     </div>
                                                 @endif
-                                            @endif
-                                        </h4>
-                                        {{ $image->description }}
+                                            </div>
+
+                                            {{ $image->description }}
+                                        </div>
                                     </div>
                                 </div>
+
+                                {{--<div class="col-md-12">--}}
+                                    {{--<div class="image">--}}
+                                        {{--<a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">--}}
+                                            {{--{{ $image->getImage() }}--}}
+                                        {{--</a>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="image-description">--}}
+                                        {{--<h4>--}}
+                                            {{--{{ $image->title }}--}}
+                                            {{--@if(Auth::check())--}}
+                                                {{--@if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())--}}
+                                                    {{--<div class="buttons">--}}
+                                                        {{--<a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">--}}
+                                                            {{--<i class="material-icons">delete</i>--}}
+                                                        {{--</a>--}}
+                                                        {{--<a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">--}}
+                                                            {{--<i class="material-icons">edit</i>--}}
+                                                        {{--</a>--}}
+                                                    {{--</div>--}}
+                                                {{--@endif--}}
+                                            {{--@endif--}}
+                                        {{--</h4>--}}
+                                        {{--{{ $image->description }}--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                             </div>
                         @endforeach
                         @if(Auth::check())
@@ -90,7 +139,7 @@ View::share('title', $title);
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="form-group">
-                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
+                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm file-inputs']) }}
                                                         {{ $errors->first('image') }}
                                                     </div>
                                                     <div class="form-group">
@@ -104,7 +153,7 @@ View::share('title', $title);
                                                         {{ $errors->first('description') }}
                                                     </div>
                                                     <div class="button-group">
-                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                                                     </div>
                                                 </div>
                                             </div>

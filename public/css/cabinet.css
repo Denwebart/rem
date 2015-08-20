@@ -175,6 +175,12 @@ h2, .h2 {
     display: inline-block;
     width: 100%;
 }
+#profile .user-data-row span {
+    display: inline-block;
+}
+#profile .user-data-row .tooltip {
+    min-width: 150px;
+}
 #profile .user-data-row span i,
 #profile .user-data-row span > span {
     float: left;
@@ -189,7 +195,9 @@ h2, .h2 {
     font-size: 36px;
     line-height: 60px;
 }
-
+#delete-avatar {
+    margin-right: 5px;
+}
 
 /* Награды */
 #profile .honor {
@@ -205,4 +213,39 @@ h2, .h2 {
     position: absolute;
     top: -20px;
     right: -10px;
+}
+
+/*-- Gallery ("Мой автомобиль") --*/
+#list-of-images .item {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+#list-of-images .item:last-child {
+    border-bottom: none;
+}
+#list-of-images .item p {
+    margin: 0;
+}
+#list-of-images h4 {
+    margin-top: 0;
+}
+
+/*-- Редактирование страницы (статьи, вопроса) --*/
+#page-image {
+    position: relative;
+}
+#page-image #delete-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#tags-area .tag .btn {
+    text-transform: none;
+    line-height: 20px;
+    padding: 4px 10px;
+}
+#tags-area .tag .material-icons {
+    font-size: 20px;
 }

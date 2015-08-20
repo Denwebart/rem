@@ -26,14 +26,18 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12 content">
-                <h2>{{ $title }}</h2>
-
-                <div class="row">
-                    {{ Form::model($question, ['method' => 'POST', 'route' => ['user.questions.store', 'login' => $user->getLoginForUrl()], 'id' => 'questionForm', 'files' => true]) }}
-                    @include('cabinet::user._questionsForm')
-                    {{ Form::hidden('_token', csrf_token()) }}
-                    {{ Form::close() }}
+                <div id="form-area">
+                    <h2>{{ $title }}</h2>
+                    <div class="well">
+                        <div class="row">
+                            {{ Form::model($question, ['method' => 'POST', 'route' => ['user.questions.store', 'login' => $user->getLoginForUrl()], 'id' => 'questionForm', 'files' => true]) }}
+                            @include('cabinet::user._questionsForm')
+                            {{ Form::hidden('_token', csrf_token()) }}
+                            {{ Form::close() }}
+                        </div>
+                    </div>
                 </div>
+                <div id="preview" style="display: none"></div>
             </div>
         </div>
     </div>

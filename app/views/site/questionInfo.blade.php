@@ -49,28 +49,39 @@
                     </a>
                 </h3>
             </div>
-            <div class="col-md-1">
-                @if(Auth::check())
-                    @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
-                        <div class="buttons pull-right">
-                            <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
-                                <i class="material-icons">mode_edit</i>
-                            </a>
+            {{--<div class="col-md-1">--}}
+                {{----}}
+            {{--</div>--}}
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        @if(Auth::check())
+                            @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
+                                <div class="buttons pull-right">
+                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+                    <div class="col-md-8">
+                        <div class="answers-text">
+                            <span>Ответов:</span>
                         </div>
-                    @endif
-                @endif
-            </div>
-            <div class="col-md-2">
-                <div class="answers-text">
-                    <span>Ответов:</span>
-                </div>
-                <div class="answers-value">
-                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
-                        {{ count($question->publishedAnswers) }}
-                    </a>
-                    @if(count($question->bestComments))
-                        <i class="material-icons mdi-success" title="Есть решение" style="font-size: 26px">done</i>
-                    @endif
+                    </div>
+                    <div class="col-md-12">
+                        <div class="answers-value">
+                            <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
+                                {{ count($question->publishedAnswers) }}
+                            </a>
+                            @if(count($question->bestComments))
+                                <a href="{{ URL::to($question->getUrl()) }}#answers">
+                                    <i class="material-icons mdi-success" title="Есть решение">done</i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-9">
