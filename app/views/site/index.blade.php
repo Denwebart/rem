@@ -33,7 +33,7 @@
 
 		{{ $areaWidget->contentMiddle() }}
 
-		<section id="blog-area" class="blog">
+		<section id="blog-area" class="blog margin-top-10">
             <div class="count">
                 Показано: <span>{{ $articles->count() }}</span>.
                 Всего: <span>{{ $articles->getTotal() }}</span>.

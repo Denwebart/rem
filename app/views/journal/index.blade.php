@@ -46,7 +46,7 @@
         @endif
 
         @if(count($page->publishedChildren))
-            <section id="articles-area" class="blog">
+            <section id="articles-area" class="blog margin-top-10">
                 <div class="count">
                     Показано статей: <span>{{ $articles->count() }}</span>.
                     Всего: <span>{{ $articles->getTotal() }}</span>.

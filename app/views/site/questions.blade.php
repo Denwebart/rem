@@ -45,8 +45,8 @@
         @endif
 
         @if(count($page->publishedChildren))
-            <section id="questions-area" class="blog">
-                <div class="count">
+            <section id="questions-area" class="blog margin-top-10">
+                <div class="count margin-bottom-20">
                     Показано: <span>{{ $questions->count() }}</span>.
                     Всего: <span>{{ $questions->getTotal() }}</span>.
                 </div>

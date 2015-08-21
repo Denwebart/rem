@@ -38,7 +38,7 @@
                 @endforeach
             </section>
 
-            <section id="tags-area" class="blog">
+            <section id="tags-area" class="blog margin-top-10">
                 <div class="count">
                     Всего тегов: <span>{{ count($tagsByAlphabet) }}</span>.
                 </div>

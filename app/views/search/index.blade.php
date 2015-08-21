@@ -28,7 +28,7 @@ View::share('title', $title);
             {{--<hr/>--}}
 
             @if(count($results))
-                <section id="search-area" class="blog">
+                <section id="search-area" class="blog margin-top-10">
                     <div class="count">
                         Показано результатов: <span>{{ $results->count() }}</span>.
                         Всего: <span>{{ $results->getTotal() }}</span>.

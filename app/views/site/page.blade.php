@@ -94,7 +94,7 @@
 		{{ $areaWidget->contentMiddle() }}
 
 		@if(count($children))
-			<section id="blog-area" class="blog">
+			<section id="blog-area" class="blog margin-top-10">
                 <div class="count">
                     Показано: <span>{{ $children->count() }}</span>.
                     Всего: <span>{{ $children->getTotal() }}</span>.
