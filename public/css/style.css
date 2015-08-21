@@ -77,7 +77,7 @@ a:focus {
     margin-left: 5px;
 }
 .material-icons {
-    width: 30px;
+    max-width: 30px;
 }
 .tooltip {
     min-width: 120px;
