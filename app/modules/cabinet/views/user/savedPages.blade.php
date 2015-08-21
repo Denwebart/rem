@@ -32,7 +32,7 @@ View::share('title', $title);
                     <div class="col-md-4">
                         @if(Auth::user()->is($user))
                             @if(count($pages))
-                                <a href="javascript:void(0)" class="btn btn-primary pull-right" id="remove-all-pages" title="Удалить все сохраненные страницы" data-toggle="tooltip">
+                                <a href="javascript:void(0)" class="btn btn-primary btn-sm pull-right" id="remove-all-pages" title="Удалить все сохраненные страницы" data-toggle="tooltip">
                                     Удалить все
                                 </a>
                             @endif
@@ -52,7 +52,11 @@ View::share('title', $title);
                                 @if($page->page)
                                     <div data-page-id="{{ $page->page->id }}" class="well">
                                         <div class="row">
-                                            @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                                            @if(Page::TYPE_QUESTION == $page->page->type)
+                                                @include('cabinet::user.questionInfo', ['page' => $page->page, 'item' => $page])
+                                            @else
+                                                @include('cabinet::user.pageInfo', ['page' => $page->page, 'item' => $page])
+                                            @endif
                                         </div>
                                     </div>
                                 @else

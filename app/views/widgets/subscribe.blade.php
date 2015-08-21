@@ -13,17 +13,14 @@
                         <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="subscribe" class="btn btn-primary btn-sm">
                             <span class="text-link">{{ $subscribeButtonTitle }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-primary btn-sm subscribers">
-                            {{ count($subscriptionObject->subscribers) }}
-                        </a>
                     @else
                         <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="unsubscribe" class="btn btn-primary btn-sm">
                             <span class="text-link">{{ $unsubscribeButtonTitle }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-primary btn-sm subscribers">
-                            {{ count($subscriptionObject->subscribers) }}
-                        </a>
                     @endif
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm subscribers" title="Количество подписчиков" data-toggle="tooltip">
+                        {{ count($subscriptionObject->subscribers) }}
+                    </a>
                 </div>
             @endif
         </div>

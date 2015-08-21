@@ -169,32 +169,41 @@ h2, .h2 {
 #profile h2 {
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
-#profile .user-data-row {
+#profile #honors {
+    margin-top: 10px;
+}
+.user-data-row {
     line-height: 24px;
     clear: both;
     display: inline-block;
     width: 100%;
+    margin-bottom: 10px;
 }
-#profile .user-data-row span {
+.user-data-row span,
+.user-data-row .text {
     display: inline-block;
 }
-#profile .user-data-row .tooltip {
+.user-data-row .tooltip {
     min-width: 150px;
 }
-#profile .user-data-row span i,
-#profile .user-data-row span > span {
+.user-data-row span i,
+.user-data-row span > span,
+.user-data-row i,
+.user-data-row .text {
     float: left;
 }
-#profile .user-data-row span i {
+.user-data-row span i {
     margin-right: 5px;
 }
+
 /* Баллы */
-#profile .points .count {
+.points .count {
     margin-left: 10px;
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 36px;
     line-height: 60px;
 }
+
 #delete-avatar {
     margin-right: 5px;
 }
@@ -248,4 +257,46 @@ h2, .h2 {
 }
 #tags-area .tag .material-icons {
     font-size: 20px;
+}
+
+/*-- Бортовой журнал --*/
+#subscription {
+    float: right;
+}
+#subscription .btn-group {
+    margin: 0;
+}
+
+/*-- Подписки --*/
+#subscriptions-area .user {
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+#subscriptions-area h3 {
+    margin-top: 0;
+}
+.subscription-notifications {
+    margin-top: 15px;
+}
+.subscription-notifications .date {
+    font-size: 12px;
+    font-style: italic;
+    margin-right: 20px;
+}
+.subscription-notifications .date i.material-icons {
+    font-size: 10px;
+}
+.subscription-notifications .alert-info {
+    background: rgb(242, 242, 242) none repeat scroll 0% 0%;
+    color: rgb(51, 51, 51);
+    border-bottom: 2px solid rgb(3, 169, 244);
+    padding: 10px 35px 10px 10px;
+}
+.subscription-notifications .alert-info .close {
+    color: #03A9F4;
+    opacity: 0.5;
+}
+.subscription-notifications .alert-info .close:hover {
+    opacity: 1;
 }

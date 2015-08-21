@@ -1,15 +1,18 @@
 <div class="col-md-10">
-    <h3>
-        @if(count($page->bestComments))
-            <i class="material-icons mdi-success">done</i>
-        @endif
-        <a href="{{ URL::to($page->getUrl()) }}">
-            {{ $page->title }}
-        </a>
-    </h3>
+    @if('user.savedPages' == Route::currentRouteName())
+        <div class="date date-saved">
+            <span class="text">Сохранено</span>
+            <span class="date">{{ DateHelper::dateFormat($item->created_at) }}</span>
+        </div>
+    @elseif('user.subscriptions' == Route::currentRouteName())
+        <div class="date date-saved">
+            <span class="text">Подписка оформлена</span>
+            <span class="date">{{ DateHelper::dateFormat($item->created_at) }}</span>
+        </div>
+    @endif
 </div>
 <div class="col-md-2">
-    <div class="buttons">
+    <div class="buttons without-margin">
         @if(Auth::user()->is($user))
             @if('user.savedPages' == Route::currentRouteName())
                 <a href="javascript:void(0)" class="pull-right remove-page" data-id="{{ $page->id }}" title="Убрать статью из сохраненного" data-toggle="tooltip" data-placement="top">
@@ -24,17 +27,14 @@
     </div>
 </div>
 <div class="col-md-12">
-    @if('user.savedPages' == Route::currentRouteName())
-        <div class="date date-saved">
-            <span class="text">Сохранено</span>
-            <span class="date">{{ DateHelper::dateFormat($item->created_at) }}</span>
-        </div>
-    @elseif('user.subscriptions' == Route::currentRouteName())
-        <div class="date date-saved">
-            <span class="text">Подписка оформлена</span>
-            <span class="date">{{ DateHelper::dateFormat($item->created_at) }}</span>
-        </div>
-    @endif
+    <h3>
+        @if(count($page->bestComments))
+            <i class="material-icons mdi-success">done</i>
+        @endif
+        <a href="{{ URL::to($page->getUrl()) }}">
+            {{ $page->title }}
+        </a>
+    </h3>
 </div>
 <div class="col-md-12">
     <div class="page-info">

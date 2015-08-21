@@ -32,6 +32,9 @@ a:focus {
     display: inline-block;
 }
 /* Отступы */
+.without-margin {
+    margin: 0 !important;
+}
 .margin-top-10 {
     margin-top: 10px;
 }
@@ -55,9 +58,6 @@ a:focus {
     display: inline-block;
     float: right;
     margin: 23px 0 0;
-}
-.button-group.without-margin {
-    margin: 0;
 }
 .btn {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -157,6 +157,23 @@ a:focus {
 .content {
     font-size: 16px;
 }
+#content,
+.content {
+    text-align: justify;
+}
+#content h2, .content h2,
+#content h3, .content h3,
+#content h4, .content h4,
+#content h5, .content h5 {
+    text-align: left;
+}
+.content .fancybox {
+    float: left;
+}
+.content .fancybox img:first-child {
+    margin: 5px 10px 0 0;
+}
+
 /* links */
 #content a:not(.btn),
 .content a:not(.btn) {
@@ -171,7 +188,14 @@ a:focus {
 }
 
 .blog .image {
-    margin: 5px 10px 5px 0;
+    float: left;
+    margin: 10px 10px 5px 0;
+}
+.blog img {
+    margin: 5px;
+}
+.blog .avatar-link img {
+    margin: 0;
 }
 .blog .category {
     line-height: 24px;
@@ -198,34 +222,36 @@ a:focus {
     float: left;
 }
 .page-info div {
-    margin-right: 10px;
+    margin-left: 10px;
 }
-.page-info div:last-child {
-    margin-right: 0;
+.page-info div:first-child {
+    margin-left: 0;
+}
+.page-info .user {
+    margin: 0 !important;
 }
 .page-info .user a {
     display: inline-block;
 }
 .page-info .user a span {
-    padding-left: 2px;
     line-height: 24px;
+}
+.page-info .user img {
+    margin: 0 5px 0 0;
 }
 .page-info .date span {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
     font-style: italic;
 }
 .page-info .views span {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
 }
 .page-info .comments-count a,
 .page-info .answers-count a {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
 }
 .page-info #saved-pages a {
     float: left;
@@ -238,63 +264,56 @@ a:focus {
 .page-info #saved-pages .whoSaved {
     float: left;
     line-height: 24px;
-    padding-left: 5px;
 }
 .page-info .saved-count span {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
 }
 .page-info .rating span {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
 }
 .page-info .subscribers span {
     float: left;
     line-height: 24px;
-    padding-left: 2px;
 }
 
 /* Questions Area, Articles Area */
-#questions-area .user,
-#articles-area .user {
+.blog .user {
     text-align: center;
 }
-#questions-area .user a,
-#articles-area .user a {
+.blog .user a {
     display: inline-block;
 }
-#questions-area .page-info,
-#articles-area .page-info {
-    padding: 4px 10px 5px;
+.blog .page-info {
+    height: 30px;
 }
-#questions-area .answers-text {
+.blog .answers-text {
     margin-top: 7px;
 }
-#questions-area .answers-text,
-#questions-area .answers-value {
+.blog .answers-text,
+.blog .answers-value {
     text-align: right;
     position: relative;
 }
-#questions-area .answers-value .material-icons {
+.blog .answers-value .material-icons {
     font-size: 32px;
     line-height: 40px;
     float: right;
     margin-right: 5px;
 }
-#questions-area .answers-value a.count {
+.blog .answers-value a.count {
     font-size: 24px;
     line-height: 40px;
-    text-decoration: none;
+    text-decoration: none !important;
     margin: 0;
     float: right;
 }
-#questions-area .answers-value a.count.best {
-    color: #4CAF50;
+.blog .answers-value a.count.best {
+    color: #4CAF50 !important;
 }
-#questions-area .col-md-12 .answers-text,
-#questions-area .col-md-12 .answers-value {
+.blog .col-md-12 .answers-text,
+.blog .col-md-12 .answers-value {
     line-height: 40px;
     margin: 0 7px 0 0;
 }
@@ -310,19 +329,16 @@ a:focus {
 }
 
 /* кнопки редактирования для авторизованных пользователей */
-#questions-area .buttons,
-#articles-area .buttons {
+.blog .buttons {
     width: 100%;
     text-align: center;
     height: 24px;
     margin-top: 5px;
 }
-#questions-area .buttons a,
-#articles-area .buttons a {
+.blog .buttons a {
     margin-left: 5px;
 }
-#questions-area .status,
-#articles-area .status {
+.blog .status {
     float: left;
     margin: 4px 5px 10px -10px;
 }
@@ -430,11 +446,9 @@ a:focus {
     color: #555555;
     margin: 0 0 5px;
 }
-.blog .image {
-    float: left;
-}
-#blog-area .image {
-    width: 45%;
+
+.read-more {
+    margin-top: 10px;
 }
 .read-more .material-icons {
     float: right;
@@ -631,6 +645,12 @@ a:focus {
 .area .advertising-body h4 {
     margin-bottom: 15px;
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+#content .advertising {
+    margin: 5px 0 10px 0;
+}
+#content .content .advertising {
+    margin: 5px 0;
 }
 
 /* Search Widget */

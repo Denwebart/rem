@@ -87,27 +87,27 @@ View::share('title', $title);
                             <div class="row">
                                 @if($user->isAdmin() || $user->isModerator())
                                     <div class="col-md-4">
-                                        <p class="user-data-row role">
+                                        <div class="user-data-row role">
                                             <span title="Права" data-toggle="tooltip" data-placement="right">
                                                 <i class="material-icons">perm_identity</i>
                                                 <span>
                                                     {{ User::$roles[$user->role] }}
                                                 </span>
                                             </span>
-                                        </p>
+                                        </div>
                                     </div>
                                 @endif
                                 @if(Auth::check())
                                     @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
                                         <div class="col-md-4">
-                                            <p class="user-data-row email">
+                                            <div class="user-data-row email">
                                                 <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
                                                     <i class="material-icons">email</i>
                                                     <span>
                                                         {{{ $user->email }}}
                                                     </span>
                                                 </span>
-                                            </p>
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
@@ -115,17 +115,17 @@ View::share('title', $title);
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <p class="user-data-row date date-register">
+                                    <div class="user-data-row date date-register">
                                         <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
                                             <i class="material-icons pull-left">today</i>
                                             <span>
                                                 {{{ DateHelper::dateFormat($user->created_at) }}}
                                             </span>
                                         </span>
-                                    </p>
+                                    </div>
 
                                     @if($user->country || $user->city)
-                                        <p class="user-data-row location">
+                                        <div class="user-data-row location">
                                             <span title="Местоположение" data-toggle="tooltip" data-placement="right">
                                                 <i class="material-icons">place</i>
                                                 <span>
@@ -141,30 +141,30 @@ View::share('title', $title);
                                                     @endif
                                                 </span>
                                             </span>
-                                        </p>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="col-md-4">
                                     @if($user->car_brand)
-                                        <p class="user-data-row car-brand">
-                                    <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
-                                        <i class="material-icons">directions_car</i>
-                                        <span>
-                                            {{{ $user->car_brand }}}
-                                        </span>
-                                    </span>
-                                        </p>
+                                        <div class="user-data-row car-brand">
+                                            <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
+                                                <i class="material-icons">directions_car</i>
+                                                <span>
+                                                    {{{ $user->car_brand }}}
+                                                </span>
+                                            </span>
+                                        </div>
                                     @endif
 
                                     @if($user->profession)
-                                        <p class="user-data-row profession">
-                                    <span title="Профессия" data-toggle="tooltip" data-placement="right">
-                                        <i class="material-icons">school</i>
-                                        <span>
-                                            {{{ $user->profession }}}
-                                        </span>
-                                    </span>
-                                        </p>
+                                        <div class="user-data-row profession">
+                                            <span title="Профессия" data-toggle="tooltip" data-placement="right">
+                                                <i class="material-icons">school</i>
+                                                <span>
+                                                    {{{ $user->profession }}}
+                                                </span>
+                                            </span>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="col-md-4">
@@ -179,7 +179,7 @@ View::share('title', $title);
                         </div>
                         <div class="col-md-12">
                             @if($user->description)
-                                <p>{{ $user->description }}</p>
+                                {{ $user->description }}
                             @endif
                         </div>
                         <div class="col-md-12">

@@ -33,50 +33,68 @@
                 </h2>
 
                 <div class="content row journal-user-info">
-                    <div class="col-md-6">
-                        <ul class="info">
-                            <li>
+                    <div class="col-md-4">
+                        <div class="user-data-row">
+                            <i class="material-icons">chrome_reader_mode</i>
+                            <div class="text">
                                 Статей:
                                 <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                                     {{ count($user->publishedArticles) }}
                                 </a>
-                            </li>
-                            <li>
-                                Вопросов:
-                                <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ count($user->publishedQuestions) }}
-                                </a>
-                            </li>
-                            <li>
+                            </div>
+                        </div>
+                        <div class="user-data-row">
+                            <div>
+                                <i class="material-icons">help</i>
+                                <div class="text">
+                                    Вопросов:
+                                    <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                        {{ count($user->publishedQuestions) }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="user-data-row">
+                            <i class="material-icons">question_answer</i>
+                            <div class="text">
                                 Ответов:
                                 <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
                                     {{ count($user->publishedAnswers) }}
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                        </div>
+                        <div class="user-data-row">
+                            <i class="material-icons">chat_bubble</i>
+                            <div class="text">
                                 Комментариев:
                                 <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                                     {{ count($user->publishedComments) }}
                                 </a>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <!-- Подписка на журнал пользователя ("Подписки") -->
-                        @if(Auth::check())
-                            @if(!Auth::user()->is($user))
-                                @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
-                            @endif
-                        @endif
-
+                    <div class="col-md-4">
                         <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
                             {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
-                            <span class="count pull-left">
+                            <span class="count pull-left" style="line-height: 40px">
                                 {{ $user->points }}
                             </span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Подписка на журнал пользователя ("Подписки") -->
+                @if(Auth::check())
+                    @if(!Auth::user()->is($user))
+                        <div class="row">
+                            <div class="col-md-12">
+                                @include('widgets.subscribe', ['subscriptionObject' => $user, 'subscriptionField' => Subscription::FIELD_JOURNAL_ID])
+                            </div>
+                        </div>
+                    @endif
+                @endif
 
                 @if(Auth::check())
                     @if(Auth::user()->is($user))
@@ -123,17 +141,6 @@
                             <div data-article-id="{{ $article->id }}" class="well">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        @if(Auth::check())
-                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
-                                                <div class="status pull-left">
-                                                    @if($article->is_published)
-                                                        <i class="material-icons mdi-success" title="Опубликована" data-toggle="tooltip" data-placement="top">lens</i>
-                                                    @else
-                                                        <i class="material-icons mdi-danger" title="Не опубликована" data-toggle="tooltip" data-placement="top">lens</i>
-                                                    @endif
-                                                </div>
-                                            @endif
-                                        @endif
                                         <h3>
                                             <a href="{{ URL::to($article->getUrl()) }}">
                                                 {{ $article->title }}
