@@ -1,6 +1,9 @@
 <div class="col-md-12">
     <div class="pull-right margin-bottom-20">
-        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">Отмена</a>
+        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
+            <i class="material-icons">keyboard_arrow_left</i>
+            Отмена
+        </a>
         <a href="javascript:void(0)" class="btn btn-warning btn-sm preview">Предпросмотр</a>
         {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
     </div>

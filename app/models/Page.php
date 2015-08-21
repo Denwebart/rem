@@ -506,6 +506,8 @@ class Page extends \Eloquent
 				$watermark = 'images/watermark-500.png';
 			} elseif($image->width() > 1000) {
 				$watermark = 'images/watermark-1000.png';
+			} elseif($image->width() > 1200) {
+				$watermark = 'images/watermark-1000.png';
 			} elseif($image->width() > 1500) {
 				$watermark = 'images/watermark-1500.png';
 			} else {
