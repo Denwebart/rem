@@ -30,19 +30,12 @@ class ImageUploadController extends BaseController
 			$image = Image::make($file->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
-			if($image->width() < 300) {
-				$watermark = 'images/watermark-300.png';
-			} elseif($image->width() < 500) {
-				$watermark = 'images/watermark-500.png';
-			} elseif($image->width() > 1000) {
-				$watermark = 'images/watermark-1000.png';
-			} elseif($image->width() > 1500) {
-				$watermark = 'images/watermark-1500.png';
-			} else {
-				$watermark = 'images/watermark.png';
-			}
+			$watermark = Image::make(public_path('images/watermark.png'));
+			$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'watermark.png');
 
-			$image->insert(public_path($watermark), 'center')
+			$image->insert($imagePath . 'watermark.png', 'center')
 				->save($imagePath . $fileName);
 
 			$imageUrl = URL::to(urldecode($path) . $fileName);

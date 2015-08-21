@@ -500,29 +500,20 @@ class Page extends \Eloquent
 			// delete old image
 			$this->deleteImage();
 
-			if($image->width() < 300) {
-				$watermark = 'images/watermark-300.png';
-			} elseif($image->width() < 500) {
-				$watermark = 'images/watermark-500.png';
-			} elseif($image->width() > 1000) {
-				$watermark = 'images/watermark-1000.png';
-			} elseif($image->width() > 1200) {
-				$watermark = 'images/watermark-1000.png';
-			} elseif($image->width() > 1500) {
-				$watermark = 'images/watermark-1500.png';
-			} else {
-				$watermark = 'images/watermark.png';
-			}
+			$watermark = Image::make(public_path('images/watermark.png'));
+			$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'watermark.png');
 
 			if($image->width() > 225) {
-				$image->insert(public_path($watermark), 'center')
+				$image->insert($imagePath . 'watermark.png', 'center')
 					->save($imagePath . 'origin_' . $fileName)
 					->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);
 			} else {
-				$image->insert(public_path($watermark))
+				$image->insert($imagePath . 'watermark.png', 'center')
 					->save($imagePath . $fileName);
 			}
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
@@ -531,6 +522,10 @@ class Page extends \Eloquent
 				->resize(50, null, function ($constraint) {
 					$constraint->aspectRatio();
 				})->save($imagePath . 'mini_' . $fileName);
+
+			if(File::exists($imagePath . 'watermark.png')) {
+				File::delete($imagePath . 'watermark.png');
+			}
 
 			return $fileName;
 		} else {
