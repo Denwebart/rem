@@ -50,7 +50,7 @@ class AdminNotificationsMessagesController extends \BaseController {
 	{
 		$notificationMessage = NotificationMessage::findOrFail($id);
 
-		$validator = Validator::make($data = Input::all(), NotificationMessage::rules($notificationMessage->id));
+		$validator = Validator::make($data = Input::all(), NotificationMessage::$rules);
 
 		if ($validator->fails())
 		{

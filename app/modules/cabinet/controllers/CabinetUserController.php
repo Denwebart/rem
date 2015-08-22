@@ -1258,7 +1258,7 @@ class CabinetUserController extends \BaseController
 			->with('user')
 			->orderBy('created_at', 'DESC')
 			->orderBy('id', 'DESC')
-			->paginate(20);
+			->paginate(10);
 
 		View::share('user', $user);
 

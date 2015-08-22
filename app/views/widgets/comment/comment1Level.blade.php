@@ -2,7 +2,7 @@
     require_once base_path() . '/vendor/autoload.php';
     use Anhskohbo\NoCaptcha\NoCaptcha;*/
 ?>
-<div id="comment-{{ $comment->id }}">
+<div id="comment-{{ $comment->id }}" class="comment">
     <a href="javascript:void(0)" class="pull-left close-comment">-</a>
     @if($comment->user)
         <a class="pull-left avatar-link" href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">

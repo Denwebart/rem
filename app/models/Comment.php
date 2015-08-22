@@ -136,4 +136,11 @@ class Comment extends \Eloquent
 	{
 		return ($this->page) ? URL::to($this->page->getUrl() . '#comment-' . $this->id) : '';
 	}
+
+	public function isEditable()
+	{
+		return ($this->created_at < \Carbon\Carbon::now()->subHours(1))
+			? false
+			: true;
+	}
 }

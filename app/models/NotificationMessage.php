@@ -16,15 +16,16 @@ class NotificationMessage extends \Eloquent
 	protected $table = 'notifications_messages';
 
 	public $incrementing = false;
+	public $timestamps = false;
 
 	protected $fillable = [
-		'messages',
+		'message',
 		'description',
 	];
 
 	public static $rules = [
-		'messages' => 'required|max:1000',
-		'description' => 'required|max:500',
+		'message' => 'required|max:1000',
+		'description' => 'max:500',
 	];
 
 

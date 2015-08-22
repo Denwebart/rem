@@ -15,7 +15,6 @@
                 <a href="javascript:void(0)" class="vote-like">
                     <i class="material-icons">arrow_drop_up</i>
                 </a>
-                <div class="vote-message"></div>
             @endif
         @endif
     @endif

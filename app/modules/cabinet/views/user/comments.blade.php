@@ -47,9 +47,29 @@ View::share('title', $title);
 
                         @foreach($comments as $comment)
 
-                            <div data-comment-id="{{ $comment->id }}" class="well">
+                            <div data-comment-id="{{ $comment->id }}" class="well comment">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
+                                        <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
+                                            <span class="text">Комментарий оставлен</span>
+                                            <span class="date">{{ DateHelper::dateFormat($comment->created_at) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @if(Auth::check())
+                                            @if((Auth::user()->is($comment->user) && !IP::isBanned() && !Auth::user()->is_banned && $comment->isEditable()) || Auth::user()->isAdmin())
+                                                <div class="buttons pull-right">
+                                                    <a href="javascript:void(0)" class="pull-right delete-comment" data-id="{{ $comment->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
+                                                        <i class="material-icons">delete</i>
+                                                    </a>
+                                                    <a href="{{ URL::route('user.comments.edit', ['login' => $comment->user->getLoginForUrl(),'id' => $comment->id]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
+                                                        <i class="material-icons">mode_edit</i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    </div>
+                                    <div class="col-md-10">
                                         <h3>
                                             @if($comment->page)
                                                 <a href="{{ URL::to($comment->getUrl()) }}">
@@ -58,35 +78,24 @@ View::share('title', $title);
                                             @else
                                                 страница удалена
                                             @endif
-                                            <div class="pull-right">
-                                                @if(Auth::check())
-                                                    @if((Auth::user()->is($comment->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned) || Auth::user()->isAdmin())
-                                                        <div class="buttons pull-left">
-                                                            <div class="status">
-                                                                Статус:
-                                                                {{ ($comment->is_published) ? 'Опубликован' : 'Ожидает модерации' }}
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
                                         </h3>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="date pull-left" title="Дата публикации">
-                                            <i class="material-icons">today</i>
-                                            {{ DateHelper::dateFormat($comment->created_at) }}
+                                        <div class="comment-text">
+                                            {{ $comment->comment }}
                                         </div>
-                                        <div class="pull-right">
-                                            <div class="rating pull-left" title="Оценка комментария">
-                                                <i class="material-icons">thumbs_up_down</i>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="vote" title="Оценка комментария" date-toggle="tooltip">
+                                            <div class="vote-dislike">
+                                                <i class="material-icons">arrow_drop_up</i>
+                                            </div>
+                                            <span class="vote-result">
                                                 {{ $comment->votes_like - $comment->votes_dislike }}
+                                            </span>
+                                            <div class="vote-dislike">
+                                                <i class="material-icons">arrow_drop_down</i>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        {{ $comment->comment }}
                                     </div>
 
                                     <div class="col-md-12">
@@ -96,40 +105,6 @@ View::share('title', $title);
                                                 <a href="{{ URL::to($comment->getUrl()) }}">
                                                     {{ count($comment->publishedChildren) }}
                                                 </a>
-                                            </div>
-                                        @else
-                                            <div class="parent-comment">
-                                                @if(!$comment->parent->is_answer)
-                                                    Ответ на комментарий:
-                                                @else
-                                                    Комментарий к ответу:
-                                                @endif
-                                                <div class="comment">
-                                                    <div class="date pull-left" title="Дата публикации">
-                                                        <i class="material-icons">today</i>
-                                                        {{ DateHelper::dateFormat($comment->parent->created_at) }}
-                                                    </div>
-                                                    <div class="user pull-left" title="@if(!$comment->parent->is_answer) Автор комментария @else Автор ответа @endif">
-                                                        @if($comment->parent->user)
-                                                            <a href="{{ URL::route('user.profile', ['login' => $comment->parent->user->getLoginForUrl() ]) }}" class="author">
-                                                                {{ $comment->parent->user->getAvatar('mini', ['width' => '25px']) }}
-                                                                {{ $comment->parent->user->login }}
-                                                            </a>
-                                                        @else
-                                                            <a href="javascript:void(0)" class="author">
-                                                                {{ (new User)->getAvatar('mini', ['width' => '25px']) }}
-                                                                {{ $comment->parent->user_name }}
-                                                            </a>
-                                                        @endif
-                                                    </div>
-                                                    @if($comment->page)
-                                                        <a href="{{ URL::to($comment->page->getUrl()) }}#comment-{{ $comment->parent->id }}">
-                                                            {{ $comment->parent->comment }}
-                                                        </a>
-                                                    @else
-                                                        {{ $comment->parent->comment }}
-                                                    @endif
-                                                </div>
                                             </div>
                                         @endif
                                     </div>

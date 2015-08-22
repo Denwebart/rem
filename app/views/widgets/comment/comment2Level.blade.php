@@ -1,4 +1,4 @@
-<div id="comment-{{ $commentLevel2->id }}" >
+<div id="comment-{{ $commentLevel2->id }}" class="comment">
     @if($commentLevel2->user)
         <a class="pull-left avatar-link" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
             {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}

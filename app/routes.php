@@ -93,6 +93,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
 	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@markMessageAsRead']);
 	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@addMessage']);
+	Route::get('{login}/comments/{id}/edit', ['as' => 'user.comments.edit', 'uses' => 'CabinetUserController@editComment']);
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@savePage']);
 	Route::post('{login}/removePage', ['as' => 'user.removePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@removePage']);

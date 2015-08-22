@@ -32,7 +32,7 @@ View::share('title', $title);
                     <div class="col-md-4">
                         @if(Auth::user()->is($user))
                             @if(count($notifications))
-                                <a href="javascript:void(0)" class="btn btn-primary pull-right" id="delete-all-notifications" title="Удалить все уведомления" data-toggle="tooltip">
+                                <a href="javascript:void(0)" class="btn btn-primary btn-sm pull-right" id="delete-all-notifications" title="Удалить все уведомления" data-toggle="tooltip">
                                     Удалить все
                                 </a>
                             @endif

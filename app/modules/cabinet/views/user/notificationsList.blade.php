@@ -23,9 +23,9 @@
                                 </div>
                             </div>
                             <div class="col-md-11">
-                                <h3>
+                                <p class="text">
                                     {{ $notification->message }}
-                                </h3>
+                                </p>
                             </div>
                         </div>
                     </div>
