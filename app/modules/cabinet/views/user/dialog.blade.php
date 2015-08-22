@@ -34,14 +34,14 @@ View::share('title', $title);
                     @endif
                 </h2>
 
-                @if(isset($messages))
-                    <div id="messages-area" class="blog">
-                        <div class="count">
-                            Показано сообщений: <span>{{ $messages->count() }}</span>.
-                            Всего: <span>{{ $messages->getTotal() }}</span>.
-                        </div>
-                        {{ $messages->links() }}
-                        <div class="scroll">
+                <div id="messages-area" class="blog">
+                    <div class="count">
+                        Показано сообщений: <span>{{ $messages->count() }}</span>.
+{{--                            Всего: <span>{{ $messages->getTotal() }}</span>.--}}
+                    </div>
+{{--                        {{ $messages->links() }}--}}
+                    <div class="scroll">
+                        @if(count($messages))
                             @foreach($messages->reverse() as $message)
                                 <div class="row item">
                                     <div class="col-md-2">
@@ -97,10 +97,12 @@ View::share('title', $title);
                                     </div>
                                 </div>
                             @endforeach
-                        </div>
+                        @else
+                            <p>Сообщений нет.</p>
+                        @endif
                     </div>
-                    {{--{{ $messages->links() }}--}}
-                @endif
+                </div>
+                {{--{{ $messages->links() }}--}}
 
                 {{--Отправка нового сообщения--}}
                 @if(Auth::user()->is($user))
@@ -126,7 +128,7 @@ View::share('title', $title);
 
                                     {{ Form::hidden('_token', csrf_token()) }}
 
-                                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary btn-sm pull-right']) }}
 
                                 {{ Form::close() }}
 
@@ -167,17 +169,17 @@ View::share('title', $title);
     </script>
 
     <!-- Scroll -->
-    {{ HTML::script('js/jquery.waypoints.min.js') }}
-    {{ HTML::script('js/infinite.min.js') }}
-    <script type="text/javascript">
-        var infinite = new Waypoint.Infinite({
-            element: $('.scroll')[0],
-            items: '.scroll',
-            more: '.pagination li.active + li a',
-            context: $('#messages-area'),
-            offset: '50%'
-        })
-    </script>
+    {{--{{ HTML::script('js/jquery.waypoints.min.js') }}--}}
+    {{--{{ HTML::script('js/infinite.min.js') }}--}}
+    {{--<script type="text/javascript">--}}
+        {{--var infinite = new Waypoint.Infinite({--}}
+            {{--element: $('.scroll')[0],--}}
+            {{--items: '.scroll',--}}
+            {{--more: '.pagination li.active + li a',--}}
+            {{--context: $('#messages-area'),--}}
+            {{--offset: '50%'--}}
+        {{--})--}}
+    {{--</script>--}}
 
     {{--{{ HTML::script('js/jquery.jscroll.min.js') }}--}}
     {{--<script type="text/javascript">--}}
@@ -257,9 +259,9 @@ View::share('title', $title);
                         if(response.success) {
                             var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
                                     '<div class="col-md-2">' +
-                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>" class="pull-right">' +
+                                    '<a href="'+ response.userSenderLink +'" class="pull-right">' +
                                     '<?php echo Auth::user()->getAvatar('mini', ['class' => 'avatar circle'])?></a>' +
-                                    '<a href="<?php echo URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) ?>">' +
+                                    '<a href="'+ response.userSenderLink +'">' +
                                     '<?php echo Auth::user()->login ?>' +
                                     '</a>' +
                                     '<br><span class="date">' + response.messageCreadedAt + '</span>' +
@@ -272,7 +274,7 @@ View::share('title', $title);
                             '<div class="col-md-2"></div>' +
                             '</div>';
 
-                            $("#messages-area").append(newMessage);
+                            $("#messages-area .scroll").append(newMessage);
                             $($form).trigger('reset');
 
                             // отметить сообщение как новое

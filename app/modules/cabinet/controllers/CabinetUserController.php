@@ -864,7 +864,8 @@ class CabinetUserController extends \BaseController
 			})
 			->with('userSender', 'userRecipient')
 			->orderBy('created_at', 'DESC')
-			->paginate(5);
+			->get();
+//			->paginate(5);
 
 		$companions = User::whereHas('sentMessages', function($q) use ($user)
 			{
@@ -940,6 +941,7 @@ class CabinetUserController extends \BaseController
 						'message' => StringHelper::addFancybox($message->message, 'group-message-' . $message->id),
 						'messageId' => $message->id,
 						'messageCreadedAt' => DateHelper::dateForMessage($message->created_at),
+						'userSenderLink' => URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]),
 					));
 				}
 			}

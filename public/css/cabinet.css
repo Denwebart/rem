@@ -95,63 +95,6 @@ h2, .h2 {
 
 /*-- End Меню пользователя (справа) --*/
 
-/*-- Личные сообщения --*/
-.message {
-    background-color: #FFF;
-    padding: 19px;
-    margin-bottom: 20px;
-    box-shadow: 0px 8px 17px 0px rgba(0, 0, 0, 0.2),
-                0px 6px 20px 0px rgba(0, 0, 0, 0.19);
-    border-radius: 2px;
-    border: 0px none;
-}
-.new-message {
-    background: #c1e2b3;
-    transition-duration: 2.5s;
-    -ms-transition-duration: 2.5s;
-    -o-transition-duration: 2.5s;
-    -moz-transition-duration: 2.5s;
-    -webkit-transition-duration: 2.5s;
-}
-.new-message:hover {
-    background: #dff0d8;
-}
-
-#companions .body {
-    border-right: 1px #E3E3E3 solid;
-}
-#companions .companion {
-    padding: 10px;
-    height: 70px;
-    display: inline-block;
-    width: 100%;
-}
-#companions .companion.active,
-#companions .companion:hover  {
-    background: #F5F5F5;
-}
-#companions .companion.active .is-online-status,
-#companions .companion:hover .is-online-status {
-    border-color: #F5F5F5;
-}
-#companions .companion a {
-
-}
-#companions .companion img {
-    float: left;
-    width: 50px;
-}
-#companions .companion .login-link span {
-    float: left;
-    margin: 10px 0 0 10px;
-}
-#messages-area {
-    overflow: auto;
-    max-height: 600px;
-    padding: 0px 20px 0 0;
-}
-
-
 /*-- Галерея (Мой автомобиль) --*/
 #list-of-images .image {
     position: relative;
@@ -333,7 +276,7 @@ h2, .h2 {
     color: #777777;
 }
 
-/*-- Комментарии --*/
+/*-- Комментарии, Ответы --*/
 #comments-area .date-created,
 #answers-area .date-created {
     line-height: 24px;
@@ -370,3 +313,71 @@ h2, .h2 {
 #answers-area .comment-text p:last-child {
     margin: 0;
 }
+
+/*-- Личные сообщения --*/
+/* Собеседники */
+#companions .body {
+    border-right: 1px #E3E3E3 solid;
+}
+#companions .companion {
+    padding: 10px;
+    height: 70px;
+    display: inline-block;
+    width: 100%;
+}
+#companions .companion.active,
+#companions .companion:hover  {
+    background: #F5F5F5;
+}
+#companions .companion.active .is-online-status,
+#companions .companion:hover .is-online-status {
+    border-color: #F5F5F5;
+}
+#companions .companion a {
+
+}
+#companions .companion img {
+    float: left;
+    width: 50px;
+}
+#companions .companion .login-link span {
+    float: left;
+    margin: 10px 0 0 10px;
+}
+
+/* Список сообщений */
+#messages-area .scroll {
+    border-top: 2px solid #03A9F4;
+    border-bottom: 2px solid #03A9F4;
+    overflow: auto;
+    max-height: 600px;
+    padding: 20px 20px 20px 0;
+}
+
+.message {
+    background-color: #FFF;
+    padding: 19px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 2px;
+    border: 0 none;
+}
+.new-message {
+    background: #c1e2b3;
+    transition-duration: 2.5s;
+    -ms-transition-duration: 2.5s;
+    -o-transition-duration: 2.5s;
+    -moz-transition-duration: 2.5s;
+    -webkit-transition-duration: 2.5s;
+}
+.new-message:hover {
+    background: #dff0d8;
+}
+
+/* Новое сообщение */
+#message-form-container {
+    margin-top: 20px;
+}
+
+
