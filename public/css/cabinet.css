@@ -300,3 +300,17 @@ h2, .h2 {
 .subscription-notifications .alert-info .close:hover {
     opacity: 1;
 }
+
+/*-- Уведомления --*/
+#notifications-area .well {
+    padding: 15px;
+}
+#notifications-area .icon {
+    width: 100%;
+    text-align: center;
+}
+#notifications-area .date {
+    font-size: 12px;
+    font-style: italic;
+    color: #444;
+}

@@ -9,13 +9,24 @@
             <div data-notification-id="{{ $notification->id }}" class="well">
                 <div class="row">
                     <div class="col-md-10">
-                        <h3>
-                            {{ Notification::$typeIcons[$notification->type] }}
-                            {{ $notification->message }}
-                        </h3>
-                        <div class="date pull-left" title="Дата уведомления" data-toggle="tooltip" data-placement="top">
-                            <i class="material-icons">today</i>
-                            <span>{{ DateHelper::dateFormat($notification->created_at) }}</span>
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-11">
+                                <div class="date pull-left" title="Дата уведомления" data-toggle="tooltip" data-placement="top">
+                                    <span>{{ DateHelper::dateFormat($notification->created_at) }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding-right: 0">
+                                <div class="icon">
+                                    {{ Notification::$typeIcons[$notification->type] }}
+                                </div>
+                            </div>
+                            <div class="col-md-11">
+                                <h3>
+                                    {{ $notification->message }}
+                                </h3>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">

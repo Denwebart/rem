@@ -1254,7 +1254,7 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
-		$notifications = Notification::whereUserId(Auth::user()->id)
+		$notifications = Notification::whereUserId($user->id)
 			->with('user')
 			->orderBy('created_at', 'DESC')
 			->orderBy('id', 'DESC')

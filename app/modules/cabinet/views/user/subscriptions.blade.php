@@ -155,10 +155,16 @@ View::share('title', $title);
                                                 <div class="col-md-12">
                                                     <div class="subscription-notifications">
                                                         @foreach($subscription->notifications as $notification)
+                                                            <div class="count">
+                                                                Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
+                                                                {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
+                                                            </div>
                                                             <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
                                                                 <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                                {{ DateHelper::dateFormat($notification->created_at) }}
-                                                                <br/>
+                                                                    <span class="date">
+                                                                        <i class="material-icons mdi-info">lens</i>
+                                                                        {{ DateHelper::dateFormat($notification->created_at) }}
+                                                                    </span>
                                                                 {{ $notification->message }}
                                                             </div>
                                                         @endforeach
