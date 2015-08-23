@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = (Auth::user()->is($user)) ? 'Сообщения от пользователя ' . $companion->login : 'Сообщения пользователю '. $user->login .' от пользователя ' . $companion->login;
+$title = (Auth::user()->is($user)) ? 'Диалог с пользователем ' . $companion->login : 'Диалог '. $user->login .' с пользователем ' . $companion->login;
 View::share('title', $title);
 ?>
 @section('content')
@@ -40,10 +40,10 @@ View::share('title', $title);
 {{--                            Всего: <span>{{ $messages->getTotal() }}</span>.--}}
                     </div>
 {{--                        {{ $messages->links() }}--}}
-                    <div class="scroll">
+                    <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))
                             @foreach($messages->reverse() as $message)
-                                <div class="row item">
+                                <div class="row item" data-message-id="{{ $message->id }}">
                                     <div class="col-md-2">
                                         @if($user->id == $message->userSender->id)
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background display-inline-block">
@@ -54,24 +54,26 @@ View::share('title', $title);
                                                     <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                                                 @endif
                                             </a>
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                                {{ $message->userSender->login }}
-                                            </a>
-                                            <span class="date">
-                                            {{ DateHelper::dateForMessage($message->created_at) }}
-                                        </span>
                                         @endif
                                     </div>
 
                                     @if($user->id == $message->userSender->id)
                                         <div class="col-md-7">
                                             <div class="message">
+                                                <span class="date">
+                                                    {{ DateHelper::dateForMessage($message->created_at) }}
+                                                </span>
+                                                <div class="clearfix"></div>
                                                 {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                             </div>
                                         </div>
                                     @else
                                         <div class="col-md-7 col-md-offset-1">
                                             <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                                <span class="date">
+                                                    {{ DateHelper::dateForMessage($message->created_at) }}
+                                                </span>
+                                                <div class="clearfix"></div>
                                                 {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
                                             </div>
                                         </div>
@@ -87,18 +89,12 @@ View::share('title', $title);
                                                     <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                                                 @endif
                                             </a>
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                                {{ $message->userSender->login }}
-                                            </a>
-                                            <span class="date">
-                                            {{ DateHelper::dateForMessage($message->created_at) }}
-                                        </span>
                                         @endif
                                     </div>
                                 </div>
                             @endforeach
                         @else
-                            <p>Сообщений нет.</p>
+                            <p class="no-messages">Сообщений нет.</p>
                         @endif
                     </div>
                 </div>
@@ -196,6 +192,12 @@ View::share('title', $title);
         {{--});--}}
     {{--</script>--}}
 
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var scrollArea = document.getElementById('scroll');
+            scrollArea.scrollTop = scrollArea.scrollHeight;
+        })
+    </script>
 
     @if(Auth::user()->is($user))
         {{-- Отметить сообщение как прочитанное --}}
@@ -257,25 +259,12 @@ View::share('title', $title);
                             $('#successMessage').empty();
                         }
                         if(response.success) {
-                            var newMessage = '<div data-message-id="' + response.messageId + '" class="row">' +
-                                    '<div class="col-md-2">' +
-                                    '<a href="'+ response.userSenderLink +'" class="pull-right">' +
-                                    '<?php echo Auth::user()->getAvatar('mini', ['class' => 'avatar circle'])?></a>' +
-                                    '<a href="'+ response.userSenderLink +'">' +
-                                    '<?php echo Auth::user()->login ?>' +
-                                    '</a>' +
-                                    '<br><span class="date">' + response.messageCreadedAt + '</span>' +
-                                    '</div>' +
-                                    '<div class="col-md-7">' +
-                                    '<div class="message new-message">' +
-                                    response.message
-                            '</div>' +
-                            '</div>' +
-                            '<div class="col-md-2"></div>' +
-                            '</div>';
-
-                            $("#messages-area .scroll").append(newMessage);
+                            $("#scroll").removeClass('without-border').append(response.newMessageHtml);
+                            $('.no-messages').remove();
                             $($form).trigger('reset');
+
+                            var scrollArea = document.getElementById('scroll');
+                            scrollArea.scrollTop = scrollArea.scrollHeight;
 
                             // отметить сообщение как новое
                             setTimeout(function() {

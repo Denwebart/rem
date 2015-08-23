@@ -108,6 +108,9 @@ View::share('title', $title);
                                                         @if(Auth::check())
                                                             @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
                                                                 <div class="buttons pull-right">
+                                                                    <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
+                                                                        <i class="material-icons">delete</i>
+                                                                    </a>
                                                                     <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
                                                                         <i class="material-icons">mode_edit</i>
                                                                     </a>

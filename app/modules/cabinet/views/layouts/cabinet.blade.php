@@ -129,8 +129,8 @@
                                 <i class="material-icons">send</i>
                                 <span>Личные сообщения</span>
                                 @if(Auth::user()->is($user))
-                                    @if($newMessages = count($headerWidget->newMessages))
-                                        <small class="label label-info">{{ $newMessages }}</small>
+                                    @if(count($headerWidget->newMessages))
+                                        <small class="label label-info">{{ $headerWidget->newMessages->getTotal() }}</small>
                                     @endif
                                 @endif
                             </a>

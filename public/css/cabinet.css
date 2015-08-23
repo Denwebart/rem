@@ -85,11 +85,9 @@ h2, .h2 {
     top: 7px;
     right: 5px;
     font-size: 10px;
-    width: 18px;
     height: 16px;
     line-height: 1em;
     text-align: center;
-    padding: 2px;
 }
 
 
@@ -318,9 +316,12 @@ h2, .h2 {
 /* Собеседники */
 #companions .body {
     border-right: 1px #E3E3E3 solid;
+    max-height: 680px;
+    overflow: auto;
+    padding-right: 10px;
 }
 #companions .companion {
-    padding: 10px;
+    padding: 10px 10px 10px 12px;
     height: 70px;
     display: inline-block;
     width: 100%;
@@ -328,13 +329,16 @@ h2, .h2 {
 #companions .companion.active,
 #companions .companion:hover  {
     background: #F5F5F5;
+    border-left: 2px solid #03A9F4;
+    padding-left: 10px;
 }
 #companions .companion.active .is-online-status,
 #companions .companion:hover .is-online-status {
     border-color: #F5F5F5;
 }
 #companions .companion a {
-
+    display: inline-block;
+    width: 100%;
 }
 #companions .companion img {
     float: left;
@@ -346,33 +350,47 @@ h2, .h2 {
 }
 
 /* Список сообщений */
-#messages-area .scroll {
-    border-top: 2px solid #03A9F4;
-    border-bottom: 2px solid #03A9F4;
+#messages-area #scroll {
+    border-top: 2px solid #cccccc;
+    border-bottom: 2px solid #cccccc;
     overflow: auto;
     max-height: 600px;
     padding: 20px 20px 20px 0;
 }
-
+#scroll.without-border {
+    border: none !important;
+}
 .message {
     background-color: #FFF;
-    padding: 19px;
+    padding: 10px 19px 19px 19px;
     margin-bottom: 20px;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 2px;
     border: 0 none;
+    border-bottom: 2px solid #03A9F4;
 }
-.new-message {
-    background: #c1e2b3;
+.message.new-message {
+    background: #dff0d8;
+    border-bottom: 2px solid #4CAF50;
     transition-duration: 2.5s;
     -ms-transition-duration: 2.5s;
     -o-transition-duration: 2.5s;
     -moz-transition-duration: 2.5s;
     -webkit-transition-duration: 2.5s;
 }
-.new-message:hover {
-    background: #dff0d8;
+.message.new-message:hover {
+    background: #c1e2b3;
+}
+.message .date {
+    float: right;
+    font-size: 12px;
+    font-style: italic;
+    color: #777777;
+    margin-bottom: 5px;
+}
+.message p:last-child {
+    margin: 0;
 }
 
 /* Новое сообщение */

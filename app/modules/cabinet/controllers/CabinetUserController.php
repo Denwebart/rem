@@ -1028,10 +1028,8 @@ class CabinetUserController extends \BaseController
 					//return success message
 					return Response::json(array(
 						'success' => true,
-						'message' => StringHelper::addFancybox($message->message, 'group-message-' . $message->id),
 						'messageId' => $message->id,
-						'messageCreadedAt' => DateHelper::dateForMessage($message->created_at),
-						'userSenderLink' => URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]),
+						'newMessageHtml' => (string) View::make('cabinet::user.newMessage', compact('message'))->render(),
 					));
 				}
 			}

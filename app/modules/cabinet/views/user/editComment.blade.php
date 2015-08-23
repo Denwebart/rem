@@ -44,7 +44,6 @@ View::share('title', $title);
                                         <i class="material-icons">keyboard_arrow_left</i>
                                         Отмена
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm btn-sm preview">Предпросмотр</a>
                                     {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                                 </div>
                             </div>

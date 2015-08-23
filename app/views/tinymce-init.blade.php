@@ -6,7 +6,7 @@
 <script type="text/javascript">
     tinymce.init({
         plugins: [
-            "advlist lists link image",
+            "advlist lists link autolink image",
             "wordcount",
             "media table contextmenu",
             "emoticons imagetools"

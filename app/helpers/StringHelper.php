@@ -75,7 +75,7 @@ class StringHelper
 	public static function nofollowLinks($html)
 	{
 		$html = preg_replace("~<a.*?</a>(*SKIP)(*F)|<img.*?>(*SKIP)(*F)|(http|https|ftp|ftps)://([^\s\[<]+)~i", '<a href="$1://$2">$1://$2</a>', $html);
-		return preg_replace_callback('/<a href="(.*?)"(.*?)>/', [new StringHelper(), 'checkLinksAndReplace'], $html);
+		return preg_replace_callback('/<a(.*?)href="(.*?)"(.*?)>/', [new StringHelper(), 'checkLinksAndReplace'], $html);
 	}
 
 	/**
@@ -87,11 +87,14 @@ class StringHelper
 	 */
     public function checkLinksAndReplace($link)
     {
-	    if($link[1][0]=='/' || (strpos($link[1], Config::get('settings.siteUrl'))!==false) ) {
+	    if($link[2][0]=='/' || (strpos($link[2], Config::get('settings.siteUrl'))!==false) ) {
 		    return $link[0];
 	    }
 	    else {
-		    return '<a href="'.$link[1].'" rel="nofollow" target="_blank">';
+		    if (!preg_match("~^(?:f|ht)tps?://~i", $link[2])) {
+			    $link[2] = "http://" . $link[2];
+		    }
+		    return '<a' . $link[1] . 'href="' . $link[2] . '" rel="nofollow" target="_blank">';
 	    }
 	}
 

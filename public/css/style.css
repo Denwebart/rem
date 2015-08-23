@@ -82,7 +82,9 @@ a:focus {
 .tooltip {
     min-width: 120px;
 }
-
+.label {
+    padding: 0.2em 0.5em 0.3em;
+}
 .font-mini {
     font-size: 10px;
     font-style: italic;
@@ -1035,11 +1037,9 @@ footer .copyright a {
     top: 7px;
     right: 5px;
     font-size: 10px;
-    width: 18px;
     height: 16px;
     line-height: 1.0em;
     text-align: center;
-    padding: 2px;
 }
 
 #header-widget .logo {
