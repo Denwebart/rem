@@ -587,19 +587,16 @@ a:focus {
     background: #f4f4f4;
     padding: 4px 10px;
 }
-#favorites-widget a i,
-#rss-widget a i,
-#search button i {
+#favorites-widget i.material-icons,
+#rss-widget i.material-icons,
+#search i.material-icons {
     color: #ffab00;
     font-size: 24px;
 }
-#favorites-widget a span,
-#rss-widget a span,
-#search button span {
-    position: relative;
-    top: -3px;
-    text-transform: none;
-    font-size: 16px;
+#rss-widget img {
+    margin-right: 5px;
+    margin-top: -1px;
+    width: 22px;
 }
 
 /* Area Widget */
