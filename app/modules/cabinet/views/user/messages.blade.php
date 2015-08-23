@@ -37,81 +37,51 @@ View::share('title', $title);
                     @endif
                 @endif
 
-                <div id="messages" class="row">
+                <div id="messages-area" class="blog">
+                    <div class="count">
+                        Показано сообщений: <span>{{ $messages->count() }}</span>.
+{{--                    Всего: <span>{{ $messages->getTotal() }}</span>.--}}
+                    </div>
+                    <div id="scroll" @if(!count($messages)) class="without-border" @endif>
+                        @if(count($messages))
+                            @foreach($messages as $message)
+                                <div class="row item" data-message-id="{{ $message->id }}">
+                                    <div class="col-md-2"></div>
 
-                    {{--@foreach($companions as $item)--}}
-
-                    <?php // $message = $item->sentMessages()->orderBy('created_at')->first(); ?>
-
-                    {{--@if(is_object($message))--}}
-                    {{--<div class="row">--}}
-                    {{--<div class="col-md-2">--}}
-
-                    {{--</div>--}}
-
-                    {{--<div class="col-md-7 col-md-offset-1">--}}
-                    {{--<div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">--}}
-                    {{--<a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">--}}
-                    {{--{{ $message->message }}--}}
-                    {{--</a>--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="col-md-2">--}}
-                    {{--<a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">--}}
-                    {{--{{ $message->userSender->getAvatar('mini') }}--}}
-                    {{--</a>--}}
-                    {{--<a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">--}}
-                    {{--{{ $message->userSender->login }}--}}
-                    {{--</a>--}}
-                    {{--<span class="date">--}}
-                    {{--{{ DateHelper::dateForMessage($message->created_at) }}--}}
-                    {{--</span>--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
-                    {{--@endif--}}
-                    {{--@endforeach--}}
-                    @if(count($messages))
-                        @foreach($messages as $message)
-                            <div class="row">
-                                <div class="col-md-2">
-                                </div>
-                                <div class="col-md-7 col-md-offset-1">
-                                    <div class="well {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                        <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
+                                    <div class="col-md-7 col-md-offset-1">
+                                        <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                                <span class="date">
+                                                    {{ DateHelper::dateForMessage($message->created_at) }}
+                                                </span>
+                                            <div class="clearfix"></div>
                                             {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
+                                            {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                            @if($message->userSender->isOnline())
+                                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                            @else
+                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                            @endif
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                        {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                        @if($message->userSender->isOnline())
-                                            <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                        @else
-                                            <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}">
-                                        {{ $message->userSender->login }}
-                                    </a>
-                                    <span class="date">
-                                        {{ DateHelper::dateForMessage($message->created_at) }}
-                                    </span>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        @if(Auth::user()->is($user))
-                            <p>
-                                У вас нет сообщений.
-                            </p>
+                            @endforeach
                         @else
-                            <p>
-                                Сообщений нет.
-                            </p>
+                            @if(Auth::user()->is($user))
+                                <p>
+                                    У вас нет сообщений.
+                                </p>
+                            @else
+                                <p>
+                                    Сообщений нет.
+                                </p>
+                            @endif
                         @endif
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
