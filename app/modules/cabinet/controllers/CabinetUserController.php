@@ -776,6 +776,45 @@ class CabinetUserController extends \BaseController
 		return View::make('cabinet::user.comments', compact('comments'));
 	}
 
+	/**
+	 * Удаление комментария
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteComment($login)
+	{
+		if(Request::ajax()) {
+			$commentId = Input::get('commentId');
+
+			$user = (Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+			if($comment = Comment::find($commentId)) {
+				$comment->delete();
+
+				$comments = Comment::whereUserId($user->id)
+					->whereIsAnswer(0)
+					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+
+				return Response::json(array(
+					'success' => true,
+					'newComments' => count($comments),
+					'commentsList' => (string) View::make('cabinet::user.commentsList', compact('comments'))->with('user', $user)->render(),
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Комментарий удален.'
+					]),
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
+
 	public function answers($login)
 	{
 		$user = Auth::check()
@@ -810,6 +849,45 @@ class CabinetUserController extends \BaseController
 
 		View::share('user', $user);
 		return View::make('cabinet::user.answers', compact('answers'));
+	}
+
+	/**
+	 * Удаление ответа
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function deleteAnswer($login)
+	{
+		if(Request::ajax()) {
+			$answerId = Input::get('answerId');
+
+			$user = (Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+			if($answer = Comment::find($answerId)) {
+				$answer->delete();
+
+				$answers = Comment::whereUserId($user->id)
+					->whereIsAnswer(1)
+					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
+
+				return Response::json(array(
+					'success' => true,
+					'newAnswers' => count($answers),
+					'answersList' => (string) View::make('cabinet::user.answersList', compact('answers'))->with('user', $user)->render(),
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Ответ удален.'
+					]),
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
 	}
 
 	public function messages($login)
@@ -1284,7 +1362,7 @@ class CabinetUserController extends \BaseController
 					->with('user')
 					->orderBy('created_at', 'DESC')
 					->orderBy('id', 'DESC')
-					->paginate(20);
+					->paginate(10);
 
 				return Response::json(array(
 					'success' => true,
