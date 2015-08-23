@@ -908,11 +908,6 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
-		/*
-		 Для вывода последнего сообщения конкретного пользователя
-		SELECT * FROM `messages` WHERE ((user_id_sender = 2 OR user_id_recipient = 2) AND (user_id_sender = 1 OR user_id_recipient = 1))
-			ORDER BY created_at DESC
-		*/
 		$companions = User::whereHas('sentMessages', function($q) use ($user)
 			{
 				$q->where('user_id_recipient', '=', $user->id);
@@ -924,8 +919,8 @@ class CabinetUserController extends \BaseController
 			->with('sentMessagesForUser')
 			->get();
 
-		$messages = Message::whereUserIdRecipient($user->id)
-			->orderBy('created_at')
+		$messages = Message::from(DB::raw('(select * from messages where user_id_recipient = 1 order by created_at DESC) t'))
+			->groupBy('user_id_sender')
 			->with('userSender')
 			->get();
 

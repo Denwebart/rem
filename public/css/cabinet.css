@@ -20,7 +20,6 @@ h2, .h2 {
 /*-- Меню пользователя (справа) --*/
 #users-menu {
     padding-right: 0;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 #users-menu ul {
     list-style: none;
@@ -348,6 +347,9 @@ h2, .h2 {
     float: left;
     margin: 10px 0 0 10px;
 }
+#companions .tooltip {
+    z-index: 999;
+}
 
 /* Список сообщений */
 #messages-area #scroll {
@@ -370,6 +372,10 @@ h2, .h2 {
     border: 0 none;
     border-bottom: 2px solid #03A9F4;
 }
+.message.link {
+    display: block;
+    width: 100%;
+}
 .message.new-message {
     background: #dff0d8;
     border-bottom: 2px solid #4CAF50;
@@ -378,6 +384,7 @@ h2, .h2 {
     -o-transition-duration: 2.5s;
     -moz-transition-duration: 2.5s;
     -webkit-transition-duration: 2.5s;
+    cursor: pointer;
 }
 .message.new-message:hover {
     background: #c1e2b3;

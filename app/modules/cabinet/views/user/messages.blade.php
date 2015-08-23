@@ -39,32 +39,29 @@ View::share('title', $title);
 
                 <div id="messages-area" class="blog">
                     <div class="count">
-                        Показано сообщений: <span>{{ $messages->count() }}</span>.
-{{--                    Всего: <span>{{ $messages->getTotal() }}</span>.--}}
+                        Последние диалоги: <span>{{ $messages->count() }}</span>.
                     </div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))
                             @foreach($messages as $message)
                                 <div class="row item" data-message-id="{{ $message->id }}">
-                                    <div class="col-md-2"></div>
-
-                                    <div class="col-md-7 col-md-offset-1">
-                                        <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                    <div class="col-md-9 col-md-offset-1">
+                                        <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}" class="message link {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
                                                 <span class="date">
                                                     {{ DateHelper::dateForMessage($message->created_at) }}
                                                 </span>
                                             <div class="clearfix"></div>
                                             {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
-                                        </div>
+                                        </a>
                                     </div>
 
                                     <div class="col-md-2">
                                         <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
                                             {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
                                             @if($message->userSender->isOnline())
-                                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                                <span class="is-online-status online" title="Сейчас на сайте"></span>
                                             @else
-                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}"></span>
                                             @endif
                                         </a>
                                     </div>
