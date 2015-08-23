@@ -21,7 +21,7 @@
                                     <a href="javascript:void(0)" class="pull-right delete-answer" data-id="{{ $answer->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
                                         <i class="material-icons">delete</i>
                                     </a>
-                                    <a href="{{ URL::route('user.comments.edit', ['login' => $answer->user->getLoginForUrl(),'id' => $answer->id]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
+                                    <a href="{{ URL::route('user.answers.edit', ['login' => $answer->user->getLoginForUrl(),'id' => $answer->id]) }}" class="pull-right" title="Редактировать ответ" data-toggle="tooltip">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                 </div>

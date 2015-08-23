@@ -94,7 +94,9 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@markMessageAsRead']);
 	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/comments/{id}/edit', ['as' => 'user.comments.edit', 'uses' => 'CabinetUserController@editComment']);
+	Route::put('{login}/comments/{id}', ['as' => 'user.comments.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@updateComment']);
 	Route::post('{login}/deleteComment', ['as' => 'user.deleteComment', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteComment']);
+	Route::get('{login}/answers/{id}/edit', ['as' => 'user.answers.edit', 'uses' => 'CabinetUserController@editAnswer']);
 	Route::post('{login}/deleteAnswer', ['as' => 'user.deleteAnswer', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteAnswer']);
 	Route::get('{login}/saved', ['as' => 'user.savedPages', 'uses' => 'CabinetUserController@savedPages']);
 	Route::post('{login}/savePage', ['as' => 'user.savePage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@savePage']);

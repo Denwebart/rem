@@ -143,4 +143,13 @@ class Comment extends \Eloquent
 			? false
 			: true;
 	}
+
+	/**
+	 * Получение пути для загрузки изображения через редактор
+	 *
+	 * @return string
+	 */
+	public function getImageEditorPath() {
+		return '/uploads/' . $this->getTable() . '/' . $this->id . '/';
+	}
 }

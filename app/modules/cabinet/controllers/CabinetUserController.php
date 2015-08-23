@@ -667,53 +667,6 @@ class CabinetUserController extends \BaseController
 	}
 
 	/**
-	 * Предпросмотр вопроса
-	 *
-	 * @param $login
-	 * @return \Illuminate\Http\Response|\Illuminate\View\View
-	 */
-//	public function questionPreview($login, $id = null)
-//	{
-//		$user = (Auth::user()->getLoginForUrl() == $login)
-//			? Auth::user()
-//			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
-//
-//		$data = Input::all();
-//
-//		$data['type'] = Page::TYPE_QUESTION;
-//		$data['user_id'] = $user->id;;
-//		$data['content'] = StringHelper::nofollowLinks($data['content']);
-//		$data['is_published'] = 0;
-//
-//		$validator = Validator::make($data, Page::$rulesForUsers);
-//
-//		if ($validator->fails())
-//		{
-//			return Redirect::back()->withErrors($validator)->withInput();
-//		}
-//
-//		if(is_null($id)) {
-//			$page = Page::create($data);
-//			$page->image = $page->setImage($data['image']);
-//			$page->save();
-//		} else {
-//			$page = Page::whereId($id)
-//				->whereUserId($user->id)
-//				->whereType(Page::TYPE_QUESTION)
-//				->firstOrFail();
-//			$data['image'] = $page->setImage($data['image']);
-//			$page->update($data);
-//		}
-//
-//		// добавление тегов
-//		Tag::addTag($page, Input::get('tags'));
-//		// удаление тегов
-//		Tag::deleteTag($page, Input::get('tags'));
-//
-//		return Redirect::route('user.preview', ['login' => Auth::user()->getLoginForUrl()]);
-//	}
-
-	/**
 	 * Удаление изображения из таблицы Page
 	 *
 	 * @param $id
@@ -774,6 +727,65 @@ class CabinetUserController extends \BaseController
 
 		View::share('user', $user);
 		return View::make('cabinet::user.comments', compact('comments'));
+	}
+
+	public function editComment($login, $id)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		$comment = Comment::whereId($id)
+			->whereUserId($user->id)
+			->whereIsAnswer(0)
+			->firstOrFail();
+
+		if(!$comment->isEditable() && Auth::user()->isUser()) {
+			return Response::view('errors.editable403', ['user' => $user], 403);
+		}
+
+		View::share('user', $user);
+		return View::make('cabinet::user.editComment', compact('comment'));
+	}
+
+	public function editAnswer($login, $id)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		$comment = Comment::whereId($id)
+			->whereUserId($user->id)
+			->whereIsAnswer(1)
+			->firstOrFail();
+
+		if(!$comment->isEditable() && Auth::user()->isUser()) {
+			return Response::view('errors.editable403', ['user' => $user], 403);
+		}
+
+		View::share('user', $user);
+		return View::make('cabinet::user.editComment', compact('comment'));
+	}
+
+	public function updateComment($login, $id)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+		$comment = Comment::whereId($id)
+			->whereUserId($user->id)
+			->firstOrFail();
+
+		$data = Input::all();
+
+		$validator = Validator::make($data, Comment::$rulesForUpdate);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$comment->update($data);
+
+		return Redirect::route(($comment->is_answer) ? 'user.answers' : 'user.comments', ['login' => $login]);
 	}
 
 	/**
