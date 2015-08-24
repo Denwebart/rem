@@ -116,6 +116,23 @@ a:focus {
 #logo img {
     margin: 20px 0;
 }
+.logo {
+    width: 130px;
+    display: block;
+    float: left;
+}
+.logo img {
+    margin: 10px 0;
+    height: 130px;
+}
+.logo-text {
+    display: block;
+    float: left;
+}
+.logo-text img {
+    margin: 25px 0;
+    height: 110px;
+}
 #site-title h1 {
     font-size: 34px;
     line-height: 30px;

@@ -1,31 +1,37 @@
 <div class="header">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <div id="logo">
-                    <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/logo.png') }}
-                    </a>
+            <div class="col-md-7">
+                {{--<div id="logo">--}}
+                    {{--<a href="{{ URL::to('/') }}">--}}
+                        {{--{{ HTML::image('images/logo.png') }}--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+
+                {{--<div id="site-title">--}}
+                    {{--<h1>--}}
+                        {{--@if(isset($settings))--}}
+                            {{--{{ $settings['siteTitle']['value'] }}--}}
+                        {{--@endif--}}
+                        {{--<br>--}}
+                        {{--<span class="slogan">--}}
+                        {{--@if(isset($settings))--}}
+                            {{--{{ $settings['siteSlogan']['value'] }}--}}
+                        {{--@endif--}}
+                        {{--</span>--}}
+                    {{--</h1>--}}
+                {{--</div>--}}
+
+                <div class="logo">
+                    {{ HTML::image('images/metal_logo_7.png') }}
+                </div>
+                <div class="logo-text">
+                    {{ HTML::image('images/metal_text_4.png') }}
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-5">
                 <div class="row">
-                    <div class="col-md-7">
-                        <div id="site-title">
-                            <h1>
-                                @if(isset($settings))
-                                    {{ $settings['siteTitle']['value'] }}
-                                @endif
-                                <br>
-                                <span class="slogan">
-                                    @if(isset($settings))
-                                        {{ $settings['siteSlogan']['value'] }}
-                                    @endif
-                                </span>
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
+                    <div class="col-md-12">
                         {{ $menuWidget->topMenu() }}
                         @if (!Auth::check())
                             <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
@@ -42,8 +48,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <!--Search-->
                         <div id="search">
                             {{ Form::open(['method' => 'GET', 'route' => ['search']], ['id' => 'search-form']) }}
