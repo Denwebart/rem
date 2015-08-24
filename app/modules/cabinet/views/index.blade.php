@@ -8,55 +8,47 @@ View::share('page', $title);
 @section('leftSidebar')
     <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
         <h4>Лидеры месяца
-            <span class="small pull-right">
+            <span class="pull-right">
                 <?php $lastMonth = date_create(date('d-m-Y') . ' first day of last month'); ?>
                 {{ DateHelper::$monthsList[$lastMonth->format('n')] }}
                 {{ $lastMonth->format('Y') }}
             </span>
         </h4>
-        <hr/>
 
-        <h5>Лучший писатель</h5>
-        @foreach(User::getBestWriter() as $key => $user)
+        @foreach(User::getBestWriter(null, null, 1) as $key => $user)
             @if($key == 0)
-                <div class="list-group-item best">
-                    <div class="well">
-                        <div class="row-picture">
-                            {{ $key + 1 }}.
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
-                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                @endif
-                            </a>
-                        </div>
-                        <div class="row-content">
-                            <p class="list-group-item-text" style="clear: both">
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->login }}
-                                </a>
-                                <br/>
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->getFullName() }}
-                                </a>
-                            </p>
-                            <p>Баллы за статьи: {{ $user->articlesPoints }}</p>
-                            <p>Количество статей: {{ $user->articlesCount }}</p>
-                        </div>
+                <div class="award">
+                    <div class="row-user">
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                            @endif
+                        </a>
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
+                            {{ $user->login }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p>Баллов: {{ $user->articlesPoints }}</p>
+                        <p>Статей: {{ $user->articlesCount }}</p>
+                    </div>
+                    <div class="row-title">
+                        <h5>Лучший писатель</h5>
                     </div>
                 </div>
             @else
                 <div class="list-group-item">
                     <div class="row-picture">
-                        {{ $key + 1 }}.
+                        {{--{{ $key + 1 }}.--}}
                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                             {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                             @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
                             @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
                             @endif
                         </a>
                     </div>
@@ -77,47 +69,40 @@ View::share('page', $title);
             @endif
         @endforeach
 
-        <h5>Лучший советчик</h5>
-        @foreach(User::getBestRespondent() as $key => $user)
+        @foreach(User::getBestRespondent(null, null, 1) as $key => $user)
             @if($key == 0)
-                <div class="list-group-item best">
-                    <div class="well">
-                        <div class="row-picture">
-                            {{ $key + 1 }}.
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
-                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                @endif
-                            </a>
-                        </div>
-                        <div class="row-content">
-                            <p class="list-group-item-text" style="clear: both">
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->login }}
-                                </a>
-                                <br/>
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->getFullName() }}
-                                </a>
-                            </p>
-                            <p>Баллы за ответы: {{ $user->answersPoints }}</p>
-                            <p>Количество ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
-                        </div>
+                <div class="award">
+                    <div class="row-user">
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                            @endif
+                        </a>
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
+                            {{ $user->login }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p>Баллов: {{ $user->answersPoints }}</p>
+                        <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                    </div>
+                    <div class="row-title">
+                        <h5>Лучший советчик</h5>
                     </div>
                 </div>
             @else
                 <div class="list-group-item">
                     <div class="row-picture">
-                        {{ $key + 1 }}.
+                        {{--{{ $key + 1 }}.--}}
                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                             {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                             @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
                             @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
                             @endif
                         </a>
                     </div>
@@ -131,54 +116,47 @@ View::share('page', $title);
                                 {{ $user->getFullName() }}
                             </a>
                         </p>
-                        <p>Баллы за ответы: {{ $user->answersPoints }}</p>
-                        <p>Количество ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                        <p>Баллов: {{ $user->answersPoints }}</p>
+                        <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
                     </div>
                 </div>
             @endif
         @endforeach
 
-        <h5>Лучший комментатор</h5>
-        @foreach(User::getBestCommentator() as $key => $user)
+        @foreach(User::getBestCommentator(null, null, 1) as $key => $user)
             @if($key == 0)
-                <div class="list-group-item best">
-                    <div class="well">
-                        <div class="row-picture">
-                            {{ $key + 1 }}.
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
-                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                @endif
-                            </a>
-                        </div>
-                        <div class="row-content">
-                            <p class="list-group-item-text" style="clear: both">
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->login }}
-                                </a>
-                                <br/>
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->getFullName() }}
-                                </a>
-                            </p>
-                            <p>Баллы за комментарии: {{ $user->commentsPoints }}</p>
-                            <p>Количество комментариев: {{ $user->commentsCount }}</p>
-                        </div>
+                <div class="award">
+                    <div class="row-user">
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                            @if($user->isOnline())
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
+                            @else
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                            @endif
+                        </a>
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
+                            {{ $user->login }}
+                        </a>
+                    </div>
+                    <div class="row-content">
+                        <p>Баллов: {{ $user->commentsPoints }}</p>
+                        <p>Комментариев: {{ $user->commentsCount }}</p>
+                    </div>
+                    <div class="row-title">
+                        <h5>Лучший комментатор</h5>
                     </div>
                 </div>
             @else
                 <div class="list-group-item">
                     <div class="row-picture">
-                        {{ $key + 1 }}.
+                        {{--{{ $key + 1 }}.--}}
                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                             {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                             @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status online" title="Сейчас на сайте"></span>
                             @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
                             @endif
                         </a>
                     </div>
@@ -239,106 +217,115 @@ View::share('page', $title);
         <div class="row">
             @if(count($users))
                 <div id="users" class="col-md-12">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points') }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($users as $user)
+                    <div class="well">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                            @if($user->isOnline())
-                                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                            @else
-                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                            @endif
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ $user->login }}
-                                        </a>
-                                        @if($user->getFullName())
-                                            <p>{{ $user->getFullName() }}</p>
-                                        @endif
-                                        @if($user->isAdmin() || $user->isModerator())
-                                            <span>{{ User::$roles[$user->role] }}</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ DateHelper::dateFormat($user->created_at, false) }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedArticles) }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedQuestions) }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedAnswers) }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedComments) }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        Награды:
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
-                                            {{ count($user->userHonors) }}
-                                        </a>
-                                        @foreach($user->userHonors as $userHonor)
-                                            <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
-                                                {{ $userHonor->honor->getImage(null, [
-                                                    'width' => '25px',
-                                                    'title' => !is_null($userHonor->comment)
-                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
-                                                        : $userHonor->honor->title,
-                                                    'alt' => $userHonor->honor->title])
-                                                }}
-                                            </a>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        {{ $user->points }}
-                                    </td>
+                                    <th></th>
+                                    <th></th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
+                                    </th>
+                                    <th>
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points') }}
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-{{--                    {{ $users->links() }}--}}
+                            </thead>
+                            <tbody>
+                                @foreach($users as $user)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                @if($user->isOnline())
+                                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                                @else
+                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                                @endif
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ $user->login }}
+                                            </a>
+                                            @if($user->getFullName())
+                                                <p>{{ $user->getFullName() }}</p>
+                                            @endif
+                                            @if($user->isAdmin() || $user->isModerator())
+                                                <span>{{ User::$roles[$user->role] }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ DateHelper::dateFormat($user->created_at, false) }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedArticles) }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedQuestions) }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedAnswers) }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedComments) }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            Награды:
+                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
+                                                {{ count($user->userHonors) }}
+                                            </a>
+                                            <div class="honors">
+                                                @foreach($user->userHonors as $key => $userHonor)
+                                                    @if($key < 3)
+                                                        <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                                            {{ $userHonor->honor->getImage(null, [
+                                                                'width' => '25px',
+                                                                'title' => !is_null($userHonor->comment)
+                                                                    ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                                    : $userHonor->honor->title,
+                                                                'alt' => $userHonor->honor->title])
+                                                            }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">...</a>
+                                                        <?php break; ?>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ $user->points }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{--                    {{ $users->links() }}--}}
+                    </div>
                 </div>
             </div>
         @else

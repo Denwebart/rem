@@ -746,11 +746,20 @@ a:focus {
     background: #A0A0A0;
 }
 /* таблица со всеми пользователями */
-.table-striped > tbody > tr:hover .avatar-link.gray-background .is-online-status,
-.table-striped > tbody > tr:nth-of-type(2n+1) .avatar-link.gray-background .is-online-status {
-    border: 2px solid #F9F9F9;
+#users tr:hover .avatar-link .is-online-status {
+    border: 2px solid #F5F5F5;
+}
+#users .table > thead > tr > th {
+    border-bottom: none;
 }
 
+#users .honors {
+    margin-top: 5px;
+}
+#users .honors a {
+    float: left;
+    line-height: 25px;
+}
 
 .new-comment {
     background: #C1E2B3;
@@ -759,6 +768,68 @@ a:focus {
     -o-transition-duration: 2.5s;
     -moz-transition-duration: 2.5s;
     -webkit-transition-duration: 2.5s;
+}
+
+/*-- Лидеры месяца --*/
+#leaders-sidebar-widget h4 span {
+    color: #E2970E;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 2px;
+    display: inline-block;
+}
+#leaders-sidebar-widget h5 {
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 15px;
+    width: 100%;
+    display: inline-block;
+    text-shadow: 0 1px 0 #F6E164;
+    font-weight: 400;
+}
+#leaders-sidebar-widget .award {
+     background: #ffffff url("../images/award.png");
+     height: 300px;
+     margin-bottom: 30px;
+}
+#leaders-sidebar-widget .award .row-user {
+    position: relative;
+    top: 40px;
+    padding-left: 40px;
+}
+#leaders-sidebar-widget .award .row-user .login {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    color: #E2970E;
+}
+#leaders-sidebar-widget .award .row-user .login:hover {
+    text-decoration: none;
+}
+#leaders-sidebar-widget .award .row-content {
+    position: relative;
+    top: 70px;
+    padding-left: 40px;
+    font-style: italic;
+}
+#leaders-sidebar-widget .award .row-content p {
+    margin-bottom: 5px;
+}
+#leaders-sidebar-widget .award .row-title {
+    position: relative;
+    top: 88px;
+}
+
+
+/*-- Поиск по пользователям --*/
+#search-users-form {
+    margin-bottom: 10px;
+}
+#search-users-form button {
+    margin-top: 5px;
 }
 
 /*-- Профиль пользователя, журнал пользователя --*/
@@ -1305,7 +1376,6 @@ footer .copyright a {
 
 .navbar-nav > .widget-user > .dropdown-menu {
     max-width: 100px;
-    border: 0;
     padding: 0;
     margin: 0;
     border: 1px solid #cfcfcf;
