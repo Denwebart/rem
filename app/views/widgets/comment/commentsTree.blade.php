@@ -1,7 +1,7 @@
 <section id="comments-widget">
     {{-- Лучшие --}}
     @if(Page::TYPE_QUESTION == $page->type)
-        <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }}>
+        <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }} class="margin-top-20">
             @include('widgets.comment.bestComments', ['isBannedIp' => $isBannedIp])
         </div>
     @endif
@@ -43,7 +43,7 @@
     <!-- end of .comments -->
 
     <div class="comment-form" id="add-comment">
-        <h3>{{ $formTitle }}</h3>
+        <h3 class="margin-top-10">{{ $formTitle }}</h3>
 
         @if(!$isBannedIp)
             @if(Auth::check())
@@ -68,11 +68,7 @@
 
                             {{ Form::hidden('parent_id', 0); }}
 
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
-                                {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                            </a>
-                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
+                            <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="login pull-left">
                                 <span>{{  Auth::user()->login }}</span>
                             </a>
 
@@ -83,7 +79,7 @@
                                 <div class="comment_error error text-danger"></div>
                             </div>
 
-                            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-primary']) }}
+                            {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-success btn-sm pull-right']) }}
                             {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::close() }}
                     @endif
@@ -128,7 +124,7 @@
 
                     {{ Form::hidden('_token', csrf_token()) }}
 
-                    {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-prime btn-mid']) }}
+                    {{ Form::submit('Отправить', ['id'=> 'submit-0', 'class' => 'btn btn-success btn-sm pull-right']) }}
                 {{ Form::close() }}
             @endif
         @else
@@ -198,6 +194,10 @@
                         $form.trigger('reset');
                         tinyMCE.activeEditor.setContent('');
                         $form.find('.error').empty();
+
+                        // сворачивание формы
+                        $('#comment-' + data.parent_id).find("[id^='reply-comment-form']").hide();
+
                         // вывод комментария
                         if(0 == data.parent_id){
                             $('.comments').prepend(data.commentHtml);
@@ -205,6 +205,8 @@
                             $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
                         }
                         $('.count-comments').text(data.countComments);
+
+                        $('#comment-' + data.parent_id).find('.close-comment').show();
 
                         // скролл на новый комментарий
                         $('html, body').animate({
@@ -228,7 +230,6 @@
             if ($(formContainer).is(':visible')) {
                 $(formContainer).slideUp();
             } else {
-                $("[id^='reply-comment-form']").slideUp();
                 $(formContainer).slideDown();
             }
         });
@@ -239,10 +240,10 @@
             var childrenCommentsContainer = $(commentsContainer).find('.children-comments');
             if ($(childrenCommentsContainer).is(':visible')) {
                 $(childrenCommentsContainer).slideUp();
-                $(this).text('+');
+                $(this).html('<i class="material-icons">keyboard_arrow_down</i>');
             } else {
                 $(childrenCommentsContainer).slideDown();
-                $(this).text('-');
+                $(this).html('<i class="material-icons">keyboard_arrow_up</i>');
             }
         });
 

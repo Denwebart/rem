@@ -476,12 +476,14 @@ a:focus {
 }
 
 /*-- Blog area --*/
-.blog .count {
+.blog .count,
+#comments-area .count {
     font-size: 12px;
     color: #777777;
     margin: 0 0 10px;
 }
-.blog .count.margin-bottom-20 {
+.blog .count.margin-bottom-20,
+#comments-area .count.margin-bottom-20 {
     margin-bottom: 20px;
 }
 
@@ -728,20 +730,57 @@ a:focus {
 
 /*-- Комментарии --*/
 
-/*#comments-widget .vote-like {*/
-    /*color: #4CAF50;*/
-/*}*/
-/*#comments-widget .vote-dislike {*/
-    /*color: #F44336;*/
-/*}*/
-#comments-widget .page-author {
-    background: #AAE0FF;
+#comments-widget .comment {
+    position: relative;
+    text-align: left;
+}
+#comments-widget .comment .close-comment {
+    position: absolute;
+    left: -15px;
+    top: 0;
+}
+#comments-widget .comment-text {
+    background: rgb(242, 242, 242) none repeat scroll 0% 0%;
+    color: rgb(51, 51, 51);
+    border-left: 2px solid rgb(3, 169, 244);
+    padding: 10px 20px 10px 10px;
+    margin: 0 0 10px 10px;
+}
+#comments-widget .comment-text.best {
+    border-left: 2px solid #4CAF50;
 }
 #comments-widget .avatar-link {
-    margin: 0 10px 0 0;
+    margin-right: 10px;
 }
-#comments-widget .avatar-link .avatar {
-    margin: 0;
+#comments-widget .avatar-link.gray-background .is-online-status {
+    border-color: rgb(242, 242, 242);
+}
+#comments-widget .login {
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    text-decoration: none !important;
+    font-weight: 400;
+}
+#comments-widget .date {
+    font-size: 12px;
+    font-style: italic;
+    color: #777777;
+}
+#comments-widget .best-comment {
+    margin-left: 20px;
+}
+#comments-widget .best-comment i.material-icons {
+    font-size: 36px;
+    margin-top: -5px;
+}
+#comments-widget .mark-comment-as-best {
+    margin-left: 20px;
+    color: #4CAF50 !important;
+}
+#comments-widget .vote {
+    width: auto;
+    margin-top: 5px;
+    margin-right: -7px;
 }
 .comment .vote {
     width: 100%;
@@ -760,6 +799,41 @@ a:focus {
     font-size: 40px;
     line-height: 20px;
     margin-right: 9px;
+}
+
+#comments-widget .vote-like {
+    color: #4CAF50 !important;
+}
+#comments-widget .vote-dislike {
+    color: #F44336 !important;
+}
+/* Ответ на комментарий */
+#comments-widget .reply-comment-form {
+    margin-top: 20px;
+}
+#comments-widget .reply-comment-form input[type="submit"] {
+    margin-top: 0;
+}
+/* Дочерние комментарии */
+#comments-widget .children-comments {
+    margin: 0 0 0 50px;
+}
+#comments-widget .children-comments .comment {
+    border-bottom: 1px solid rgb(242, 242, 242);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+#comments-widget .children-comments .comment:last-child {
+    border-bottom: none;
+}
+#comments-widget .children-comments .login {
+    float: left;
+    margin-right: 15px;
+}
+#comments-widget .children-comments .date {
+    float: left;
+    line-height: 14px;
+    margin-top: 10px;
 }
 
 /* Аватарка пользователя, статус online/offline */
