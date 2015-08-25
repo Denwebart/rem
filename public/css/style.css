@@ -107,22 +107,13 @@ a:focus {
 /*}*/
 
 /*-- Logo --*/
-#login-layout header {
-    height: 100px;
-}
-.header {
-    /*background: #DDDDDD;*/
-}
-#logo img {
-    margin: 20px 0;
-}
 .logo {
     width: 130px;
     display: block;
     float: left;
 }
 .logo img {
-    margin: 10px 0;
+    margin: 10px 0 0;
     height: 130px;
 }
 .logo-text {
@@ -130,23 +121,29 @@ a:focus {
     float: left;
 }
 .logo-text img {
-    margin: 25px 0;
+    margin: 25px 0 0;
     height: 110px;
 }
+#site-title {
+    text-align: left;
+}
 #site-title h1 {
-    font-size: 34px;
-    line-height: 30px;
-    margin-top: 20px;
+    font-size: 20px;
     font-weight: 400;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
 }
 #site-title h1 .slogan {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 300;
+    font-size: 18px;
 }
 /*-- End Logo --*/
 
 /*-- Header--*/
+#login-layout header {
+    height: 100px;
+}
+.header {
+    /*background: #DDDDDD;*/
+}
 .btn-login {
     width: 136px;
     padding-top: 1px;
@@ -168,10 +165,6 @@ a:focus {
     float: right;
 }
 
-.btn-register {
-    clear: both;
-}
-
 /*-- Content --*/
 .content {
     font-size: 16px;
@@ -185,6 +178,10 @@ a:focus {
 #content h4, .content h4,
 #content h5, .content h5 {
     text-align: left;
+    font-weight: 400;
+}
+#cabinet #content h2, #cabinet .content h2 {
+    font-weight: 300;
 }
 .content .fancybox {
     float: left;
@@ -397,6 +394,8 @@ a:focus {
 #navbar-top {
     margin-top: 7px;
     padding: 0;
+    display: inline-block;
+    float: right;
 }
 #navbar-top .navbar-nav > li > a {
     padding: 5px 5px;
@@ -409,6 +408,19 @@ a:focus {
     text-decoration: none;
     background: none;
 }
+.header .buttons {
+    margin-top: 7px;
+}
+.header .btn-login {
+    margin: 0;
+}
+.header .btn-register {
+    line-height: 20px;
+    padding: 5px 0;
+    margin: 0 10px 0 0;
+}
+
+
 /*-- Main menu --*/
 #navbar-main {
     background: #1B609C;
@@ -444,7 +456,7 @@ a:focus {
 #navbar-main .dropdown-menu li > a:hover,
 #navbar-main .dropdown-menu li > a:hover {
     color: #ffffff;
-    background: #337AB7;
+    background: #1B609C;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -506,9 +518,8 @@ a:focus {
     background: none !important;
     display: inline !important;
 }
-.sidebar-widget .list-group-item .row-picture .login {
-    position: relative;
-    top: -3px;
+.sidebar-widget .list-group-item .row-picture a {
+    text-decoration: none;
 }
 .sidebar-widget .list-group-item .row-picture .date,
 .sidebar-widget .list-group-item .row-picture .rate {
@@ -602,16 +613,14 @@ a:focus {
     margin-bottom: 19px;
 }
 #favorites-widget a,
-#rss-widget a,
-#search button {
+#rss-widget a {
     width: 100%;
     margin-top: 0;
     background: #f4f4f4;
     padding: 4px 10px;
 }
 #favorites-widget i.material-icons,
-#rss-widget i.material-icons,
-#search i.material-icons {
+#rss-widget i.material-icons {
     color: #ffab00;
     font-size: 24px;
 }
@@ -678,22 +687,42 @@ a:focus {
 }
 
 /* Search Widget */
+#search {
+    margin-top: 52px;
+}
+#search button {
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+#search button i.material-icons {
+    color: #1B609C;
+    font-size: 34px;
+}
 #search .form-control {
     background-image: linear-gradient(#337AB7, #337AB7), linear-gradient(#337AB7, #337AB7);
+    background-size: 0px 2px, 100% 2px;
+}
+#search .hint {
+    color: #777777;
+    font-style: italic;
 }
 #search .form-control-wrapper .floating-label {
     color: #337AB7;
 }
-.form-control {
-    transition: all 0s ease 0s;
-}
-.form-control.focus {
-    outline: none;
-    background-image: linear-gradient(#009688, #009688), linear-gradient(#d2d2d2, #d2d2d2);
-    background-size: 100% 2px, 100% 1px;
-    box-shadow: none;
-    transition-duration: 0.3s;
-}
+
+
+/*.form-control {*/
+    /*transition: all 0s ease 0s;*/
+/*}*/
+/*.form-control.focus {*/
+    /*outline: none;*/
+    /*background-image: linear-gradient(#009688, #009688), linear-gradient(#d2d2d2, #d2d2d2);*/
+    /*background-size: 100% 2px, 100% 1px;*/
+    /*box-shadow: none;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
 
 /*-- End Sidebar Widget --*/
 

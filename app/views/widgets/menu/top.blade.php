@@ -1,4 +1,4 @@
-<div id="navbar-top" class="collapse navbar-collapse">
+<div id="navbar-top">
     <ul class="nav navbar-nav pull-right">
         @foreach($pages as $page)
             <li class="{{ Request::is($page->getUrl()) ? 'active' : '' }}">

@@ -22,7 +22,7 @@
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <h2>
+                <h2 class="margin-bottom-20">
                     Бортовой журнал пользователя
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
                         {{ $user->login }}
@@ -32,55 +32,57 @@
                     </a>
                 </h2>
 
-                <div class="content row journal-user-info">
-                    <div class="col-md-4">
-                        <div class="user-data-row">
-                            <i class="material-icons">chrome_reader_mode</i>
-                            <div class="text">
-                                Статей:
-                                <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                                    {{ count($user->publishedArticles) }}
-                                </a>
+                <div class="journal-user-info">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="user-data-row">
+                                <i class="material-icons">chrome_reader_mode</i>
+                                <div class="text">
+                                    Статей:
+                                    <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
+                                        {{ count($user->publishedArticles) }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="user-data-row">
+                                <div>
+                                    <i class="material-icons">help</i>
+                                    <div class="text">
+                                        Вопросов:
+                                        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                            {{ count($user->publishedQuestions) }}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="user-data-row">
-                            <div>
-                                <i class="material-icons">help</i>
+                        <div class="col-md-4">
+                            <div class="user-data-row">
+                                <i class="material-icons">question_answer</i>
                                 <div class="text">
-                                    Вопросов:
-                                    <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                        {{ count($user->publishedQuestions) }}
+                                    Ответов:
+                                    <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                                        {{ count($user->publishedAnswers) }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="user-data-row">
+                                <i class="material-icons">chat_bubble</i>
+                                <div class="text">
+                                    Комментариев:
+                                    <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
+                                        {{ count($user->publishedComments) }}
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="user-data-row">
-                            <i class="material-icons">question_answer</i>
-                            <div class="text">
-                                Ответов:
-                                <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ count($user->publishedAnswers) }}
-                                </a>
+                        <div class="col-md-4">
+                            <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
+                                {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
+                                <span class="count pull-left" style="line-height: 40px">
+                                    {{ $user->points }}
+                                </span>
                             </div>
-                        </div>
-                        <div class="user-data-row">
-                            <i class="material-icons">chat_bubble</i>
-                            <div class="text">
-                                Комментариев:
-                                <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ count($user->publishedComments) }}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
-                            {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
-                            <span class="count pull-left" style="line-height: 40px">
-                                {{ $user->points }}
-                            </span>
                         </div>
                     </div>
                 </div>
