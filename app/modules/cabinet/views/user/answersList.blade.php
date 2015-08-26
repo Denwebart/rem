@@ -6,7 +6,7 @@
         </div>
 
         @foreach($answers as $answer)
-            <div data-comment-id="{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
+            <div data-comment-id="{{ $answer->id }}" id="answer-{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">

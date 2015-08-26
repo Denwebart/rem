@@ -173,13 +173,19 @@ class Comment extends \Eloquent
 			if($this->mark == Comment::MARK_BEST) {
 				$this->user->removePoints(User::POINTS_FOR_BEST_ANSWER);
 				$this->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED, [
-					'[answer]' => $this->comment,
+					'[answer]' => strip_tags($this->comment),
+					'[linkToAnswer]' => URL::route('user.answers', [
+							'login' => $this->user->getLoginForUrl()
+						]) . '#answer-' . $this->id,
 					'[pageTitle]' => $this->page->getTitle(),
 					'[linkToPage]' => URL::to($this->page->getUrl())
 				]);
 			} else {
 				$this->user->setNotification(Notification::TYPE_ANSWER_DELETED, [
-					'[answer]' => $this->comment,
+					'[answer]' => strip_tags($this->comment),
+					'[linkToAnswer]' => URL::route('user.answers', [
+							'login' => $this->user->getLoginForUrl()
+						]) . '#answer-' . $this->id,
 					'[pageTitle]' => $this->page->getTitle(),
 					'[linkToPage]' => URL::to($this->page->getUrl())
 				]);
@@ -187,7 +193,10 @@ class Comment extends \Eloquent
 		} else {
 			$this->user->removePoints(User::POINTS_FOR_COMMENT);
 			$this->user->setNotification(Notification::TYPE_COMMENT_DELETED, [
-				'[comment]' => $this->comment,
+				'[comment]' => strip_tags($this->comment),
+				'[linkToComment]' => URL::route('user.comments', [
+						'login' => $this->user->getLoginForUrl()
+					]) . '#comment-' . $this->id,
 				'[pageTitle]' => $this->page->getTitle(),
 				'[linkToPage]' => URL::to($this->page->getUrl())
 			]);

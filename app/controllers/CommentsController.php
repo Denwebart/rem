@@ -56,7 +56,7 @@ class CommentsController extends BaseController
 							$comment->user->addPoints(User::POINTS_FOR_ANSWER);
 							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
 								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => $comment->comment,
+								'[answer]' => strip_tags($comment->comment),
 								'[pageTitle]' => $comment->page->getTitle(),
 								'[linkToPage]' => URL::to($comment->page->getUrl())
 							]);
@@ -64,7 +64,7 @@ class CommentsController extends BaseController
 								'[user]' => $comment->user->login,
 								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
 								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => $comment->comment,
+								'[answer]' => strip_tags($comment->comment),
 								'[pageTitle]' => $comment->page->getTitle(),
 								'[linkToPage]' => URL::to($comment->page->getUrl())
 							]);
@@ -72,7 +72,7 @@ class CommentsController extends BaseController
 							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
 							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
 								'[linkToComment]' => URL::to($comment->getUrl()),
-								'[comment]' => $comment->comment,
+								'[comment]' => strip_tags($comment->comment),
 								'[pageTitle]' => $comment->page->getTitle(),
 								'[linkToPage]' => URL::to($comment->page->getUrl())
 							]);
@@ -80,7 +80,7 @@ class CommentsController extends BaseController
 								'[user]' => $comment->user->login,
 								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
 								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => $comment->comment,
+								'[answer]' => strip_tags($comment->comment),
 								'[pageTitle]' => $comment->page->getTitle(),
 								'[linkToPage]' => URL::to($comment->page->getUrl())
 							]);
@@ -148,7 +148,7 @@ class CommentsController extends BaseController
 							'[user]' => $userLogin,
 							'[linkToUser]' => $linkToUser,
 							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => $comment->comment,
+							'[answer]' => strip_tags($comment->comment),
 							'[pageTitle]' => $comment->page->getTitle(),
 							'[linkToPage]' => URL::to($comment->page->getUrl())
 						]);
@@ -157,7 +157,7 @@ class CommentsController extends BaseController
 							'[user]' => $userLogin,
 							'[linkToUser]' => $linkToUser,
 							'[linkToComment]' => URL::to($comment->getUrl()),
-							'[comment]' => $comment->comment,
+							'[comment]' => strip_tags($comment->comment),
 							'[pageTitle]' => $comment->page->getTitle(),
 							'[linkToPage]' => URL::to($comment->page->getUrl())
 						]);
@@ -169,7 +169,7 @@ class CommentsController extends BaseController
 							'[user]' => $userLogin,
 							'[linkToUser]' => $linkToUser,
 							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => $comment->comment,
+							'[answer]' => strip_tags($comment->comment),
 							'[pageTitle]' => $comment->page->getTitle(),
 							'[linkToPage]' => URL::to($comment->page->getUrl())
 						]);
@@ -178,7 +178,7 @@ class CommentsController extends BaseController
 							'[user]' => $userLogin,
 							'[linkToUser]' => $linkToUser,
 							'[linkToComment]' => URL::to($comment->getUrl()),
-							'[comment]' => $comment->comment,
+							'[comment]' => strip_tags($comment->comment),
 							'[pageTitle]' => $comment->page->getTitle(),
 							'[linkToPage]' => URL::to($comment->page->getUrl())
 						]);
@@ -194,7 +194,7 @@ class CommentsController extends BaseController
 								$comment->user->removePoints(User::POINTS_FOR_ANSWER);
 								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED, [
 									'[linkToAnswer]' => URL::to($comment->getUrl()),
-									'[answer]' => $comment->comment,
+									'[answer]' => strip_tags($comment->comment),
 									'[pageTitle]' => $comment->page->getTitle(),
 									'[linkToPage]' => URL::to($comment->page->getUrl())
 								]);
@@ -202,7 +202,7 @@ class CommentsController extends BaseController
 								$comment->user->removePoints(User::POINTS_FOR_COMMENT);
 								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED, [
 									'[linkToComment]' => URL::to($comment->getUrl()),
-									'[comment]' => $comment->comment,
+									'[comment]' => strip_tags($comment->comment),
 									'[pageTitle]' => $comment->page->getTitle(),
 									'[linkToPage]' => URL::to($comment->page->getUrl())
 								]);
@@ -212,7 +212,7 @@ class CommentsController extends BaseController
 								$comment->user->addPoints(User::POINTS_FOR_ANSWER);
 								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
 									'[linkToAnswer]' => URL::to($comment->getUrl()),
-									'[answer]' => $comment->comment,
+									'[answer]' => strip_tags($comment->comment),
 									'[pageTitle]' => $comment->page->getTitle(),
 									'[linkToPage]' => URL::to($comment->page->getUrl())
 								]);
@@ -220,7 +220,7 @@ class CommentsController extends BaseController
 								$comment->user->addPoints(User::POINTS_FOR_COMMENT);
 								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
 									'[linkToComment]' => URL::to($comment->getUrl()),
-									'[comment]' => $comment->comment,
+									'[comment]' => strip_tags($comment->comment),
 									'[pageTitle]' => $comment->page->getTitle(),
 									'[linkToPage]' => URL::to($comment->page->getUrl())
 								]);
@@ -276,7 +276,7 @@ class CommentsController extends BaseController
 							'[linkToPage]' => URL::to($comment->page->getUrl()),
 							'[pageTitle]' => $comment->page->getTitle(),
 							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => $comment->comment,
+							'[answer]' => strip_tags($comment->comment),
 						];
 						$comment->user->setNotification(Notification::TYPE_BEST_ANSWER, $variable);
 						$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED, $variable);
