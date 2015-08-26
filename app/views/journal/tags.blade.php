@@ -30,9 +30,9 @@
 
         @if(count($tagsByAlphabet))
 
-            <section id="tags-area">
+            <section id="letters">
                 @foreach($tagsByAlphabet as $letter => $tags)
-                    <a href="#{{ $letter }}" class="btn btn-info btn-sm">
+                    <a href="#{{ $letter }}" class="btn btn-default btn-sm">
                         {{ $letter }}
                     </a>
                 @endforeach
@@ -43,25 +43,33 @@
                     Всего тегов: <span>{{ count($tagsByAlphabet) }}</span>.
                 </div>
                 @foreach($tagsByAlphabet as $letter => $tags)
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="{{ $letter }}" class="letter" style="background: #ccc; height: 30px">
-                                {{ $letter }}
-                                <span class="count pull-right">количество тегов: {{ count($tags) }}</span>
+                    <div class="letter-section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="{{ $letter }}" class="letter-title">
+                                    <span class="letter">{{ $letter }}</span>
+                                    <span class="count pull-right">количество тегов: {{ count($tags) }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <ul>
-                                @foreach($tags as $tag)
-                                    <li>
-                                        <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}">
-                                            {{ $tag->getImage(null, ['width' => '20px']) }}
-                                            {{ $tag->title }}
-                                            ({{ count($tag->pages) }})
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div class="col-md-12">
+                                <div class="tags">
+                                    <div class="row">
+                                        @foreach($tags as $tag)
+                                            <div class="col-md-4">
+                                                <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}">
+                                                    @if($tag->image)
+                                                        {{ $tag->getImage(null, ['width' => '20px', 'class' => 'pull-left']) }}
+                                                    @endif
+                                                    <span class="pull-left">
+                                                        {{ $tag->title }}
+                                                        ({{ count($tag->pages) }})
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

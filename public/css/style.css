@@ -378,6 +378,38 @@ a:focus {
     margin: 2px 0;
 }
 
+/* Страница со списком тегов */
+#letters a {
+    font-size: 15px;
+    padding: 5px 10px;
+    border-bottom: 2px solid #03A9F4;
+    background: #F5F5F5;
+}
+#tags-area .letter-section {
+    margin: 10px 0 20px;
+}
+#tags-area .letter-title {
+    background: #F5F5F5 none repeat scroll 0% 0%;
+    border-top: 2px solid #03A9F4;
+    padding: 5px 10px 5px 20px;
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+#tags-area .letter-title .letter {
+    font-size: 26px;
+}
+#tags-area .letter-title .count {
+    font-style: italic;
+}
+#tags-area .tags {
+    display: inline-block;
+    width: 100%;
+}
+#tags-area .tags a span {
+    line-height: 30px;
+}
+
 /* Rating */
 #rating {
     margin-top: -5px;
