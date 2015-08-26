@@ -8,7 +8,7 @@
     {{--<meta name="robots" content="noindex, nofollow">--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ isset($page) ? $page->meta_desc : $title }}</title>
+    <title>{{ isset($page) ? $page->meta_title : $title }}</title>
 
     <meta name="description" content="{{ isset($page) ? $page->meta_desc : '' }}"/>
     <meta name="keywords" content="{{ isset($page) ? $page->meta_key : '' }}"/>
@@ -70,7 +70,11 @@
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if(Auth::check())
-    {{ $headerWidget->show() }}
+    @if(!isset($page))
+        {{ $headerWidget->show() }}
+    @else
+        {{ $headerWidget->show($page) }}
+    @endif
 @endif
 
 <!-- Header -->
@@ -85,24 +89,18 @@
             <div id="honors-sidebar-widget" class="list-group sidebar-widget">
                 <h4>Список наград</h4>
 
-                @foreach(Honor::all() as $item)
-                    <div class="list-group-item">
-                        <div class="row-picture">
+                <div class="honors">
+                    @foreach(Honor::all() as $item)
+                        <div class="honor @if(isset($honor->id)) @if($honor->id == $item->id) active @endif @endif" data-user-id="{{ $item->id }}">
                             <a href="{{ URL::route('honor.info', ['alias' => $item->alias]) }}">
-                                {{ $item->getImage() }}
+                                {{ $item->getImage(null, ['class' => 'pull-left']) }}
+                                <span class="text">
+                                    {{ $item->title }}
+                                </span>
                             </a>
                         </div>
-                        <div class="row-content">
-                            <p class="list-group-item-text" style="clear: both">
-                                <a href="{{ URL::route('honor.info', ['alias' => $item->alias]) }}">
-                                    {{ $item->title }}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="list-group-separator"></div>
-
-                @endforeach
+                    @endforeach
+                </div>
 
             </div>
 

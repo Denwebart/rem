@@ -424,7 +424,6 @@ a:focus {
     margin: 0 10px 0 0;
 }
 
-
 /*-- Main menu --*/
 #navbar-main {
     background: #1B609C;
@@ -1071,6 +1070,54 @@ a:focus {
 }
 .journal-user-info .honors {
     margin: 10px 0;
+}
+
+/*-- Награды --*/
+#rewarded-users .user {
+    display: inline-block;
+    margin-right: 10px;
+}
+#honors-sidebar-widget {
+    text-align: center;
+}
+#honors-sidebar-widget .honor {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 10px 10px 12px;
+    height: 70px;
+}
+#honors-sidebar-widget .honor.active,
+#honors-sidebar-widget .honor:hover {
+    background: #F5F5F5;
+    border-left: 2px solid #03A9F4;
+    padding-left: 10px;
+}
+#honors-sidebar-widget .honor a {
+    display: inline-block;
+    width: 100%;
+}
+#honors-sidebar-widget .honor a img {
+    width: 50px;
+}
+#honors-sidebar-widget .honor a span {
+    float: left;
+    margin: 10px 0 0 10px;
+}
+
+#honor-info h2 {
+    text-align: center;
+}
+#honor-info .honor-image {
+    width: 100%;
+    text-align: center;
+}
+#honor-info .honor-image img {
+    display: inline-block;
+}
+#honor-info .honor-description {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /*-- Footer --*/

@@ -333,7 +333,6 @@ h2, .h2 {
 /*-- Личные сообщения --*/
 /* Собеседники */
 #companions .body {
-    border-right: 1px #E3E3E3 solid;
     max-height: 680px;
     overflow: auto;
     padding-right: 10px;

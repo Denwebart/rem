@@ -17,20 +17,30 @@ View::share('title', $title);
         <div class="row">
             <div class="col-md-7">
                 <div class="well">
-                    <h2>{{ $honor->title }}</h2>
+                    <div id="honor-info">
+                        <h2>{{ $honor->title }}</h2>
 
-                    {{ $honor->getImage() }}
-                    <hr/>
-                    {{ $honor->description }}
+                        <div class="honor-image">
+                            {{ $honor->getImage() }}
+                        </div>
+
+                        @if($honor->description)
+                            <div class="honor-description">
+                                {{ $honor->description }}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
             <div class="col-md-5">
-                <h3>Награжденные пользователи</h3>
+                <h3 style="margin-top: 0px; font-weight: 300;">
+                    Награжденные пользователи
+                </h3>
 
                 @if(count($honor->users))
-                    <ul class="users">
+                    <div id="rewarded-users">
                         @foreach($honor->users as $user)
-                            <li>
+                            <div class="user">
                                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
                                     {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                     @if($user->isOnline())
@@ -39,14 +49,11 @@ View::share('title', $title);
                                         <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                                     @endif
                                 </a>
-                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                    {{ $user->login }}
-                                </a>
-                            </li>
+                            </div>
                         @endforeach
-                    </ul>
+                    </div>
                 @else
-                    <p>Еще ни у кого нет этой награды</p>
+                    <p>Еще ни у кого нет этой награды.</p>
                 @endif
             </div>
         </div>

@@ -119,7 +119,8 @@ class CabinetController extends \BaseController
 	{
 		$honor = Honor::whereAlias($alias)->firstOrFail();
 
-		return View::make('cabinet::honor', compact('honor'));
+		View::share('honor', $honor);
+		return View::make('cabinet::honor');
 	}
 
 }
