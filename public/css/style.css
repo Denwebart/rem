@@ -718,6 +718,30 @@ a:focus {
     color: #337AB7;
 }
 
+/* HTML карта сайта */
+#sitemap {
+    padding-left: 10px;
+    margin-top: 20px;
+    text-align: left;
+}
+#sitemap li {
+    list-style: none;
+}
+#sitemap a {
+    text-decoration: none !important;
+}
+#sitemap a:hover {
+    text-decoration: underline !important;
+}
+#sitemap ul {
+    padding: 10px 20px;
+    margin: 10px 20px;
+    border-left: 3px solid #03A9F4;
+}
+#sitemap ul li {
+    margin-bottom: 5px;
+}
+
 /* Контактная форма */
 #contact-form .checkbox {
     margin: 0;
@@ -774,7 +798,8 @@ a:focus {
 #comments-widget .avatar-link.gray-background .is-online-status {
     border-color: rgb(242, 242, 242);
 }
-#comments-widget .login {
+#comments-widget .login,
+#contact-form .login {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 20px;
     text-decoration: none !important;

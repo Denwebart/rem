@@ -47,12 +47,8 @@
 
                     <div class="row">
                         @if(Auth::check())
-                            <div class="col-md-6">
-                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
-                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                </a>
-                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
+                            <div class="col-md-12">
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="login pull-left">
                                     <span>{{  Auth::user()->login }}</span>
                                 </a>
                             </div>
