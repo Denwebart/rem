@@ -275,6 +275,7 @@ a:focus {
 .page-info #saved-pages a {
     float: left;
     line-height: 24px;
+    margin-right: 5px;
 }
 .page-info #saved-pages a span {
     float: left;

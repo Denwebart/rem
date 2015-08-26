@@ -46,22 +46,22 @@
                     </a>
                 </div>
                 <div class="date pull-left" title="Дата публикации">
-                    <span class="icon mdi-action-today"></span>
+                    <i class="material-icons">today</i>
                     <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>
             </div>
             <div class="pull-right">
                 <div class="answers-count pull-left" title="Количество ответов">
-                    <span class="icon mdi-communication-forum"></span>
+                    <i class="material-icons">question_answer</i>
                     <a href="#answers">
-                    <span class="count-comments">
-                        {{ count($page->publishedAnswers) }}
-                    </span>
+                        <span class="count-comments">
+                            {{ count($page->publishedAnswers) }}
+                        </span>
                     </a>
                 </div>
 
                 <div class="views pull-left" title="Количество просмотров">
-                    <span class="icon mdi-action-visibility"></span>
+                    <i class="material-icons">visibility</i>
                     <span>{{ $page->views }}</span>
                 </div>
 

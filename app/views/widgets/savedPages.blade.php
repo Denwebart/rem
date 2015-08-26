@@ -3,7 +3,7 @@
         @if(!Auth::user()->hasInSaved($page->id))
             <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"'>
                 <i class="material-icons">archive</i>
-                <span>Сохранить себе</span>
+                <span>Сохранить</span>
             </a>
         @else
             <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного'>
@@ -59,7 +59,7 @@
                     success: function(response) {
                         if(response.success){
                             $("#site-messages").prepend(response.message);
-                            $link.html('<i class="material-icons">archive</i><span>Сохранить себе</span>');
+                            $link.html('<i class="material-icons">archive</i><span>Сохранить</span>');
                             $link.attr('id', 'save-page');
                             $link.attr('title', 'Если вам понравилась статья, вы можете добавить ее в "Сохраненное"');
                             $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
