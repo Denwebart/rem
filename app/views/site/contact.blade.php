@@ -40,80 +40,67 @@
 			{{ Form::open([
 				  'action' => ['SiteController@contactPost'],
 				  'id' => 'contact-form',
-				  'class' => 'form-horizontal'
 				  ])
 			}}
                 <fieldset>
+                    <h3>Обратная связь</h3>
 
-                    <!-- Form Name -->
-                    <legend>Обратная связь</legend>
-
-                    @if(Auth::check())
-                        <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
-                            {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                            <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                        </a>
-                        <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
-                            <span>{{  Auth::user()->login }}</span>
-                        </a>
-
-                        <div class="clearfix"></div>
-                    @else
-                        <!-- Имя -->
-                        <div class="form-group">
-                            {{ HTML::decode(Form::label('user_name', 'Введите Ваше имя: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
-                            <div class="col-md-8">
-                                {{ Form::text('user_name', '', ['class' => 'form-control input-md', 'placeholder' => 'Имя*']); }}
+                    <div class="row">
+                        @if(Auth::check())
+                            <div class="col-md-6">
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="avatar-link pull-left">
+                                    {{ Auth::user()->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                </a>
+                                <a href="{{ URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]) }}" class="pull-left">
+                                    <span>{{  Auth::user()->login }}</span>
+                                </a>
+                            </div>
+                        @else
+                            <!-- Имя -->
+                            <div class="form-group col-md-6">
+                                {{ Form::text('user_name', '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
                                 @if ($errors->has('user_name')) <p class="text-danger">{{ $errors->first('user_name') }}</p> @endif
                             </div>
-                        </div>
-                        <!-- Email -->
-                        <div class="form-group">
-                            {{ HTML::decode(Form::label('user_email', 'Адрес e-mail: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
-                            <div class="col-md-8">
-                                {{ Form::text('user_email', '', ['class' => 'form-control input-md', 'placeholder' => 'Email*']); }}
+                            <!-- Email -->
+                            <div class="form-group col-md-6">
+                                {{ Form::text('user_email', '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
                                 @if ($errors->has('user_email')) <p class="text-danger">{{ $errors->first('user_email') }}</p> @endif
                             </div>
-                        </div>
-                    @endif
+                        @endif
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        {{ Form::label('subject', 'Тема сообщения:', ['class' => 'col-md-4 control-label']) }}
-                        <div class="col-md-8">
-                            {{ Form::text('subject', '', ['class' => 'form-control input-md', 'placeholder' => 'Тема сообщения']); }}
+                        <!-- Text input-->
+                        <div class="form-group col-md-12">
+                            {{ Form::text('subject', '', ['class' => 'form-control', 'placeholder' => 'Тема сообщения']); }}
                             @if ($errors->has('subject')) <p class="text-danger">{{ $errors->first('subject') }}</p> @endif
                         </div>
-                    </div>
 
-                    <!-- Textarea -->
-                    <div class="form-group">
-                        {{ HTML::decode(Form::label('message', 'Введите текст сообщения: <span class="text-danger">*</span>', ['class' => 'col-md-4 control-label'])) }}
-                        <div class="col-md-8">
+                        <!-- Textarea -->
+                        <div class="form-group col-md-12">
                             {{ Form::textarea('message', '', ['class' => 'form-control', 'placeholder' => 'Сообщение*']); }}
                             @if ($errors->has('message')) <p class="text-danger">{{ $errors->first('message') }}</p> @endif
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        {{ Form::label('subject', 'Отправить копию этого сообщения на Ваш адрес e-mail', ['class' => 'col-md-4 control-label']) }}
-                        <div class="col-md-8">
+                        <div class="form-group col-md-12">
+                            {{ Form::label('sendCopy', 'Отправить копию этого сообщения на Ваш адрес e-mail', ['class' => 'control-label send-copy']) }}
                             <div class="checkbox">
                                 <label>
                                     {{ Form::checkbox('sendCopy', 0, ['class' => 'form-control']); }}
                                 </label>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            @if(!Auth::check())
+                                {{ Form::captcha() }}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+                                @endif
+                            @endif
+                        </div>
                     </div>
 
-                    @if(!Auth::check())
-                        {{ Form::captcha() }}
-                        @if ($errors->has('g-recaptcha-response'))
-                            <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
-                        @endif
-                    @endif
-
-                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-prime btn-mid pull-right']) }}
+                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-success btn-sm pull-right']) }}
 
                 </fieldset>
                 {{ Form::hidden('_token', csrf_token()) }}

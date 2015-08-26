@@ -718,6 +718,17 @@ a:focus {
     color: #337AB7;
 }
 
+/* Контактная форма */
+#contact-form .checkbox {
+    margin: 0;
+    float: left;
+}
+#contact-form label.send-copy {
+    float: left;
+    margin-right: 10px;
+    font-weight: 400;
+    line-height: 25px;
+}
 
 /*.form-control {*/
     /*transition: all 0s ease 0s;*/
