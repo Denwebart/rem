@@ -3,181 +3,187 @@
 <?php
 $title = 'Все пользователи';
 View::share('page', $title);
+
+$bestWriter = User::getBestWriter(null, null, 1);
+$bestRespondent = User::getBestRespondent(null, null, 1);
+$bestCommentator = User::getBestCommentator(null, null, 1);
 ?>
 
 @section('leftSidebar')
-    <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
-        <h4>Лидеры месяца
-            <span class="pull-right">
-                <?php $lastMonth = date_create(date('d-m-Y') . ' first day of last month'); ?>
-                {{ DateHelper::$monthsList[$lastMonth->format('n')] }}
-                {{ $lastMonth->format('Y') }}
-            </span>
-        </h4>
+    @if(count($bestWriter) || count($bestRespondent) || count($bestCommentator))
+        <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
+            <h4>Лидеры месяца
+                <span class="pull-right">
+                    <?php $lastMonth = date_create(date('d-m-Y') . ' first day of last month'); ?>
+                    {{ DateHelper::$monthsList[$lastMonth->format('n')] }}
+                    {{ $lastMonth->format('Y') }}
+                </span>
+            </h4>
 
-        @foreach(User::getBestWriter(null, null, 1) as $key => $user)
-            @if($key == 0)
-                <div class="award">
-                    <div class="row-user">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
-                            {{ $user->login }}
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p>Баллов: {{ $user->articlesPoints }}</p>
-                        <p>Статей: {{ $user->articlesCount }}</p>
-                    </div>
-                    <div class="row-title">
-                        <h5>Лучший писатель</h5>
-                    </div>
-                </div>
-            @else
-                <div class="list-group-item">
-                    <div class="row-picture">
-                        {{--{{ $key + 1 }}.--}}
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p class="list-group-item-text" style="clear: both">
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+            @foreach($bestWriter as $key => $user)
+                @if($key == 0)
+                    <div class="award">
+                        <div class="row-user">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
                                 {{ $user->login }}
                             </a>
-                            <br/>
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                {{ $user->getFullName() }}
+                        </div>
+                        <div class="row-content">
+                            <p>Баллов: {{ $user->articlesPoints }}</p>
+                            <p>Статей: {{ $user->articlesCount }}</p>
+                        </div>
+                        <div class="row-title">
+                            <h5>Лучший писатель</h5>
+                        </div>
+                    </div>
+                @else
+                    <div class="list-group-item">
+                        <div class="row-picture">
+                            {{--{{ $key + 1 }}.--}}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
                             </a>
-                        </p>
-                        <p>Баллы за статьи: {{ $user->articlesPoints }}</p>
-                        <p>Количество статей: {{ $user->articlesCount }}</p>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллы за статьи: {{ $user->articlesPoints }}</p>
+                            <p>Количество статей: {{ $user->articlesCount }}</p>
+                        </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                @endif
+            @endforeach
 
-        @foreach(User::getBestRespondent(null, null, 1) as $key => $user)
-            @if($key == 0)
-                <div class="award">
-                    <div class="row-user">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
-                            {{ $user->login }}
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p>Баллов: {{ $user->answersPoints }}</p>
-                        <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
-                    </div>
-                    <div class="row-title">
-                        <h5>Лучший советчик</h5>
-                    </div>
-                </div>
-            @else
-                <div class="list-group-item">
-                    <div class="row-picture">
-                        {{--{{ $key + 1 }}.--}}
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p class="list-group-item-text" style="clear: both">
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+            @foreach($bestRespondent as $key => $user)
+                @if($key == 0)
+                    <div class="award">
+                        <div class="row-user">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
                                 {{ $user->login }}
                             </a>
-                            <br/>
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                {{ $user->getFullName() }}
+                        </div>
+                        <div class="row-content">
+                            <p>Баллов: {{ $user->answersPoints }}</p>
+                            <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                        </div>
+                        <div class="row-title">
+                            <h5>Лучший советчик</h5>
+                        </div>
+                    </div>
+                @else
+                    <div class="list-group-item">
+                        <div class="row-picture">
+                            {{--{{ $key + 1 }}.--}}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
                             </a>
-                        </p>
-                        <p>Баллов: {{ $user->answersPoints }}</p>
-                        <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллов: {{ $user->answersPoints }}</p>
+                            <p>Ответов: {{ $user->answersCount }}, лучших: {{ $user->countBestAnswers }}</p>
+                        </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                @endif
+            @endforeach
 
-        @foreach(User::getBestCommentator(null, null, 1) as $key => $user)
-            @if($key == 0)
-                <div class="award">
-                    <div class="row-user">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
-                            {{ $user->login }}
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p>Баллов: {{ $user->commentsPoints }}</p>
-                        <p>Комментариев: {{ $user->commentsCount }}</p>
-                    </div>
-                    <div class="row-title">
-                        <h5>Лучший комментатор</h5>
-                    </div>
-                </div>
-            @else
-                <div class="list-group-item">
-                    <div class="row-picture">
-                        {{--{{ $key + 1 }}.--}}
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
-                            {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                            @if($user->isOnline())
-                                <span class="is-online-status online" title="Сейчас на сайте"></span>
-                            @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                            @endif
-                        </a>
-                    </div>
-                    <div class="row-content">
-                        <p class="list-group-item-text" style="clear: both">
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+            @foreach($bestCommentator as $key => $user)
+                @if($key == 0)
+                    <div class="award">
+                        <div class="row-user">
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
+                            </a>
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
                                 {{ $user->login }}
                             </a>
-                            <br/>
-                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                {{ $user->getFullName() }}
-                            </a>
-                        </p>
-                        <p>Баллы за комментарии: {{ $user->commentsPoints }}</p>
-                        <p>Количество комментариев: {{ $user->commentsCount }}</p>
+                        </div>
+                        <div class="row-content">
+                            <p>Баллов: {{ $user->commentsPoints }}</p>
+                            <p>Комментариев: {{ $user->commentsCount }}</p>
+                        </div>
+                        <div class="row-title">
+                            <h5>Лучший комментатор</h5>
+                        </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                @else
+                    <div class="list-group-item">
+                        <div class="row-picture">
+                            {{--{{ $key + 1 }}.--}}
+                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
+                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                @if($user->isOnline())
+                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                @else
+                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                @endif
+                            </a>
+                        </div>
+                        <div class="row-content">
+                            <p class="list-group-item-text" style="clear: both">
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->login }}
+                                </a>
+                                <br/>
+                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getFullName() }}
+                                </a>
+                            </p>
+                            <p>Баллы за комментарии: {{ $user->commentsPoints }}</p>
+                            <p>Количество комментариев: {{ $user->commentsCount }}</p>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
 
-    </div>
+        </div>
+    @endif
 @endsection
 
 @section('content')
