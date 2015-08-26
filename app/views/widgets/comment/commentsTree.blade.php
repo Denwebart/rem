@@ -333,7 +333,14 @@
                     },
                     success: function (response) {
                         if (response.success) {
-                            $('[id="comment-' + commentId + '"]').find('.comment-text').addClass('deleted').html('Комментарий удален.');
+                            if(response.parentId == 0) {
+                                var commentClass = '.parent-comment.comment-text';
+                            } else {
+                                var commentClass = '.comment-text';
+                            }
+                            $('[id="comment-' + commentId + '"]').find(commentClass)
+                                    .addClass('deleted')
+                                    .html('Комментарий удален.');
                             $('#site-messages').prepend(response.message);
                         }
                     }

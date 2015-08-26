@@ -7,7 +7,7 @@
         <i class="material-icons">keyboard_arrow_up</i>
     </a>
     @if(!$comment->is_deleted)
-        <div class="comment-text @if($comment->mark == Comment::MARK_BEST) best @endif">
+        <div class="parent-comment comment-text @if($comment->mark == Comment::MARK_BEST) best @endif">
             <div class="row">
                 <div class="col-md-11">
                     @if($comment->user)

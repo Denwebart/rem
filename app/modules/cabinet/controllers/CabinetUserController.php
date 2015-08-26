@@ -803,7 +803,7 @@ class CabinetUserController extends \BaseController
 				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 			if($comment = Comment::find($commentId)) {
-				$comment->delete();
+				$comment->markAsDeleted();
 
 				$comments = Comment::whereUserId($user->id)
 					->whereIsAnswer(0)
@@ -878,7 +878,7 @@ class CabinetUserController extends \BaseController
 				: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
 
 			if($answer = Comment::find($answerId)) {
-				$answer->delete();
+				$answer->markAsDeleted();
 
 				$answers = Comment::whereUserId($user->id)
 					->whereIsAnswer(1)

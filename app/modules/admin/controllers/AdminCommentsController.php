@@ -105,10 +105,12 @@ class AdminCommentsController extends \BaseController {
 	public function ajaxMarkAsDeleted($id)
 	{
 		$comment = Comment::find($id);
+		$parentId = $comment->parent_id;
 		$comment->markAsDeleted();
 
 		return Response::json(array(
 			'success' => true,
+			'parentId' => $parentId,
 			'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Комментарий удален.']),
 		));
 	}
