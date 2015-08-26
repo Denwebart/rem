@@ -44,6 +44,9 @@ a:focus {
 .margin-top-50 {
     margin-top: 50px;
 }
+.margin-left-10 {
+    margin-left: 10px;
+}
 .margin-left-20 {
     margin-left: 20px;
 }
@@ -733,6 +736,7 @@ a:focus {
 #comments-widget .comment {
     position: relative;
     text-align: left;
+    z-index: 0;
 }
 #comments-widget .comment .close-comment {
     position: absolute;
@@ -748,6 +752,9 @@ a:focus {
 }
 #comments-widget .comment-text.best {
     border-left: 2px solid #4CAF50;
+}
+#comments-widget .comment-text.deleted {
+    opacity: 0.5;
 }
 #comments-widget .avatar-link {
     margin-right: 10px;
@@ -817,6 +824,12 @@ a:focus {
 /* Дочерние комментарии */
 #comments-widget .children-comments {
     margin: 0 0 0 50px;
+}
+#comments-widget .children-comments .comment-text {
+    background: none;
+    border: none;
+    padding: 0 20px 0 0;
+    margin: 0;
 }
 #comments-widget .children-comments .comment {
     border-bottom: 1px solid rgb(242, 242, 242);

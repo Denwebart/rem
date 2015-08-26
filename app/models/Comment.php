@@ -20,7 +20,7 @@
  * @property \Carbon\Carbon $updated_at
  * @property string $published_at
  * @property string $read_at
- * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereIsAnswer($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value)
@@ -28,15 +28,25 @@
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereUserIp($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value) 
- * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereMark($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereReadAt($value)
+ * @property integer $ip_id 
+ * @property boolean $is_deleted 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $children 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedChildren 
+ * @property-read \Comment $parent 
+ * @property-read \Page $page 
+ * @property-read \User $user 
+ * @property-read \Ip $ip 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIpId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIsDeleted($value)
  */
 
 class Comment extends \Eloquent
@@ -151,5 +161,48 @@ class Comment extends \Eloquent
 	 */
 	public function getImageEditorPath() {
 		return '/uploads/' . $this->getTable() . '/' . $this->id . '/';
+	}
+
+	/**
+	 * Отметить комментарий как удаленный
+	 */
+	public function markAsDeleted()
+	{
+		if($this->is_answer) {
+			$this->user->removePoints(User::POINTS_FOR_ANSWER);
+			if($this->mark == Comment::MARK_BEST) {
+				$this->user->removePoints(User::POINTS_FOR_BEST_ANSWER);
+				$this->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED, [
+					'[answer]' => $this->comment,
+					'[pageTitle]' => $this->page->getTitle(),
+					'[linkToPage]' => URL::to($this->page->getUrl())
+				]);
+			} else {
+				$this->user->setNotification(Notification::TYPE_ANSWER_DELETED, [
+					'[answer]' => $this->comment,
+					'[pageTitle]' => $this->page->getTitle(),
+					'[linkToPage]' => URL::to($this->page->getUrl())
+				]);
+			}
+		} else {
+			$this->user->removePoints(User::POINTS_FOR_COMMENT);
+			$this->user->setNotification(Notification::TYPE_COMMENT_DELETED, [
+				'[comment]' => $this->comment,
+				'[pageTitle]' => $this->page->getTitle(),
+				'[linkToPage]' => URL::to($this->page->getUrl())
+			]);
+		}
+
+		$this->is_deleted = 1;
+		$this->save();
+	}
+
+	/**
+	 * Восстановить комментарий
+	 */
+	public function markAsUndeleted()
+	{
+		$this->is_deleted = 0;
+		$this->save();
 	}
 }

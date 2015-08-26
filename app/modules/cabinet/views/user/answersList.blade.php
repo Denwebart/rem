@@ -6,25 +6,32 @@
         </div>
 
         @foreach($answers as $answer)
-            <div data-comment-id="{{ $answer->id }}" class="well comment">
+            <div data-comment-id="{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
                             <span class="text">Ответ оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($answer->created_at) }}</span>
                         </div>
+                        @if($answer->is_deleted)
+                            <div class="deleted-text pull-right">
+                                Ответ удален.
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-2">
-                        @if(Auth::check())
-                            @if((Auth::user()->is($answer->user) && !IP::isBanned() && !Auth::user()->is_banned && $answer->isEditable()) || Auth::user()->isAdmin())
-                                <div class="buttons pull-right">
-                                    <a href="javascript:void(0)" class="pull-right delete-answer" data-id="{{ $answer->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                    <a href="{{ URL::route('user.answers.edit', ['login' => $answer->user->getLoginForUrl(),'id' => $answer->id]) }}" class="pull-right" title="Редактировать ответ" data-toggle="tooltip">
-                                        <i class="material-icons">mode_edit</i>
-                                    </a>
-                                </div>
+                        @if(!$answer->is_deleted)
+                            @if(Auth::check())
+                                @if((Auth::user()->is($answer->user) && !IP::isBanned() && !Auth::user()->is_banned && $answer->isEditable()) || Auth::user()->isAdmin())
+                                    <div class="buttons pull-right">
+                                        <a href="javascript:void(0)" class="pull-right delete-answer" data-id="{{ $answer->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                        <a href="{{ URL::route('user.answers.edit', ['login' => $answer->user->getLoginForUrl(),'id' => $answer->id]) }}" class="pull-right" title="Редактировать ответ" data-toggle="tooltip">
+                                            <i class="material-icons">mode_edit</i>
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         @endif
                     </div>

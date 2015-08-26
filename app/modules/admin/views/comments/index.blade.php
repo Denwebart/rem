@@ -40,7 +40,7 @@ View::share('title', $title);
                             </thead>
                             <tbody>
                             @foreach($comments as $comment)
-                                <tr>
+                                <tr @if($comment->is_deleted) class="danger" @endif>
                                     <td>{{ $comment->id }}</td>
                                     <td>
                                         @if($comment->user)
@@ -70,10 +70,14 @@ View::share('title', $title);
                                     </td>
                                     <td>{{ $comment->comment }}</td>
                                     <td>
-                                        @if($comment->is_published)
-                                            <span class="label label-success">Опубликован</span>
+                                        @if(!$comment->is_deleted)
+                                            @if($comment->is_published)
+                                                <span class="label label-success">Опубликован</span>
+                                            @else
+                                                <span class="label label-warning">Ожидает модерации</span>
+                                            @endif
                                         @else
-                                            <span class="label label-warning">Ожидает модерации</span>
+                                            <span class="label label-danger">Удален</span>
                                         @endif
                                     </td>
                                     <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>

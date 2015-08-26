@@ -91,33 +91,26 @@ class AdminCommentsController extends \BaseController {
 	public function destroy($id)
 	{
 		$comment = Comment::find($id);
-		if($comment->is_answer) {
-			$comment->user->removePoints(User::POINTS_FOR_ANSWER);
-			if($comment->mark == Comment::MARK_BEST) {
-				$comment->user->removePoints(User::POINTS_FOR_BEST_ANSWER);
-				$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED, [
-					'[answer]' => $comment->comment,
-					'[pageTitle]' => $comment->page->getTitle(),
-					'[linkToPage]' => URL::to($comment->page->getUrl())
-				]);
-			} else {
-				$comment->user->setNotification(Notification::TYPE_ANSWER_DELETED, [
-					'[answer]' => $comment->comment,
-					'[pageTitle]' => $comment->page->getTitle(),
-					'[linkToPage]' => URL::to($comment->page->getUrl())
-				]);
-			}
-		} else {
-			$comment->user->removePoints(User::POINTS_FOR_COMMENT);
-			$comment->user->setNotification(Notification::TYPE_COMMENT_DELETED, [
-				'[comment]' => $comment->comment,
-				'[pageTitle]' => $comment->page->getTitle(),
-				'[linkToPage]' => URL::to($comment->page->getUrl())
-			]);
-		}
-		$comment->delete();
+		$comment->markAsDeleted();
 
 		return Redirect::route('admin.comments.index');
+	}
+
+	/**
+	 * Remove the specified comment from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function ajaxMarkAsDeleted($id)
+	{
+		$comment = Comment::find($id);
+		$comment->markAsDeleted();
+
+		return Response::json(array(
+			'success' => true,
+			'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Комментарий удален.']),
+		));
 	}
 
 }

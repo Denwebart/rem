@@ -15,6 +15,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
+	Route::post('comments/markAsDelete/{id}', ['as' => 'admin.comments.markAsDelete', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@ajaxMarkAsDeleted']);
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
 	Route::post('tags/deleteImage/{id}', ['as' => 'admin.tags.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@deleteImage']);
 	Route::resource('tags', 'AdminTagsController', ['except' => ['show']]);

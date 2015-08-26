@@ -318,5 +318,27 @@
                 }
             });
         });
+
+        // Удаление комментария
+        $('.delete-comment').on('click', function() {
+            var commentId = $(this).data('id');
+            if(confirm('Вы уверены, что хотите удалить комментарий?')) {
+                $.ajax({
+                    url: '/admin/comments/markAsDelete/' + commentId,
+                    dataType: "text json",
+                    type: "POST",
+                    data: {},
+                    beforeSend: function (request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            $('[id="comment-' + commentId + '"]').find('.comment-text').addClass('deleted').html('Комментарий удален.');
+                            $('#site-messages').prepend(response.message);
+                        }
+                    }
+                });
+            }
+        });
     </script>
 @stop

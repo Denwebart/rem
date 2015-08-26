@@ -7,26 +7,32 @@
         </div>
 
         @foreach($comments as $comment)
-
-            <div data-comment-id="{{ $comment->id }}" class="well comment">
+            <div data-comment-id="{{ $comment->id }}" class="well comment @if($comment->is_deleted) deleted @endif">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
                             <span class="text">Комментарий оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($comment->created_at) }}</span>
                         </div>
+                        @if($comment->is_deleted)
+                            <div class="deleted-text pull-right">
+                                Комментарий удален.
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-2">
-                        @if(Auth::check())
-                            @if((Auth::user()->is($comment->user) && !IP::isBanned() && !Auth::user()->is_banned && $comment->isEditable()) || Auth::user()->isAdmin())
-                                <div class="buttons pull-right">
-                                    <a href="javascript:void(0)" class="delete-comment pull-right" data-id="{{ $comment->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                    <a href="{{ URL::route('user.comments.edit', ['login' => $comment->user->getLoginForUrl(),'id' => $comment->id]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
-                                        <i class="material-icons">mode_edit</i>
-                                    </a>
-                                </div>
+                        @if(!$comment->is_deleted)
+                            @if(Auth::check())
+                                @if((Auth::user()->is($comment->user) && !IP::isBanned() && !Auth::user()->is_banned && $comment->isEditable()) || Auth::user()->isAdmin())
+                                    <div class="buttons pull-right">
+                                        <a href="javascript:void(0)" class="delete-comment pull-right" data-id="{{ $comment->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                        <a href="{{ URL::route('user.comments.edit', ['login' => $comment->user->getLoginForUrl(),'id' => $comment->id]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
+                                            <i class="material-icons">mode_edit</i>
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         @endif
                     </div>
@@ -50,9 +56,9 @@
                             <div class="vote-dislike">
                                 <i class="material-icons">arrow_drop_up</i>
                             </div>
-                                            <span class="vote-result">
-                                                {{ $comment->votes_like - $comment->votes_dislike }}
-                                            </span>
+                            <span class="vote-result">
+                                {{ $comment->votes_like - $comment->votes_dislike }}
+                            </span>
                             <div class="vote-dislike">
                                 <i class="material-icons">arrow_drop_down</i>
                             </div>
