@@ -94,7 +94,7 @@ a:focus {
 }
 .mark, mark {
     padding: 0.2em 0.1em;
-    background-color: #67FF5E;
+    background-color: rgba(255, 171, 0, 0.5);
 }
 .opacity {
     opacity: 0.3;

@@ -36,7 +36,7 @@
                     <div class="col-md-12">
                         <!--Search-->
                         <div id="search">
-                            {{ Form::open(['method' => 'GET', 'route' => ['search']], ['id' => 'search-form']) }}
+                            {{ Form::open(['method' => 'GET', 'route' => ['search'], 'id' => 'search-form']) }}
                                 <div class="row">
                                     <div class="col-md-11">
                                         <div class="form-group">
@@ -57,8 +57,19 @@
                                         </button>
                                     </div>
                                 </div>
-                                {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
+                            @section('script')
+                                @parent
+
+                                <script type="text/javascript">
+                                    // исключение пустых полей формы
+                                    $("#search-form").submit(function() {
+                                        if($("#query").val() == "") {
+                                            $("#query").prop("disabled", true);
+                                        }
+                                    });
+                                </script>
+                            @endsection
                         </div>
                     </div>
                 </div>

@@ -11,11 +11,16 @@ View::share('title', $title);
         <li>Поиск</li>
     </ol>
 
-    <section id="content">
+    <section id="content" class="well">
         @if($tag)
             <h2>Результаты поиска по тегу "{{{ $tag }}}"</h2>
         @else
-            <h2>Результаты поиска по фразе "{{{ $query }}}"</h2>
+            <h2>
+                Результаты поиска
+                @if($query)
+                    по фразе "{{{ $query }}}"
+                @endif
+            </h2>
         @endif
 
         <div class="content">
@@ -33,17 +38,23 @@ View::share('title', $title);
                         Показано результатов: <span>{{ $results->count() }}</span>.
                         Всего: <span>{{ $results->getTotal() }}</span>.
                     </div>
+
                     @foreach($results as $result)
-                        <div>
-                            <a href="{{ URL::to($result->getUrl()) }}">
-                                {{ StringHelper::getFragment($result->getTitle(), $query) }}
-                            </a>
-                            <p>
-                                {{ StringHelper::getFragment($result->content, $query) }}
-                            </p>
+                        <div class="row item" data-page-id="{{ $result->id }}">
+                            <div class="col-md-12">
+                                <h3>
+                                    <a href="{{ URL::to($result->getUrl()) }}">
+                                        {{ StringHelper::getFragment($result->getTitle(), $query) }}
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="col-md-12">
+                                <p>{{ StringHelper::getFragment($result->content, $query) }}</p>
+                            </div>
                         </div>
-                        <hr/>
+                        <hr>
                     @endforeach
+
                     {{ $results->appends(['query' => $query])->links() }}
                 </section><!--search-area-->
             @else
