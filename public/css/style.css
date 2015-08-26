@@ -363,6 +363,25 @@ a:focus {
     margin: 4px 5px 10px -10px;
 }
 
+/* Похожие статьи */
+#related-widget {
+    text-align: left;
+}
+#related-widget ul {
+    list-style: none;
+    padding-left: 10px;
+}
+#related-widget ul li {
+    margin-bottom: 5px;
+}
+#related-widget ul li a {
+    text-decoration: none !important;
+}
+#related-widget ul li a:hover {
+    text-decoration: underline !important;
+}
+
+
 /* Tags */
 .tags {
     list-style: none;
