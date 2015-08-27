@@ -3,8 +3,28 @@ body {
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
     background: url('../images/Light-aluminum-Grey-Seamless.jpg') repeat;
 }
-.container {
-    width: 1300px;
+/*.container {*/
+    /*width: 1300px;*/
+/*}*/
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+@media (min-width: 1330px) {
+    .container {
+        width: 1300px;
+    }
 }
 a:hover,
 a:focus {
