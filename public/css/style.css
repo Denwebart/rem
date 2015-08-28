@@ -55,6 +55,9 @@ a:focus {
 .without-margin {
     margin: 0 !important;
 }
+.margin-top-5 {
+    margin-top: 5px;
+}
 .margin-top-10 {
     margin-top: 10px;
 }
@@ -69,6 +72,9 @@ a:focus {
 }
 .margin-left-20 {
     margin-left: 20px;
+}
+.margin-bottom-5 {
+    margin-bottom: 5px;
 }
 .margin-bottom-10 {
     margin-bottom: 10px;
@@ -700,21 +706,23 @@ a:focus {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* RSS, Favorites, Search buttons */
-#favorites-widget a,
-#rss-widget a {
-    margin-bottom: 19px;
+/* RSS, Favorites, Social buttons */
+#social-buttons-widget {
+    display: inline-block;
+    float: left;
+}
+#favorites-widget,
+#rss-widget {
+    float: left;
+    margin-left: 5px;
 }
 #favorites-widget a,
 #rss-widget a {
-    width: 100%;
     margin-top: 0;
-    background: #f4f4f4;
-    padding: 4px 10px;
 }
 #favorites-widget i.material-icons,
 #rss-widget i.material-icons {
-    color: #ffab00;
+    color: #1B609C;
     font-size: 24px;
 }
 #rss-widget img {

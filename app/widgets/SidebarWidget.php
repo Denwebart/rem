@@ -195,7 +195,8 @@ class SidebarWidget
 	 *
 	 * @return string
 	 */
-	public function addToFavorites() {
+	public function addToFavorites()
+	{
 		return (string) View::make('widgets.sidebar.addToFavorites')->render();
 	}
 
@@ -204,8 +205,19 @@ class SidebarWidget
 	 *
 	 * @return string
 	 */
-	public function rss() {
+	public function rss()
+	{
 		return (string) View::make('widgets.sidebar.rss')->render();
+	}
+
+	/**
+	 * Социальные закладки
+	 *
+	 * @return string
+	 */
+	public function socialButtons()
+	{
+		return (string) View::make('widgets.sidebar.socialButtons')->render();
 	}
 
 }

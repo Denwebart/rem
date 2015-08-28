@@ -92,14 +92,16 @@
 
         <div class="col-lg-3 col-md-3">
 
-            <div class="row">
-                <div class="col-md-6" style="padding: 0 10px 0 3px">
+            <div class="display-inline-block margin-bottom-5 margin-top-5" style="width: 100%">
+                {{ $sidebarWidget->socialButtons() }}
+
+                <div class="pull-right">
                     {{ $sidebarWidget->rss() }}
-                </div>
-                <div class="col-md-6" style="padding: 0 3px 0 10px">
                     {{ $sidebarWidget->addToFavorites() }}
                 </div>
             </div>
+
+            <div class="clearfix"></div>
 
             {{ $areaWidget->rightSidebar() }}
 
