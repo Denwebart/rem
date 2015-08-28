@@ -6,7 +6,7 @@
         </div>
 
         @foreach($notifications as $notification)
-            <div data-notification-id="{{ $notification->id }}" class="well">
+            <div id="notification-{{ $notification->id }}" data-notification-id="{{ $notification->id }}" class="well">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="row">

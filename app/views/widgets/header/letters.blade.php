@@ -1,12 +1,16 @@
 <li class="dropdown dropdown-letters">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="material-icons">local_post_office</i>
-        @if(count($letters))
-            <span class="label label-success">
+    @if(count($letters))
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons">local_post_office</i>
+                <span class="label label-success">
                 {{ $letters->getTotal() }}
             </span>
-        @endif
-    </a>
+        </a>
+    @else
+        <a href="{{ URL::route('admin.letters.index') }}" title="Все письма" data-toggle="tooltip" data-placement="bottom">
+            <i class="material-icons">local_post_office</i>
+        </a>
+    @endif
     <ul class="dropdown-menu">
         <li class="header">
             <i class="material-icons">local_post_office</i>
@@ -31,7 +35,7 @@
                                     <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($letter->user->last_activity) }}"></span>
                                 @endif
                             @else
-                                {{ HTML::image(Config::get('settings.mini_defaultAvatar'), $letter->user_name, ['class' => 'img-responsive avatar-default img-rounded']) }}
+                                {{ HTML::image(Config::get('settings.mini_defaultAvatar'), $letter->user_name, ['class' => 'img-responsive avatar-default avatar circle']) }}
                             @endif
                         </div>
                         <h4>
@@ -41,7 +45,6 @@
                                 {{ $letter->user_name }}
                             @endif
                             <small>
-                                <i class="material-icons">access_time</i>
                                 {{ DateHelper::getRelativeTime($letter->created_at) }}
                             </small>
                         </h4>

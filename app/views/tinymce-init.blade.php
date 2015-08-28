@@ -18,6 +18,7 @@
         image_title: true,
         imagetools_toolbar: 'imageoptions',
         image_advtab: true,
+        relative_urls: false,
         file_browser_callback : function (field_name, url, type, win) {
             console.log(type);
             if (type == 'file' || type == 'media') {

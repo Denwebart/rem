@@ -1,13 +1,13 @@
 <li class="dropdown dropdown-messages">
     @if(count($messages))
-        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons">send</i>
             <span class="label label-info">
                 {{ $messages->getTotal() }}
             </span>
         </a>
     @else
-        <a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}">
+        <a href="{{ URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) }}" title="Все личные сообщения" data-toggle="tooltip" data-placement="bottom">
             <i class="material-icons">send</i>
         </a>
     @endif
@@ -37,7 +37,6 @@
                             </div>
                             <h4>{{ $message->userSender->login }}
                                 <small>
-                                    <i class="material-icons">access_time</i>
                                     {{ DateHelper::getRelativeTime($message->created_at) }}
                                 </small>
                             </h4>

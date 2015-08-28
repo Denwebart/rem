@@ -1,13 +1,13 @@
 <li class="dropdown dropdown-notifications">
     @if(count($notifications))
-        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons">notifications</i>
             <span class="label label-warning">
                 {{ $notifications->getTotal() }}
             </span>
         </a>
     @else
-        <a href="{{ URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) }}">
+        <a href="{{ URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) }}" title="Все уведомления" data-toggle="tooltip" data-placement="bottom">
             <i class="material-icons">notifications</i>
         </a>
     @endif
@@ -29,13 +29,12 @@
             <ul>
                 @foreach($notifications as $notification)
                     <li data-notification-id="{{ $notification->id }}">
-                        <a href="#">
+                        <a href="{{ URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) }}#notification-{{$notification->id}}">
                             {{ Notification::$typeIcons[$notification->type] }}
                             <small>
-                                <i class="material-icons">access_time</i>
                                 {{ DateHelper::getRelativeTime($notification->created_at) }}
                             </small>
-                            <p>{{ $notification->message }}</p>
+                            <p>{{ $notification->getMessageWithoutLinks() }}</p>
                         </a>
                     </li>
                 @endforeach

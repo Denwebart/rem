@@ -21,18 +21,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <div class="navbar-header">
-                <form role="search" class="navbar-form" method="post" action="#">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Поиск..."/>
-                        <span class="input-group-btn">
-                            <button type="submit" id="search-btn" class="btn btn-flat">
-                                <i class="material-icons">search</i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+            {{--<div class="navbar-header">--}}
+                {{--<form role="search" class="navbar-form" method="post" action="#">--}}
+                    {{--<div class="input-group">--}}
+                        {{--<input type="text" class="form-control" placeholder="Поиск..."/>--}}
+                        {{--<span class="input-group-btn">--}}
+                            {{--<button type="submit" id="search-btn" class="btn btn-flat">--}}
+                                {{--<i class="material-icons">search</i>--}}
+                            {{--</button>--}}
+                        {{--</span>--}}
+                    {{--</div>--}}
+                {{--</form>--}}
+            {{--</div>--}}
         @endif
         <div class="navbar-left">
             <ul class="nav navbar-nav">
@@ -51,7 +51,7 @@
 
                 @if(Auth::user()->isAdmin() && !Request::is('admin*'))
                     <li style="margin-right: 10px">
-                        <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу">
+                        <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">attach_money</i>
                         </a>
                     </li>
@@ -59,7 +59,7 @@
 
                 @if(!is_null($page) && Auth::user()->isAdmin())
                     <li style="margin-right: 10px">
-                        <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="">
+                        <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" title="Редактировать эту страницу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">edit</i>
                             Редактировать
                         </a>

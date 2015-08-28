@@ -39,7 +39,7 @@ View::share('title', $title);
 
                 <div id="messages-area" class="blog">
                     <div class="count">
-                        Последние диалоги: <span>{{ $messages->count() }}</span>.
+                        Недавние диалоги: <span>{{ $messages->count() }}</span>.
                     </div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))

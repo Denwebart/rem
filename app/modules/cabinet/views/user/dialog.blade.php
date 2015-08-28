@@ -196,7 +196,7 @@ View::share('title', $title);
         $(document).ready(function(){
             var scrollArea = document.getElementById('scroll');
             scrollArea.scrollTop = scrollArea.scrollHeight;
-        })
+        });
     </script>
 
     @if(Auth::user()->is($user))
