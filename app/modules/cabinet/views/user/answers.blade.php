@@ -52,31 +52,33 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".list").on('click', '.delete-answer', function() {
-                    var $link = $(this);
-                    var answerId = $link.data('id');
-                    if(confirm('Вы уверены, что хотите удалить ответ?')) {
-                        $.ajax({
-                            url: "{{ URL::route('user.deleteAnswer', ['login' => $user->getLoginForUrl()]) }}",
-                            dataType: "text json",
-                            type: "POST",
-                            data: {answerId: answerId},
-                            beforeSend: function (request) {
-                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                            },
-                            success: function (response) {
-                                if (response.success) {
-                                    $('#content .list').html(response.answersList);
-                                    $('#site-messages').prepend(response.message);
+    @if(Auth::check())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $(".list").on('click', '.delete-answer', function() {
+                        var $link = $(this);
+                        var answerId = $link.data('id');
+                        if(confirm('Вы уверены, что хотите удалить ответ?')) {
+                            $.ajax({
+                                url: "{{ URL::route('user.deleteAnswer', ['login' => $user->getLoginForUrl()]) }}",
+                                dataType: "text json",
+                                type: "POST",
+                                data: {answerId: answerId},
+                                beforeSend: function (request) {
+                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        $('#content .list').html(response.answersList);
+                                        $('#site-messages').prepend(response.message);
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
+        @endif
     @endif
 @endsection

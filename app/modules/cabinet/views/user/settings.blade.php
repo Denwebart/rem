@@ -27,7 +27,10 @@ View::share('title', $title);
                 <div id="user-settings" class="well">
                     {{ Form::model($userSettings, ['method' => 'POST', 'route' => ['user.postSettings', $user->getLoginForUrl()], 'id' => 'user-settings-form']) }}
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-md-7">
+                            <h3>Настройка уведомлений на email</h3>
+                        </div>
+                        <div class="col-lg-5">
                             <div class="button-group without-margin">
                                 <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                     <i class="material-icons">keyboard_arrow_left</i>
@@ -39,9 +42,6 @@ View::share('title', $title);
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3>Настройка уведомлений на email</h3>
-                        </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <div class="togglebutton">

@@ -65,7 +65,7 @@ class Notification extends \Eloquent
 		self::TYPE_POINTS_FOR_ARTICLE_ADDED => ['notification_points'],
 		self::TYPE_POINTS_FOR_BEST_ANSWER_ADDED => ['notification_points'],
 		self::TYPE_POINTS_FOR_COMMENT_REMOVED => ['notification_points'],
-		self::TYPE_POINTS_FOR_ANSWER_REMOVED => ['notification_points', 'notification_deleted'],
+		self::TYPE_POINTS_FOR_ANSWER_REMOVED => ['notification_points'],
 		self::TYPE_POINTS_FOR_ARTICLE_REMOVED => ['notification_points', 'notification_deleted'],
 		self::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED => ['notification_points', 'notification_deleted'],
 		self::TYPE_BANNED => ['notification_banned'],
@@ -109,23 +109,27 @@ class Notification extends \Eloquent
 	{
 		$notificationMessage = $this->getMessage($notificationType, $variables);
 
-//		$settingsColumns = self::$notificationSettingColumns[$notificationType];
-//
-//		if(is_object($userModel->settings)) {
-//			foreach($settingsColumns as $column) {
-//				$sendMessage = $userModel->settings->$column;
-//			}
-//		} else {
-//			$sendMessage = true;
-//		}
-//
-//		if($sendMessage) {
-//			Mail::queue('emails.notifications.notification', ['user' => $userModel, 'notificationMessage' => $notificationMessage], function($message) use ($userModel)
-//			{
-//				$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
-//				$message->to($userModel->email, $userModel->login)->subject(Config::get('settings.contactSubjectToUser'));
-//			});
-//		}
+		$settingsColumns = self::$notificationSettingColumns[$notificationType];
+
+		if(is_object($userModel->settings)) {
+			foreach($settingsColumns as $column) {
+				$sendMessage = $userModel->settings->$column;
+				if($sendMessage) {
+					break;
+				}
+			}
+		} else {
+			$sendMessage = true;
+		}
+
+		if($sendMessage) {
+			Mail::queue('emails.notifications.notification', ['user' => $userModel, 'notificationMessage' => $notificationMessage], function($message) use ($userModel)
+			{
+				$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
+				$message->to($userModel->email, $userModel->login)->subject(Config::get('settings.contactSubjectToUser'));
+			});
+			Log::info("Email with notification for [{$userModel->login}] successfully sent. Notfication: [{$notificationMessage}]");
+		}
 
 		self::create([
 			'user_id' => $userModel->id,

@@ -51,31 +51,33 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    @if(Auth::user()->is($user) || Auth::user()->isAdmin())
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".list").on('click', '.delete-comment', function() {
-                    var $link = $(this);
-                    var commentId = $link.data('id');
-                    if(confirm('Вы уверены, что хотите удалить комментарий?')) {
-                        $.ajax({
-                            url: "{{ URL::route('user.deleteComment', ['login' => $user->getLoginForUrl()]) }}",
-                            dataType: "text json",
-                            type: "POST",
-                            data: {commentId: commentId},
-                            beforeSend: function (request) {
-                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                            },
-                            success: function (response) {
-                                if (response.success) {
-                                    $('#content .list').html(response.commentsList);
-                                    $('#site-messages').prepend(response.message);
+    @if(Auth::check())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $(".list").on('click', '.delete-comment', function() {
+                        var $link = $(this);
+                        var commentId = $link.data('id');
+                        if(confirm('Вы уверены, что хотите удалить комментарий?')) {
+                            $.ajax({
+                                url: "{{ URL::route('user.deleteComment', ['login' => $user->getLoginForUrl()]) }}",
+                                dataType: "text json",
+                                type: "POST",
+                                data: {commentId: commentId},
+                                beforeSend: function (request) {
+                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                },
+                                success: function (response) {
+                                    if (response.success) {
+                                        $('#content .list').html(response.commentsList);
+                                        $('#site-messages').prepend(response.message);
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
+        @endif
     @endif
 @endsection

@@ -45,6 +45,21 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 | shown, which includes a detailed stack trace during debug.
 |
 */
+// Отловить ошибку в логах
+//App::error(function(Exception $exception, $code)
+//{
+//	$pathInfo = Request::getPathInfo();
+//	$message = $exception->getMessage() ?: 'Exception';
+//	$previous = URL::previous();
+//
+//	if($code == 404){
+//
+//		Log::error("$code - $message @ $pathInfo (ref: $previous)");
+//		return Response::view('error.404', array(), 404);
+//	}else{
+//		Log::error("$code - $message @ $pathInfo (ref: $previous)\r\n$exception");
+//	}
+//});
 
 App::error(function(Exception $exception, $code)
 {

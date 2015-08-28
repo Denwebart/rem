@@ -180,7 +180,20 @@ class CabinetUserController extends \BaseController
 
 		$userSettings = UserSetting::whereUserId($user->id)->first();
 		if(!is_object($userSettings)) {
-			$userSettings = UserSetting::create(['user_id' => $user->id]);
+			$userSettings = UserSetting::create([
+				'user_id' => $user->id,
+				'notification_deleted' => 1,
+				'notification_points' => 1,
+				'notification_new_comments' => 1,
+				'notification_new_answers' => 1,
+				'notification_like_dislike' => 1,
+				'notification_best_answer' => 1,
+				'notification_rating' => 1,
+				'notification_journal_subscribed' => 1,
+				'notification_question_subscribed' => 1,
+				'notification_banned' => 1,
+				'notification_role_changed' => 1,
+			]);
 		}
 
 		View::share('user', $user);
