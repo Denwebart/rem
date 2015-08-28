@@ -424,6 +424,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->belongsToMany('Ip', 'users_ips');
 	}
 
+	/**
+	 * Настройки аккаунта пользователя
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function settings()
+	{
+		return $this->hasOne('UserSetting', 'user_id');
+	}
+
 	public function setIp($ip)
 	{
 		$ipModel = Ip::whereIp($ip)->first();

@@ -79,6 +79,11 @@ View::share('title', $title);
                                                     <i class="material-icons">security</i>
                                                 </a>
                                             @endif
+                                            @if(Auth::user()->is($user))
+                                                <a href="{{{ URL::route('user.settings', ['login' => $user->getLoginForUrl()]) }}}" class="pull-left" title="Настройки" data-toggle="tooltip" data-placement="top">
+                                                    <i class="material-icons">settings</i>
+                                                </a>
+                                            @endif
                                         </div>
                                     @endif
                                 </div>

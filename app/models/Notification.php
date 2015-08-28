@@ -60,6 +60,34 @@ class Notification extends \Eloquent
 		self::TYPE_QUESTION_DELETED => '<i class="material-icons mdi-danger">delete</i>',
 	];
 
+	public static $notificationSettingColumns = [
+		self::TYPE_POINTS_FOR_ANSWER_ADDED => ['notification_points'],
+		self::TYPE_POINTS_FOR_ARTICLE_ADDED => ['notification_points'],
+		self::TYPE_POINTS_FOR_BEST_ANSWER_ADDED => ['notification_points'],
+		self::TYPE_POINTS_FOR_COMMENT_REMOVED => ['notification_points'],
+		self::TYPE_POINTS_FOR_ANSWER_REMOVED => ['notification_points', 'notification_deleted'],
+		self::TYPE_POINTS_FOR_ARTICLE_REMOVED => ['notification_points', 'notification_deleted'],
+		self::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED => ['notification_points', 'notification_deleted'],
+		self::TYPE_BANNED => ['notification_banned'],
+		self::TYPE_UNBANNED => ['notification_banned'],
+		self::TYPE_NEW_COMMENT => ['notification_new_comments'],
+		self::TYPE_NEW_ANSWER => ['notification_new_answers'],
+		self::TYPE_COMMENT_LIKED => ['notification_like_dislike'],
+		self::TYPE_COMMENT_DISLIKED => ['notification_like_dislike'],
+		self::TYPE_ANSWER_LIKED => ['notification_like_dislike'],
+		self::TYPE_ANSWER_DISLIKED => ['notification_like_dislike'],
+		self::TYPE_BEST_ANSWER => ['notification_best_answer'],
+		self::TYPE_RATING => ['notification_rating'],
+		self::TYPE_SUBSCRIBED_ON_QUESTION => ['notification_question_subscribed'],
+		self::TYPE_SUBSCRIBED_ON_JOURNAL => ['notification_journal_subscribed'],
+		self::TYPE_UNSUBSCRIBED_FROM_QUESTION => ['notification_question_subscribed'],
+		self::TYPE_UNSUBSCRIBED_FROM_JOURNAL => ['notification_journal_subscribed'],
+		self::TYPE_ROLE_CHANGED => ['notification_role_changed'],
+		self::TYPE_COMMENT_DELETED => ['notification_deleted', 'notification_points'],
+		self::TYPE_ANSWER_DELETED => ['notification_deleted', 'notification_points'],
+		self::TYPE_QUESTION_DELETED => ['notification_deleted'],
+	];
+
 	protected $fillable = [
 		'user_id',
 		'type',
@@ -79,10 +107,30 @@ class Notification extends \Eloquent
 
 	public function add($userModel, $notificationType, $variables = [])
 	{
+		$notificationMessage = $this->getMessage($notificationType, $variables);
+
+//		$settingsColumns = self::$notificationSettingColumns[$notificationType];
+//
+//		if(is_object($userModel->settings)) {
+//			foreach($settingsColumns as $column) {
+//				$sendMessage = $userModel->settings->$column;
+//			}
+//		} else {
+//			$sendMessage = true;
+//		}
+//
+//		if($sendMessage) {
+//			Mail::queue('emails.notifications.notification', ['user' => $userModel, 'notificationMessage' => $notificationMessage], function($message) use ($userModel)
+//			{
+//				$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
+//				$message->to($userModel->email, $userModel->login)->subject(Config::get('settings.contactSubjectToUser'));
+//			});
+//		}
+
 		self::create([
 			'user_id' => $userModel->id,
 			'type' => $notificationType,
-			'message' => $this->getMessage($notificationType, $variables),
+			'message' => $notificationMessage,
 		]);
 	}
 

@@ -28,7 +28,7 @@ class CabinetUserController extends \BaseController
 				}
 			}
 
-		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'getSettings', 'postSettings', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		// бан пользователя
 		$this->beforeFilter(function()
@@ -163,6 +163,48 @@ class CabinetUserController extends \BaseController
 		} else {
 			return Redirect::back()->withErrors(['password' => 'Введенный пароль не совпадает с текущим.']);
 		}
+
+	}
+
+	/**
+	 * Изменение настроек профиля
+	 *
+	 * @param $login
+	 * @return \Illuminate\View\View
+	 */
+	public function getSettings($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$userSettings = UserSetting::whereUserId($user->id)->first();
+		if(!is_object($userSettings)) {
+			$userSettings = UserSetting::create(['user_id' => $user->id]);
+		}
+
+		View::share('user', $user);
+		return View::make('cabinet::user.settings', compact('userSettings'));
+	}
+
+	/**
+	 * Изменение настроек профиля
+	 *
+	 * @param $login
+	 * @return $this|\Illuminate\Http\RedirectResponse
+	 */
+	public function postSettings($login)
+	{
+		$user = (Auth::user()->getLoginForUrl() == $login)
+			? Auth::user()
+			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$data = Input::all();
+
+		$userSettings = UserSetting::whereUserId($user->id)->first();
+		$userSettings->update($data);
+
+		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()])->with('successMessage', 'Настройки изменены.');
 
 	}
 
