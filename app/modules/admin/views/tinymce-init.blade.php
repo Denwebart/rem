@@ -14,6 +14,8 @@
         image_title: true,
         imagetools_toolbar: 'imageoptions',
         relative_urls: false,
+        remove_script_host : false,
+        convert_urls : true,
         file_browser_callback : function (field_name, url, type, win) {
 
             $("input[name='editor_image']").trigger('click');
