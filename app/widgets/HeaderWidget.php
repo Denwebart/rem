@@ -11,6 +11,9 @@ class HeaderWidget
 	public $newQuestions;
 	public $newArticles;
 	public $newComments;
+	public $newAnswers;
+	public $notPublishedAnswers;
+	public $notPublishedComments;
 	public $isBannedIp;
 
 	public function __construct()
@@ -19,6 +22,10 @@ class HeaderWidget
 			$this->newQuestions = $this->newQuestions();
 			$this->newArticles = $this->newArticles();
 			$this->newComments = $this->newComments();
+			$this->newAnswers = $this->newAnswers();
+			$this->newUsers = $this->newUsers();
+			$this->notPublishedAnswers = $this->notPublishedAnswers();
+			$this->notPublishedComments = $this->notPublishedComments();
 		}
 		if(Auth::user()->isAdmin()) {
 			$this->newLetters = $this->newLetters();
@@ -81,11 +88,7 @@ class HeaderWidget
 	}
 
 	public function newUsers() {
-		$users = User::all();
-
-		$this->newUsers = count($users);
-
-		return $users;
+		return User::where('created_at', '>', Session::get('user.lastActivity'))->get();
 	}
 
 	public function deletedLetters() {
@@ -100,22 +103,38 @@ class HeaderWidget
 
 	public function newQuestions() {
 		return Page::whereType(Page::TYPE_QUESTION)
-			->whereNull('published_at')
-			->whereIsPublished(0)
-			->orderBy('created_at', 'DESC')
+			->where('created_at', '>', Session::get('user.lastActivity'))
 			->get();
 	}
 
 	public function newArticles() {
 		return Page::whereType(Page::TYPE_ARTICLE)
-			->whereNull('published_at')
+			->where('created_at', '>', Session::get('user.lastActivity'))
+			->get();
+	}
+
+	public function newComments() {
+		return Comment::whereIsAnswer(0)
+			->where('created_at', '>', Session::get('user.lastActivity'))
+			->get();
+	}
+
+	public function newAnswers() {
+		return Comment::whereIsAnswer(1)
+			->where('created_at', '>', Session::get('user.lastActivity'))
+			->get();
+	}
+
+	public function notPublishedComments() {
+		return Comment::whereIsAnswer(0)
 			->whereIsPublished(0)
 			->orderBy('created_at', 'DESC')
 			->get();
 	}
 
-	public function newComments() {
-		return Comment::whereIsPublished(0)
+	public function notPublishedAnswers() {
+		return Comment::whereIsAnswer(1)
+			->whereIsPublished(0)
 			->orderBy('created_at', 'DESC')
 			->get();
 	}

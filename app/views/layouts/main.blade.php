@@ -2,7 +2,6 @@
 <?php $sidebarWidget = app('SidebarWidget') ?>
 <!doctype html>
 <html lang="ru">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -108,7 +107,6 @@
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-xs-12">

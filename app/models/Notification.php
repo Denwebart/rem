@@ -61,6 +61,7 @@ class Notification extends \Eloquent
 	];
 
 	public static $notificationSettingColumns = [
+		self::TYPE_POINTS_FOR_COMMENT_ADDED => ['notification_points'],
 		self::TYPE_POINTS_FOR_ANSWER_ADDED => ['notification_points'],
 		self::TYPE_POINTS_FOR_ARTICLE_ADDED => ['notification_points'],
 		self::TYPE_POINTS_FOR_BEST_ANSWER_ADDED => ['notification_points'],
@@ -141,7 +142,6 @@ class Notification extends \Eloquent
 	private function getMessage($notificationType, $variables)
 	{
 		$notificationMessage = NotificationMessage::find($notificationType);
-
 		if($notificationMessage) {
 			return strtr($notificationMessage->message, $variables);
 		}

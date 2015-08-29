@@ -63,7 +63,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                         </thead>
                         <tbody>
                         @foreach($pages as $page)
-                            <tr>
+                            <tr @if($page->created_at > Session::get('user.lastActivity')) class="info" @endif>
                                 <td>{{ $page->id }}</td>
                                 <td>
                                     <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">

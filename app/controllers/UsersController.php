@@ -84,6 +84,10 @@ class UsersController extends BaseController
 
 				// Вытираем предыдущую сессию
 				Session::forget('user');
+
+				// Заносим в сессию время последнего визита
+				Session::set('user.lastActivity', Auth::user()->last_activity);
+
 				// Редирект в админку (если админ) или на предыдущую (для остальных)
 				if(Auth::user()->isAdmin()){
 					return Redirect::to('admin');
