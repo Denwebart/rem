@@ -3,52 +3,49 @@
 /**
  * Comment
  *
- * @property integer $id
- * @property boolean $is_answer
- * @property integer $parent_id
- * @property integer $user_id
- * @property string $user_email
- * @property string $user_name
- * @property string $user_ip
- * @property integer $page_id
- * @property boolean $is_published
- * @property integer $votes_like
- * @property integer $votes_dislike
- * @property string $comment
- * @property integer $mark
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $published_at
- * @property string $read_at
- * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereIsAnswer($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUserIp($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereMark($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Comment whereReadAt($value)
+ * @property integer $id 
+ * @property boolean $is_answer 
+ * @property integer $parent_id 
+ * @property integer $user_id 
  * @property integer $ip_id 
+ * @property string $user_email 
+ * @property string $user_name 
+ * @property integer $page_id 
+ * @property boolean $is_published 
  * @property boolean $is_deleted 
+ * @property integer $votes_like 
+ * @property integer $votes_dislike 
+ * @property string $comment 
+ * @property boolean $mark 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property string $read_at 
+ * @property string $published_at 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $children 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedChildren 
  * @property-read \Comment $parent 
  * @property-read \Page $page 
  * @property-read \User $user 
  * @property-read \Ip $ip 
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIsAnswer($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereIpId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUserName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment wherePageId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereIsPublished($value)
  * @method static \Illuminate\Database\Query\Builder|\Comment whereIsDeleted($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesLike($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereVotesDislike($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereComment($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereMark($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment whereReadAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Comment wherePublishedAt($value)
  */
-
 class Comment extends \Eloquent
 {
 	const VOTE_LIKE = 'like';
@@ -63,7 +60,7 @@ class Comment extends \Eloquent
 		'parent_id',
 		'user_id',
 		'user_name',
-		'user_ip',
+		'ip_id',
 		'user_email',
 		'page_id',
 		'is_published',
@@ -78,7 +75,7 @@ class Comment extends \Eloquent
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
 		'user_name' => 'required_without_all:user_id|max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
 		'user_email' => 'required_without_all:user_id|email|max:150',
-		'user_ip' => 'ip',
+		'ip_id' => 'numeric',
 		'is_published' => 'boolean',
 		'comment' => 'required',
 		'g-recaptcha-response' => 'required_without_all:user_id|captcha'

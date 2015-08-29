@@ -8,7 +8,11 @@ class CommentsController extends BaseController
 			$inputData = Input::get('formData');
 			parse_str($inputData, $formFields);
 
-			$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
+			//$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
+			$ip = Ip::whereIp(Request::ip())->first();
+			if(!is_object($ip)) {
+				$ip = Ip::create(['ip' => Request::ip()]);
+			}
 			$page = Page::findOrFail($id);
 
 			$userData = [
