@@ -390,6 +390,7 @@ class CabinetUserController extends \BaseController
 		if(Input::get('category')) {
 			$question->parent_id = Input::get('category');
 		}
+		$question->type = Page::TYPE_QUESTION;
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
@@ -476,6 +477,9 @@ class CabinetUserController extends \BaseController
 		$data['published_at'] = \Carbon\Carbon::now();
 
 		unset(Page::$rulesForUsers['image']);
+		if($data['type'] == Page::TYPE_ARTICLE) {
+			unset(Page::$rulesForUsers['parent_id']);
+		}
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
 		if ($validator->fails())
@@ -580,6 +584,7 @@ class CabinetUserController extends \BaseController
 	public function createJournal($login)
 	{
 		$article = new Page();
+		$article->type = Page::TYPE_ARTICLE;
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
@@ -614,10 +619,10 @@ class CabinetUserController extends \BaseController
 		$page->image = $page->setImage($data['image']);
 		$page->save();
 
-		// добавление тегов
-		Tag::addTag($page, Input::get('tags'));
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));
+		// добавление тегов
+		Tag::addTag($page, Input::get('tags'));
 
 		// добавление баллов, уведомления
 		$page->user->addPoints(User::POINTS_FOR_ARTICLE);

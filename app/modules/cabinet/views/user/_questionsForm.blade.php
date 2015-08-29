@@ -57,6 +57,7 @@
         {{ $errors->first('parent_id') }}
     </div>
     <div class="form-group">
+        {{ Form::hidden('type', $question->type) }}
         {{ Form::label('title', 'Заголовок') }}
         {{ Form::text('title', $question->title, ['class' => 'form-control']) }}
         {{ $errors->first('title') }}

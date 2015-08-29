@@ -46,11 +46,13 @@
         @endif
 
         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+        {{ Form::hidden('image-url', $article->getImagePath() . $article->image, ['id' => 'image-name']) }}
         {{ $errors->first('image') }}
     </div>
 </div>
 <div class="col-md-8">
 	<div class="form-group">
+        {{ Form::hidden('type', $article->type) }}
 		{{ Form::label('title', 'Заголовок') }}
 		{{ Form::text('title', $article->title, ['class' => 'form-control']) }}
 		{{ $errors->first('title') }}
@@ -177,6 +179,47 @@
             $('.tags').on('click', '.remove-tag', function() {
                 $(this).parent().remove();
             });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.preview').on('click', function() {
+            tinyMCE.get("content").save();
+            var $form = $('form'),
+                    data = $form.serialize(),
+                    url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl()])?>';
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                async: true,
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(data) {
+                    if(data.fail) {
+                        $.each(data.errors, function(index, value) {
+                            var errorDiv = '.' + index + '_error';
+                            $form.find(errorDiv).parent().addClass('has-error');
+                            $form.find(errorDiv).empty().append(value);
+                        });
+                    }
+                    if(data.success) {
+                        $('#form-area').hide();
+                        $('#preview').show().html(data.previewHtml);
+                    } //success
+                }
+            });
+        });
+
+        $('#preview').on('click', '.preview-edit', function() {
+            $('#form-area').show();
+            $('#preview').hide();
+        });
+
+        $('#preview').on('click', '.preview-save', function() {
+            $("#questionForm").submit();
         });
     </script>
 
