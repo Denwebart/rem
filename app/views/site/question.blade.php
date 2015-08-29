@@ -51,6 +51,11 @@
                 </div>
             </div>
             <div class="pull-right">
+                <div class="views pull-left" title="Количество просмотров">
+                    <i class="material-icons">visibility</i>
+                    <span>{{ $page->views }}</span>
+                </div>
+
                 <div class="answers-count pull-left" title="Количество ответов">
                     <i class="material-icons">question_answer</i>
                     <a href="#answers">
@@ -60,13 +65,14 @@
                     </a>
                 </div>
 
-                <div class="views pull-left" title="Количество просмотров">
-                    <i class="material-icons">visibility</i>
-                    <span>{{ $page->views }}</span>
+                <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                    <i class="material-icons">local_library</i>
+                    <span>{{ count($page->subscribers) }}</span>
                 </div>
 
                 <!-- Сохранение страницы в сохраненное -->
                 @include('widgets.savedPages')
+
             </div>
         </div>
 

@@ -46,7 +46,7 @@
         @endif
 
         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-full btn-sm file-inputs', 'id' => 'image']) }}
-        {{ Form::hidden('image-url', $question->getImagePath() . $question->image, ['id' => 'image-name']) }}
+        {{ Form::hidden('image-url', ($question->image) ? $question->getImagePath() . $question->image : '', ['id' => 'image-name']) }}
         {{ $errors->first('image') }}
     </div>
 </div>
@@ -109,12 +109,13 @@
 		});
 	</script>
 
+    {{ HTML::script('js/jRate.js') }}
 	<script type="text/javascript">
 		$('.preview').on('click', function() {
 			tinyMCE.get("content").save();
 			var $form = $('form'),
 				data = $form.serialize(),
-				url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl()])?>';
+				url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl(), 'id' => $question->id])?>';
 			$.ajax({
 				url: url,
 				dataType: "text json",
@@ -135,6 +136,15 @@
 					if(data.success) {
 						$('#form-area').hide();
 						$('#preview').show().html(data.previewHtml);
+                        $("#jRate").jRate({
+                            rating: '<?php echo $question->getRating(); ?>',
+                            precision: 0, // целое число
+                            width: 25,
+                            height: 25,
+                            startColor: '#03A9F4',
+                            endColor: '#004B7D',
+                            readOnly: 1
+                        });
 					} //success
 				}
 			});

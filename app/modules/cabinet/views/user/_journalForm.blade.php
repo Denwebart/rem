@@ -46,7 +46,7 @@
         @endif
 
         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-        {{ Form::hidden('image-url', $article->getImagePath() . $article->image, ['id' => 'image-name']) }}
+        {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
         {{ $errors->first('image') }}
     </div>
 </div>
@@ -182,12 +182,13 @@
         });
     </script>
 
+    {{ HTML::script('js/jRate.js') }}
     <script type="text/javascript">
         $('.preview').on('click', function() {
             tinyMCE.get("content").save();
             var $form = $('form'),
                     data = $form.serialize(),
-                    url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl()])?>';
+                    url = '<?php echo URL::route('user.preview', ['login' => $user->getLoginForUrl(), 'id' => $article->id])?>';
             $.ajax({
                 url: url,
                 dataType: "text json",
@@ -208,6 +209,15 @@
                     if(data.success) {
                         $('#form-area').hide();
                         $('#preview').show().html(data.previewHtml);
+                        $("#jRate").jRate({
+                            rating: '<?php echo $article->getRating(); ?>',
+                            precision: 0, // целое число
+                            width: 25,
+                            height: 25,
+                            startColor: '#03A9F4',
+                            endColor: '#004B7D',
+                            readOnly: 1
+                        });
                     } //success
                 }
             });

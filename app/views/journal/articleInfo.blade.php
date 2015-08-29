@@ -77,7 +77,9 @@
             </a>
         @endif
         <p>{{ $article->getIntrotext() }}</p>
-        @if(count($article->tags))
+    </div>
+    @if(count($article->tags))
+        <div class="col-md-12">
             <ul class="tags">
                 @foreach($article->tags as $tag)
                     <li>
@@ -87,8 +89,8 @@
                     </li>
                 @endforeach
             </ul>
-        @endif
-    </div>
+        </div>
+    @endif
     <div class="col-md-12">
         <a class="pull-right read-more" href="{{ URL::to($article->getUrl()) }}">
             Читать полностью

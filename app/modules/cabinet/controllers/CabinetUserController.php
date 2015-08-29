@@ -457,9 +457,10 @@ class CabinetUserController extends \BaseController
 	 * Предварительный просмотр
 	 *
 	 * @param $login
+	 * @param $id
 	 * @return \Illuminate\View\View
 	 */
-	public function preview($login)
+	public function preview($login, $id = null)
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
@@ -468,7 +469,11 @@ class CabinetUserController extends \BaseController
 		$inputData = Input::get('formData');
 		parse_str($inputData, $formFields);
 
-		$page = new Page();
+		if($id == null) {
+			$page = new Page();
+		} else {
+			$page = Page::find($id);
+		}
 
 		$data = $formFields;
 		$data['image'] = $data['image-url'];

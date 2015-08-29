@@ -158,7 +158,7 @@ class Tag extends \Eloquent
 				];
 			}
 		}
-		
+
 		if(count($dataAdded)) {
 			DB::table('pages_tags')->insert($dataAdded);
 		}

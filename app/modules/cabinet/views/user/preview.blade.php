@@ -13,7 +13,13 @@
                     </div>
                     <div class="col-md-3">
                         {{-- Рейтинг --}}
-                        @include('widgets.rating')
+                        <div id="rating" class="rating pull-right">
+                            <div id="rate-votes">{{ $page->getRating() }}</div>
+                            <div id="rate-voters">(голосовавших: <span>{{ $page->voters }}</span>)</div>
+                            <div id="rate-stars">
+                                <div id="jRate"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -26,33 +32,68 @@
                             </a>
                         </div>
                         <div class="date pull-left" title="Дата публикации">
-                            <span class="icon mdi-action-today"></span>
+                            <i class="material-icons">today</i>
                             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                         </div>
                     </div>
                     <div class="pull-right">
-                        <div class="answers-count pull-left" title="Количество ответов">
-                            <span class="icon mdi-communication-forum"></span>
-                            <a href="#answers">
-                                <span class="count-comments">
-                                    {{ count($page->publishedAnswers) }}
-                                </span>
-                            </a>
-                        </div>
-
                         <div class="views pull-left" title="Количество просмотров">
-                            <span class="icon mdi-action-visibility"></span>
+                            <i class="material-icons">visibility</i>
                             <span>{{ $page->views }}</span>
                         </div>
 
+                        @if(Page::TYPE_QUESTION == $page->type)
+                            <div class="answers-count pull-left" title="Количество ответов">
+                                <i class="material-icons">question_answer</i>
+                                <a href="#answers">
+                                    <span class="count-comments">
+                                        {{ count($page->publishedAnswers) }}
+                                    </span>
+                                </a>
+                            </div>
+
+                            <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                                <i class="material-icons">local_library</i>
+                                <span>{{ count($page->subscribers) }}</span>
+                            </div>
+                        @else
+                            <div class="comments-count pull-left" title="Количество комментариев">
+                                <i class="material-icons">chat_bubble</i>
+                                <a href="#comments">
+                                    <span class="count-comments">
+                                        {{ count($page->publishedComments) }}
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
+
+                        <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
+                            <i class="material-icons">archive</i>
+                            <span>{{ count($page->whoSaved) }}</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="content">
-                    <a class="fancybox" rel="group-content" href="{{ $page->image }}">
-                        <img src="{{ $page->image }}" alt=""/>
-                    </a>
+                    @if($page->image)
+                        <a class="fancybox" rel="group-content" href="{{ $page->image }}">
+                            <img src="{{ $page->image }}" alt=""/>
+                        </a>
+                    @endif
+
                     {{ $page->getContentWithWidget() }}
+
+                    @if(count($page->tags))
+                        <ul class="tags">
+                            @foreach($page->tags as $tag)
+                                <li>
+                                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-info">
+                                        {{ $tag->title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
         </div>

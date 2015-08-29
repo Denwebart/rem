@@ -212,6 +212,9 @@ a:focus {
 #cabinet #content h2, #cabinet .content h2 {
     font-weight: 300;
 }
+#cabinet #content .well h2, #cabinet .content .well h2 {
+    font-weight: 400;
+}
 .content .fancybox {
     float: left;
 }
@@ -259,6 +262,7 @@ a:focus {
     box-sizing: content-box;
     margin-left: -10px;
     margin-bottom: 15px;
+    font-size: 14px;
 }
 .blog .page-info {
     margin-bottom: 0;
@@ -419,8 +423,9 @@ a:focus {
 }
 .tags li a.tag {
     text-transform: none;
-    padding: 1px 7px;
+    padding: 2px 7px 3px;
     margin: 2px 0;
+    line-height: 14px;
 }
 
 /* Виджет тегов */

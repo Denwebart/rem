@@ -112,7 +112,9 @@
         </a>
     @endif
     <p>{{ $page->getIntrotext() }}</p>
-    @if(count($page->tags))
+</div>
+@if(count($page->tags))
+    <div class="col-md-12">
         <ul class="tags">
             @foreach($page->tags as $tag)
                 <li>
@@ -122,8 +124,8 @@
                 </li>
             @endforeach
         </ul>
-    @endif
-</div>
+    </div>
+@endif
 <div class="col-md-12">
     <a class="pull-right read-more" href="{{ URL::to($page->getUrl()) }}">
         Читать полностью
