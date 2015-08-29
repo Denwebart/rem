@@ -1,7 +1,3 @@
-<?php/*
-    require_once base_path() . '/vendor/autoload.php';
-    use Anhskohbo\NoCaptcha\NoCaptcha;*/
-?>
 <div id="comment-{{ $comment->id }}" class="comment">
     <a href="javascript:void(0)" class="close-comment" @if(!count($comment->publishedChildren)) style="display: none" @endif>
         <i class="material-icons">keyboard_arrow_up</i>
