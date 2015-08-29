@@ -81,7 +81,7 @@ View::share('title', $title);
                             </thead>
                             <tbody>
                             @foreach($users as $user)
-                                <tr data-user-id="{{ $user->id }}" @if($user->is_banned) class="danger" @elseif($user->created_at > Session::get('user.lastActivity')) class="info" @endif>
+                                <tr data-user-id="{{ $user->id }}" @if($user->is_banned) class="danger" @elseif($user->created_at > $headerWidget->getLastActivity()) class="info" @endif>
                                     <td>{{ $user->id }}</td>
                                     <td>
                                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">

@@ -40,7 +40,7 @@ View::share('title', $title);
                             </thead>
                             <tbody>
                             @foreach($comments as $comment)
-                                <tr @if($comment->is_deleted) class="danger" @elseif($comment->created_at > Session::get('user.lastActivity')) class="info" @endif>
+                                <tr @if($comment->is_deleted) class="danger" @elseif($comment->created_at > $headerWidget->getLastActivity()) class="info" @endif>
                                     <td>{{ $comment->id }}</td>
                                     <td>
                                         @if($comment->user)

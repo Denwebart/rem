@@ -88,7 +88,7 @@ class HeaderWidget
 	}
 
 	public function newUsers() {
-		return User::where('created_at', '>', Session::get('user.lastActivity'))->get();
+		return User::where('created_at', '>', $this->getLastActivity())->get();
 	}
 
 	public function deletedLetters() {
@@ -103,25 +103,25 @@ class HeaderWidget
 
 	public function newQuestions() {
 		return Page::whereType(Page::TYPE_QUESTION)
-			->where('created_at', '>', Session::get('user.lastActivity'))
+			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
 	public function newArticles() {
 		return Page::whereType(Page::TYPE_ARTICLE)
-			->where('created_at', '>', Session::get('user.lastActivity'))
+			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
 	public function newComments() {
 		return Comment::whereIsAnswer(0)
-			->where('created_at', '>', Session::get('user.lastActivity'))
+			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
 	public function newAnswers() {
 		return Comment::whereIsAnswer(1)
-			->where('created_at', '>', Session::get('user.lastActivity'))
+			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
@@ -139,4 +139,10 @@ class HeaderWidget
 			->get();
 	}
 
+	public function getLastActivity()
+	{
+		return Session::has('user.lastActivity')
+			? Session::get('user.lastActivity')
+			: Auth::user()->last_activity;
+	}
 }
