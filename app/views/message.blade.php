@@ -20,10 +20,13 @@ View::share('title', $title);
                             function() {
                                 location.href = '{{ $redirect }}';
                             },
-                            5000
+                            50000
                         );
                     </script>
-                    <p class="like-h">Нажмите <a href="{{ $redirect }}">эту ссылку</a>, если ваш браузер не поддерживает автоматический редирект.</p>
+                    <p class="like-h">
+                        Нажмите <a href="{{ $redirect }}">эту ссылку</a>,
+                        если ваш браузер не поддерживает автоматический редирект.
+                    </p>
                 @endif
 
             </div>

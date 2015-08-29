@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{--<meta name="robots" content="noindex, nofollow">--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ isset($page) ? $page->meta_title : $title }}</title>
@@ -14,7 +13,7 @@
     <meta name="keywords" content="{{ isset($page) ? $page->meta_key : '' }}"/>
     <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
     <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
-    <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
+    <meta name="robots" content="noindex, nofollow">
 
     <link rel="icon" href="{{ URL::to('favicon.ico') }}">
 

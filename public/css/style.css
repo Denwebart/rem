@@ -1316,7 +1316,7 @@ footer .copyright a {
 #login-layout .g-recaptcha {
     margin-top: 15px;
 }
-#login-layout a {
+#login-layout .form-group a {
     display: inline-block;
     line-height: 36px;
     margin-right: 15px;

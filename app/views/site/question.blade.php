@@ -23,10 +23,10 @@
         <div class="row">
             <div class="col-md-9">
                 <h2>
+                    {{ $page->title }}
                     @if(count($page->bestComments))
                         <i class="material-icons mdi-success" title="Есть решение" style="font-size: 26px">done</i>
                     @endif
-                    {{ $page->title }}
                 </h2>
             </div>
             <div class="col-md-3">

@@ -32,6 +32,7 @@
 @section('script')
     @parent
 
+    <!-- Back To Top -->
     <script type="text/javascript">
         $(document).ready(function($){
             // browser window scroll (in pixels) after which the "back to top" link is shown
