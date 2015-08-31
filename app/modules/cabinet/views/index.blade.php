@@ -199,7 +199,12 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">
-                        {{ Form::text('name', $name, ['class' => 'form-control', 'id' => 'name']) }}
+                        {{ Form::text('name', $name, [
+                        'class' => 'form-control floating-label',
+                        'id' => 'name',
+                        'placeholder' => 'Поиск по пользователям',
+                        'data-hint' => 'Введите логин или имя пользователя, например: "Ivan"'
+                        ]) }}
                     </div>
                 </div>
                 <div class="col-md-2">
