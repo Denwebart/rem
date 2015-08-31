@@ -81,7 +81,7 @@
                             {{ Form::label('sendCopy', 'Отправить копию этого сообщения на Ваш адрес e-mail', ['class' => 'control-label send-copy']) }}
                             <div class="checkbox">
                                 <label>
-                                    {{ Form::checkbox('sendCopy', 0, ['class' => 'form-control']); }}
+                                    {{ Form::checkbox('sendCopy', 1, 1, ['class' => 'form-control']); }}
                                 </label>
                             </div>
                         </div>
