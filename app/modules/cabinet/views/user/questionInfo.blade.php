@@ -94,7 +94,13 @@
                     <div class="row">
                         <div class="col-md-4">
                             @if(Auth::check())
-                                @if((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()) || Auth::user()->isAdmin())
+                                @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                    <div class="buttons pull-right">
+                                        <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id]) }}" class="" title="Редактировать вопрос">
+                                            <i class="material-icons">mode_edit</i>
+                                        </a>
+                                    </div>
+                                @elseif((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
                                     <div class="buttons pull-right">
                                         <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id]) }}" class="" title="Редактировать вопрос">
                                             <i class="material-icons">mode_edit</i>

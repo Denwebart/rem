@@ -34,9 +34,15 @@ View::share('title', $title);
                             @if(Auth::user()->is($user))
                                 @if(!$headerWidget->isBannedIp)
                                     @if(!$user->is_banned)
-                                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                            Задать вопрос
-                                        </a>
+                                        @if(Auth::user()->isAdmin())
+                                            <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success pull-right">
+                                                Задать вопрос
+                                            </a>
+                                        @else
+                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                                Задать вопрос
+                                            </a>
+                                        @endif
                                     @endif
                                 @endif
                             @endif
@@ -106,7 +112,16 @@ View::share('title', $title);
                                                 <div class="row">
                                                     <div class="col-md-6" style="padding-right: 0">
                                                         @if(Auth::check())
-                                                            @if((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
+                                                            @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                                                <div class="buttons pull-right">
+                                                                    <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
+                                                                        <i class="material-icons">delete</i>
+                                                                    </a>
+                                                                    <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
+                                                                        <i class="material-icons">mode_edit</i>
+                                                                    </a>
+                                                                </div>
+                                                            @elseif((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
                                                                 <div class="buttons pull-right">
                                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
                                                                         <i class="material-icons">delete</i>

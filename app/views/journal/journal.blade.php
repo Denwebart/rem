@@ -104,9 +104,15 @@
                             @if(!$user->is_banned)
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                            Написать статью
-                                        </a>
+                                        @if(Auth::user()->isAdmin())
+                                            <a href="{{ URL::route('admin.articles.create') }}" class="btn btn-success pull-right">
+                                                Написать статью
+                                            </a>
+                                        @else
+                                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                                Написать статью
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             @endif
@@ -151,7 +157,16 @@
                                     </div>
                                     <div class="col-md-2">
                                         @if(Auth::check())
-                                            @if((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $article->isEditable()) || Auth::user()->isAdmin())
+                                            @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                                <div class="buttons">
+                                                    <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
+                                                        <i class="material-icons">delete</i>
+                                                    </a>
+                                                    <a href="{{ URL::route('admin.articles.edit', ['id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                </div>
+                                            @elseif((Auth::user()->is($article->user) && !$headerWidget->isBannedIp && !Auth::user()->is_banned && $article->isEditable()))
                                                 <div class="buttons">
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">delete</i>

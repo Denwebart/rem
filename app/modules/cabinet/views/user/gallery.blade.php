@@ -78,32 +78,6 @@ View::share('title', $title);
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="col-md-12">--}}
-                                    {{--<div class="image">--}}
-                                        {{--<a class="fancybox" rel="group-gallery" href="{{ $image->getImageLink() }}">--}}
-                                            {{--{{ $image->getImage() }}--}}
-                                        {{--</a>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="image-description">--}}
-                                        {{--<h4>--}}
-                                            {{--{{ $image->title }}--}}
-                                            {{--@if(Auth::check())--}}
-                                                {{--@if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())--}}
-                                                    {{--<div class="buttons">--}}
-                                                        {{--<a href="javascript:void(0)" class="delete-photo pull-right" data-id="{{ $image->id }}">--}}
-                                                            {{--<i class="material-icons">delete</i>--}}
-                                                        {{--</a>--}}
-                                                        {{--<a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-right">--}}
-                                                            {{--<i class="material-icons">edit</i>--}}
-                                                        {{--</a>--}}
-                                                    {{--</div>--}}
-                                                {{--@endif--}}
-                                            {{--@endif--}}
-                                        {{--</h4>--}}
-                                        {{--{{ $image->description }}--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
                             </div>
                         @endforeach
                         @if(Auth::check())

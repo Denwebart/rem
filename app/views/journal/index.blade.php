@@ -32,9 +32,15 @@
                 @if(!Auth::user()->is_banned)
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                Написать статью
-                            </a>
+                            @if(Auth::user()->isAdmin())
+                                <a href="{{ URL::route('admin.articles.create') }}" class="btn btn-success pull-right">
+                                    Написать статью
+                                </a>
+                            @else
+                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                    Написать статью
+                                </a>
+                            @endif
                         </div>
                     </div>
                 @else

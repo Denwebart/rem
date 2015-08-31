@@ -37,9 +37,15 @@
         @if(Auth::check())
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                        Задать вопрос
-                    </a>
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success pull-right">
+                            Задать вопрос
+                        </a>
+                    @else
+                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                            Задать вопрос
+                        </a>
+                    @endif
                 </div>
             </div>
         @endif
