@@ -68,7 +68,9 @@ View::share('title', $title);
                                                             </div>
                                                             @foreach($subscription->notifications as $notification)
                                                                 <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                    @if(Auth::user()->is($user))
+                                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                    @endif
                                                                     <span class="date">
                                                                         <i class="material-icons mdi-info">lens</i>
                                                                         {{ DateHelper::dateFormat($notification->created_at) }}
@@ -88,13 +90,13 @@ View::share('title', $title);
                                                     <h3></h3>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <div class="buttons">
-                                                        @if(Auth::user()->is($user))
+                                                    @if(Auth::user()->is($user))
+                                                        <div class="buttons">
                                                             <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
                                                                 Отписаться
                                                             </a>
-                                                        @endif
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="date date-saved">
@@ -230,72 +232,74 @@ View::share('title', $title);
 @section('script')
     @parent
 
-    <script type="text/javascript">
-        $(".unsubscribe").on('click', function() {
-            var $link = $(this);
-            var subscriptionObjectId = $link.data('subscriptionObjectId');
-            var subscriptionField = $link.data('subscriptionField');
-            $.ajax({
-                url: "{{ URL::route('user.unsubscribe', ['login' => Auth::user()->getLoginForUrl()]) }}",
-                dataType: "text json",
-                type: "POST",
-                data: {subscriptionObjectId: subscriptionObjectId, subscriptionField: subscriptionField},
-                beforeSend: function(request) {
-                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
-                success: function(response) {
-                    if(response.success){
-                        $('#site-messages').prepend(response.message);
-                        $('[data-subscription-object-id=' + subscriptionObjectId + ']').remove();
-                    } else {
-                        $('#site-messages').prepend(response.message);
-                    }
-                }
-            });
-        });
-
-        $('#unsubscribe-from-all').on('click', function(){
-            var $button = $(this);
-            if(confirm('Вы уверены, что хотите отписаться от всего?')) {
+    @if(Auth::user()->is($user))
+        <script type="text/javascript">
+            $(".unsubscribe").on('click', function() {
+                var $link = $(this);
+                var subscriptionObjectId = $link.data('subscriptionObjectId');
+                var subscriptionField = $link.data('subscriptionField');
                 $.ajax({
-                    url: "{{ URL::route('user.unsubscribeFromAll', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                    url: "{{ URL::route('user.unsubscribe', ['login' => Auth::user()->getLoginForUrl()]) }}",
                     dataType: "text json",
                     type: "POST",
-                    data: {},
-                    beforeSend: function (request) {
+                    data: {subscriptionObjectId: subscriptionObjectId, subscriptionField: subscriptionField},
+                    beforeSend: function(request) {
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
-                    success: function (response) {
-                        if (response.success) {
+                    success: function(response) {
+                        if(response.success){
                             $('#site-messages').prepend(response.message);
-                            $button.parent().find('.tooltip').remove();
-                            $button.remove();
-                            $('#content .list').html('<p>Вы еще не подписались ни на один вопрос или журнал пользователя.</p>');
+                            $('[data-subscription-object-id=' + subscriptionObjectId + ']').remove();
                         } else {
                             $('#site-messages').prepend(response.message);
                         }
                     }
                 });
-            }
-        });
+            });
 
-        $(".close").on('click', function() {
-            var $link = $(this);
-            var notificationId = $link.data('id');
-            $.ajax({
-                url: "{{ URL::route('user.deleteSubscriptionNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
-                dataType: "text json",
-                type: "POST",
-                data: {notificationId: notificationId},
-                beforeSend: function(request) {
-                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                },
-                success: function(response) {
-                    if(response.success){
-                        $('[data-notification-id=' + notificationId + ']').remove();
-                    }
+            $('#unsubscribe-from-all').on('click', function(){
+                var $button = $(this);
+                if(confirm('Вы уверены, что хотите отписаться от всего?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.unsubscribeFromAll', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#site-messages').prepend(response.message);
+                                $button.parent().find('.tooltip').remove();
+                                $button.remove();
+                                $('#content .list').html('<p>Вы еще не подписались ни на один вопрос или журнал пользователя.</p>');
+                            } else {
+                                $('#site-messages').prepend(response.message);
+                            }
+                        }
+                    });
                 }
             });
-        });
-    </script>
+
+            $(".close").on('click', function() {
+                var $link = $(this);
+                var notificationId = $link.data('id');
+                $.ajax({
+                    url: "{{ URL::route('user.deleteSubscriptionNotification', ['login' => Auth::user()->getLoginForUrl()]) }}",
+                    dataType: "text json",
+                    type: "POST",
+                    data: {notificationId: notificationId},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('[data-notification-id=' + notificationId + ']').remove();
+                        }
+                    }
+                });
+            });
+        </script>
+    @endif
 @endsection
