@@ -47,11 +47,14 @@
 </div>
 
 <div class="col-md-12">
+
+    {{ Form::hidden('backUrl', $backUrl) }}
+
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-    <a href="{{ URL::route('admin.comments.index') }}" class="btn btn-primary">Отмена</a>
+    <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('style')

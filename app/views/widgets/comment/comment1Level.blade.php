@@ -48,7 +48,7 @@
 
                                     @if(Auth::check())
                                         @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                            <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id]) }}" class="pull-left margin-left-20" title="Редактировать комментарий">
+                                            <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a href="javascript:void(0)" class="pull-left margin-left-10 delete-comment" title="Удалить комментарий" data-id="{{ $comment->id }}">

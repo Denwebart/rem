@@ -57,7 +57,11 @@ class AdminCommentsController extends \BaseController {
 	{
 		$comment = Comment::find($id);
 
-		return View::make('admin::comments.edit', compact('comment'));
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.comments.index');
+
+		return View::make('admin::comments.edit', compact('comment', 'backUrl'));
 	}
 
 	/**
@@ -71,15 +75,17 @@ class AdminCommentsController extends \BaseController {
 		$comment = Comment::findOrFail($id);
 
 		$validator = Validator::make($data = Input::all(), Comment::$rulesForUpdate);
-
 		if ($validator->fails())
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
-
 		$comment->update($data);
 
-		return Redirect::route('admin.comments.index');
+		$backUrl = Input::has('backUrl')
+			? Input::get('backUrl')
+			: URL::route('admin.comments.index');
+
+		return Redirect::to($backUrl);
 	}
 
 	/**
