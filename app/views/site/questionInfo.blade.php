@@ -55,13 +55,13 @@
                         @if(Auth::check())
                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                 <div class="buttons pull-right">
-                                    <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id]) }}" class="" title="Редактировать вопрос">
+                                    <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать вопрос">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                 </div>
                             @elseif((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()))
                                 <div class="buttons pull-right">
-                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="" title="Редактировать вопрос">
+                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать вопрос">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                 </div>

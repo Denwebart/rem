@@ -1,6 +1,5 @@
 <?php
 
-
 class CabinetUserController extends \BaseController
 {
 	public function __construct()
@@ -394,11 +393,16 @@ class CabinetUserController extends \BaseController
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('user.questions', ['login' => $login]);
+
 		View::share('user', $user);
-		return View::make('cabinet::user.createQuestion', compact('question'));
+		return View::make('cabinet::user.createQuestion', compact('question', 'backUrl'));
 	}
 
-	public function storeQuestion()
+	public function storeQuestion($login)
 	{
 		$data = Input::all();
 
@@ -432,7 +436,10 @@ class CabinetUserController extends \BaseController
 
 		$page->user->addPoints(User::POINTS_FOR_QUESTION);
 
-		return Redirect::route('user.questions', ['login' => Auth::user()->getLoginForUrl()]);
+		$backUrl = Input::has('backUrl')
+			? Input::get('backUrl')
+			: URL::route('user.questions', ['login' => $login]);
+		return Redirect::to($backUrl);
 	}
 
 	public function editQuestion($login, $id)
@@ -449,8 +456,12 @@ class CabinetUserController extends \BaseController
 			return Response::view('errors.editable403', ['user' => $user], 403);
 		}
 
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('user.questions', ['login' => $login]);
+
 		View::share('user', $user);
-		return View::make('cabinet::user.editQuestion', compact('question'));
+		return View::make('cabinet::user.editQuestion', compact('question', 'backUrl'));
 	}
 
 	/**
@@ -535,22 +546,11 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
-		return Redirect::route('user.questions', ['login' => $login]);
+		$backUrl = Input::has('backUrl')
+			? Input::get('backUrl')
+			: URL::route('user.questions', ['login' => $login]);
+		return Redirect::to($backUrl);
 	}
-
-//	public function preview($login, $id)
-//	{
-//		$user = (Auth::user()->getLoginForUrl() == $login)
-//			? Auth::user()
-//			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
-//		$page = Page::whereId($id)
-//			->whereUserId($user->id)
-//			->whereType(Page::TYPE_QUESTION)
-//			->firstOrFail();
-//
-//		View::share('user', $user);
-//		return View::make('cabinet::user.preview', compact('page'));
-//	}
 
 	public function deleteQuestion($login)
 	{
@@ -593,11 +593,16 @@ class CabinetUserController extends \BaseController
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
 			: User::whereLogin($login)->whereIsActive(1)->firstOrFail();
+
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+
 		View::share('user', $user);
-		return View::make('cabinet::user.createJournal', compact('article'));
+		return View::make('cabinet::user.createJournal', compact('article', 'backUrl'));
 	}
 
-	public function storeJournal()
+	public function storeJournal($login)
 	{
 		$data = Input::all();
 
@@ -636,7 +641,10 @@ class CabinetUserController extends \BaseController
 			'[linkToPage]' => URL::to($page->getUrl())
 		]);
 
-		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => Auth::user()->getLoginForUrl()]);
+		$backUrl = Input::has('backUrl')
+			? Input::get('backUrl')
+			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+		return Redirect::to($backUrl);
 	}
 
 	public function editJournal($login, $id)
@@ -654,8 +662,12 @@ class CabinetUserController extends \BaseController
 			return Response::view('errors.editable403', ['user' => $user], 403);
 		}
 
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+
 		View::share('user', $user);
-		return View::make('cabinet::user.editJournal', compact('article'));
+		return View::make('cabinet::user.editJournal', compact('article', 'backUrl'));
 	}
 
 	public function updateJournal($login, $id)
@@ -696,7 +708,10 @@ class CabinetUserController extends \BaseController
 		// добавление тегов
 		Tag::addTag($page, Input::get('tags'));
 
-		return Redirect::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+		$backUrl = Input::has('backUrl')
+			? Input::get('backUrl')
+			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+		return Redirect::to($backUrl);
 	}
 
 	public function deleteJournal($login)

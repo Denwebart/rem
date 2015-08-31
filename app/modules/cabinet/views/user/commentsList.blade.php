@@ -37,7 +37,7 @@
                                         <a href="javascript:void(0)" class="delete-comment pull-right" data-id="{{ $comment->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">delete</i>
                                         </a>
-                                        <a href="{{ URL::route('user.comments.edit', ['login' => $comment->user->getLoginForUrl(),'id' => $comment->id]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
+                                        <a href="{{ URL::route('user.comments.edit', ['login' => $comment->user->getLoginForUrl(),'id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать комментарий" data-toggle="tooltip">
                                             <i class="material-icons">mode_edit</i>
                                         </a>
                                     </div>

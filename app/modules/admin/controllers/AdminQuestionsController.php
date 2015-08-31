@@ -44,7 +44,11 @@ class AdminQuestionsController extends \BaseController {
 		$page = new Page();
 		$page->user_id = Auth::user()->id;
 
-		return View::make('admin::questions.create', compact('page'));
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.questions.index');
+
+		return View::make('admin::questions.create', compact('page', 'backUrl'));
 	}
 
 	/**
@@ -92,7 +96,8 @@ class AdminQuestionsController extends \BaseController {
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
-		return Redirect::route('admin.questions.index');
+		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.questions.index');
+		return Redirect::to($backUrl);
 	}
 
 	/**
@@ -121,7 +126,11 @@ class AdminQuestionsController extends \BaseController {
 			->with('relatedArticles.parent.parent', 'relatedQuestions.parent.parent')
 			->firstOrFail();
 
-		return View::make('admin::questions.edit', compact('page'));
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.questions.index');
+
+		return View::make('admin::questions.edit', compact('page', 'backUrl'));
 	}
 
 	/**
@@ -168,7 +177,8 @@ class AdminQuestionsController extends \BaseController {
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
-		return Redirect::route('admin.questions.index');
+		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.questions.index');
+		return Redirect::to($backUrl);
 	}
 
 	/**

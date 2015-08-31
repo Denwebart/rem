@@ -105,11 +105,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         @if(Auth::user()->isAdmin())
-                                            <a href="{{ URL::route('admin.articles.create') }}" class="btn btn-success pull-right">
+                                            <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                                                 Написать статью
                                             </a>
                                         @else
-                                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                            <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl(), 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                                                 Написать статью
                                             </a>
                                         @endif
@@ -162,7 +162,7 @@
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">delete</i>
                                                     </a>
-                                                    <a href="{{ URL::route('admin.articles.edit', ['id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
+                                                    <a href="{{ URL::route('admin.articles.edit', ['id' => $article->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">edit</i>
                                                     </a>
                                                 </div>
@@ -171,7 +171,7 @@
                                                     <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">delete</i>
                                                     </a>
-                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
+                                                    <a href="{{ URL::route('user.journal.edit', ['login' => $user->getLoginForUrl(),'id' => $article->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">edit</i>
                                                     </a>
                                                 </div>

@@ -44,7 +44,11 @@ class AdminArticlesController extends \BaseController {
 		$page = new Page();
 		$page->user_id = Auth::user()->id;
 
-		return View::make('admin::articles.create', compact('page'));
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.articles.index');
+
+		return View::make('admin::articles.create', compact('page', 'backUrl'));
 	}
 
 	/**
@@ -97,7 +101,8 @@ class AdminArticlesController extends \BaseController {
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
-		return Redirect::route('admin.articles.index');
+		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.articles.index');
+		return Redirect::to($backUrl);
 	}
 
 	/**
@@ -126,7 +131,11 @@ class AdminArticlesController extends \BaseController {
 			->with('relatedArticles.parent.parent', 'relatedQuestions.parent.parent')
 			->firstOrFail();
 
-		return View::make('admin::articles.edit', compact('page'));
+		$backUrl = Request::has('backUrl')
+			? urldecode(Request::get('backUrl'))
+			: URL::route('admin.articles.index');
+
+		return View::make('admin::articles.edit', compact('page', 'backUrl'));
 	}
 
 	/**
@@ -179,7 +188,8 @@ class AdminArticlesController extends \BaseController {
 		// добавление тегов
 		Tag::addTag($page, Input::get('tags'));
 
-		return Redirect::route('admin.articles.index');
+		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.articles.index');
+		return Redirect::to($backUrl);
 	}
 
 	/**

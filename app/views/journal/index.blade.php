@@ -33,11 +33,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             @if(Auth::user()->isAdmin())
-                                <a href="{{ URL::route('admin.articles.create') }}" class="btn btn-success pull-right">
+                                <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                                     Написать статью
                                 </a>
                             @else
-                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
+                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl(), 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                                     Написать статью
                                 </a>
                             @endif

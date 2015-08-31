@@ -1,10 +1,12 @@
 <div class="col-md-12">
     <div class="pull-right margin-bottom-20">
-        <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
+        <a href="{{ $backUrl }}" class="btn btn-primary btn-sm">
             <i class="material-icons">keyboard_arrow_left</i>
             Отмена
         </a>
         <a href="javascript:void(0)" class="btn btn-warning btn-sm btn-sm preview">Предпросмотр</a>
+
+        {{ Form::hidden('backUrl', $backUrl) }}
         {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
     </div>
 </div>

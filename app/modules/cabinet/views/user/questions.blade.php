@@ -117,7 +117,7 @@ View::share('title', $title);
                                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
                                                                         <i class="material-icons">delete</i>
                                                                     </a>
-                                                                    <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
+                                                                    <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
                                                                         <i class="material-icons">mode_edit</i>
                                                                     </a>
                                                                 </div>
@@ -126,7 +126,7 @@ View::share('title', $title);
                                                                     <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
                                                                         <i class="material-icons">delete</i>
                                                                     </a>
-                                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
+                                                                    <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
                                                                         <i class="material-icons">mode_edit</i>
                                                                     </a>
                                                                 </div>

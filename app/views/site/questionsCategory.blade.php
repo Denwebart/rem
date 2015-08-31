@@ -38,11 +38,11 @@
             <div class="row">
                 <div class="col-md-12">
                     @if(Auth::user()->isAdmin())
-                        <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success pull-right">
+                        <a href="{{ URL::route('admin.questions.create', 'backUrl' => urlencode(Request::url())) }}" class="btn btn-success pull-right">
                             Задать вопрос
                         </a>
                     @else
-                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id]) }}" class="btn btn-success pull-right">
+                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                             Задать вопрос
                         </a>
                     @endif
