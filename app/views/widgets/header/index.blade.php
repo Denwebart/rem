@@ -40,7 +40,7 @@
                     <a href="{{ URL::route('users') }}" class="">
                         <span>
                             <i class="material-icons">group</i>
-                            Все пользователи
+                            <span class="hidden-sm hidden-xs">Все пользователи</span>
                         </span>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                     <li style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" title="Редактировать эту страницу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">edit</i>
-                            Редактировать
+                            <span class="hidden-sm hidden-xs">Редактировать</span>
                         </a>
                     </li>
                 @endif

@@ -1,21 +1,37 @@
 <div class="header">
     <div class="container">
         <div class="row">
+            <div class="col-md-6 hidden-md hidden-lg">
+                @if (!Auth::check())
+                    <div class="buttons pull-right">
+                        <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
+                            <span>
+                                <span class="text hidden-xs">Войти</span>
+                                <i class="material-icons">exit_to_app</i>
+                            </span>
+                        </a>
+                        <a href="{{ URL::route('register') }}" class="pull-right btn-register">
+                            Зарегистрироваться
+                        </a>
+                    </div>
+                @endif
+                {{ $menuWidget->topMenu() }}
+            </div>
             <div class="col-md-6">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/logo.png') }}
+                        {{ HTML::image('images/logo.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive']) }}
                     </a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="row">
+                <div class="row hidden-sm hidden-xs">
                     <div class="col-md-12">
                         @if (!Auth::check())
                             <div class="buttons pull-right">
                                 <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
                                     <span>
-                                        <span class="text">Войти</span>
+                                        <span class="text hidden-md">Войти</span>
                                         <i class="material-icons">exit_to_app</i>
                                     </span>
                                 </a>
@@ -33,7 +49,7 @@
                         <div id="search">
                             {{ Form::open(['method' => 'GET', 'route' => ['search'], 'id' => 'search-form']) }}
                                 <div class="row">
-                                    <div class="col-md-11">
+                                    <div class="col-xs-11">
                                         <div class="form-group">
                                             {{ Form::input('search', 'query', null,
                                                 [
@@ -45,7 +61,7 @@
                                             ) }}
                                         </div>
                                     </div>
-                                    <div class="col-md-1" style="padding: 0">
+                                    <div class="col-xs-1" style="padding: 0">
                                         <button type="submit" style="width: 100%">
                                             <i class="material-icons">search</i>
                                             <div class="ripple-wrapper"></div>
