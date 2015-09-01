@@ -1010,7 +1010,7 @@ class CabinetUserController extends \BaseController
 			->with('sentMessagesForUser')
 			->get();
 
-		$messages = Message::from(DB::raw('(select * from messages where user_id_recipient = 1 order by created_at DESC) t'))
+		$messages = Message::from(DB::raw('(select * from messages where user_id_recipient = ' . $user->id . ' order by created_at DESC) t'))
 			->groupBy('user_id_sender')
 			->with('userSender')
 			->get();
