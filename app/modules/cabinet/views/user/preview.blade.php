@@ -1,4 +1,14 @@
-<h2>Предпросмотр</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Предпросмотр</h2>
+    </div>
+    <div class="col-md-12">
+        <div class="buttons pull-right margin-bottom-20">
+            <a href="javascript:void(0)" class="btn btn-sm btn-primary preview-edit">Редактировать</a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-success preview-save">Сохранить</a>
+        </div>
+    </div>
+</div>
 
 <section id="content">
 
@@ -98,8 +108,4 @@
             </div>
         </div>
     </div>
-
-    <a href="javascript:void(0)" class="btn btn-primary preview-edit">Редактировать</a>
-    <a href="javascript:void(0)" class="btn btn-success preview-save">Сохранить</a>
-
 </section>
