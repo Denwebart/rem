@@ -51,7 +51,7 @@ View::share('title', $title);
                                                     {{ DateHelper::dateForMessage($message->created_at) }}
                                                 </span>
                                             <div class="clearfix"></div>
-                                            {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
+                                            {{ StringHelper::addFancybox(StringHelper::limit($message->message, 100), 'group-message-' . $message->id) }}
                                         </a>
                                     </div>
 

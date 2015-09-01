@@ -329,9 +329,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getAvatar($prefix = null, $options = [])
 	{
-		$alt = $this->getFullName()
-			? $this->login . ' ('. $this->getFullName() .')'
-			: $this->login;
+		$alt = $this->id
+			? ($this->getFullName()
+				? $this->login . ' ('. $this->getFullName() .')'
+				: $this->login)
+			: 'Пользователь не зарегистрирован';
 		$options['title'] = $alt;
 		$options['data-toggle'] = 'tooltip';
 		if(isset($options['class'])) {

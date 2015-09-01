@@ -147,87 +147,94 @@ class CommentsController extends BaseController
 
 				if(Comment::VOTE_LIKE == $vote) {
 					$comment->votes_like = $comment->votes_like + 1;
-					if($comment->is_answer) {
-						$comment->user->setNotification(Notification::TYPE_ANSWER_LIKED, [
-							'[user]' => $userLogin,
-							'[linkToUser]' => $linkToUser,
-							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => strip_tags($comment->comment),
-							'[pageTitle]' => $comment->page->getTitle(),
-							'[linkToPage]' => URL::to($comment->page->getUrl())
-						]);
-					} else {
-						$comment->user->setNotification(Notification::TYPE_COMMENT_LIKED, [
-							'[user]' => $userLogin,
-							'[linkToUser]' => $linkToUser,
-							'[linkToComment]' => URL::to($comment->getUrl()),
-							'[comment]' => strip_tags($comment->comment),
-							'[pageTitle]' => $comment->page->getTitle(),
-							'[linkToPage]' => URL::to($comment->page->getUrl())
-						]);
+					if($comment->user) {
+						if($comment->is_answer) {
+							$comment->user->setNotification(Notification::TYPE_ANSWER_LIKED, [
+								'[user]' => $userLogin,
+								'[linkToUser]' => $linkToUser,
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => strip_tags($comment->comment),
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+						} else {
+							$comment->user->setNotification(Notification::TYPE_COMMENT_LIKED, [
+								'[user]' => $userLogin,
+								'[linkToUser]' => $linkToUser,
+								'[linkToComment]' => URL::to($comment->getUrl()),
+								'[comment]' => strip_tags($comment->comment),
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+						}
 					}
 				} elseif(Comment::VOTE_DISLIKE == $vote) {
 					$comment->votes_dislike = $comment->votes_dislike + 1;
-					if($comment->is_answer) {
-						$comment->user->setNotification(Notification::TYPE_ANSWER_DISLIKED, [
-							'[user]' => $userLogin,
-							'[linkToUser]' => $linkToUser,
-							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => strip_tags($comment->comment),
-							'[pageTitle]' => $comment->page->getTitle(),
-							'[linkToPage]' => URL::to($comment->page->getUrl())
-						]);
-					} else {
-						$comment->user->setNotification(Notification::TYPE_COMMENT_DISLIKED, [
-							'[user]' => $userLogin,
-							'[linkToUser]' => $linkToUser,
-							'[linkToComment]' => URL::to($comment->getUrl()),
-							'[comment]' => strip_tags($comment->comment),
-							'[pageTitle]' => $comment->page->getTitle(),
-							'[linkToPage]' => URL::to($comment->page->getUrl())
-						]);
+					if($comment->user) {
+						if($comment->is_answer) {
+							$comment->user->setNotification(Notification::TYPE_ANSWER_DISLIKED, [
+								'[user]' => $userLogin,
+								'[linkToUser]' => $linkToUser,
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => strip_tags($comment->comment),
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+						} else {
+							$comment->user->setNotification(Notification::TYPE_COMMENT_DISLIKED, [
+								'[user]' => $userLogin,
+								'[linkToUser]' => $linkToUser,
+								'[linkToComment]' => URL::to($comment->getUrl()),
+								'[comment]' => strip_tags($comment->comment),
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToPage]' => URL::to($comment->page->getUrl())
+							]);
+						}
 					}
 				}
 
 				if ($comment->save()) {
-
 					// removing or adding points for comment
 					if($comment->user) {
 						if(($comment->votes_like - $comment->votes_dislike) == "-1") {
-							if($comment->is_answer) {
-								$comment->user->removePoints(User::POINTS_FOR_ANSWER);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED, [
-									'[linkToAnswer]' => URL::to($comment->getUrl()),
-									'[answer]' => strip_tags($comment->comment),
-									'[pageTitle]' => $comment->page->getTitle(),
-									'[linkToPage]' => URL::to($comment->page->getUrl())
-								]);
-							} else {
-								$comment->user->removePoints(User::POINTS_FOR_COMMENT);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED, [
-									'[linkToComment]' => URL::to($comment->getUrl()),
-									'[comment]' => strip_tags($comment->comment),
-									'[pageTitle]' => $comment->page->getTitle(),
-									'[linkToPage]' => URL::to($comment->page->getUrl())
-								]);
+							if($comment->user) {
+								if($comment->is_answer) {
+									$comment->user->removePoints(User::POINTS_FOR_ANSWER);
+									$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_REMOVED, [
+										'[linkToAnswer]' => URL::to($comment->getUrl()),
+										'[answer]' => strip_tags($comment->comment),
+										'[pageTitle]' => $comment->page->getTitle(),
+										'[linkToPage]' => URL::to($comment->page->getUrl())
+									]);
+								} else {
+									$comment->user->removePoints(User::POINTS_FOR_COMMENT);
+									$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_REMOVED, [
+										'[linkToComment]' => URL::to($comment->getUrl()),
+										'[comment]' => strip_tags($comment->comment),
+										'[pageTitle]' => $comment->page->getTitle(),
+										'[linkToPage]' => URL::to($comment->page->getUrl())
+									]);
+								}
 							}
 						} elseif(($comment->votes_like - $comment->votes_dislike) == 0) {
-							if($comment->is_answer) {
-								$comment->user->addPoints(User::POINTS_FOR_ANSWER);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
-									'[linkToAnswer]' => URL::to($comment->getUrl()),
-									'[answer]' => strip_tags($comment->comment),
-									'[pageTitle]' => $comment->page->getTitle(),
-									'[linkToPage]' => URL::to($comment->page->getUrl())
-								]);
-							} else {
-								$comment->user->addPoints(User::POINTS_FOR_COMMENT);
-								$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
-									'[linkToComment]' => URL::to($comment->getUrl()),
-									'[comment]' => strip_tags($comment->comment),
-									'[pageTitle]' => $comment->page->getTitle(),
-									'[linkToPage]' => URL::to($comment->page->getUrl())
-								]);
+							if($comment->user) {
+								if($comment->is_answer) {
+									$comment->user->addPoints(User::POINTS_FOR_ANSWER);
+									$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
+										'[linkToAnswer]' => URL::to($comment->getUrl()),
+										'[answer]' => strip_tags($comment->comment),
+										'[pageTitle]' => $comment->page->getTitle(),
+										'[linkToPage]' => URL::to($comment->page->getUrl())
+									]);
+								} else {
+									$comment->user->addPoints(User::POINTS_FOR_COMMENT);
+									$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
+										'[linkToComment]' => URL::to($comment->getUrl()),
+										'[comment]' => strip_tags($comment->comment),
+										'[pageTitle]' => $comment->page->getTitle(),
+										'[linkToPage]' => URL::to($comment->page->getUrl())
+									]);
+								}
 							}
 						}
 					}
@@ -275,15 +282,17 @@ class CommentsController extends BaseController
 
 					// adding points for comment
 					if($comment->mark == Comment::MARK_BEST && $comment->user) {
-						$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
-						$variable = [
-							'[linkToPage]' => URL::to($comment->page->getUrl()),
-							'[pageTitle]' => $comment->page->getTitle(),
-							'[linkToAnswer]' => URL::to($comment->getUrl()),
-							'[answer]' => strip_tags($comment->comment),
-						];
-						$comment->user->setNotification(Notification::TYPE_BEST_ANSWER, $variable);
-						$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED, $variable);
+						if($comment->user) {
+							$comment->user->addPoints(User::POINTS_FOR_BEST_ANSWER);
+							$variable = [
+								'[linkToPage]' => URL::to($comment->page->getUrl()),
+								'[pageTitle]' => $comment->page->getTitle(),
+								'[linkToAnswer]' => URL::to($comment->getUrl()),
+								'[answer]' => strip_tags($comment->comment),
+							];
+							$comment->user->setNotification(Notification::TYPE_BEST_ANSWER, $variable);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_ADDED, $variable);
+						}
 					}
 
 					$bestComments = Comment::whereIsPublished(1)
