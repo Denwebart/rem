@@ -53,7 +53,7 @@ View::share('title', $title);
     @parent
 
     @if(Auth::check())
-        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
             <script type="text/javascript">
                 $(document).ready(function() {
                     $(".list").on('click', '.delete-answer', function() {

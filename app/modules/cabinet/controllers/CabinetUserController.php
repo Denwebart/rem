@@ -53,7 +53,7 @@ class CabinetUserController extends \BaseController
 			}
 			View::share('backUrlLogout', '/');
 
-		}, ['only' => ['editPhoto', 'deletePhoto']]);
+		}, ['only' => ['editPhoto', 'deletePhoto', 'deleteComment', 'deleteAnswer']]);
 
 		$this->beforeFilter(function()
 		{
@@ -63,7 +63,7 @@ class CabinetUserController extends \BaseController
 			}
 			View::share('backUrlLogout', '/');
 
-		}, ['except' => ['index', 'gallery', 'editPhoto', 'deletePhoto', 'questions', 'journal', 'comments', 'answers', 'subscriptions']]);
+		}, ['except' => ['index', 'gallery', 'editPhoto', 'deletePhoto', 'questions', 'journal', 'comments', 'deleteComment', 'deleteAnswer', 'answers', 'subscriptions']]);
 	}
 
 	public function index($login)

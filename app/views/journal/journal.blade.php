@@ -159,9 +159,11 @@
                                         @if(Auth::check())
                                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                                 <div class="buttons">
-                                                    <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
-                                                        <i class="material-icons">delete</i>
-                                                    </a>
+                                                    @if(Auth::user()->isAdmin())
+                                                        <a href="javascript:void(0)" class="pull-right delete-article" data-id="{{ $article->id }}" title="Удалить статью" data-toggle="tooltip" data-placement="top">
+                                                            <i class="material-icons">delete</i>
+                                                        </a>
+                                                    @endif
                                                     <a href="{{ URL::route('admin.articles.edit', ['id' => $article->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать статью" data-toggle="tooltip" data-placement="top">
                                                         <i class="material-icons">edit</i>
                                                     </a>

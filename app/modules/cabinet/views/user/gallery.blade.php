@@ -53,9 +53,11 @@ View::share('title', $title);
                                                                 <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-left" title="Редактировать изображение" data-toggle="tooltip">
                                                                     <i class="material-icons">edit</i>
                                                                 </a>
-                                                                <a href="javascript:void(0)" class="delete-photo pull-left" data-id="{{ $image->id }}" title="Удалить изображение" data-toggle="tooltip">
-                                                                    <i class="material-icons">delete</i>
-                                                                </a>
+                                                                @if(!Auth::user()->isModerator())
+                                                                    <a href="javascript:void(0)" class="delete-photo pull-left" data-id="{{ $image->id }}" title="Удалить изображение" data-toggle="tooltip">
+                                                                        <i class="material-icons">delete</i>
+                                                                    </a>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     @else
@@ -210,7 +212,7 @@ View::share('title', $title);
 
     <!-- Delete Photo -->
     @if(Auth::check())
-        @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
             <script type="text/javascript">
                 $('.delete-photo').click(function(){
                     var imageId = $(this).data('id');

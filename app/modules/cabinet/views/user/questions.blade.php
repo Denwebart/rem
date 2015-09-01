@@ -114,9 +114,11 @@ View::share('title', $title);
                                                         @if(Auth::check())
                                                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                                                 <div class="buttons pull-right">
-                                                                    <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
-                                                                        <i class="material-icons">delete</i>
-                                                                    </a>
+                                                                    @if(Auth::user()->isAdmin())
+                                                                        <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
+                                                                            <i class="material-icons">delete</i>
+                                                                        </a>
+                                                                    @endif
                                                                     <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
                                                                         <i class="material-icons">mode_edit</i>
                                                                     </a>
