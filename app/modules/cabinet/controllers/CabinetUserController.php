@@ -47,7 +47,7 @@ class CabinetUserController extends \BaseController
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');
-			
+
 			if(Auth::user()->getLoginForUrl() != $login && Auth::user()->isUser()) {
 				App::abort(403, 'Unauthorized action.');
 			}

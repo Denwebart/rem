@@ -68,14 +68,20 @@ View::share('title', $title);
                                                             </div>
                                                             @foreach($subscription->notifications as $notification)
                                                                 <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                                    @if(Auth::user()->is($user))
-                                                                        <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                                    @endif
-                                                                    <span class="date">
-                                                                        <i class="material-icons mdi-info">lens</i>
-                                                                        {{ DateHelper::dateFormat($notification->created_at) }}
-                                                                    </span>
-                                                                    {{ $notification->message }}
+                                                                    <div class="row">
+                                                                        <div class="col-md-3">
+                                                                            <span class="date">
+                                                                                <i class="material-icons mdi-info">lens</i>
+                                                                                {{ DateHelper::dateFormat($notification->created_at) }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            @if(Auth::user()->is($user))
+                                                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                            @endif
+                                                                            {{ $notification->message }}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             @endforeach
                                                         </div>
@@ -156,18 +162,26 @@ View::share('title', $title);
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="subscription-notifications">
+                                                        <div class="count">
+                                                            Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
+                                                            {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
+                                                        </div>
                                                         @foreach($subscription->notifications as $notification)
-                                                            <div class="count">
-                                                                Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
-                                                                {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
-                                                            </div>
                                                             <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                                    <span class="date">
-                                                                        <i class="material-icons mdi-info">lens</i>
-                                                                        {{ DateHelper::dateFormat($notification->created_at) }}
-                                                                    </span>
-                                                                {{ $notification->message }}
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <span class="date">
+                                                                            <i class="material-icons mdi-info">lens</i>
+                                                                            {{ DateHelper::dateFormat($notification->created_at) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        @if(Auth::user()->is($user))
+                                                                            <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                        @endif
+                                                                        {{ $notification->message }}
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         @endforeach
                                                     </div>
