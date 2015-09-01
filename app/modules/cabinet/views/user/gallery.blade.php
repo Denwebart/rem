@@ -42,7 +42,7 @@ View::share('title', $title);
                                         <div class="image-description">
                                             <div class="row">
                                                 @if(Auth::check())
-                                                    @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
+                                                    @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin() || Auth::user()->isModerator())
                                                         <div class="col-md-8">
                                                             <h4>
                                                                 {{ $image->title }}
@@ -210,7 +210,7 @@ View::share('title', $title);
 
     <!-- Delete Photo -->
     @if(Auth::check())
-        @if(Auth::user()->is($user) || Auth::user()->isAdmin())
+        @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
             <script type="text/javascript">
                 $('.delete-photo').click(function(){
                     var imageId = $(this).data('id');

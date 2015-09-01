@@ -47,12 +47,23 @@ class CabinetUserController extends \BaseController
 		$this->beforeFilter(function()
 		{
 			$login = Route::current()->getParameter('login');
+			
+			if(Auth::user()->getLoginForUrl() != $login && Auth::user()->isUser()) {
+				App::abort(403, 'Unauthorized action.');
+			}
+			View::share('backUrlLogout', '/');
+
+		}, ['only' => ['editPhoto', 'deletePhoto']]);
+
+		$this->beforeFilter(function()
+		{
+			$login = Route::current()->getParameter('login');
 			if(Auth::user()->getLoginForUrl() != $login && !Auth::user()->isAdmin()) {
 				App::abort(403, 'Unauthorized action.');
 			}
 			View::share('backUrlLogout', '/');
 
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'subscriptions']]);
+		}, ['except' => ['index', 'gallery', 'editPhoto', 'deletePhoto', 'questions', 'journal', 'comments', 'answers', 'subscriptions']]);
 	}
 
 	public function index($login)

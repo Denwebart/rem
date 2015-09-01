@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-md-12">
                     @if(Auth::user()->isAdmin())
-                        <a href="{{ URL::route('admin.questions.create', 'backUrl' => urlencode(Request::url())) }}" class="btn btn-success pull-right">
+                        <a href="{{ URL::route('admin.questions.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
                             Задать вопрос
                         </a>
                     @else
