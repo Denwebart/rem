@@ -59,34 +59,36 @@ View::share('title', $title);
                                                     @include('cabinet::user.pageInfo', ['page' => $subscription->page, 'item' => $subscription])
                                                 @endif
 
-                                                <div class="col-md-12">
-                                                    @if(count($subscription->notifications))
-                                                        <div class="subscription-notifications">
-                                                            <div class="count">
-                                                                Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
-                                                                {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
-                                                            </div>
-                                                            @foreach($subscription->notifications as $notification)
-                                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                                    <div class="row">
-                                                                        <div class="col-md-3">
-                                                                            <span class="date">
-                                                                                <i class="material-icons mdi-info">lens</i>
-                                                                                {{ DateHelper::dateFormat($notification->created_at) }}
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="col-md-9">
-                                                                            @if(Auth::user()->is($user))
-                                                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                                            @endif
-                                                                            {{ $notification->message }}
+                                                @if(Auth::user()->is($user))
+                                                    <div class="col-md-12">
+                                                        @if(count($subscription->notifications))
+                                                            <div class="subscription-notifications">
+                                                                <div class="count">
+                                                                    Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
+                                                                    {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
+                                                                </div>
+                                                                @foreach($subscription->notifications as $notification)
+                                                                    <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                                        <div class="row">
+                                                                            <div class="col-md-3">
+                                                                                <span class="date">
+                                                                                    <i class="material-icons mdi-info">lens</i>
+                                                                                    {{ DateHelper::dateFormat($notification->created_at) }}
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                @if(Auth::user()->is($user))
+                                                                                    <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                                @endif
+                                                                                {{ $notification->message }}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @else
@@ -160,32 +162,34 @@ View::share('title', $title);
                                                         </a>
                                                     </h3>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="subscription-notifications">
-                                                        <div class="count">
-                                                            Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
-                                                            {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
-                                                        </div>
-                                                        @foreach($subscription->notifications as $notification)
-                                                            <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <span class="date">
-                                                                            <i class="material-icons mdi-info">lens</i>
-                                                                            {{ DateHelper::dateFormat($notification->created_at) }}
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="col-md-9">
-                                                                        @if(Auth::user()->is($user))
-                                                                            <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
-                                                                        @endif
-                                                                        {{ $notification->message }}
+                                                @if(Auth::user()->is($user))
+                                                    <div class="col-md-12">
+                                                        <div class="subscription-notifications">
+                                                            <div class="count">
+                                                                Показано уведомлений по подписке: <span>{{ $subscription->notifications->count() }}</span>.
+                                                                {{--Всего: <span>{{ $subscription->notifications->getTotal() }}</span>.--}}
+                                                            </div>
+                                                            @foreach($subscription->notifications as $notification)
+                                                                <div class="alert alert-dismissable alert-info" data-notification-id="{{ $notification->id }}">
+                                                                    <div class="row">
+                                                                        <div class="col-md-3">
+                                                                            <span class="date">
+                                                                                <i class="material-icons mdi-info">lens</i>
+                                                                                {{ DateHelper::dateFormat($notification->created_at) }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            @if(Auth::user()->is($user))
+                                                                                <button type="button" class="close" data-dismiss="alert" data-id="{{ $notification->id }}">×</button>
+                                                                            @endif
+                                                                            {{ $notification->message }}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
+                                                            @endforeach
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @else
