@@ -1,30 +1,39 @@
 body {
     padding: 0 !important;
     font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
-    background: url('../images/Light-aluminum-Grey-Seamless.jpg') repeat;
+    background: url('../images/bg.jpg') repeat;
 }
-/*.container {*/
-    /*width: 1300px;*/
-/*}*/
 @media (min-width: 768px) {
     .container {
         width: 750px;
     }
+    /*body {*/
+        /*background: #8eddff;*/
+    /*}*/
 }
 @media (min-width: 992px) {
     .container {
         width: 970px;
     }
+    /*body {*/
+        /*background: #8fee95;*/
+    /*}*/
 }
 @media (min-width: 1200px) {
     .container {
         width: 1170px;
     }
+    /*body {*/
+        /*background: #ffc2da;*/
+    /*}*/
 }
 @media (min-width: 1330px) {
     .container {
         width: 1300px;
     }
+    /*body {*/
+        /*background: none;*/
+    /*}*/
 }
 a:hover,
 a:focus {
@@ -1158,19 +1167,24 @@ a:focus {
     max-width: 260px;
     margin: 0 0 5px;
     display: inline-block;
-    background: rgba(0, 0, 0, 0.1);
 }
-.profile-user-avatar img {
+.profile-user-avatar .avatar-link {
+    position: relative;
+}
+.profile-user-avatar .avatar {
     width: 100%;
     max-width: 260px;
     padding: 5px;
-    border: 1px solid #E6E6E6;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 }
+.profile-user-avatar .banned-image {
+    position: absolute;
+    bottom: 0;
+}
+
 .profile-user-avatar .avatar-default {
     padding: 0 !important;
     border: none;
+    background: none;
 }
 .journal-user-info .honors {
     margin: 10px 0;
@@ -1226,7 +1240,7 @@ a:focus {
 
 /*-- Footer --*/
 footer {
-    background: url("../images/footer.png");
+    background: url("../images/footer.jpg");
     margin-bottom: 0;
     min-height: 250px;
 }

@@ -1,8 +1,12 @@
 <div class="row" id="user-info">
     <div class="col-md-10" style="padding-right: 0">
         <div class="profile-user-avatar">
-            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="">
+            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $user->getAvatar(null, ['class' => 'avatar']) }}
+
+                @if($user->is_banned)
+                    @include('cabinet::user.bannedImage', ['user' => $user])
+                @endif
             </a>
         </div>
         @if(Auth::check())
@@ -41,17 +45,6 @@
     </div>
 
     <div class="col-md-12">
-        @if($user->is_banned)
-            <div class="banned">
-                {{ HTML::image(Config::get('settings.bannedImage'),
-                'Забанен ' . DateHelper::dateFormat($user->latestBanNotification->ban_at) . '. Причина бана: "' . $user->latestBanNotification->message . '"',
-                [
-                    'class' => 'img-responsive',
-                    'title' => 'Забанен ' . DateHelper::dateFormat($user->latestBanNotification->ban_at) . '. Причина бана: "' . $user->latestBanNotification->message . '"'
-                ]) }}
-            </div>
-        @endif
-
         @if(Auth::check())
             @if(!Auth::user()->is($user))
                 <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm send-message pull-left">

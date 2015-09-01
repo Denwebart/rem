@@ -4,21 +4,15 @@
             <div class="col-md-6">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/metal_logo_7.png') }}
-                    </a>
-                </div>
-                <div class="logo-text">
-                    <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/metal_text_4.png') }}
+                        {{ HTML::image('images/logo.png') }}
                     </a>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-12">
-                        {{ $menuWidget->topMenu() }}
                         @if (!Auth::check())
-                            <div class="buttons pull-left">
+                            <div class="buttons pull-right">
                                 <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
                                     <span>
                                         <span class="text">Войти</span>
@@ -30,6 +24,7 @@
                                 </a>
                             </div>
                         @endif
+                        {{ $menuWidget->topMenu() }}
                     </div>
                 </div>
                 <div class="row">

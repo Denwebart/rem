@@ -82,6 +82,7 @@
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock_open</i>')
                                             .attr('title', 'Разбанить');
+                                    $('.profile-user-avatar .avatar-link').append(response.bannedImage);
                                 } else {
                                     $('#site-messages').prepend(response.message);
                                 }
@@ -111,6 +112,7 @@
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock</i>')
                                             .attr('title', 'Забанить');
+                                    $('.profile-user-avatar .avatar-link').find('.banned-image').remove();
                                 } else {
                                     $('#site-messages').prepend(response.message);
                                 }

@@ -20,8 +20,8 @@ return [
 	'defaultImage' => '/images/default-image.jpg',
 	'mini_defaultImage' => '/images/mini_default-image.jpg',
 
-	'defaultAvatar' => '/images/default-avatar.jpg',
-	'mini_defaultAvatar' => '/images/mini_default-avatar.jpg',
+	'defaultAvatar' => '/images/default-avatar.png',
+	'mini_defaultAvatar' => '/images/mini_default-avatar.png',
 
 	'defaultHonorImage' => '/images/default-honor-image.png',
 

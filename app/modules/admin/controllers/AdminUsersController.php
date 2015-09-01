@@ -126,16 +126,17 @@ class AdminUsersController extends \BaseController {
 				$user->setBanNotification($formFields['message']);
 				$user->setNotification(Notification::TYPE_BANNED, ['[banMessage]' => $formFields['message']]);
 				if($user->save()) {
-					return Response::json(array(
+					return Response::json([
 						'success' => true,
-						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Пользователь забанен.'])
-					));
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Пользователь забанен.']),
+						'bannedImage' => (string) View::make('cabinet::user.bannedImage', ['user' => $user]),
+					]);
 				}
 			} else {
-				return Response::json(array(
+				return Response::json([
 					'success' => false,
 					'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Администратора нельзя забанить.'])
-				));
+				]);
 			}
 		}
 	}
