@@ -34,7 +34,7 @@
 
                 <div class="journal-user-info">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-sm-4 col-md-6 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">chrome_reader_mode</i>
                                 <div class="text">
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4 col-md-6 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">question_answer</i>
                                 <div class="text">
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4 col-md-6 col-lg-4">
                             <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
                                 {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
                                 <span class="count pull-left" style="line-height: 40px">

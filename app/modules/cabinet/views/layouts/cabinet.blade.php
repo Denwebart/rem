@@ -83,7 +83,7 @@
 
         @yield('content')
 
-        <div class="col-lg-2 col-md-3" id="users-menu">
+        <div class="col-lg-2 col-md-2" id="users-menu">
             <ul>
                 <li class="{{ (Route::is('user.profile') || Route::is('user.edit') || Route::is('user.changePassword')) ? 'active' : '' }}">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">

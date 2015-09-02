@@ -55,7 +55,7 @@ View::share('title', $title);
                             @endif
 
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     <h2>
                                         <span class="login">
                                             {{{ $user->login }}}
@@ -66,7 +66,7 @@ View::share('title', $title);
                                         @endif
                                     </h2>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     @if(Auth::check())
                                         <div class="buttons pull-right">
                                             @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
@@ -91,7 +91,7 @@ View::share('title', $title);
 
                             <div class="row">
                                 @if($user->isAdmin() || $user->isModerator())
-                                    <div class="col-md-4">
+                                    <div class="col-sm-6 col-lg-4">
                                         <div class="user-data-row role">
                                             <span title="Права" data-toggle="tooltip" data-placement="right">
                                                 <i class="material-icons">perm_identity</i>
@@ -104,7 +104,7 @@ View::share('title', $title);
                                 @endif
                                 @if(Auth::check())
                                     @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                        <div class="col-md-4">
+                                        <div class="col-sm-6 col-lg-4">
                                             <div class="user-data-row email">
                                                 <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
                                                     <i class="material-icons">email</i>
@@ -119,7 +119,7 @@ View::share('title', $title);
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="user-data-row date date-register">
                                         <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
                                             <i class="material-icons pull-left">today</i>
@@ -149,7 +149,7 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-sm-6 col-lg-4">
                                     @if($user->car_brand)
                                         <div class="user-data-row car-brand">
                                             <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
@@ -172,8 +172,8 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="points" title="Количество баллов" data-toggle="tooltip" data-placement="top">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="points margin-bottom-10" title="Количество баллов" data-toggle="tooltip" data-placement="top">
                                         {{ Html::image('images/coins.png', '', ['width' => '60px', 'class' => 'pull-left']) }}
                                         <span class="count pull-left">
                                             {{ $user->points }}

@@ -135,6 +135,9 @@ h2, .h2 {
 }
 
 /* Баллы */
+.points {
+    display: inline-block;
+}
 .points .count {
     margin-left: 10px;
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -423,4 +426,21 @@ h2, .h2 {
     margin-top: 20px;
 }
 
+@media (max-width: 768px) {
 
+}
+@media (min-width: 768px) and (max-width: 992px) {
+
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+    #users-menu ul > li > a span {
+        font-size: 12px;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1330px) {
+
+}
+
+@media (min-width: 1330px) {
+
+}
