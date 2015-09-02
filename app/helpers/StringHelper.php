@@ -174,4 +174,15 @@ class StringHelper
 		}, $html);
 	}
 
+	/**
+	 * Удаление ссылок из текста
+	 *
+	 * @param $html
+	 * @return mixed
+	 */
+	public static function withoutLinks($html)
+	{
+		return str_replace('</a>', '', preg_replace('/<a\b[^>]*+>|<\/a\b[^>]*+>/', '', $html));
+	}
+
 }

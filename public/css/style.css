@@ -85,6 +85,7 @@ a:focus {
 }
 .tooltip {
     min-width: 120px;
+    white-space: nowrap;
 }
 .label {
     padding: 0.2em 0.5em 0.3em;
@@ -1538,7 +1539,7 @@ footer .copyright a {
 .navbar-nav > .dropdown-messages > .dropdown-menu > li ul > li > a,
 .navbar-nav > .dropdown-tasks > .dropdown-menu > li ul > li > a {
     display: block;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -1611,7 +1612,7 @@ footer .copyright a {
     color: #999999;
     font-size: 10px;
     float: right;
-    margin-top: -15px;
+    /*margin-top: -15px;*/
 }
 
 .navbar-nav > .dropdown-letters > .dropdown-menu > li ul > li > a > p,

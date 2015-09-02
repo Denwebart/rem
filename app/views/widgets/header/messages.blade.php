@@ -40,7 +40,7 @@
                                     {{ DateHelper::getRelativeTime($message->created_at) }}
                                 </small>
                             </h4>
-                            <p>{{ $message->message }}</p>
+                            <p>{{ StringHelper::limit(StringHelper::withoutLinks($message->message), 80) }}</p>
                         </a>
                     </li>
                     @endforeach

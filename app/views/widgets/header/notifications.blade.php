@@ -34,7 +34,7 @@
                             <small>
                                 {{ DateHelper::getRelativeTime($notification->created_at) }}
                             </small>
-                            <p>{{ $notification->getMessageWithoutLinks() }}</p>
+                            <p>{{ StringHelper::withoutLinks($notification->message) }}</p>
                         </a>
                     </li>
                 @endforeach

@@ -146,10 +146,4 @@ class Notification extends \Eloquent
 			return strtr($notificationMessage->message, $variables);
 		}
 	}
-
-	public function getMessageWithoutLinks()
-	{
-		return str_replace('</a>', '', preg_replace('/<a\b[^>]*+>|<\/a\b[^>]*+>/', '', $this->message));
-	}
-
 }
