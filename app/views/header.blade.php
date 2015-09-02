@@ -17,7 +17,7 @@
                 @endif
                 {{ $menuWidget->topMenu() }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-logo">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
                         {{ HTML::image('images/logo.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive']) }}
@@ -44,9 +44,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <!--Search-->
-                        <div id="search">
+                    <!--Search-->
+                    <div id="search">
+                        <div class="col-md-12">
                             {{ Form::open(['method' => 'GET', 'route' => ['search'], 'id' => 'search-form']) }}
                                 <div class="row">
                                     <div class="col-xs-11">

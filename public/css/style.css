@@ -517,7 +517,7 @@ a:focus {
 #navbar-main {
     padding: 0;
     text-align: center;
-    height: 50px !important;
+    height: auto;
 }
 #navbar-main .dropdown:hover .dropdown-menu {
     display: block;
@@ -1409,26 +1409,24 @@ footer .copyright a {
     line-height: 1.0em;
     text-align: center;
 }
-
 #header-widget .logo {
     background: none;
     color: #2F5082;
     float: left;
     font-size: 20px;
     padding: 0;
-    width: 210px;
+    width: auto;
     font-weight: 600;
     height: 50px;
     display: block;
     line-height: 50px;
+    margin: 0 20px 0 0;
 }
-
 #header-widget .logo i {
-    margin-right: 8px;
+    margin: 0 15px;
     background: none;
     float: left;
     line-height: 50px;
-    padding: 0 15px;
 }
 #header-widget .widget-user a {
     padding: 14px 15px 11px;
@@ -1704,12 +1702,24 @@ footer .copyright a {
 }
 
 /*-- End Полоса уведомлений для авторизованных пользователей --*/
-
+@media (max-width: 520px) {
+    #header-widget .edit-page,
+    #header-widget .edit-advertising {
+        display: none;
+    }
+}
 @media (max-width: 768px) {
     body {
         background: #f5ffad;
     }
     /*Header*/
+    #search {
+        margin-top: 10px;
+    }
+    .col-logo {
+        display: inline-block;
+        width: 100%;
+    }
     .logo {
         width: 100%;
         text-align: center;
@@ -1719,14 +1729,36 @@ footer .copyright a {
     }
     .logo img {
         max-width: 500px;
+        width: 100%;
+    }
+    #navbar-top .navbar-nav {
+        margin: 0;
     }
     #navbar-top .navbar-nav > li {
         float: left;
+    }
+    #navbar-top .navbar-nav > li > a:first-child {
+        padding-left: 0;
     }
     .btn-login {
         width: auto;
         padding-left: 6px;
         padding-right: 10px;
+    }
+    #header-widget .nav {
+        margin: 0;
+    }
+    #header-widget .navbar-left {
+        float: left;
+    }
+    #header-widget .navbar-right {
+        float: right;
+    }
+    #header-widget .navbar .nav > li {
+        float: left;
+    }
+    #header-widget .logo {
+        margin: 0;
     }
 }
 @media (min-width: 768px) and (max-width: 992px) {
@@ -1737,6 +1769,9 @@ footer .copyright a {
         background: #8eddff;
     }
     /*Header*/
+    #search {
+        margin-top: 10px;
+    }
     .logo {
         width: 100%;
         text-align: center;
@@ -1746,6 +1781,11 @@ footer .copyright a {
     }
     .logo img {
         max-width: 500px;
+    }
+    /* Menu */
+    .navbar #navbar-main .navbar-nav > li > a {
+        font-size: 13px;
+        padding: 15px 7px;
     }
 }
 @media (min-width: 992px) and (max-width: 1200px) {
@@ -1769,6 +1809,11 @@ footer .copyright a {
         width: auto;
         padding-left: 6px;
         padding-right: 10px;
+    }
+    /* Menu */
+    .navbar #navbar-main .navbar-nav > li > a {
+        font-size: 14px;
+        padding: 15px 10px;
     }
 }
 @media (min-width: 1200px) and (max-width: 1330px) {

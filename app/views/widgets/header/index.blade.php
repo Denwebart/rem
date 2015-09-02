@@ -2,14 +2,14 @@
     @if(Request::is('admin*'))
         <a href="{{ URL::to('admin') }}" class="logo">
             <i class="material-icons">build</i>
-            <span>Админка</span>
+            <span class="hidden-xs">Админка</span>
         </a>
     @endif
     <nav class="navbar navbar-static-top">
         @if(!Request::is('admin*') && (Auth::user()->isAdmin() || (Auth::user()->isModerator() && !Auth::user()->is_banned )))
             <a href="{{ URL::to('admin') }}" class="logo">
                 <i class="material-icons">build</i>
-                <span>Админка</span>
+                <span class="hidden-xs">Админка</span>
             </a>
         @elseif(!Request::is('admin*') && (!Auth::user()->isAdmin() || !Auth::user()->isModerator()))
             <div class="logo"></div>
@@ -50,7 +50,7 @@
             <ul class="nav navbar-nav">
 
                 @if(Auth::user()->isAdmin() && !Request::is('admin*'))
-                    <li style="margin-right: 10px">
+                    <li class="edit-advertising" style="margin-right: 10px">
                         <a href="javascript:void(0)" id="edit-advertising" title="Редактировать рекламу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">attach_money</i>
                         </a>
@@ -58,7 +58,7 @@
                 @endif
 
                 @if(!is_null($page) && Auth::user()->isAdmin())
-                    <li style="margin-right: 10px">
+                    <li class="edit-page" style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" title="Редактировать эту страницу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">edit</i>
                             <span class="hidden-sm hidden-xs">Редактировать</span>
@@ -69,10 +69,10 @@
                 @if(Request::is('admin*'))
                     <li style="margin-right: 10px">
                         <a href="{{ URL::to('/') }}" class="" target="_blank">
-                    <span>
-                        Перейти на сайт
-                        <i class="material-icons pull-right">chevron_right</i>
-                    </span>
+                            <span>
+                                Перейти на сайт
+                                <i class="material-icons pull-right">chevron_right</i>
+                            </span>
                         </a>
                     </li>
                 @endif
