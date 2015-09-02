@@ -92,6 +92,7 @@ View::share('title', $title);
                 });
 
                 $('#delete-all-notifications').on('click', function(){
+                    var $button = $(this);
                     if(confirm('Вы уверены, что хотите удалить все уведомления?')) {
                         $.ajax({
                             url: "{{ URL::route('user.deleteAllNotifications', ['login' => Auth::user()->getLoginForUrl()]) }}",
@@ -103,6 +104,7 @@ View::share('title', $title);
                             },
                             success: function (response) {
                                 if (response.success) {
+                                    $button.parent().find('.tooltip').remove();
                                     $('#site-messages').prepend(response.message);
                                     $('#delete-all-notifications').remove();
                                     $('#content .list').html('<p>У вас нет уведомлений.</p>');
