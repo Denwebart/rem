@@ -32,7 +32,7 @@
                     <div class="col-md-2" style="padding: 0; display: inline-block;">
                         @if(count($question->bestComments))
                             <a href="{{ URL::to($question->getUrl()) }}#best-comments" class="icon pull-left best">
-                                <i class="material-icons mdi-success" title="Есть решение" style="font-size: 40pt; line-height: 40px">done</i>
+                                <i class="material-icons mdi-success" title="Есть решение">done</i>
                             </a>
                         @endif
                     </div>

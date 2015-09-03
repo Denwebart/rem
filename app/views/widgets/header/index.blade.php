@@ -89,7 +89,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         {{ $user->getAvatar('mini', ['class' => 'pull-left avatar']) }}
                         <span>
-                            {{ $user->login }}
+                            <span class="hidden-xs">{{ $user->login }}</span>
                             <i class="material-icons pull-right">arrow_drop_down</i>
                         </span>
                     </a>

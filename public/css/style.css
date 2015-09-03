@@ -184,9 +184,17 @@ a:focus {
 }
 .content .fancybox {
     float: left;
+    max-width: 100%;
+}
+.content .fancybox img {
+    max-width: 100% !important;
+    height: auto !important;
 }
 .content .fancybox img:first-child {
     margin: 5px 10px 0 0;
+}
+#content iframe {
+    max-width: 100% !important;
 }
 
 /* links */
@@ -517,7 +525,7 @@ a:focus {
 #navbar-main {
     padding: 0;
     text-align: center;
-    height: auto;
+    height: 50px !important;
 }
 #navbar-main .dropdown:hover .dropdown-menu {
     display: block;
@@ -637,6 +645,10 @@ a:focus {
 #questions-sidebar-widget .answers {
     margin: 5px 0 0 0;
 }
+#questions-sidebar-widget .best .material-icons.mdi-success {
+    font-size: 46px;
+    line-height: 46px;
+}
 /* Sidebar Widget - Popular */
 #popular-sidebar-widget .views,
 #unpopular-sidebar-widget .views {
@@ -723,6 +735,16 @@ a:focus {
     color: #888888;
     font-size: 12px;
 }
+
+/* Реклама */
+.advertising-body {
+    max-width: 100% !important;
+}
+.advertising-body iframe,
+.advertising-body img {
+    max-width: 100% !important;
+}
+
 .area .advertising.edit .advertising-body {
     border: 2px dashed #337AB7;
 }
@@ -1327,6 +1349,9 @@ footer .copyright a {
     color: #5e5e5e;
     line-height: 20px;
 }
+#header-widget .navbar .nav > li.open:not(.widget-user) {
+    width: 50px;
+}
 #header-widget .navbar .nav > li {
     height: 50px;
 }
@@ -1554,7 +1579,7 @@ footer .copyright a {
 }
 
 .navbar-nav > .dropdown-notifications > .dropdown-menu > li ul > li > a {
-    padding: 4px 0 7px;
+    padding: 4px 5px 7px;
     font-size: 12px;
     color: #444444;
 }
@@ -1702,10 +1727,28 @@ footer .copyright a {
 }
 
 /*-- End Полоса уведомлений для авторизованных пользователей --*/
+@media (max-width: 400px) {
+    /* Header Widght */
+    .navbar .navbar-nav > li > a,
+    #header-widget .widget-user a {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    #header-widget .navbar .nav > li.open:not(.widget-user) {
+        width: 40px;
+    }
+    #header-widget .logo i {
+        margin: 0 5px 0 7px;
+    }
+}
 @media (max-width: 520px) {
+    /* Header Widght */
     #header-widget .edit-page,
     #header-widget .edit-advertising {
         display: none;
+    }
+    #header-widget .navbar-nav .open:not(.widget-user) .dropdown-menu {
+        right: -90px !important;
     }
 }
 @media (max-width: 768px) {
@@ -1745,6 +1788,7 @@ footer .copyright a {
         padding-left: 6px;
         padding-right: 10px;
     }
+    /* Header Widght */
     #header-widget .nav {
         margin: 0;
     }
@@ -1754,11 +1798,27 @@ footer .copyright a {
     #header-widget .navbar-right {
         float: right;
     }
+    #header-widget .navbar-nav .open .dropdown-menu {
+        background-color: #ffffff;
+        position: absolute;
+        right: 0;
+        left: auto;
+    }
     #header-widget .navbar .nav > li {
         float: left;
     }
     #header-widget .logo {
         margin: 0;
+    }
+    /* Menu */
+    #navbar-main {
+        height: auto !important;
+    }
+    #navbar-main .navbar-nav {
+        margin: 0;
+    }
+    .navbar #navbar-main .navbar-nav {
+        display: block;
     }
 }
 @media (min-width: 768px) and (max-width: 992px) {
@@ -1783,9 +1843,15 @@ footer .copyright a {
         max-width: 500px;
     }
     /* Menu */
+    .navbar {
+        min-height: 40px !important;
+    }
+    #navbar-main {
+        height: 40px !important;
+    }
     .navbar #navbar-main .navbar-nav > li > a {
-        font-size: 13px;
-        padding: 15px 7px;
+        font-size: 12px;
+        padding: 10px 6px;
     }
 }
 @media (min-width: 992px) and (max-width: 1200px) {
@@ -1815,6 +1881,11 @@ footer .copyright a {
         font-size: 14px;
         padding: 15px 10px;
     }
+    /* Sidebar Widgets */
+    #questions-sidebar-widget .best .material-icons.mdi-success {
+        font-size: 34px;
+        line-height: 34px;
+    }
 }
 @media (min-width: 1200px) and (max-width: 1330px) {
     .container {
@@ -1827,6 +1898,11 @@ footer .copyright a {
     #search {
         margin-top: 40px;
     }
+    /* Sidebar Widgets */
+    #questions-sidebar-widget .best .material-icons.mdi-success {
+         font-size: 34px;
+         line-height: 34px;
+     }
 }
 
 @media (min-width: 1330px) {

@@ -41,6 +41,21 @@
                     }
                 });
             });
+        },
+        setup: function (editor) {
+            editor.on('init', function(args) {
+                editor = args.target;
+
+                editor.on('NodeChange', function(e) {
+                    if (e && e.element.nodeName.toLowerCase() == 'img') {
+                        width = e.element.width;
+                        height = e.element.height;
+                        tinyMCE.DOM.setAttribs(e.element, {'width': null, 'height': null});
+                        tinyMCE.DOM.setAttribs(e.element,
+                                {'style': 'width:' + width + 'px; height:' + height + 'px;'});
+                    }
+                });
+            });
         }
     });
 </script>
