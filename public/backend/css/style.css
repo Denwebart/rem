@@ -2976,6 +2976,7 @@ footer ul li a {
     font-size: 12px;
 }
 
+
 /* Responsive Layout */
 @media screen and (max-width: 992px) {
     .leftside, header .logo {
@@ -3063,6 +3064,13 @@ footer ul li a {
     }
 }
 
+@media (max-width: 520px) {
+    /* Header Widght */
+    #header-widget .on-site {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 480px) {
     .login .wrapper {
         width: 80%;
@@ -3096,4 +3104,10 @@ footer ul li a {
     .custom-box p {
         font-size: 12px;
     }
+
+    /* Header Widght */
+    #header-widget .on-site {
+        display: none;
+    }
 }
+

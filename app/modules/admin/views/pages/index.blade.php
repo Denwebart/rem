@@ -34,7 +34,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
 <div class="content">
     <!-- Main row -->
     <div class="row">
-        <div class="col-xs-3">
+        <div class="col-md-3 col-sm-12 col-xs-12">
             <div id="pages-tree">
                 <ul class="nav nav-pages-tree nav-stacked">
                     <li class="active">
@@ -110,7 +110,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                 </ul>
             </div>
         </div>
-        <div class="col-xs-9">
+        <div class="col-md-9 col-sm-12 col-xs-12">
             <div class="box">
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover table-striped">

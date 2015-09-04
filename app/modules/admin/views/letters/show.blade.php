@@ -47,7 +47,7 @@ View::share('title', $title);
                                             @endif
                                         </a>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>
+                                    {{--<li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>--}}
                                     <li><a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
                                             @if(count($headerWidget->deletedLetters()))
                                                 <span class="label label-danger pull-right">
@@ -59,26 +59,26 @@ View::share('title', $title);
                                     {{--<li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>--}}
                                 </ul>
 
-                                <div class="mailbox-buttons">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary no-radius dropdown-toggle" data-toggle="dropdown">Выбрать действие <i class="fa fa-paper-plane"></i></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Отметить как прочитанное</a></li>
-                                            <li><a href="#">Отметить как непрочитанное</a></li>
-                                            <li><a href="#">Удалить</a></li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="btn btn-success no-radius"><i class="fa fa-plus"></i></button>
-                                    <button type="button" class="btn btn-danger no-radius"><i class="fa fa-trash-o"></i></button>
-                                </div>
+                                {{--<div class="mailbox-buttons">--}}
+                                    {{--<div class="btn-group">--}}
+                                        {{--<button type="button" class="btn btn-primary no-radius dropdown-toggle" data-toggle="dropdown">Выбрать действие <i class="fa fa-paper-plane"></i></button>--}}
+                                        {{--<ul class="dropdown-menu">--}}
+                                            {{--<li><a href="#">Отметить как прочитанное</a></li>--}}
+                                            {{--<li><a href="#">Отметить как непрочитанное</a></li>--}}
+                                            {{--<li><a href="#">Удалить</a></li>--}}
+                                        {{--</ul>--}}
+                                    {{--</div>--}}
+                                    {{--<button type="button" class="btn btn-success no-radius"><i class="fa fa-plus"></i></button>--}}
+                                    {{--<button type="button" class="btn btn-danger no-radius"><i class="fa fa-trash-o"></i></button>--}}
+                                {{--</div>--}}
 
-                                <div class="box-bordered clearfix">
-                                    <input type="text" class="form-control" placeholder="Тема" />
-                                    <input type="text" class="form-control" placeholder="Email" />
-                                    <textarea class="form-control" placeholder="Сообщение" rows="8"></textarea>
-                                    <button type="submit" class="btn btn-danger no-radius pull-left">Отмена</button>
-                                    <button type="submit" class="btn btn-success no-radius pull-right">Отправить</button>
-                                </div>
+                                {{--<div class="box-bordered clearfix">--}}
+                                    {{--<input type="text" class="form-control" placeholder="Тема" />--}}
+                                    {{--<input type="text" class="form-control" placeholder="Email" />--}}
+                                    {{--<textarea class="form-control" placeholder="Сообщение" rows="8"></textarea>--}}
+                                    {{--<button type="submit" class="btn btn-danger no-radius pull-left">Отмена</button>--}}
+                                    {{--<button type="submit" class="btn btn-success no-radius pull-right">Отправить</button>--}}
+                                {{--</div>--}}
                             </div>
                             <div class="col-md-9 col-sm-8">
 
@@ -117,12 +117,12 @@ View::share('title', $title);
                         </div><!-- /.row -->
                     </div>
                     <div class="box-footer">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Поиск письма..."/>
-                            <div class="input-group-btn">
-                                <button class="btn btn-success"><i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
+                        {{--<div class="input-group">--}}
+                            {{--<input class="form-control" placeholder="Поиск письма..."/>--}}
+                            {{--<div class="input-group-btn">--}}
+                                {{--<button class="btn btn-success"><i class="fa fa-search"></i></button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     </div>
                 </div>
             </div>

@@ -67,10 +67,11 @@
                 @endif
 
                 @if(Request::is('admin*'))
-                    <li style="margin-right: 10px">
-                        <a href="{{ URL::to('/') }}" class="" target="_blank">
+                    <li style="margin-right: 10px" class="on-site">
+                        <a href="{{ URL::to('/') }}" target="_blank">
                             <span>
-                                Перейти на сайт
+                                <span class="hidden-sm hidden-xs">Перейти на сайт</span>
+                                <span class="hidden-md hidden-lg">На сайт</span>
                                 <i class="material-icons pull-right">chevron_right</i>
                             </span>
                         </a>
