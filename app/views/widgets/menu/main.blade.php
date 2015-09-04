@@ -15,11 +15,11 @@
                         <a href="{{ URL::to($page->getUrl()) }}">
                             {{ $page->getTitle() }}
                             @if($page->show_submenu && count($page->publishedChildren))
-                                <b class="caret"></b>
+                                <b class="caret hidden-xs"></b>
                             @endif
                         </a>
                         @if($page->show_submenu && count($page->publishedChildren))
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu hidden-xs">
                                 @foreach($page->publishedChildren as $child)
                                     <li>
                                         <a href="{{ URL::to($child->getUrl()) }}">

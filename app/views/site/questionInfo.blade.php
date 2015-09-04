@@ -1,5 +1,5 @@
 <div class="row item" data-question-id="{{ $question->id }}">
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-2 col-xs-2">
         <div class="user">
             <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $question->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
@@ -9,14 +9,15 @@
                     <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                 @endif
             </a>
+            <div class="clearfix"></div>
             <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
                 <span class="login pull-left">{{ $question->user->login }}</span>
             </a>
         </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 col-sm-10 col-xs-10">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="page-info">
                     <div class="date pull-left" title="Дата публикации">
                         <i class="material-icons">today</i>
@@ -42,16 +43,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 col-sm-9 col-xs-9">
                 <h3>
                     <a href="{{ URL::to($question->getUrl()) }}">
                         {{ $question->title }}
                     </a>
                 </h3>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-3">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         @if(Auth::check())
                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                 <div class="buttons pull-right">
@@ -68,12 +69,12 @@
                             @endif
                         @endif
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-sm-8 col-xs-8 hidden-xs">
                         <div class="answers-text">
                             <span>Ответов:</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="answers-value">
                             <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
                                 {{ count($question->publishedAnswers) }}
@@ -87,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 col-sm-9 col-xs-9">
                 @if($page->id != $question->parent_id)
                     <div class="category">
                         <div class="text pull-left">

@@ -167,7 +167,10 @@
         $("form[id^='comment-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var parentCommentId = $(this).find('textarea').data('parentCommentId');
-            tinyMCE.get("comment-textarea-" + parentCommentId).save();
+            if(tinyMCE.get("comment-textarea-" + parentCommentId))
+            {
+                tinyMCE.get("comment-textarea-" + parentCommentId).save();
+            }
             var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');

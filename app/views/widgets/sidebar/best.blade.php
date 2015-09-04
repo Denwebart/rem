@@ -5,16 +5,18 @@
         @endif
         <div class="list-group-item">
             <div class="rating pull-left">
-                <span class="rate-votes pull-left">
-                    {{ $page->getRating() }}
-                </span>
-                <div class="rate-stars pull-left">
-                    <div class="jRate-{{ $page->id }}"></div>
-                </div>
                 <span class="rate-voters pull-right">
                     <span class="text">Проголосовало:</span>
                     <span class="count">{{ $page->voters }}</span>
                 </span>
+                <div class="pull-left">
+                    <span class="rate-votes pull-left">
+                        {{ $page->getRating() }}
+                    </span>
+                    <div class="rate-stars pull-left">
+                        <div class="jRate-{{ $page->id }}"></div>
+                    </div>
+                </div>
             </div>
             <div class="clearfix"></div>
             <a href="{{ URL::to($page->getUrl()) }}">

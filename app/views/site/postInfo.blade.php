@@ -63,10 +63,14 @@
             <div class="clearfix"></div>
         @elseif($page->id != $article->parent_id)
             <div class="category pull-right">
-                Категория:
-                <a href="{{ URL::to($article->parent->getUrl()) }}">
-                    {{ $article->parent->getTitle() }}
-                </a>
+                <div class="text pull-left">
+                    Категория:
+                </div>
+                <div class="link pull-left">
+                    <a href="{{ URL::to($article->parent->getUrl()) }}">
+                        {{ $article->parent->getTitle() }}
+                    </a>
+                </div>
             </div>
             <div class="clearfix"></div>
         @endif

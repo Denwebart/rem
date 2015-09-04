@@ -1,12 +1,12 @@
 <div class="row item" data-article-id="{{ $article->id }}">
-    <div class="col-md-11">
+    <div class="col-md-11 col-xs-11 col-sm-11">
         <h3>
             <a href="{{ URL::to($article->getUrl()) }}">
                 {{ $article->title }}
             </a>
         </h3>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1 col-xs-1 col-sm-1">
         @if(Auth::check())
             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                 <div class="buttons pull-right">
@@ -23,7 +23,7 @@
             @endif
         @endif
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-xs-2 col-sm-2">
         <div class="user">
             <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $article->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
@@ -33,12 +33,13 @@
                     <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($article->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                 @endif
             </a>
+            <div class="clearfix"></div>
             <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
                 <span class="login pull-left">{{ $article->user->login }}</span>
             </a>
         </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10 col-xs-10 col-sm-10">
         <div class="page-info">
             <div class="date pull-left" title="Дата публикации">
                 <i class="material-icons">today</i>
@@ -85,7 +86,7 @@
         <p>{{ $article->getIntrotext() }}</p>
     </div>
     @if(count($article->tags))
-        <div class="col-md-12">
+        <div class="col-md-12 col-xs-12 col-sm-12">
             <ul class="tags">
                 @foreach($article->tags as $tag)
                     <li>
@@ -97,7 +98,7 @@
             </ul>
         </div>
     @endif
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12 col-sm-12">
         <a class="pull-right read-more" href="{{ URL::to($article->getUrl()) }}">
             Читать полностью
             <i class="material-icons">chevron_right</i>

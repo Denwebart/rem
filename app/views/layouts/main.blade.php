@@ -79,10 +79,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-3">
-
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
             {{ $areaWidget->leftSidebar() }}
-
         </div>
 
         <div class="col-lg-6 col-md-6">
@@ -90,8 +88,7 @@
         </div>
 
         <div class="col-lg-3 col-md-3">
-
-            <div class="display-inline-block margin-bottom-5 margin-top-5" style="width: 100%">
+            <div class="display-inline-block" style="width: 100%">
                 {{ $sidebarWidget->socialButtons() }}
 
                 <div class="pull-right">
@@ -102,8 +99,9 @@
 
             <div class="clearfix"></div>
 
-            {{ $areaWidget->rightSidebar() }}
-
+            <div class="hidden-sm hidden-xs">
+                {{ $areaWidget->rightSidebar() }}
+            </div>
         </div>
     </div>
 </div>

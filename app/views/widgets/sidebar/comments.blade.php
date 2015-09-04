@@ -14,13 +14,9 @@
                             <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                         @endif
                     </a>
-                    <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                        <span class="login">{{ $comment->user->login }}</span>
-                    </a>
                 @else
                     <a href="{{ URL::to($comment->getUrl()) }}">
                         {{ (new User)->getAvatar('mini', ['class' => 'avatar circle']) }}
-                        <span class="login">{{ $comment->user_name }}</span>
                     </a>
                 @endif
             </div>
@@ -30,6 +26,11 @@
                         {{ DateHelper::getRelativeTime($comment->created_at) }}
                     </span>
                 </div>
+                @if($comment->user)
+                    <span class="login pull-left">{{ $comment->user->login }}</span>
+                @else
+                    <span class="login pull-left">{{ $comment->user_name }}</span>
+                @endif
                 <p class="list-group-item-text" style="clear: both">
                     <a href="{{ URL::to($comment->getUrl()) }}">
                         {{ StringHelper::limit($comment->comment, 70) }}

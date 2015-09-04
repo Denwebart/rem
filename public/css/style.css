@@ -27,6 +27,9 @@ a:focus {
     display: inline-block;
 }
 /* Отступы */
+.without-padding {
+    padding: 0 !important;
+}
 .without-margin {
     margin: 0 !important;
 }
@@ -185,6 +188,8 @@ a:focus {
 .content .fancybox {
     float: left;
     max-width: 100%;
+    width: 100%;
+    text-align: center;
 }
 .content .fancybox img {
     max-width: 100% !important;
@@ -473,7 +478,9 @@ a:focus {
     margin-top: 7px;
     padding: 0;
     display: inline-block;
-    float: right;
+}
+#navbar-top .navbar-nav {
+    float: left;
 }
 #navbar-top .navbar-nav > li > a {
     padding: 5px 5px;
@@ -585,9 +592,11 @@ a:focus {
 .sidebar-widget .list-group-item .row-picture {
     text-align: center;
 }
-.sidebar-widget .list-group-item .row-picture .login {
+.sidebar-widget .list-group-item .row-content .login {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     color: #333333;
+    margin-bottom: 5px;
+    display: inline-block;
 }
 .sidebar-widget .list-group-item .row-picture img {
     width: 50px;
@@ -695,6 +704,10 @@ a:focus {
     display: inline-block;
     float: left;
 }
+.b-share_theme_counter .b-share_type_small .b-share-btn__wrap {
+    margin-bottom: 5px;
+}
+
 #favorites-widget,
 #rss-widget {
     float: left;
@@ -1060,7 +1073,7 @@ a:focus {
     font-weight: 400;
 }
 #leaders-sidebar-widget .award {
-     background: #ffffff url("../images/award.png");
+     background: #ffffff url("../images/award.png") no-repeat;
      height: 300px;
      margin-bottom: 30px;
 }
@@ -1752,12 +1765,24 @@ footer .copyright a {
     }
 }
 @media (max-width: 768px) {
-    body {
-        background: #f5ffad;
-    }
+    /*body {*/
+        /*background: #f5ffad;*/
+    /*}*/
     /*Header*/
+    #navbar-top {
+        width: 100%;
+        text-align: center;
+    }
+    #navbar-top .navbar-nav {
+        float: none;
+        display: inline-block;
+    }
+    #navbar-top .navbar-nav > li {
+        margin-right: 5px;
+    }
     #search {
         margin-top: 10px;
+        /*padding-left: 50px;*/
     }
     .col-logo {
         display: inline-block;
@@ -1773,6 +1798,10 @@ footer .copyright a {
     .logo img {
         max-width: 500px;
         width: 100%;
+    }
+    #navbar-top {
+        width: 100%;
+        text-align: center;
     }
     #navbar-top .navbar-nav {
         margin: 0;
@@ -1820,17 +1849,56 @@ footer .copyright a {
     .navbar #navbar-main .navbar-nav {
         display: block;
     }
+    /* Content */
+    .page-info,
+    .blog .category {
+        font-size: 12px;
+    }
+    .page-info .date i {
+        display: none;
+    }
+    .blog .answers-text {
+        font-size: 12px;
+        display: none;
+    }
+    .blog .answers-value a.count {
+        font-size: 20px;
+        line-height: 34px;
+    }
+    .blog .answers-value .material-icons {
+        font-size: 28px;
+        line-height: 34px;
+    }
+    .blog .buttons {
+        text-align: right;
+    }
 }
 @media (min-width: 768px) and (max-width: 992px) {
     .container {
         width: 750px;
     }
-    body {
-        background: #8eddff;
-    }
+    /*body {*/
+        /*background: #8eddff;*/
+    /*}*/
     /*Header*/
+    #navbar-top {
+        width: 100%;
+        text-align: center;
+    }
+    #navbar-top .navbar-nav {
+        float: none;
+        display: inline-block;
+    }
+    #navbar-top .navbar-nav > li {
+        margin-right: 5px;
+    }
     #search {
         margin-top: 10px;
+        /*padding-left: 50px;*/
+    }
+    .col-logo {
+        display: inline-block;
+        width: 100%;
     }
     .logo {
         width: 100%;
@@ -1858,9 +1926,9 @@ footer .copyright a {
     .container {
         width: 970px;
     }
-    body {
-        background: #8fee95;
-    }
+    /*body {*/
+        /*background: #8fee95;*/
+    /*}*/
     /* Header */
     #search {
         margin-top: 24px;
@@ -1886,14 +1954,41 @@ footer .copyright a {
         font-size: 34px;
         line-height: 34px;
     }
+    .sidebar-widget .list-group-item .row-picture {
+        padding-right: 10px;
+    }
+    .sidebar-widget .list-group-item .row-picture img {
+        width: 40px;
+        height: 40px;
+    }
+    /* Content */
+    .page-info,
+    .blog .category {
+        font-size: 12px;
+    }
+    .page-info .date i {
+        display: none;
+    }
+    .blog .answers-text {
+        font-size: 12px;
+        display: none;
+    }
+    .blog .answers-value a.count {
+        font-size: 20px;
+        line-height: 34px;
+    }
+    .blog .answers-value .material-icons {
+        font-size: 28px;
+        line-height: 34px;
+    }
 }
 @media (min-width: 1200px) and (max-width: 1330px) {
     .container {
         width: 1170px;
     }
-    body {
-        background: #ffc2da;
-    }
+    /*body {*/
+        /*background: #ffc2da;*/
+    /*}*/
     /* Header */
     #search {
         margin-top: 40px;
@@ -1909,7 +2004,7 @@ footer .copyright a {
     .container {
         width: 1300px;
     }
-    body {
-        background: none;
-    }
+    /*body {*/
+        /*background: none;*/
+    /*}*/
 }

@@ -19,7 +19,7 @@
             <div class="content">
                 @if($page->image)
                     <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage() }}
+                        {{ $page->getImage('origin') }}
                     </a>
                 @endif
                 {{ $page->getContentWithWidget() }}

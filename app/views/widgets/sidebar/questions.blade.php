@@ -13,9 +13,6 @@
                         <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                     @endif
                 </a>
-                <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
-                    <span class="login">{{ $question->user->login }}</span>
-                </a>
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
@@ -23,6 +20,7 @@
                         {{ DateHelper::getRelativeTime($question->published_at) }}
                     </span>
                 </div>
+                <span class="login pull-left">{{ $question->user->login }}</span>
                 <p class="list-group-item-text row" style="clear: both">
                     <div class="col-md-10" style="padding: 0">
                         <a href="{{ URL::to($question->getUrl()) }}">

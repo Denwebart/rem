@@ -3,12 +3,12 @@
 @section('content')
 	<section id="content" class="well">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-9 col-sm-9">
                 @if($page->title)
                     <h2>{{ $page->title }}</h2>
                 @endif
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3">
                 @if($page->showRating())
                     {{-- Рейтинг --}}
                     @include('widgets.rating')
@@ -24,7 +24,7 @@
 			<div class="content">
                 @if($page->image)
                     <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage() }}
+                        {{ $page->getImage('origin') }}
                     </a>
                 @endif
 				{{ $page->getContentWithWidget() }}

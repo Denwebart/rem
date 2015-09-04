@@ -2,7 +2,7 @@
     @if(!$commentLevel2->is_deleted)
         <div class="comment-text @if($commentLevel2->mark == Comment::MARK_BEST) best @endif">
             <div class="row">
-                <div class="col-md-11">
+                <div class="col-md-11 col-sm-11 col-xs-11">
                     @if($commentLevel2->user)
                         <a class="pull-left avatar-link gray-background" href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}">
                             {{ $commentLevel2->user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 col-sm-1 col-xs-1">
                     @include('widgets.comment.vote', ['isBannedIp' => $isBannedIp, 'comment' => $commentLevel2])
                 </div>
             </div>

@@ -1,5 +1,5 @@
-<div id="navbar-top" class="pull-left">
-    <ul class="nav navbar-nav pull-left">
+<div id="navbar-top">
+    <ul class="nav navbar-nav">
         @foreach($pages as $page)
             <li class="{{ Request::is($page->getUrl()) ? 'active' : '' }}">
                 <a href="{{ URL::to($page->getUrl()) }}">
