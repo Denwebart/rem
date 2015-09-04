@@ -1769,16 +1769,11 @@ footer .copyright a {
         /*background: #f5ffad;*/
     /*}*/
     /*Header*/
-    #navbar-top {
-        width: 100%;
-        text-align: center;
-    }
     #navbar-top .navbar-nav {
-        float: none;
-        display: inline-block;
+        margin: 0;
     }
     #navbar-top .navbar-nav > li {
-        margin-right: 5px;
+        float: left;
     }
     #search {
         margin-top: 10px;
@@ -1798,19 +1793,6 @@ footer .copyright a {
     .logo img {
         max-width: 500px;
         width: 100%;
-    }
-    #navbar-top {
-        width: 100%;
-        text-align: center;
-    }
-    #navbar-top .navbar-nav {
-        margin: 0;
-    }
-    #navbar-top .navbar-nav > li {
-        float: left;
-    }
-    #navbar-top .navbar-nav > li > a:first-child {
-        padding-left: 0;
     }
     .btn-login {
         width: auto;
@@ -1881,20 +1863,8 @@ footer .copyright a {
         /*background: #8eddff;*/
     /*}*/
     /*Header*/
-    #navbar-top {
-        width: 100%;
-        text-align: center;
-    }
-    #navbar-top .navbar-nav {
-        float: none;
-        display: inline-block;
-    }
-    #navbar-top .navbar-nav > li {
-        margin-right: 5px;
-    }
     #search {
         margin-top: 10px;
-        /*padding-left: 50px;*/
     }
     .col-logo {
         display: inline-block;
@@ -2004,7 +1974,4 @@ footer .copyright a {
     .container {
         width: 1300px;
     }
-    /*body {*/
-        /*background: none;*/
-    /*}*/
 }

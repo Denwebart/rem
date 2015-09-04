@@ -23,13 +23,13 @@
 	<section id="content" class="well">
 
         <div class="row">
-            <div class="@if($page->showRating()) col-md-9 @else col-md-12 @endif">
+            <div class="@if($page->showRating()) col-md-9 col-sm-9 col-xs-9 @else col-md-12 col-sm-12 col-xs-12 @endif">
                 @if($page->title)
                     <h2>{{ $page->title }}</h2>
                 @endif
             </div>
             @if($page->showRating())
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     {{-- Рейтинг --}}
                     @include('widgets.rating')
                 </div>

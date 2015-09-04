@@ -1,7 +1,7 @@
 <div class="header">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 hidden-md hidden-lg">
+            <div class="col-sm-12 col-xs-12 hidden-md hidden-lg">
                 @if (!Auth::check())
                     <div class="buttons pull-right">
                         <a href="{{ URL::route('login') }}" class="btn btn-primary margin-top-20 pull-right btn-login">
