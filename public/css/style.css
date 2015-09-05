@@ -1727,8 +1727,9 @@ footer .copyright a {
 #header-widget .navbar-nav > .widget-user > .dropdown-menu > li.footer > a {
     text-align: left;
 }
-
 /*-- End Полоса уведомлений для авторизованных пользователей --*/
+
+/*-- Адаптивность --*/
 @media (max-width: 400px) {
     /* Header Widght */
     .navbar .navbar-nav > li > a,
