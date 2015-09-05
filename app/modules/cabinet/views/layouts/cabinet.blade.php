@@ -126,7 +126,8 @@
                         <li class="messages {{ (Route::is('user.messages') || Route::is('user.dialog')) ? 'active' : '' }}">
                             <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
                                 <i class="material-icons">send</i>
-                                <span>Личные сообщения</span>
+                                <span class="hidden-md hidden-sm">Личные сообщения</span>
+                                <span class="hidden-lg hidden-xs">Сообщения</span>
                                 @if(Auth::user()->is($user))
                                     @if(count($headerWidget->newMessages))
                                         <small class="label label-info">{{ $headerWidget->newMessages->getTotal() }}</small>
@@ -156,7 +157,12 @@
                         <li class="notifications {{ Route::is('user.notifications') ? 'active' : '' }}">
                             <a href="{{ URL::route('user.notifications', ['login' => $user->getLoginForUrl()]) }}">
                                 <i class="material-icons">notifications</i>
-                                <span>{{ Auth::user()->is($user) ? 'Мои уведомления' : 'Уведомления'}}</span>
+                                <span class="hidden-md hidden-sm">
+                                    {{ Auth::user()->is($user) ? 'Мои уведомления' : 'Уведомления'}}
+                                </span>
+                                <span class="hidden-lg hidden-xs">
+                                    Уведомления
+                                </span>
                                 @if(Auth::user()->is($user))
                                     @if(count($headerWidget->newNotifications))
                                         <small class="label label-info">{{ $headerWidget->newNotifications->getTotal() }}</small>

@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -20,6 +20,13 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-md-12" id="content">
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 hidden-lg hidden-md">
+                        @include('cabinet::user.userInfoMobile')
+                    </div>
+                </div>
+
                 <div id="profile" class="well">
                     <div class="row">
                         <div class="col-md-12">
@@ -55,18 +62,7 @@ View::share('title', $title);
                             @endif
 
                             <div class="row">
-                                <div class="col-md-9">
-                                    <h2>
-                                        <span class="login">
-                                            {{{ $user->login }}}
-                                        </span>
-                                        @if($user->getFullName())
-                                            |
-                                            <span class="fullname">{{{ $user->getFullName() }}}</span>
-                                        @endif
-                                    </h2>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-3 pull-right">
                                     @if(Auth::check())
                                         <div class="buttons pull-right">
                                             @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin())
@@ -87,11 +83,22 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
+                                <div class="col-md-9 col-sm-9 pull-left">
+                                    <h2>
+                                        <span class="login">
+                                            {{{ $user->login }}}
+                                        </span>
+                                        @if($user->getFullName())
+                                            |
+                                            <span class="fullname">{{{ $user->getFullName() }}}</span>
+                                        @endif
+                                    </h2>
+                                </div>
                             </div>
 
                             <div class="row">
                                 @if($user->isAdmin() || $user->isModerator())
-                                    <div class="col-sm-6 col-lg-4">
+                                    <div class="col-sm-4 col-md-4">
                                         <div class="user-data-row role">
                                             <span title="Права" data-toggle="tooltip" data-placement="right">
                                                 <i class="material-icons">perm_identity</i>
@@ -104,7 +111,7 @@ View::share('title', $title);
                                 @endif
                                 @if(Auth::check())
                                     @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                        <div class="col-sm-6 col-lg-4">
+                                        <div class="col-sm-4 col-md-4">
                                             <div class="user-data-row email">
                                                 <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
                                                     <i class="material-icons">email</i>
@@ -119,7 +126,7 @@ View::share('title', $title);
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-6 col-lg-4">
+                                <div class="col-sm-4 col-md-4">
                                     <div class="user-data-row date date-register">
                                         <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
                                             <i class="material-icons pull-left">today</i>
@@ -149,7 +156,7 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
+                                <div class="col-sm-4 col-md-4">
                                     @if($user->car_brand)
                                         <div class="user-data-row car-brand">
                                             <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
@@ -172,9 +179,9 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-sm-4 col-md-4">
                                     <div class="points margin-bottom-10" title="Количество баллов" data-toggle="tooltip" data-placement="top">
-                                        {{ Html::image('images/coins.png', '', ['width' => '60px', 'class' => 'pull-left']) }}
+                                        {{ Html::image('images/coins.png', '', ['class' => 'pull-left']) }}
                                         <span class="count pull-left">
                                             {{ $user->points }}
                                         </span>

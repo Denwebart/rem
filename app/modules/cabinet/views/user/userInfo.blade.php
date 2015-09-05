@@ -49,7 +49,7 @@
             @if(!Auth::user()->is($user))
                 <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm send-message pull-left">
                     <i class="material-icons">send</i>
-                    Написать сообщение
+                    Написать <span class="hidden-md">сообщение</span>
                 </a>
             @endif
             @if(Auth::user()->isAdmin())

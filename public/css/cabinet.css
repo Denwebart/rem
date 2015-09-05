@@ -8,16 +8,50 @@ h2, .h2 {
     margin: 0 !important;
 }
 /*-- Информация о пользователе --*/
-#user-info .honors {
+#user-info {
+    margin-bottom: 20px;
+}
+#user-info .banned {
+    line-height: 44px;
+    margin-left: 20px;
+}
+#user-info .banned .unban,
+#user-info-mobile .banned .unban {
+    color: #F44336;
+}
+#user-info .honors,
+#user-info-mobile .honors {
     margin: 5px 0;
     text-align: center;
 }
-#user-info .honors a {
+#user-info .honors a,
+#user-info-mobile .honors a {
     display: inline-block;
     margin: 0 10px;
 }
 
-/*-- Меню пользователя (справа) --*/
+#user-info-mobile {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+#user-info-mobile .avatar-link {
+    margin-right: 10px;
+}
+#user-info-mobile .banned {
+    line-height: 44px;
+    margin-right: 10px;
+}
+#user-info-mobile .banned .avatar {
+    background: rgb(237, 49, 49) none repeat scroll 0% 0%;
+    padding: 2px;
+}
+#user-info-mobile .profile-user-status {
+    margin: 0;
+}
+
+
+    /*-- Меню пользователя (справа) --*/
 #users-menu {
     padding-right: 0;
 }
@@ -86,8 +120,6 @@ h2, .h2 {
     line-height: 1em;
     text-align: center;
 }
-
-
 /*-- End Меню пользователя (справа) --*/
 
 /*-- Галерея (Мой автомобиль) --*/
@@ -137,6 +169,9 @@ h2, .h2 {
 /* Баллы */
 .points {
     display: inline-block;
+}
+.points img {
+    width: 60px;
 }
 .points .count {
     margin-left: 10px;
@@ -426,19 +461,50 @@ h2, .h2 {
     margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-
-}
-@media (min-width: 768px) and (max-width: 992px) {
-
-}
-@media (min-width: 992px) and (max-width: 1200px) {
-    #users-menu ul > li > a span {
+@media (max-width: 767px) {
+    /* Профиль пользователя */
+    #user-info-mobile .profile-user-status .text {
         font-size: 12px;
     }
 }
-@media (min-width: 1200px) and (max-width: 1330px) {
+@media (min-width: 768px) and (max-width: 991px) {
 
+
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    /* Меню пользователя */
+    #users-menu ul > li {
+        margin: 5px 0;
+        height: 30px;
+    }
+    #users-menu ul > li > a {
+        padding: 4px 3px;
+    }
+    #users-menu ul > li > a span {
+        font-size: 12px;
+    }
+    /* Профиль пользователя */
+    .points {
+        margin-top: 5px;
+    }
+    .points img {
+        width: 40px;
+    }
+    .points .count {
+        font-size: 30px;
+        line-height: 40px;
+    }
+    .user-data-row {
+        font-size: 12px;
+        height: 24px;
+        margin-bottom: 5px;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1329px) {
+    /* Меню пользователя */
+    #users-menu ul > li > a span {
+        font-size: 13px;
+    }
 }
 
 @media (min-width: 1330px) {

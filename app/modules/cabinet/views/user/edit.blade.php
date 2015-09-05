@@ -45,22 +45,10 @@ View::share('title', $title);
                 <div class="col-lg-12" id="content">
                     <div class="well">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-md-6 col-sm-6">
                                 <h2>{{{ $user->login }}}</h2>
-                                <div class="form-group">
-                                    {{ Form::label('email', 'Email') }}
-                                    {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
-                                    {{ $errors->first('email') }}
-                                </div>
-                                @if(Auth::user()->isAdmin() && 1 != $user->id)
-                                    <div class="form-group">
-                                        {{ Form::label('role', 'Роль') }}
-                                        {{ Form::select('role', User::$roles, $user->role, ['class' => 'form-control']) }}
-                                        {{ $errors->first('role') }}
-                                    </div>
-                                @endif
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-md-6 col-sm-6">
                                 <div class="button-group without-margin">
                                     <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
@@ -71,40 +59,70 @@ View::share('title', $title);
                                 </div>
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-lg-6">
-                                {{ Form::label('firstname', 'Имя') }}
-                                {{ Form::text('firstname', $user->firstname, ['class' => 'form-control']) }}
-                                {{ $errors->first('firstname') }}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('email', 'Email') }}
+                                    {{ Form::text('email', $user->email, ['class' => 'form-control']) }}
+                                    {{ $errors->first('email') }}
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                {{ Form::label('lastname', 'Фамилия') }}
-                                {{ Form::text('lastname', $user->lastname, ['class' => 'form-control']) }}
-                                {{ $errors->first('lastname') }}
-                            </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-6">
-                                {{ Form::label('country', 'Страна') }}
-                                {{ Form::text('country', $user->country, ['class' => 'form-control', 'id' => 'country']) }}
-                                {{ $errors->first('country') }}
-                            </div>
-                            <div class="col-lg-6">
-                                {{ Form::label('city', 'Город') }}
-                                {{ Form::text('city', $user->city, ['class' => 'form-control', 'id' => 'city']) }}
-                                {{ $errors->first('city') }}
+                            <div class="col-md-6 col-sm-6">
+                                @if(Auth::user()->isAdmin() && 1 != $user->id)
+                                    <div class="form-group">
+                                        {{ Form::label('role', 'Роль') }}
+                                        {{ Form::select('role', User::$roles, $user->role, ['class' => 'form-control']) }}
+                                        {{ $errors->first('role') }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-lg-6">
-                                {{ Form::label('car_brand', 'Марка автомобиля / модель') }}
-                                {{ Form::text('car_brand', $user->car_brand, ['class' => 'form-control']) }}
-                                {{ $errors->first('car_brand') }}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('firstname', 'Имя') }}
+                                    {{ Form::text('firstname', $user->firstname, ['class' => 'form-control']) }}
+                                    {{ $errors->first('firstname') }}
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                {{ Form::label('profession', 'Профессия') }}
-                                {{ Form::text('profession', $user->profession, ['class' => 'form-control']) }}
-                                {{ $errors->first('profession') }}
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('lastname', 'Фамилия') }}
+                                    {{ Form::text('lastname', $user->lastname, ['class' => 'form-control']) }}
+                                    {{ $errors->first('lastname') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('country', 'Страна') }}
+                                    {{ Form::text('country', $user->country, ['class' => 'form-control', 'id' => 'country']) }}
+                                    {{ $errors->first('country') }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('city', 'Город') }}
+                                    {{ Form::text('city', $user->city, ['class' => 'form-control', 'id' => 'city']) }}
+                                    {{ $errors->first('city') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('car_brand', 'Марка автомобиля / модель') }}
+                                    {{ Form::text('car_brand', $user->car_brand, ['class' => 'form-control']) }}
+                                    {{ $errors->first('car_brand') }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    {{ Form::label('profession', 'Профессия') }}
+                                    {{ Form::text('profession', $user->profession, ['class' => 'form-control']) }}
+                                    {{ $errors->first('profession') }}
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">

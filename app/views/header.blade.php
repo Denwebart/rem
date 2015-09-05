@@ -46,7 +46,7 @@
                 <div class="row">
                     <!--Search-->
                     <div id="search">
-                        <div class="col-md-12 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                        <div class="col-md-12 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
                             {{ Form::open(['method' => 'GET', 'route' => ['search'], 'id' => 'search-form']) }}
                                 <div class="row">
                                     <div class="col-xs-11">
