@@ -1,4 +1,4 @@
-<div class="col-md-10">
+<div class="col-md-10 col-xs-10">
     @if('user.savedPages' == Route::currentRouteName())
         <div class="date date-saved">
             <span class="text">Сохранено</span>
@@ -11,7 +11,7 @@
         </div>
     @endif
 </div>
-<div class="col-md-2">
+<div class="col-md-2 col-xs-2">
     <div class="buttons without-margin">
         @if(Auth::user()->is($user))
             @if('user.savedPages' == Route::currentRouteName())
@@ -26,7 +26,7 @@
         @endif
     </div>
 </div>
-<div class="col-md-12">
+<div class="col-md-12 col-xs-12">
     <h3>
         @if(count($page->bestComments))
             <i class="material-icons mdi-success">done</i>
@@ -36,7 +36,7 @@
         </a>
     </h3>
 </div>
-<div class="col-md-12">
+<div class="col-md-12 col-xs-12">
     <div class="page-info">
         <div class="user pull-left">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<div class="col-md-12">
+<div class="col-md-12 col-xs-12">
     @if($page->parent)
         <div class="category pull-right">
             <div class="text pull-left">
@@ -126,7 +126,7 @@
         </ul>
     </div>
 @endif
-<div class="col-md-12">
+<div class="col-md-12 col-xs-12">
     <a class="pull-right read-more" href="{{ URL::to($page->getUrl()) }}">
         Читать полностью
         <i class="material-icons">chevron_right</i>

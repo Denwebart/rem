@@ -7,7 +7,7 @@ View::share('title', $title);
 
 @section('content')
     {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->getLoginForUrl()], 'files' => true], ['id' => 'editProfile']) }}
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
             <div class="row">
                 <div class="col-md-10" style="padding-right: 0">
                     <div class="profile-user-avatar">
@@ -43,6 +43,11 @@ View::share('title', $title);
 
             <div class="row">
                 <div class="col-lg-12" id="content">
+
+                    <div class="row hidden-lg hidden-md">
+                        @include('cabinet::user.userInfoMobile')
+                    </div>
+
                     <div class="well">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">

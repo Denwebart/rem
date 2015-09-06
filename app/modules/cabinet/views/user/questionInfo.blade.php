@@ -1,4 +1,4 @@
-<div class="col-md-11">
+<div class="col-md-11 col-xs-11">
     @if('user.savedPages' == Route::currentRouteName())
         <div class="date date-saved">
             <span class="text">Сохранено</span>
@@ -11,7 +11,7 @@
         </div>
     @endif
 </div>
-<div class="col-md-1">
+<div class="col-md-1 col-xs-1">
     <div class="buttons without-margin">
         @if(Auth::user()->is($user))
             @if('user.savedPages' == Route::currentRouteName())
@@ -26,9 +26,9 @@
         @endif
     </div>
 </div>
-<div class="col-md-12 margin-top-10">
+<div class="col-md-12 col-xs-12 margin-top-10">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 col-xs-2">
             <div class="user">
                 <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
                     {{ $page->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
@@ -43,7 +43,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 col-xs-10">
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-info">
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9 col-xs-9">
                     <h3>
                         <a href="{{ URL::to($page->getUrl()) }}">
                             {{ $page->title }}
@@ -90,7 +90,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-3">
                     <div class="row">
                         <div class="col-md-4">
                             @if(Auth::check())

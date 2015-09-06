@@ -9,7 +9,7 @@
         @foreach($comments as $comment)
             <div data-comment-id="{{ $comment->id }}" id="comment-{{ $comment->id }}" class="well comment @if($comment->is_deleted) deleted @endif">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-10 col-xs-10">
                         <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
                             <span class="text">Комментарий оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($comment->created_at) }}</span>
@@ -20,7 +20,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-xs-2">
                         @if(!$comment->is_deleted)
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
@@ -45,7 +45,7 @@
                             @endif
                         @endif
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 col-xs-10">
                         <h3>
                             @if($comment->page)
                                 <a href="{{ URL::to($comment->getUrl()) }}">
@@ -60,7 +60,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-xs-2">
                         <div class="vote" title="Оценка комментария" date-toggle="tooltip">
                             <div class="vote-dislike">
                                 <i class="material-icons">arrow_drop_up</i>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-xs-12">
                         @if(0 == $comment->parent_id)
                             <div class="answers">
                                 Ответы на комментарий:

@@ -466,10 +466,56 @@ h2, .h2 {
     #user-info-mobile .profile-user-status .text {
         font-size: 12px;
     }
+    /* Меню пользователя */
+    #users-menu-mobile ul {
+        list-style: none;
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 0;
+    }
+    #users-menu-mobile ul li {
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    #users-menu-mobile ul li a {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    /* Галерея (Мой автомобиль) */
+    .image-description {
+        margin-top: 20px;
+    }
+    #list-of-images .item {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-
-
+    /* Меню пользователя */
+    #users-menu-mobile ul {
+        list-style: none;
+        margin-bottom: 10px;
+        display: inline-block;
+        padding: 0;
+    }
+    #users-menu-mobile ul li {
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    #users-menu-mobile ul li a {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    /* Галерея (Мой автомобиль) */
+    .image-description {
+        margin-top: 20px;
+    }
+    #list-of-images .item {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
     /* Меню пользователя */

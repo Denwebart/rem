@@ -21,10 +21,8 @@ View::share('title', $title);
         <div class="row">
             <div class="col-md-12" id="content">
 
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12 hidden-lg hidden-md">
-                        @include('cabinet::user.userInfoMobile')
-                    </div>
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
                 </div>
 
                 <div id="profile" class="well">

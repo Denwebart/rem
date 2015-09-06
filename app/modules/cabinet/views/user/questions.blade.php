@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -25,11 +25,16 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-8 col-xs-8">
                         <h2>{{ $title }}</h2>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-xs-4">
                         @if(Auth::check())
                             @if(Auth::user()->is($user))
                                 @if(!$headerWidget->isBannedIp)
@@ -101,14 +106,14 @@ View::share('title', $title);
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-9">
+                                            <div class="col-md-9 col-xs-9">
                                                 <h3>
                                                     <a href="{{ URL::to($question->getUrl()) }}">
                                                         {{ $question->title }}
                                                     </a>
                                                 </h3>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 col-xs-3">
                                                 <div class="row">
                                                     <div class="col-md-6" style="padding-right: 0">
                                                         @if(Auth::check())

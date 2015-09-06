@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
     </div>
     <div class="col-lg-7 col-md-7">
@@ -32,6 +32,11 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12 content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <div id="form-area">
                     <h2>{{ $title }}</h2>
                     <div class="well">

@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -25,6 +25,11 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <h2>{{ $title }}</h2>
                 <div class="well">
                     <div id="list-of-images">
@@ -43,12 +48,12 @@ View::share('title', $title);
                                             <div class="row">
                                                 @if(Auth::check())
                                                     @if((Auth::user()->is($user) && !$headerWidget->isBannedIp && !$user->is_banned) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-8 col-sm-8 col-xs-8">
                                                             <h4>
                                                                 {{ $image->title }}
                                                             </h4>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-4 col-sm-4 col-xs-4">
                                                             <div class="buttons pull-right">
                                                                 <a href="{{ URL::route('user.gallery.editPhoto', ['login' => $user->getLoginForUrl(),'id' => $image->id]) }}" class="pull-left" title="Редактировать изображение" data-toggle="tooltip">
                                                                     <i class="material-icons">edit</i>

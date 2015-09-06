@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -22,6 +22,11 @@
 
         <div class="row">
             <div class="col-lg-12" id="content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <h2 class="margin-bottom-20">
                     Бортовой журнал пользователя
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
@@ -34,7 +39,7 @@
 
                 <div class="journal-user-info">
                     <div class="row">
-                        <div class="col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">chrome_reader_mode</i>
                                 <div class="text">
@@ -56,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">question_answer</i>
                                 <div class="text">
@@ -76,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
                             <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
                                 {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
                                 <span class="count pull-left" style="line-height: 40px">
@@ -148,14 +153,14 @@
                         @foreach($articles as $article)
                             <div data-article-id="{{ $article->id }}" class="well">
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-10 col-xs-10">
                                         <h3>
                                             <a href="{{ URL::to($article->getUrl()) }}">
                                                 {{ $article->title }}
                                             </a>
                                         </h3>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-xs-2">
                                         @if(Auth::check())
                                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                                 <div class="buttons">
