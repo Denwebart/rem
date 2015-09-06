@@ -37,7 +37,7 @@ View::share('title', $title);
                 <div class="well">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="buttons pull-right">
+                            <div class="buttons pull-right margin-bottom-20">
                                 <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
                                     <i class="material-icons">keyboard_arrow_left</i>
                                     Отмена

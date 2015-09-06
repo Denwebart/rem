@@ -96,7 +96,7 @@ View::share('title', $title);
 
                             <div class="row">
                                 @if($user->isAdmin() || $user->isModerator())
-                                    <div class="col-sm-4 col-md-4">
+                                    <div class="col-sm-4 col-md-5 col-lg-4">
                                         <div class="user-data-row role">
                                             <span title="Права" data-toggle="tooltip" data-placement="right">
                                                 <i class="material-icons">perm_identity</i>
@@ -109,7 +109,7 @@ View::share('title', $title);
                                 @endif
                                 @if(Auth::check())
                                     @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                        <div class="col-sm-4 col-md-4">
+                                        <div class="col-sm-4 col-md-5 col-lg-4">
                                             <div class="user-data-row email">
                                                 <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
                                                     <i class="material-icons">email</i>
@@ -124,7 +124,7 @@ View::share('title', $title);
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-4 col-md-4">
+                                <div class="col-sm-4 col-md-5 col-lg-4">
                                     <div class="user-data-row date date-register">
                                         <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
                                             <i class="material-icons pull-left">today</i>
@@ -177,7 +177,7 @@ View::share('title', $title);
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-sm-4 col-md-4">
+                                <div class="col-sm-4 col-md-3 col-lg-4">
                                     <div class="points margin-bottom-10" title="Количество баллов" data-toggle="tooltip" data-placement="top">
                                         {{ Html::image('images/coins.png', '', ['class' => 'pull-left']) }}
                                         <span class="count pull-left">

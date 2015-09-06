@@ -86,6 +86,7 @@ class UsersController extends BaseController
 				Session::forget('user');
 
 				// Заносим в сессию время последнего визита
+				Session::set('user.entryTime', \Carbon\Carbon::now());
 				Session::set('user.lastActivity', Auth::user()->last_activity);
 
 				// Редирект в админку (если админ) или на предыдущую (для остальных)

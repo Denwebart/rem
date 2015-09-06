@@ -42,9 +42,9 @@ h2, .h2 {
     line-height: 44px;
     margin-right: 10px;
 }
-#user-info-mobile .banned .avatar {
-    background: rgb(237, 49, 49) none repeat scroll 0% 0%;
-    padding: 2px;
+#user-info-mobile .delete-avatar {
+    line-height: 44px;
+    margin-left: 10px;
 }
 #user-info-mobile .profile-user-status {
     margin: 0;
@@ -480,7 +480,16 @@ h2, .h2 {
     }
     #users-menu-mobile ul li a {
         padding-left: 10px;
-        padding-right: 10px;
+        padding-right: 6px;
+    }
+    #users-menu-mobile ul li a .material-icons {
+        font-size: 20px;
+        float: left;
+    }
+    #users-menu-mobile ul li a .label {
+        float: left;
+        top:0;
+        margin-top: 2px;
     }
     /* Галерея (Мой автомобиль) */
     .image-description {
@@ -489,6 +498,12 @@ h2, .h2 {
     #list-of-images .item {
         padding-bottom: 20px;
         margin-bottom: 20px;
+    }
+}
+@media (min-width: 630px) and (max-width: 766px) {
+    /* Меню пользователя */
+    #users-menu-mobile ul li a .material-icons {
+        font-size: 22px;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -534,11 +549,11 @@ h2, .h2 {
         margin-top: 5px;
     }
     .points img {
-        width: 40px;
+        width: 36px;
     }
     .points .count {
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 26px;
+        line-height: 36px;
     }
     .user-data-row {
         font-size: 12px;

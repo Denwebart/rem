@@ -261,6 +261,7 @@ class CabinetUserController extends \BaseController
 				'success' => true,
 				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Фотография удалена.']),
 				'imageUrl' => Config::get('settings.defaultAvatar'),
+				'imageUrlMini' => Config::get('settings.mini_defaultAvatar'),
 			]);
 		}
 	}

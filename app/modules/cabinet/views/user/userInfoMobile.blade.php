@@ -21,9 +21,10 @@
                 <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
             @endif
         </a>
-        @if(Auth::check())
-            @if(!Auth::user()->is($user))
-                <div class="profile-user-status pull-left">
+
+        <div class="profile-user-status pull-left">
+            @if(Auth::check())
+                @if(!Auth::user()->is($user))
                     @if($user->isOnline())
                         <span class="text pull-left">Сейчас на сайте</span>
                     @else
@@ -34,9 +35,17 @@
                             </span>
                         </span>
                     @endif
-                </div>
+                @else
+                    <span class="text pull-left">
+                        @if(Session::has('user.entryTime'))
+                            Вход на сайт:
+                                {{ DateHelper::dateFormat(Session::get('user.entryTime')) }}
+                                ({{ DateHelper::getRelativeTime(Session::get('user.entryTime'), ' на сайте') }})
+                        @endif
+                    </span>
+                @endif
             @endif
-        @endif
+        </div>
         @if($user->is_banned)
             <br>
             <span class="banned-text pull-left label label-danger">

@@ -89,12 +89,12 @@ class DateHelper
 	 * Время в формате "1 мин. наазд" и т.д
 	 *
 	 * @param string $date Дата
+	 * @param string $endText
 	 * @return string
 	 */
-	public static function getRelativeTime($date)
+	public static function getRelativeTime($date, $endText = ' назад')
 	{
 		$delta = (time() - strtotime($date));
-		$endText = ' назад';
 
 		if ($delta < 0) {
 			return '0 сек.';

@@ -89,7 +89,9 @@
                 <div id="site-title">
                     @if(isset($settings))
                         <h1>
-                            {{ $settings['siteTitle']['value'] }}
+                            <span>
+                                {{ $settings['siteTitle']['value'] }}
+                            </span>
                             <span class="slogan">
                                 {{ $settings['siteSlogan']['value'] }}
                             </span>

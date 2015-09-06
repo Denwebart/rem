@@ -9,7 +9,7 @@ View::share('title', $title);
     {{ Form::model($user, ['method' => 'POST', 'route' => ['user.update', $user->getLoginForUrl()], 'files' => true], ['id' => 'editProfile']) }}
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
             <div class="row">
-                <div class="col-md-10" style="padding-right: 0">
+                <div class="col-md-10 col-xs-10" style="padding-right: 0">
                     <div class="profile-user-avatar">
                         <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="">
                             {{ $user->getAvatar(null, ['class' => 'avatar']) }}
@@ -20,9 +20,9 @@ View::share('title', $title);
                         {{ $errors->first('avatar') }}
                     </div>
                 </div>
-                <div class="col-md-2" style="padding: 0">
+                <div class="col-md-2 col-xs-2" style="padding: 0">
                     @if($user->avatar)
-                        <a href="javascript:void(0)" id="delete-avatar" class="pull-right" title="Удалить аватарку" data-toggle="tooltip">
+                        <a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">
                             <i class="material-icons">delete</i>
                         </a>
                     @endif
@@ -45,15 +45,41 @@ View::share('title', $title);
                 <div class="col-lg-12" id="content">
 
                     <div class="row hidden-lg hidden-md">
-                        @include('cabinet::user.userInfoMobile')
+                        <div class="col-sm-12 col-xs-12">
+                            <div id="user-info-mobile">
+                                <a class="pull-left avatar-link gray-background @if($user->is_banned) banned @endif" href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                    {{ $user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
+                                    @if($user->isOnline())
+                                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                    @else
+                                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                    @endif
+                                </a>
+                                <div class="pull-left">
+                                    <div class="form-group">
+                                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+                                        {{ $errors->first('avatar') }}
+                                    </div>
+                                </div>
+                                <div class="pull-left">
+                                    @if($user->avatar)
+                                        <a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="col-sm-12 col-xs-12" id="users-menu-mobile">
+                            @include('cabinet::user.menuMobile')
+                        </div>
                     </div>
 
                     <div class="well">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <h2>{{{ $user->login }}}</h2>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-6 col-sm-6 pull-right">
                                 <div class="button-group without-margin">
                                     <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
@@ -62,6 +88,9 @@ View::share('title', $title);
 
                                     {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                                 </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 pull-left">
+                                <h2>{{{ $user->login }}}</h2>
                             </div>
                         </div>
                         <div class="row">
@@ -173,7 +202,7 @@ View::share('title', $title);
 
     <!-- Delete Avatar -->
     <script type="text/javascript">
-        $('#delete-avatar').click(function(){
+        $('.delete-avatar').click(function(){
             if(confirm('Вы уверены, что хотите удалить изображение?')) {
                 $.ajax({
                     url: '<?php echo URL::route('user.deleteAvatar', ['login' => $user->getLoginForUrl()]) ?>',
@@ -186,8 +215,9 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
-                            $('#delete-avatar').css('display', 'none');
+                            $('.delete-avatar').css('display', 'none');
                             $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
+                            $('.avatar-link img').attr('src', response.imageUrlMini).addClass('avatar-default');
                         }
                     }
                 });

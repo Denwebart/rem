@@ -118,11 +118,14 @@ View::share('title', $title);
                                             {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-xs-12 col-md-6">
                                                     <div class="form-group">
-                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm file-inputs']) }}
+                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
                                                         {{ $errors->first('image') }}
                                                     </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-lg-12">
                                                     <div class="form-group">
                                                         {{ Form::label('title', 'Заголовок изображения') }}
                                                         {{ Form::text('title', null, ['class' => 'form-control']) }}
@@ -133,7 +136,7 @@ View::share('title', $title);
                                                         {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
                                                         {{ $errors->first('description') }}
                                                     </div>
-                                                    <div class="button-group">
+                                                    <div class="pull-right">
                                                         {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                                                     </div>
                                                 </div>
@@ -147,7 +150,8 @@ View::share('title', $title);
                                             {{ Form::close() }}
                                         </div>
                                     @else
-                                        Больше фотографий добавить нельзя :(
+                                        Вы уже добавили максимальное количество фотографий (5).
+                                        Больше фотографий добавить нельзя.
                                     @endif
                                 @else
                                     @include('cabinet::user.banMessage')

@@ -11,6 +11,10 @@ a:focus {
 .h2, h2 {
     font-size: 26px;
 }
+h2 .login {
+    display: inline-block;
+    margin-top: 5px;
+}
 .h3, h3,
 .h4, h4 {
     font-size: 22px;
@@ -44,6 +48,9 @@ a:focus {
 }
 .margin-top-50 {
     margin-top: 50px;
+}
+.margin-right-10 {
+    margin-right: 10px;
 }
 .margin-left-10 {
     margin-left: 10px;
@@ -1755,9 +1762,12 @@ footer .copyright a {
     }
 }
 @media (max-width: 767px) {
-    /*body {*/
-        /*background: #f5ffad;*/
-    /*}*/
+    body {
+        background: #f5ffad;
+    }
+    h2, h2 {
+        font-size: 22px;
+    }
     /*Header*/
     #navbar-top .navbar-nav {
         margin: 0;
@@ -1768,6 +1778,19 @@ footer .copyright a {
     #search {
         margin-top: 10px;
         /*padding-left: 50px;*/
+    }
+    #site-title {
+        text-align: center;
+    }
+    #site-title h1 {
+        font-size: 18px;
+    }
+    #site-title h1 span {
+        display: inline-block;
+        width: 100%;
+    }
+    #site-title h1 .slogan {
+        font-size: 14px;
     }
     .col-logo {
         display: inline-block;
@@ -1844,14 +1867,27 @@ footer .copyright a {
     .blog .buttons {
         text-align: right;
     }
+    .blog .date {
+        font-size: 12px;
+        line-height: 24px;
+        font-style: italic;
+        color: #777;
+        margin-bottom: 5px;
+    }
+    .blog .well {
+        padding-top: 10px;
+    }
 }
 @media (min-width: 768px) and (max-width: 991px) {
     .container {
         width: 738px;
     }
-    /*body {*/
-        /*background: #8eddff;*/
-    /*}*/
+    body {
+        background: #8eddff;
+    }
+    h2, h2 {
+        font-size: 24px;
+    }
     /*Header*/
     #search {
         margin-top: 10px;
@@ -1895,9 +1931,15 @@ footer .copyright a {
     .container {
         width: 962px;
     }
-    /*body {*/
-        /*background: #8fee95;*/
-    /*}*/
+    body {
+        background: #8fee95;
+    }
+    .btn {
+        white-space: normal;
+    }
+    h2, h2 {
+        font-size: 24px;
+    }
     /* Header */
     #search {
         margin-top: 24px;
@@ -1959,9 +2001,12 @@ footer .copyright a {
     .container {
         width: 1170px;
     }
-    /*body {*/
-        /*background: #ffc2da;*/
-    /*}*/
+    body {
+        background: #ffc2da;
+    }
+    .btn {
+        white-space: normal;
+    }
     /* Header */
     #search {
         margin-top: 40px;
