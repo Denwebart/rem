@@ -1251,6 +1251,17 @@ footer .copyright a {
     color: #03A9F4;
 }
 
+/* Всплывающие сообщения */
+#site-messages {
+    position: fixed;
+    top: 45px;
+    right: 0;
+    opacity: 0.8;
+    width: 400px;
+    max-width: calc(100% - 40px);
+    margin: 20px;
+}
+
 /* Bottom Menu */
 #navbar-bottom {
     list-style: none;
