@@ -22,6 +22,7 @@ class CabinetController extends \BaseController
 
 	public function index()
 	{
+		$limit = 10;
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
 
@@ -53,25 +54,31 @@ class CabinetController extends \BaseController
 
 		if ($sortBy && $direction) {
 			if(in_array($sortBy, $relations)) {
+				$page = Request::get('stranitsa', 1);
+
 				if($direction == 'asc') {
-					$users = $query->get()->sortBy(function($user) use($sortBy) {
+					$users = $query->skip($limit * ($page - 1))->take($limit)->get()
+						->sortBy(function($user) use($sortBy) {
 							return $user->$sortBy->count();
 						});
+					$users = Paginator::make($users->all(), count($users), $limit);
 				} else {
-					$users = $query->get()->sortBy(function($user) use($sortBy) {
-						return $user->$sortBy->count();
-					})->reverse();
+					$users = $query->skip($limit * ($page - 1))->take($limit)->get()
+						->sortBy(function($user) use($sortBy) {
+							return $user->$sortBy->count();
+						})->reverse();
+					$users = Paginator::make($users->all(), count($users), $limit);
 				}
 			} else {
 				$query = $query->orderBy($sortBy, $direction);
-				$users = $query->paginate(10);
+				$users = $query->paginate($limit);
 			}
 		} else {
 			$query = $query->orderBy('users.role', 'ASC')
 				->orderBy('users.created_at', 'ASC');
 //			$users = $query->toSql();
 //			dd(date('Y-m-d H:i:s'), $users);
-			$users = $query->paginate(10);
+			$users = $query->paginate($limit);
 		}
 
 		return View::make('cabinet::index', compact('users'))->with('name', $name)->with('is_online', $is_online);

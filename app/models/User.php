@@ -151,10 +151,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $rules = [
 		'registration' => [
 			'email'       => 'required|email|unique:users|max:150',
-			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/',
+			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/u',
 			'alias'       => 'unique:users',
 			'password'    => 'required|confirmed|min:6|max:100',
-			'g-recaptcha-response' => 'required|captcha'
+//			'g-recaptcha-response' => 'required|captcha'
 		],
 		'login' => [
 			'login'       => 'required_without_all:email',
@@ -165,7 +165,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'create' => [
 			'password'    => 'required|confirmed|min:6|max:100',
 			'email'       => 'required|email|unique:users|max:150',
-			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/',
+			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/u',
 			'alias'       => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
 			'firstname'   => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
 			'lastname'    => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
@@ -234,8 +234,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->activationCode = $this->generateCode();
 		$this->is_active = false;
 		$this->login = StringHelper::mbUcFirst($this->login);
-		$this->alias = StringHelper::make($this->login);
+		$this->alias = TranslitHelper::make($this->login);
 		$this->role = self::ROLE_NONE;
+
 		$this->save();
 
 		$this->setIp(Request::ip());

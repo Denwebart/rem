@@ -16,9 +16,9 @@ class Tag extends \Eloquent
 		'title' => 'required|unique:tags,title,:id|max:100',
 	];
 
-	public static $messages = array(
+	public static $messages = [
 		'title.unique' => 'Такой тег уже существует.',
-	);
+	];
 
 	public static function rules($id = false, $merge = [])
 	{

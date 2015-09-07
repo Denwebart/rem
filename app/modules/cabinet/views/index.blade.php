@@ -58,25 +58,25 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                     <th></th>
                                     <th></th>
                                     <th class="hidden-xs">
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points') }}
+                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                     </th>
                                 </tr>
                             </thead>
@@ -158,7 +158,12 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                 @endforeach
                             </tbody>
                         </table>
-                        {{--{{ $users->links() }}--}}
+                        {{ $users->appends([
+                            'name' => $name,
+                            'sortBy' => Request::get('sortBy'),
+                            'direction' => Request::get('direction'),
+                            'is_online' => Request::get('is_online')
+                        ])->links() }}
                     </div>
                 </div>
             </div>
