@@ -560,6 +560,12 @@ h2, .h2 {
         height: 24px;
         margin-bottom: 5px;
     }
+    /* Бортовой журнал */
+    .journal-user-info .user-data-row .text {
+        font-size: 12px;
+        height: 24px;
+        margin-bottom: 5px;
+    }
 }
 @media (min-width: 1200px) and (max-width: 1329px) {
     /* Меню пользователя */

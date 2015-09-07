@@ -8,18 +8,13 @@
         @foreach($answers as $answer)
             <div data-comment-id="{{ $answer->id }}" id="answer-{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
                 <div class="row">
-                    <div class="col-md-10 col-xs-10">
+                    <div class="col-md-8 col-xs-8">
                         <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
                             <span class="text">Ответ оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($answer->created_at) }}</span>
                         </div>
-                        @if($answer->is_deleted)
-                            <div class="deleted-text pull-right">
-                                Ответ удален.
-                            </div>
-                        @endif
                     </div>
-                    <div class="col-md-2 col-xs-2">
+                    <div class="col-md-4 col-xs-4">
                         @if(!$answer->is_deleted)
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
@@ -42,6 +37,10 @@
                                     </div>
                                 @endif
                             @endif
+                        @else
+                            <div class="deleted-text pull-right">
+                                Ответ удален.
+                            </div>
                         @endif
                     </div>
                     <div class="col-md-10 col-xs-10">

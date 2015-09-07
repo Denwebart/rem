@@ -1,4 +1,4 @@
-<div class="col-md-11 col-xs-11">
+<div class="col-md-11 col-xs-10">
     @if('user.savedPages' == Route::currentRouteName())
         <div class="date date-saved">
             <span class="text">Сохранено</span>
@@ -11,7 +11,7 @@
         </div>
     @endif
 </div>
-<div class="col-md-1 col-xs-1">
+<div class="col-md-1 col-xs-2">
     <div class="buttons without-margin">
         @if(Auth::user()->is($user))
             @if('user.savedPages' == Route::currentRouteName())
@@ -46,8 +46,12 @@
         <div class="col-md-10 col-xs-10">
             <div class="row">
                 <div class="col-md-12">
+                    <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                        <i class="material-icons pull-left">today</i>
+                        <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
+                    </div>
                     <div class="page-info">
-                        <div class="date pull-left" title="Дата публикации">
+                        <div class="date pull-left hidden-xs" title="Дата публикации">
                             <i class="material-icons">today</i>
                             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                         </div>
@@ -77,58 +81,54 @@
                             {{ $page->title }}
                         </a>
                     </h3>
-                    @if($page->id != $page->parent_id)
-                        <div class="category margin-top-10">
-                            <div class="text pull-left">
-                                Категория:
-                            </div>
-                            <div class="link pull-left">
-                                <a href="{{ URL::to($page->parent->getUrl()) }}">
-                                    {{ $page->parent->getTitle() }}
-                                </a>
-                            </div>
-                        </div>
-                    @endif
                 </div>
                 <div class="col-md-3 col-xs-3">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @if(Auth::check())
-                                @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                    <div class="buttons pull-right">
-                                        <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать вопрос">
-                                            <i class="material-icons">mode_edit</i>
-                                        </a>
-                                    </div>
-                                @elseif((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
-                                    <div class="buttons pull-right">
-                                        <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать вопрос">
-                                            <i class="material-icons">mode_edit</i>
-                                        </a>
-                                    </div>
-                                @endif
-                            @endif
+                    <div class="answers-text">
+                        <span>Ответов:</span>
+                    </div>
+
+                    <div class="answers-value">
+                        <a href="{{ URL::to($page->getUrl()) }}#answers" class="count @if(count($page->bestComments)) best @endif">
+                            {{ count($page->publishedAnswers) }}
+                        </a>
+                        @if(count($page->bestComments))
+                            <a href="{{ URL::to($page->getUrl()) }}#answers">
+                                <i class="material-icons mdi-success" title="Есть решение">done</i>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-9 col-xs-8">
+                    <div class="category margin-top-10">
+                        <div class="text pull-left">
+                            Категория:
                         </div>
-                        <div class="col-md-8">
-                            <div class="answers-text">
-                                <span>Ответов:</span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="answers-value">
-                                <a href="{{ URL::to($page->getUrl()) }}#answers" class="count @if(count($page->bestComments)) best @endif">
-                                    {{ count($page->publishedAnswers) }}
-                                </a>
-                                @if(count($page->bestComments))
-                                    <a href="{{ URL::to($page->getUrl()) }}#answers">
-                                        <i class="material-icons mdi-success" title="Есть решение">done</i>
-                                    </a>
-                                @endif
-                            </div>
+                        <div class="link pull-left">
+                            <a href="{{ URL::to($page->parent->getUrl()) }}">
+                                {{ $page->parent->getTitle() }}
+                            </a>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-3 col-xs-4">
+                    @if(Auth::check())
+                        @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                            <div class="buttons pull-right">
+                                <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос">
+                                    <i class="material-icons">mode_edit</i>
+                                </a>
+                            </div>
+                        @elseif((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
+                            <div class="buttons">
+                                <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос">
+                                    <i class="material-icons">mode_edit</i>
+                                </a>
+                            </div>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="clearfix"></div>

@@ -39,7 +39,7 @@
 
                 <div class="journal-user-info">
                     <div class="row">
-                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">chrome_reader_mode</i>
                                 <div class="text">
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="user-data-row">
                                 <i class="material-icons">question_answer</i>
                                 <div class="text">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
                                 {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
                                 <span class="count pull-left" style="line-height: 40px">
@@ -153,14 +153,14 @@
                         @foreach($articles as $article)
                             <div data-article-id="{{ $article->id }}" class="well">
                                 <div class="row">
-                                    <div class="col-md-10 col-xs-10">
+                                    <div class="col-lg-10 col-md-9 col-xs-9">
                                         <h3>
                                             <a href="{{ URL::to($article->getUrl()) }}">
                                                 {{ $article->title }}
                                             </a>
                                         </h3>
                                     </div>
-                                    <div class="col-md-2 col-xs-2">
+                                    <div class="col-lg-2 col-md-3 col-xs-3">
                                         @if(Auth::check())
                                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                                 <div class="buttons">
@@ -185,9 +185,14 @@
                                             @endif
                                         @endif
                                     </div>
+                                    <div class="clearfix"></div>
                                     <div class="col-md-12">
+                                        <div class="date pull-left hidden-sm hidden-md hidden-lg" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+                                            <i class="material-icons pull-left">today</i>
+                                            <span class="pull-left">{{ DateHelper::dateFormat($article->published_at) }}</span>
+                                        </div>
                                         <div class="page-info">
-                                            <div class="date pull-left" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+                                            <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip" data-placement="top">
                                                 <i class="material-icons">today</i>
                                                 <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
                                             </div>

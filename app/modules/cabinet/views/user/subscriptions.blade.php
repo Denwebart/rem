@@ -106,7 +106,7 @@ View::share('title', $title);
                                                     @if(Auth::user()->is($user))
                                                         <div class="buttons">
                                                             <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_PAGE_ID }}" data-subscription-object-id="{{ $subscription->page_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
-                                                                Отписаться
+                                                                <i class="material-icons">close</i>
                                                             </a>
                                                         </div>
                                                     @endif
@@ -129,13 +129,13 @@ View::share('title', $title);
                                     @if($subscription->userJournal)
                                         <div data-subscription-object-id="{{ $subscription->userJournal->id }}" class="well">
                                             <div class="row">
-                                                <div class="col-md-10">
+                                                <div class="col-md-10 col-xs-10">
                                                     <div class="date date-saved">
                                                         <span class="text">Подписка оформлена</span>
                                                         <span class="date">{{ DateHelper::dateFormat($subscription->created_at) }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 col-xs-2">
                                                     <div class="buttons without-margin">
                                                         @if(Auth::user()->is($user))
                                                             <a href="javascript:void(0)" class="pull-right unsubscribe" data-subscription-field="{{ Subscription::FIELD_JOURNAL_ID }}" data-subscription-object-id="{{ $subscription->journal_id }}" title="Отписаться" data-toggle="tooltip" data-placement="top">
@@ -144,7 +144,7 @@ View::share('title', $title);
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12 margin-top-10">
+                                                <div class="col-md-12 col-xs-12 margin-top-10">
                                                     @if($subscription->userJournal->avatar)
                                                         <div class="user">
                                                             <a href="{{ URL::route('user.profile', ['login' => $subscription->userJournal->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
@@ -167,6 +167,8 @@ View::share('title', $title);
                                                         </a>
                                                     </h3>
                                                 </div>
+                                                <div class="clearfix"></div>
+
                                                 @if(Auth::user()->is($user))
                                                     <div class="col-md-12">
                                                         <div class="subscription-notifications">

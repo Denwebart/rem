@@ -37,6 +37,10 @@
     </h3>
 </div>
 <div class="col-md-12 col-xs-12">
+    <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+        <i class="material-icons pull-left">today</i>
+        <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
+    </div>
     <div class="page-info">
         <div class="user pull-left">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
@@ -44,7 +48,7 @@
                 <span class="login pull-left">{{ $page->user->login }}</span>
             </a>
         </div>
-        <div class="date pull-left" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+        <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">today</i>
             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
         </div>

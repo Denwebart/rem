@@ -1750,6 +1750,10 @@ footer .copyright a {
     #header-widget .logo i {
         margin: 0 5px 0 7px;
     }
+    .blog .user .login {
+        display: none;
+    }
+
 }
 @media (max-width: 520px) {
     /* Header Widght */
@@ -1876,6 +1880,13 @@ footer .copyright a {
     }
     .blog .well {
         padding-top: 10px;
+    }
+    /* Все пользователи */
+    #search-users-form .is-online .checkbox-material {
+        margin-left: 10px;
+    }
+    #search-users-form .is-online .text {
+        font-size: 12px;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {
