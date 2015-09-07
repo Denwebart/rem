@@ -53,7 +53,7 @@ class UsersController extends BaseController
 
 	public function getLogin()
 	{
-		Session::put('previousUrl', URL::previous());
+		Session::put('user.previousUrl', URL::previous());
 		return View::make('users.login');
 	}
 
@@ -97,8 +97,8 @@ class UsersController extends BaseController
 				if(Auth::user()->isAdmin()){
 					return Redirect::to('admin');
 				} else {
-					if(Session::has('previousUrl')) {
-						return Redirect::to(Session::get('previousUrl'));
+					if(Session::has('user.previousUrl')) {
+						return Redirect::to(Session::get('user.previousUrl'));
 					} else {
 						return Redirect::to('/');
 					}
