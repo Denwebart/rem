@@ -39,52 +39,56 @@
 
                 <div class="journal-user-info">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <div class="user-data-row">
-                                <i class="material-icons">chrome_reader_mode</i>
-                                <div class="text">
-                                    Статей:
-                                    <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                                        {{ count($user->publishedArticles) }}
-                                    </a>
+                        <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="user-data-row">
+                                        <i class="material-icons">chrome_reader_mode</i>
+                                        <div class="text">
+                                            Статей:
+                                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedArticles) }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="user-data-row">
+                                        <div>
+                                            <i class="material-icons">help</i>
+                                            <div class="text">
+                                                Вопросов:
+                                                <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ count($user->publishedQuestions) }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="user-data-row">
-                                <div>
-                                    <i class="material-icons">help</i>
-                                    <div class="text">
-                                        Вопросов:
-                                        <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                            {{ count($user->publishedQuestions) }}
-                                        </a>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="user-data-row">
+                                        <i class="material-icons">question_answer</i>
+                                        <div class="text">
+                                            Ответов:
+                                            <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedAnswers) }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="user-data-row">
+                                        <i class="material-icons">chat_bubble</i>
+                                        <div class="text">
+                                            Комментариев:
+                                            <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
+                                                {{ count($user->publishedComments) }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <div class="user-data-row">
-                                <i class="material-icons">question_answer</i>
-                                <div class="text">
-                                    Ответов:
-                                    <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
-                                        {{ count($user->publishedAnswers) }}
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="user-data-row">
-                                <i class="material-icons">chat_bubble</i>
-                                <div class="text">
-                                    Комментариев:
-                                    <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                                        {{ count($user->publishedComments) }}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-5 col-sm-4 col-md-4 col-lg-4">
                             <div class="points" title="Баллы" data-toggle="tooltip" data-placement="top">
                                 {{ Html::image('images/coins.png', '', ['width' => '40px', 'class' => 'pull-left']) }}
-                                <span class="count pull-left" style="line-height: 40px">
+                                <span class="count pull-left">
                                     {{ $user->points }}
                                 </span>
                             </div>
@@ -108,9 +112,9 @@
                         @if(!$headerWidget->isBannedIp)
                             @if(!$user->is_banned)
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 col-sm-offset-8 col-md-offset-7 col-lg-offset-8">
                                         @if(Auth::user()->isAdmin())
-                                            <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
+                                            <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-full pull-right">
                                                 Написать статью
                                             </a>
                                         @else

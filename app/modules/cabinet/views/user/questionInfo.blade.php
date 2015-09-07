@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-9 col-xs-8">
                     <div class="category margin-top-10">
-                        <div class="text pull-left">
+                        <div class="text pull-left hidden-xs">
                             Категория:
                         </div>
                         <div class="link pull-left">

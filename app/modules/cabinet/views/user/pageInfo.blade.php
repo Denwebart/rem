@@ -93,7 +93,7 @@
 <div class="col-md-12 col-xs-12">
     @if($page->parent)
         <div class="category pull-right">
-            <div class="text pull-left">
+            <div class="text pull-left hidden-xs">
                 Категория:
             </div>
             <div class="link pull-left">

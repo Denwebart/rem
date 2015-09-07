@@ -169,12 +169,13 @@ h2, .h2 {
 /* Баллы */
 .points {
     display: inline-block;
+    text-align: center;
 }
 .points img {
     width: 60px;
+    margin-right: 10px;
 }
 .points .count {
-    margin-left: 10px;
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 36px;
     line-height: 60px;
@@ -277,6 +278,9 @@ h2, .h2 {
 .subscription-notifications .date i.material-icons {
     font-size: 10px;
 }
+.subscription-notifications .alert {
+    text-align: left;
+}
 .subscription-notifications .alert-info {
     background: rgb(242, 242, 242) none repeat scroll 0% 0%;
     color: rgb(51, 51, 51);
@@ -294,6 +298,9 @@ h2, .h2 {
 /*-- Уведомления --*/
 #notifications-area .well {
     padding: 15px 19px 15px 15px;
+}
+#notifications-area .item {
+    text-align: left;
 }
 #notifications-area .icon {
     width: 100%;
@@ -317,6 +324,10 @@ h2, .h2 {
 }
 
 /*-- Комментарии, Ответы --*/
+#comments-area,
+#answers-area {
+    text-align: left;
+}
 #comments-area .date-created,
 #answers-area .date-created {
     line-height: 24px;
@@ -466,6 +477,13 @@ h2, .h2 {
     #user-info-mobile .profile-user-status .text {
         font-size: 12px;
     }
+    .points img {
+        width: 40px;
+    }
+    .points .count {
+        font-size: 32px;
+        line-height: 40px;
+    }
     /* Меню пользователя */
     #users-menu-mobile ul {
         list-style: none;
@@ -498,6 +516,10 @@ h2, .h2 {
     #list-of-images .item {
         padding-bottom: 20px;
         margin-bottom: 20px;
+    }
+    /* Уведомления */
+    #notifications-area .text {
+        font-size: 16px;
     }
 }
 @media (min-width: 630px) and (max-width: 766px) {

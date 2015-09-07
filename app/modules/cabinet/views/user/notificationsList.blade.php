@@ -6,9 +6,9 @@
         </div>
 
         @foreach($notifications as $notification)
-            <div id="notification-{{ $notification->id }}" data-notification-id="{{ $notification->id }}" class="well">
+            <div id="notification-{{ $notification->id }}" data-notification-id="{{ $notification->id }}" class="well item">
                 <div class="row">
-                    <div class="col-md-10 col-xs-10">
+                    <div class="col-md-11 col-sm-11 col-xs-10">
                         <div class="row">
                             <div class="col-md-1 col-xs-1">
                             </div>
@@ -17,6 +17,7 @@
                                     <span>{{ DateHelper::dateFormat($notification->created_at) }}</span>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
                             <div class="col-md-1 col-xs-1" style="padding-right: 0">
                                 <div class="icon">
                                     {{ Notification::$typeIcons[$notification->type] }}
@@ -29,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-xs-2">
+                    <div class="col-md-1 col-sm-1 col-xs-2">
                         <div class="buttons">
                             @if(Auth::user()->is($user))
                                 <a href="javascript:void(0)" class="pull-right remove-notification" data-id="{{ $notification->id }}" title="Удалить уведомление" data-toggle="tooltip" data-placement="top">

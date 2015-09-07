@@ -967,6 +967,9 @@ h2 .login {
     color: #F44336 !important;
 }
 /* Ответ на комментарий */
+#comments-widget .reply {
+    margin-left: 65px;
+}
 #comments-widget .reply-comment-form {
     margin-top: 20px;
 }
@@ -1753,7 +1756,18 @@ footer .copyright a {
     .blog .user .login {
         display: none;
     }
-
+    /* Комментарии */
+    .comment .vote .vote-like i,
+    .comment .vote .vote-dislike i {
+        font-size: 27px;
+    }
+}
+@media (max-width: 440px) {
+    /* Комментарии */
+    .comment .vote .vote-like i,
+    .comment .vote .vote-dislike i {
+        font-size: 30px;
+    }
 }
 @media (max-width: 520px) {
     /* Header Widght */
@@ -1764,6 +1778,10 @@ footer .copyright a {
     #header-widget .navbar-nav .open:not(.widget-user) .dropdown-menu {
         right: -90px !important;
     }
+    .blog .avatar-link img {
+        width: 40px;
+        height: 40px;
+    }
 }
 @media (max-width: 767px) {
     body {
@@ -1771,6 +1789,9 @@ footer .copyright a {
     }
     h2, h2 {
         font-size: 22px;
+    }
+    .h3, h3, .h4, h4 {
+        font-size: 18px;
     }
     /*Header*/
     #navbar-top .navbar-nav {
@@ -1880,6 +1901,23 @@ footer .copyright a {
     }
     .blog .well {
         padding-top: 10px;
+    }
+    .blog .answers-value {
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+    }
+    .blog .answers-value a {
+        float: none;
+        display: inline-block;
+        width: 100%;
+        line-height: 24px;
+    }
+    .blog .answers-value a.count {
+        padding-right: 5px;
+    }
+    .blog .answers-value .material-icons {
+        margin: 0;
     }
     /* Все пользователи */
     #search-users-form .is-online .checkbox-material {

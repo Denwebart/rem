@@ -36,13 +36,13 @@
 
         @if(Auth::check())
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-xs-12 col-sm-4 col-md-6 col-lg-5 col-sm-offset-8 col-md-offset-6 col-lg-offset-7">
                     @if(Auth::user()->isAdmin())
-                        <a href="{{ URL::route('admin.questions.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
+                        <a href="{{ URL::route('admin.questions.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-full pull-right">
                             Задать вопрос
                         </a>
                     @else
-                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success pull-right">
+                        <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl(), 'category' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-full pull-right">
                             Задать вопрос
                         </a>
                     @endif

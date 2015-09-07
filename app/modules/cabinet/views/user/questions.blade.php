@@ -31,25 +31,21 @@ View::share('title', $title);
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-8 col-md-6 col-xs-6">
+                    <div class="col-lg-8 col-md-7 col-sm-8 col-xs-12">
                         <h2>{{ $title }}</h2>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-xs-6">
+                    <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4">
                         @if(Auth::check())
                             @if(Auth::user()->is($user))
                                 @if(!$headerWidget->isBannedIp)
                                     @if(!$user->is_banned)
                                         @if(Auth::user()->isAdmin())
-                                            <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success pull-right">
-                                                <span class="hidden-xs">Задать</span>
-                                                <i class="material-icons hidden-sm hidden-md hidden-lg">add</i>
-                                                вопрос
+                                            <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success btn-full pull-right">
+                                                Задать вопрос
                                             </a>
                                         @else
-                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success pull-right">
-                                                <span class="hidden-xs">Задать</span>
-                                                <i class="material-icons hidden-sm hidden-md hidden-lg">add</i>
-                                                вопрос
+                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success btn-full pull-right">
+                                                Задать вопрос
                                             </a>
                                         @endif
                                     @endif
