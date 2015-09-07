@@ -8,7 +8,7 @@ View::share('title', $title);
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4 well">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 well">
                 @if (Session::has('status'))
                     <div class="alert alert-success">
                         {{ Session::get('status') }}
@@ -28,7 +28,11 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group">
-                        {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
+                        <div class="row">
+                            <div class="col-lg-8 col-md-7 col-sm-7">
+                                {{ Form::submit('Восстановить', ['id'=> 'submit', 'class' => 'btn btn-primary btn-full']) }}
+                            </div>
+                        </div>
                     </div>
 
                     {{ Form::hidden('_token', csrf_token()) }}

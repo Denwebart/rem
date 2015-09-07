@@ -8,7 +8,7 @@ View::share('title', $title);
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4 well">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 well">
                 @if (Session::has('alert'))
                     <div class="alert alert-danger">
                         <p>{{ Session::get('alert') }}</p>
@@ -49,9 +49,15 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group">
-                        {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-                        <a href="{{ URL::route('register') }}">Регистрация</a>
-                        <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5 col-sm-4">
+                                {{ Form::submit('Войти', ['id'=> 'submit', 'class' => 'btn btn-primary btn-full']) }}
+                            </div>
+                            <div class="col-lg-8 col-md-7 col-sm-8">
+                                <a href="{{ URL::route('register') }}">Регистрация</a>
+                                <a href="{{ URL::to('password/remind') }}">Забыли пароль?</a>
+                            </div>
+                        </div>
                     </div>
 
                     {{ Form::hidden('_token', csrf_token()) }}

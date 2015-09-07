@@ -9,7 +9,7 @@ View::share('title', $title);
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4 well">
+            <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 well">
 
                 <h2>Регистрация</h2>
 
@@ -42,8 +42,14 @@ View::share('title', $title);
                             @endif
                         </div>
                         <div class="form-group">
-                            {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary']) }}
-                            <a href="{{ URL::route('login') }}">Войти</a>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-7 col-sm-7">
+                                    {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary btn-full']) }}
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-sm-5">
+                                    <a href="{{ URL::route('login') }}">Войти</a>
+                                </div>
+                            </div>
                         </div>
                         {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::close() }}

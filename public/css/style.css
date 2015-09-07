@@ -2056,6 +2056,11 @@ footer .copyright a {
     .btn {
         white-space: normal;
     }
+    /* Login */
+    #login-layout .form-group a:not(.btn) {
+        margin-right: 20px;
+        margin-left: -10px;
+    }
     /* Header */
     #search {
         margin-top: 40px;
