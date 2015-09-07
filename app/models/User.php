@@ -234,7 +234,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->activationCode = $this->generateCode();
 		$this->is_active = false;
 		$this->login = StringHelper::mbUcFirst($this->login);
-		$this->alias = TranslitHelper::make($this->login);
+//		$this->alias = TranslitHelper::make($this->login);
 		$this->role = self::ROLE_NONE;
 
 		$this->save();
@@ -326,7 +326,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getLoginForUrl()
 	{
-		return ($this->alias) ? $this->alias : StringHelper::make($this->login);
+		return ($this->alias) ? $this->alias : TranslitHelper::make($this->login);
 	}
 
 	public function getFullName()

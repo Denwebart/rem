@@ -95,87 +95,90 @@ View::share('title', $title);
                             </div>
 
                             <div class="row">
-                                @if($user->isAdmin() || $user->isModerator())
-                                    <div class="col-sm-4 col-md-5 col-lg-4">
-                                        <div class="user-data-row role">
-                                            <span title="Права" data-toggle="tooltip" data-placement="right">
-                                                <i class="material-icons">perm_identity</i>
-                                                <span>
-                                                    {{ User::$roles[$user->role] }}
-                                                </span>
-                                            </span>
-                                        </div>
+                                <div class="col-lg-8 col-md-9 col-sm-8">
+                                    <div class="row">
+                                        @if($user->isAdmin() || $user->isModerator())
+                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                <div class="user-data-row role">
+                                                    <span title="Права" data-toggle="tooltip" data-placement="right">
+                                                        <i class="material-icons">perm_identity</i>
+                                                        <span>
+                                                            {{ User::$roles[$user->role] }}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if(Auth::check())
+                                            @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="user-data-row email">
+                                                        <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
+                                                            <i class="material-icons">email</i>
+                                                            <span>
+                                                                {{{ $user->email }}}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
-                                @endif
-                                @if(Auth::check())
-                                    @if(Auth::user()->is($user) || Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                        <div class="col-sm-4 col-md-5 col-lg-4">
-                                            <div class="user-data-row email">
-                                                <span title="Email виден только вам" data-toggle="tooltip" data-placement="right">
-                                                    <i class="material-icons">email</i>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="user-data-row date date-register">
+                                                <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
+                                                    <i class="material-icons pull-left">today</i>
                                                     <span>
-                                                        {{{ $user->email }}}
+                                                        {{{ DateHelper::dateFormat($user->created_at) }}}
                                                     </span>
                                                 </span>
                                             </div>
-                                        </div>
-                                    @endif
-                                @endif
-                            </div>
 
-                            <div class="row">
-                                <div class="col-sm-4 col-md-5 col-lg-4">
-                                    <div class="user-data-row date date-register">
-                                        <span title="Дата регистрации" data-toggle="tooltip" data-placement="right">
-                                            <i class="material-icons pull-left">today</i>
-                                            <span>
-                                                {{{ DateHelper::dateFormat($user->created_at) }}}
-                                            </span>
-                                        </span>
+                                            @if($user->country || $user->city)
+                                                <div class="user-data-row location">
+                                                    <span title="Местоположение" data-toggle="tooltip" data-placement="right">
+                                                        <i class="material-icons">place</i>
+                                                        <span>
+                                                            @if($user->country)
+                                                                <span class="country">
+                                                                    {{{ $user->country }}}@if($user->city),&nbsp;@endif
+                                                                </span>
+                                                            @endif
+                                                            @if($user->city)
+                                                                <span class="city">
+                                                                    {{{ $user->city }}}
+                                                                </span>
+                                                            @endif
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="col-sm-6 col-md-6">
+                                            @if($user->car_brand)
+                                                <div class="user-data-row car-brand">
+                                                    <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
+                                                        <i class="material-icons">directions_car</i>
+                                                        <span>
+                                                            {{{ $user->car_brand }}}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            @endif
+
+                                            @if($user->profession)
+                                                <div class="user-data-row profession">
+                                                    <span title="Профессия" data-toggle="tooltip" data-placement="right">
+                                                        <i class="material-icons">school</i>
+                                                        <span>
+                                                            {{{ $user->profession }}}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-
-                                    @if($user->country || $user->city)
-                                        <div class="user-data-row location">
-                                            <span title="Местоположение" data-toggle="tooltip" data-placement="right">
-                                                <i class="material-icons">place</i>
-                                                <span>
-                                                    @if($user->country)
-                                                        <span class="country">
-                                                            {{{ $user->country }}}@if($user->city),&nbsp;@endif
-                                                        </span>
-                                                    @endif
-                                                    @if($user->city)
-                                                        <span class="city">
-                                                            {{{ $user->city }}}
-                                                        </span>
-                                                    @endif
-                                                </span>
-                                            </span>
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-sm-4 col-md-4">
-                                    @if($user->car_brand)
-                                        <div class="user-data-row car-brand">
-                                            <span title="Марка / модель автомобиля" data-toggle="tooltip" data-placement="right">
-                                                <i class="material-icons">directions_car</i>
-                                                <span>
-                                                    {{{ $user->car_brand }}}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    @endif
-
-                                    @if($user->profession)
-                                        <div class="user-data-row profession">
-                                            <span title="Профессия" data-toggle="tooltip" data-placement="right">
-                                                <i class="material-icons">school</i>
-                                                <span>
-                                                    {{{ $user->profession }}}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    @endif
                                 </div>
                                 <div class="col-sm-4 col-md-3 col-lg-4">
                                     <div class="points margin-bottom-10" title="Количество баллов" data-toggle="tooltip" data-placement="top">

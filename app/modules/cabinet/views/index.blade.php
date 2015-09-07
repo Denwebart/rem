@@ -49,129 +49,131 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
         {{ Form::close() }}
 
         <div class="row">
-            @if(count($users))
-                <div id="users" class="col-md-12">
-                    <div class="well">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th class="hidden-xs">
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                    <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($users as $user)
+            <div class="col-md-12">
+                @if(count($users))
+                    <div id="users">
+                        <div class="well">
+                            <table class="table table-hover">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
-                                                {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
-                                                @if($user->isOnline())
-                                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
-                                                @else
-                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
-                                                @endif
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                                {{ $user->login }}
-                                            </a>
-                                            @if($user->getFullName())
-                                                <p>{{ $user->getFullName() }}</p>
-                                            @endif
-                                            @if($user->isAdmin() || $user->isModerator())
-                                                <span>{{ User::$roles[$user->role] }}</span>
-                                            @endif
-                                        </td>
-                                        <td class="hidden-xs">
-                                            {{ DateHelper::dateFormat($user->created_at, false) }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                                                {{ count($user->publishedArticles) }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
-                                                {{ count($user->publishedQuestions) }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
-                                                {{ count($user->publishedAnswers) }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
-                                                {{ count($user->publishedComments) }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            Награды:
-                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
-                                                {{ count($user->userHonors) }}
-                                            </a>
-                                            <div class="honors">
-                                                @foreach($user->userHonors as $key => $userHonor)
-                                                    @if($key < 3)
-                                                        <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
-                                                            {{ $userHonor->honor->getImage(null, [
-                                                                'width' => '25px',
-                                                                'title' => !is_null($userHonor->comment)
-                                                                    ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
-                                                                    : $userHonor->honor->title,
-                                                                'alt' => $userHonor->honor->title])
-                                                            }}
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">...</a>
-                                                        <?php break; ?>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {{ $user->points }}
-                                        </td>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="hidden-xs">
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Награды', 'honors', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
+                                        <th>
+                                            {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Баллы', 'points', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
+                                        </th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $users->appends([
-                            'name' => $name,
-                            'sortBy' => Request::get('sortBy'),
-                            'direction' => Request::get('direction'),
-                            'is_online' => Request::get('is_online')
-                        ])->links() }}
+                                </thead>
+                                <tbody>
+                                    @foreach($users as $user)
+                                        <tr>
+                                            <td>
+                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
+                                                    {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                    @if($user->isOnline())
+                                                        <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                                    @else
+                                                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                                    @endif
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ $user->login }}
+                                                </a>
+                                                @if($user->getFullName())
+                                                    <p>{{ $user->getFullName() }}</p>
+                                                @endif
+                                                @if($user->isAdmin() || $user->isModerator())
+                                                    <span>{{ User::$roles[$user->role] }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="hidden-xs">
+                                                {{ DateHelper::dateFormat($user->created_at, false) }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
+                                                    {{ count($user->publishedArticles) }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ count($user->publishedQuestions) }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ count($user->publishedAnswers) }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
+                                                    {{ count($user->publishedComments) }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                Награды:
+                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
+                                                    {{ count($user->userHonors) }}
+                                                </a>
+                                                <div class="honors">
+                                                    @foreach($user->userHonors as $key => $userHonor)
+                                                        @if($key < 3)
+                                                            <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                                                {{ $userHonor->honor->getImage(null, [
+                                                                    'width' => '25px',
+                                                                    'title' => !is_null($userHonor->comment)
+                                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                                        : $userHonor->honor->title,
+                                                                    'alt' => $userHonor->honor->title])
+                                                                }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">...</a>
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{ $user->points }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{ $users->appends([
+                                'name' => $name,
+                                'sortBy' => Request::get('sortBy'),
+                                'direction' => Request::get('direction'),
+                                'is_online' => Request::get('is_online')
+                            ])->links() }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        @else
-            <p>Пользователей не найдено.</p>
-        @endif
+            @else
+                <p>Пользователей не найдено.</p>
+            @endif
 
-       {{ $areaWidget->contentBottom() }}
+            {{ $areaWidget->contentBottom() }}
+        </div>
     </section>
 @stop
 

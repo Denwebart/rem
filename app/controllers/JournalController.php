@@ -45,8 +45,8 @@ class JournalController extends BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereAlias($login)->firstOrFail())
+			: User::whereAlias($login)->firstOrFail();
 
 		$page = new Page();
 		$page->meta_title = 'Бортовой журнал пользователя ' . $user->login;
@@ -91,8 +91,8 @@ class JournalController extends BaseController
 		$user = Auth::check()
 			? ((Auth::user()->getLoginForUrl() == $login)
 				? Auth::user()
-				: User::whereLogin($login)->firstOrFail())
-			: User::whereLogin($login)->firstOrFail();
+				: User::whereAlias($login)->firstOrFail())
+			: User::whereAlias($login)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereUserId($user->id)
 			->with('parent.parent', 'tags')
