@@ -11,7 +11,7 @@ class UsersController extends BaseController
 	{
 		// Проверка входных данных
 		$rules = User::$rules['registration'];
-		$validation = Validator::make(Input::all(), $rules);
+		$validation = Validator::make(Input::all(), $rules, ['alias' => 'sdfds']);
 		if ($validation->fails()) {
 			// В случае провала, редиректим обратно с ошибками и самими введенными данными
 			return Redirect::route('register')->withErrors($validation)->withInput();

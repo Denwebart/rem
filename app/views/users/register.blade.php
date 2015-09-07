@@ -18,6 +18,7 @@ View::share('title', $title);
                         <div class="form-group">
                             {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин*', 'autofocus'=>'autofocus')) }}
                             @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
+                            @if ($errors->has('alias')) <p class="text-danger">{{ $errors->first('alias') }}</p> @endif
                         </div>
                         <div class="form-group">
                             {{ Form::text('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail*')) }}

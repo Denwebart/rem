@@ -10,11 +10,12 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  *
  * @property integer $id 
  * @property string $login 
+ * @property string $alias 
  * @property string $email 
  * @property string $firstname 
  * @property string $lastname 
  * @property boolean $role 
- * @property integer $points
+ * @property integer $points 
  * @property string $avatar 
  * @property string $description 
  * @property string $car_brand 
@@ -24,18 +25,22 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
  * @property boolean $is_active 
- * @property boolean $is_banned
- * @property boolean $is_agree
- * @property string $activationCode
+ * @property boolean $is_banned 
+ * @property boolean $is_agree 
+ * @property string $activationCode 
  * @property string $remember_token 
- * @property string $password
- * @property \Carbon\Carbon $last_activity
- * @property boolean $is_online
+ * @property string $password 
+ * @property string $last_activity 
+ * @property boolean $is_online 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Ip[] $ips 
+ * @property-read \UserSetting $settings 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $receivedMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Message[] $sentMessagesForUser 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $comments 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedComments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $answers 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedAnswers 
  * @property-read \Illuminate\Database\Eloquent\Collection|\UserImage[] $images 
  * @property-read \Illuminate\Database\Eloquent\Collection|\UserImage[] $publishedImages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $questions 
@@ -44,9 +49,15 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $publishedArticles 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $savedPages 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Subscription[] $subscriptions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Subscription[] $subscribers 
  * @property-read \Illuminate\Database\Eloquent\Collection|\Honor[] $honors 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\UserHonor[] $userHonors 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BanNotification[] $banNotifications 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\BanNotification[] $latestBanNotification 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Notification[] $notifications 
  * @method static \Illuminate\Database\Query\Builder|\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereLogin($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereAlias($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereFirstname($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereLastname($value)
@@ -66,10 +77,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
  * @method static \Illuminate\Database\Query\Builder|\User whereActivationCode($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\User wherePassword($value)
- * @method static \Illuminate\Database\Query\Builder|\User whereLastAvtivity($value)
+ * @method static \Illuminate\Database\Query\Builder|\User whereLastActivity($value)
  * @method static \Illuminate\Database\Query\Builder|\User whereIsOnline($value)
  */
-
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
@@ -105,6 +115,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $fillable = [
 		'login',
+		'alias',
 		'email',
 		'firstname',
 		'lastname',
@@ -140,7 +151,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $rules = [
 		'registration' => [
 			'email'       => 'required|email|unique:users|max:150',
-			'login'       => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
+			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/',
+			'alias'       => 'unique:users',
 			'password'    => 'required|confirmed|min:6|max:100',
 			'g-recaptcha-response' => 'required|captcha'
 		],
@@ -153,7 +165,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'create' => [
 			'password'    => 'required|confirmed|min:6|max:100',
 			'email'       => 'required|email|unique:users|max:150',
-			'login'       => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
+			'login'       => 'required|unique:users|max:150|regex:/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ\-\']+$/',
+			'alias'       => 'required|unique:users|max:150|regex:/^[A-Za-z0-9\-]+$/',
 			'firstname'   => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
 			'lastname'    => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
 			'role'        => 'integer',
@@ -211,7 +224,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		static::deleted(function($user)
 		{
-			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/');
+			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->alias . '/');
 		});
 	}
 
@@ -220,7 +233,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->password = Hash::make($this->password);
 		$this->activationCode = $this->generateCode();
 		$this->is_active = false;
-		$this->login = ucfirst($this->login);
+		$this->login = StringHelper::mbUcFirst($this->login);
+		$this->alias = StringHelper::make($this->login);
 		$this->role = self::ROLE_NONE;
 		$this->save();
 
@@ -311,7 +325,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getLoginForUrl()
 	{
-		return strtolower($this->login);
+		return ($this->alias) ? $this->alias : StringHelper::make($this->login);
 	}
 
 	public function getFullName()
@@ -362,7 +376,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->login . '/';
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->alias . '/';
 			$image = Image::make($postImage->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
@@ -405,7 +419,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @return string
 	 */
 	public function getImageEditorPath() {
-		return '/uploads/' . $this->getTable() . '/' . $this->login . '/editor/';
+		return '/uploads/' . $this->getTable() . '/' . $this->alias . '/editor/';
 	}
 
 	/**
@@ -414,7 +428,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @return string
 	 */
 	public function getMessageImagePath() {
-		return '/uploads/' . (new Message)->getTable() . '/' . $this->login . '/';
+		return '/uploads/' . (new Message)->getTable() . '/' . $this->alias . '/';
 	}
 
 	/**
@@ -748,7 +762,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
 			->where('pages.type', '=', Page::TYPE_ARTICLE)
 			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -776,7 +790,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('pages', 'pages.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(pages.id) AS articlesCount, count(pages.id) * '. User::POINTS_FOR_ARTICLE .' as articlesPoints')])
 			->where('pages.type', '=', Page::TYPE_ARTICLE)
 			->whereBetween('pages.published_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -806,7 +820,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
 			->where('comments.is_answer', '=', 1)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -835,7 +849,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS answersCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_ANSWER .' + SUM(IF(comments.mark = 1, 1, 0)) * '. User::POINTS_FOR_BEST_ANSWER .' as answersPoints, SUM(IF(comments.mark = 1, 1, 0)) as countBestAnswers')])
 			->where('comments.is_answer', '=', 1)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -866,7 +880,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
 			->where('comments.is_answer', '=', 0)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, $month, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
@@ -894,7 +908,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 
 		return User::leftJoin('comments', 'comments.user_id', '=', 'users.id')
-			->select([DB::raw('users.id, users.login, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
+			->select([DB::raw('users.id, users.login, users.alias, users.last_activity, users.is_online, users.firstname, users.lastname, users.is_online, users.avatar, count(comments.id) AS commentsCount, SUM(IF((comments.votes_like - comments.votes_dislike) >= 0, 1, 0)) * '. User::POINTS_FOR_COMMENT .' as commentsPoints')])
 			->where('comments.is_answer', '=', 0)
 			->whereBetween('comments.created_at', [date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, $year)), date('Y-m-d H:i:s', mktime(23, 59, 59, 12, cal_days_in_month(CAL_GREGORIAN, 12, $year), $year))])
 			->where('users.role', '=', User::ROLE_USER)
