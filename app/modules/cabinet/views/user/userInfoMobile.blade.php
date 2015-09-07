@@ -30,6 +30,7 @@
                     @else
                         <span class="text pull-left">
                             Был на сайте
+                            <br class="hidden-lg hidden-md hidden-sm">
                             <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
                                 {{ DateHelper::getRelativeTime($user->last_activity) }}
                             </span>
@@ -39,8 +40,9 @@
                     <span class="text pull-left">
                         @if(Session::has('user.entryTime'))
                             Вход на сайт:
-                                {{ DateHelper::dateFormat(Session::get('user.entryTime')) }}
-                                ({{ DateHelper::getRelativeTime(Session::get('user.entryTime'), ' на сайте') }})
+                            {{ DateHelper::dateFormat(Session::get('user.entryTime')) }}
+                            <br class="hidden-lg hidden-md hidden-sm">
+                            ({{ DateHelper::getRelativeTime(Session::get('user.entryTime'), ' на сайте') }})
                         @endif
                     </span>
                 @endif
