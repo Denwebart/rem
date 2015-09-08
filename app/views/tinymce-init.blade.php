@@ -53,6 +53,10 @@
         },
         setup: function (editor) {
             editor.on('init', function(args) {
+                editor.getDoc().body.style.fontSize = '14px';
+                editor.getDoc().body.style.fontFamily = '"Open Sans", sans-serif';
+                editor.getDoc().body.style.lineHeight = '1.42857';
+
                 editor = args.target;
 
                 editor.on('NodeChange', function(e) {

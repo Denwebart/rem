@@ -40,7 +40,7 @@
                     <a href="{{ URL::route('users') }}" class="">
                         <span>
                             <i class="material-icons">group</i>
-                            <span class="hidden-sm hidden-xs">Все пользователи</span>
+                            <span class="hidden-sm hidden-xs margin-left-5">Все пользователи</span>
                         </span>
                     </a>
                 </li>

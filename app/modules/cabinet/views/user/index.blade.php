@@ -191,9 +191,11 @@ View::share('title', $title);
                             </div>
                         </div>
                         <div class="col-md-12">
-                            @if($user->description)
-                                {{ $user->description }}
-                            @endif
+                            <div class="content">
+                                @if($user->description)
+                                    {{ $user->description }}
+                                @endif
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <h2 id="honors">Награды</h2>

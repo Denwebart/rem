@@ -22,6 +22,9 @@ h5, .h5 {
 }
 
 /* Our style==================================================*/
+.margin-left-5 {
+    margin-left: 5px;
+}
 /* Colors */
 .success {
     background-color: #DFF0D8;

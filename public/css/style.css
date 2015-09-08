@@ -1,7 +1,14 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext);
+
 body {
     padding: 0 !important;
-    font-family: sans-serif, Arial, Verdana, "Trebuchet MS" !important;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
     background: url('../images/bg.jpg') repeat;
+}
+body .well p,
+.container .well p {
+    font-weight: 400;
 }
 a:hover,
 a:focus {
@@ -23,6 +30,10 @@ h2 .login {
 .h1, .h2, .h3, h1, h2, h3 {
     margin-top: 5px;
     margin-bottom: 15px;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4 {
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 .display-block {
     display: block;
@@ -51,6 +62,9 @@ h2 .login {
 }
 .margin-right-10 {
     margin-right: 10px;
+}
+.margin-left-5 {
+     margin-left: 5px;
 }
 .margin-left-10 {
     margin-left: 10px;
@@ -203,7 +217,7 @@ h2 .login {
     height: auto !important;
 }
 .content .fancybox img:first-child {
-    margin: 5px 10px 0 0;
+    margin: 0 0 10px;
 }
 #content iframe {
     max-width: 100% !important;
@@ -257,6 +271,7 @@ h2 .login {
 }
 .page-info .material-icons {
     float: left;
+    margin-right: 2px;
 }
 .page-info div {
     margin-left: 10px;
@@ -476,7 +491,7 @@ h2 .login {
 }
 #rating #rate-voters {
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 /*-- End Content --*/
@@ -521,11 +536,11 @@ h2 .login {
 .navbar #navbar-main .navbar-nav {
     float: none;
     display: inline-block;
+    font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 .navbar .navbar-nav > li > a {
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: RobotoDraft, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 .navbar #navbar-main .navbar-nav > li > a {
     font-size: 16px;
@@ -561,7 +576,8 @@ h2 .login {
 
 /*-- Breadcrumbs --*/
 .breadcrumb {
-    font-size: 12px;
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 13px;
 }
 .breadcrumb a {
     color: #1292CE;
@@ -570,7 +586,7 @@ h2 .login {
 /*-- Blog area --*/
 .blog .count,
 #comments-area .count {
-    font-size: 12px;
+    font-size: 13px;
     color: #777777;
     margin: 0 0 10px;
 }
@@ -637,7 +653,7 @@ h2 .login {
 }
 .sidebar-widget .list-group-item .created-date span {
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     font-style: italic;
     color: #444444;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -701,7 +717,7 @@ h2 .login {
 }
 #best-sidebar-widget .rating .rate-voters {
     margin-left: 10px;
-    font-size: 12px;
+    font-size: 13px;
     color: #444444;
     font-style: italic;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -754,7 +770,7 @@ h2 .login {
     position: absolute;
     top: -3px;
     color: #888888;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 /* Реклама */
@@ -764,6 +780,11 @@ h2 .login {
 .advertising-body iframe,
 .advertising-body img {
     max-width: 100% !important;
+}
+.area-content .advertising-body iframe,
+.area-content .advertising-body img  {
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .area .advertising.edit .advertising-body {
@@ -921,7 +942,7 @@ h2 .login {
     font-weight: 400;
 }
 #comments-widget .date {
-    font-size: 12px;
+    font-size: 13px;
     font-style: italic;
     color: #777777;
 }
@@ -1505,6 +1526,7 @@ footer .copyright a {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     z-index: 2300;
     padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #header-widget .dropdown-menu > li > a > i {
@@ -1795,9 +1817,9 @@ footer .copyright a {
     }
 }
 @media (max-width: 767px) {
-    body {
-        background: #f5ffad;
-    }
+    /*body {*/
+        /*background: #f5ffad;*/
+    /*}*/
     h2, h2 {
         font-size: 22px;
     }
@@ -1963,9 +1985,9 @@ footer .copyright a {
     .container {
         width: 738px;
     }
-    body {
-        background: #8eddff;
-    }
+    /*body {*/
+        /*background: #8eddff;*/
+    /*}*/
     h2, h2 {
         font-size: 24px;
     }
@@ -2015,9 +2037,9 @@ footer .copyright a {
     .container {
         width: 962px;
     }
-    body {
-        background: #8fee95;
-    }
+    /*body {*/
+        /*background: #8fee95;*/
+    /*}*/
     .btn {
         white-space: normal;
     }
@@ -2103,9 +2125,9 @@ footer .copyright a {
     .container {
         width: 1170px;
     }
-    body {
-        background: #ffc2da;
-    }
+    /*body {*/
+        /*background: #ffc2da;*/
+    /*}*/
     .btn {
         white-space: normal;
     }
