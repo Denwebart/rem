@@ -21,7 +21,7 @@
     <section id="content" class="well">
 
         <div class="row">
-            <div class="col-md-9 col-sm-9 col-xs-9">
+            <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                 <h2>
                     {{ $page->title }}
                     @if(count($page->bestComments))
@@ -29,12 +29,12 @@
                     @endif
                 </h2>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3">
-                @if($page->showRating())
+            @if($page->showRating())
+                <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12">
                     {{-- Рейтинг --}}
                     @include('widgets.rating')
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
 
         <div class="page-info">
