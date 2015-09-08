@@ -25,6 +25,11 @@
             <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12">
                 {{-- Рейтинг --}}
                 @include('widgets.rating')
+
+                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                    <i class="material-icons pull-left">today</i>
+                    <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
+                </div>
             </div>
         </div>
 
@@ -33,10 +38,10 @@
                 <div class="user pull-left">
                     <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                         {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                        <span class="login pull-left">{{ $page->user->login }}</span>
+                        <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
                     </a>
                 </div>
-                <div class="date pull-left" title="Дата публикации">
+                <div class="date pull-left hidden-xs" title="Дата публикации">
                     <i class="material-icons">today</i>
                     <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>

@@ -1907,8 +1907,7 @@ footer .copyright a {
     }
     /* Рейтинг */
     #rating {
-        display: inline-block;
-        width: 100%;
+        float: right;
     }
     #rating #rate-votes,
     #rating #rate-voters,
@@ -1946,7 +1945,8 @@ footer .copyright a {
     .blog .buttons {
         text-align: right;
     }
-    .blog .date {
+    .blog .date,
+    #content .date {
         font-size: 12px;
         line-height: 24px;
         font-style: italic;
@@ -2080,8 +2080,7 @@ footer .copyright a {
     }
     /* Рейтинг */
     #rating {
-        display: inline-block;
-        width: 100%;
+        float: right;
     }
     #rating #rate-votes,
     #rating #rate-voters,

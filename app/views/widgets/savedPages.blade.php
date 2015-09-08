@@ -3,12 +3,12 @@
         @if(!Auth::user()->hasInSaved($page->id))
             <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"'>
                 <i class="material-icons">archive</i>
-                <span>Сохранить</span>
+                <span class="hidden-xs">Сохранить</span>
             </a>
         @else
             <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного'>
                 <i class="material-icons">archive</i>
-                <span>Убрать</span>
+                <span class="hidden-xs">Убрать</span>
             </a>
         @endif
         <span class="whoSaved" title="Сколько пользователей сохранили">
