@@ -9,7 +9,11 @@
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
-            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li class="home-page">
+                <a href="{{ URL::to('/') }}">
+                    <i class="material-icons">home</i>
+                </a>
+            </li>
             <li>
                 <a href="{{ URL::to($page->parent->getUrl()) }}">
                     {{ $page->parent->getTitle() }}

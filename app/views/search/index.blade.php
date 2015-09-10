@@ -7,7 +7,11 @@ View::share('title', $title);
 
 @section('content')
     <ol class="breadcrumb">
-        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        <li class="home-page">
+            <a href="{{ URL::to('/') }}">
+                <i class="material-icons">home</i>
+            </a>
+        </li>
         <li>Поиск</li>
     </ol>
 

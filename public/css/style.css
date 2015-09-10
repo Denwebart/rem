@@ -579,7 +579,11 @@ h1, h2, h3, h4, h5, h6,
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 13px;
 }
-.breadcrumb a {
+.breadcrumb li.home-page .material-icons {
+    font-size: 17px;
+    line-height: 17px;
+}
+.breadcrumb li a {
     color: #1292CE;
 }
 

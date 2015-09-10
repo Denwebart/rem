@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -14,7 +14,11 @@ View::share('title', $title);
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
-            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li class="home-page">
+                <a href="{{ URL::to('/') }}">
+                    <i class="material-icons">home</i>
+                </a>
+            </li>
             <li>
                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                     {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}

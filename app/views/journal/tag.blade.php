@@ -2,7 +2,11 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        <li class="home-page">
+            <a href="{{ URL::to('/') }}">
+                <i class="material-icons">home</i>
+            </a>
+        </li>
         <li><a href="{{ URL::to($tags->parent->getUrl()) }}">{{ $tags->parent->getTitle() }}</a></li>
         <li><a href="{{ URL::to($tags->getUrl()) }}">{{ $tags->getTitle() }}</a></li>
         <li>{{ $page->title }}</li>
