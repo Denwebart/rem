@@ -16,7 +16,7 @@
                             @endif
                         </span>
                         <span class="login-link">
-                            <span>{{ $item->login }}</span>
+                            <span class="hidden-sm hidden-xs">{{ $item->login }}</span>
                             @if($numberOfMessages = count($item->sentMessagesForUser))
                                 <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
                             @endif
