@@ -394,7 +394,6 @@ h2, .h2 {
     padding-right: 10px;
 }
 #companions .companion {
-    padding: 10px 10px 10px 12px;
     height: 70px;
     display: inline-block;
     width: 100%;
@@ -403,7 +402,6 @@ h2, .h2 {
 #companions .companion:hover  {
     background: #F5F5F5;
     border-left: 2px solid #03A9F4;
-    padding-left: 10px;
 }
 #companions .companion.active .is-online-status,
 #companions .companion:hover .is-online-status {
@@ -412,6 +410,11 @@ h2, .h2 {
 #companions .companion a {
     display: inline-block;
     width: 100%;
+    padding: 10px 10px 10px 12px;
+}
+#companions .companion.active a,
+#companions .companion:hover a {
+    padding-left: 10px;
 }
 #companions .companion img {
     float: left;

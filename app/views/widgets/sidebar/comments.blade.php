@@ -33,7 +33,7 @@
                 @endif
                 <p class="list-group-item-text" style="clear: both">
                     <a href="{{ URL::to($comment->getUrl()) }}">
-                        {{ StringHelper::limit($comment->comment, 70) }}
+                        {{ StringHelper::limit(StringHelper::withoutLinks($comment->comment), 70) }}
                     </a>
                 </p>
             </div>
