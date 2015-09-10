@@ -49,67 +49,67 @@ View::share('title', $title);
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_deleted', 0, ['id' => 'notification_deleted_uncheck']) }}
                                         {{ Form::checkbox('notification_deleted', 1, $userSettings->notification_deleted) }}
-                                        Удаление статьи, вопроса, комментария, ответа
+                                        <span class="margin-left-10">Удаление статьи, вопроса, комментария, ответа</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_points', 0, ['id' => 'notification_points_uncheck']) }}
                                         {{ Form::checkbox('notification_points', 1, $userSettings->notification_points) }}
-                                        Добавление / вычитание баллов за комментарии, ответы, статьи
+                                        <span class="margin-left-10">Добавление / вычитание баллов за комментарии, ответы, статьи</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_new_comments', 0, ['id' => 'notification_new_comments_uncheck']) }}
                                         {{ Form::checkbox('notification_new_comments', 1, $userSettings->notification_new_comments) }}
-                                        Новые комментарии на статьи и вопросы
+                                        <span class="margin-left-10">Новые комментарии на статьи и вопросы</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_new_answers', 0, ['id' => 'notification_new_answers_uncheck']) }}
                                         {{ Form::checkbox('notification_new_answers', 1, $userSettings->notification_new_answers) }}
-                                        Новые ответы на вопросы
+                                        <span class="margin-left-10">Новые ответы на вопросы</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_like_dislike', 0, ['id' => 'notification_like_dislike_uncheck']) }}
                                         {{ Form::checkbox('notification_like_dislike', 1, $userSettings->notification_like_dislike) }}
-                                        Понравился / не понравился ответ или комментарий
+                                        <span class="margin-left-10">Понравился / не понравился ответ или комментарий</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_best_answer', 0, ['id' => 'notification_best_answer_uncheck']) }}
                                         {{ Form::checkbox('notification_best_answer', 1, $userSettings->notification_best_answer) }}
-                                        Ответ стал лучшим
+                                        <span class="margin-left-10">Ответ стал лучшим</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_rating', 0, ['id' => 'notification_rating_uncheck']) }}
                                         {{ Form::checkbox('notification_rating', 1, $userSettings->notification_rating) }}
-                                        Новая оценка статьи или вопроса
+                                        <span class="margin-left-10">Новая оценка статьи или вопроса</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_journal_subscribed', 0, ['id' => 'notification_journal_subscribed_uncheck']) }}
                                         {{ Form::checkbox('notification_journal_subscribed', 1, $userSettings->notification_journal_subscribed) }}
-                                        Кто-то подписался / отписался на журнал
+                                        <span class="margin-left-10">Кто-то подписался / отписался на журнал</span>
                                     </label>
                                 </div>
-                                <div class="togglebutton">
+                                <div class="checkbox">
                                     <label>
                                         {{ Form::hidden('notification_question_subscribed', 0, ['id' => 'notification_question_subscribed_uncheck']) }}
                                         {{ Form::checkbox('notification_question_subscribed', 1, $userSettings->notification_question_subscribed) }}
-                                        Кто-то подписался / отписался на вопрос
+                                        <span class="margin-left-10">Кто-то подписался / отписался на вопрос</span>
                                     </label>
                                 </div>
                             </div>
