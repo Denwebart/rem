@@ -64,10 +64,12 @@ Route::group(['prefix' => 'users', 'before' => 'authInCabinet'], function(){
 	Route::get('/', ['before' => 'authInCabinet', 'as' => 'users', 'uses' => 'CabinetController@index']);
 	Route::get('autocomplete', ['before' => 'authInCabinet', 'as' => 'users.autocomplete', 'uses' => 'CabinetController@autocomplete']);
 });
-Route::group(['prefix' => 'honors'], function(){
-	Route::get('/', ['as' => 'honors', 'uses' => 'CabinetController@honors']);
-	Route::get('{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
-});
+
+/* Награды */
+Route::get('nagrady', ['as' => 'honors', 'uses' => 'CabinetController@honors']);
+Route::get('nagrady.html', 'SiteController@error404');
+Route::get('nagrady/{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
+
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/settings', ['as' => 'user.settings', 'uses' => 'CabinetUserController@getSettings']);
 	Route::post('{login}/settings_request', ['as' => 'user.postSettings', 'before' => 'csrf', 'uses' => 'CabinetUserController@postSettings']);

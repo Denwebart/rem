@@ -109,7 +109,7 @@ class CabinetController extends \BaseController
 	 */
 	public function honors()
 	{
-		$page = Page::whereAlias('honors')->firstOrFail();
+		$page = Page::whereAlias('nagrady')->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);
