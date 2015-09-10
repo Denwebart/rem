@@ -1368,6 +1368,20 @@ footer .copyright a {
 #login-layout a:hover {
     text-decoration: none;
 }
+/* Errors ==================================================*/
+.error {
+    text-align: center;
+    width: 100%;
+    font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+.error .error-code {
+    font-size: 200px;
+    font-weight: 300;
+}
+.error .error-message {
+    font-size: 34px;
+    font-weight: 300;
+}
 
 /*-- Полоса уведомлений для авторизованных пользователей --*/
 /* Header==================================================*/
@@ -1979,6 +1993,13 @@ footer .copyright a {
     }
     #search-users-form .is-online .text {
         font-size: 12px;
+    }
+    /* Ошибки */
+    .error .error-code {
+        font-size: 140px;
+    }
+    .error .error-message {
+        font-size: 28px;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {

@@ -84,7 +84,7 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
             <div id="honors-sidebar-widget" class="list-group sidebar-widget">
                 <h4>Список наград</h4>
 
@@ -100,7 +100,6 @@
                         </div>
                     @endforeach
                 </div>
-
             </div>
 
             {{ $areaWidget->leftSidebar() }}
@@ -110,6 +109,24 @@
             @yield('content')
         </div>
 
+        <div class="col-lg-3 col-md-3 hidden-lg hidden-md">
+            <div id="honors-sidebar-widget" class="list-group sidebar-widget">
+                <h4>Список наград</h4>
+
+                <div class="honors">
+                    @foreach(Honor::all() as $item)
+                        <div class="honor @if(isset($honor->id)) @if($honor->id == $item->id) active @endif @endif" data-user-id="{{ $item->id }}">
+                            <a href="{{ URL::route('honor.info', ['alias' => $item->alias]) }}">
+                                {{ $item->getImage(null, ['class' => 'pull-left']) }}
+                                <span class="text">
+                                    {{ $item->title }}
+                                </span>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

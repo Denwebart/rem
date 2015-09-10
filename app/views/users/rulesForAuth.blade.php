@@ -9,7 +9,7 @@ View::share('areaWidget', $areaWidget);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
     </div>
     <div class="col-lg-7 col-md-7">
@@ -21,6 +21,11 @@ View::share('areaWidget', $areaWidget);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <div class="well">
                     <h2>{{ $title }}</h2>
 
@@ -51,14 +56,14 @@ View::share('areaWidget', $areaWidget);
                                 <div id="rules">
                                     @foreach($rules as $key => $rule)
                                         <div class="row rule {{ (0 == $key) ? '' : 'opacity'}}" data-rule-id="{{ $key }}">
-                                            <div class="col-md-1">
+                                            <div class="col-xs-1">
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" data-checkbox-rule-id="{{ $key }}" class="checkbox-input" name="rules[{{ $key }}]" {{ (0 == $key) ? '' : 'disabled="disabled"'}}>
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-11">
+                                            <div class="col-xs-11">
                                                 <h3>{{ $rule->position }}. {{ $rule->title }}</h3>
                                                 {{ $rule->description }}
                                             </div>

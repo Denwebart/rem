@@ -1,4 +1,4 @@
-<section id="comments-widget">
+<section id="comments-widget" class="margin-top-20">
     {{-- Лучшие --}}
     @if(Page::TYPE_QUESTION == $page->type)
         <div id="best-comments" {{ !count($page->bestComments) ? 'style="display: none"' : '' }} class="margin-top-20">
@@ -27,7 +27,7 @@
         @endif
     </h3>
 
-    <div id="comments-area">
+    <div id="comments-area" class="margin-top-20">
         <div class="count">
             Показано комментариев: <span>{{ $comments->count() }}</span>.
             Всего: <span>{{ $comments->getTotal() }}</span>.
@@ -42,8 +42,8 @@
     </div>
     <!-- end of .comments -->
 
-    <div class="comment-form" id="add-comment">
-        <h3 class="margin-top-10">{{ $formTitle }}</h3>
+    <div class="comment-form margin-top-20" id="add-comment">
+        <h3>{{ $formTitle }}</h3>
 
         @if(!$isBannedIp)
             @if(Auth::check())

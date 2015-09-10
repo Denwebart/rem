@@ -6,7 +6,7 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div class="col-lg-3 col-md-3">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
         @include('cabinet::user.userInfo')
 
         {{ $areaWidget->leftSidebar() }}
@@ -25,6 +25,11 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
                 <h2>{{ $title }}</h2>
 
                 @include('messages.bannedIp')

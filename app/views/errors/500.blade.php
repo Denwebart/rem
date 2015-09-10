@@ -6,7 +6,10 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div style="text-align: center; width: 100%">
-        <h1 style="font-size: 200px">500 ошибка</h1>
+    <div class="error">
+        <span class="error-code">
+            500
+            <span class="hidden-md hidden-sm hidden-xs">ошибка</span>
+        </span>
     </div>
 @endsection

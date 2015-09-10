@@ -6,8 +6,11 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <div style="text-align: center; width: 100%">
-        <h1 style="font-size: 200px">404 ошибка</h1>
-        <p style="font-size: 40px">Страница не найдена</p>
+    <div class="error">
+        <span class="error-code">
+            404
+            <span class="hidden-md hidden-sm hidden-xs">ошибка</span>
+        </span>
+        <p class="error-message">Страница не найдена</p>
     </div>
 @endsection

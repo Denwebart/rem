@@ -25,9 +25,14 @@ View::share('title', $title);
 
         <div class="row">
             <div class="col-lg-12" id="content">
-                <div style="text-align: center; width: 100%">
-                    <h1 style="font-size: 200px">403</h1>
-                    <p style="font-size: 40px">Срок редактирования статьи истек.</p>
+
+                <div class="row hidden-lg hidden-md">
+                    @include('cabinet::user.userInfoMobile')
+                </div>
+
+                <div class="error">
+                    <span class="error-code">403</span>
+                    <p class="error-message">Срок редактирования статьи истек.</p>
                 </div>
             </div>
             <div class="col-lg-12">
