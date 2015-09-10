@@ -39,7 +39,7 @@ View::share('title', $title);
                     @endif
                 </h2>
 
-                <div class="col-sm-12 col-xs-12 hidden-lg hidden-md">
+                <div class="hidden-lg hidden-md margin-bottom-10">
                     @include('cabinet::user.companions', ['companions' => $companions, 'companionId' => null])
                 </div>
 
@@ -53,7 +53,7 @@ View::share('title', $title);
                         @if(count($messages))
                             @foreach($messages->reverse() as $message)
                                 <div class="row item" data-message-id="{{ $message->id }}">
-                                    <div class="col-md-2 col-xs-2">
+                                    <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
                                         @if($user->id == $message->userSender->id)
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background display-inline-block">
                                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
@@ -67,8 +67,11 @@ View::share('title', $title);
                                     </div>
 
                                     @if($user->id == $message->userSender->id)
-                                        <div class="col-md-7 col-xs-7">
-                                            <div class="message">
+                                        <div class="col-lg-7 col-md-11 col-sm-7 col-xs-11">
+                                            <div class="message outgoing">
+                                                <div class="login pull-left hidden-lg hidden-sm">
+                                                    я
+                                                </div>
                                                 <span class="date">
                                                     {{ DateHelper::dateForMessage($message->created_at) }}
                                                 </span>
@@ -77,8 +80,11 @@ View::share('title', $title);
                                             </div>
                                         </div>
                                     @else
-                                        <div class="col-md-7 col-md-offset-1 col-xs-7 col-xs-offset-1">
+                                        <div class="col-lg-7 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-11 col-xs-offset-1">
                                             <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                                                <div class="login pull-left hidden-lg hidden-sm">
+                                                    {{ $message->userSender->login }}
+                                                </div>
                                                 <span class="date">
                                                     {{ DateHelper::dateForMessage($message->created_at) }}
                                                 </span>
@@ -88,7 +94,7 @@ View::share('title', $title);
                                         </div>
                                     @endif
 
-                                    <div class="col-md-2 col-xs-2">
+                                    <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
                                         @if($companion->id == $message->userSender->id)
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
                                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
