@@ -542,6 +542,7 @@ h2, .h2 {
     #notifications-area .text {
         font-size: 16px;
     }
+    #articles-area .col-xs-1,
     #answers-area .col-xs-1,
     #notifications-area .col-xs-1 {
         padding: 0px;

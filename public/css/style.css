@@ -1812,6 +1812,10 @@ footer .copyright a {
     .comment .vote .vote-dislike i {
         font-size: 27px;
     }
+    /* Теги */
+    #tags-area .col-xs-6 {
+        width: 100%;
+    }
 }
 @media (max-width: 440px) {
     /* Комментарии */
@@ -1832,6 +1836,9 @@ footer .copyright a {
     .blog .avatar-link img {
         width: 40px;
         height: 40px;
+    }
+    #articles-area .col-xs-1 {
+        padding: 0px;
     }
 }
 @media (max-width: 767px) {
@@ -1855,8 +1862,11 @@ footer .copyright a {
         float: left;
     }
     #search {
-        margin-top: 10px;
-        /*padding-left: 50px;*/
+        margin: 10px 0;
+    }
+    #search .hint {
+        font-size: 12px;
+        line-height: 14px;
     }
     #site-title {
         text-align: center;

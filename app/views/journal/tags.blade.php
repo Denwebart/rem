@@ -59,7 +59,7 @@
                                 <div class="tags">
                                     <div class="row">
                                         @foreach($tags as $tag)
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 col-sm-4 col-xs-6">
                                                 <a href="{{ URL::route('journal.tag', ['journalAlias' => $journalAlias, 'tag' => $tag->title]) }}">
                                                     @if($tag->image)
                                                         {{ $tag->getImage(null, ['width' => '20px', 'class' => 'pull-left']) }}
