@@ -81,6 +81,16 @@ h1, h2, h3, h4, h5, h6,
 .margin-bottom-20 {
     margin-bottom: 20px;
 }
+.br-xxs {
+    display: none;
+}
+.alert a,
+.alert-link {
+    color: #ffffff !important;
+}
+.g-recaptcha {
+    display: inline-block;
+}
 /* Buttons */
 .button-group {
     display: inline-block;
@@ -874,6 +884,7 @@ h1, h2, h3, h4, h5, h6,
     padding-left: 10px;
     margin-top: 20px;
     text-align: left;
+    color: #03A9F4;
 }
 #sitemap li {
     list-style: none;
@@ -891,6 +902,7 @@ h1, h2, h3, h4, h5, h6,
 }
 #sitemap ul li {
     margin-bottom: 5px;
+    list-style-image: url('../images/dash.png');
 }
 
 /* Контактная форма */
@@ -1833,6 +1845,9 @@ footer .copyright a {
     .comment .vote .vote-like i,
     .comment .vote .vote-dislike i {
         font-size: 30px;
+    }
+    .br-xxs {
+        display: block;
     }
 }
 @media (max-width: 520px) {

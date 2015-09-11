@@ -171,6 +171,11 @@ h2, .h2 {
 .user-data-row span i {
     margin-right: 5px;
 }
+.user-data-row.date span {
+    font-size: 14px;
+    font-style: normal;
+    color: #333333;
+}
 
 /* Баллы */
 .points {
@@ -312,6 +317,7 @@ h2, .h2 {
 #notifications-area .icon {
     width: 100%;
     text-align: center;
+    margin-left: 8px;
 }
 #notifications-area .text {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -627,6 +633,9 @@ h2, .h2 {
         font-size: 12px;
         height: 24px;
         margin-bottom: 5px;
+    }
+    .user-data-row.date span {
+        font-size: 12px;
     }
     /* Бортовой журнал */
     .journal-user-info .user-data-row .text {
