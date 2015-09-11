@@ -1172,6 +1172,13 @@ h1, h2, h3, h4, h5, h6,
 #search-users-form button {
     margin-top: 5px;
 }
+/* Все пользователи */
+#users {
+    text-align: left;
+}
+#users .full-name {
+    margin-bottom: 0;
+}
 
 /* Статус online/offline */
 .profile-user-status {
@@ -1849,6 +1856,13 @@ footer .copyright a {
     .br-xxs {
         display: block;
     }
+    .blog .image {
+        width: 100%;
+        text-align: center;
+    }
+    #users {
+        font-size: 13px;
+    }
 }
 @media (max-width: 520px) {
     /* Header Widght */
@@ -2033,6 +2047,10 @@ footer .copyright a {
     }
     #search-users-form .is-online .text {
         font-size: 12px;
+    }
+    #users .avatar-link img {
+        width: 40px;
+        height: 40px;
     }
     /* Ошибки */
     .error .error-code {

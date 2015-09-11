@@ -62,19 +62,19 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                     <tr>
                                         <th></th>
                                         <th></th>
-                                        <th class="hidden-xs">
+                                        <th class="hidden-xs hidden-sm hidden-md">
                                             {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Зарегистрирован', 'created_at', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                         </th>
-                                        <th>
+                                        <th class="hidden-xs">
                                             {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи', 'publishedArticles', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                         </th>
-                                        <th>
+                                        <th class="hidden-xs">
                                             {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Вопросы', 'publishedQuestions', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                         </th>
-                                        <th>
+                                        <th class="hidden-xs">
                                             {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                         </th>
-                                        <th>
+                                        <th class="hidden-xs">
                                             {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Комменатрии', 'publishedComments', ['name' => $name, 'is_online' => Request::get('is_online'), 'stranitsa' => Request::get('stranitsa')]) }}
                                         </th>
                                         <th>
@@ -103,38 +103,40 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                     {{ $user->login }}
                                                 </a>
                                                 @if($user->getFullName())
-                                                    <p>{{ $user->getFullName() }}</p>
+                                                    <p class="full-name">{{ $user->getFullName() }}</p>
                                                 @endif
                                                 @if($user->isAdmin() || $user->isModerator())
-                                                    <span>{{ User::$roles[$user->role] }}</span>
+                                                    <span class="label label-success">{{ User::$roles[$user->role] }}</span>
                                                 @endif
                                             </td>
-                                            <td class="hidden-xs">
+                                            <td class="hidden-xs hidden-sm hidden-md">
                                                 {{ DateHelper::dateFormat($user->created_at, false) }}
                                             </td>
-                                            <td>
+                                            <td class="hidden-xs">
                                                 <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
                                                     {{ count($user->publishedArticles) }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td class="hidden-xs">
                                                 <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
                                                     {{ count($user->publishedQuestions) }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td class="hidden-xs">
                                                 <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
                                                     {{ count($user->publishedAnswers) }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td class="hidden-xs">
                                                 <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
                                                     {{ count($user->publishedComments) }}
                                                 </a>
                                             </td>
                                             <td>
-                                                Награды:
-                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors">
+                                                <span class="hidden-xs">
+                                                    Награды:
+                                                </span>
+                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" class="hidden-xs">
                                                     {{ count($user->userHonors) }}
                                                 </a>
                                                 <div class="honors">
@@ -150,7 +152,8 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                                 }}
                                                             </a>
                                                         @else
-                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">...</a>
+                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды" class="hidden-xs">...</a>
+                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды" class="hidden-lg hidden-md hidden-sm">+ еще {{ count($user->userHonors) - 3 }}</a>
                                                             <?php break; ?>
                                                         @endif
                                                     @endforeach
