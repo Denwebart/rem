@@ -24,7 +24,7 @@ View::share('title', $title);
                     {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                 </a>
             </li>
-            <li>{{ $title }}</li>
+            <li class="hidden-md hidden-xs">{{ $title }}</li>
         </ol>
 
         <div class="row">

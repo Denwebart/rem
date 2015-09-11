@@ -7,9 +7,13 @@ View::share('title', $title);
 
 @section('content')
     <ol class="breadcrumb">
-        <li><a href="{{ URL::to('/') }}">Главная</a></li>
+        <li class="home-page">
+            <a href="{{ URL::to('/') }}">
+                <i class="material-icons">home</i>
+            </a>
+        </li>
         <li><a href="{{ URL::route('honors') }}">Награды</a></li>
-        <li>{{ $honor->title }}</li>
+        <li class="hidden-md hidden-xs">{{ $honor->title }}</li>
     </ol>
 
     <section id="content">

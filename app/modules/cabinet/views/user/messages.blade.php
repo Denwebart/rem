@@ -12,13 +12,17 @@ View::share('title', $title);
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
-            <li><a href="{{ URL::to('/') }}">Главная</a></li>
+            <li class="home-page">
+                <a href="{{ URL::to('/') }}">
+                    <i class="material-icons">home</i>
+                </a>
+            </li>
             <li>
                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                     {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
                 </a>
             </li>
-            <li>{{ $title }}</li>
+            <li class="hidden-md hidden-xs">{{ $title }}</li>
         </ol>
 
         <div class="row">

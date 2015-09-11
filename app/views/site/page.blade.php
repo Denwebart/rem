@@ -20,8 +20,10 @@
 					{{ $page->parent->getTitle() }}
 				</a>
 			</li>
+            <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
+        @else
+            <li>{{ $page->getTitleForBreadcrumbs() }}</li>
 		@endif
-		<li>{{ $page->getTitleForBreadcrumbs() }}</li>
 	</ol>
 
 	<section id="content" class="well">

@@ -119,8 +119,9 @@ h1, h2, h3, h4, h5, h6,
     font-style: italic;
 }
 .mark, mark {
-    padding: 0.2em 0.1em;
-    background-color: rgba(255, 171, 0, 0.5);
+    padding: 0 0.1em;
+    background-color: rgba(255, 224, 49, 0.5);
+    /*background-color: rgba(255, 171, 0, 0.5);*/
 }
 .opacity {
     opacity: 0.3;
@@ -578,13 +579,23 @@ h1, h2, h3, h4, h5, h6,
 .breadcrumb {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 13px;
+    line-height: 17px;
+    display: inline-block;
+    width: 100%;
+}
+.breadcrumb li {
+    float: left;
+    height: 17px;
+}
+.breadcrumb > li + li::before {
+    padding: 0 2px 0 5px;
 }
 .breadcrumb li.home-page .material-icons {
     font-size: 17px;
-    line-height: 17px;
 }
 .breadcrumb li a {
     color: #1292CE;
+    display: inline-block;
 }
 
 /*-- Blog area --*/
@@ -2174,11 +2185,14 @@ footer .copyright a {
     #search {
         margin-top: 40px;
     }
+    .breadcrumb {
+        font-size: 12px;
+    }
     /* Sidebar Widgets */
     #questions-sidebar-widget .best .material-icons.mdi-success {
-         font-size: 34px;
-         line-height: 34px;
-     }
+        font-size: 34px;
+        line-height: 34px;
+    }
 }
 
 @media (min-width: 1330px) {

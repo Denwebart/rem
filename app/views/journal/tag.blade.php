@@ -9,7 +9,7 @@
         </li>
         <li><a href="{{ URL::to($tags->parent->getUrl()) }}">{{ $tags->parent->getTitle() }}</a></li>
         <li><a href="{{ URL::to($tags->getUrl()) }}">{{ $tags->getTitle() }}</a></li>
-        <li>{{ $page->title }}</li>
+        <li class="hidden-md hidden-xs">{{ $page->title }}</li>
     </ol>
 
     <section id="content" class="well">

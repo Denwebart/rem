@@ -14,7 +14,7 @@
                 </a>
             </li>
         @endif
-        <li>{{ $page->getTitleForBreadcrumbs() }}</li>
+        <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
     </ol>
 
     <section id="content" class="well">

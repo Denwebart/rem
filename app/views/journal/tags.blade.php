@@ -8,7 +8,7 @@
             </a>
         </li>
         <li><a href="{{ URL::to($page->parent->getUrl()) }}">{{ $page->parent->getTitle() }}</a></li>
-        <li>{{ $page->getTitle() }}</li>
+        <li class="hidden-md hidden-xs">{{ $page->getTitle() }}</li>
     </ol>
 
     <section id="content" class="well">
