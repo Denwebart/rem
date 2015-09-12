@@ -1893,7 +1893,7 @@ footer .copyright a {
         margin: 0 !important;
     }
 }
-@media (min-width: 521px) and (max-width: 766px) {
+@media (min-width: 510px) and (max-width: 766px) {
     /* Все пользователи */
     #search-users-form .is-online .checkbox-material {
         margin-left: -10px;

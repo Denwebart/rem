@@ -134,22 +134,26 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                             </td>
                                             <td>
                                                 <div class="honors">
-                                                    @foreach($user->userHonors as $key => $userHonor)
-                                                        @if($key < 3)
-                                                            <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
-                                                                {{ $userHonor->honor->getImage(null, [
-                                                                    'width' => '25px',
-                                                                    'title' => !is_null($userHonor->comment)
-                                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
-                                                                        : $userHonor->honor->title,
-                                                                    'alt' => $userHonor->honor->title])
-                                                                }}
-                                                            </a>
-                                                        @else
-                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">+ еще {{ count($user->userHonors) - 3 }}</a>
-                                                            <?php break; ?>
-                                                        @endif
-                                                    @endforeach
+                                                    @if(count($user->userHonors))
+                                                        @foreach($user->userHonors as $key => $userHonor)
+                                                            @if($key < 3)
+                                                                <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
+                                                                    {{ $userHonor->honor->getImage(null, [
+                                                                        'width' => '25px',
+                                                                        'title' => !is_null($userHonor->comment)
+                                                                            ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
+                                                                            : $userHonor->honor->title,
+                                                                        'alt' => $userHonor->honor->title])
+                                                                    }}
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">+ еще {{ count($user->userHonors) - 3 }}</a>
+                                                                <?php break; ?>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        Нет
+                                                    @endif
                                                 </div>
                                             </td>
                                             <td>
