@@ -341,7 +341,7 @@
             </div>
 
             <div class="form-group @if($errors->has('content')) has-error @endif">
-                {{ Form::label('content', 'Контент') }}
+                {{ Form::label('content', 'Текст страницы') }}
                 {{ Form::textarea('content', $page->content, ['class' => 'form-control editor']) }}
 
                 @if($errors->has('content'))

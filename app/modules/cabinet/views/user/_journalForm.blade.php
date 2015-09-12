@@ -70,7 +70,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            {{ Form::label('content', 'Контент') }}
+            {{ Form::label('content', 'Текст статьи') }}
             {{ Form::textarea('content', $article->content, ['class' => 'form-control editor']) }}
             {{ $errors->first('content') }}
         </div>
