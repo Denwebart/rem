@@ -1881,6 +1881,16 @@ footer .copyright a {
         padding: 0px;
     }
 }
+@media (min-width: 521px) and (max-width: 766px) {
+    /* Все пользователи */
+    #search-users-form .is-online .checkbox-material {
+        margin-left: -10px;
+    }
+    #search-users-form .is-online .text {
+        font-size: 12px;
+        margin-left: 0 !important;
+    }
+}
 @media (max-width: 767px) {
     /*body {*/
         /*background: #f5ffad;*/
@@ -2042,11 +2052,9 @@ footer .copyright a {
         margin: 0;
     }
     /* Все пользователи */
-    #search-users-form .is-online .checkbox-material {
-        margin-left: 10px;
-    }
     #search-users-form .is-online .text {
         font-size: 12px;
+        margin-left: -13px;
     }
     #users .avatar-link img {
         width: 40px;

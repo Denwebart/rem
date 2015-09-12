@@ -133,12 +133,6 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                 </a>
                                             </td>
                                             <td>
-                                                <span class="hidden-xs">
-                                                    Награды:
-                                                </span>
-                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" class="hidden-xs">
-                                                    {{ count($user->userHonors) }}
-                                                </a>
                                                 <div class="honors">
                                                     @foreach($user->userHonors as $key => $userHonor)
                                                         @if($key < 3)
@@ -152,8 +146,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                                 }}
                                                             </a>
                                                         @else
-                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды" class="hidden-xs">...</a>
-                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды" class="hidden-lg hidden-md hidden-sm">+ еще {{ count($user->userHonors) - 3 }}</a>
+                                                            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">+ еще {{ count($user->userHonors) - 3 }}</a>
                                                             <?php break; ?>
                                                         @endif
                                                     @endforeach

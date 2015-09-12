@@ -11,13 +11,13 @@
             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                 <div class="buttons pull-right">
                     <a href="{{ URL::route('admin.articles.edit', ['id' => $article->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать статью">
-                        <i class="material-icons">edit_mode</i>
+                        <i class="material-icons">edit</i>
                     </a>
                 </div>
             @elseif((Auth::user()->is($article->user) && !IP::isBanned() && !Auth::user()->is_banned && $article->isEditable()))
                 <div class="buttons pull-right">
                     <a href="{{ URL::route('user.journal.edit', ['login' => $article->user->getLoginForUrl(),'id' => $article->id, 'backUrl' => urlencode(Request::url())]) }}" class="" title="Редактировать статью">
-                        <i class="material-icons">edit_mode</i>
+                        <i class="material-icons">edit</i>
                     </a>
                 </div>
             @endif
