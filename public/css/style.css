@@ -200,8 +200,8 @@ h1, h2, h3, h4, h5, h6,
 .content {
     font-size: 16px;
 }
-#content,
-.content {
+.content,
+.blog .item {
     text-align: justify;
 }
 #content h2, .content h2,
@@ -1250,25 +1250,30 @@ h1, h2, h3, h4, h5, h6,
 #honors-sidebar-widget .honor {
     display: inline-block;
     width: 100%;
-    padding: 10px 10px 10px 12px;
     height: 70px;
+    text-align: left;
+    margin-bottom: 5px;
 }
 #honors-sidebar-widget .honor.active,
 #honors-sidebar-widget .honor:hover {
     background: #F5F5F5;
     border-left: 2px solid #03A9F4;
-    padding-left: 10px;
 }
 #honors-sidebar-widget .honor a {
     display: inline-block;
     width: 100%;
+    padding: 10px 10px 10px 12px;
+}
+#honors-sidebar-widget .honor.active a,
+#honors-sidebar-widget .honor:hover a {
+    padding-left: 10px;
 }
 #honors-sidebar-widget .honor a img {
     width: 50px;
+    margin-right: 10px;
 }
 #honors-sidebar-widget .honor a span {
-    float: left;
-    margin: 10px 0 0 10px;
+    margin-top: 10px;
 }
 
 #honor-info h2 {
@@ -1842,6 +1847,9 @@ footer .copyright a {
     .comment .vote .vote-dislike i {
         font-size: 27px;
     }
+    .mce-btn button {
+        padding: 4px 5px !important;
+    }
     /* Теги */
     #tags-area .col-xs-6 {
         width: 100%;
@@ -1879,6 +1887,10 @@ footer .copyright a {
     }
     #articles-area .col-xs-1 {
         padding: 0px;
+    }
+    #honors-sidebar-widget .honor {
+        width: 100% !important;
+        margin: 0 !important;
     }
 }
 @media (min-width: 521px) and (max-width: 766px) {
@@ -2067,6 +2079,12 @@ footer .copyright a {
     .error .error-message {
         font-size: 28px;
     }
+    /* Награды */
+    #honors-sidebar-widget .honor {
+        width: calc(50% - 20px);
+        float: left;
+        margin: 0 10px 5px;
+    }
 }
 @media (min-width: 768px) and (max-width: 991px) {
     .container {
@@ -2118,6 +2136,12 @@ footer .copyright a {
     .navbar #navbar-main .navbar-nav > li > a {
         font-size: 12px;
         padding: 10px 5px 10px 6px;
+    }
+    /* Награды */
+    #honors-sidebar-widget .honor {
+        width: calc(33% - 20px);
+        float: left;
+        margin: 0 10px 5px;
     }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
