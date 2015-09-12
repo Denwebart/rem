@@ -71,7 +71,6 @@
             });
         }
     });
-
 //    window.onload = function() {
 ////        tinyMCE.activeEditor.windowManager.close(function() {
 ////            console.log('close');

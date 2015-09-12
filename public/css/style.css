@@ -149,6 +149,7 @@ h1, h2, h3, h4, h5, h6,
 .loader-checkbox {
     background: url('../images/loader-button.gif');
 }
+
 /*header {*/
     /*height: 125px;*/
 /*}*/
@@ -1938,6 +1939,17 @@ footer .copyright a {
     .tooltip {
         display: none !important;
     }
+    /* TinyMCE */
+    /*.mce-window {*/
+        /*width: calc(100% - 50px) !important;*/
+        /*left: 25px !important;*/
+    /*}*/
+    /*.mce-window .mce-window-body,*/
+    /*.mce-window .mce-container,*/
+    /*.mce-window .mce-container .mce-container-body,*/
+    /*.mce-window .mce-foot {*/
+        /*width: 100% !important;*/
+    /*}*/
     /*Header*/
     #navbar-top .navbar-nav {
         margin: 0;

@@ -95,6 +95,7 @@
         <!-- Подписка на журнал пользователя ("Подписки") -->
         @if(Auth::check())
             @if(!Auth::user()->is($user))
+                <div class="clearfix"></div>
                 @include('widgets.subscribe', [
                     'subscriptionObject' => $page->user,
                     'subscriptionField' => Subscription::FIELD_JOURNAL_ID,
