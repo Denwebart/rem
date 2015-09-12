@@ -33,15 +33,20 @@
                     </div>
                 </div>
 
+                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                    <i class="material-icons pull-left">today</i>
+                    <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
+                </div>
+
                 <div class="page-info">
                     <div class="pull-left">
                         <div class="user pull-left">
                             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                                 {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                                <span class="login pull-left">{{ $page->user->login }}</span>
+                                <span class="login hidden-xs pull-left">{{ $page->user->login }}</span>
                             </a>
                         </div>
-                        <div class="date pull-left" title="Дата публикации">
+                        <div class="date pull-left hidden-xs" title="Дата публикации">
                             <i class="material-icons">today</i>
                             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                         </div>

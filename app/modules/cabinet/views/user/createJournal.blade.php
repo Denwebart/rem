@@ -38,12 +38,10 @@ View::share('title', $title);
                 <div id="form-area">
                     <h2>{{ $title }}</h2>
                     <div class="well">
-                        <div class="row">
-                            {{ Form::model($article, ['method' => 'POST', 'route' => ['user.journal.store', 'login' => $user->getLoginForUrl()], 'id' => 'journalForm', 'files' => true]) }}
-                            @include('cabinet::user._journalForm')
-                            {{ Form::hidden('_token', csrf_token()) }}
-                            {{ Form::close() }}
-                        </div>
+                        {{ Form::model($article, ['method' => 'POST', 'route' => ['user.journal.store', 'login' => $user->getLoginForUrl()], 'id' => 'journalForm', 'files' => true]) }}
+                        @include('cabinet::user._journalForm')
+                        {{ Form::hidden('_token', csrf_token()) }}
+                        {{ Form::close() }}
                     </div>
                 </div>
                 <div id="preview" style="display: none"></div>

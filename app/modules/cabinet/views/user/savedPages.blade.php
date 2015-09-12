@@ -35,15 +35,17 @@ View::share('title', $title);
                 </div>
 
                 <div class="row">
-                    <div class="col-md-8 col-xs-8">
+                    <div class="col-md-8 col-sm-8 col-xs-12">
                         <h2>{{ $title }}</h2>
                     </div>
-                    <div class="col-md-4 col-xs-4">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         @if(Auth::user()->is($user))
                             @if(count($pages))
-                                <a href="javascript:void(0)" class="btn btn-primary btn-sm pull-right" id="remove-all-pages" title="Удалить все сохраненные страницы" data-toggle="tooltip">
-                                    Удалить все
-                                </a>
+                                <div class="button-group-full">
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm btn-full pull-right" id="remove-all-pages">
+                                        Удалить все
+                                    </a>
+                                </div>
                             @endif
                         @endif
                     </div>

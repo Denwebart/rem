@@ -140,7 +140,12 @@
                                             <div class="comment_error error text-danger"></div>
                                         </div>
 
-                                        {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-success btn-sm pull-right']) }}
+                                        <div class="row">
+                                            <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">
+                                                {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-success btn-sm btn-full pull-right']) }}
+                                            </div>
+                                        </div>
+
                                         {{ Form::hidden('_token', csrf_token()) }}
                                         {{ Form::close() }}
                                     @endif
@@ -183,7 +188,12 @@
                                 @endsection
                             <div class="g-recaptcha-response_error error text-danger"></div>
 
-                            {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-success btn-sm pull-right']) }}
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">
+                                    {{ Form::submit('Отправить', ['id'=> 'submit-' . $comment->id, 'class' => 'btn btn-success btn-sm btn-full pull-right']) }}
+                                </div>
+                            </div>
+
                             {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
                         @endif

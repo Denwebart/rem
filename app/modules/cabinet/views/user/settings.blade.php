@@ -36,17 +36,17 @@ View::share('title', $title);
                 <div id="user-settings" class="well">
                     {{ Form::model($userSettings, ['method' => 'POST', 'route' => ['user.postSettings', $user->getLoginForUrl()], 'id' => 'user-settings-form']) }}
                     <div class="row">
-                        <div class="col-md-7">
-                            <h3>Настройка уведомлений на email</h3>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="button-group without-margin">
+                        <div class="col-lg-5 col-md-12 col-sm-5 col-xs-12 pull-right">
+                            <div class="button-group">
                                 <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                     <i class="material-icons">keyboard_arrow_left</i>
-                                    Отмена
+                                    <span class="hidden-xxs">Отмена</span>
                                 </a>
                                 {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                             </div>
+                        </div>
+                        <div class="col-lg-7 col-md-12 col-sm-7 col-xs-12 pull-left">
+                            <h3 class="margin-bottom-0">Настройка уведомлений на email</h3>
                         </div>
                     </div>
 

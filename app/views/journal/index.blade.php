@@ -37,11 +37,11 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-4 col-md-7 col-lg-5 col-sm-offset-8 col-md-offset-5 col-lg-offset-7">
                             @if(Auth::user()->isAdmin())
-                                <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-full pull-right">
+                                <a href="{{ URL::route('admin.articles.create', ['backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-sm btn-full pull-right">
                                     Написать статью
                                 </a>
                             @else
-                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl(), 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-full pull-right">
+                                <a href="{{ URL::route('user.journal.create', ['login' => Auth::user()->getLoginForUrl(), 'backUrl' => urlencode(Request::url())]) }}" class="btn btn-success btn-sm btn-full pull-right">
                                     Написать статью
                                 </a>
                             @endif

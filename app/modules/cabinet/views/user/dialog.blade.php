@@ -143,7 +143,11 @@ View::share('title', $title);
 
                                     {{ Form::hidden('_token', csrf_token()) }}
 
-                                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary btn-sm pull-right']) }}
+                                    <div class="row">
+                                        <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">
+                                            {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-primary btn-full btn-sm pull-right']) }}
+                                        </div>
+                                    </div>
 
                                 {{ Form::close() }}
 

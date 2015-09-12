@@ -41,6 +41,9 @@ h1, h2, h3, h4, h5, h6,
 .display-inline-block {
     display: inline-block;
 }
+.visible-xxs {
+    display: none;
+}
 /* Отступы */
 .without-padding {
     padding: 0 !important;
@@ -75,6 +78,9 @@ h1, h2, h3, h4, h5, h6,
 .margin-bottom-5 {
     margin-bottom: 5px;
 }
+.margin-bottom-0 {
+    margin-bottom: 0;
+}
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
@@ -95,7 +101,11 @@ h1, h2, h3, h4, h5, h6,
 .button-group {
     display: inline-block;
     float: right;
-    margin: 23px 0 0;
+}
+.button-group-full {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
 }
 .btn {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -1873,6 +1883,12 @@ footer .copyright a {
     }
 }
 @media (max-width: 520px) {
+    .hidden-xxs {
+        display: none;
+    }
+    .visible-xxs {
+        display: block;
+    }
     /* Header Widght */
     #header-widget .edit-page,
     #header-widget .edit-advertising {
@@ -1963,6 +1979,9 @@ footer .copyright a {
         padding-left: 6px;
         padding-right: 10px;
     }
+    .btn.btn-sm {
+        padding: 5px 12px;
+    }
     /* Header Widght */
     #header-widget .nav {
         margin: 0;
@@ -1998,6 +2017,7 @@ footer .copyright a {
     /* Рейтинг */
     #rating {
         float: right;
+        margin-bottom: 10px;
     }
     #rating #rate-votes,
     #rating #rate-voters,
@@ -2007,9 +2027,10 @@ footer .copyright a {
     }
     #rating #rate-votes {
         margin-left: 0;
+        font-size: 20px;
     }
     #rating #rate-voters {
-        font-size: 13px;
+        font-size: 12px;
         line-height: 26px;
     }
     /* Content */
@@ -2062,6 +2083,9 @@ footer .copyright a {
     }
     .blog .answers-value .material-icons {
         margin: 0;
+    }
+    .blog .image {
+        margin-top: 0;
     }
     /* Все пользователи */
     #search-users-form .is-online .text {
@@ -2142,6 +2166,9 @@ footer .copyright a {
         width: calc(33% - 20px);
         float: left;
         margin: 0 10px 5px;
+    }
+    .blog .image {
+        margin-top: 0;
     }
 }
 @media (min-width: 992px) and (max-width: 1199px) {

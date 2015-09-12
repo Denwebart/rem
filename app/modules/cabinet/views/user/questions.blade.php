@@ -43,15 +43,17 @@ View::share('title', $title);
                             @if(Auth::user()->is($user))
                                 @if(!$headerWidget->isBannedIp)
                                     @if(!$user->is_banned)
-                                        @if(Auth::user()->isAdmin())
-                                            <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success btn-full pull-right">
-                                                Задать вопрос
-                                            </a>
-                                        @else
-                                            <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success btn-full pull-right">
-                                                Задать вопрос
-                                            </a>
-                                        @endif
+                                        <div class="button-group-full">
+                                            @if(Auth::user()->isAdmin())
+                                                <a href="{{ URL::route('admin.questions.create') }}" class="btn btn-success btn-sm btn-full pull-right">
+                                                    Задать вопрос
+                                                </a>
+                                            @else
+                                                <a href="{{ URL::route('user.questions.create', ['login' => Auth::user()->getLoginForUrl()]) }}" class="btn btn-success btn-sm btn-full pull-right">
+                                                    Задать вопрос
+                                                </a>
+                                            @endif
+                                        </div>
                                     @endif
                                 @endif
                             @endif
