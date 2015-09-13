@@ -80,6 +80,7 @@
             {{ $page->getContentWithWidget() }}
 
             @if(count($page->tags))
+                <div class="clearfix"></div>
                 <ul class="tags">
                     @foreach($page->tags as $tag)
                         <li>
@@ -95,6 +96,7 @@
         <!-- Подписка на журнал пользователя ("Подписки") -->
         @if(Auth::check())
             @if(!Auth::user()->is($user))
+                <div class="clearfix"></div>
                 @include('widgets.subscribe', [
                     'subscriptionObject' => $page->user,
                     'subscriptionField' => Subscription::FIELD_JOURNAL_ID,

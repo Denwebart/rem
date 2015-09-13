@@ -191,6 +191,7 @@ View::share('title', $title);
                 "emoticons"
             ],
             menubar:false,
+            relative_urls: true,
             toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
             language: 'ru',
             selector: ".editor"
