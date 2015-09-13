@@ -94,6 +94,11 @@
                 </a>
             @endif
             {{ $page->getContentWithWidget() }}
+
+            <div class="clearfix"></div>
+            <div class="margin-top-10">
+                @include('widgets.sidebar.socialButtons')
+            </div>
         </div>
 
         <!-- Подписка на вопрос ("Подписки") -->

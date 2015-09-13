@@ -91,6 +91,11 @@
                     @endforeach
                 </ul>
             @endif
+
+            <div class="clearfix"></div>
+            <div class="margin-top-10">
+                @include('widgets.sidebar.socialButtons')
+            </div>
         </div>
 
         <!-- Подписка на журнал пользователя ("Подписки") -->
