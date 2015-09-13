@@ -247,6 +247,9 @@ h2, .h2 {
 #tags-area .tag .material-icons {
     font-size: 20px;
 }
+.tags .btn-group {
+    margin: 0 10px 10px 0;
+}
 
 /*-- Бортовой журнал --*/
 #subscription {
@@ -496,6 +499,12 @@ h2, .h2 {
 }
 
 @media (max-width: 767px) {
+    #cabinet .button-group {
+        margin-bottom: 10px;
+    }
+    #cabinet .button-group.margin-bottom-20 {
+        margin-bottom: 20px;
+    }
     /* Правила */
     #rules .col-xs-1 {
         padding-right: 5px;
@@ -607,6 +616,9 @@ h2, .h2 {
     }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
+    #cabinet .button-group {
+        margin-bottom: 10px;
+    }
     /* Меню пользователя */
     #users-menu ul > li {
         margin: 5px 0;

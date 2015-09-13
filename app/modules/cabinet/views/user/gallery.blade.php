@@ -140,9 +140,9 @@ View::share('title', $title);
                                                         {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
                                                         {{ $errors->first('description') }}
                                                     </div>
-                                                    <div class="pull-right">
-                                                        {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
-                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">
+                                                    {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm btn-full']) }}
                                                 </div>
                                             </div>
 
@@ -194,7 +194,14 @@ View::share('title', $title);
             relative_urls: true,
             toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
             language: 'ru',
-            selector: ".editor"
+            selector: ".editor",
+            setup: function (editor) {
+                editor.on('init', function() {
+                    editor.getDoc().body.style.fontSize = '14px';
+                    editor.getDoc().body.style.fontFamily = '"Open Sans", sans-serif';
+                    editor.getDoc().body.style.lineHeight = '1.42857';
+                });
+            }
         });
     </script>
 

@@ -84,10 +84,10 @@ View::share('title', $title);
                     <div class="well">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 pull-right">
-                                <div class="button-group without-margin">
+                                <div class="button-group">
                                     <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
-                                        Отмена
+                                        <span class="hidden-xxs">Отмена</span>
                                     </a>
 
                                     {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}

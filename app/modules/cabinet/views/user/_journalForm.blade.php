@@ -1,104 +1,113 @@
-<div class="col-md-12">
-    <div class="pull-right margin-bottom-20">
-        <a href="{{ $backUrl }}" class="btn btn-primary btn-sm">
-            <i class="material-icons">keyboard_arrow_left</i>
-            Отмена
-        </a>
-        <a href="javascript:void(0)" class="btn btn-warning btn-sm btn-sm preview">Предпросмотр</a>
+<div class="row">
+    <div class="col-md-12">
+        <div class="button-group pull-right margin-bottom-20">
+            <a href="{{ $backUrl }}" class="btn btn-primary btn-sm">
+                <i class="material-icons">keyboard_arrow_left</i>
+                <span class="hidden-xxs">Отмена</span>
+            </a>
+            <a href="javascript:void(0)" class="btn btn-warning btn-sm preview">
+                <i class="material-icons visible-xxs">search</i>
+                <span class="hidden-xxs">Предпросмотр</span>
+            </a>
 
-        {{ Form::hidden('backUrl', $backUrl) }}
-        {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+            {{ Form::hidden('backUrl', $backUrl) }}
+            {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+        </div>
     </div>
 </div>
-<div class="col-md-4">
-    <div class="form-group">
-        @if($article->image)
-            <div id="page-image" class="margin-bottom-10">
-                {{ $article->getImage(null, ['class' => 'page-image']) }}
-                <a href="javascript:void(0)" id="delete-image">
-                    <i class="material-icons">delete</i>
-                </a>
-            </div>
-            @section('script')
-                @parent
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            @if($article->image)
+                <div id="page-image" class="margin-bottom-10">
+                    {{ $article->getImage(null, ['class' => 'page-image']) }}
+                    <a href="javascript:void(0)" id="delete-image">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
+                @section('script')
+                    @parent
 
-                <script type="text/javascript">
-                    $('#delete-image').click(function(){
-                        if(confirm('Вы уверены, что хотите удалить изображение?')) {
-                            $.ajax({
-                                url: '<?php echo URL::route('user.deleteImageFromPage', ['login' => $user->getLoginForUrl(), 'id' => $article->id]) ?>',
-                                dataType: "text json",
-                                type: "POST",
-                                data: {field: 'image'},
-                                beforeSend: function(request) {
-                                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                                },
-                                success: function(response) {
-                                    if(response.success){
-                                        $('#site-messages').prepend(response.message);
-                                        $('#delete-image').css('display', 'none');
-                                        $('.page-image').remove();
+                    <script type="text/javascript">
+                        $('#delete-image').click(function(){
+                            if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                                $.ajax({
+                                    url: '<?php echo URL::route('user.deleteImageFromPage', ['login' => $user->getLoginForUrl(), 'id' => $article->id]) ?>',
+                                    dataType: "text json",
+                                    type: "POST",
+                                    data: {field: 'image'},
+                                    beforeSend: function(request) {
+                                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                                    },
+                                    success: function(response) {
+                                        if(response.success){
+                                            $('#site-messages').prepend(response.message);
+                                            $('#delete-image').css('display', 'none');
+                                            $('.page-image').remove();
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    });
-                </script>
-            @stop
-        @endif
+                                });
+                            }
+                        });
+                    </script>
+                @stop
+            @endif
 
-        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-        {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
-        {{ $errors->first('image') }}
+            {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+            {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
+            {{ $errors->first('image') }}
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-group">
+            {{ Form::hidden('type', $article->type) }}
+            {{ Form::label('title', 'Заголовок') }}
+            {{ Form::text('title', $article->title, ['class' => 'form-control']) }}
+            {{ $errors->first('title') }}
+        </div>
     </div>
 </div>
-<div class="col-md-8">
-	<div class="form-group">
-        {{ Form::hidden('type', $article->type) }}
-		{{ Form::label('title', 'Заголовок') }}
-		{{ Form::text('title', $article->title, ['class' => 'form-control']) }}
-		{{ $errors->first('title') }}
-	</div>
-</div>
-<div class="col-md-12">
-	<div class="form-group">
-		{{ Form::label('content', 'Контент') }}
-		{{ Form::textarea('content', $article->content, ['class' => 'form-control editor']) }}
-		{{ $errors->first('content') }}
-	</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            {{ Form::label('content', 'Текст статьи') }}
+            {{ Form::textarea('content', $article->content, ['class' => 'form-control editor']) }}
+            {{ $errors->first('content') }}
+        </div>
 
-    <div class="form-group">
-        <div id="tags-area">
-            <h4>Теги</h4>
-            <div class="tags">
-                @foreach($article->tags as $tag)
-                    <div class="btn-group tag" data-id="{{ $tag->id }}">
-                        {{ Form::hidden("tags[$tag->id]", $tag->title) }}
-                        <a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">{{ $tag->title }}</a>
-                        <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">
-                            <i class="material-icons">close</i>
+        <div class="form-group">
+            <div id="tags-area">
+                <h4>Теги</h4>
+                <div class="tags">
+                    @foreach($article->tags as $tag)
+                        <div class="btn-group tag" data-id="{{ $tag->id }}">
+                            {{ Form::hidden("tags[$tag->id]", $tag->title) }}
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">{{ $tag->title }}</a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">
+                                <i class="material-icons">close</i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="row add-tag-input">
+                    <div class="col-sm-10 col-xs-9">
+                        <div class="form-group">
+                            {{ Form::text('tags[new]', null, ['class' => 'form-control', 'id' => 'tag-input', 'placeholder' => 'Добавить новый тег']) }}
+                            <small class="error text-danger" style="display: none"></small>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-3">
+                        <a href="javascript:void(0)" class="btn btn-success btn-sm btn-circle add-tag">
+                            <i class="material-icons">done</i>
                         </a>
                     </div>
-                @endforeach
-            </div>
-            <div class="row add-tag-input">
-                <div class="col-xs-10">
-                    <div class="form-group">
-                        {{ Form::text('tags[new]', null, ['class' => 'form-control', 'id' => 'tag-input', 'placeholder' => 'Добавить новый тег']) }}
-                        <small class="error text-danger" style="display: none"></small>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <a href="javascript:void(0)" class="btn btn-success btn-sm btn-circle add-tag">
-                        <i class="material-icons">done</i>
-                    </a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- TinyMCE image -->
-    {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+        <!-- TinyMCE image -->
+        {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+    </div>
 </div>
 
 @section('style')

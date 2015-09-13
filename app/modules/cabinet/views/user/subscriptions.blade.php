@@ -35,15 +35,17 @@ View::share('title', $title);
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-8 col-md-7 col-xs-8">
+                    <div class="col-lg-8 col-md-7 col-sm-8 col-xs-12">
                         <h2>{{ $title }}</h2>
                     </div>
-                    <div class="col-lg-4 col-md-5 col-xs-4">
+                    <div class="col-lg-4 col-md-5 col-sm-4 col-xs-12">
                         @if(Auth::user()->is($user))
                             @if(count($subscriptions))
-                                <a href="javascript:void(0)" class="btn btn-primary btn-sm pull-right" id="unsubscribe-from-all" title="Отписаться от всего" data-toggle="tooltip">
-                                    Отписаться от всего
-                                </a>
+                                <div class="button-group-full">
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-full btn-sm pull-right" id="unsubscribe-from-all">
+                                        Отписаться от всего
+                                    </a>
+                                </div>
                             @endif
                         @endif
                     </div>

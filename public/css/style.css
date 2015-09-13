@@ -41,6 +41,9 @@ h1, h2, h3, h4, h5, h6,
 .display-inline-block {
     display: inline-block;
 }
+.visible-xxs {
+    display: none;
+}
 /* Отступы */
 .without-padding {
     padding: 0 !important;
@@ -75,6 +78,9 @@ h1, h2, h3, h4, h5, h6,
 .margin-bottom-5 {
     margin-bottom: 5px;
 }
+.margin-bottom-0 {
+    margin-bottom: 0;
+}
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
@@ -95,7 +101,11 @@ h1, h2, h3, h4, h5, h6,
 .button-group {
     display: inline-block;
     float: right;
-    margin: 23px 0 0;
+}
+.button-group-full {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
 }
 .btn {
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -139,6 +149,7 @@ h1, h2, h3, h4, h5, h6,
 .loader-checkbox {
     background: url('../images/loader-button.gif');
 }
+
 /*header {*/
     /*height: 125px;*/
 /*}*/
@@ -200,10 +211,10 @@ h1, h2, h3, h4, h5, h6,
 .content {
     font-size: 16px;
 }
-.content,
-.blog .item {
-    text-align: justify;
-}
+/*.content,*/
+/*.blog .item {*/
+    /*text-align: justify;*/
+/*}*/
 #content h2, .content h2,
 #content h3, .content h3,
 #content h4, .content h4,
@@ -447,9 +458,7 @@ h1, h2, h3, h4, h5, h6,
     padding: 0 16px;
 }
 #tags-sidebar-widget .tag {
-    border-bottom: 2px solid #03A9F4;
-    background: #F5F5F5;
-    padding: 2px 10px;
+    padding: 2px 7px 2px 10px;
     text-transform: none;
 }
 #tags-sidebar-widget .all-tags a {
@@ -457,6 +466,14 @@ h1, h2, h3, h4, h5, h6,
 }
 #tags-sidebar-widget .all-tags a:hover {
     text-decoration: none;
+}
+#tags-sidebar-widget .tag .label {
+    background: #ffffff;
+    color: #1292CE;
+    padding: 0.1em 0.6em 0.2em;
+    border-radius: 10px;
+    margin-left: 2px;
+    font-weight: 700;
 }
 
 /* Страница со списком тегов */
@@ -1873,6 +1890,12 @@ footer .copyright a {
     }
 }
 @media (max-width: 520px) {
+    .hidden-xxs {
+        display: none;
+    }
+    .visible-xxs {
+        display: block;
+    }
     /* Header Widght */
     #header-widget .edit-page,
     #header-widget .edit-advertising {
@@ -1916,6 +1939,17 @@ footer .copyright a {
     .tooltip {
         display: none !important;
     }
+    /* TinyMCE */
+    /*.mce-window {*/
+        /*width: calc(100% - 50px) !important;*/
+        /*left: 25px !important;*/
+    /*}*/
+    /*.mce-window .mce-window-body,*/
+    /*.mce-window .mce-container,*/
+    /*.mce-window .mce-container .mce-container-body,*/
+    /*.mce-window .mce-foot {*/
+        /*width: 100% !important;*/
+    /*}*/
     /*Header*/
     #navbar-top .navbar-nav {
         margin: 0;
@@ -1963,6 +1997,9 @@ footer .copyright a {
         padding-left: 6px;
         padding-right: 10px;
     }
+    .btn.btn-sm {
+        padding: 5px 12px;
+    }
     /* Header Widght */
     #header-widget .nav {
         margin: 0;
@@ -1998,6 +2035,7 @@ footer .copyright a {
     /* Рейтинг */
     #rating {
         float: right;
+        margin-bottom: 10px;
     }
     #rating #rate-votes,
     #rating #rate-voters,
@@ -2007,9 +2045,10 @@ footer .copyright a {
     }
     #rating #rate-votes {
         margin-left: 0;
+        font-size: 20px;
     }
     #rating #rate-voters {
-        font-size: 13px;
+        font-size: 12px;
         line-height: 26px;
     }
     /* Content */
@@ -2062,6 +2101,9 @@ footer .copyright a {
     }
     .blog .answers-value .material-icons {
         margin: 0;
+    }
+    .blog .image {
+        margin-top: 0;
     }
     /* Все пользователи */
     #search-users-form .is-online .text {
@@ -2142,6 +2184,9 @@ footer .copyright a {
         width: calc(33% - 20px);
         float: left;
         margin: 0 10px 5px;
+    }
+    .blog .image {
+        margin-top: 0;
     }
 }
 @media (min-width: 992px) and (max-width: 1199px) {

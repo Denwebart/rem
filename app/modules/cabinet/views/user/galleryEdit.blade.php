@@ -41,10 +41,10 @@ View::share('title', $title);
                 <div class="well">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="buttons pull-right margin-bottom-20">
+                            <div class="button-group margin-bottom-20 pull-right">
                                 <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
                                     <i class="material-icons">keyboard_arrow_left</i>
-                                    Отмена
+                                    <span class="hidden-xxs">Отмена</span>
                                 </a>
                                 {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                             </div>
@@ -108,7 +108,14 @@ View::share('title', $title);
             relative_urls: true,
             toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
             language: 'ru',
-            selector: ".editor"
+            selector: ".editor",
+            setup: function (editor) {
+                editor.on('init', function() {
+                    editor.getDoc().body.style.fontSize = '14px';
+                    editor.getDoc().body.style.fontFamily = '"Open Sans", sans-serif';
+                    editor.getDoc().body.style.lineHeight = '1.42857';
+                });
+            }
         });
     </script>
 @stop

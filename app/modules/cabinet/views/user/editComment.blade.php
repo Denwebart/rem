@@ -44,19 +44,21 @@ View::share('title', $title);
                 <div id="form-area">
                     <h2>{{ $title }}</h2>
                     <div class="well">
-                        <div class="row">
-                            {{ Form::model($comment, ['method' => 'PUT', 'route' => ['user.comments.update', 'login' => $user->getLoginForUrl(), 'id' => $comment->id], 'id' => 'comment-form', 'files' => true]) }}
+                        {{ Form::model($comment, ['method' => 'PUT', 'route' => ['user.comments.update', 'login' => $user->getLoginForUrl(), 'id' => $comment->id], 'id' => 'comment-form', 'files' => true]) }}
 
+                        <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right margin-bottom-20">
+                                <div class="button-group pull-right">
                                     <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
-                                        Отмена
+                                        <span class="hidden-xxs">Отмена</span>
                                     </a>
                                     {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {{ Form::label('comment', ($comment->is_answer) ? 'Текст ответа' : 'Текст комментария') }}

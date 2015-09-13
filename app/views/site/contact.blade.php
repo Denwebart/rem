@@ -82,10 +82,13 @@
                         </div>
 
                         <div class="form-group col-md-12">
-                            {{ Form::label('sendCopy', 'Отправить копию этого сообщения на Ваш адрес e-mail', ['class' => 'control-label send-copy']) }}
                             <div class="checkbox">
                                 <label>
-                                    {{ Form::checkbox('sendCopy', 1, 1, ['class' => 'form-control']); }}
+
+                                    {{ Form::checkbox('sendCopy', 1, 1); }}
+                                    <span class="margin-left-10">
+                                        Отправить копию этого сообщения на Ваш адрес e-mail
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -98,10 +101,11 @@
                                 @endif
                             @endif
                         </div>
+
+                        <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">
+                            {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-success btn-sm btn-full pull-right margin-top-20']) }}
+                        </div>
                     </div>
-
-                    {{ Form::submit('Отправить', ['id'=> 'submit', 'class' => 'btn btn-success btn-sm pull-right']) }}
-
                 </fieldset>
                 {{ Form::hidden('_token', csrf_token()) }}
 			{{ Form::close() }}
