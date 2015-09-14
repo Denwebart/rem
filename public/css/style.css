@@ -460,6 +460,7 @@ h1, h2, h3, h4, h5, h6,
 #tags-sidebar-widget .tag {
     padding: 0 7px 3px 10px;
     text-transform: none;
+    line-height: 24px;
 }
 #tags-sidebar-widget .all-tags a {
     text-decoration: underline;
@@ -794,12 +795,13 @@ h1, h2, h3, h4, h5, h6,
 
 /* Area Widget */
 .area,
-.area .advertising {
+.area .widget {
     position: relative;
     text-align: center;
-    /*display: inline-block;*/
+    display: inline-block;
+    width: 100%;
 }
-.area .advertising a {
+.area .widget a {
     color: #1292CE;
 }
 .area.edit {
@@ -814,32 +816,34 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Реклама */
-.advertising-body {
+.widget-body {
     max-width: 100% !important;
 }
-.advertising-body iframe,
-.advertising-body img {
+.widget-body iframe,
+.widget-body img {
     max-width: 100% !important;
 }
-.area-content .advertising-body iframe,
-.area-content .advertising-body img  {
+.area-content .widget-body iframe,
+.area-content .widget-body img  {
     padding-right: 15px;
     padding-left: 15px;
 }
 
-.area .advertising.edit .advertising-body {
+.area .widget.edit .widget-body {
     border: 2px dashed #337AB7;
 }
 
-.area .advertising.not-active .advertising-body {
+.area .widget.not-active .widget-body {
     opacity: 0.5;
     border: 2px dashed #FF5722;
 }
-.area .advertising.access-3 {
+.area .widget.access-3 {
     display:none;
 }
 .area.edit .buttons {
     display: inline-block;
+    float: right;
+    margin-right: 5px;
 }
 .area.edit .create {
     margin: 0;
@@ -852,14 +856,14 @@ h1, h2, h3, h4, h5, h6,
 .area.edit [class*="mdi-"] {
     font-size: 18px;
 }
-.area .advertising-body h4 {
+.area .widget-body h4 {
     margin-bottom: 15px;
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
-#content .advertising {
+#content .widget {
     margin: 5px 0 10px 0;
 }
-#content .content .advertising {
+#content .content .widget {
     margin: 5px 0;
 }
 

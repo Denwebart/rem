@@ -15,7 +15,7 @@
     </a>
 </div>
 <div class="clearfix"></div>
-<div class="advertising-title" style="display: none">
+<div class="widget-title" style="display: none">
     <a href="{{ URL::route('admin.advertising.index', ['id' => $item->id]) }}" title="Смотреть в админке">
         {{ $item->title }}
     </a>

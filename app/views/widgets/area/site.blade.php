@@ -8,15 +8,15 @@
         @foreach($advertising as $item)
             @if(Auth::check())
                 @if(Auth::user()->isAdmin())
-                    <div class="advertising access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}} data-advertising-id="{{ $item->id }}">
+                    <div class="widget access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}} data-widget-id="{{ $item->id }}">
                     @include('widgets.area.controlAdvertising')
                 @else
-                    <div class="advertising">
+                    <div class="widget">
                 @endif
             @else
-                <div class="advertising">
+                <div class="widget">
             @endif
-                <div class="advertising-body">
+                <div class="widget-body">
                     @if($item->is_show_title)
                         <h4>{{ $item->title }}</h4>
                     @endif
@@ -37,7 +37,7 @@
 
     <script type="text/javascript">
 
-        $('.advertising').on('click', '.change-active-status', function(){
+        $('.widget').on('click', '.change-active-status', function(){
             var $button = $(this),
                 isActive = $button.attr('data-is-active'),
                 advertisingId = $button.data('id');
@@ -53,10 +53,10 @@
                     if(response.success){
                         $('#site-messages').prepend(response.message);
                         if(response.isActive) {
-                            $('[data-advertising-id='+ advertisingId +']').removeClass('not-active');
+                            $('[data-widget-id='+ advertisingId +']').removeClass('not-active');
                             $button.attr('title', 'Выключить этот рекламный блок на этой старинце.').html('<i class="material-icons">visibility_off</i>');
                         } else {
-                            $('[data-advertising-id='+ advertisingId +']').addClass('not-active');
+                            $('[data-widget-id='+ advertisingId +']').addClass('not-active');
                             $button.attr('title', 'Включить этот рекламный блок на этой старинце.').html('<i class="material-icons">visibility</i>');
                         }
                         $button.attr('data-is-active', response.isActive);
