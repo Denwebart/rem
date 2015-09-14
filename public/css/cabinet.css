@@ -302,6 +302,9 @@ h2, .h2 {
     border-bottom: 2px solid rgb(3, 169, 244);
     padding: 10px 35px 10px 10px;
 }
+.subscription-notifications .alert a {
+    color: #1292CE !important;
+}
 .subscription-notifications .alert-info .close {
     color: #03A9F4;
     opacity: 0.5;

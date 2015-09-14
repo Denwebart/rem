@@ -61,7 +61,7 @@ View::share('title', $title);
                                 </a>
                                 <div class="pull-left">
                                     <div class="form-group">
-                                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+                                        {{ Form::file('avatar_mobile', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
                                         {{ $errors->first('avatar') }}
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@ View::share('title', $title);
                         <div class="row">
                             <div class="col-md-6 col-sm-6 pull-right">
                                 <div class="button-group">
-                                    <a href="{{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}}" class="btn btn-primary btn-sm">
+                                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
                                         <span class="hidden-xxs">Отмена</span>
                                     </a>
@@ -94,7 +94,7 @@ View::share('title', $title);
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6 pull-left">
-                                <h2>{{{ $user->login }}}</h2>
+                                <h2>{{ $user->login }}</h2>
                             </div>
                         </div>
                         <div class="row">

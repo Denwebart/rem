@@ -101,6 +101,12 @@ class CabinetUserController extends \BaseController
 
 		$data = Input::all();
 
+		$data['avatar'] = isset($data['avatar'])
+			? $data['avatar']
+			: (isset($data['avatar_mobile'])
+				? $data['avatar_mobile']
+				: null);
+
 		$data['firstname'] = StringHelper::mbUcFirst(Input::get('firstname'));
 		$data['lastname'] = StringHelper::mbUcFirst(Input::get('lastname'));
 		$data['car_brand'] = StringHelper::mbUcFirst(Input::get('car_brand'));
