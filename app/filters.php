@@ -43,9 +43,9 @@ Route::filter('authInCabinet', function()
 		}
 		else
 		{
-			$message = (URL::current() == Route::is('user/*')) ? 'Профиль пользователя доступен для просмотра только зарегистрированным пользователям.'
-				: 'Страница, на которую Вы пытались зайти, доступна для просмотра только зарегистрированным пользователям.';
-			return Redirect::guest('login')->with('message', $message);
+			$errorMessage = 'Страница, на которую Вы пытались зайти,
+				доступна для просмотра только зарегистрированным пользователям.';
+			return Redirect::guest('/')->with('errorMessage', $errorMessage);
 		}
 	}
 });
