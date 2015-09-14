@@ -57,7 +57,7 @@
                     </li>
                 @endif
 
-                @if(!is_null($page) && Auth::user()->isAdmin())
+                @if(!is_null($page) && (Auth::user()->isAdmin() || Auth::user()->isModerator()))
                     <li class="edit-page" style="margin-right: 10px">
                         <a href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" title="Редактировать эту страницу" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">edit</i>

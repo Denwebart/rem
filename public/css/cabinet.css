@@ -120,11 +120,11 @@ h2, .h2 {
 #users-menu li a .label {
     position: absolute;
     top: 7px;
-    right: 5px;
+    right: 7px;
     font-size: 10px;
-    height: 16px;
     line-height: 1em;
     text-align: center;
+    padding: 0.3em 0.5em;
 }
 /*-- End Меню пользователя (справа) --*/
 

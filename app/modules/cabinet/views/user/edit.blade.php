@@ -229,34 +229,4 @@ View::share('title', $title);
         });
     </script>
 
-    <!-- Geocomplete -->
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
-    {{ HTML::script('js/jquery.geocomplete.min.js') }}
-
-    <script type="text/javascript">
-        $("#country").geocomplete({
-            types: ['(regions)']
-        }).bind("geocode:result", function (event, result) {
-            if(result.types[0] == 'country') {
-                $(this).val(result.name);
-                $(this).parent().find('.error').remove();
-            } else {
-                $(this).val('');
-                $(this).after('<small class="error text-danger">Выберите страну</small>');
-            }
-        });
-
-        $("#city").geocomplete({
-            types: ['(cities)']
-        }).bind("geocode:result", function (event, result) {
-            if(result.types[0] == 'locality') {
-                $(this).val(result.name);
-                $(this).parent().find('.error').remove();
-            } else {
-                $(this).val('');
-                $(this).after('<small class="error text-danger">Выберите город</small>');
-            }
-        });
-    </script>
-
 @stop

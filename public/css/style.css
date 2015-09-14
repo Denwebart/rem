@@ -458,7 +458,7 @@ h1, h2, h3, h4, h5, h6,
     padding: 0 16px;
 }
 #tags-sidebar-widget .tag {
-    padding: 2px 7px 2px 10px;
+    padding: 0 7px 3px 10px;
     text-transform: none;
 }
 #tags-sidebar-widget .all-tags a {
@@ -470,8 +470,6 @@ h1, h2, h3, h4, h5, h6,
 #tags-sidebar-widget .tag .label {
     background: #ffffff;
     color: #1292CE;
-    padding: 0.1em 0.6em 0.2em;
-    border-radius: 10px;
     margin-left: 2px;
     font-weight: 700;
 }
