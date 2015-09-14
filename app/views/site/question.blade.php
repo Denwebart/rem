@@ -102,6 +102,7 @@
         </div>
 
         <!-- Подписка на вопрос ("Подписки") -->
+        <div class="clearfix"></div>
         @include('widgets.subscribe', ['subscriptionObject' => $page, 'subscriptionField' => Subscription::FIELD_PAGE_ID])
 
         {{ $areaWidget->contentMiddle() }}

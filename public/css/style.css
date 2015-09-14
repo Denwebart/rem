@@ -124,6 +124,13 @@ h1, h2, h3, h4, h5, h6,
 .buttons a {
     margin-left: 5px;
 }
+.file-input-name {
+    margin-left: 0;
+    font-size: 12px;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+}
 .material-icons {
     max-width: 30px;
 }
@@ -968,6 +975,15 @@ h1, h2, h3, h4, h5, h6,
     padding: 10px 20px 10px 10px;
     margin: 0 0 10px 10px;
 }
+#comments-widget .new-comment .comment-text {
+    border-left: 2px solid #4CAF50;
+    background: #D3F5CE;
+    transition-duration: 2.5s;
+    -ms-transition-duration: 2.5s;
+    -o-transition-duration: 2.5s;
+    -moz-transition-duration: 2.5s;
+    -webkit-transition-duration: 2.5s;
+}
 #comments-widget .comment-text.best {
     border-left: 2px solid #4CAF50;
 }
@@ -1119,15 +1135,6 @@ h1, h2, h3, h4, h5, h6,
 #users .honors a {
     float: left;
     line-height: 25px;
-}
-
-.new-comment {
-    background: #C1E2B3;
-    transition-duration: 2.5s;
-    -ms-transition-duration: 2.5s;
-    -o-transition-duration: 2.5s;
-    -moz-transition-duration: 2.5s;
-    -webkit-transition-duration: 2.5s;
 }
 
 /*-- Лидеры месяца --*/
@@ -1339,6 +1346,7 @@ footer .copyright a {
     width: 400px;
     max-width: calc(100% - 40px);
     margin: 20px;
+    z-index: 1000;
 }
 
 /* Bottom Menu */
@@ -1865,6 +1873,9 @@ footer .copyright a {
     .comment .vote .vote-like i,
     .comment .vote .vote-dislike i {
         font-size: 27px;
+    }
+    #comments-widget .reply {
+        margin-left: 5px;
     }
     .mce-btn button {
         padding: 4px 5px !important;

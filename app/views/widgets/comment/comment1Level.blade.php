@@ -69,6 +69,8 @@
                 <div class="col-md-1 col-sm-1 col-xs-2">
                     @include('widgets.comment.vote', ['isBannedIp' => $isBannedIp,])
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
@@ -80,7 +82,8 @@
                                 @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)
                                     <div class="mark-comment" data-mark-comment-id="{{ $comment->id }}">
                                         <a href="javascript:void(0)" class="pull-left mark-comment-as-best" title="Если ответ вам помог, отметьте его как лучший.">
-                                            Отметить как лучший
+                                            <div class="hidden-xs">Отметить как лучший</div>
+                                            <div class="hidden-lg hidden-md hidden-sm">Лучший</div>
                                         </a>
                                     </div>
                                 @endif

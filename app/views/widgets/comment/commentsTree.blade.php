@@ -229,7 +229,9 @@
                         // отметить комментарий как новый
                         $('#comment-' + data.comment_id).addClass('new-comment');
                         setTimeout(function() {
-                            $('#comment-' + data.comment_id).css('background', 'none');
+                            $('#comment-' + data.comment_id).find('.comment-text')
+                                    .css('background', '#F2F2F2')
+                                    .css('border-color', '#03A9F4');
                         }, 3000);
                     } //success
                 }
@@ -291,7 +293,7 @@
         });
 
         // Голосование за комментарий
-        $(".vote-like").on('click', function() {
+        $('#comments-widget').on('click', '.vote-like', function() {
             var commentId = $(this).parent().data('voteCommentId');
             $.ajax({
                 url: '/comment/vote/' + commentId,
@@ -311,7 +313,7 @@
                 }
             });
         });
-        $(".vote-dislike").on('click', function() {
+        $('#comments-widget').on('click', '.vote-dislike', function() {
             var commentId = $(this).parent().data('voteCommentId');
             $.ajax({
                 url: '/comment/vote/' + commentId,
@@ -333,7 +335,7 @@
         });
 
         // Удаление комментария
-        $('.delete-comment').on('click', function() {
+        $('#comments-widget').on('click', '.delete-comment', function() {
             var commentId = $(this).data('id');
             if(confirm('Вы уверены, что хотите удалить комментарий?')) {
                 $.ajax({

@@ -175,9 +175,10 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
             @else
                 <p>Пользователей не найдено.</p>
             @endif
-
-            {{ $areaWidget->contentBottom() }}
         </div>
+
+        {{ $areaWidget->contentBottom() }}
+
     </section>
 @stop
 
