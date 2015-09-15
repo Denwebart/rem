@@ -359,7 +359,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->avatar){
-			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->login . '/' . $prefix . $this->avatar, $alt, $options);
+			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->getLoginForUrl() . '/' . $prefix . $this->avatar, $alt, $options);
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $alt, $options);
 		}
@@ -377,7 +377,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->alias . '/';
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $this->getLoginForUrl() . '/';
 			$image = Image::make($postImage->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
@@ -420,7 +420,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @return string
 	 */
 	public function getImageEditorPath() {
-		return '/uploads/' . $this->getTable() . '/' . $this->alias . '/editor/';
+		return '/uploads/' . $this->getTable() . '/' . $this->getLoginForUrl() . '/editor/';
 	}
 
 	/**
@@ -429,7 +429,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @return string
 	 */
 	public function getMessageImagePath() {
-		return '/uploads/' . (new Message)->getTable() . '/' . $this->alias . '/';
+		return '/uploads/' . (new Message)->getTable() . '/' . $this->getLoginForUrl() . '/';
 	}
 
 	/**
