@@ -72,7 +72,7 @@ class UserImage extends \Eloquent
 
 		static::deleted(function($model)
 		{
-			File::delete(public_path() . '/uploads/' . $model->getTable() . '/' . $model->user->login . '/' . $model->image);
+			File::delete(public_path() . '/uploads/' . $model->getTable() . '/' . $model->user->getLoginForUrl() . '/' . $model->image);
 		});
 	}
 
@@ -107,7 +107,7 @@ class UserImage extends \Eloquent
 	 */
 	public function getImageLink($prefix = null) {
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
-		return '/uploads/' . $this->table . '/' . $this->user->login . '/' . $prefix . $this->image;
+		return '/uploads/' . $this->table . '/' . $this->user->getLoginForUrl() . '/' . $prefix . $this->image;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class UserImage extends \Eloquent
 
 			$fileName = TranslitHelper::generateFileName($postImage->getClientOriginalName());
 
-			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $user->login . '/';
+			$imagePath = public_path() . '/uploads/' . $this->getTable() . '/' . $user->getLoginForUrl() . '/';
 
 			$image = Image::make($postImage->getRealPath());
 
@@ -148,7 +148,7 @@ class UserImage extends \Eloquent
 	 * @return string
 	 */
 	public function getImageEditorPath() {
-		return '/uploads/' . $this->getTable() . '/' . $this->user->login . '/editor/';
+		return '/uploads/' . $this->getTable() . '/' . $this->user->getLoginForUrl() . '/editor/';
 	}
 
 }
