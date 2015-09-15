@@ -224,7 +224,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		static::deleted(function($user)
 		{
-			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->alias . '/');
+			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->getLoginForUrl() . '/');
 		});
 	}
 
