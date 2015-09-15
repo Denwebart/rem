@@ -222,6 +222,7 @@ View::share('title', $title);
                             $('.delete-avatar').css('display', 'none');
                             $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
                             $('.avatar-link img').attr('src', response.imageUrlMini).addClass('avatar-default');
+                            $('.widget-user img').attr('src', response.imageUrlMini).addClass('avatar-default');
                         }
                     }
                 });
