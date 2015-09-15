@@ -247,7 +247,7 @@ class CabinetUserController extends \BaseController
 		if(Request::ajax())
 		{
 			$user = User::whereAlias($login)->firstOrFail();
-			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->login . '/';
+			$imagePath = public_path() . '/uploads/' . $user->getTable() . '/' . $user->getLoginForUrl() . '/';
 
 			// delete old avatar
 			if(File::exists($imagePath . $user->avatar)) {
