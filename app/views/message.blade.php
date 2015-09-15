@@ -20,7 +20,7 @@ View::share('title', $title);
                             function() {
                                 location.href = '{{ $redirect }}';
                             },
-                            50000
+                            5000
                         );
                     </script>
                     <p class="like-h">

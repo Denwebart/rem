@@ -257,19 +257,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		$activationUrl = action(
 			'UsersController@getActivate',
-			array(
+			[
 				'userId' => $this->id,
 				'activationCode'    => $this->activationCode,
-			)
+			]
 		);
 
 		$that = $this;
-		Mail::send('emails/activation',
-			array('activationUrl' => $activationUrl),
-			function ($message) use($that) {
-				$message->to($that->email)->subject('Спасибо за регистрацию!');
-			}
-		);
+		Mail::queue('emails.activation', ['activationUrl' => $activationUrl], function($message) use ($that)
+		{
+			$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
+			$message->to($that->email)->subject('Спасибо за регистрацию!');
+		});
 
 		Log::info("Mail to user [{$this->username}] has been sent. Activation url: {$activationUrl}");
 	}
