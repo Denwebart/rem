@@ -156,16 +156,24 @@ h1, h2, h3, h4, h5, h6,
 .loader-checkbox {
     background: url('../images/loader-button.gif');
 }
+/* Автокомплит jQueryUI */
+.ui-widget-content {
+    border: 1px solid #FFFFFF !important;
+    background: #FFFFFF !important;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.26);
+}
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
 .ui-widget-header .ui-state-hover,
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
-    border: 1px #eeeeee solid !important;
-    background: rgba(3, 169, 244, 0.2) none repeat scroll 0% 0% !important;;
-    font-weight: normal !important;;
-    color: #337AB7 !important;;
+    border: 1px #1B609C solid !important;
+    background: #1B609C none repeat scroll 0% 0% !important;
+    font-weight: normal !important;
+    color: #FFFFFF !important;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) inset;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*header {*/
