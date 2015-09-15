@@ -103,10 +103,10 @@
                 @endif
 				{{ $page->getContentWithWidget() }}
 
-                <div class="clearfix"></div>
-                <div class="margin-top-10">
+                @if(!$page->is_container)
+                    <div class="clearfix"></div>
                     @include('widgets.sidebar.socialButtons')
-                </div>
+                @endif
 			</div>
 		@endif
 

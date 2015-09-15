@@ -88,15 +88,9 @@
         </div>
 
         <div class="col-lg-3 col-md-3">
-            <div class="display-inline-block" style="width: 100%">
-                {{ $sidebarWidget->socialButtons() }}
 
-                <div class="pull-right">
-                    {{ $sidebarWidget->rss() }}
-                    {{ $sidebarWidget->addToFavorites() }}
-                </div>
-            </div>
-
+            {{ $sidebarWidget->rss() }}
+            {{ $sidebarWidget->addToFavorites() }}
             <div class="clearfix"></div>
 
             <div class="hidden-sm hidden-xs">

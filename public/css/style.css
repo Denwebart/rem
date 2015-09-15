@@ -783,16 +783,29 @@ h1, h2, h3, h4, h5, h6,
 #favorites-widget,
 #rss-widget {
     float: left;
-    margin-left: 5px;
+    margin-right: 5px;
+    width: calc(50% - 5px);
 }
 #favorites-widget a,
 #rss-widget a {
     margin-top: 0;
+    width: 100%;
+    background: #f4f4f4;
+    padding: 4px 10px;
 }
 #favorites-widget i.material-icons,
 #rss-widget i.material-icons {
-    color: #1B609C;
+    color: #FFAD00;
     font-size: 24px;
+    float: left;
+}
+#favorites-widget span,
+#rss-widget span {
+    float: left;
+    text-transform: none;
+}
+#rss-widget img {
+    float: left;
 }
 #rss-widget img {
     margin-right: 5px;

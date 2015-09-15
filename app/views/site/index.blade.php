@@ -28,6 +28,9 @@
                     </a>
                 @endif
 				{{ $page->getContentWithWidget() }}
+
+                <div class="clearfix"></div>
+                @include('widgets.sidebar.socialButtons')
 			</div>
 		@endif
 
