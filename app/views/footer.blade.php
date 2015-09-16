@@ -4,11 +4,15 @@
             <div class="col-md-12">
                 {{ $menuWidget->bottomMenu() }}
             </div>
-
-            <div class="col-md-4"></div>
-            <div class="col-md-4"></div>
-            <div class="col-md-4"></div>
-
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
+                <a href="{{ URL::to('/') }}">
+                    {{ HTML::image('images/logo-footer.png', '', ['class' => 'img-responsive margin-bottom-20']) }}
+                </a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <!-- Копирайт -->
                 @if(isset($settings['copyright']))
