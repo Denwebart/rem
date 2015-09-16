@@ -244,7 +244,7 @@ h1, h2, h3, h4, h5, h6,
 
 /*-- Header--*/
 #login-layout header {
-    height: 100px;
+    height: 60px;
 }
 .header {
     /*background: #DDDDDD;*/
@@ -2040,6 +2040,9 @@ footer .copyright a {
         /*width: 100% !important;*/
     /*}*/
     /*Header*/
+    #login-layout header {
+        height: 100px;
+    }
     #navbar-top .navbar-nav {
         margin: 0;
     }

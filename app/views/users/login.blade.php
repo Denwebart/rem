@@ -8,6 +8,11 @@ View::share('title', $title);
 @section('content')
     <div class="container">
         <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 hidden-xs">
+                <a href="{{ URL::to('/') }}">
+                    {{ HTML::image('images/logo.png', '', ['class' => 'img-responsive margin-bottom-20']) }}
+                </a>
+            </div>
             <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 well">
                 @if (Session::has('alert'))
                     <div class="alert alert-danger">
