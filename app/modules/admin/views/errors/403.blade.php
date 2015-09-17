@@ -11,4 +11,4 @@ View::share('headerWidget', app('HeaderWidget'));
         <h1 style="font-size: 200px">403</h1>
         <p style="font-size: 40px">У Вас нет прав для просмотра этой страницы.</p>
     </div>
-@endsection
+@stop

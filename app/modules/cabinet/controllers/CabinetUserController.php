@@ -1158,7 +1158,7 @@ class CabinetUserController extends \BaseController
 					return Response::json(array(
 						'success' => true,
 						'message' => (string) View::make('widgets.siteMessages.success', [
-							'siteMessage' => 'Страница сохранена в <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">"Сохраненное".</a>'
+							'siteMessage' => 'Страница сохранена в <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">cохраненное</a>.'
 						]),
 						'whoSaved' => count($page->whoSaved)
 					));
@@ -1185,7 +1185,7 @@ class CabinetUserController extends \BaseController
 				return Response::json(array(
 					'success' => true,
 					'message' => (string) View::make('widgets.siteMessages.success', [
-						'siteMessage' => 'Страница удалена из сохраненного.'
+						'siteMessage' => 'Страница удалена из <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">сохраненного</a>.'
 					]),
 					'whoSaved' => count($page->whoSaved)
 				));
@@ -1193,7 +1193,7 @@ class CabinetUserController extends \BaseController
 				return Response::json(array(
 					'success' => false,
 					'message' => (string) View::make('widgets.siteMessages.warning', [
-						'siteMessage' => 'Страница уже удалена из сохраненного.'
+						'siteMessage' => 'Страница уже удалена из <a href="'. URL::route('user.savedPages', ['login' => Auth::user()->getLoginForUrl()]) .'">сохраненного</a>.'
 					]),
 				));
 			}

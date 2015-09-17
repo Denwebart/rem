@@ -38,7 +38,7 @@ View::share('title', $title);
                                 @section('siteMessages')
                                     @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
                                     @parent
-                                @endsection
+                                @stop
                             @endif
 
                             <!-- всплывающее сообщение - пароль изменен -->
@@ -46,7 +46,7 @@ View::share('title', $title);
                                 @section('siteMessages')
                                     @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
                                     @parent
-                                @endsection
+                                @stop
                             @endif
 
                             @if(Auth::check())
@@ -253,7 +253,7 @@ View::share('title', $title);
             </div>
         </div>
     </div>
-@endsection
+@stop
 
 @section('script')
     @parent
@@ -285,4 +285,4 @@ View::share('title', $title);
             </script>
         @endif
     @endif
-@endsection
+@stop

@@ -178,7 +178,7 @@ View::share('title', $title);
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
 
     {{ Form::close() }}
-@endsection
+@stop
 
 @section('style')
     @parent

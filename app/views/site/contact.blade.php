@@ -38,7 +38,7 @@
                 @section('siteMessages')
                     @include('widgets.siteMessages.info', ['siteMessage' => Session::get('successMessage')])
                     @parent
-                @endsection
+                @stop
 			@endif
 
 			{{ Form::open([

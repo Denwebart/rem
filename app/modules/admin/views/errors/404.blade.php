@@ -11,4 +11,4 @@ View::share('headerWidget', app('HeaderWidget'));
         <h1 style="font-size: 200px">404 ошибка</h1>
         <p style="font-size: 40px">Страница не найдена</p>
     </div>
-@endsection
+@stop

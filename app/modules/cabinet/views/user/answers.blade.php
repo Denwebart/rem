@@ -90,4 +90,4 @@ View::share('title', $title);
             </script>
         @endif
     @endif
-@endsection
+@stop

@@ -106,7 +106,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                             });
                         </script>
 
-                    @endsection
+                    @stop
                 </ul>
             </div>
         </div>

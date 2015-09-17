@@ -17,6 +17,10 @@
                 <p>
                     {{ $message_text }}
                 </p>
+                <p>
+                    Отправлено:
+                    {{ DateHelper::dateFormat($created_at) }}
+                </p>
             </td>
         </tr>
     </table>

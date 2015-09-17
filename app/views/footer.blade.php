@@ -67,4 +67,4 @@
 
         });
     </script>
-@endsection
+@stop

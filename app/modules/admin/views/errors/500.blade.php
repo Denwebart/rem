@@ -10,4 +10,4 @@ View::share('headerWidget', app('HeaderWidget'));
     <div style="text-align: center; width: 100%">
         <h1 style="font-size: 200px">500 ошибка</h1>
     </div>
-@endsection
+@stop

@@ -205,7 +205,7 @@ View::share('title', $title);
         });
     </script>
 
-@endsection
+@stop
 
 @section('script')
     @parent

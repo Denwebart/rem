@@ -49,7 +49,7 @@ View::share('areaWidget', $areaWidget);
                         @section('siteMessages')
                             @include('widgets.siteMessages.danger', ['siteMessage' => Session::get('rulesErrorMessage')])
                             @parent
-                        @endsection
+                        @stop
                     @endif
 
                     <div class="row">
@@ -128,4 +128,4 @@ View::share('areaWidget', $areaWidget);
             }
         });
     </script>
-@endsection
+@stop

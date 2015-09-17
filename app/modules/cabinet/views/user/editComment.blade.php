@@ -89,7 +89,7 @@ View::share('title', $title);
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', ['imagePath' => $comment->getImageEditorPath()])
-@endsection
+@stop
 
 @section('script')
     @parent

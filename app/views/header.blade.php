@@ -80,7 +80,7 @@
                                         }
                                     });
                                 </script>
-                            @endsection
+                            @stop
                         </div>
                     </div>
                 </div>

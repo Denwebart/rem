@@ -180,4 +180,4 @@ View::share('title', $title);
             });
         </script>
     @endif
-@endsection
+@stop

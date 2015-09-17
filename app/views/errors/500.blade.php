@@ -12,4 +12,4 @@ View::share('title', $title);
             <span class="hidden-md hidden-sm hidden-xs">ошибка</span>
         </span>
     </div>
-@endsection
+@stop

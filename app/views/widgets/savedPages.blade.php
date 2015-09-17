@@ -70,7 +70,7 @@
                 });
             });
         </script>
-    @endsection
+    @stop
 @else
     <div class="saved-count pull-left" title="Сколько пользователей сохранили">
         <i class="material-icons">archive</i>

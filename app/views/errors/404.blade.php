@@ -13,4 +13,4 @@ View::share('title', $title);
         </span>
         <p class="error-message">Страница не найдена</p>
     </div>
-@endsection
+@stop

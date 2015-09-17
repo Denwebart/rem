@@ -235,8 +235,6 @@ class SiteController extends BaseController {
 			'ip_id' => $ip->id,
 			'subject' => Input::get('subject'),
 			'message' => Input::get('message'),
-			'created_at' => \Carbon\Carbon::now(),
-			'message_text' => Input::get('message'),
 			'g-recaptcha-response' => Input::get('g-recaptcha-response'),
 		];
 
@@ -249,6 +247,8 @@ class SiteController extends BaseController {
 			$letter->fill($data);
 			if($letter->save())
 			{
+				$data = $letter->toArray();
+				$data['message_text'] = Input::get('message');
 				if(Auth::check()) {
 					$data['user_name'] = Auth::user()->getFullName();
 					$data['user_login'] = Auth::user()->login;

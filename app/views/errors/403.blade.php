@@ -44,4 +44,4 @@ View::share('title', $title);
             </div>
         </div>
     </div>
-@endsection
+@stop

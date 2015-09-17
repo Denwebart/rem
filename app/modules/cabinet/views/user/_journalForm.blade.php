@@ -118,7 +118,7 @@
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', ['imagePath' => $article->getImageEditorPath()])
-@endsection
+@stop
 
 @section('script')
     @parent

@@ -119,7 +119,7 @@
                                                     @section('siteMessages')
                                                         @include('widgets.siteMessages.success', ['siteMessage' => Session::get('rulesSuccessMessage')])
                                                         @parent
-                                                    @endsection
+                                                    @stop
                                                 @endif
                                             @endif
                                         @endif
@@ -188,7 +188,7 @@
                                         'sitekey' : '<?php echo Config::get('settings.nocaptchaSitekey') ?>', //Replace this with your Site key
                                         'theme' : 'light'
                                         });
-                                @endsection
+                                @stop
                             <div class="g-recaptcha-response_error error text-danger"></div>
 
                             <div class="row">

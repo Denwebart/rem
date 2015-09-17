@@ -174,7 +174,7 @@ View::share('title', $title);
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', ['imagePath' => $user->getMessageImagePath(), 'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'])
-@endsection
+@stop
 
 @section('script')
     @parent

@@ -410,4 +410,4 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
 
         </div>
     @endif
-@endsection
+@stop

@@ -103,7 +103,7 @@ View::share('title', $title);
 
     <!-- FancyBox2 -->
     <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-@endsection
+@stop
 
 @section('script')
     @parent
@@ -115,4 +115,4 @@ View::share('title', $title);
             $(".fancybox").fancybox();
         });
     </script>
-@endsection
+@stop

@@ -36,7 +36,7 @@
                     readOnly: true
                 });
             </script>
-        @endsection
+        @stop
     @endforeach
 </div>
 
@@ -46,4 +46,4 @@
     {{ HTML::script('js/jRate.js') }}
 
     @yield('rating')
-@endsection
+@stop
