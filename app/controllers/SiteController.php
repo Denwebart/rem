@@ -235,6 +235,8 @@ class SiteController extends BaseController {
 			'ip_id' => $ip->id,
 			'subject' => Input::get('subject'),
 			'message' => Input::get('message'),
+			'created_at' => \Carbon\Carbon::now(),
+			'message_text' => Input::get('message'),
 			'g-recaptcha-response' => Input::get('g-recaptcha-response'),
 		];
 
@@ -247,6 +249,12 @@ class SiteController extends BaseController {
 			$letter->fill($data);
 			if($letter->save())
 			{
+				if(Auth::check()) {
+					$data['user_name'] = Auth::user()->getFullName();
+					$data['user_login'] = Auth::user()->login;
+					$data['user_alias'] = Auth::user()->getLoginForUrl();
+					$data['user_email'] = Auth::user()->email;
+				}
 				Mail::queue('emails.contactToAdmin', $data, function($message) use ($data)
 				{
 					if(Auth::check()) {
