@@ -49,6 +49,10 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <a href="javascript:void(0)" class="pull-left get-link" data-comment-id="{{ $commentLevel2->id }}">
+                        <span>Ссылка</span>
+                    </a>
+
                     @if(Auth::check())
                         @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                             <div class="buttons pull-right">

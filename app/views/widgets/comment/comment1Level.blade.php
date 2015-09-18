@@ -45,17 +45,6 @@
                                             <i class="material-icons mdi-success" title="Лучший ответ">done</i>
                                         </div>
                                     @endif
-
-                                    {{--@if(Auth::check())--}}
-                                        {{--@if(Auth::user()->isAdmin() || Auth::user()->isModerator())--}}
-                                            {{--<a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий">--}}
-                                                {{--<i class="material-icons">edit</i>--}}
-                                            {{--</a>--}}
-                                            {{--<a href="javascript:void(0)" class="pull-left margin-left-10 delete-comment" title="Удалить комментарий" data-id="{{ $comment->id }}">--}}
-                                                {{--<i class="material-icons">delete</i>--}}
-                                            {{--</a>--}}
-                                        {{--@endif--}}
-                                    {{--@endif--}}
                                 </div>
                             </div>
                         </div>
@@ -88,6 +77,10 @@
                                     </div>
                                 @endif
                             @endif
+
+                            <a href="javascript:void(0)" class="pull-left get-link margin-left-10" data-comment-id="{{ $comment->id }}">
+                                <span>Ссылка</span>
+                            </a>
 
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
