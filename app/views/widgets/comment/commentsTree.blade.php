@@ -362,12 +362,5 @@
                 });
             }
         });
-
-        // Получение ссылки на коммаентарий
-        $('#comments-widget').on('click', '.get-link', function() {
-            var commentId = $(this).data('commentId');
-            var pageUrl = '<?php echo URL::to($page->getUrl()) ?>'
-            alert(pageUrl + '#comment-' + commentId);
-        });
     </script>
 @stop
