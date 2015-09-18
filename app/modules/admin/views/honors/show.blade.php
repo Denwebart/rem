@@ -18,7 +18,6 @@ View::share('title', $title);
             <li>{{ $honor->title }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-4">

@@ -18,7 +18,6 @@ View::share('title', $title);
             <li>Редактирование {{ $setting->key }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-12">

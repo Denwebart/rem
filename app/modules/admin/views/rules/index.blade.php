@@ -7,14 +7,17 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-exclamation-triangle"></i> {{ $title }} <small></small></h1>
+        <h1>
+            <i class="fa fa-exclamation-triangle"></i>
+            {{ $title }}
+            <small></small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
             <li class="active">{{ $title }}</li>
         </ol>
     </div>
-
     <div class="content">
         <!-- Main row -->
         <div class="row">

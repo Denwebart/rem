@@ -19,7 +19,6 @@ View::share('title', $title);
             <li class="active">{{ $title }}</li>
         </ol>
     </div>
-
     <div class="content">
         <!-- Main row -->
         <div class="row">

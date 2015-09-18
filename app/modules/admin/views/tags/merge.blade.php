@@ -6,85 +6,84 @@ View::share('title', $title);
 ?>
 
 @section('content')
-<div class="page-head">
-    <h1>
-        <i class="fa fa-tags"></i>
-        <i class="fa fa-plus"></i>
-        <i class="fa fa-tags"></i>
+    <div class="page-head">
+        <h1>
+            <i class="fa fa-tags"></i>
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-tags"></i>
             {{ $title }}
-        <small>слияние похожих тегов</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        <li><a href="{{ URL::route('admin.tags.index') }}">Теги</a></li>
-        <li class="active">{{ $title }}</li>
-    </ol>
-</div>
+            <small>слияние похожих тегов</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
+            <li><a href="{{ URL::route('admin.tags.index') }}">Теги</a></li>
+            <li class="active">{{ $title }}</li>
+        </ol>
+    </div>
+    <div class="content">
+        <!-- Main row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-body">
 
-<div class="content">
-    <!-- Main row -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-body">
+                        <div class="message"></div>
 
-                    <div class="message"></div>
-
-                    <div class="row">
-                        {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.postMerge'], 'id' => 'merge-tags-form']) }}
-                            <div class="col-md-4">
-                                <div class="original-tags">
-                                    {{--{{ Form::label('tags[1]', 'Тег', ['class' => 'col-sm-2 control-label']) }}--}}
-                                    <div class="form-group input first">
-                                        {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]']) }}
+                        <div class="row">
+                            {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.postMerge'], 'id' => 'merge-tags-form']) }}
+                                <div class="col-md-4">
+                                    <div class="original-tags">
+                                        {{--{{ Form::label('tags[1]', 'Тег', ['class' => 'col-sm-2 control-label']) }}--}}
+                                        <div class="form-group input first">
+                                            {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]']) }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-2">
-                                <span>объединить в</span>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {{ Form::text('resultTag', null, ['class' => 'form-control autocomplete', 'placeholder' => '', 'id' => 'resultTag']) }}
-                                    {{ $errors->first('resultTag') }}
+                                <div class="col-md-2">
+                                    <span>объединить в</span>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                {{ Form::submit('Объединить', ['class' => 'btn btn-success margin-top-25', 'id' => 'merge-tags-button']) }}
-                                <a href="javascript:void(0)" class="btn btn-primary" id="cancel-merge-tags-button">Отмена</a>
-                            </div>
-                            {{ Form::hidden('_token', csrf_token()) }}
-                        {{ Form::close() }}
-                    </div>
 
-                    <hr/>
-
-                    <div class="row">
-                        {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
-
-                        <div class="form-group">
-                            {{ Form::label('search', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
-                            {{ Form::text('search', null, ['class' => 'form-control', 'placeholder' => '']) }}
-                            {{ $errors->first('search') }}
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ Form::text('resultTag', null, ['class' => 'form-control autocomplete', 'placeholder' => '', 'id' => 'resultTag']) }}
+                                        {{ $errors->first('resultTag') }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    {{ Form::submit('Объединить', ['class' => 'btn btn-success margin-top-25', 'id' => 'merge-tags-button']) }}
+                                    <a href="javascript:void(0)" class="btn btn-primary" id="cancel-merge-tags-button">Отмена</a>
+                                </div>
+                                {{ Form::hidden('_token', csrf_token()) }}
+                            {{ Form::close() }}
                         </div>
 
-                            {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
-                            {{ Form::hidden('_token', csrf_token()) }}
-                        {{ Form::close() }}
+                        <hr/>
+
+                        <div class="row">
+                            {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
+
+                            <div class="form-group">
+                                {{ Form::label('search', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
+                                {{ Form::text('search', null, ['class' => 'form-control', 'placeholder' => '']) }}
+                                {{ $errors->first('search') }}
+                            </div>
+
+                                {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
+                                {{ Form::hidden('_token', csrf_token()) }}
+                            {{ Form::close() }}
+
+                        </div>
+
+                        <div id="search-result">
+
+                        </div>
 
                     </div>
-
-                    <div id="search-result">
-
-                    </div>
-
                 </div>
-            </div>
-        </div><!-- ./col -->
+            </div><!-- ./col -->
+        </div>
     </div>
-</div>
 @stop
 
 @section('style')

@@ -18,7 +18,6 @@ View::share('title', $title);
             <li>Комментарий к странице {{ Str::limit($comment->page->getTitle(), 50, '...') }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-12">

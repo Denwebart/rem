@@ -7,16 +7,17 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><h1><i class="fa fa-edit "></i>
-                {{ $title }}
-                <small>редактирование тега</small></h1>
+        <h1>
+            <i class="fa fa-edit "></i>
+            {{ $title }}
+            <small>редактирование тега</small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.tags.index') }}">Теги</a></li>
             <li>{{ $tag->title }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-12">

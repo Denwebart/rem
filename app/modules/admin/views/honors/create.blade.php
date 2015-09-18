@@ -18,7 +18,6 @@ View::share('title', $title);
             <li>{{ $title }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             {{ Form::model($honor, ['method' => 'POST', 'route' => ['admin.honors.store'], 'id' => 'honorsForm', 'files' => true]) }}

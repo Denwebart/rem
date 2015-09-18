@@ -22,7 +22,6 @@ View::share('title', $title);
             @endif
         </ol>
     </div>
-
     <div class="content">
         <!-- Main row -->
         <div class="mailbox row">

@@ -7,9 +7,11 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-edit "></i>
+        <h1>
+            <i class="fa fa-edit "></i>
             {{ $title }}
-            <small></small></h1>
+            <small></small>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
@@ -17,7 +19,6 @@ View::share('title', $title);
             <li>{{ $title }}</li>
         </ol>
     </div>
-
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-12">

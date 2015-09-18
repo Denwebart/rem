@@ -18,7 +18,6 @@ View::share('title', $title);
             <li>{{ Str::limit($page->getTitle(), 60, '...') }}</li>
         </ol>
     </div>
-
     <div class="content">
         <!-- Main row -->
         <div class="row">
