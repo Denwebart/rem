@@ -1081,8 +1081,16 @@ h1, h2, h3, h4, h5, h6,
 }
 #comments-widget .date {
     font-size: 13px;
+    line-height: 14px;
     font-style: italic;
     color: #777777;
+    float: left;
+}
+#comments-widget .get-link {
+    margin-left: 10px;
+    font-size: 13px;
+    line-height: 14px;
+    float: left;
 }
 #comments-widget .best-comment {
     margin-left: 20px;

@@ -34,6 +34,9 @@
                                         <span class="date">
                                             {{ DateHelper::dateFormat($commentLevel2->created_at) }}
                                         </span>
+                                        <a href="{{ URL::to($commentLevel2->getUrl()) }}" class="get-link pull-left margin-top-10" data-comment-id="{{ $commentLevel2->id }}" title="Ссылка на комментарий" data-toggle="tooltip" data-placement="bottom">
+                                            <span>#</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -49,10 +52,6 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="javascript:void(0)" class="pull-left get-link" data-comment-id="{{ $commentLevel2->id }}">
-                        <span>Ссылка</span>
-                    </a>
-
                     @if(Auth::check())
                         @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                             <div class="buttons pull-right">

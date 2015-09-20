@@ -34,10 +34,13 @@
                                                 {{ $comment->user_name }}
                                             </a>
                                         @endif
-                                            <br>
+                                        <br>
                                         <span class="date">
                                             {{ DateHelper::dateFormat($comment->created_at) }}
                                         </span>
+                                        <a href="{{ URL::to($comment->getUrl()) }}" class="get-link" data-comment-id="{{ $comment->id }}" title="Ссылка на комментарий" data-toggle="tooltip">
+                                            <span>#</span>
+                                        </a>
                                     </div>
 
                                     @if($comment->mark == Comment::MARK_BEST)
@@ -77,10 +80,6 @@
                                     </div>
                                 @endif
                             @endif
-
-                            <a href="javascript:void(0)" class="pull-left get-link margin-left-10" data-comment-id="{{ $comment->id }}">
-                                <span>Ссылка</span>
-                            </a>
 
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
