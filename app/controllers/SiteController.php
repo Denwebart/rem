@@ -62,9 +62,12 @@ class SiteController extends BaseController {
 			$children = Page::where(function($query) use ($categoryArray, $page){
 				$query->whereIn('parent_id', $categoryArray)
 					->orWhere('parent_id', $page->id);
-			})->whereIsContainer(0)
-				->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
-				->paginate(10);
+				})->whereIsContainer(0)
+					->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
+					->whereIsPublished(1)
+					->where('published_at', '<', date('Y-m-d H:i:s'))
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
 		} else {
 			$children = [];
 		}
@@ -97,9 +100,12 @@ class SiteController extends BaseController {
 			$children = Page::where(function($query) use ($categoryArray, $page){
 				$query->whereIn('parent_id', $categoryArray)
 					->orWhere('parent_id', $page->id);
-			})->whereIsContainer(0)
-				->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
-				->paginate(10);
+				})->whereIsContainer(0)
+					->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
+					->whereIsPublished(1)
+					->where('published_at', '<', date('Y-m-d H:i:s'))
+					->orderBy('created_at', 'DESC')
+					->paginate(10);
 		} else {
 			$children = [];
 		}

@@ -1,4 +1,21 @@
 <?php
+/*
+Route::get('/fill', function() {
+	$result_data = [
+	];
+	$i = 0;
+	foreach($result_data as $item) {
+		if(DB::table('pages')->insert($item)) {
+			echo 'Данные заполнены! ';
+			echo $item['title'];
+			echo '</br>';
+			$i++;
+		}
+	}
+	echo '</br>-----------</br>';
+	echo 'Заполнено ' . $i . ' из ' . count($result_data);
+});
+*/
 
 Route::pattern('alias', '[A-Za-z0-9-_]+');
 
