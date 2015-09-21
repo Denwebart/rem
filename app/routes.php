@@ -1,5 +1,6 @@
 <?php
-/*
+
+/* Заполнение данных */
 Route::get('/fill', function() {
 	$result_data = [
 	];
@@ -15,7 +16,7 @@ Route::get('/fill', function() {
 	echo '</br>-----------</br>';
 	echo 'Заполнено ' . $i . ' из ' . count($result_data);
 });
-*/
+
 
 Route::pattern('alias', '[A-Za-z0-9-_]+');
 
