@@ -9,7 +9,7 @@ class CreateUsersIpsTable extends Migration {
 	{
 		Schema::create('users_ips', function (Blueprint $table) {
 			$table->integer('user_id');
-			$table->integer('ip_id');
+			$table->integer('ip_id')->nullable();
 			$table->timestamps();
 			$table->primary(array('user_id', 'ip_id'));
 		});

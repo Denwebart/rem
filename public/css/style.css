@@ -578,10 +578,26 @@ h1, h2, h3, h4, h5, h6,
     font-size: 26px;
     line-height: 26px;
     text-align: center;
+    float: left;
+    margin-bottom: 5px;
 }
 #rating #rate-voters {
     text-align: center;
     font-size: 13px;
+    line-height: 18px;
+    float: right;
+    margin-top: 4px;
+    margin-bottom: 5px;
+}
+#rating #rate-stars {
+    clear: both;
+}
+#rating #rate-voters i.material-icons {
+    font-size: 18px;
+    line-height: 18px;
+    position: relative;
+    top: 4px;
+    margin-right: 5px;
 }
 
 /*-- End Content --*/

@@ -2,13 +2,13 @@
 
 /* Заполнение данных */
 Route::get('/fill', function() {
-	$result_data = [
-	];
+    $result_data = [
+    ];
 	$i = 0;
 	foreach($result_data as $item) {
-		if(DB::table('pages')->insert($item)) {
+		if(DB::table('comments')->insert($item)) {
 			echo 'Данные заполнены! ';
-			echo $item['title'];
+			echo $item['id'];
 			echo '</br>';
 			$i++;
 		}

@@ -1,7 +1,9 @@
 <div id="rating">
     <div class="rating pull-right">
         <div id="rate-votes">{{ $page->getRating() }}</div>
-        <div id="rate-voters">(голосовавших: <span>{{ $page->voters }}</span>)</div>
+        <div id="rate-voters" title="Количество проголосовавших" data-toggle="tooltip">
+            (<i class="material-icons">group</i> <span>{{ $page->voters }}</span>)
+        </div>
         <div id="rate-stars">
             <div id="jRate"></div>
         </div>

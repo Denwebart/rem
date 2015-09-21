@@ -10,7 +10,7 @@ class ReplaceIpColumnOnIpIdIntoCommentsAndLettersTable extends Migration {
 		foreach (['letters', 'comments'] as $table) {
 			Schema::table($table, function (Blueprint $table) {
 				$table->dropColumn('user_ip');
-				$table->integer('ip_id')->after('user_id')->default(1);
+				$table->integer('ip_id')->after('user_id')->nullable();
 			});
 		}
 	}
