@@ -51,9 +51,9 @@
                     </p>
                     <span class="position">{{ User::$roles[Auth::user()->role] }}</span>
                 </div>
-                <div class="button">
-                    <a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i></a>
-                </div>
+                {{--<div class="button">--}}
+                    {{--<a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i></a>--}}
+                {{--</div>--}}
             </div>
             <ul class="sidebar-menu">
                 <li class="title">Навигация</li>

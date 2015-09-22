@@ -298,8 +298,8 @@ h1, h2, h3, h4, h5, h6,
 .content .fancybox {
     float: left;
     max-width: 100%;
-    width: 100%;
-    text-align: center;
+    /*width: 100%;*/
+    /*text-align: center;*/
 }
 .content .fancybox img {
     max-width: 100% !important;
@@ -1711,13 +1711,13 @@ footer .copyright a {
     height: 50px;
     display: block;
     line-height: 50px;
-    margin: 0 20px 0 0;
+    margin: 0 20px 0 20px;
 }
-#header-widget .logo i {
-    margin: 0 15px;
+#header-widget .logo img {
+    margin: 4px 0 0;
     background: none;
     float: left;
-    line-height: 50px;
+    height: 42px;
 }
 #header-widget .widget-user a {
     padding: 14px 15px 11px;
@@ -2177,7 +2177,7 @@ footer .copyright a {
         float: left;
     }
     #header-widget .logo {
-        margin: 0;
+        margin: 0 5px;
     }
     /* Menu */
     #navbar-main {

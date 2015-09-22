@@ -153,6 +153,37 @@ form.as-button {
 #header-widget .logo {
     position: fixed;
 }
+#header-widget .logo img {
+    margin: 4px 0 0 20px;
+    background: none;
+    float: left;
+    height: 42px;
+}
+#header-widget .logo .button a {
+    display: inline-block;
+    color: #FFF;
+    padding: 0px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    margin: 10px 10px 0 0;
+    height: 30px;
+    line-height: 30px;
+}
+#header-widget .logo .button a i {
+    font-size: 13px;
+    position: relative;
+    top: -3px;
+}
+#header-widget .logo .button a:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+.sidebar-sm #header-widget .logo .button {
+    display: none;
+}
+.sidebar-sm #header-widget .logo img {
+    height: 32px;
+    margin: 9px 5px;
+}
 #header-widget .navbar .nav > li {
     height: 50px;
 }
@@ -268,10 +299,10 @@ header .logo {
 }
 
 header .logo i {
-    margin-right: 8px;
-    background-color: #273849;
-    box-shadow: inset 4px 0 0 0 #191919;
-    padding: 15px 15px;
+    /*margin-right: 8px;*/
+    /*background-color: #273849;*/
+    /*box-shadow: inset 4px 0 0 0 #191919;*/
+    /*padding: 15px 15px;*/
 }
 
 /* 2 Column==================================================*/

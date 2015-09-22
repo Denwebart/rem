@@ -1,15 +1,18 @@
 <header id="header-widget">
     @if(Request::is('admin*'))
-        <a href="{{ URL::to('admin') }}" class="logo">
-            <i class="material-icons">build</i>
-            <span class="hidden-xs">Админка</span>
-        </a>
+        <div class="logo">
+            <a href="{{ URL::to('admin') }}">
+                {{ HTML::image('images/admin-panel.png') }}
+            </a>
+            <div class="button pull-right">
+                <a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i></a>
+            </div>
+        </div>
     @endif
     <nav class="navbar navbar-static-top">
         @if(!Request::is('admin*') && (Auth::user()->isAdmin() || (Auth::user()->isModerator() && !Auth::user()->is_banned )))
             <a href="{{ URL::to('admin') }}" class="logo">
-                <i class="material-icons">build</i>
-                <span class="hidden-xs">Админка</span>
+                {{ HTML::image('images/admin-panel.png', '', ['title' => 'В админку', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom']) }}
             </a>
         @elseif(!Request::is('admin*') && (!Auth::user()->isAdmin() || !Auth::user()->isModerator()))
             <div class="logo"></div>
