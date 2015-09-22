@@ -16,7 +16,7 @@
                         <span class="is-online-status online pull-left" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                         <span class="text pull-left">Сейчас на сайте</span>
                     @else
-                        <span class="is-online-status offline pull-left" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                        <span class="is-online-status offline pull-left" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                         <span class="text pull-left">
                             Был на сайте
                             <span title="{{ DateHelper::dateFormat($user->last_activity) }}" data-toggle="tooltip" data-placement="top">
@@ -37,7 +37,9 @@
                         'title' => !is_null($userHonor->comment)
                             ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
                             : $userHonor->honor->title,
-                        'alt' => $userHonor->honor->title])
+                        'alt' => $userHonor->honor->title,
+                        'data-toggle' => 'tooltip',
+                        'data-placement' => 'right'])
                     }}
                 </a>
             @endforeach
@@ -47,7 +49,7 @@
     <div class="col-md-12">
         @if(Auth::check())
             @if(!Auth::user()->is($user))
-                <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm send-message pull-left">
+                <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm send-message pull-left" data-toggle="tooltip" data-placement="bottom" title="Написать личное сообщение">
                     <i class="material-icons">send</i>
                     Написать <span class="hidden-md">сообщение</span>
                 </a>

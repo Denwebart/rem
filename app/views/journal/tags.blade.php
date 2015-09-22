@@ -78,6 +78,8 @@
                     </div>
                 @endforeach
             </section><!--blog-area-->
+        @else
+            Тегов нет.
         @endif
 
         {{ $areaWidget->contentBottom() }}

@@ -9,7 +9,7 @@
             <div data-comment-id="{{ $answer->id }}" id="answer-{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
                 <div class="row">
                     <div class="col-md-8 col-xs-8">
-                        <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
+                        <div class="date date-created pull-left">
                             <span class="text">Ответ оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($answer->created_at) }}</span>
                         </div>
@@ -23,7 +23,7 @@
                                             <i class="material-icons">delete</i>
                                         </a>
                                         <a href="{{ URL::route('admin.comments.edit', ['id' => $answer->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать ответ" data-toggle="tooltip">
-                                            <i class="material-icons">mode_edit</i>
+                                            <i class="material-icons">edit</i>
                                         </a>
                                     </div>
                                 @elseif((Auth::user()->is($answer->user) && !IP::isBanned() && !Auth::user()->is_banned && $answer->isEditable()))
@@ -32,7 +32,7 @@
                                             <i class="material-icons">delete</i>
                                         </a>
                                         <a href="{{ URL::route('user.answers.edit', ['login' => $answer->user->getLoginForUrl(),'id' => $answer->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать ответ" data-toggle="tooltip">
-                                            <i class="material-icons">mode_edit</i>
+                                            <i class="material-icons">edit</i>
                                         </a>
                                     </div>
                                 @endif
@@ -77,7 +77,7 @@
                             <div class="vote-dislike">
                                 <i class="material-icons">arrow_drop_up</i>
                             </div>
-                            <span class="vote-result">
+                            <span class="vote-result" title="Рейтинг комментария" data-toggle="tooltip" data-placement="left">
                                 {{ $answer->votes_like - $answer->votes_dislike }}
                             </span>
                             <div class="vote-dislike">

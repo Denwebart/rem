@@ -29,7 +29,7 @@
                 <h2>
                     {{ $page->title }}
                     @if(count($page->bestComments))
-                        <i class="material-icons mdi-success" title="Есть решение" style="font-size: 26px">done</i>
+                        <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="bottom" style="font-size: 26px">done</i>
                     @endif
                 </h2>
             </div>
@@ -38,7 +38,7 @@
                     {{-- Рейтинг --}}
                     @include('widgets.rating')
 
-                    <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                    <div class="date pull-left hidden-lg hidden-md hidden-sm">
                         <i class="material-icons pull-left">today</i>
                         <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
                     </div>
@@ -54,18 +54,18 @@
                         <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
                     </a>
                 </div>
-                <div class="date pull-left hidden-xs" title="Дата публикации">
+                <div class="date pull-left hidden-xs">
                     <i class="material-icons">today</i>
                     <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>
             </div>
             <div class="pull-right">
-                <div class="views pull-left" title="Количество просмотров">
+                <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">visibility</i>
                     <span>{{ $page->views }}</span>
                 </div>
 
-                <div class="answers-count pull-left" title="Количество ответов">
+                <div class="answers-count pull-left" title="Количество ответов" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">question_answer</i>
                     <a href="#answers">
                         <span class="count-comments">
@@ -74,7 +74,7 @@
                     </a>
                 </div>
 
-                <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">local_library</i>
                     <span>{{ count($page->subscribers) }}</span>
                 </div>

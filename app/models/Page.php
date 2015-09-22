@@ -454,17 +454,17 @@ class Page extends \Eloquent
 	 */
 	public function getImage($prefix = null, $options = [])
 	{
-		$options['title'] = $this->image_alt;
+		$options['title'] = $this->image_alt ? $this->image_alt : $this->getTitle();
 		if(isset($options['class'])) {
 			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 		} else {
 			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
 		}
 		if($this->image){
-			return HTML::image($this->getImageLink($prefix), $this->image_alt, $options);
+			return HTML::image($this->getImageLink($prefix), $options['title'], $options);
 		} else {
 			$prefix = is_null($prefix) ? '' : ($prefix . '_');
-			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $this->image_alt, $options);
+			return HTML::image(Config::get('settings.' . $prefix . 'defaultImage'), $options['title'], $options);
 		}
 	}
 

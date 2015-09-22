@@ -227,8 +227,10 @@ View::share('title', $title);
                                             'title' => !is_null($userHonor->comment)
                                                 ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
                                                 : $userHonor->honor->title,
-                                            'alt' => $userHonor->honor->title
-                                            ]) }}
+                                            'alt' => $userHonor->honor->title,
+                                            'data-toggle' => 'tooltip',
+                                            'data-placement' => 'bottom'])
+                                            }}
                                         </a>
                                     </div>
                                 @endforeach

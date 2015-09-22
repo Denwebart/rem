@@ -60,11 +60,11 @@ View::share('title', $title);
                                     <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
                                         @if($user->id == $message->userSender->id)
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background display-inline-block">
-                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'right']) }}
                                                 @if($message->userSender->isOnline())
-                                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="right"></span>
                                                 @else
-                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}"></span>
+                                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="right"></span>
                                                 @endif
                                             </a>
                                         @endif
@@ -101,11 +101,11 @@ View::share('title', $title);
                                     <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
                                         @if($companion->id == $message->userSender->id)
                                             <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'left']) }}
                                                 @if($message->userSender->isOnline())
-                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="left"></span>
                                                 @else
-                                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="left"></span>
                                                 @endif
                                             </a>
                                         @endif

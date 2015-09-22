@@ -35,7 +35,7 @@
                     @if($page->user->isOnline())
                         <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                     @else
-                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($page->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                        <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($page->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                     @endif
                 </a>
                 <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
@@ -46,29 +46,29 @@
         <div class="col-md-10 col-xs-10">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                    <div class="date pull-left hidden-lg hidden-md hidden-sm">
                         <i class="material-icons pull-left">today</i>
                         <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
                     </div>
                     <div class="page-info">
-                        <div class="date pull-left hidden-xs" title="Дата публикации">
+                        <div class="date pull-left hidden-xs">
                             <i class="material-icons">today</i>
                             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                         </div>
                         <div class="pull-right">
-                            <div class="views pull-left" title="Количество просмотров">
+                            <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
                                 <i class="material-icons">visibility</i>
                                 <span>{{ $page->views }}</span>
                             </div>
-                            <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+                            <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
                                 <i class="material-icons">archive</i>
                                 <span>{{ count($page->whoSaved) }}</span>
                             </div>
-                            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top">
                                 <i class="material-icons">grade</i>
                                 <span>{{ $page->getRating() }} ({{ $page->voters }})</span>
                             </div>
-                            <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                            <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="top">
                                 <i class="material-icons">local_library</i>
                                 <span>{{ count($page->subscribers) }}</span>
                             </div>
@@ -93,7 +93,7 @@
                         </a>
                         @if(count($page->bestComments))
                             <a href="{{ URL::to($page->getUrl()) }}#answers">
-                                <i class="material-icons mdi-success" title="Есть решение">done</i>
+                                <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="top">done</i>
                             </a>
                         @endif
                     </div>
@@ -114,14 +114,14 @@
                     @if(Auth::check())
                         @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                             <div class="buttons pull-right">
-                                <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос">
-                                    <i class="material-icons">mode_edit</i>
+                                <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip" data-placement="top">
+                                    <i class="material-icons">edit</i>
                                 </a>
                             </div>
                         @elseif((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
                             <div class="buttons">
-                                <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос">
-                                    <i class="material-icons">mode_edit</i>
+                                <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip" data-placement="top">
+                                    <i class="material-icons">edit</i>
                                 </a>
                             </div>
                         @endif

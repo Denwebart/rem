@@ -1,6 +1,6 @@
 <div id="tags-sidebar-widget" class="sidebar-widget">
     @foreach($tags as $tag)
-        <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-primary btn-sm">
+        <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" class="tag btn btn-primary btn-sm">
             {{ $tag->title }}
             <span class="label">
                 {{ count($tag->pages) }}

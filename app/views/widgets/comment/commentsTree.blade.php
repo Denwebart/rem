@@ -277,7 +277,7 @@
                 success: function(response) {
                     if(response.success){
                         $('#site-messages').prepend(response.message);
-                        $markTag.html('<i class="material-icons mdi-success" title="Лучший ответ" style="font-size: 40pt;">done</i>');
+                        $markTag.html('<i class="material-icons mdi-success" title="Лучший ответ" data-toggle="tooltip" data-placement="top" style="font-size: 40pt;">done</i>');
                         $markTag.append('<div class="message">' + response.message + '</div>');
                         $('#comment-' + commentId).remove();
                         $('#best-comments').show();

@@ -10,7 +10,7 @@
                 </a>
             </div>
             <div class="row-content">
-                <div class="views pull-right">
+                <div class="views pull-right" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
                     <i class="material-icons pull-left">visibility</i>
                     <span class="count pull-left">{{ $page->views }}</span>
                 </div>

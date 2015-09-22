@@ -87,12 +87,12 @@ View::share('title', $title);
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации" data-toggle="tooltip">
+                                                <div class="date pull-left hidden-lg hidden-md hidden-sm">
                                                     <i class="material-icons pull-left">today</i>
                                                     <span class="pull-left">{{ DateHelper::dateFormat($question->published_at) }}</span>
                                                 </div>
                                                 <div class="page-info">
-                                                    <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip">
+                                                    <div class="date pull-left hidden-xs">
                                                         <i class="material-icons">today</i>
                                                         <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
                                                     </div>
@@ -160,7 +160,7 @@ View::share('title', $title);
                                                                 </a>
                                                             @endif
                                                             <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
-                                                                <i class="material-icons">mode_edit</i>
+                                                                <i class="material-icons">edit</i>
                                                             </a>
                                                         </div>
                                                     @elseif((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
@@ -169,7 +169,7 @@ View::share('title', $title);
                                                                 <i class="material-icons">delete</i>
                                                             </a>
                                                             <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
-                                                                <i class="material-icons">mode_edit</i>
+                                                                <i class="material-icons">edit</i>
                                                             </a>
                                                         </div>
                                                     @endif

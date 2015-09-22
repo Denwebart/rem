@@ -9,7 +9,7 @@
     @parent
 
     <script type="text/javascript">
-        $('#site-messages').on('click', '.message', function() {
+        $('#site-messages').on('click', '.site-message', function() {
             var $message = $(this);
             $message.show("slow").animate({ right: "-=1000" }, 1000 );
 

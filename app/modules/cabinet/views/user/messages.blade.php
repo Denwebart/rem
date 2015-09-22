@@ -70,11 +70,11 @@ View::share('title', $title);
 
                                     <div class="col-md-2 col-xs-2">
                                         <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                            {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                            {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'left']) }}
                                             @if($message->userSender->isOnline())
-                                                <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                                <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="left"></span>
                                             @else
-                                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}"></span>
+                                                <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="left"></span>
                                             @endif
                                         </a>
                                     </div>

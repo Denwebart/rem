@@ -92,9 +92,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
                                                     {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                                     @if($user->isOnline())
-                                                        <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                                     @else
-                                                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                                        <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                                     @endif
                                                 </a>
                                             </td>
@@ -143,11 +143,12 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                                         'title' => !is_null($userHonor->comment)
                                                                             ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
                                                                             : $userHonor->honor->title,
-                                                                        'alt' => $userHonor->honor->title])
+                                                                        'alt' => $userHonor->honor->title,
+                                                                        'data-toggle' => 'tooltip'])
                                                                     }}
                                                                 </a>
                                                             @else
-                                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды">+ еще {{ count($user->userHonors) - 3 }}</a>
+                                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}#honors" title="Посмотреть все награды" data-toggle="tooltip">+ еще {{ count($user->userHonors) - 3 }}</a>
                                                                 <?php break; ?>
                                                             @endif
                                                         @endforeach
@@ -184,8 +185,14 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
 
 @section('style')
     @parent
-    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    <script src="/js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/css/autocomplete/jquery.ui.core.min.css"/>
+    <link rel="stylesheet" href="/css/autocomplete/jquery.ui.menu.min.css"/>
+    <link rel="stylesheet" href="/css/autocomplete/jquery.ui.autocomplete.min.css"/>
+    <script src="/js/autocomplete/jquery.ui.core.min.js"></script>
+    <script src="/js/autocomplete/jquery.ui.widget.min.js"></script>
+    <script src="/js/autocomplete/jquery.ui.position.min.js"></script>
+    <script src="/js/autocomplete/jquery.ui.menu.min.js"></script>
+    <script src="/js/autocomplete/jquery.ui.autocomplete.min.js"></script>
 @stop
 
 @section('script')
@@ -253,9 +260,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
@@ -277,9 +284,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                         </div>
@@ -307,9 +314,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
@@ -331,9 +338,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                         </div>
@@ -361,9 +368,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link display-inline-block">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
@@ -385,9 +392,9 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}"></span>
+                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip"></span>
                                 @endif
                             </a>
                         </div>

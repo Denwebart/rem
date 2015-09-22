@@ -12,7 +12,7 @@
                             @if($comment->user->isOnline())
                                 <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                             @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                             @endif
                         </a>
                     @else
@@ -45,7 +45,7 @@
 
                                     @if($comment->mark == Comment::MARK_BEST)
                                         <div class="best-comment pull-left" data-mark-comment-id="{{ $comment->id }}">
-                                            <i class="material-icons mdi-success" title="Лучший ответ">done</i>
+                                            <i class="material-icons mdi-success" title="Лучший ответ" data-toggle="tooltip" data-placement="top">done</i>
                                         </div>
                                     @endif
                                 </div>
@@ -73,7 +73,7 @@
                             @if($comment->mark != Comment::MARK_BEST && Auth::check())
                                 @if(Auth::user()->is($page->user) && $page->type == Page::TYPE_QUESTION)
                                     <div class="mark-comment" data-mark-comment-id="{{ $comment->id }}">
-                                        <a href="javascript:void(0)" class="pull-left mark-comment-as-best" title="Если ответ вам помог, отметьте его как лучший.">
+                                        <a href="javascript:void(0)" class="pull-left mark-comment-as-best" title="Если ответ вам помог, отметьте его как лучший." data-toggle="tooltip" data-placement="top">
                                             <div class="hidden-xs">Отметить как лучший</div>
                                             <div class="hidden-lg hidden-md hidden-sm">Лучший</div>
                                         </a>
@@ -84,10 +84,10 @@
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                     <div class="buttons pull-right">
-                                        <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий">
+                                        <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a href="javascript:void(0)" class="pull-left margin-left-10 delete-comment" title="Удалить комментарий" data-id="{{ $comment->id }}">
+                                        <a href="javascript:void(0)" class="pull-left margin-left-10 delete-comment" title="Удалить комментарий" data-id="{{ $comment->id }}" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">delete</i>
                                         </a>
                                     </div>

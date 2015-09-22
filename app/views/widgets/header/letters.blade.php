@@ -30,9 +30,9 @@
                             @if($letter->user)
                                 {{ $letter->user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($letter->user->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($letter->user->last_activity) }}"></span>
+                                    <span class="is-online-status offline"></span>
                                 @endif
                             @else
                                 {{ HTML::image(Config::get('settings.mini_defaultAvatar'), $letter->user_name, ['class' => 'img-responsive avatar-default avatar circle']) }}

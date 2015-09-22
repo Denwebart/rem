@@ -6,17 +6,17 @@
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link gray-background">
-                    {{ $question->user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                    {{ $question->user->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'right']) }}
                     @if($question->user->isOnline())
                         <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                     @else
-                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                        <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($question->user->last_activity) }}" data-toggle="tooltip" data-placement="right"></span>
                     @endif
                 </a>
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
-                    <span class="relative-date" title="{{ DateHelper::dateFormat($question->published_at) }}">
+                    <span class="relative-date" title="{{ DateHelper::dateFormat($question->published_at) }}" data-toggle="tooltip" data-placement="top">
                         {{ DateHelper::getRelativeTime($question->published_at) }}
                     </span>
                 </div>
@@ -30,7 +30,7 @@
                     <div class="col-md-2" style="padding: 0; display: inline-block;">
                         @if(count($question->bestComments))
                             <a href="{{ URL::to($question->getUrl()) }}#best-comments" class="icon pull-left best">
-                                <i class="material-icons mdi-success" title="Есть решение">done</i>
+                                <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="left">done</i>
                             </a>
                         @endif
                     </div>
@@ -38,7 +38,7 @@
                 <div class="clearfix"></div>
                 <div class="answers pull-right">
                     <a href="{{ URL::to($question->getUrl()) }}#answers" class="icon pull-left @if(count($question->bestComments)) best @endif">
-                        <i class="material-icons pull-left" title="Количество ответов">chat_bubble</i>
+                        <i class="material-icons pull-left" title="Количество ответов" data-toggle="tooltip" data-placement="left">chat_bubble</i>
                     </a>
                     <a href="{{ URL::to($question->getUrl()) }}#answers" class="count pull-left @if(count($question->bestComments)) best @endif">
                         {{ count($question->publishedAnswers) }}

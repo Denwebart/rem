@@ -30,7 +30,7 @@
                 @if($article->user->isOnline())
                     <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                 @else
-                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($article->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($article->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                 @endif
             </a>
             <div class="clearfix"></div>
@@ -94,7 +94,7 @@
             <ul class="tags">
                 @foreach($article->tags as $tag)
                     <li>
-                        <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-primary">
+                        <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" class="tag btn btn-sm btn-primary">
                             {{ $tag->title }}
                         </a>
                     </li>

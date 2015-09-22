@@ -95,8 +95,9 @@ class UserImage extends \Eloquent
 		} else {
 			$options['class'] = 'img-responsive';
 		}
+		$options['title'] = trim(strip_tags($this->description));
 		if($this->image){
-			return HTML::image($this->getImageLink($prefix), trim(strip_tags($this->description)), $options);
+			return HTML::image($this->getImageLink($prefix), $options['title'], $options);
 		}
 	}
 

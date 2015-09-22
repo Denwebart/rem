@@ -7,22 +7,22 @@
             <div class="row-picture">
                 @if($comment->user)
                     <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="avatar-link gray-background">
-                        {{ $comment->user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                        {{ $comment->user->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'top']) }}
                         @if($comment->user->isOnline())
-                            <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                            <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="right"></span>
                         @else
-                            <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                            <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($comment->user->last_activity) }}" data-toggle="tooltip" data-placement="right"></span>
                         @endif
                     </a>
                 @else
                     <a href="{{ URL::to($comment->getUrl()) }}">
-                        {{ (new User)->getAvatar('mini', ['class' => 'avatar circle']) }}
+                        {{ (new User)->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'top']) }}
                     </a>
                 @endif
             </div>
             <div class="row-content">
                 <div class="created-date pull-right">
-                    <span class="relative-date" title="{{ DateHelper::dateFormat($comment->created_at) }}">
+                    <span class="relative-date" title="{{ DateHelper::dateFormat($comment->created_at) }}" data-toggle="tooltip" data-placement="top">
                         {{ DateHelper::getRelativeTime($comment->created_at) }}
                     </span>
                 </div>

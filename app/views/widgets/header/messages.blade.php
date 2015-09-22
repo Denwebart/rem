@@ -30,9 +30,9 @@
                             <div class="pull-left avatar-link">
                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($message->userSender->isOnline())
-                                    <span class="is-online-status online" title="Сейчас на сайте"></span>
+                                    <span class="is-online-status online"></span>
                                 @else
-                                    <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}"></span>
+                                    <span class="is-online-status offline"></span>
                                 @endif
                             </div>
                             <h4>{{ $message->userSender->login }}

@@ -11,7 +11,7 @@
                     <div class="col-md-1 col-sm-1 hidden-xs">
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-9">
-                        <div class="date pull-left" title="Дата уведомления" data-toggle="tooltip" data-placement="top">
+                        <div class="date pull-left">
                             <span>{{ DateHelper::dateFormat($notification->created_at) }}</span>
                         </div>
                     </div>

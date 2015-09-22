@@ -9,7 +9,7 @@
                             @if($commentLevel2->user->isOnline())
                                 <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
                             @else
-                                <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($commentLevel2->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($commentLevel2->user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
                             @endif
                         </a>
                     @else
@@ -55,10 +55,10 @@
                     @if(Auth::check())
                         @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                             <div class="buttons pull-right">
-                                <a href="{{ URL::route('admin.comments.edit', ['id' => $commentLevel2->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-20" title="Редактировать комментарий">
+                                <a href="{{ URL::route('admin.comments.edit', ['id' => $commentLevel2->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-20" title="Редактировать комментарий" data-toggle="tooltip" data-placement="top">
                                     <i class="material-icons">edit</i>
                                 </a>
-                                <a href="javascript:void(0)" class="margin-left-10 pull-right delete-comment" title="Удалить комментарий" data-id="{{ $commentLevel2->id }}">
+                                <a href="javascript:void(0)" class="margin-left-10 pull-right delete-comment" title="Удалить комментарий" data-id="{{ $commentLevel2->id }}" data-toggle="tooltip" data-placement="top">
                                     <i class="material-icons">delete</i>
                                 </a>
                             </div>

@@ -347,10 +347,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			? ($this->getFullName()
 				? $this->login . ' ('. $this->getFullName() .')'
 				: $this->login)
-			: 'Пользователь не зарегистрирован';
+			: 'Незарегистрированный пользователь';
 		$options['title'] = $alt;
 		$options['data-toggle'] = 'tooltip';
-		$options['data-placement'] = 'bottom';
+		$options['data-placement'] = isset($options['data-placement']) ? $options['data-placement'] : 'bottom';
 		if(isset($options['class'])) {
 			$options['class'] = ($this->avatar) ? 'img-responsive ' . $options['class'] : 'img-responsive avatar-default ' . $options['class'];
 		} else {

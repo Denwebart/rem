@@ -30,7 +30,7 @@
                 {{-- Рейтинг --}}
                 @include('widgets.rating')
 
-                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                <div class="date pull-left hidden-lg hidden-md hidden-sm">
                     <i class="material-icons pull-left">today</i>
                     <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>
@@ -45,18 +45,18 @@
                         <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
                     </a>
                 </div>
-                <div class="date pull-left hidden-xs" title="Дата публикации">
+                <div class="date pull-left hidden-xs">
                     <i class="material-icons">today</i>
                     <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
                 </div>
             </div>
 
             <div class="pull-right">
-                <div class="views pull-left" title="Количество просмотров">
+                <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">visibility</i>
                     <span>{{ $page->views }}</span>
                 </div>
-                <div class="comments-count pull-left" title="Количество комментариев">
+                <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">chat_bubble</i>
                     <a href="#comments">
                     <span class="count-comments">
@@ -84,7 +84,7 @@
                 <ul class="tags">
                     @foreach($page->tags as $tag)
                         <li>
-                            <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-primary">
+                            <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" class="tag btn btn-sm btn-primary">
                                 {{ $tag->title }}
                             </a>
                         </li>

@@ -37,7 +37,7 @@
     </h3>
 </div>
 <div class="col-md-12 col-xs-12">
-    <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+    <div class="date pull-left hidden-lg hidden-md hidden-sm">
         <i class="material-icons pull-left">today</i>
         <span class="pull-left">{{ DateHelper::dateFormat($page->published_at) }}</span>
     </div>
@@ -48,7 +48,7 @@
                 <span class="login pull-left">{{ $page->user->login }}</span>
             </a>
         </div>
-        <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip" data-placement="top">
+        <div class="date pull-left hidden-xs">
             <i class="material-icons">today</i>
             <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
         </div>
@@ -122,7 +122,7 @@
         <ul class="tags">
             @foreach($page->tags as $tag)
                 <li>
-                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-info">
+                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" class="tag btn btn-sm btn-info">
                         {{ $tag->title }}
                     </a>
                 </li>

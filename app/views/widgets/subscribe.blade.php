@@ -3,6 +3,9 @@
             ? $subscribeButtonTitle : 'Подписаться';
     $unsubscribeButtonTitle = isset($unsubscribeButtonTitle)
             ? $unsubscribeButtonTitle : 'Отменить подписку';
+
+    $subscribeButtonTooltip = (Subscription::FIELD_PAGE_ID == $subscriptionField) ? 'Подписаться на вопрос' : 'Подписаться на журнал пользователя';
+    $unsubscribeButtonTooltip = (Subscription::FIELD_PAGE_ID == $subscriptionField) ? 'Отписаться от вопроса' : 'Отписаться от журнала пользователя';
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -10,11 +13,11 @@
             @if(Auth::check())
                 <div class="btn-group">
                     @if(!Auth::user()->subscribed($subscriptionObject->id, $subscriptionField))
-                        <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="subscribe" class="btn btn-primary btn-sm">
+                        <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="subscribe" class="btn btn-primary btn-sm" title="{{ $subscribeButtonTooltip }}" data-toggle="tooltip">
                             <span class="text-link">{{ $subscribeButtonTitle }}</span>
                         </a>
                     @else
-                        <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="unsubscribe" class="btn btn-primary btn-sm">
+                        <a href="javascript:void(0)" data-subscription-object-id="{{ $subscriptionObject->id }}" id="unsubscribe" class="btn btn-primary btn-sm" title="{{ $unsubscribeButtonTooltip }}" data-toggle="tooltip">
                             <span class="text-link">{{ $unsubscribeButtonTitle }}</span>
                         </a>
                     @endif

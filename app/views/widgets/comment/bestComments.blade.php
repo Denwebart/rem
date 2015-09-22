@@ -1,4 +1,5 @@
-<h3>Лучшие ответы
+<h3>
+    Лучшие ответы
     <span class="count-best-comments">
         ({{ count($page->bestComments) }})
     </span>

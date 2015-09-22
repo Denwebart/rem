@@ -1,17 +1,17 @@
 @if(Auth::check())
     <div id="saved-pages" class="saved pull-left">
         @if(!Auth::user()->hasInSaved($page->id))
-            <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"'>
+            <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"' data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons">archive</i>
                 <span class="hidden-xs hidden-md">Сохранить</span>
             </a>
         @else
-            <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного'>
+            <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного' data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons mdi-success">archive</i>
                 <span class="hidden-xs hidden-md">Убрать</span>
             </a>
         @endif
-        <span class="whoSaved" title="Сколько пользователей сохранили">
+        <span class="whoSaved" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="bottom">
             (<span>{{ count($page->whoSaved) }}</span>)
         </span>
     </div>
@@ -72,7 +72,7 @@
         </script>
     @stop
 @else
-    <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+    <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="bottom">
         <i class="material-icons">archive</i>
         <span>{{ count($page->whoSaved) }}</span>
     </div>

@@ -46,11 +46,11 @@ View::share('title', $title);
                         @foreach($honor->users as $user)
                             <div class="user">
                                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                    {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
+                                    {{ $user->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'right']) }}
                                     @if($user->isOnline())
-                                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
+                                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="right"></span>
                                     @else
-                                        <span class="is-online-status offline" title="Офлайн. Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
+                                        <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="right"></span>
                                     @endif
                                 </a>
                             </div>

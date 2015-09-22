@@ -404,6 +404,7 @@ h2, .h2 {
     max-height: 680px;
     overflow: auto;
     padding-right: 10px;
+    min-height: 400px;
 }
 #companions .companion {
     height: 70px;

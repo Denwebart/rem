@@ -30,14 +30,14 @@
             <div class="page-info">
                 <div class="pull-right">
                     @if($page->showViews())
-                        <div class="views pull-left" title="Количество просмотров">
+                        <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">visibility</i>
                             <span>{{ $page->views }}</span>
                         </div>
                     @endif
 
                     @if($page->showComments())
-                        <div class="comments-count pull-left" title="Количество комментариев">
+                        <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">chat_bubble</i>
                             <a href="#comments">
                             <span class="count-comments">

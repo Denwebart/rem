@@ -4,7 +4,11 @@
             @if(Auth::check())
                 @if(Auth::user()->isAdmin())
                     <div class="widget access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}} data-widget-id="{{ $item->id }}">
-                    @include('widgets.area.controlAdvertising')
+                    <div class="widget-title" style="display: none">
+                        <a href="{{ URL::route('admin.advertising.index', ['id' => $item->id]) }}" title="Смотреть в админке" data-toggle="tooltip">
+                            {{ $item->title }}
+                        </a>
+                    </div>
                 @else
                     <div class="widget">
                 @endif
@@ -12,6 +16,7 @@
                 <div class="widget">
             @endif
                 <div class="widget-body">
+                    @include('widgets.area.controlAdvertising')
                     @if($item->is_show_title)
                         <h4>{{ $item->title }}</h4>
                     @endif

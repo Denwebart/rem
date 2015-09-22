@@ -10,7 +10,7 @@
             <div data-comment-id="{{ $comment->id }}" id="comment-{{ $comment->id }}" class="well comment @if($comment->is_deleted) deleted @endif">
                 <div class="row">
                     <div class="col-md-8 col-xs-8">
-                        <div class="date date-created pull-left" title="Дата публикации" data-toggle="tooltip">
+                        <div class="date date-created pull-left">
                             <span class="text">Комментарий оставлен</span>
                             <span class="date display-inline-block">{{ DateHelper::dateFormat($comment->created_at) }}</span>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="vote-dislike">
                                 <i class="material-icons">arrow_drop_up</i>
                             </div>
-                            <span class="vote-result">
+                            <span class="vote-result" title="Рейтинг комментария" data-toggle="tooltip" data-placement="left">
                                 {{ $comment->votes_like - $comment->votes_dislike }}
                             </span>
                             <div class="vote-dislike">

@@ -1,11 +1,11 @@
 @if(!$user->isAdmin())
     <div class="banned buttons pull-left" data-ban-button-id="{{ $user->id }}">
         @if(!$user->is_banned)
-            <a href="javascript:void(0)" class="banned-link ban" data-id="{{ $user->id }}" title="Забанить">
+            <a href="javascript:void(0)" class="banned-link ban" data-id="{{ $user->id }}" title="Забанить" data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons">lock</i>
             </a>
         @else
-            <a href="javascript:void(0)" class="banned-link unban" data-id="{{ $user->id }}" title="Разбанить">
+            <a href="javascript:void(0)" class="banned-link unban" data-id="{{ $user->id }}" title="Разбанить" data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons">lock_open</i>
             </a>
         @endif
@@ -81,7 +81,9 @@
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link')
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock_open</i>')
-                                            .attr('title', 'Разбанить');
+                                            .attr('title', 'Разбанить')
+                                            .attr('data-toggle', 'tooltip')
+                                            .attr('data-placement', 'bottom');
                                     $('.profile-user-avatar .avatar-link').append(response.bannedImage);
                                 } else {
                                     $('#site-messages').prepend(response.message);
@@ -111,7 +113,9 @@
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link')
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock</i>')
-                                            .attr('title', 'Забанить');
+                                            .attr('title', 'Забанить')
+                                            .attr('data-toggle', 'tooltip')
+                                            .attr('data-placement', 'bottom');
                                     $('.profile-user-avatar .avatar-link').find('.banned-image').remove();
                                 } else {
                                     $('#site-messages').prepend(response.message);
