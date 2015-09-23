@@ -17,41 +17,41 @@ View::share('title', $title);
         <div class="row">
             @if(Auth::user()->isAdmin())
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="custom-box palette-alizarin">
+                    <a class="custom-box palette-alizarin" href="{{ URL::route('admin.users.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}">
                         <h3>
-                            <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newUsers) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.users.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}"></a>
+                            <span class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newUsers) }}" data-speed="500" data-refresh-interval="10"></span>
                         </h3>
-                        <p>Новые пользователи</p>
+                        <span>Новые пользователи</span>
                         <i class="fa fa-users"></i>
-                    </div>
+                    </a>
                 </div>
             @endif
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                <div class="custom-box palette-peter-river">
+                <a class="custom-box palette-peter-river" href="{{ URL::route('admin.questions.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}">
                     <h3>
-                        <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newQuestions) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.questions.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}"></a>
+                        <span class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newQuestions) }}" data-speed="500" data-refresh-interval="10"></span>
                     </h3>
-                    <p>Новые вопросы</p>
+                    <span>Новые вопросы</span>
                     <i class="fa fa-question"></i>
-                </div>
+                </a>
             </div><!-- ./col -->
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                <div class="custom-box palette-carrot">
+                <a class="custom-box palette-carrot" href="{{ URL::route('admin.articles.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}">
                     <h3>
-                        <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newArticles) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.articles.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}"></a>
+                        <span class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newArticles) }}" data-speed="500" data-refresh-interval="10"></span>
                     </h3>
-                    <p>Новые статьи</p>
+                    <span>Новые статьи</span>
                     <i class="fa fa-file-text"></i>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                <div class="custom-box palette-nephritis">
+                <a class="custom-box palette-nephritis" href="{{ URL::route('admin.comments.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}">
                     <h3>
-                        <a class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newComments) + count($headerWidget->newAnswers) }}" data-speed="500" data-refresh-interval="10" href="{{ URL::route('admin.comments.index', ['sortBy' => 'created_at', 'direction' => 'desc']) }}"></a>
+                        <span class="timer" data-start="0" data-from="0" data-to="{{ count($headerWidget->newComments) + count($headerWidget->newAnswers) }}" data-speed="500" data-refresh-interval="10"></span>
                     </h3>
-                    <p>Новые комментарии и ответы</p>
+                    <span>Новые комментарии и ответы</span>
                     <i class="fa fa-comment"></i>
-                </div>
+                </a>
             </div>
         </div>
     </div>
