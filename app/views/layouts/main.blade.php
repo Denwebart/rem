@@ -85,18 +85,24 @@
         </div>
 
         <div class="col-lg-6 col-md-6">
+            @yield('breadcrumbs')
+
+            <div class="hidden-lg hidden-md">
+                {{ $sidebarWidget->rss() }}
+                {{ $sidebarWidget->addToFavorites() }}
+            </div>
+            <div class="clearfix"></div>
+
             @yield('content')
         </div>
 
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
 
             {{ $sidebarWidget->rss() }}
             {{ $sidebarWidget->addToFavorites() }}
             <div class="clearfix"></div>
 
-            <div class="hidden-sm hidden-xs">
-                {{ $areaWidget->rightSidebar() }}
-            </div>
+            {{ $areaWidget->rightSidebar() }}
         </div>
     </div>
 </div>

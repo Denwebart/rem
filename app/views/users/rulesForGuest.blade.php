@@ -5,7 +5,7 @@ $areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]
 View::share('areaWidget', $areaWidget);
 ?>
 
-@section('content')
+@section('breadcrumbs')
     <ol class="breadcrumb">
         <li class="home-page">
             <a href="{{ URL::to('/') }}">
@@ -14,7 +14,9 @@ View::share('areaWidget', $areaWidget);
         </li>
         <li>{{ $page->getTitle() }}</li>
     </ol>
+@stop
 
+@section('content')
     <section id="content" class="well">
 
         <h2>{{ $page->title }}</h2>

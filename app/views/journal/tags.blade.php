@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('content')
+@section('breadcrumbs')
     <ol class="breadcrumb">
         <li class="home-page">
             <a href="{{ URL::to('/') }}">
@@ -10,7 +10,9 @@
         <li><a href="{{ URL::to($page->parent->getUrl()) }}">{{ $page->parent->getTitle() }}</a></li>
         <li class="hidden-md hidden-xs">{{ $page->getTitle() }}</li>
     </ol>
+@stop
 
+@section('content')
     <section id="content" class="well">
 
         @if($page->title)

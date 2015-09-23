@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('content')
+@section('breadcrumbs')
     <ol class="breadcrumb">
         <li class="home-page">
             <a href="{{ URL::to('/') }}">
@@ -19,7 +19,9 @@
         </li>
         <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
     </ol>
+@stop
 
+@section('content')
     <section id="content" class="well">
 
         <div class="row">

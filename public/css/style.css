@@ -2105,9 +2105,6 @@ footer .copyright a {
         /*width: 100% !important;*/
     /*}*/
     /*Header*/
-    #login-layout header {
-        height: 100px;
-    }
     #navbar-top .navbar-nav {
         margin: 0;
     }

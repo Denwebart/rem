@@ -1,31 +1,33 @@
 @extends('layouts.main')
 
-@section('content')
-	<ol class="breadcrumb">
+@section('breadcrumbs')
+    <ol class="breadcrumb">
         <li class="home-page">
             <a href="{{ URL::to('/') }}">
                 <i class="material-icons">home</i>
             </a>
         </li>
-		@if($page->parent)
-			@if($page->parent->parent)
-				<li>
-					<a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-						{{ $page->parent->parent->getTitle() }}
-					</a>
-				</li>
-			@endif
-			<li>
-				<a href="{{ URL::to($page->parent->getUrl()) }}">
-					{{ $page->parent->getTitle() }}
-				</a>
-			</li>
+        @if($page->parent)
+            @if($page->parent->parent)
+                <li>
+                    <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
+                        {{ $page->parent->parent->getTitle() }}
+                    </a>
+                </li>
+            @endif
+            <li>
+                <a href="{{ URL::to($page->parent->getUrl()) }}">
+                    {{ $page->parent->getTitle() }}
+                </a>
+            </li>
             <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
         @else
             <li>{{ $page->getTitleForBreadcrumbs() }}</li>
-		@endif
-	</ol>
+        @endif
+    </ol>
+@stop
 
+@section('content')
 	<section id="content" class="well">
 
         <div class="row">
