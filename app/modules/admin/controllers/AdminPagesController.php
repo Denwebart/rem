@@ -262,11 +262,13 @@ class AdminPagesController extends \BaseController {
 
 			$pages = Page::whereParentId($parentId)
 				->with('children')
+				->whereIsContainer(1)
 				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
 
 			return Response::json(array(
 				'success' => true,
 				'children' => (string) View::make('admin::pages._children', compact('pages'))->render(),
+				'childrenCount' => count($pages)
 			));
 		}
 	}
