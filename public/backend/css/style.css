@@ -303,26 +303,22 @@ header .navbar .navbar-header {
     float: left;
 }
 
-.navbar-form .form-control,
+.table-search .form-control,
 header .navbar .navbar-header .navbar-form .form-control {
     border: 0 !important;
     font-size: 13px;
     background: #f3f3f4;
 }
-.navbar-form button,
+.table-search button,
 header .navbar .navbar-header .navbar-form button {
     background: #f3f3f4;
     -webkit-border-radius: 0 5px 5px 0;
     -moz-border-radius: 0 5px 5px 0;
     border-radius: 0 5px 5px 0;
 }
-.table-search {
-    width: 100%;
-    padding: 0;
-    margin-top: 0;
-}
 .table-search .input-group {
     width: 100%;
+    margin-bottom: 5px;
 }
 .table-search .input-group-btn {
     width: 1% !important;

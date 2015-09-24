@@ -57,13 +57,13 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                         Всего: <span>{{ $pages->getTotal() }}</span>.
                     </div>
                 </div>
-                {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'navbar-form table-search']) }}
+                {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
-                            {{ Form::text('query', null, [
+                            {{ Form::text('author', null, [
                                 'class' => 'form-control',
-                                'id' => 'query',
-                                'placeholder' => 'Введите заголовок статьи'
+                                'id' => 'author',
+                                'placeholder' => 'Логин или имя пользователя'
                             ]) }}
                             <span class="input-group-btn">
                                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
@@ -71,6 +71,11 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        {{ Form::select('parent_id', ['0' => '- Выберите категорию -'] + Page::getContainer(true, false), isset($parentPage) ? $parentPage->id : null, [
+                            'id' => 'category',
+                            'class' => 'form-control',
+                            'placeholder' => 'Категория',
+                        ]) }}
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
@@ -225,6 +230,21 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
             $('#confirm').modal({ backdrop: 'static', keyboard: false })
             .one('click', '#delete', function() {
                 $form.trigger('submit'); // submit the form
+            });
+        });
+
+        $('#category').on('change', function() {
+            var $form = $('#search-pages-form'),
+                data = $form.serialize(),
+                url = $form.attr('action');
+            $.ajax({
+                url: '<?php echo URL::route('admin.pages.search') ?>',
+                type: "get",
+                data: {formData: data},
+                success: function(response) {
+                },
+                error: function(xhr) {
+                }
             });
         });
     </script>
