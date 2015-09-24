@@ -133,39 +133,28 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
             </div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-            <div class="count">
-                Показано: <span>{{ $pages->count() }}</span>.
-                Всего: <span>{{ $pages->getTotal() }}</span>.
-            </div>
-
-            {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.autocomplete'], 'id' => 'search-pages-form']) }}
             <div class="row">
-                <div class="col-md-8 col-sm-8 col-xs-10">
-                    <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="count">
+                        Показано: <span>{{ $pages->count() }}</span>.
+                        Всего: <span>{{ $pages->getTotal() }}</span>.
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'navbar-form table-search pull-right']) }}
+                    <div class="input-group">
                         {{ Form::text('query', null, [
-                            'class' => 'form-control floating-label',
+                            'class' => 'form-control',
                             'id' => 'query',
                             'placeholder' => 'Введите заголовок статьи'
                         ]) }}
+                        <span class="input-group-btn">
+                            <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
                     </div>
-                </div>
-                {{--<div class="col-md-2 col-sm-2 col-xs-2">--}}
-                    {{--<div class="checkbox is-online">--}}
-                        {{--<label>--}}
-                            {{--{{ Form::checkbox('is_online', 1, $is_online, ['id' => 'is-online']); }}--}}
-                            {{--<span class="text">Онлайн</span>--}}
-                        {{--</label>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                    <button type="submit" class="btn btn-success btn-sm btn-full">
-                        <i class="material-icons">search</i>
-                        <span class="hidden-md hidden-sm">Найти</span>
-                        <div class="ripple-wrapper"></div>
-                    </button>
+                    {{ Form::close() }}
                 </div>
             </div>
-            {{ Form::close() }}
 
             <div class="box">
                 <div class="box-body table-responsive no-padding">
@@ -178,9 +167,11 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id', $params) }}
                                 </th>
-                                <th></th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тип', 'is_container', $params) }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изобр.', 'image', $params) }}
                                 </th>
                                 <th width="30%">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
@@ -189,15 +180,15 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Cоздана', 'created_at', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Опубликована', 'published_at', $params) }}
                                 </th>
-                                <th class="button-column">
+                                <th class="">
                                 </th>
                             </tr>
                         </thead>
@@ -205,19 +196,21 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                         @foreach($pages as $page)
                             <tr>
                                 <td>{{ $page->id }}</td>
-                                <td>
+                                <td class="author">
                                     <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                                         {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
                                         {{ $page->user->login }}
                                     </a>
                                 </td>
-                                <td>
-                                    @if($page->is_container && count($page->children))
-                                        <i class="fa fa-folder" style="color: #F0AD4E; font-size: 18px"></i>
-                                    @else
-                                        <i class="fa fa-file-text-o" style="color: #293C4E"></i>
-                                    @endif
-                                </td>
+                                @if($page->is_container)
+                                    <td class="category">
+                                        <i class="fa fa-folder"></i>
+                                    </td>
+                                @else
+                                    <td class="page">
+                                        <i class="fa fa-file-text-o"></i>
+                                    </td>
+                                @endif
                                 <td>
                                     {{ $page->getImage('mini', ['width' => '50px']) }}
                                 </td>
@@ -235,16 +228,16 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                         Нет
                                     @endif
                                 </td>
-                                <td>
+                                <td class="status">
                                     @if($page->is_published)
-                                        <span class="label label-success">Опубликован</span>
+                                        <span class="published" title="Опубликована" data-toggle="tooltip"></span>
                                     @else
-                                        <span class="label label-warning">Не опубликован</span>
+                                        <span class="not-published" title="Не опубликована" data-toggle="tooltip"></span>
                                     @endif
                                 </td>
                                 <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
                                 <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
-                                <td>
+                                <td class="button-column">
                                     <a class="btn btn-info btn-sm" href="{{ URL::route('admin.pages.edit', $page->id) }}">
                                         <i class="fa fa-edit "></i>
                                     </a>

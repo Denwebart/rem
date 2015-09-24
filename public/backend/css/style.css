@@ -72,11 +72,49 @@ h5, .h5 {
 .btn-full {
     width: 100%;
 }
+/* Таблицы */
+.button-column {
+    min-width: 90px;
+}
+.button-column .btn.btn-sm {
+    padding: 4px 9px;
+    font-size: 14px;
+}
 .count {
     font-size: 13px;
     color: #777;
-    margin: 0px 0px 10px;
+    margin: 10px 0 0;
 }
+.table .author,
+.table .status {
+    text-align: center;
+}
+.table .author img {
+    display: inline-block;
+}
+.table thead th {
+    position: relative;
+}
+.table thead th i {
+    position: absolute;
+    top: 11px;
+    /*right: 0;*/
+    margin-left: 2px;
+}
+.status span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #cccccc;
+}
+.status .published {
+    background: #27AE60;
+}
+.status .not-published {
+    background: #F0AD4E;
+}
+
 /* Colors */
 .success {
     background-color: #DFF0D8;
@@ -261,17 +299,33 @@ header .navbar .navbar-header {
     float: left;
 }
 
+.navbar-form .form-control,
 header .navbar .navbar-header .navbar-form .form-control {
     border: 0 !important;
     font-size: 13px;
     background: #f3f3f4;
 }
-
+.navbar-form button,
 header .navbar .navbar-header .navbar-form button {
     background: #f3f3f4;
     -webkit-border-radius: 0 5px 5px 0;
     -moz-border-radius: 0 5px 5px 0;
     border-radius: 0 5px 5px 0;
+}
+.table-search {
+    width: 100%;
+    padding: 0;
+    margin-top: 0;
+}
+.table-search .input-group {
+    width: 100%;
+}
+.table-search .input-group-btn {
+    width: 1% !important;
+}
+.table-search .form-control,
+.table-search button {
+    background: #ffffff;
 }
 
 header .navbar .nav > li.user > a {
@@ -2737,7 +2791,8 @@ header .logo i {
 .nav.nav-pages-tree > li.category a.title .count {
     font-size: 12px;
 }
-.nav.nav-pages-tree > li.category a.open i {
+.nav.nav-pages-tree > li.category a.open i,
+.table .category i {
     color: #F0AD4E;
     font-size: 18px;
 }
@@ -2752,7 +2807,8 @@ header .logo i {
 .nav.nav-pages-tree > li > a:focus {
     background: none;
 }
-.nav.nav-pages-tree > li.page > i {
+.nav.nav-pages-tree > li.page > i,
+.table .page i {
     line-height: 20px;
     font-size: 16px;
     margin-left: 2px;
