@@ -21,6 +21,10 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
+                <div class="count">
+                    Показано: <span>{{ $comments->count() }}</span>.
+                    Всего: <span>{{ $comments->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">
@@ -33,7 +37,6 @@ View::share('title', $title);
                                 <th max-width="30%">Комментарий</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at') }}</th>
                                 <th class="button-column"></th>
                             </tr>
                             </thead>
@@ -80,7 +83,6 @@ View::share('title', $title);
                                         @endif
                                     </td>
                                     <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>
-                                    <td>{{ (('0000-00-00 00:00:00' != $comment->published_at)) ? DateHelper::dateFormat($comment->published_at) : '-'}}</td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
                                             <i class="fa fa-edit "></i>

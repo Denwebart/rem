@@ -31,6 +31,10 @@ View::share('title', $title);
             </div>
 
             <div class="col-xs-12">
+                <div class="count">
+                    Показано: <span>{{ $settings->count() }}</span>.
+                    Всего: <span>{{ $settings->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">

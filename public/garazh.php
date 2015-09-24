@@ -1,0 +1,775 @@
+<?php
+
+$cat_data = [
+	102 => [
+		'id' => '102',
+		'title' => 'Как работает двигатель автомобиля после гидроудара',
+		'alias' => 'kak-rabotaet-dvigatel-avtomobilya-posle-gidroudara',
+		'introtext' => '<p>Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос. Водитель забыл что, у него не амфибия, а простой (пусть и люксовый ;)) Ланос. Повстречав на своем пути лужу не известной глубины, он решил бесстрашно ее преодолеть. И как результат - гидроудар двигателя и последующий капитальный ремонт. Ниже Вы сможете посмотреть видео и фото последствий гидроудара.</p><p><br /><span style="color: #008000;">Этой статьей, я хотел бы и Вас пригласить к созданию своего блога в котором Вы сможете поделиться с посетителями нашего сайта своими достижениями в ремонте и тюнинге своего автомобиля. Так же, приветствуются интересные авто истории, юмор и видео))</span></p>',
+		'content' => '<p> </p><p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" /></object></p><p><img src="images/stories/raznoe/gidroydar-lanos-1.jpg" border="0" alt="Последствия гидроудара двигателя" title="Последствия гидроудара двигателя" width="300" height="400" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2013-01-03 20:18:15',
+		
+		'updated_at' => '2014-07-07 15:25:14',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '8186',
+		'votes' => '125',
+		'voters' => '29',
+	],
+	103 => [
+		'id' => '103',
+		'title' => 'Небольшой FAQ по добавлению заметок',
+		'alias' => 'nebolshoy-faq-po-dobavleniyu-zametok',
+		'introtext' => '<p style="text-align: justify;">В принципе ничего сложного в написании и размещении своих заметок нет. Было бы желание)) Но, в этой заметке я все таки решил показать, как это правильно делать. Все таки, с инструкцией легче, да и есть несколько обязательных пунктов, которые необходимо выполнить при заполнении формы отправки материала.<br />А начать следует с регистрации на сайте или же если Вы уже зарегистрированы, то тогда со входа на сайт. После регистрации/входа в меню, под надписью «<strong>Гараж – заметки автолюбителя</strong>», появятся дополнительные кнопки. На одной из которых изображен карандаш, вот она та нам и нужна (смотрим скрин ниже). Нажимаем ее.</p>',
+		'content' => '<p> </p><p><img src="images/stories/Garaq/garaq-faq/garaq-1.jpg" border="0" alt="Добавление заметки в блог " width="336" height="134" style="display: block; margin-left: auto; margin-right: auto;" /><br /><br />Откроется окно с формой добавления материала в блог. На картинке ниже красным отмечены поля для обязательного заполнения. То есть, название заметки, текст заметки, в пункте «опубликовано» ставим точку в положение «Yes», с правой стороны в пункте категории выделяем строку «Гараж – заметки автолюбителя» синим цветом и после это можно жать кнопку «применить». Все, заметка опубликована. Можете не переживать за допущенные ошибки и не точности, Вы их всегда можете исправить или удалить. Для этого в Вашей заметке, под надпись «просмотры» существуют две кнопки – редактировать запись и удалить.</p><p><img src="images/stories/Garaq/garaq-faq/garaq-2.jpg" border="0" alt="Добавление заметки на блог сайта Avtorem.info" width="400" height="241" style="display: block; margin-left: auto; margin-right: auto;" /><br />Дальше хотелось бы обговорить некоторые особенности оформления заметок. Например, если текст заметки очень большой, его можно разделить на две части, первая часть будет доступна к прочтению с главной страницы раздела, а вот вторую часть, посетители сайта смогут прочесть после нажатия ссылки «подробнее». Чтобы разделить материал на две части, используйте кнопку «Подробнее» в окне редактирования (смотрим скрин ниже).</p><p><img src="images/stories/Garaq/garaq-faq/garaq-3.jpg" border="0" alt="Редактирование материала " width="400" height="238" style="display: block; margin-left: auto; margin-right: auto;" /><br />По поводу загрузки фотографий и изображений на сайт. Для этого в окне редактирования, рядом с кнопкой «Подробнее», есть кнопка «Изображение». Нажимаем ее. После чего, откроется еще одно окно, с помощь которого Вы сможете загрузить на сайт изображение со своего компьютера. Делаем это, пошагово, как показано на скрине ниже: нажимаем кнопку «обзор» и выбираем фотографию на своем компьютере, далее жмем кнопку «Upload»(загружаем изображение на сайт), в окне появиться Ваше изображение, выбираем его и жмем кнопку «Past selected image in editor». Все изображение вставлено в статью.</p><p><img src="images/stories/Garaq/garaq-faq/garaq-4.jpg" border="0" alt="Вставляем изображение в материал заметки" width="400" height="239" style="display: block; margin-left: auto; margin-right: auto;" />Так же, часто бывает, что размер изображения не адаптирован под страницу сайта. Это можно легко исправить, нажав на изображение правой кнопкой мыши. И в выпадающем меню выбрать «Добавить/изменить изображение». В появившемся окне (скрин ниже) изменяем размер изображения на необходимый и по желанию, добавляем его описание. После этого, жмем внизу окна, жмем кнопку «Обновить» с галочкой. Готово. <br /><br /></p><p><img src="images/stories/Garaq/garaq-faq/garaq-5.jpg" border="0" alt="Редактирование изображения " width="400" height="237" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/garaq-faq/garaq-6.jpg" border="0" alt="Вставляем отредактированое изображение в материал" width="500" height="152" style="display: block; margin-left: auto; margin-right: auto;" /></p>',
+		
+		'created_at' => '2013-06-25 19:00:57',
+		
+		'updated_at' => '2013-12-24 05:32:52',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '913',
+		'votes' => '20',
+		'voters' => '5',
+	],
+	104 => [
+		'id' => '104',
+		'title' => 'Неудачная покупка коробки передач для автомобиля Ваз-21099',
+		'alias' => 'neudachnaya-pokupka-korobki-peredach-dlya-avtomobilya-vaz-21099',
+		'introtext' => '<p style="text-align: justify;">Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие в употреблении. В нашем случае это<strong> коробка передач</strong>. Причины, побудившие на этот поступок, у всех разные – кпп разбита вследствие аварии, отсутствие толкового мастера, повышенный износ всех узлов кпп (когда от суммы, необходимую на покупку всех комплектующих слегка кружится голова), желание все сделать самому и быстро (все таки проще и быстрей снять старую и поставить «новую»). Но итог один – поездка на «разборку». И там уже, после придирчивого рассматривания необходимой запчасти, и выслушивания убедительной речи продавца, требуем максимальную гарантию (как правило, это неделя ;)). Мы совершаем, что? Правильно, покупку «кота в мешке»! И остается только надеяться, что при покупке запчасти с небольшим пробегом, пробег действительно небольшой и запчасть не потеряла своего запаса прочности. В случае, покупки запчасти б/у, но уже бывшую в ремонте, остается, надеется, что мастер, собравший ее, был отличным специалистом своего дела и запчасти, которые были установлены хорошего качества. И, как правило, не всем везет!</p>',
+		'content' => '<p><br />Вот и в случае, о котором я хотел рассказать, так получилось. Молодой человек, после серьезной аварии, в которой<strong> коробка передач его автомобиля Ваз-21099</strong>, развалилась на несколько частей, принял решение – купить кпп б/у. После, не больших поисков, была им найдена коробка после капитального ремонта, за 2200 грн. Продавец сказал, что все необходимое в кпп заменили и дал гарантию на две недели! Что очень не плохо. Да и после установки коробки на автомобиль и заправки ее маслом, она вела себя на отлично – не стучала, не гудела и передачи все включались и выключались. Но, после пяти месяцев эксплуатации, по словам самого водителя, без видимых причин, при движении автомобиля, из под капота раздался вначале громкий удар и последующий за этим скрежет. Выбравшись из салона и осмотревшись, под автомобилем была обнаружена лужа масла. Парень принял одно верное в этой ситуации решение, срочная поездка в мастерскую. Добрался своим ходом, благо в пути и скрежет пропал.<br />После того как автомобиль заехал на смотровую яму, мы смогли рассмотреть вот такую картину – смотрим фотографии ниже.</p><p> </p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-1.jpg" border="0" alt="Болт пробил картер кпп Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-2.jpg" border="0" alt="Пробитый картер коробки передач Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-3.jpg" border="0" alt="Шестерня главной передачи Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p style="text-align: justify;"><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-4.jpg" border="0" alt="Картер коробки передач от автомобиля Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /><br />Открутился крепежный болт, шестерни главной пары и пробил <strong>картер коробки передач</strong> в двух места, и немного зализал зубья шестерни. В итоге, хоть Новый Год для человека и был немного омрачен этим событием, ему удалось избежать крупных растрат. Все закончилось разборкой кпп и сваркой картера аргоном, плюс масло и герметик.<br /><span style="color: #008000;">В общем, поделился с Вами, своими «рабочими» новостями))) </span></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2013-01-11 19:00:31',
+		
+		'updated_at' => '2014-07-07 15:25:30',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => 'коробка передач ваз, кпп ваз-2109, картер коробки передач, коробка передач ваз-21099, ремонт коробки передач',
+		'views' => '8012',
+		'votes' => '76',
+		'voters' => '18',
+	],
+	106 => [
+		'id' => '106',
+		'title' => 'Почему не отбрасывают повороты?',
+		'alias' => 'pochemu-ne-otbrasyivayut-povorotyi',
+		'introtext' => '<p>Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле <strong>Дэу Ланос</strong> перестали автоматически отбрасываться повороты. Мелочь конечно, но человека, это очень расстраивало)). Так похожий случай уже был и виновником был сам <strong>подрулевой</strong><strong> переключатель поворотов</strong> (был сломан язычок отвечающий за отбрасывание рычага), было решено в срочном порядке купить эту запчасть и так же срочно ее заменить. Что и было сделано. Но, после снятия старого и установки нового переключателя проблема не исчезла! Повороты также не отбрасывались(((</p>',
+		'content' => '<p>Благо, продавец узнал своих своих постоянных покупателей, без вопросов принял возврат и  предложил<strong> заменить скользящий контакт рулевого колеса</strong>. На этом контакте есть довольно внушительный выступ, который и должен входить в зацеп с язычком на переключателе поворотов.<br />Для его установки необходимо снять рулевое колесо, снять с него старый скользящий контакт (на фотографии видно как ощутимо счесан выступ) и установить новый (код в exist.ua – 96304414). Процедура не сложная и времени занимает не много. Но, зато какой результат! Все заработало как часики))).</p><p><br /><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-1.jpg" border="0" alt="Под рулевой переключатель поворотов дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p> </p><p><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-2.jpg" border="0" alt="Скользящий контакт рулевого колеса дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2013-01-13 19:32:08',
+		
+		'updated_at' => '2014-07-07 15:26:02',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => 'скользящий контакт, подрулевой переключатель поворотов, не отбрасываются повороты, Дэу Ланос, скользящий контакт рулевого колеса',
+		'views' => '9081',
+		'votes' => '95',
+		'voters' => '23',
+	],
+	114 => [
+		'id' => '114',
+		'title' => 'Гайколом - зачетный инструмент',
+		'alias' => 'gaykolom-zachetnyiy-instrument',
+		'introtext' => '<p style="text-align: justify;"><img src="images/stories/Garaq/gajkolom/gajkolom.jpg" border="0" alt="Гайколом - приспособления для слома гаек" width="200" style="margin: 7px; float: left;" />Вот приобрел недавно на авторынке Лоск новое приспособление – <strong>гайколом</strong>. И, конечно же, хочу поделиться радостью с Вами))). Купил два экземпляра. Самый маленький номер 1 (9-12 мм) и номер 2 (12-16 мм), всего их, если не ошибаюсь четыре размера. И скажу честно, после удачных испытаний в полевых условиях, решил прикупить и остальные размеры. Уверен, что пригодятся!</p><p style="text-align: justify;"> </p><p style="text-align: justify;"> </p>',
+		'content' => '<p>Раньше ведь как было… Приржавеет или прикипит гайка на шпильке и не хочет откручиваться. Оставляя Вам только два варианта – разрубывать зубилом (рассверливать дрелью) или рисковать и пытаться открутить гайку, что довольно часто заканчивалось плачевно. Сломанная шпилька, это серьезная головная боль. Поэтому, я, к примеру, всегда выбирал первый вариант. Но и в этом случае были свои ощутимые минусы. То с дрелью не везде подлезешь, но зубилом долго рубить приходится. И вот на рынке появились гайколомы!  Я Вам скажу, вещь! Данное приспособление для разлома гаек значительно позволяет сэкономить время, силы и нервы. Да, соглашусь, что из-за своей конструкции гайколомом не везде можно подлезть, но…<br /><br />Ниже приведу пример, удачного применения гайколома в работе. Те кто, хоть пару раз откручивали <strong>гайки крепления переднего амортизатора к нижнему рычагу автомобилей Ваз 2101-2107</strong>, меня поймут. Смотрим фотографии ниже. При первом сопротивлении гайки, накидываем гайколом, затягиваем болт и радуемся достигнутому результату! Гайка сломана и шпилька целая. Прелесть)))</p><p> </p><p><img src="images/stories/Garaq/gajkolom/gajkolom-1.jpg" border="0" alt="Как открутить приржавевшую гайку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /><br /><br /><img src="images/stories/Garaq/gajkolom/gajkolom-2.jpg" border="0" alt="Как удалить гайку и не сломать шпильку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2013-04-28 19:35:14',
+		
+		'updated_at' => '2014-07-07 15:25:04',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '12759',
+		'votes' => '197',
+		'voters' => '42',
+	],
+	117 => [
+		'id' => '117',
+		'title' => 'Течь из под крышки ГРМ на автомобиле Ваз-2109!?',
+		'alias' => 'tech-iz-pod-kryishki-grm-na-avtomobile-vaz-2109',
+		'introtext' => '<p style="text-align: justify;">Потек тосол из под защитной крышки<strong> ремня ГРМ на автомобиле Ваз 2109</strong>. Что первое Вам пришло в голову? Ну, кроме матов, конечно же))) <strong>Накрылась помпа?</strong> Правильно… Я тоже так подумал и был немного удивлен картиной, которой появилась после снятия крышки. Первичны диагноз был поставлен не верно. Причиной утечки охлаждающей жидкости была <span style="color: #000080;"><strong>технологическая заглушка на блоке цилиндров</strong></span>. Прохудилась бедняга! Зрелище завораживающее, в отличие от работы по ее замене)) Смотрим видео, комментируем.</p>',
+		'content' => '<p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" /></object></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2013-06-25 19:00:56',
+		
+		'updated_at' => '2014-07-07 15:24:43',
+		'published_at' => '1999-11-30 00:00:00',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '6243',
+		'votes' => '49',
+		'voters' => '12',
+	],
+	129 => [
+		'id' => '129',
+		'title' => 'Течь из под крышки ГРМ на автомобиле Ваз-2109!?',
+		'alias' => 'tech-iz-pod-kryshki-grm-na-avtomobile-vaz2109',
+		'introtext' => '<p style="text-align: justify;">Потек тосол из под защитной крышки<strong> ремня ГРМ на автомобиле Ваз 2109</strong>. Что первое Вам пришло в голову? Ну, кроме матов, конечно же))) <strong>Накрылась помпа?</strong> Правильно… Я тоже так подумал и был немного удивлен картиной, которой появилась после снятия крышки. Первичны диагноз был поставлен не верно. Причиной утечки охлаждающей жидкости была <span style="color: #000080;"><strong>технологическая заглушка на блоке цилиндров</strong></span>. Прохудилась бедняга! Зрелище завораживающее, в отличие от работы по ее замене)) Смотрим видео, комментируем.</p>',
+		'content' => '<p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" /></object></p>',
+		
+		'created_at' => '2013-12-23 18:53:28',
+		
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2013-12-23 18:53:28',
+		
+		'meta_key' => 'заглушка двигателя, ваз-2109, течь заглушки, ремень грм',
+		'meta_desc' => '',
+		'views' => '4',
+	],
+	130 => [
+		'id' => '130',
+		'title' => 'Течь из под крышки ГРМ на автомобиле Ваз-2109!?',
+		'alias' => 'tech-iz-pod-kryshki-grm-na-avtomobile-vaz2109',
+		'introtext' => '<p style="text-align: justify;">Потек тосол из под защитной крышки<strong> ремня ГРМ на автомобиле Ваз 2109</strong>. Что первое Вам пришло в голову? Ну, кроме матов, конечно же))) <strong>Накрылась помпа?</strong> Правильно… Я тоже так подумал и был немного удивлен картиной, которой появилась после снятия крышки. Первичны диагноз был поставлен не верно. Причиной утечки охлаждающей жидкости была <span style="color: #000080;"><strong>технологическая заглушка на блоке цилиндров</strong></span>. Прохудилась бедняга! Зрелище завораживающее, в отличие от работы по ее замене)) Смотрим видео, комментируем.</p>',
+		'content' => '<p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" /></object></p>',
+		
+		'created_at' => '2013-12-23 19:01:00',
+		
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2013-12-23 19:01:00',
+		
+		'meta_key' => 'заглушка двигателя, ваз-2109, течь заглушки, ремень грм',
+		'meta_desc' => '',
+		'views' => '0',
+	],
+	131 => [
+		'id' => '131',
+		'title' => 'Течь из под крышки ГРМ на автомобиле Ваз-2109!?',
+		'alias' => 'tech-iz-pod-kryshki-grm-na-avtomobile-vaz2109',
+		'introtext' => '<p style="text-align: justify;">Потек тосол из под защитной крышки<strong> ремня ГРМ на автомобиле Ваз 2109</strong>. Что первое Вам пришло в голову? Ну, кроме матов, конечно же))) <strong>Накрылась помпа?</strong> Правильно… Я тоже так подумал и был немного удивлен картиной, которой появилась после снятия крышки. Первичны диагноз был поставлен не верно. Причиной утечки охлаждающей жидкости была <span style="color: #000080;"><strong>технологическая заглушка на блоке цилиндров</strong></span>. Прохудилась бедняга! Зрелище завораживающее, в отличие от работы по ее замене)) Смотрим видео, комментируем.</p>',
+		'content' => '<p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" /></object></p>',
+		
+		'created_at' => '2013-12-23 19:06:49',
+		
+		'updated_at' => '2013-12-23 19:14:24',
+		'published_at' => '2013-12-23 19:06:49',
+		
+		'meta_key' => 'заглушка двигателя, ваз-2109, течь заглушки, ремень грм',
+		'meta_desc' => '',
+		'views' => '8',
+	],
+	132 => [
+		'id' => '132',
+		'title' => 'Как работает двигатель автомобиля после гидроудара',
+		'alias' => 'kak-rabotaet-dvigatel-avtomobilja-posle-gidroudara',
+		'introtext' => '<p>Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос. Водитель забыл что, у него не амфибия, а простой (пусть и люксовый ;)) Ланос. Повстречав на своем пути лужу не известной глубины, он решил бесстрашно ее преодолеть. И как результат - гидроудар двигателя и последующий капитальный ремонт. Ниже Вы сможете посмотреть видео и фото последствий гидроудара.</p>',
+		'content' => '<p> </p><p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" /></object></p><p><img src="images/stories/raznoe/gidroydar-lanos-1.jpg" border="0" alt="Последствия гидроудара двигателя" title="Последствия гидроудара двигателя" width="300" height="400" style="display: block; margin-left: auto; margin-right: auto;" /></p>',
+		
+		'created_at' => '2013-12-23 19:15:02',
+		
+		'updated_at' => '2013-12-23 19:20:48',
+		'published_at' => '2013-12-23 19:15:02',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '6',
+	],
+	133 => [
+		'id' => '133',
+		'title' => 'Неудачная покупка коробки передач для автомобиля Ваз-21099',
+		'alias' => 'neudachnaja-pokupka-korobki-peredach-dlja-avtomobilja-vaz21099',
+		'introtext' => '<p style="text-align: justify;">Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие в употреблении. В нашем случае это<strong> коробка передач</strong>. Причины, побудившие на этот поступок, у всех разные – кпп разбита вследствие аварии, отсутствие толкового мастера, повышенный износ всех узлов кпп (когда от суммы, необходимую на покупку всех комплектующих слегка кружится голова), желание все сделать самому и быстро (все таки проще и быстрей снять старую и поставить «новую»). Но итог один – поездка на «разборку». И там уже, после придирчивого рассматривания необходимой запчасти, и выслушивания убедительной речи продавца, требуем максимальную гарантию (как правило, это неделя ;)). Мы совершаем, что? Правильно, покупку «кота в мешке»! И остается только надеяться, что при покупке запчасти с небольшим пробегом, пробег действительно небольшой и запчасть не потеряла своего запаса прочности. В случае, покупки запчасти б/у, но уже бывшую в ремонте, остается, надеется, что мастер, собравший ее, был отличным специалистом своего дела и запчасти, которые были установлены хорошего качества. И, как правило, не всем везет!</p>',
+		'content' => '<p><br />Вот и в случае, о котором я хотел рассказать, так получилось. Молодой человек, после серьезной аварии, в которой<strong> коробка передач его автомобиля Ваз-21099</strong>, развалилась на несколько частей, принял решение – купить кпп б/у. После, не больших поисков, была им найдена коробка после капитального ремонта, за 2200 грн. Продавец сказал, что все необходимое в кпп заменили и дал гарантию на две недели! Что очень не плохо. Да и после установки коробки на автомобиль и заправки ее маслом, она вела себя на отлично – не стучала, не гудела и передачи все включались и выключались. Но, после пяти месяцев эксплуатации, по словам самого водителя, без видимых причин, при движении автомобиля, из под капота раздался вначале громкий удар и последующий за этим скрежет. Выбравшись из салона и осмотревшись, под автомобилем была обнаружена лужа масла. Парень принял одно верное в этой ситуации решение, срочная поездка в мастерскую. Добрался своим ходом, благо в пути и скрежет пропал.<br />После того как автомобиль заехал на смотровую яму, мы смогли рассмотреть вот такую картину – смотрим фотографии ниже.</p><p> </p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-1.jpg" border="0" alt="Болт пробил картер кпп Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-2.jpg" border="0" alt="Пробитый картер коробки передач Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-3.jpg" border="0" alt="Шестерня главной передачи Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p style="text-align: justify;"><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-4.jpg" border="0" alt="Картер коробки передач от автомобиля Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /><br />Открутился крепежный болт, шестерни главной пары и пробил <strong>картер коробки передач</strong> в двух места, и немного зализал зубья шестерни. В итоге, хоть Новый Год для человека и был немного омрачен этим событием, ему удалось избежать крупных растрат. Все закончилось разборкой кпп и сваркой картера аргоном, плюс масло и герметик.<br /><span style="color: #008000;">В общем, поделился с Вами, своими «рабочими» новостями))) </span> <br /><br /></p>',
+		
+		'created_at' => '2013-12-23 19:17:05',
+		
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2013-12-23 19:17:05',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '5',
+	],
+	134 => [
+		'id' => '134',
+		'title' => 'Почему не отбрасывают повороты?',
+		'alias' => 'pochemu-ne-otbrasyvajut-povoroty',
+		'introtext' => '<p>Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле <strong>Дэу Ланос</strong> перестали автоматически отбрасываться повороты. Мелочь конечно, но человека, это очень расстраивало)). Так похожий случай уже был и виновником был сам <strong>подрулевой</strong><strong> переключатель поворотов</strong> (был сломан язычок отвечающий за отбрасывание рычага), было решено в срочном порядке купить эту запчасть и так же срочно ее заменить. Что и было сделано. Но, после снятия старого и установки нового переключателя проблема не исчезла! Повороты также не отбрасывались(((</p>',
+		'content' => '<p>Благо, продавец узнал своих своих постоянных покупателей, без вопросов принял возврат и  предложил<strong> заменить скользящий контакт рулевого колеса</strong>. На этом контакте есть довольно внушительный выступ, который и должен входить в зацеп с язычком на переключателе поворотов.<br />Для его установки необходимо снять рулевое колесо, снять с него старый скользящий контакт (на фотографии видно как ощутимо счесан выступ) и установить новый (код в exist.ua – 96304414). Процедура не сложная и времени занимает не много. Но, зато какой результат! Все заработало как часики))). <br /><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-1.jpg" border="0" alt="Под рулевой переключатель поворотов дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p> </p><p> </p><p> </p><p> </p><p><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-2.jpg" border="0" alt="Скользящий контакт рулевого колеса дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p>',
+		
+		'created_at' => '2013-12-23 19:18:19',
+		
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2013-12-23 19:18:19',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '5',
+	],
+	135 => [
+		'id' => '135',
+		'title' => 'Гайколом - зачетный инструмент',
+		'alias' => 'gajkolom-zachetnyj-instrument',
+		'introtext' => '<p style="text-align: justify;"><img src="images/stories/Garaq/gajkolom/gajkolom.jpg" border="0" alt="Гайколом - приспособления для слома гаек" width="200" style="margin: 7px; float: left;" />Вот приобрел недавно на авторынке Лоск новое приспособление – <strong>гайколом</strong>. И, конечно же, хочу поделиться радостью с Вами))). Купил два экземпляра. Самый маленький номер 1 (9-12 мм) и номер 2 (12-16 мм), всего их, если не ошибаюсь четыре размера. И скажу честно, после удачных испытаний в полевых условиях, решил прикупить и остальные размеры. Уверен, что пригодятся!</p><p style="text-align: justify;"> </p><p style="text-align: justify;"> </p>',
+		'content' => '<p>Раньше ведь как было… Приржавеет или прикипит гайка на шпильке и не хочет откручиваться. Оставляя Вам только два варианта – разрубывать зубилом (рассверливать дрелью) или рисковать и пытаться открутить гайку, что довольно часто заканчивалось плачевно. Сломанная шпилька, это серьезная головная боль. Поэтому, я, к примеру, всегда выбирал первый вариант. Но и в этом случае были свои ощутимые минусы. То с дрелью не везде подлезешь, но зубилом долго рубить приходится. И вот на рынке появились гайколомы!  Я Вам скажу, вещь! Данное приспособление для разлома гаек значительно позволяет сэкономить время, силы и нервы. Да, соглашусь, что из-за своей конструкции гайколомом не везде можно подлезть, но…<br /><br />Ниже приведу пример, удачного применения гайколома в работе. Те кто, хоть пару раз откручивали <strong>гайки крепления переднего амортизатора к нижнему рычагу автомобилей Ваз 2101-2107</strong>, меня поймут. Смотрим фотографии ниже. При первом сопротивлении гайки, накидываем гайколом, затягиваем болт и радуемся достигнутому результату! Гайка сломана и шпилька целая. Прелесть)))</p><p> </p><p><img src="images/stories/Garaq/gajkolom/gajkolom-1.jpg" border="0" alt="Как открутить приржавевшую гайку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /><br /><br /><img src="images/stories/Garaq/gajkolom/gajkolom-2.jpg" border="0" alt="Как удалить гайку и не сломать шпильку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /></p>',
+		
+		'created_at' => '2013-12-23 19:19:27',
+		
+		'updated_at' => '2013-12-23 19:21:11',
+		'published_at' => '2013-12-23 19:19:27',
+		
+		'meta_key' => '',
+		'meta_desc' => '',
+		'views' => '25',
+	],
+	138 => [
+		'id' => '138',
+		'title' => 'Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей!',
+		'alias' => 'vnimanie-osteregaemsja-kitajskih-poddelok-kitajskih-zapchastej-dlja-kitajskih-avtomobilej',
+		'introtext' => '<p><span style="color: #008000;"><strong>Такой содержательный заголовок должен привлечь Ваше внимание к данной статье))).</strong></span></p><p style="text-align: justify;">В который раз приходится сталкиваться с некачественными запчастями! Почти в каждой статье, я повторяю, что лучше брать оригинальные запчасти или на крайний случай, качественные аналоги, проверенные временем. Страшно подумать, сколько времени, сил, денег и нервов было потрачено после покупки и установки некачественных деталей. И описанный случай ниже, не стал исключением. Он, правда, в два раза досадней, тем что, клиент (мой хороший знакомый) при покупке просил у продавца предоставить ему качественное изделие. В деньгах не жался и не пытался снизить цену. И еще, он покупал запчасть (далее, рычаг передней подвески) на<strong> <a href="chery/blog.html" title="Ремонт китайских автомобилей Чери">китайский автомобиль Chery Kimo (Чери Кимо)</a></strong>! И я, и мой приятель, думали, что не ничего проще, чем купить оригинальную деталь китайского производства на китайский автомобиль… И мы ошиблись.</p>',
+		'content' => '<p style="text-align: justify;">Это, друзья просто катастрофа. Оригинальный<strong> рычаг передней подвески на автомобиле Chery Kimo (Чери Кимо)</strong>, прослужил больше 60000 км, заменить его пришлось из-за разбитой шаровой опоры. Новый рычаг, установку, которого я описывал в <a href="chery/zamena-nizhnego-rychaga-perednej-podveski-avtomobilja-chery-kimo.html" title="Замена рычага на автомобиле Чери Кимо">этой статье</a>, <span style="color: #ff0000;">пришлось заменить через 300 км пробега</span>!!! Так как, с нового рычага попросту<span style="color: #ff0000;"> вырвало шаровую опору</span>! Смотрим фотографии. Красиво, правда? Это хорошо, что опору оборвало, и она ушла вниз. Если бы ее протащило вверх, последствия были бы значительно печальней. Можно сказать, что повезло…</p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo.jpg" border="0" alt="шаровая опора Чери Кимо" title="шаровая опора Чери Кимо" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-1.jpg" border="0" alt="вырвало шаровую опору рычага передней подвески Чери кимо" title="вырвало шаровую опору рычага передней подвески Чери кимо" width="400" /></p><p style="text-align: justify;">Но, это еще не все, о чем я хотел рассказать. Так как, старый рычаг я не выкинул (почему не выкинул, станет понятно, если Вы прочитаете <strong>статью по замене рычага передней подвески на Чери Кимо</strong>), его быстро вернул на место и отправить приятеля в магазин, где он купил этот «фирменный» рычаг, с пребыванием обмена его на новый или возврата денег. По прибытию в магазин приятель, выслушал он продавца речь о качестве наших дорог. Когда эта речь не возымела действия и человек все равно продолжал настаивать на своем. Этот умник, выдвинул версию, что мастер установил правый рычаг на левую сторону, поэтому и отломало шаровую опору!!!  О как!!! Человек готов морозить, чушь лишь бы не признавать, что не прав. Ведь не сложно, просто положить левый и правый рычаг рядом, сравнить их, и понять, что попутать их местами просто не возможно. В общем, приятель сразу позвонил мне и узнал, мое мнение по этому вопросу. После чего, все-таки, ему принесли другой рычаг, тоже по заверению продавца – качественный. Его и поставили. Насколько он надежен, покажет время.</p><p style="text-align: justify;"><span style="color: #008000;">И как итог, из этой истории можно сделать выводы: </span></p><p style="text-align: justify;">1. При покупке запчасти на свой, пусть и на китайский автомобиль, требуем гарантий качества и возврата. Чем, больше Вы будете уделять внимание качеству, а не цене изделия и предъявлять претензии к нечестным продавца, тем меньше у них будет желания торговать некачественной продукцией.</p><p style="text-align: justify;">2. Второе, слепо не верим, что нам говорят, и лично проверяем деталь. В нашем случае, нужно обратить внимание на вес рычага (он не должен быть легким) и на сварочный шов вокруг шаровой опоры (она должна быть проварена по окружности, шов должен внушать доверие). Ниже я сделал фотографии, на которых видно как проварена опора в оригинале и какой сварочный шов на новом рычаге.</p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-3.jpg" border="0" alt="шаровая опора оригинального рычага передней подвески чери кимо" title="шаровая опора оригинального рычага передней подвески чери кимо" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-4.jpg" border="0" alt="сварка нижней опоры на новом рычаге чери кимо" title="сварка нижней опоры на новом рычаге чери кимо" width="400" /></p><p><span style="color: #008000;">Надеюсь, что эта статья будет для Вас полезна, и Вы сможете избежать похожих проблем.</span></p><p><span style="color: #008000;"><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2014-01-02 13:16:02',
+		
+		'updated_at' => '2014-07-07 15:24:18',
+		'published_at' => '2014-01-02 13:16:02',
+		
+		'meta_key' => 'вырвало шаровую опору Chery Kimo, нижний рычаг Чери Кимо, причина замены нижнего рычага Кимо, ремонт китайского автомобиля Chery Kimo, как купить качественную деталь для своего автомобиля',
+		'meta_desc' => 'К чему приводит покупка не качественной делали на автомобиль? В данной статье описан один из примеров, когда был куплен рычаг передней подвески на китайский автомобиль Chery Kimo, Чери Кимо. На это новом рычаге, в очень короткий срок вырвало шаровую опору прямо по месту сварочного шва. На что, следует обращать внимание при покупке запчастей?',
+		'views' => '5354',
+		'votes' => '117',
+		'voters' => '25',
+	],
+	146 => [
+		'id' => '146',
+		'title' => 'Можно ли заклеить треснувший блок цилиндров двигателя Ваз-2101? ',
+		'alias' => 'mozhno-li-zakleit-tresnuvshij-blok-cilindrov-dvigatelja-vaz2101',
+		'introtext' => '<p style="text-align: justify;">Ни для кого, ни секрет, что если в систему охлаждения двигателя залить летом воду (например, в целях экономии) и забыть об этом, то при наступлении первых морозов, Вас будет ожидать неприятный сюрприз, который заключается в виде «размороженного» двигателя. В лучшем случае, выдавить заглушки, в худшем лопнет стенка блока цилиндров. И когда, это происходит, то забывчивые или экономные хозяева задаются одним и тем же вопросом – Можно ли заклеить треснувший блок цилиндров? Большинство автомастеров, мотористов скажет, что нет, заклеить нельзя, необходимо только менять блок на новый (другой). Но, есть и Кулибины, которые смело, говорят, да и берутся за дело. Клеят блок и еще умудряются продать автомобиль с таким двигателем другому человеку!!!</p>',
+		'content' => '<p>Я теперь точно знаю, где находятся такие спецы))). Сообщу их неточные координаты (неточные потому, что не хочу делать им бесплатную рекламу) - пгт. Новая Водолага, Харьковского района. Именно из этих краев пригнал свой первый автомобиль, марки Ваз-21011, мой одноклассник.</p><p style="text-align: justify;">{module Реклама-статья-2}<br />Детально описывать общее состояние купленного автомобиля я не буду. Так как, то, что я увидел, может заставить приуныть самого оптимистически настроенного человека. Кузов и ходовая находились в плачевном состоянии, но об этом отдельно. Сейчас о двигателе. Как можно было не обратить внимание на двигатель, который работает как отбойный молоток. Это загадка. Но, как оказалось, это не все проблемы с двигателем. При внимательном осмотре двигателя, на его правой стороне были обнаружены следы утечки охлаждающей жидкости. Подозрения на прогнившие заглушки, не оправдались, так следы утечки были ниже.</p><p style="text-align: justify;">Далее, можно смотреть фотографии. Первая фотография, это общий вид. На ней видно, что блок замазан, какой-то ерундой, которая похожа на эпоксидный клей и из-под нее видны следы подтекания жидкости. Взяв отвертку в руки, и в одном месте поддел корку (фото 2). И вот какая чудная картина предстала после снятия латки (фото 3 и 4). Трещина длинной 200 мм, которую, мастерски замазали эпоксидной смолой и замазали черной мастикой. Слов нет…. Двигатель ушел на свалку.</p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-1.jpg" border="0" alt="трещина в блоке цилиндров ваз-2101" title="трещина в блоке цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-2.jpg" border="0" alt="Как отремонтировать блок цилиндров ваз-2101" title="Как отремонтировать блок цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-3.jpg" border="0" alt="Можно ли заклеить блок цилиндров ваз-2101" title="Можно ли заклеить блок цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-4.jpg" border="0" alt="двигатель ваз" title="двигатель ваз" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-5.jpg" border="0" alt="не удачная покупка автомобиля" title="не удачная покупка автомобиля" width="400" /></p><p><span style="color: #008000;">Будьте внимательны при покупке, пусть и старого, дешевого автомобиля. Ведь ремонт такого чуда, может Вам обойтись значительно дороже, чем цена самого автомобиля.</span></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2014-03-09 18:05:23',
+		
+		'updated_at' => '2014-07-07 15:23:31',
+		'published_at' => '2014-03-09 18:05:23',
+		
+		'meta_key' => 'треснул блок двигателя, ремонт блока цилиндров двигателя ваз, не удачная покупка автомобиля, будьте внимательны при покупке автомобиля',
+		'meta_desc' => 'Что бывает, когда вместо тосола или антифриза в систему охлаждения двигателя заливают воду и вспоминают об этом только при наступление холодов. При «разморозке» двигателя блок цилиндров может треснуть. Что делать в этом случае? Можно ли его заклеить?',
+		'views' => '10133',
+		'votes' => '99',
+		'voters' => '22',
+	],
+	175 => [
+		'id' => '175',
+		'title' => 'Сколько лет помпе или "качественная" охлаждающая жидкость?',
+		'alias' => 'skolko-let-pompe-ili-kachestvennaja-ohlazhdajuschaja-zhidkost',
+		'introtext' => '<p style="text-align: justify;">Во время <strong>замены ремня ГРМ</strong> на автомобилях <strong>Daewoo Lanos (Дэу Ланос)</strong> и <strong>Daewoo Nexia (Дэу Нексия)</strong> довольно часто приходится беспокоить помпу (ослаблять затяжку крепежных болтов и при помощи специального ключа изменять ее положение). Так как без этой манипуляции надеть новый ремень газораспределения и правильно отрегулировать его натяжку очень трудно. Если кто-то не понимает о чём идет речь, то советую ознакомиться <a href="daewoo/zamena-remnja-grm-i-natjazhnogo-rolika-na-avtomobiljah-daewoo-nexia-daewoo-lanos-s-obemom-dvigatelja-15.html" target="_blank" title=" Самое популярное      Замена радиатора печки на автомобиле ВАЗ-2101, ВАЗ-2102, ВАЗ-2106, ВАЗ-2107     Замена сайлентблоков передних ( нижних и верхних ) рычагов на автомобилях ВАЗ-2101, ВАЗ-2102, ВАЗ-2103, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Замена охлаждающей жидкости (антифриза или тосола) в автомобиле ВАЗ-2101, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Установка бесконтактного электронного зажигания на автомобили Ваз-2101, Ваз-2102, Ваз-2104, Ваз-2105, Ваз-2106, Ваз-2107, Классика     Замена крестовины и подвесного подшипника карданного вала на автомобилях ВАЗ-2101, ВАЗ-2102, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Замена масла и масляного фильтра в двигателе на автомобиле ВАЗ-2101, ВАЗ-2102, ВАЗ-2103, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107, Жигули, Классика  TOP- 10 (рейтинг голосов)      Замена верхней опоры передней амортизационной стойки на автомобилях Daewoo Lanos, Daewoo Nexia, Daewoo Sens, Chevrolet Lanos     Замена тормозных дисков и передних тормозных колодок на автомобилях Ваз-2101, Ваз-2104, Ваз-2105, Ваз-2106, Ваз-2107, Классика, Жигули     Замена заднего тормозного шланга на автомобилях Daewoo Lanos, Daewoo Nexia, Daewoo Sens, Chevrolet Lanos     Немного о проекте и о себе     Замена заднего тормозного цилиндра на автомобиле Daewoo Matiz     Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей!     Ремонт стартера автомобилей Daewoo Lanos, Daewoo Nexia, Chevrolet Lanos     Гайколом - зачетный инструмент     Замена переднего тормозного шланга на автомобиле Daewoo Lanos, Daewoo Sens     Замена подушки кулисы переключения передач на автомобилях Ваз-2110, Ваз-2111, Ваз-2112  Замена ремня ГРМ и натяжного ролика на автомобилях Daewoo Nexia, Daewoo Lanos с объемом двигателя 1.5 ">вот с этим материалом</a>. И все станет на свои места))). Как бы там не было, в большинстве случаях после попыток покрутить помпу из под уплотнительного кольца, появляется течь охлаждающей жидкости. Сколько не затягивай болты, капли тосола все равно будут просачиваться. Эта проблема появляется по вине устаревшего резинового кольца помпы, которое со временем ссыхается, трескается и разрушается. Так же, стоит помнить об окислениях, ржавых наслоениях, которые образуются на привалочных частях помпы и блока двигателя, и способствуют нарушению герметичного соединения.</p><p>',
+		'content' => '</p><p style="text-align: justify;">Поэтому, чтобы не надеяться на авось (потечет или нет), рекомендую сразу сливать <a href="sovety/tosol-ili-antifriz-delaem-pravilnyj-vybor.html" target="_blank" title="Тосол или антифриз – делаем правильный выбор"><strong>антифриз (тосол)</strong></a>, снимать помпу, осматривать ее состояние и, если с ней все ок, устанавливать новое уплотнительное кольцо, очищать посадочные места от грязи и начинать обратную сборку. По крайней мере, я так поступаю. И всегда держу в запасе десяток уплотнительных колец под водяной насос и на всякий пожарный, хотя бы одну помпу. И этот "пожарный" иногда наступает. При очередной замене ремня ГРМ на восьмиклапанном Ланосе, состояние снятой помпы меня очень удивило. Точнее, состояние ее крыльчатки. Смотрим фотографии ниже.</p><p>{module Реклама-статья-2}</p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-1.jpg" border="0" alt="Помпа Дэу ланос" title="Помпа Дэу ланос" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-2.jpg" border="0" alt="Влияние не качественной охлаждающей жидкости на детали двигателя" title="Влияние не качественной охлаждающей жидкости на детали двигателя" width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-3.jpg" border="0" alt="Помпа Дэу ланос" title="Помпа Дэу ланос" width="400" /></p><p style="text-align: justify;">Остается загадкой, как такая крыльчатка обеспечивала циркуляцию жидкости в системе охлаждения? Но, жалоб не было. Со слов владельца Ланоса, после покупки автомобиля он помпу еще не разу не менял и при это проехал более 150000 км. Менял ли, ее предыдущий владелец, история умалчивает. То есть определить точный пробег и возраст помпы не получилось. Но, очень трудно поверить, что крыльчатка "стерлась" из-за многолетней работы.... Я больше склоняюсь к мнению о "качественном" тосоле. Но, не претендуя на звание эксперта, утверждать со 100% уверенностью не буду. Если у Вас есть мысли по этому вопросу, то буду рад их услышать! Точнее прочитать в комментариях к этой статье))).</p><p style="text-align: justify;">Но, как бы там ни было, все хорошо, что хорошо заканчивается. Помпа-герой или помпа-долгожитель была отправлена на заслуженный отдых. Ее место заняла новая помпа фирмы "Лузар". Километраж и дата замены записаны. Посмотрим на столько ее хватит....</p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2015-02-01 11:40:56',
+		
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2015-02-01 11:40:56',
+		
+		'meta_key' => 'помпа дэу ланос, помпа дэу нексия, износ крыльчатки помпы, качество охлаждающей жидкости, уплотнительное кольцо помпы',
+		'meta_desc' => 'В данной статье будут приведены причины по которым при замене ремня ГРМ на автомобилях Дэу Ланос и Дэу Нексия помпу (водяной насос) следует снимать помпу полностью. Так же, будет описан случай из практики, в котором после снятия вроде бы исправной на первый взгляд помпы, ее пришлось заменить. Смотрите фотографии изношенного водяного насоса. Как не качественная охлаждающая жидкость влияет на срок службы деталей двигателя. ',
+		'views' => '2240',
+		'votes' => '5',
+		'voters' => '1',
+	],
+	315 => [
+		'id' => '315',
+		'title' => 'Дешёвый, простой и эффективный способ борьбы с воровством аккумуляторов!',
+		'alias' => 'deshjovyj-prostoj-i-jeffektivnyj-sposob-borby-s-vorovstvom-akkumuljatorov',
+		'introtext' => '<p style="text-align: justify;">Да, кражи, угон и взлом автомобилей довольно распространенные преступления на постсоветских просторах. Криминалитет не дремлет и активно работает. Многие, а может даже все автолюбители это подтвердят. Так как сами, хоть раз в жизни, становились жертвами угона или взлома, кражи из автомобиля. Если не угонят, то сольют бензин, вырвут магнитолу, почистят бардачок, снимут колеса, аккумулятор стырят... Знакомо? Вот. А скажите владельцы каких марок автомобилей больше всех страдают от этой "напасти"? Не догадались? Тогда несколько подсказок: На какой модели автомобиля ездил Ваш дед или отец? Да и Вы, с большей долей вероятности, за рулем автомобиля этого семейства проходили школу молодого водителя и начинающего авторемонтника. На какой машине проще всего слить бензин, даже не имея в наличии длинного шланга? Дверь какого автомобиля каждый школьник может открыть линейкой? На каком автомобиле тот же школьник знает расположение троса открытия капота? Думаю, что уже должны догадаться))) Все верно, речь идет о всенародной "Классике". <strong>Об автомобилях семейства Ваз 2101-2107 "Жигули"</strong>.</p>',
+		'content' => '<p>Вот кому-кому, а владельцам этих автомобилей можно посочувствовать больше всех. Им в борьбе с воровством, не помогают ни установка сигнализации, ни платные стоянки, ни гаражи с десятью замками... Стоит только выехать, остановиться, выйти из машины и оставить ее без присмотра, так все! Если колеса не сняли, так бензин слили... А в последнее время, повадились аккумуляторы снимать. Хотя, если вспомнить сколько они сейчас стоят, то этот ажиотаж становится понятен.</p><p style="text-align: justify;">Жертвой кражи <a href="sovety/pravilnaja-zarjadka-i-obsluzhivanie-avtomobilnogo-akkumuljatora.html" target="_blank" title="Правильная зарядка и обслуживание автомобильного аккумулятора"><strong>аккумулятора</strong></a> стал и мой знакомый таксист. <strong>Счастливый обладатель автомобиля Ваз-2102</strong>. С сигнализацией человек решил не заморачиться, рассуждая, мол машина рабочая, в салоне ценного нет ничего, панельку с магнитолы таскаю с собой, а ночью авто ставлю на платную стоянку. Повода для беспокойства нет.</p><p style="text-align: justify;">И можно только представить, его удивление, когда в обед, поставив машину перед домом, покушав и отдохнув. Он вышел из дома, в надежде продолжить работу, сел в машину, а она не захотела заводиться. Даже лампочки на доске приборов не загорелись... Да, верно. Причина была в отсутствии аккумуляторной батареи. Вот так, среди бела дня, в родном дворе, человек попал на круглую сумму денег. Но, это не все. История не закончена.</p><p style="text-align: justify;">После покупки нового аккумулятора, прошла неделя и история повторилась! Такие дела расстроят кого угодно. <strong>Два аккумулятора, за две недели!</strong> Психанул человек и решил действовать. Логика проста, как не дорого и быстро, защитить капот автомобиля от несанкционированного вскрытия. Решение было найдено быстро: покупка двух навесных замков и двух пар петель под эти замки обошлась в 100 гривен. Услуги сварщика: две бутылки пива.<strong> Капот любимой Ваз-2102 заблокирован и аккумулятор надежно защищен</strong>! На фотографиях ниже, любуемся результатами работы))). Дешево, просто и надежно! ))))</p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-1.jpg" border="0" alt="Украли аккамулятор с автомобиля ваз 2102" title="Украли аккамулятор с автомобиля ваз 2102" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-2.jpg" border="0" alt="борьба с воровством аккумуляторов на классике," title="борьба с воровством аккумуляторов на классике," width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-3.jpg" border="0" alt="способ блокировки капота ваз 2101-2107" title="способ блокировки капота ваз 2101-2107" width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-4.jpg" border="0" alt="кража аккумулятора с автомобиля ваз" title="кража аккумулятора с автомобиля ваз" width="400" style="border: 0px none;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		
+		'created_at' => '2015-07-28 09:11:37',
+		
+		'updated_at' => '2015-07-28 10:36:49',
+		'published_at' => '2015-07-28 09:11:37',
+		
+		'meta_key' => 'кража аккумулятора с автомобиля, капот ваз 2102, борьба с воровством аккумуляторов на классике, способ блокировки капота ваз 2101-2107, аккумуляторная батарея ваз классика',
+		'meta_desc' => 'В статье описан один из способов борьбы с нежелательным вскрытием капота автомобилей Ваз 2101-2107. Способ блокировки капота автомобиля, который позволит избежать кражи аккумуляторной батареи! Не дорого, пусть не эстетично, но зато надежно и практично. ',
+		'views' => '467',
+		'votes' => '4',
+		'voters' => '1',
+	],
+];
+
+$meta_data = [
+	1257 => [
+		'id' => '1257',
+		'sefurl' => 'garazh/kak-rabotaet-dvigatel-avtomobilja-posle-gidroudara.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=132&view=article',
+		'meta_desc' => 'Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос',
+		'meta_key' => 'автомобиля, ланос, решил, не, своего, результат, как, сможете, вы, видео, вас, бы, пригласить, хотел, ниже',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1256 => [
+		'id' => '1256',
+		'sefurl' => 'garazh/neudachnaja-pokupka-korobki-peredach-dlja-avtomobilja-vaz21099.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=133&view=article',
+		'meta_desc' => 'Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие ',
+		'meta_key' => 'запчасти, своего, всех, случае, на, как, кпп, –, что, все, но, уже, правило, это, остается',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1255 => [
+		'id' => '1255',
+		'sefurl' => 'garazh/pochemu-ne-otbrasyvajut-povoroty.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=134&view=article',
+		'meta_desc' => 'Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле Дэ',
+		'meta_key' => 'был, что, так, повороты, но, было, проблема, конечно, же, не, порядке, срочном, купить, решено, сломан',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1254 => [
+		'id' => '1254',
+		'sefurl' => 'garazh/gajkolom-zachetnyj-instrument.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=135&view=article',
+		'meta_desc' => 'Вот приобре',
+		'meta_key' => 'номер, мм, четыре, скажу, ошибаюсь, размера, их, всего, честно, если, не, удачных, размеры, остальные, уверен',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1253 => [
+		'id' => '1253',
+		'sefurl' => 'garazh/tech-iz-pod-kryshki-grm-na-avtomobile-vaz2109.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=131&view=article',
+		'meta_desc' => 'Потек тосол из под защитной крышки ремня ГРМ на автомобиле Ваз 2109. Что первое Вам пришло в голову? Ну, кром',
+		'meta_key' => 'был, на, крышки, утечки, причиной, технологическая, охлаждающей, верно, жидкости, была, поставлен, после, появилась, снятия, первичны',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1258 => [
+		'id' => '1258',
+		'sefurl' => 'garazh/nebolshoy-faq-po-dobavleniyu-zametok.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=103&view=article',
+		'meta_desc' => 'В принципе ничего сложного в написании и размещении своих заметок нет. Было бы желание)) Но, в этой заметке я все так',
+		'meta_key' => 'на, все, таки, регистрации/входа, после, под, «гараж, надписью, сайт, меню, тогда, если, же, или, сайте',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1259 => [
+		'id' => '1259',
+		'sefurl' => 'garazh/tech-iz-pod-kryishki-grm-na-avtomobile-vaz-2109.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=117&view=article',
+		'meta_desc' => 'Потек тосол из под защитной крышки ремня ГРМ на автомобиле Ваз 2109. Что первое Вам пришло в голову? Ну, кром',
+		'meta_key' => 'был, на, крышки, утечки, причиной, технологическая, охлаждающей, верно, жидкости, была, поставлен, после, появилась, снятия, первичны',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1260 => [
+		'id' => '1260',
+		'sefurl' => 'garazh/gaykolom-zachetnyiy-instrument.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=114&view=article',
+		'meta_desc' => 'Вот приобре',
+		'meta_key' => 'номер, мм, четыре, скажу, ошибаюсь, размера, их, всего, честно, если, не, удачных, размеры, остальные, уверен',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1261 => [
+		'id' => '1261',
+		'sefurl' => 'garazh/pochemu-ne-otbrasyivayut-povorotyi.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=106&view=article',
+		'meta_desc' => 'Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле Дэ',
+		'meta_key' => 'был, было, что, повороты, но, так, не, проблема, конечно, же, порядке, купить, эту, язычок, срочном',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1262 => [
+		'id' => '1262',
+		'sefurl' => 'garazh/neudachnaya-pokupka-korobki-peredach-dlya-avtomobilya-vaz-21099.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=104&view=article',
+		'meta_desc' => 'Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие ',
+		'meta_key' => 'запчасти, своего, всех, случае, на, как, кпп, –, что, все, но, уже, правило, это, остается',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1263 => [
+		'id' => '1263',
+		'sefurl' => 'garazh/kak-rabotaet-dvigatel-avtomobilya-posle-gidroudara.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=102&view=article',
+		'meta_desc' => 'Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос',
+		'meta_key' => 'автомобиля, ланос, решил, не, своего, результат, как, сможете, вы, видео, вас, бы, пригласить, хотел, ниже',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1276 => [
+		'id' => '1276',
+		'sefurl' => 'garazh/vnimanie-osteregaemsja-kitajskih-poddelok-kitajskih-zapchastej-dlja-kitajskih-avtomobilej.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=138&view=article',
+		'meta_desc' => 'К чему приводит покупка не качественной делали на автомобиль? В данной статье описан один из примеров, когда был куплен рычаг передней подвески на китайский автомобиль Chery Kimo, Чери Кимо. На это новом рычаге, в очень короткий срок вырвало шаровую опору',
+		'meta_key' => 'вырвало шаровую опору Chery Kimo, нижний рычаг Чери Кимо, причина замены нижнего рычага Кимо, ремонт китайского автомобиля Chery Kimo, как купить качественную деталь для своего автомобиля',
+		'meta_title' => 'Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей! – вырвало шаровую опору Chery Kimo, нижний рычаг Чери Кимо',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1291 => [
+		'id' => '1291',
+		'sefurl' => 'garazh/gde-nahoditsja-datchik-temperatury-ohlazhdajuschej-zhidkosti-na-avtomobile-daewoo-sens-deu-sens.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=140&view=article',
+		'meta_desc' => 'За довольно короткий промежуток времени получил 4 одинаковых вопроса – Где находится датчик температур',
+		'meta_key' => 'на, датчик, температуры, его, видно, охлаждающей, жидкости, находится, из, за, лучше, ниже, трудно, увидеть, открутить',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1292 => [
+		'id' => '1292',
+		'sefurl' => 'garazh/kak-zamenit-shpilku-kreplenija-diska-perednego-i-zadnego-kolesa-na-avtomobile-tavrija-slavuta.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=141&view=article',
+		'meta_desc' => 'Шпилька крепления переднего колеса на автомобиле Таврия, Славута меняется довольно просто, но не очень быстро. Для ее замены',
+		'meta_key' => 'не, на, плотно, выбить, запрессованы, проблема, осталось, они, от, снят, диск, тормозной, шпильку, или, также',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1340 => [
+		'id' => '1340',
+		'sefurl' => 'garazh/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=146&view=article',
+		'meta_desc' => 'Что бывает, когда вместо тосола или антифриза в систему охлаждения двигателя заливают воду и вспоминают об этом только при наступление холодов. При «разморозке» двигателя блок цилиндров может треснуть. Что делать в этом случае? Можно ли его заклеить?',
+		'meta_key' => 'треснул блок двигателя, ремонт блока цилиндров двигателя ваз, не удачная покупка автомобиля, будьте внимательны при покупке автомобиля',
+		'meta_title' => 'Можно ли заклеить треснувший блок цилиндров двигателя Ваз-2101? – треснул блок двигателя, ремонт блока цилиндров двигателя ваз',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1475 => [
+		'id' => '1475',
+		'sefurl' => 'garazh/blog.html',
+		'origurl' => 'index.php?option=com_content&id=36&layout=blog&view=category',
+		'meta_desc' => 'Раздел «Гараж» создан с целью размещения в нем коротких заметок, которые связаны с ремонтом, покупкой ',
+		'meta_key' => 'или, автомобилей, покупки, неудачные, необычные, неожиданные, запчастей, поломки, смешные, автомастерской, дороге, на, инструмента, случаи, курьезные',
+		'meta_title' => '',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+	1873 => [
+		'id' => '1873',
+		'sefurl' => 'garazh/skolko-let-pompe-ili-kachestvennaja-ohlazhdajuschaja-zhidkost.html',
+		'origurl' => 'index.php?option=com_content&catid=36&id=175&view=article',
+		'meta_desc' => 'В данной статье будут приведены причины по которым при замене ремня ГРМ на автомобилях Дэу Ланос и Дэу Нексия помпу (водяной насос) следует снимать помпу полностью. Так же, будет описан случай из практики, в котором после снятия вроде бы исправной на перв',
+		'meta_key' => 'помпа дэу ланос, помпа дэу нексия, износ крыльчатки помпы, качество охлаждающей жидкости, уплотнительное кольцо помпы',
+		'meta_title' => 'Сколько лет помпе или "качественная" охлаждающая жидкость? - помпа дэу ланос',
+		'metalang' => '',
+		'metarobots' => '',
+		'metagoogle' => '',
+		'canonicallink' => '',
+	],
+];
+
+/*
+var_dump(count($meta_data));
+var_dump(count($cat_data));
+
+$result_data = [];
+foreach($cat_data as $data) {
+	foreach($meta_data as $key => $meta) {
+		if(strpos($meta['sefurl'], $data['alias'])) {
+			$data['meta_title'] = $meta['meta_title'];
+			$data['meta_desc'] = $meta['meta_desc'];
+			$data['meta_key'] = $meta['meta_key'];
+			$data['type'] = 1;
+			$data['parent_id'] = 3;
+			$data['user_id'] = 1;
+			$data['is_published'] = 1;
+			$data['is_container'] = 0;
+			$data['show_submenu'] = 0;
+			
+			unset($meta_data[$key]);
+		}
+	}
+	$result_data[] = $data;
+}
+//var_dump($meta_data);
+echo "<br>-----------";
+
+echo "<pre>\n";
+foreach($result_data as $item_key => $item) {
+	echo "$item_key => [\n";
+		foreach ($item as $key => $value) {
+			echo "    '$key' => '$value',\n";
+		}
+    echo "],\n";
+}
+echo "\n</pre><br>";
+*/
+
+$result_data = [
+	0 => [
+		'id' => '102',
+		'title' => 'Как работает двигатель автомобиля после гидроудара',
+		'alias' => 'kak-rabotaet-dvigatel-avtomobilya-posle-gidroudara',
+		'introtext' => '<p>Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос. Водитель забыл что, у него не амфибия, а простой (пусть и люксовый ;)) Ланос. Повстречав на своем пути лужу не известной глубины, он решил бесстрашно ее преодолеть. И как результат - гидроудар двигателя и последующий капитальный ремонт. Ниже Вы сможете посмотреть видео и фото последствий гидроудара.</p><p><br /><span style="color: #008000;">Этой статьей, я хотел бы и Вас пригласить к созданию своего блога в котором Вы сможете поделиться с посетителями нашего сайта своими достижениями в ремонте и тюнинге своего автомобиля. Так же, приветствуются интересные авто истории, юмор и видео))</span></p>',
+		'content' => '<p> </p><p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/sHoJ141ISqU?version=3&amp;hl=ru_RU" /></object></p><p><img src="images/stories/raznoe/gidroydar-lanos-1.jpg" border="0" alt="Последствия гидроудара двигателя" title="Последствия гидроудара двигателя" width="300" height="400" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2013-01-03 20:18:15',
+		'updated_at' => '2014-07-07 15:25:14',
+		'published_at' => '2013-12-23 19:15:02',
+		'meta_key' => 'автомобиля, ланос, решил, не, своего, результат, как, сможете, вы, видео, вас, бы, пригласить, хотел, ниже',
+		'meta_desc' => 'Как говориться, надо кому-то начинать... В этой заметке решил показать Вам результат чемпионского заплыва автомобиля Дэу Ланос',
+		'views' => '8186',
+		'votes' => '125',
+		'voters' => '29',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	1 => [
+		'id' => '103',
+		'title' => 'Небольшой FAQ по добавлению заметок',
+		'alias' => 'nebolshoy-faq-po-dobavleniyu-zametok',
+		'introtext' => '<p style="text-align: justify;">В принципе ничего сложного в написании и размещении своих заметок нет. Было бы желание)) Но, в этой заметке я все таки решил показать, как это правильно делать. Все таки, с инструкцией легче, да и есть несколько обязательных пунктов, которые необходимо выполнить при заполнении формы отправки материала.<br />А начать следует с регистрации на сайте или же если Вы уже зарегистрированы, то тогда со входа на сайт. После регистрации/входа в меню, под надписью «<strong>Гараж – заметки автолюбителя</strong>», появятся дополнительные кнопки. На одной из которых изображен карандаш, вот она та нам и нужна (смотрим скрин ниже). Нажимаем ее.</p>',
+		'content' => '<p> </p><p><img src="images/stories/Garaq/garaq-faq/garaq-1.jpg" border="0" alt="Добавление заметки в блог " width="336" height="134" style="display: block; margin-left: auto; margin-right: auto;" /><br /><br />Откроется окно с формой добавления материала в блог. На картинке ниже красным отмечены поля для обязательного заполнения. То есть, название заметки, текст заметки, в пункте «опубликовано» ставим точку в положение «Yes», с правой стороны в пункте категории выделяем строку «Гараж – заметки автолюбителя» синим цветом и после это можно жать кнопку «применить». Все, заметка опубликована. Можете не переживать за допущенные ошибки и не точности, Вы их всегда можете исправить или удалить. Для этого в Вашей заметке, под надпись «просмотры» существуют две кнопки – редактировать запись и удалить.</p><p><img src="images/stories/Garaq/garaq-faq/garaq-2.jpg" border="0" alt="Добавление заметки на блог сайта Avtorem.info" width="400" height="241" style="display: block; margin-left: auto; margin-right: auto;" /><br />Дальше хотелось бы обговорить некоторые особенности оформления заметок. Например, если текст заметки очень большой, его можно разделить на две части, первая часть будет доступна к прочтению с главной страницы раздела, а вот вторую часть, посетители сайта смогут прочесть после нажатия ссылки «подробнее». Чтобы разделить материал на две части, используйте кнопку «Подробнее» в окне редактирования (смотрим скрин ниже).</p><p><img src="images/stories/Garaq/garaq-faq/garaq-3.jpg" border="0" alt="Редактирование материала " width="400" height="238" style="display: block; margin-left: auto; margin-right: auto;" /><br />По поводу загрузки фотографий и изображений на сайт. Для этого в окне редактирования, рядом с кнопкой «Подробнее», есть кнопка «Изображение». Нажимаем ее. После чего, откроется еще одно окно, с помощь которого Вы сможете загрузить на сайт изображение со своего компьютера. Делаем это, пошагово, как показано на скрине ниже: нажимаем кнопку «обзор» и выбираем фотографию на своем компьютере, далее жмем кнопку «Upload»(загружаем изображение на сайт), в окне появиться Ваше изображение, выбираем его и жмем кнопку «Past selected image in editor». Все изображение вставлено в статью.</p><p><img src="images/stories/Garaq/garaq-faq/garaq-4.jpg" border="0" alt="Вставляем изображение в материал заметки" width="400" height="239" style="display: block; margin-left: auto; margin-right: auto;" />Так же, часто бывает, что размер изображения не адаптирован под страницу сайта. Это можно легко исправить, нажав на изображение правой кнопкой мыши. И в выпадающем меню выбрать «Добавить/изменить изображение». В появившемся окне (скрин ниже) изменяем размер изображения на необходимый и по желанию, добавляем его описание. После этого, жмем внизу окна, жмем кнопку «Обновить» с галочкой. Готово. <br /><br /></p><p><img src="images/stories/Garaq/garaq-faq/garaq-5.jpg" border="0" alt="Редактирование изображения " width="400" height="237" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/garaq-faq/garaq-6.jpg" border="0" alt="Вставляем отредактированое изображение в материал" width="500" height="152" style="display: block; margin-left: auto; margin-right: auto;" /></p>',
+		'created_at' => '2013-06-25 19:00:57',
+		'updated_at' => '2013-12-24 05:32:52',
+		'published_at' => '1999-11-30 00:00:00',
+		'meta_key' => 'на, все, таки, регистрации/входа, после, под, «гараж, надписью, сайт, меню, тогда, если, же, или, сайте',
+		'meta_desc' => 'В принципе ничего сложного в написании и размещении своих заметок нет. Было бы желание)) Но, в этой заметке я все так',
+		'views' => '913',
+		'votes' => '20',
+		'voters' => '5',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	2 => [
+		'id' => '104',
+		'title' => 'Неудачная покупка коробки передач для автомобиля Ваз-21099',
+		'alias' => 'neudachnaya-pokupka-korobki-peredach-dlya-avtomobilya-vaz-21099',
+		'introtext' => '<p style="text-align: justify;">Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие в употреблении. В нашем случае это<strong> коробка передач</strong>. Причины, побудившие на этот поступок, у всех разные – кпп разбита вследствие аварии, отсутствие толкового мастера, повышенный износ всех узлов кпп (когда от суммы, необходимую на покупку всех комплектующих слегка кружится голова), желание все сделать самому и быстро (все таки проще и быстрей снять старую и поставить «новую»). Но итог один – поездка на «разборку». И там уже, после придирчивого рассматривания необходимой запчасти, и выслушивания убедительной речи продавца, требуем максимальную гарантию (как правило, это неделя ;)). Мы совершаем, что? Правильно, покупку «кота в мешке»! И остается только надеяться, что при покупке запчасти с небольшим пробегом, пробег действительно небольшой и запчасть не потеряла своего запаса прочности. В случае, покупки запчасти б/у, но уже бывшую в ремонте, остается, надеется, что мастер, собравший ее, был отличным специалистом своего дела и запчасти, которые были установлены хорошего качества. И, как правило, не всем везет!</p>',
+		'content' => '<p><br />Вот и в случае, о котором я хотел рассказать, так получилось. Молодой человек, после серьезной аварии, в которой<strong> коробка передач его автомобиля Ваз-21099</strong>, развалилась на несколько частей, принял решение – купить кпп б/у. После, не больших поисков, была им найдена коробка после капитального ремонта, за 2200 грн. Продавец сказал, что все необходимое в кпп заменили и дал гарантию на две недели! Что очень не плохо. Да и после установки коробки на автомобиль и заправки ее маслом, она вела себя на отлично – не стучала, не гудела и передачи все включались и выключались. Но, после пяти месяцев эксплуатации, по словам самого водителя, без видимых причин, при движении автомобиля, из под капота раздался вначале громкий удар и последующий за этим скрежет. Выбравшись из салона и осмотревшись, под автомобилем была обнаружена лужа масла. Парень принял одно верное в этой ситуации решение, срочная поездка в мастерскую. Добрался своим ходом, благо в пути и скрежет пропал.<br />После того как автомобиль заехал на смотровую яму, мы смогли рассмотреть вот такую картину – смотрим фотографии ниже.</p><p> </p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-1.jpg" border="0" alt="Болт пробил картер кпп Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-2.jpg" border="0" alt="Пробитый картер коробки передач Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-3.jpg" border="0" alt="Шестерня главной передачи Ваз-2109" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p style="text-align: justify;"><img src="images/stories/Garaq/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099/Ne-udachnaja-pokupka-korobki-peredach-dlja-avtomobilja-Vaz-21099-4.jpg" border="0" alt="Картер коробки передач от автомобиля Ваз-21099" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /><br />Открутился крепежный болт, шестерни главной пары и пробил <strong>картер коробки передач</strong> в двух места, и немного зализал зубья шестерни. В итоге, хоть Новый Год для человека и был немного омрачен этим событием, ему удалось избежать крупных растрат. Все закончилось разборкой кпп и сваркой картера аргоном, плюс масло и герметик.<br /><span style="color: #008000;">В общем, поделился с Вами, своими «рабочими» новостями))) </span></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2013-01-11 19:00:31',
+		'updated_at' => '2014-07-07 15:25:30',
+		'published_at' => '2013-12-23 19:17:05',
+		'meta_key' => 'запчасти, своего, всех, случае, на, как, кпп, –, что, все, но, уже, правило, это, остается',
+		'meta_desc' => 'Довольно часто, как и в случае, о котором я расскажу ниже, приходится покупать запчасти, для своего автомобиля бывшие ',
+		'views' => '8012',
+		'votes' => '76',
+		'voters' => '18',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	3 => [
+		'id' => '106',
+		'title' => 'Почему не отбрасывают повороты?',
+		'alias' => 'pochemu-ne-otbrasyivayut-povorotyi',
+		'introtext' => '<p>Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле <strong>Дэу Ланос</strong> перестали автоматически отбрасываться повороты. Мелочь конечно, но человека, это очень расстраивало)). Так похожий случай уже был и виновником был сам <strong>подрулевой</strong><strong> переключатель поворотов</strong> (был сломан язычок отвечающий за отбрасывание рычага), было решено в срочном порядке купить эту запчасть и так же срочно ее заменить. Что и было сделано. Но, после снятия старого и установки нового переключателя проблема не исчезла! Повороты также не отбрасывались(((</p>',
+		'content' => '<p>Благо, продавец узнал своих своих постоянных покупателей, без вопросов принял возврат и  предложил<strong> заменить скользящий контакт рулевого колеса</strong>. На этом контакте есть довольно внушительный выступ, который и должен входить в зацеп с язычком на переключателе поворотов.<br />Для его установки необходимо снять рулевое колесо, снять с него старый скользящий контакт (на фотографии видно как ощутимо счесан выступ) и установить новый (код в exist.ua – 96304414). Процедура не сложная и времени занимает не много. Но, зато какой результат! Все заработало как часики))).</p><p><br /><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-1.jpg" border="0" alt="Под рулевой переключатель поворотов дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p> </p><p><img src="images/stories/Garaq/Pochemu-ne-otbrasyvajut-povoroty/Pochemu-ne-otbrasyvajut-povoroty-2.jpg" border="0" alt="Скользящий контакт рулевого колеса дэу ланос" width="400" height="300" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2013-01-13 19:32:08',
+		'updated_at' => '2014-07-07 15:26:02',
+		'published_at' => '2013-12-23 19:18:19',
+		'meta_key' => 'был, было, что, повороты, но, так, не, проблема, конечно, же, порядке, купить, эту, язычок, срочном',
+		'meta_desc' => 'Столкнулся недавно с интересным случаем. И, конечно же, решил поделиться с Вами. Проблема заключалась в том, что на автомобиле Дэ',
+		'views' => '9081',
+		'votes' => '95',
+		'voters' => '23',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	4 => [
+		'id' => '114',
+		'title' => 'Гайколом - зачетный инструмент',
+		'alias' => 'gaykolom-zachetnyiy-instrument',
+		'introtext' => '<p style="text-align: justify;"><img src="images/stories/Garaq/gajkolom/gajkolom.jpg" border="0" alt="Гайколом - приспособления для слома гаек" width="200" style="margin: 7px; float: left;" />Вот приобрел недавно на авторынке Лоск новое приспособление – <strong>гайколом</strong>. И, конечно же, хочу поделиться радостью с Вами))). Купил два экземпляра. Самый маленький номер 1 (9-12 мм) и номер 2 (12-16 мм), всего их, если не ошибаюсь четыре размера. И скажу честно, после удачных испытаний в полевых условиях, решил прикупить и остальные размеры. Уверен, что пригодятся!</p><p style="text-align: justify;"> </p><p style="text-align: justify;"> </p>',
+		'content' => '<p>Раньше ведь как было… Приржавеет или прикипит гайка на шпильке и не хочет откручиваться. Оставляя Вам только два варианта – разрубывать зубилом (рассверливать дрелью) или рисковать и пытаться открутить гайку, что довольно часто заканчивалось плачевно. Сломанная шпилька, это серьезная головная боль. Поэтому, я, к примеру, всегда выбирал первый вариант. Но и в этом случае были свои ощутимые минусы. То с дрелью не везде подлезешь, но зубилом долго рубить приходится. И вот на рынке появились гайколомы!  Я Вам скажу, вещь! Данное приспособление для разлома гаек значительно позволяет сэкономить время, силы и нервы. Да, соглашусь, что из-за своей конструкции гайколомом не везде можно подлезть, но…<br /><br />Ниже приведу пример, удачного применения гайколома в работе. Те кто, хоть пару раз откручивали <strong>гайки крепления переднего амортизатора к нижнему рычагу автомобилей Ваз 2101-2107</strong>, меня поймут. Смотрим фотографии ниже. При первом сопротивлении гайки, накидываем гайколом, затягиваем болт и радуемся достигнутому результату! Гайка сломана и шпилька целая. Прелесть)))</p><p> </p><p><img src="images/stories/Garaq/gajkolom/gajkolom-1.jpg" border="0" alt="Как открутить приржавевшую гайку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /><br /><br /><img src="images/stories/Garaq/gajkolom/gajkolom-2.jpg" border="0" alt="Как удалить гайку и не сломать шпильку" width="400" style="display: block; margin-left: auto; margin-right: auto;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2013-04-28 19:35:14',
+		'updated_at' => '2014-07-07 15:25:04',
+		'published_at' => '2013-12-23 19:19:27',
+		'meta_key' => 'номер, мм, четыре, скажу, ошибаюсь, размера, их, всего, честно, если, не, удачных, размеры, остальные, уверен',
+		'meta_desc' => 'Вот приобре',
+		'views' => '12759',
+		'votes' => '197',
+		'voters' => '42',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	5 => [
+		'id' => '117',
+		'title' => 'Течь из под крышки ГРМ на автомобиле Ваз-2109!?',
+		'alias' => 'tech-iz-pod-kryishki-grm-na-avtomobile-vaz-2109',
+		'introtext' => '<p style="text-align: justify;">Потек тосол из под защитной крышки<strong> ремня ГРМ на автомобиле Ваз 2109</strong>. Что первое Вам пришло в голову? Ну, кроме матов, конечно же))) <strong>Накрылась помпа?</strong> Правильно… Я тоже так подумал и был немного удивлен картиной, которой появилась после снятия крышки. Первичны диагноз был поставлен не верно. Причиной утечки охлаждающей жидкости была <span style="color: #000080;"><strong>технологическая заглушка на блоке цилиндров</strong></span>. Прохудилась бедняга! Зрелище завораживающее, в отличие от работы по ее замене)) Смотрим видео, комментируем.</p>',
+		'content' => '<p><object style="display: block; margin-left: auto; margin-right: auto;" width="420" height="315" data="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" type="application/x-shockwave-flash"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="src" value="http://www.youtube.com/v/HXUosrQXod4?hl=ru_RU&amp;version=3" /></object></p><p><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2013-06-25 19:00:56',
+		'updated_at' => '2014-07-07 15:24:43',
+		'published_at' => '1999-11-30 00:00:00',
+		'meta_key' => 'был, на, крышки, утечки, причиной, технологическая, охлаждающей, верно, жидкости, была, поставлен, после, появилась, снятия, первичны',
+		'meta_desc' => 'Потек тосол из под защитной крышки ремня ГРМ на автомобиле Ваз 2109. Что первое Вам пришло в голову? Ну, кром',
+		'views' => '6243',
+		'votes' => '49',
+		'voters' => '12',
+		'meta_title' => '',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	13 => [
+		'id' => '138',
+		'title' => 'Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей!',
+		'alias' => 'vnimanie-osteregaemsja-kitajskih-poddelok-kitajskih-zapchastej-dlja-kitajskih-avtomobilej',
+		'introtext' => '<p><span style="color: #008000;"><strong>Такой содержательный заголовок должен привлечь Ваше внимание к данной статье))).</strong></span></p><p style="text-align: justify;">В который раз приходится сталкиваться с некачественными запчастями! Почти в каждой статье, я повторяю, что лучше брать оригинальные запчасти или на крайний случай, качественные аналоги, проверенные временем. Страшно подумать, сколько времени, сил, денег и нервов было потрачено после покупки и установки некачественных деталей. И описанный случай ниже, не стал исключением. Он, правда, в два раза досадней, тем что, клиент (мой хороший знакомый) при покупке просил у продавца предоставить ему качественное изделие. В деньгах не жался и не пытался снизить цену. И еще, он покупал запчасть (далее, рычаг передней подвески) на<strong> <a href="chery/blog.html" title="Ремонт китайских автомобилей Чери">китайский автомобиль Chery Kimo (Чери Кимо)</a></strong>! И я, и мой приятель, думали, что не ничего проще, чем купить оригинальную деталь китайского производства на китайский автомобиль… И мы ошиблись.</p>',
+		'content' => '<p style="text-align: justify;">Это, друзья просто катастрофа. Оригинальный<strong> рычаг передней подвески на автомобиле Chery Kimo (Чери Кимо)</strong>, прослужил больше 60000 км, заменить его пришлось из-за разбитой шаровой опоры. Новый рычаг, установку, которого я описывал в <a href="chery/zamena-nizhnego-rychaga-perednej-podveski-avtomobilja-chery-kimo.html" title="Замена рычага на автомобиле Чери Кимо">этой статье</a>, <span style="color: #ff0000;">пришлось заменить через 300 км пробега</span>!!! Так как, с нового рычага попросту<span style="color: #ff0000;"> вырвало шаровую опору</span>! Смотрим фотографии. Красиво, правда? Это хорошо, что опору оборвало, и она ушла вниз. Если бы ее протащило вверх, последствия были бы значительно печальней. Можно сказать, что повезло…</p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo.jpg" border="0" alt="шаровая опора Чери Кимо" title="шаровая опора Чери Кимо" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-1.jpg" border="0" alt="вырвало шаровую опору рычага передней подвески Чери кимо" title="вырвало шаровую опору рычага передней подвески Чери кимо" width="400" /></p><p style="text-align: justify;">Но, это еще не все, о чем я хотел рассказать. Так как, старый рычаг я не выкинул (почему не выкинул, станет понятно, если Вы прочитаете <strong>статью по замене рычага передней подвески на Чери Кимо</strong>), его быстро вернул на место и отправить приятеля в магазин, где он купил этот «фирменный» рычаг, с пребыванием обмена его на новый или возврата денег. По прибытию в магазин приятель, выслушал он продавца речь о качестве наших дорог. Когда эта речь не возымела действия и человек все равно продолжал настаивать на своем. Этот умник, выдвинул версию, что мастер установил правый рычаг на левую сторону, поэтому и отломало шаровую опору!!!  О как!!! Человек готов морозить, чушь лишь бы не признавать, что не прав. Ведь не сложно, просто положить левый и правый рычаг рядом, сравнить их, и понять, что попутать их местами просто не возможно. В общем, приятель сразу позвонил мне и узнал, мое мнение по этому вопросу. После чего, все-таки, ему принесли другой рычаг, тоже по заверению продавца – качественный. Его и поставили. Насколько он надежен, покажет время.</p><p style="text-align: justify;"><span style="color: #008000;">И как итог, из этой истории можно сделать выводы: </span></p><p style="text-align: justify;">1. При покупке запчасти на свой, пусть и на китайский автомобиль, требуем гарантий качества и возврата. Чем, больше Вы будете уделять внимание качеству, а не цене изделия и предъявлять претензии к нечестным продавца, тем меньше у них будет желания торговать некачественной продукцией.</p><p style="text-align: justify;">2. Второе, слепо не верим, что нам говорят, и лично проверяем деталь. В нашем случае, нужно обратить внимание на вес рычага (он не должен быть легким) и на сварочный шов вокруг шаровой опоры (она должна быть проварена по окружности, шов должен внушать доверие). Ниже я сделал фотографии, на которых видно как проварена опора в оригинале и какой сварочный шов на новом рычаге.</p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-3.jpg" border="0" alt="шаровая опора оригинального рычага передней подвески чери кимо" title="шаровая опора оригинального рычага передней подвески чери кимо" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/vyrvalo-sharovuju-oporu-cheri-kimo/vyrvalo-sharovuju-oporu-cheri-kimo-4.jpg" border="0" alt="сварка нижней опоры на новом рычаге чери кимо" title="сварка нижней опоры на новом рычаге чери кимо" width="400" /></p><p><span style="color: #008000;">Надеюсь, что эта статья будет для Вас полезна, и Вы сможете избежать похожих проблем.</span></p><p><span style="color: #008000;"><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2014-01-02 13:16:02',
+		'updated_at' => '2014-07-07 15:24:18',
+		'published_at' => '2014-01-02 13:16:02',
+		'meta_key' => 'вырвало шаровую опору Chery Kimo, нижний рычаг Чери Кимо, причина замены нижнего рычага Кимо, ремонт китайского автомобиля Chery Kimo, как купить качественную деталь для своего автомобиля',
+		'meta_desc' => 'К чему приводит покупка не качественной делали на автомобиль? В данной статье описан один из примеров, когда был куплен рычаг передней подвески на китайский автомобиль Chery Kimo, Чери Кимо. На это новом рычаге, в очень короткий срок вырвало шаровую опору',
+		'views' => '5354',
+		'votes' => '117',
+		'voters' => '25',
+		'meta_title' => 'Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей! – вырвало шаровую опору Chery Kimo, нижний рычаг Чери Кимо',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	14 => [
+		'id' => '146',
+		'title' => 'Можно ли заклеить треснувший блок цилиндров двигателя Ваз-2101? ',
+		'alias' => 'tresnuvshij-blok-cilindrov-dvigatelja-vaz2101',
+		'introtext' => '<p style="text-align: justify;">Ни для кого, ни секрет, что если в систему охлаждения двигателя залить летом воду (например, в целях экономии) и забыть об этом, то при наступлении первых морозов, Вас будет ожидать неприятный сюрприз, который заключается в виде «размороженного» двигателя. В лучшем случае, выдавить заглушки, в худшем лопнет стенка блока цилиндров. И когда, это происходит, то забывчивые или экономные хозяева задаются одним и тем же вопросом – Можно ли заклеить треснувший блок цилиндров? Большинство автомастеров, мотористов скажет, что нет, заклеить нельзя, необходимо только менять блок на новый (другой). Но, есть и Кулибины, которые смело, говорят, да и берутся за дело. Клеят блок и еще умудряются продать автомобиль с таким двигателем другому человеку!!!</p>',
+		'content' => '<p>Я теперь точно знаю, где находятся такие спецы))). Сообщу их неточные координаты (неточные потому, что не хочу делать им бесплатную рекламу) - пгт. Новая Водолага, Харьковского района. Именно из этих краев пригнал свой первый автомобиль, марки Ваз-21011, мой одноклассник.</p><p style="text-align: justify;">{module Реклама-статья-2}<br />Детально описывать общее состояние купленного автомобиля я не буду. Так как, то, что я увидел, может заставить приуныть самого оптимистически настроенного человека. Кузов и ходовая находились в плачевном состоянии, но об этом отдельно. Сейчас о двигателе. Как можно было не обратить внимание на двигатель, который работает как отбойный молоток. Это загадка. Но, как оказалось, это не все проблемы с двигателем. При внимательном осмотре двигателя, на его правой стороне были обнаружены следы утечки охлаждающей жидкости. Подозрения на прогнившие заглушки, не оправдались, так следы утечки были ниже.</p><p style="text-align: justify;">Далее, можно смотреть фотографии. Первая фотография, это общий вид. На ней видно, что блок замазан, какой-то ерундой, которая похожа на эпоксидный клей и из-под нее видны следы подтекания жидкости. Взяв отвертку в руки, и в одном месте поддел корку (фото 2). И вот какая чудная картина предстала после снятия латки (фото 3 и 4). Трещина длинной 200 мм, которую, мастерски замазали эпоксидной смолой и замазали черной мастикой. Слов нет…. Двигатель ушел на свалку.</p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-1.jpg" border="0" alt="трещина в блоке цилиндров ваз-2101" title="трещина в блоке цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-2.jpg" border="0" alt="Как отремонтировать блок цилиндров ваз-2101" title="Как отремонтировать блок цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-3.jpg" border="0" alt="Можно ли заклеить блок цилиндров ваз-2101" title="Можно ли заклеить блок цилиндров ваз-2101" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-4.jpg" border="0" alt="двигатель ваз" title="двигатель ваз" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101/tresnuvshij-blok-cilindrov-dvigatelja-vaz2101-5.jpg" border="0" alt="не удачная покупка автомобиля" title="не удачная покупка автомобиля" width="400" /></p><p><span style="color: #008000;">Будьте внимательны при покупке, пусть и старого, дешевого автомобиля. Ведь ремонт такого чуда, может Вам обойтись значительно дороже, чем цена самого автомобиля.</span></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2014-03-09 18:05:23',
+		'updated_at' => '2014-07-07 15:23:31',
+		'published_at' => '2014-03-09 18:05:23',
+		'meta_desc' => 'Что бывает, когда вместо тосола или антифриза в систему охлаждения двигателя заливают воду и вспоминают об этом только при наступление холодов. При «разморозке» двигателя блок цилиндров может треснуть. Что делать в этом случае? Можно ли его заклеить?',
+		'meta_key' => 'треснул блок двигателя, ремонт блока цилиндров двигателя ваз, не удачная покупка автомобиля, будьте внимательны при покупке автомобиля',
+		'meta_title' => 'Можно ли заклеить треснувший блок цилиндров двигателя Ваз-2101? – треснул блок двигателя, ремонт блока цилиндров двигателя ваз',
+		'views' => '10133',
+		'votes' => '99',
+		'voters' => '22',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	15 => [
+		'id' => '175',
+		'title' => 'Сколько лет помпе или "качественная" охлаждающая жидкость?',
+		'alias' => 'skolko-let-pompe-ili-kachestvennaja-ohlazhdajuschaja-zhidkost',
+		'introtext' => '<p style="text-align: justify;">Во время <strong>замены ремня ГРМ</strong> на автомобилях <strong>Daewoo Lanos (Дэу Ланос)</strong> и <strong>Daewoo Nexia (Дэу Нексия)</strong> довольно часто приходится беспокоить помпу (ослаблять затяжку крепежных болтов и при помощи специального ключа изменять ее положение). Так как без этой манипуляции надеть новый ремень газораспределения и правильно отрегулировать его натяжку очень трудно. Если кто-то не понимает о чём идет речь, то советую ознакомиться <a href="daewoo/zamena-remnja-grm-i-natjazhnogo-rolika-na-avtomobiljah-daewoo-nexia-daewoo-lanos-s-obemom-dvigatelja-15.html" target="_blank" title=" Самое популярное      Замена радиатора печки на автомобиле ВАЗ-2101, ВАЗ-2102, ВАЗ-2106, ВАЗ-2107     Замена сайлентблоков передних ( нижних и верхних ) рычагов на автомобилях ВАЗ-2101, ВАЗ-2102, ВАЗ-2103, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Замена охлаждающей жидкости (антифриза или тосола) в автомобиле ВАЗ-2101, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Установка бесконтактного электронного зажигания на автомобили Ваз-2101, Ваз-2102, Ваз-2104, Ваз-2105, Ваз-2106, Ваз-2107, Классика     Замена крестовины и подвесного подшипника карданного вала на автомобилях ВАЗ-2101, ВАЗ-2102, ВАЗ-2104, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107     Замена масла и масляного фильтра в двигателе на автомобиле ВАЗ-2101, ВАЗ-2102, ВАЗ-2103, ВАЗ-2105, ВАЗ-2106, ВАЗ-2107, Жигули, Классика  TOP- 10 (рейтинг голосов)      Замена верхней опоры передней амортизационной стойки на автомобилях Daewoo Lanos, Daewoo Nexia, Daewoo Sens, Chevrolet Lanos     Замена тормозных дисков и передних тормозных колодок на автомобилях Ваз-2101, Ваз-2104, Ваз-2105, Ваз-2106, Ваз-2107, Классика, Жигули     Замена заднего тормозного шланга на автомобилях Daewoo Lanos, Daewoo Nexia, Daewoo Sens, Chevrolet Lanos     Немного о проекте и о себе     Замена заднего тормозного цилиндра на автомобиле Daewoo Matiz     Внимание! Остерегаемся китайских подделок китайских запчастей для китайских автомобилей!     Ремонт стартера автомобилей Daewoo Lanos, Daewoo Nexia, Chevrolet Lanos     Гайколом - зачетный инструмент     Замена переднего тормозного шланга на автомобиле Daewoo Lanos, Daewoo Sens     Замена подушки кулисы переключения передач на автомобилях Ваз-2110, Ваз-2111, Ваз-2112  Замена ремня ГРМ и натяжного ролика на автомобилях Daewoo Nexia, Daewoo Lanos с объемом двигателя 1.5 ">вот с этим материалом</a>. И все станет на свои места))). Как бы там не было, в большинстве случаях после попыток покрутить помпу из под уплотнительного кольца, появляется течь охлаждающей жидкости. Сколько не затягивай болты, капли тосола все равно будут просачиваться. Эта проблема появляется по вине устаревшего резинового кольца помпы, которое со временем ссыхается, трескается и разрушается. Так же, стоит помнить об окислениях, ржавых наслоениях, которые образуются на привалочных частях помпы и блока двигателя, и способствуют нарушению герметичного соединения.</p><p>',
+		'content' => '</p><p style="text-align: justify;">Поэтому, чтобы не надеяться на авось (потечет или нет), рекомендую сразу сливать <a href="sovety/tosol-ili-antifriz-delaem-pravilnyj-vybor.html" target="_blank" title="Тосол или антифриз – делаем правильный выбор"><strong>антифриз (тосол)</strong></a>, снимать помпу, осматривать ее состояние и, если с ней все ок, устанавливать новое уплотнительное кольцо, очищать посадочные места от грязи и начинать обратную сборку. По крайней мере, я так поступаю. И всегда держу в запасе десяток уплотнительных колец под водяной насос и на всякий пожарный, хотя бы одну помпу. И этот "пожарный" иногда наступает. При очередной замене ремня ГРМ на восьмиклапанном Ланосе, состояние снятой помпы меня очень удивило. Точнее, состояние ее крыльчатки. Смотрим фотографии ниже.</p><p>{module Реклама-статья-2}</p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-1.jpg" border="0" alt="Помпа Дэу ланос" title="Помпа Дэу ланос" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-2.jpg" border="0" alt="Влияние не качественной охлаждающей жидкости на детали двигателя" title="Влияние не качественной охлаждающей жидкости на детали двигателя" width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/skolko-let-pompe/skolko-let-pompe-3.jpg" border="0" alt="Помпа Дэу ланос" title="Помпа Дэу ланос" width="400" /></p><p style="text-align: justify;">Остается загадкой, как такая крыльчатка обеспечивала циркуляцию жидкости в системе охлаждения? Но, жалоб не было. Со слов владельца Ланоса, после покупки автомобиля он помпу еще не разу не менял и при это проехал более 150000 км. Менял ли, ее предыдущий владелец, история умалчивает. То есть определить точный пробег и возраст помпы не получилось. Но, очень трудно поверить, что крыльчатка "стерлась" из-за многолетней работы.... Я больше склоняюсь к мнению о "качественном" тосоле. Но, не претендуя на звание эксперта, утверждать со 100% уверенностью не буду. Если у Вас есть мысли по этому вопросу, то буду рад их услышать! Точнее прочитать в комментариях к этой статье))).</p><p style="text-align: justify;">Но, как бы там ни было, все хорошо, что хорошо заканчивается. Помпа-герой или помпа-долгожитель была отправлена на заслуженный отдых. Ее место заняла новая помпа фирмы "Лузар". Километраж и дата замены записаны. Посмотрим на столько ее хватит....</p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2015-02-01 11:40:56',
+		'updated_at' => '0000-00-00 00:00:00',
+		'published_at' => '2015-02-01 11:40:56',
+		'meta_key' => 'помпа дэу ланос, помпа дэу нексия, износ крыльчатки помпы, качество охлаждающей жидкости, уплотнительное кольцо помпы',
+		'meta_desc' => 'В данной статье будут приведены причины по которым при замене ремня ГРМ на автомобилях Дэу Ланос и Дэу Нексия помпу (водяной насос) следует снимать помпу полностью. Так же, будет описан случай из практики, в котором после снятия вроде бы исправной на перв',
+		'views' => '2240',
+		'votes' => '5',
+		'voters' => '1',
+		'meta_title' => 'Сколько лет помпе или "качественная" охлаждающая жидкость? - помпа дэу ланос',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+	16 => [
+		'id' => '315',
+		'title' => 'Дешёвый, простой и эффективный способ борьбы с воровством аккумуляторов!',
+		'alias' => 'deshjovyj-prostoj-i-jeffektivnyj-sposob-borby-s-vorovstvom-akkumuljatorov',
+		'introtext' => '<p style="text-align: justify;">Да, кражи, угон и взлом автомобилей довольно распространенные преступления на постсоветских просторах. Криминалитет не дремлет и активно работает. Многие, а может даже все автолюбители это подтвердят. Так как сами, хоть раз в жизни, становились жертвами угона или взлома, кражи из автомобиля. Если не угонят, то сольют бензин, вырвут магнитолу, почистят бардачок, снимут колеса, аккумулятор стырят... Знакомо? Вот. А скажите владельцы каких марок автомобилей больше всех страдают от этой "напасти"? Не догадались? Тогда несколько подсказок: На какой модели автомобиля ездил Ваш дед или отец? Да и Вы, с большей долей вероятности, за рулем автомобиля этого семейства проходили школу молодого водителя и начинающего авторемонтника. На какой машине проще всего слить бензин, даже не имея в наличии длинного шланга? Дверь какого автомобиля каждый школьник может открыть линейкой? На каком автомобиле тот же школьник знает расположение троса открытия капота? Думаю, что уже должны догадаться))) Все верно, речь идет о всенародной "Классике". <strong>Об автомобилях семейства Ваз 2101-2107 "Жигули"</strong>.</p>',
+		'content' => '<p>Вот кому-кому, а владельцам этих автомобилей можно посочувствовать больше всех. Им в борьбе с воровством, не помогают ни установка сигнализации, ни платные стоянки, ни гаражи с десятью замками... Стоит только выехать, остановиться, выйти из машины и оставить ее без присмотра, так все! Если колеса не сняли, так бензин слили... А в последнее время, повадились аккумуляторы снимать. Хотя, если вспомнить сколько они сейчас стоят, то этот ажиотаж становится понятен.</p><p style="text-align: justify;">Жертвой кражи <a href="sovety/pravilnaja-zarjadka-i-obsluzhivanie-avtomobilnogo-akkumuljatora.html" target="_blank" title="Правильная зарядка и обслуживание автомобильного аккумулятора"><strong>аккумулятора</strong></a> стал и мой знакомый таксист. <strong>Счастливый обладатель автомобиля Ваз-2102</strong>. С сигнализацией человек решил не заморачиться, рассуждая, мол машина рабочая, в салоне ценного нет ничего, панельку с магнитолы таскаю с собой, а ночью авто ставлю на платную стоянку. Повода для беспокойства нет.</p><p style="text-align: justify;">И можно только представить, его удивление, когда в обед, поставив машину перед домом, покушав и отдохнув. Он вышел из дома, в надежде продолжить работу, сел в машину, а она не захотела заводиться. Даже лампочки на доске приборов не загорелись... Да, верно. Причина была в отсутствии аккумуляторной батареи. Вот так, среди бела дня, в родном дворе, человек попал на круглую сумму денег. Но, это не все. История не закончена.</p><p style="text-align: justify;">После покупки нового аккумулятора, прошла неделя и история повторилась! Такие дела расстроят кого угодно. <strong>Два аккумулятора, за две недели!</strong> Психанул человек и решил действовать. Логика проста, как не дорого и быстро, защитить капот автомобиля от несанкционированного вскрытия. Решение было найдено быстро: покупка двух навесных замков и двух пар петель под эти замки обошлась в 100 гривен. Услуги сварщика: две бутылки пива.<strong> Капот любимой Ваз-2102 заблокирован и аккумулятор надежно защищен</strong>! На фотографиях ниже, любуемся результатами работы))). Дешево, просто и надежно! ))))</p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-1.jpg" border="0" alt="Украли аккамулятор с автомобиля ваз 2102" title="Украли аккамулятор с автомобиля ваз 2102" width="400" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-2.jpg" border="0" alt="борьба с воровством аккумуляторов на классике," title="борьба с воровством аккумуляторов на классике," width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-3.jpg" border="0" alt="способ блокировки капота ваз 2101-2107" title="способ блокировки капота ваз 2101-2107" width="400" style="border: 0px none;" /></p><p style="text-align: center;"><img src="images/stories/Garaq/sposob-borby-vorovstvom-akkumuljatorov/sposob-borby-vorovstvom-akkumuljatorov-4.jpg" border="0" alt="кража аккумулятора с автомобиля ваз" title="кража аккумулятора с автомобиля ваз" width="400" style="border: 0px none;" /></p><p><span style="color: #ff0000;"><strong>При использование статьи или фотографий активная прямая гиперссылка на сайт www.avtorem.info обязательна!</strong></span></p><p><span style="color: #ff0000;"><strong><a href="https://plus.google.com/108786246595375063515?rel=author">Google+</a></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Google AdSense}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module AdLabs Media Network 2}</span></span></p><p style="text-align: center;"><span style="color: #ff0000;"><strong><span style="color: #000000;">Читайте также:<br /></span></strong></span></p><p style="text-align: center;"><span style="color: #ff0000;"><span style="color: #000000;">{module Еще статьи:}</span><strong><span style="color: #000000;"><br /></span></strong></span></p><p><span style="color: #ff0000;"><strong><span style="color: #000000;">{jcomments on}</span></strong></span></p>',
+		'created_at' => '2015-07-28 09:11:37',
+		'updated_at' => '2015-07-28 10:36:49',
+		'published_at' => '2015-07-28 09:11:37',
+		'meta_key' => 'кража аккумулятора с автомобиля, капот ваз 2102, борьба с воровством аккумуляторов на классике, способ блокировки капота ваз 2101-2107, аккумуляторная батарея ваз классика',
+		'meta_desc' => 'В статье описан один из способов борьбы с нежелательным вскрытием капота автомобилей Ваз 2101-2107. Способ блокировки капота автомобиля, который позволит избежать кражи аккумуляторной батареи! Не дорого, пусть не эстетично, но зато надежно и практично. ',
+		'meta_title' => 'Дешёвый, простой и эффективный способ борьбы с воровством аккумуляторов!',
+		'views' => '467',
+		'votes' => '4',
+		'voters' => '1',
+		'type' => '1',
+		'parent_id' => '9',
+		'user_id' => '1',
+		'is_published' => '1',
+		'is_container' => '0',
+		'show_submenu' => '0',
+	],
+
+];
+
+/*проверка, у кого нет метаданных*/
+/*
+foreach($result_data as $data) {
+	if(!isset($data['meta_title'])) {
+		echo $data['alias'];
+		echo "<br>\n";
+	}
+}
+*/
+var_dump(count($result_data));

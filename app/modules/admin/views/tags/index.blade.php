@@ -55,6 +55,10 @@ View::share('title', $title);
             </div><!-- ./col -->
 
             <div class="col-xs-12">
+                <div class="count">
+                    Показано: <span>{{ $tags->count() }}</span>.
+                    Всего: <span>{{ $tags->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">

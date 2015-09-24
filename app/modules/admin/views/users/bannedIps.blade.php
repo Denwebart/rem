@@ -41,6 +41,10 @@ View::share('title', $title);
             <div id="message"></div>
 
             <div class="col-xs-6">
+                <div class="count">
+                    Показано: <span>{{ $bannedIps->count() }}</span>.
+                    Всего: <span>{{ $bannedIps->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped" id="banned-ips-table">
