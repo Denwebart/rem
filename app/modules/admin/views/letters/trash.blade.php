@@ -96,6 +96,10 @@ View::share('title', $title);
 
                                 <div class="table-responsive scroll">
                                     @if(count($letters))
+                                        <div class="count">
+                                            Показано: <span>{{ $letters->count() }}</span>.
+                                            Всего: <span>{{ $letters->getTotal() }}</span>.
+                                        </div>
                                         <table class="table table-hover">
                                             <thead>
                                             <tr>

@@ -24,6 +24,10 @@ View::share('title', $title);
                 @if(Session::has('warningMessage'))
                     <p>{{ Session::get('warningMessage') }}</p>
                 @endif
+                <div class="count">
+                    Показано: <span>{{ $honors->count() }}</span>.
+                    Всего: <span>{{ $honors->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">

@@ -2039,6 +2039,10 @@ footer .copyright a {
         width: 100%;
         text-align: center;
     }
+    .content .fancybox {
+        width: 100%;
+        text-align: center;
+    }
     #users {
         font-size: 13px;
     }
@@ -2204,6 +2208,9 @@ footer .copyright a {
     #rating #rate-voters {
         font-size: 12px;
         line-height: 26px;
+    }
+    #rating #rate-stars {
+        clear: inherit;
     }
     /* Content */
     .page-info,

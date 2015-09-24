@@ -41,6 +41,10 @@ View::share('title', $title);
             <div id="message"></div>
 
             <div class="col-xs-12">
+                <div class="count">
+                    Показано: <span>{{ $users->count() }}</span>.
+                    Всего: <span>{{ $users->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">

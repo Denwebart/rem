@@ -22,6 +22,10 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
+                <div class="count">
+                    Показано: <span>{{ $rules->count() }}</span>.
+                    Всего: <span>{{ $rules->getTotal() }}</span>.
+                </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover table-striped">

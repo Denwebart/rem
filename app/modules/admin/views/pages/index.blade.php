@@ -137,6 +137,36 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                 Показано: <span>{{ $pages->count() }}</span>.
                 Всего: <span>{{ $pages->getTotal() }}</span>.
             </div>
+
+            {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.autocomplete'], 'id' => 'search-pages-form']) }}
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-10">
+                    <div class="form-group">
+                        {{ Form::text('query', null, [
+                            'class' => 'form-control floating-label',
+                            'id' => 'query',
+                            'placeholder' => 'Введите заголовок статьи'
+                        ]) }}
+                    </div>
+                </div>
+                {{--<div class="col-md-2 col-sm-2 col-xs-2">--}}
+                    {{--<div class="checkbox is-online">--}}
+                        {{--<label>--}}
+                            {{--{{ Form::checkbox('is_online', 1, $is_online, ['id' => 'is-online']); }}--}}
+                            {{--<span class="text">Онлайн</span>--}}
+                        {{--</label>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                    <button type="submit" class="btn btn-success btn-sm btn-full">
+                        <i class="material-icons">search</i>
+                        <span class="hidden-md hidden-sm">Найти</span>
+                        <div class="ripple-wrapper"></div>
+                    </button>
+                </div>
+            </div>
+            {{ Form::close() }}
+
             <div class="box">
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover table-striped">
@@ -215,9 +245,6 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
                                 <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
                                 <td>
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.pages.show', $page->id) }}">
-                                        <i class="fa fa-search-plus "></i>
-                                    </a>
                                     <a class="btn btn-info btn-sm" href="{{ URL::route('admin.pages.edit', $page->id) }}">
                                         <i class="fa fa-edit "></i>
                                     </a>

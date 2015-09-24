@@ -9,21 +9,36 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
 
 @section('content')
 <div class="page-head">
-    <h1>
-        <i class="fa fa-file-o"></i>
-        {{ $title }}
-        <small>статьи из бортового журнала</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-        <li class="active">{{ $title }}</li>
-    </ol>
+    <div class="row">
+        <div class="col-md-10 col-sm-9 col-xs-12">
+            <h1>
+                <i class="fa fa-file-o"></i>
+                {{ $title }}
+                <small>статьи из бортового журнала</small>
+            </h1>
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12">
+            <div class="buttons">
+                <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.articles.create') }}">
+                    <i class="fa fa-plus "></i> Создать
+                </a>
+            </div>
+        </div>
+    </div>
+    {{--<ol class="breadcrumb">--}}
+        {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+        {{--<li class="active">{{ $title }}</li>--}}
+    {{--</ol>--}}
 </div>
 
 <div class="content">
     <!-- Main row -->
     <div class="row">
         <div class="col-xs-12">
+            <div class="count">
+                Показано: <span>{{ $pages->count() }}</span>.
+                Всего: <span>{{ $pages->getTotal() }}</span>.
+            </div>
             <div class="box">
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover table-striped">
@@ -54,9 +69,6 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at', $params) }}
                                 </th>
                                 <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.articles.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
                                 </th>
                             </tr>
                         </thead>
@@ -97,9 +109,6 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
                                 <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
                                 <td>
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.articles.show', $page->id) }}">
-                                        <i class="fa fa-search-plus "></i>
-                                    </a>
                                     <a class="btn btn-info btn-sm" href="{{ URL::route('admin.articles.edit', $page->id) }}">
                                         <i class="fa fa-edit "></i>
                                     </a>
