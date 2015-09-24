@@ -249,7 +249,7 @@
         <div class="box-body">
             <div class="form-group @if($errors->has('meta_title')) has-error @endif">
                 {{ Form::label('meta_title', 'Мета-тег Title') }}
-                {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 2]) }}
+                {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 4]) }}
                 @if($errors->has('meta_title'))
                     <small class="help-block">
                         {{ $errors->first('meta_title') }}
@@ -258,7 +258,7 @@
             </div>
             <div class="form-group @if($errors->has('meta_desc')) has-error @endif">
                 {{ Form::label('meta_desc', 'Мета-тег Description') }}
-                {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 3]) }}
+                {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 5]) }}
                 @if($errors->has('meta_desc'))
                     <small class="help-block">
                         {{ $errors->first('meta_desc') }}
@@ -267,7 +267,7 @@
             </div>
             <div class="form-group @if($errors->has('meta_key')) has-error @endif">
                 {{ Form::label('meta_key', 'Мета-тег Keywords') }}
-                {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 3]) }}
+                {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 5]) }}
                 @if($errors->has('meta_key'))
                     <small class="help-block">
                         {{ $errors->first('meta_key') }}
@@ -325,10 +325,16 @@
                 <div class="box-title">
                     {{ Form::label('introtext', 'Краткое описание') }}
                     <div class="pull-right box-toolbar">
-                        <a href="#" class="btn btn-link btn-xs collapse-box"><i class="fa fa-chevron-down"></i></a>
+                        <a href="#" class="btn btn-link btn-xs collapse-box">
+                            @if(!$page->introtext)
+                                <i class="fa fa-chevron-down"></i>
+                            @else
+                                <i class="fa fa-chevron-up"></i>
+                            @endif
+                        </a>
                     </div>
                 </div>
-                <div class="box-body no-padding" style="display: none">
+                <div class="box-body no-padding" @if(!$page->introtext) style="display: none" @endif>
                     <div class="form-group @if($errors->has('introtext')) has-error @endif">
                         {{ Form::textarea('introtext', $page->introtext, ['class' => 'form-control editor']) }}
                         @if($errors->has('introtext'))

@@ -114,6 +114,10 @@ h5, .h5 {
 .status .not-published {
     background: #F0AD4E;
 }
+/* Формы */
+select {
+    cursor: pointer;
+}
 
 /* Colors */
 .success {
