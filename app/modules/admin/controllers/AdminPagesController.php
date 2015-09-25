@@ -25,13 +25,25 @@ class AdminPagesController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$pages = Page::orderBy($sortBy, $direction)->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		} else {
-			$pages = Page::orderBy('created_at', 'DESC')->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		}
+        $parent_id = Request::get('parent_id');
 
-		return View::make('admin::pages.index', compact('pages'));
+        $query = new Page;
+        $query = $query->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions');
+        if($parent_id) {
+            $query = $query->whereParentId($parent_id);
+            $parentPage = Page::find($parent_id);
+        } else {
+            $parentPage = null;
+        }
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('created_at', 'DESC');
+        }
+
+        $pages = $query->paginate(10);
+
+		return View::make('admin::pages.index', compact('pages', 'parentPage'));
 	}
 
 	/**
@@ -279,20 +291,20 @@ class AdminPagesController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function children($id)
-	{
-		$parentPage = Page::find($id);
-
-		$sortBy = Request::get('sortBy');
-		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$pages = Page::whereParentId($id)->orderBy($sortBy, $direction)->paginate(10);
-		} else {
-			$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
-		}
-
-		return View::make('admin::pages.index', compact('parentPage', 'pages'));
-	}
+//	public function children($id)
+//	{
+//		$parentPage = Page::find($id);
+//
+//		$sortBy = Request::get('sortBy');
+//		$direction = Request::get('direction');
+//		if ($sortBy && $direction) {
+//			$pages = Page::whereParentId($id)->orderBy($sortBy, $direction)->paginate(10);
+//		} else {
+//			$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
+//		}
+//
+//		return View::make('admin::pages.index', compact('parentPage', 'pages'));
+//	}
 
     /**
      * Поиск статей
@@ -320,9 +332,42 @@ class AdminPagesController extends \BaseController {
 //            $result[] = ['id' => $item->id, 'value' => $item->title];
 //        }
 
-        return Response::json([
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
 
-        ]);
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $parent_id = $data['parent_id'];
+
+            $query = new Page;
+            $query = $query->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions');
+            if ($parent_id) {
+                $query = $query->whereParentId($parent_id);
+                $parentPage = Page::find($parent_id);
+            } else {
+                $parentPage = null;
+            }
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $pages = $query->paginate(10);
+            $pagesList = (string) View::make('admin::pages.list', compact('pages'))->render();
+            $pagesPagination = (string) View::make('admin::pages.pagination', compact('pages'))->render();
+            $pagesCount = (string) View::make('admin::pages.count', compact('pages'))->render();
+            $pagesTitle = (string) View::make('admin::pages.title', compact('parentPage'))->render();
+
+            return Response::json([
+                'success' => true,
+                'pagesListHtmL' => $pagesList,
+                'pagesPaginationHtmL' => $pagesPagination,
+                'pagesCountHtmL' => $pagesCount,
+                'pagesTitleHtmL' => $pagesTitle,
+            ]);
+        }
     }
 
 	public function articlesAutocomplete() {

@@ -1,0 +1,1 @@
+{{ SortingHelper::paginationLinks($pages) }}

@@ -24,14 +24,14 @@ Route::pattern('alias', '[A-Za-z0-9-_]+');
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 
 	Route::get('/', 'AdminController@index');
-    Route::get('pages/search', ['as' => 'admin.pages.search', 'uses' => 'AdminPagesController@search']);
+    Route::get('pages/search', ['as' => 'admin.pages.search', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@search']);
 	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
 	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@checkRelated']);
 	Route::post('pages/deleteImage/{id}', ['as' => 'admin.pages.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@deleteImage']);
 	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@openTree']);
-	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
+//	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
 	Route::post('comments/markAsDelete/{id}', ['as' => 'admin.comments.markAsDelete', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@ajaxMarkAsDeleted']);
