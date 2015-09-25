@@ -429,9 +429,6 @@ class CabinetUserController extends \BaseController
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
 		$data['published_at'] = \Carbon\Carbon::now();
-		$data['meta_title'] = $data['title'];
-		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
-		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -548,9 +545,6 @@ class CabinetUserController extends \BaseController
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
-		$data['meta_title'] = $data['title'];
-		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
-		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -630,9 +624,6 @@ class CabinetUserController extends \BaseController
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
 		$data['published_at'] = \Carbon\Carbon::now();
-		$data['meta_title'] = $data['title'];
-		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
-		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -705,9 +696,6 @@ class CabinetUserController extends \BaseController
 		$data['user_id'] = $page->user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = 1;
-		$data['meta_title'] = $data['title'];
-		$data['meta_desc'] = StringHelper::limit($data['content'], 255, '');
-		$data['meta_key'] = StringHelper::autoMetaKeywords($data['title'] . ' ' . $data['content']);
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 

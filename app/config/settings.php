@@ -8,6 +8,10 @@ return [
 	'metaRobots' => 'noindex, nofollow',
 	'metaCopyright' => '',
 
+    'metaTitle' => ' - Школа авторемонта',
+    'metaDesc' => 'Описание по умолчанию',
+    'metaKey' => 'Ключевые слова по умолчанию',
+
 	'adminEmail' => 'denwebart@yandex.ua',
 	'adminName' => 'Admin',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',

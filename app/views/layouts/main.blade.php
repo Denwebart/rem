@@ -7,10 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ ($page->meta_title) ? $page->meta_title : $page->getTitle() }}</title>
+    <title>{{ $page->getMetaTitle() }}</title>
 
-    <meta name="description" content="{{ $page->meta_desc }}"/>
-    <meta name="keywords" content="{{ $page->meta_key }}"/>
+    <meta name="title" content="{{ $page->getMetaTitle() }}"/>
+    <meta name="description" content="{{ $page->getMetaDesc() }}"/>
+    <meta name="keywords" content="{{ $page->getMetaKey() }}"/>
     <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
     <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
     <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>

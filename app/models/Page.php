@@ -315,8 +315,35 @@ class Page extends \Eloquent
 
 	public function getTitle()
 	{
-		return ($this->menu_title) ? $this->menu_title : $this->title;
+		return $this->menu_title ? $this->menu_title : $this->title;
 	}
+
+    public function getMetaTitle()
+    {
+        return $this->meta_title ? $this->meta_title : $this->title . Config::get('settings.metaTitle');
+    }
+
+    public function getMetaDesc()
+    {
+        return $this->meta_desc
+            ? $this->meta_desc
+            : ($this->content
+                ? StringHelper::limit($this->getContentWithoutWidget(), 255, '')
+                : ($this->introtext
+                    ? StringHelper::limit($this->introtext, 255, '')
+                    : Config::get('settings.metaDesc')
+                ));
+    }
+
+    public function getMetaKey()
+    {
+        return $this->meta_key
+            ? $this->meta_key
+            : ($this->content
+                ? StringHelper::autoMetaKeywords($this->title . ' ' . $this->content)
+                : Config::get('settings.metaKey')
+            );
+    }
 
 	public function getTitleForBreadcrumbs()
 	{

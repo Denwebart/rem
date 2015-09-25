@@ -133,7 +133,7 @@ class StringHelper
 		$keywordsArray =[];
 		foreach ($words as $key => $word){
 			if(mb_strlen($word) > 3){
-				$keywordsArray[$key] = preg_replace('/[^A-Za-zА-Яа-яЁёЇїІіЄє-]/u', '', $word);
+				$keywordsArray[$key] = preg_replace('/[^0-9A-Za-zА-Яа-яЁёЇїІіЄє-]/u', '', $word);
 			}
 		}
 		$keywordsArray = array_diff(array_diff(array_unique($keywordsArray), $excludeWords), ['']);
