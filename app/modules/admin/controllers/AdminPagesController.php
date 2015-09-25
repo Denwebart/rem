@@ -300,27 +300,29 @@ class AdminPagesController extends \BaseController {
      * @return \Illuminate\Http\JsonResponse
      */
     public function search() {
-        $term = Input::get('term');
+//        $term = Input::get('term');
+//
+//        $pages = Page::whereIsPublished(1)
+//            ->where('published_at', '<', date('Y-m-d H:i:s'))
+//            ->where(function ($q) {
+//                $q->whereType(Page::TYPE_ARTICLE)
+//                    ->orWhere(function ($query) {
+//                        $query->where('type', '=', Page::TYPE_PAGE)
+//                            ->whereIsContainer(0)
+//                            ->where('parent_id', '!=', 0);
+//                    });
+//            })
+//            ->where('title', 'like', "%$term%")
+//            ->get(['title', 'id']);
+//
+//        $result = [];
+//        foreach($pages as $item) {
+//            $result[] = ['id' => $item->id, 'value' => $item->title];
+//        }
 
-        $pages = Page::whereIsPublished(1)
-            ->where('published_at', '<', date('Y-m-d H:i:s'))
-            ->where(function ($q) {
-                $q->whereType(Page::TYPE_ARTICLE)
-                    ->orWhere(function ($query) {
-                        $query->where('type', '=', Page::TYPE_PAGE)
-                            ->whereIsContainer(0)
-                            ->where('parent_id', '!=', 0);
-                    });
-            })
-            ->where('title', 'like', "%$term%")
-            ->get(['title', 'id']);
+        return Response::json([
 
-        $result = [];
-        foreach($pages as $item) {
-            $result[] = ['id' => $item->id, 'value' => $item->title];
-        }
-
-        return Response::json($result);
+        ]);
     }
 
 	public function articlesAutocomplete() {

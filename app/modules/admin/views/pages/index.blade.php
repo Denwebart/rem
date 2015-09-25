@@ -174,8 +174,8 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
                                 <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
                                 <td class="button-column">
-                                    <a class="btn btn-info btn-sm" href="{{ URL::route('admin.pages.edit', $page->id) }}">
-                                        <i class="fa fa-edit "></i>
+                                    <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.pages.edit', $page->id) }}">
+                                        <i class="fa fa-edit"></i>
                                     </a>
 
                                     @if(Auth::user()->isAdmin())
@@ -238,13 +238,13 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                 data = $form.serialize(),
                 url = $form.attr('action');
             $.ajax({
-                url: '<?php echo URL::route('admin.pages.search') ?>',
+                url: url,
                 type: "get",
                 data: {formData: data},
                 success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: $("#search-pages-form #category").val()}, '', '?parent_id='+$("#search-pages-form #category").val());
                 },
-                error: function(xhr) {
-                }
             });
         });
     </script>
