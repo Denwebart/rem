@@ -108,7 +108,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                         </tbody>
                     </table>
                     <div id="pagination" class="pull-left">
-                        @include('admin::pages.pagination', ['pages' => $pages])
+                        {{ SortingHelper::paginationLinks($pages) }}
                     </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->

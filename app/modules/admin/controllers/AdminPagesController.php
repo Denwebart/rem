@@ -399,6 +399,11 @@ class AdminPagesController extends \BaseController {
             }
 
             $pages = $query->paginate(10);
+            if(Request::has('route')) {
+                $pages->setBaseUrl('/admin/pages/' . Request::get('route'));
+            } else {
+                $pages->setBaseUrl('/admin/pages');
+            }
 
             $view = Request::has('view') ? Request::get('view') : 'list';
             $route = Request::has('route') ? Request::get('route') : 'index';
@@ -406,7 +411,7 @@ class AdminPagesController extends \BaseController {
                 'success' => true,
                 'url' => URL::route('admin.pages.' . $route, $data),
                 'pagesListHtmL' => (string) View::make('admin::pages.' . $view, compact('pages'))->render(),
-                'pagesPaginationHtmL' => (string) View::make('admin::pages.pagination', compact('pages'))->render(),
+                'pagesPaginationHtmL' => (string) View::make('admin::pages.pagination', compact('pages', 'data'))->render(),
                 'pagesCountHtmL' => (string) View::make('admin::pages.count', compact('pages'))->render(),
                 'pagesTitleHtmL' => (string) View::make('admin::pages.title', compact('parentPage'))->render(),
             ]);

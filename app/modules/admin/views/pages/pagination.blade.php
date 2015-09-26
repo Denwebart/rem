@@ -1,1 +1,1 @@
-{{ SortingHelper::paginationLinks($pages) }}
+{{ $pages->appends($data)->links() }}

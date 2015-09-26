@@ -26,17 +26,7 @@ class SortingHelper {
 
 	public static function paginationLinks($model)
 	{
-//		$sortBy = Request::get('sortBy');
-//		$direction = Request::get('direction');
-//		if($sortBy && $direction) {
-//			return $model->appends(['sortBy' => $sortBy, 'direction' => $direction])->links();
-//		}
-//      return $model->links();
-        if(Request::has('searchData')) {
-            return $model->appends(Request::get('searchData'))->links();
-        } else {
-            return $model->appends(Request::all())->links();
-        }
+        return $model->appends(Request::all())->links();
 	}
 
 }
