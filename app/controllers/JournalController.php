@@ -115,11 +115,12 @@ class JournalController extends BaseController
 
 		$tagsByAlphabet = Tag::getByAlphabet();
 
+        $parent = Page::whereAlias($journalAlias)->firstOrFail();
 		$page = Page::whereAlias('tag')->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);
-		return View::make('journal.tags', compact('tagsByAlphabet', 'journalAlias'));
+		return View::make('journal.tags', compact('tagsByAlphabet', 'journalAlias', 'parent'));
 	}
 
 	/**
@@ -131,8 +132,9 @@ class JournalController extends BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
-		$tag = Tag::whereTitle($tag)->first();
+		$tag = Tag::whereTitle($tag)->firstOrFail();
 		$tags = Page::whereAlias('tag')->firstOrFail();
+        $tagsParent = Page::whereAlias($journalAlias)->firstOrFail();
 
 		$page = new Page();
 		$page->title = 'Статьи по тегу "' . $tag->title . '"';
@@ -145,7 +147,7 @@ class JournalController extends BaseController
 			->paginate(10);
 
 		View::share('page', $page);
-		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias', 'articles'));
+		return View::make('journal.tag', compact('tag', 'tags', 'journalAlias', 'articles', 'tagsParent'));
 	}
 
 	public function tagAutocomplete() {

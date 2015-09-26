@@ -292,18 +292,20 @@ class AdminPagesController extends \BaseController {
 	public function destroy($id)
 	{
 		$page = Page::find($id);
-		if(Page::TYPE_QUESTION == $page->type) {
-			$page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
-				'[pageTitle]' => $page->getTitle(),
-			]);
-			$page->user->removePoints(User::POINTS_FOR_QUESTION);
-		} else {
-			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
-				'[pageTitle]' => $page->getTitle(),
-			]);
-			$page->user->removePoints(User::POINTS_FOR_ARTICLE);
-		}
-		$page->delete();
+        if($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_JOURNAL && $page->type != Page::TYPE_QUESTIONS) {
+            if(Page::TYPE_QUESTION == $page->type) {
+                $page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+                    '[pageTitle]' => $page->getTitle(),
+                ]);
+                $page->user->removePoints(User::POINTS_FOR_QUESTION);
+            } else {
+                $page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+                    '[pageTitle]' => $page->getTitle(),
+                ]);
+                $page->user->removePoints(User::POINTS_FOR_ARTICLE);
+            }
+            $page->delete();
+        }
 
 		return Redirect::back();
 	}
@@ -389,6 +391,7 @@ class AdminPagesController extends \BaseController {
                 $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                         ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             }
+
             if ($sortBy && $direction) {
                 $query = $query->orderBy($sortBy, $direction);
             } else {

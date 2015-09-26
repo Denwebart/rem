@@ -62,6 +62,7 @@ class Page extends \Eloquent
 	const TYPE_QUESTION = 3;
 	const TYPE_JOURNAL = 4;
 	const TYPE_ARTICLE = 5;
+	const TYPE_SYSTEM_PAGE = 6;
 
 	public static $types = [
 		self::TYPE_PAGE => 'Страница',
@@ -423,7 +424,8 @@ class Page extends \Eloquent
 	public static function getContainer($withChildren = true, $withEmptyField = true)
 	{
 		$categoriesArray = [];
-		foreach (self::whereIsContainer(1)->whereParentId(0)->get() as $page) {
+        $pages = self::whereIsContainer(1)->whereParentId(0)->where('type', '!=', self::TYPE_SYSTEM_PAGE)->get();
+		foreach ($pages as $page) {
 			$categoriesArray[$page->id] = $page->getTitle();
 			if($withChildren && $page->type != Page::TYPE_JOURNAL) {
 				foreach($page->children()->whereIsContainer(1)->get() as $child) {

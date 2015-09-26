@@ -7,7 +7,7 @@
                 <i class="material-icons">home</i>
             </a>
         </li>
-        <li><a href="{{ URL::to($tags->parent->getUrl()) }}">{{ $tags->parent->getTitle() }}</a></li>
+        <li><a href="{{ URL::to($tagsParent->getUrl()) }}">{{ $tagsParent->getTitle() }}</a></li>
         <li><a href="{{ URL::to($tags->getUrl()) }}">{{ $tags->getTitle() }}</a></li>
         <li class="hidden-md hidden-xs">{{ $page->title }}</li>
     </ol>

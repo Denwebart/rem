@@ -35,7 +35,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                 {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
-                            {{ Form::text('author', null, [
+                            {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
                                 'class' => 'form-control',
                                 'id' => 'author',
                                 'placeholder' => 'Логин или имя пользователя'
@@ -54,7 +54,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
-                            {{ Form::text('query', null, [
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
                                 'class' => 'form-control',
                                 'id' => 'query',
                                 'placeholder' => 'Введите заголовок статьи'

@@ -1,3 +1,9 @@
+<?php
+$disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_JOURNAL && $page->type != Page::TYPE_QUESTIONS)
+        ? []
+        : ['disabled' => 'disabled'];
+?>
+
 <div class="col-md-7">
     <div class="box">
         <div class="box-title">
@@ -12,11 +18,11 @@
         <div class="box-body">
             <div class="form-group">
                 {{ Form::label('parent_id', 'Родитель', ['class' => 'control-label']) }}
-                {{ Form::select('parent_id', Page::getContainer(), $page->parent_id, ['class' => 'form-control']) }}
+                {{ Form::select('parent_id', Page::getContainer(), $page->parent_id, ['class' => 'form-control'] + $disabled) }}
             </div>
             <div class="form-group @if($errors->has('alias')) has-error @endif">
                 {{ Form::label('alias', 'Алиас') }}
-                {{ Form::text('alias', $page->alias, ['class' => 'form-control']) }}
+                {{ Form::text('alias', $page->alias, ['class' => 'form-control'] + $disabled) }}
                 @if($errors->has('alias'))
                     <small class="help-block">
                         {{ $errors->first('alias') }}

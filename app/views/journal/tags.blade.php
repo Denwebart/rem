@@ -7,7 +7,9 @@
                 <i class="material-icons">home</i>
             </a>
         </li>
-        <li><a href="{{ URL::to($page->parent->getUrl()) }}">{{ $page->parent->getTitle() }}</a></li>
+        @if($parent)
+            <li><a href="{{ URL::to($parent->getUrl()) }}">{{ $parent->getTitle() }}</a></li>
+        @endif
         <li class="hidden-md hidden-xs">{{ $page->getTitle() }}</li>
     </ol>
 @stop

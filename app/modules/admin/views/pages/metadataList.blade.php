@@ -4,7 +4,6 @@
         <td class="author">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                 {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
-                {{ $page->user->login }}
             </a>
         </td>
         @if($page->is_container)
@@ -45,7 +44,7 @@
                 <i class="fa fa-edit"></i>
             </a>
 
-            @if(Auth::user()->isAdmin())
+            @if(Auth::user()->isAdmin() && $page->type != Page::TYPE_SYSTEM_PAGE)
                 {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'as-button')) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                     <i class='fa fa-trash-o'></i>
