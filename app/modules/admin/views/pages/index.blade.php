@@ -146,7 +146,15 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
         });
 
         $('#category').on('change', function() {
-            var $form = $('#search-pages-form'),
+            $("#search-pages-form").submit();
+        });
+        $('#author, #query').keyup(function () {
+            $("#search-pages-form").submit();
+        });
+
+        $("form[id^='search-pages-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
                 data = $form.serialize(),
                 url = $form.attr('action');
             $.ajax({
@@ -158,7 +166,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                 },
                 success: function(response) {
                     //to change the browser URL to the given link location
-                    window.history.pushState({parent: $("#search-pages-form #category").val()}, '', '?parent_id='+$("#search-pages-form #category").val());
+                    window.history.pushState({parent: response.url}, '', response.url);
 
                     if(response.success) {
                         $('#pages-list').html(response.pagesListHtmL);

@@ -26,14 +26,33 @@ class AdminPagesController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
         $parent_id = Request::get('parent_id');
+        $author = Request::get('author');
+        $title = Request::get('query');
 
         $query = new Page;
-        $query = $query->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions');
+        $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
         if($parent_id) {
             $query = $query->whereParentId($parent_id);
             $parentPage = Page::find($parent_id);
         } else {
             $parentPage = null;
+        }
+        if ($author) {
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $query = $query->whereHas('user', function($q) use ($name) {
+                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+            });
+        }
+        if ($title) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
+            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
         }
         if ($sortBy && $direction) {
             $query = $query->orderBy($sortBy, $direction);
@@ -312,26 +331,6 @@ class AdminPagesController extends \BaseController {
      * @return \Illuminate\Http\JsonResponse
      */
     public function search() {
-//        $term = Input::get('term');
-//
-//        $pages = Page::whereIsPublished(1)
-//            ->where('published_at', '<', date('Y-m-d H:i:s'))
-//            ->where(function ($q) {
-//                $q->whereType(Page::TYPE_ARTICLE)
-//                    ->orWhere(function ($query) {
-//                        $query->where('type', '=', Page::TYPE_PAGE)
-//                            ->whereIsContainer(0)
-//                            ->where('parent_id', '!=', 0);
-//                    });
-//            })
-//            ->where('title', 'like', "%$term%")
-//            ->get(['title', 'id']);
-//
-//        $result = [];
-//        foreach($pages as $item) {
-//            $result[] = ['id' => $item->id, 'value' => $item->title];
-//        }
-
         if(Request::ajax()) {
             $inputData = Request::get('searchData');
             parse_str($inputData, $data);
@@ -339,14 +338,33 @@ class AdminPagesController extends \BaseController {
             $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
             $direction = isset($data['direction']) ? $data['direction'] : null;
             $parent_id = $data['parent_id'];
+            $author = $data['author'];
+            $title = $data['query'];
 
             $query = new Page;
-            $query = $query->with('parent.parent', 'children', 'relatedArticles', 'relatedQuestions');
+            $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
             if ($parent_id) {
                 $query = $query->whereParentId($parent_id);
                 $parentPage = Page::find($parent_id);
             } else {
                 $parentPage = null;
+            }
+            if ($author) {
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+                $query = $query->whereHas('user', function($q) use ($name) {
+                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+                });
+            }
+            if ($title) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
+                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             }
             if ($sortBy && $direction) {
                 $query = $query->orderBy($sortBy, $direction);
@@ -355,17 +373,14 @@ class AdminPagesController extends \BaseController {
             }
 
             $pages = $query->paginate(10);
-            $pagesList = (string) View::make('admin::pages.list', compact('pages'))->render();
-            $pagesPagination = (string) View::make('admin::pages.pagination', compact('pages'))->render();
-            $pagesCount = (string) View::make('admin::pages.count', compact('pages'))->render();
-            $pagesTitle = (string) View::make('admin::pages.title', compact('parentPage'))->render();
 
             return Response::json([
                 'success' => true,
-                'pagesListHtmL' => $pagesList,
-                'pagesPaginationHtmL' => $pagesPagination,
-                'pagesCountHtmL' => $pagesCount,
-                'pagesTitleHtmL' => $pagesTitle,
+                'url' => URL::route('admin.pages.index', $data),
+                'pagesListHtmL' => (string) View::make('admin::pages.list', compact('pages'))->render(),
+                'pagesPaginationHtmL' => (string) View::make('admin::pages.pagination', compact('pages'))->render(),
+                'pagesCountHtmL' => (string) View::make('admin::pages.count', compact('pages'))->render(),
+                'pagesTitleHtmL' => (string) View::make('admin::pages.title', compact('parentPage'))->render(),
             ]);
         }
     }
