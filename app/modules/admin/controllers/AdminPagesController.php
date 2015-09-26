@@ -65,6 +65,50 @@ class AdminPagesController extends \BaseController {
 		return View::make('admin::pages.index', compact('pages', 'parentPage'));
 	}
 
+    public function metadata()
+    {
+        $sortBy = Request::get('sortBy');
+        $direction = Request::get('direction');
+        $parent_id = Request::get('parent_id');
+        $author = Request::get('author');
+        $title = Request::get('query');
+
+        $query = new Page;
+        $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
+        if($parent_id) {
+            $query = $query->whereParentId($parent_id);
+            $parentPage = Page::find($parent_id);
+        } else {
+            $parentPage = null;
+        }
+        if ($author) {
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $query = $query->whereHas('user', function($q) use ($name) {
+                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+            });
+        }
+        if ($title) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
+            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+        }
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('created_at', 'DESC');
+        }
+
+        $pages = $query->paginate(10);
+
+        return View::make('admin::pages.metadata', compact('pages', 'parentPage'));
+    }
+
 	/**
 	 * Show the form for creating a new page
 	 *
@@ -304,27 +348,6 @@ class AdminPagesController extends \BaseController {
 		}
 	}
 
-	/**
-	 * Таблица с подпунктами страницы
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-//	public function children($id)
-//	{
-//		$parentPage = Page::find($id);
-//
-//		$sortBy = Request::get('sortBy');
-//		$direction = Request::get('direction');
-//		if ($sortBy && $direction) {
-//			$pages = Page::whereParentId($id)->orderBy($sortBy, $direction)->paginate(10);
-//		} else {
-//			$pages = Page::whereParentId($id)->orderBy('created_at', 'DESC')->paginate(10);
-//		}
-//
-//		return View::make('admin::pages.index', compact('parentPage', 'pages'));
-//	}
-
     /**
      * Поиск статей
      *
@@ -374,10 +397,12 @@ class AdminPagesController extends \BaseController {
 
             $pages = $query->paginate(10);
 
+            $view = Request::has('view') ? Request::get('view') : 'list';
+            $route = Request::has('route') ? Request::get('route') : 'index';
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.pages.index', $data),
-                'pagesListHtmL' => (string) View::make('admin::pages.list', compact('pages'))->render(),
+                'url' => URL::route('admin.pages.' . $route, $data),
+                'pagesListHtmL' => (string) View::make('admin::pages.' . $view, compact('pages'))->render(),
                 'pagesPaginationHtmL' => (string) View::make('admin::pages.pagination', compact('pages'))->render(),
                 'pagesCountHtmL' => (string) View::make('admin::pages.count', compact('pages'))->render(),
                 'pagesTitleHtmL' => (string) View::make('admin::pages.title', compact('parentPage'))->render(),

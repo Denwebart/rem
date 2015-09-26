@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);
 	Route::post('pages/checkRelated', ['as' => 'admin.pages.checkRelated', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@checkRelated']);
 	Route::post('pages/deleteImage/{id}', ['as' => 'admin.pages.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@deleteImage']);
+	Route::get('pages/metadata', ['as' => 'admin.pages.metadata', 'uses' => 'AdminPagesController@metadata']);
 	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@openTree']);
 //	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
