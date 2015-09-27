@@ -19,11 +19,27 @@ class AdminАdvertisingController extends \BaseController {
 		if(!Request::has('id')) {
 			$sortBy = Request::get('sortBy');
 			$direction = Request::get('direction');
-			if ($sortBy && $direction) {
-				$advertising = Advertising::orderBy($sortBy, $direction)->paginate(10);
-			} else {
-				$advertising = Advertising::orderBy('created_at', 'DESC')->paginate(10);
-			}
+            $area = Request::get('area');
+            $searchQuery = Request::get('searchQuery');
+
+            $query = new Advertising();
+            $query = $query->with('pagesTypes');
+            if ($area) {
+                $query = $query->whereArea($area);
+            }
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $advertising = $query->paginate(10);
 		} else {
 			$advertising = Advertising::whereId(Request::get('id'))->paginate(10);
 		}
@@ -137,6 +153,50 @@ class AdminАdvertisingController extends \BaseController {
 			? Redirect::to(urldecode(Request::get('backUrl')))
 			: Redirect::back();
 	}
+
+    /**
+     * Поиск ajax
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $area = $data['area'];
+            $searchQuery = $data['query'];
+
+            $query = new Advertising();
+            $query = $query->with('pagesTypes');
+            if ($area) {
+                $query = $query->whereArea($area);
+            }
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(description)'), 'LIKE', "%$title%");
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $advertising = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.advertising.index', $data),
+                'advertisingListHtmL' => (string) View::make('admin::advertising.list', compact('advertising'))->render(),
+                'advertisingPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('model', $advertising)->render(),
+                'advertisingCountHtmL' => (string) View::make('admin::parts.count')->with('model', $advertising)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Включение/выключение рекламного блока (ajax)

@@ -66,7 +66,8 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@toReward']);
 		Route::post('honors/removeReward', ['as' => 'admin.honors.removeReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@removeReward']);
 		Route::get('honors/usersAutocomplete/{honorId}', ['as' => 'admin.honors.usersAutocomplete', 'uses' => 'AdminHonorsController@usersAutocomplete']);
-		Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
+        Route::get('advertising/search', ['as' => 'admin.advertising.search', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@search']);
+        Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
 		Route::resource('advertising', 'AdminАdvertisingController', ['except' => ['show']]);
 		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
 		Route::resource('notificationsMessages', 'AdminNotificationsMessagesController', ['except' => ['show', 'create', 'destroy']]);

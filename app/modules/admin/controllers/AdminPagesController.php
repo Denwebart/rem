@@ -82,7 +82,7 @@ class AdminPagesController extends \BaseController {
             $parentPage = null;
         }
         if ($author) {
-            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
             $query = $query->whereHas('user', function($q) use ($name) {
                 $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
                     ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
@@ -94,7 +94,7 @@ class AdminPagesController extends \BaseController {
             });
         }
         if ($title) {
-            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
             $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                 ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
         }
@@ -375,7 +375,7 @@ class AdminPagesController extends \BaseController {
                 $parentPage = null;
             }
             if ($author) {
-                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
                 $query = $query->whereHas('user', function($q) use ($name) {
                     $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
                         ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
@@ -387,7 +387,7 @@ class AdminPagesController extends \BaseController {
                 });
             }
             if ($title) {
-                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
                 $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                         ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             }
@@ -411,8 +411,8 @@ class AdminPagesController extends \BaseController {
                 'success' => true,
                 'url' => URL::route('admin.pages.' . $route, $data),
                 'pagesListHtmL' => (string) View::make('admin::pages.' . $view, compact('pages'))->render(),
-                'pagesPaginationHtmL' => (string) View::make('admin::pages.pagination', compact('pages', 'data'))->render(),
-                'pagesCountHtmL' => (string) View::make('admin::pages.count', compact('pages'))->render(),
+                'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('model', $pages)->render(),
+                'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('model', $pages)->render(),
                 'pagesTitleHtmL' => (string) View::make('admin::pages.title', compact('parentPage'))->render(),
             ]);
         }

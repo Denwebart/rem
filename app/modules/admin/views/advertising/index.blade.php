@@ -7,24 +7,61 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1>
-            <i class="fa fa-usd"></i>
-            {{ $title }}
-            <small>рекламные блоки и виджеты на сайте</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-usd"></i>
+                    {{ $title }}
+                    <small>рекламные блоки и виджеты на сайте</small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <div class="buttons">
+                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.advertising.create') }}">
+                        <i class="fa fa-plus "></i> Создать
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
 
     <div class="content">
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
-                <div class="count">
-                    Показано: <span>{{ $advertising->count() }}</span>.
-                    Всего: <span>{{ $advertising->getTotal() }}</span>.
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div id="count" class="count">
+                            @include('admin::parts.count', ['model' => $advertising])
+                        </div>
+                    </div>
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.advertising.search'], 'id' => 'search-advertising-form', 'class' => 'table-search']) }}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        {{ Form::select('area', ['0' => '- Выберите область -'] + Advertising::$areas, Request::has('area') ? Request::get('area') : null, [
+                            'id' => 'area',
+                            'class' => 'form-control',
+                            'placeholder' => 'Область',
+                        ]) }}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="input-group">
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                'class' => 'form-control',
+                                'id' => 'query',
+                                'placeholder' => 'Введите заголовок виджета'
+                            ]) }}
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
@@ -39,83 +76,16 @@ View::share('title', $title);
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Описание', 'description') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Доступ', 'access') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_active') }}</th>
-                                <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.advertising.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
+                                <th>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($advertising as $item)
-                                <tr class="advertising">
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ Advertising::$types[$item->type] }}</td>
-                                    <td>{{ Advertising::$areas[$item->area] }}</td>
-                                    <td>{{ $item->position }}</td>
-                                    <td>{{ $item->title }}</td>
-                                    <td>
-                                        @if(Advertising::TYPE_ADVERTISING == $item->type)
-                                            {{ $item->description }}
-                                        @else
-                                            @if($item->code)
-                                                {{ Advertising::$widgets[$item->code] }} (кол-во: {{ $item->limit }})
-                                            @else
-                                                <p>Виджет не выбран.</p>
-                                            @endif
-                                            @if($item->description)
-                                                <hr style="margin: 0">
-                                                {{ $item->description }}
-                                            @endif
-                                        @endif
-                                    </td>
-                                    <td>{{ Advertising::$access[$item->access] }}</td>
-                                    <td>
-                                        <!-- Отключить/выключить рекламный блок -->
-                                        <a href="javascript:void(0)" class="change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Выключить этот рекламный блок.' : 'Включить этот рекламный блок.' }}">
-                                            @if($item->is_active)
-                                                <span class="label label-success">Включен</span>
-                                            @else
-                                                <span class="label label-warning">Выключен</span>
-                                            @endif
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-info btn-sm" href="{{ URL::route('admin.advertising.edit', $item->id) }}">
-                                            <i class="fa fa-edit "></i>
-                                        </a>
-
-                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.advertising.destroy', $item->id), 'class' => 'as-button')) }}
-                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                <i class='fa fa-trash-o'></i>
-                                            </button>
-                                            {{ Form::hidden('_token', csrf_token()) }}
-                                        {{ Form::close() }}
-
-                                        <div id="confirm" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Удаление</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Вы уверены, что хотите удалить?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tbody id="advertising-list">
+                                @include('admin::advertising.list', ['advertising' => $advertising])
                             </tbody>
                         </table>
-                        <div class="pull-left">
-                            {{ $advertising->links() }}
+                        <div id="pagination" class="pull-left">
+                            {{ SortingHelper::paginationLinks($advertising) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -163,6 +133,38 @@ View::share('title', $title);
                         alert(response.message)
                     }
                 }
+            });
+        });
+
+        $('#area').on('change', function() {
+            $("#search-advertising-form").submit();
+        });
+        $('#query').keyup(function () {
+            $("#search-advertising-form").submit();
+        });
+
+        $("form[id^='search-advertising-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#advertising-list').html(response.advertisingListHtmL);
+                        $('#pagination').html(response.advertisingPaginationHtmL);
+                        $('#count').html(response.advertisingCountHtmL);
+                    }
+                },
             });
         });
     </script>

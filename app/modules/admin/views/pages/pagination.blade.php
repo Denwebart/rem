@@ -1,1 +1,0 @@
-{{ $pages->appends($data)->links() }}
