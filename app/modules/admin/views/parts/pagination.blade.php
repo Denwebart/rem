@@ -1,1 +1,1 @@
-{{ $model->appends($data)->links() }}
+{{ $models->appends($data)->links() }}

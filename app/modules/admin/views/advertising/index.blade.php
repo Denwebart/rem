@@ -36,7 +36,7 @@ View::share('title', $title);
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div id="count" class="count">
-                            @include('admin::parts.count', ['model' => $advertising])
+                            @include('admin::parts.count', ['models' => $advertising])
                         </div>
                     </div>
                     {{ Form::open(['method' => 'GET', 'route' => ['admin.advertising.search'], 'id' => 'search-advertising-form', 'class' => 'table-search']) }}

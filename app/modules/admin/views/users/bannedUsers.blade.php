@@ -7,17 +7,24 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1>
-            <i class="fa fa-ban"></i>
-            <i class="fa fa-users"></i>
-            {{ $title }}
-            <small>забаненные пользователи сайта</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-ban"></i>
+                    <i class="fa fa-users"></i>
+                    {{ $title }}
+                    <small>забаненные пользователи сайта</small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+            </div>
+        </div>
+
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
     <div class="content">
         <!-- Main row -->
@@ -41,9 +48,30 @@ View::share('title', $title);
             <div id="message"></div>
 
             <div class="col-xs-12">
-                <div class="count">
-                    Показано: <span>{{ $users->count() }}</span>.
-                    Всего: <span>{{ $users->getTotal() }}</span>.
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div id="count" class="count">
+                            @include('admin::parts.count', ['models' => $users])
+                        </div>
+                    </div>
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.users.search'], 'id' => 'search-users-form', 'class' => 'table-search']) }}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="input-group">
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                'class' => 'form-control',
+                                'id' => 'query',
+                                'placeholder' => 'Введите логин, имя или email'
+                            ]) }}
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
@@ -69,147 +97,29 @@ View::share('title', $title);
                                     {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Email', 'email') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Баллы', 'points') }}
+                                    Сколько раз забанен
+{{--                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Сколько раз забанен', '') }}--}}
                                 </th>
                                 <th>
-                                    Награды
+                                    Забанен
+{{--                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Забанен', '') }}--}}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Сколько раз забанен', '') }}
+                                    Разбанен
+{{--                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Разбанен', '') }}--}}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Забанен', '') }}
+                                    Причина бана
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Разбанен', '') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedUsers', 'Причина бана', '') }}
-                                </th>
-                                <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.users.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($users as $user)
-                                <tr data-user-id="{{ $user->id }}">
-                                    <td>{{ $user->id }}</td>
-                                    <td>
-                                        <a href="{{ URL::route('user.profile', ['login' => $user->login]) }}">
-                                            {{ $user->getAvatar('mini') }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                       {{ User::$roles[$user->role] }}
-                                    </td>
-                                    <td>{{ $user->login }}</td>
-                                    <td>{{ $user->getFullName() }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->points }}</td>
-                                    <td>
-                                        @foreach($user->userHonors as $userHonor)
-                                            <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
-                                                {{ $userHonor->honor->getImage(null, [
-                                                    'width' => '25px',
-                                                    'title' => !is_null($userHonor->comment)
-                                                        ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
-                                                        : $userHonor->honor->title,
-                                                    'alt' => $userHonor->honor->title])
-                                                }}
-                                            </a>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        {{ count($user->banNotifications) }}
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            @foreach($user->banNotifications as $key => $value)
-                                                <li>
-                                                    {{ DateHelper::dateFormat($value->ban_at) }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            @foreach($user->banNotifications as $key => $value)
-                                                <li>
-                                                    {{ DateHelper::dateFormat($value->unban_at) }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            @foreach($user->banNotifications as $key => $value)
-                                                <li>
-                                                    {{$value->message }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td class="buttons">
-                                        <a class="btn btn-info btn-sm" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}
-                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
-                                                <i class='fa fa-trash-o'></i>
-                                            </button>
-                                            {{ Form::hidden('_token', csrf_token()) }}
-                                        {{ Form::close() }}
-
-                                        <div id="confirm" class="modal fade">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Удаление</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Вы уверены, что хотите удалить?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
-
-                                        <!-- Снятие бана с пользователя -->
-                                        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}">
-                                            <i class="fa fa-unlock"></i>
-                                        </a>
-
-                                        <div class="modal fade unban-modal" data-unban-modal-id="{{ $user->id }}">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Снятие бана с пользователя</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Вы уверены, что хотите разбанить пользователя {{ $user->login }}?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success unban-confirm" data-dismiss="modal" data-id="{{ $user->id }}">Разбанить</button>
-                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
-                                                    </div>
-                                                </div><!-- /.modal-content -->
-                                            </div><!-- /.modal-dialog -->
-                                        </div><!-- /.modal -->
-
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tbody id="users-list">
+                                @include('admin::users.bannedUsersList', ['users' => $users])
                             </tbody>
                         </table>
-                        <div class="pull-left">
+                        <div id="pagination" class="pull-left">
                             {{ SortingHelper::paginationLinks($users) }}
                         </div>
                     </div><!-- /.box-body -->
@@ -257,6 +167,35 @@ View::share('title', $title);
                         }
                     });
                 });
+        });
+
+        $('#query').keyup(function () {
+            $("#search-users-form").submit();
+        });
+
+        $("form[id^='search-users-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data, view: 'bannedUsersList', route: 'banned'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#users-list').html(response.usersListHtmL);
+                        $('#pagination').html(response.usersPaginationHtmL);
+                        $('#count').html(response.usersCountHtmL);
+                    }
+                },
+            });
         });
     </script>
 @stop

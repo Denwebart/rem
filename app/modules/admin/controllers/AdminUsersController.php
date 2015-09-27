@@ -18,25 +18,84 @@ class AdminUsersController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			if ($sortBy == 'fullname') {
-				$users = User::orderBy('firstname', $direction)
-					->with('userHonors')
-					->orderBy('lastname', $direction)
-					->paginate(10);
-			} else {
-				$users = User::orderBy($sortBy, $direction)
-					->with('userHonors')
-					->paginate(10);
-			}
-		} else {
-			$users = User::orderBy('role', 'ASC')
-				->with('userHonors')
-				->paginate(10);
-		}
+		$searchQuery = Request::get('query');
+
+        $query = new User();
+        $query = $query->with('userHonors');
+        if ($searchQuery) {
+            $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+        }
+
+        if ($sortBy && $direction) {
+            if ($sortBy == 'fullname') {
+                $query = $query->orderBy('firstname', $direction)->orderBy('lastname', $direction);
+            } else {
+                $query = $query->orderBy($sortBy, $direction);
+            }
+        } else {
+            $query = $query->orderBy('role', 'ASC');
+        }
+
+        $users = $query->paginate(10);
 
 		return View::make('admin::users.index', compact('users'));
 	}
+
+    /**
+     * Поиск пользователей
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $searchQuery = $data['query'];
+
+            $query = new User();
+            $query = $query->with('userHonors');
+            if ($searchQuery) {
+                $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $users = $query->paginate(10);
+
+            $view = Request::has('view') ? Request::get('view') : 'list';
+            $route = Request::has('route') ? Request::get('route') : 'index';
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.users.' . $route, $data),
+                'usersListHtmL' => (string) View::make('admin::users.' . $view, compact('users'))->render(),
+                'usersPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $users)->render(),
+                'usersCountHtmL' => (string) View::make('admin::parts.count')->with('models', $users)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Remove the specified user from storage.
@@ -78,30 +137,34 @@ class AdminUsersController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			if ($sortBy == 'fullname') {
-				$users = User::orderBy('firstname', $direction)
-					->orderBy('lastname', $direction)
-					->with('userHonors')
-					->whereIsBanned(1)
-					->paginate(10);
-			} else {
-				$users = User::orderBy($sortBy, $direction)
-					->with('userHonors')
-					->whereIsBanned(1)
-					->paginate(10);
-			}
-		} else {
-			$users = User::with('banNotifications', 'latestBanNotification')
-//				->leftJoin('ban_notifications', 'users.id', '=', 'ban_notifications.user_id')
-//				->orderBy('ban_notifications.ban_at', 'DESC')
-//				->groupBy('ban_notifications.user_id')
-//				->join('users','users.id','=','planets.user_id')
-//				->orderBy('last_ban_at', 'DESC')
-				->with('userHonors')
-				->whereIsBanned(1)
-				->paginate(10);
-		}
+        $searchQuery = Request::get('query');
+
+        $query = new User();
+        $query = $query->with('banNotifications', 'latestBanNotification');
+        $query = $query->whereIsBanned(1);
+        if ($searchQuery) {
+            $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+        }
+
+        if ($sortBy && $direction) {
+            if ($sortBy == 'fullname') {
+                $query = $query->orderBy('firstname', $direction)->orderBy('lastname', $direction);
+            } else {
+                $query = $query->orderBy($sortBy, $direction);
+            }
+        } else {
+            $query = $query->orderBy('role', 'ASC');
+        }
+
+        $users = $query->paginate(10);
 
 		return View::make('admin::users.bannedUsers', compact('users'));
 	}

@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::post('tags/search', ['as' => 'admin.tags.search', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@search']);
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
+        Route::get('users/search', ['as' => 'admin.users.search', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@search']);
 		Route::get('users/banned', ['as' => 'admin.users.bannedUsers', 'uses' => 'AdminUsersController@bannedUsers']);
 		Route::get('users/ips', ['as' => 'admin.users.ips', 'uses' => 'AdminUsersController@ips']);
 		Route::get('users/bannedIps', ['as' => 'admin.users.bannedIps', 'uses' => 'AdminUsersController@bannedIps']);

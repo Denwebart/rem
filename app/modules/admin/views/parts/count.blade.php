@@ -1,2 +1,2 @@
-Показано: <span class="on-page">{{ $model->count() }}</span>.
-Всего: <span class="total">{{ $model->getTotal() }}</span>.
+Показано: <span class="on-page">{{ $models->count() }}</span>.
+Всего: <span class="total">{{ $models->getTotal() }}</span>.

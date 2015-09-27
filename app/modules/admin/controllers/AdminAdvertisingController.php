@@ -192,8 +192,8 @@ class AdminАdvertisingController extends \BaseController {
                 'success' => true,
                 'url' => URL::route('admin.advertising.index', $data),
                 'advertisingListHtmL' => (string) View::make('admin::advertising.list', compact('advertising'))->render(),
-                'advertisingPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('model', $advertising)->render(),
-                'advertisingCountHtmL' => (string) View::make('admin::parts.count')->with('model', $advertising)->render(),
+                'advertisingPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $advertising)->render(),
+                'advertisingCountHtmL' => (string) View::make('admin::parts.count')->with('models', $advertising)->render(),
             ]);
         }
     }

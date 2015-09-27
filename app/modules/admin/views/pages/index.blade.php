@@ -44,7 +44,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <div id="count" class="count">
-                        @include('admin::parts.count', ['model' => $pages])
+                        @include('admin::parts.count', ['models' => $pages])
                     </div>
                 </div>
                 {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
