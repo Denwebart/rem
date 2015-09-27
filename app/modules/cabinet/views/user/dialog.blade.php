@@ -48,73 +48,17 @@ View::share('title', $title);
                 </div>
 
                 <div id="messages-area" class="blog">
-                    <div class="count">
+                    <div class="count pull-left">
                         Показано сообщений: <span>{{ $messages->count() }}</span>.
 {{--                            Всего: <span>{{ $messages->getTotal() }}</span>.--}}
                     </div>
+                    <a href="javascript:void(0)" class="reload-message pull-right" title="Обновить" data-toggle="tooltip">
+                        <i class="material-icons">autorenew</i>
+                    </a>
 {{--                        {{ $messages->links() }}--}}
+                    <div class="clearfix"></div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
-                        @if(count($messages))
-                            @foreach($messages->reverse() as $message)
-                                <div class="row item" data-message-id="{{ $message->id }}">
-                                    <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
-                                        @if($user->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="pull-right avatar-link gray-background display-inline-block">
-                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'right']) }}
-                                                @if($message->userSender->isOnline())
-                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="right"></span>
-                                                @else
-                                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="right"></span>
-                                                @endif
-                                            </a>
-                                        @endif
-                                    </div>
-
-                                    @if($user->id == $message->userSender->id)
-                                        <div class="col-lg-7 col-md-11 col-sm-7 col-xs-11">
-                                            <div class="message outgoing">
-                                                <div class="login pull-left hidden-lg hidden-sm">
-                                                    я
-                                                </div>
-                                                <span class="date">
-                                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                                </span>
-                                                <div class="clearfix"></div>
-                                                {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="col-lg-7 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-11 col-xs-offset-1">
-                                            <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                                <div class="login pull-left hidden-lg hidden-sm">
-                                                    {{ $message->userSender->login }}
-                                                </div>
-                                                <span class="date">
-                                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                                </span>
-                                                <div class="clearfix"></div>
-                                                {{ StringHelper::addFancybox($message->message, 'group-message-' . $message->id) }}
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="col-lg-2 col-sm-2 hidden-md hidden-xs">
-                                        @if($companion->id == $message->userSender->id)
-                                            <a href="{{ URL::route('user.profile', ['login' => $message->userSender->getLoginForUrl()]) }}" class="avatar-link gray-background display-inline-block">
-                                                {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle', 'data-placement' => 'left']) }}
-                                                @if($message->userSender->isOnline())
-                                                    <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="left"></span>
-                                                @else
-                                                    <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($message->userSender->last_activity) }}" data-toggle="tooltip" data-placement="left"></span>
-                                                @endif
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <p class="no-messages">Сообщений нет.</p>
-                        @endif
+                        @include('cabinet::user.messagesList')
                     </div>
                 </div>
                 {{--{{ $messages->links() }}--}}
@@ -253,6 +197,23 @@ View::share('title', $title);
                                 $('#header-widget .dropdown-messages .dropdown-toggle').remove();
                                 $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
                             }
+                        }
+                    }
+                });
+            });
+
+            $('.reload-message').click(function(){
+                $.ajax({
+                    url: '<?php echo URL::route('user.reloadMessages', ['login' => $user->getLoginForUrl(), 'comanion' =>$companion->getLoginForUrl()]) ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#scroll').html(response.messagesListHtml);
                         }
                     }
                 });

@@ -116,6 +116,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/deleteImageFromPage/{id}', ['as' => 'user.deleteImageFromPage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteImageFromPage']);
 	Route::get('{login}/messages', ['as' => 'user.messages', 'uses' => 'CabinetUserController@messages']);
 	Route::get('{login}/messages/{companion}', ['as' => 'user.dialog', 'uses' => 'CabinetUserController@dialog']);
+	Route::post('{login}/messages/{companion}', ['as' => 'user.reloadMessages', 'uses' => 'CabinetUserController@reloadMessages']);
 	Route::post('{login}/messages/markMessageAsRead', ['as' => 'user.markMessageAsRead', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@markMessageAsRead']);
 	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@addMessage']);
 	Route::get('{login}/comments/{id}/edit', ['as' => 'user.comments.edit', 'uses' => 'CabinetUserController@editComment']);

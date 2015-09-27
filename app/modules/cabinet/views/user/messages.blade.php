@@ -51,18 +51,19 @@ View::share('title', $title);
                 </div>
 
                 <div id="messages-area" class="blog">
-                    <div class="count">
+                    <div class="count pull-left">
                         Недавние диалоги: <span>{{ $messages->count() }}</span>.
                     </div>
+                    <div class="clearfix"></div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))
                             @foreach($messages as $message)
                                 <div class="row item" data-message-id="{{ $message->id }}">
                                     <div class="col-lg-9 col-lg-offset-1 col-md-10 col-md-offset-0 col-sm-9 col-sm-offset-1 col-xs-10 col-xs-offset-0">
                                         <a href="{{ URL::route('user.dialog', ['login' => $user->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}" class="message link {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
-                                                <span class="date">
-                                                    {{ DateHelper::dateForMessage($message->created_at) }}
-                                                </span>
+                                            <span class="date">
+                                                {{ DateHelper::dateForMessage($message->created_at) }}
+                                            </span>
                                             <div class="clearfix"></div>
                                             {{ StringHelper::addFancybox(StringHelper::limit($message->message, 100), 'group-message-' . $message->id) }}
                                         </a>

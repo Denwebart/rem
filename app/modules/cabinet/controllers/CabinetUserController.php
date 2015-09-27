@@ -1080,6 +1080,32 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+    public function reloadMessages($login, $companion)
+    {
+        if(Request::ajax()) {
+            $user = (Auth::user()->getLoginForUrl() == $login)
+                ? Auth::user()
+                : User::whereAlias($login)->whereIsActive(1)->firstOrFail();
+            $companion = User::whereAlias($companion)->firstOrFail();
+
+            $messages = Message::query()
+                ->whereNested(function($q) use ($user) {
+                    $q->where('user_id_sender', $user->id)->orWhere('user_id_recipient', $user->id);
+                })
+                ->whereNested(function($q) use ($companion) {
+                    $q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
+                })
+                ->with('userSender', 'userRecipient')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+
+            return Response::json(array(
+                'success' => true,
+                'messagesListHtml' => (string) View::make('cabinet::user.messagesList', compact('messages', 'companion', 'user'))->render(),
+            ));
+        }
+    }
+
 	/**
 	 * Отправить личное сообщение
 	 */
