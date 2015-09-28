@@ -18,14 +18,70 @@ class AdminRulesController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$rules = Rule::orderBy($sortBy, $direction)->paginate(10);
-		} else {
-			$rules = Rule::orderBy('position', 'ASC')->paginate(10);
-		}
+        $searchQuery = Request::get('query');
+
+        $query = new Rule();
+
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($title) {
+                $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(description)'), 'LIKE', "%$title%");
+            });
+        }
+
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('position', 'ASC');
+        }
+
+        $rules = $query->paginate(10);
 
 		return View::make('admin::rules.index', compact('rules'));
 	}
+
+    /**
+     * Поиск правила
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $searchQuery = $data['query'];
+
+            $query = new Rule();
+
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(function($q) use($title) {
+                    $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(description)'), 'LIKE', "%$title%");
+                });
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('position', 'ASC');
+            }
+
+            $rules = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.rules.index', $data),
+                'rulesListHtmL' => (string) View::make('admin::rules.list', compact('rules'))->render(),
+                'rulesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $rules)->render(),
+                'rulesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $rules)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Show the form for creating a new rule

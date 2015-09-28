@@ -42,7 +42,7 @@ class AdminNotificationsMessagesController extends \BaseController {
 	}
 
     /**
-     * Поиск
+     * Поиск шаблона уведомления
      *
      * @return \Illuminate\Http\JsonResponse
      */

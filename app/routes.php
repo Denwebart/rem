@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
         Route::get('advertising/search', ['as' => 'admin.advertising.search', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@search']);
         Route::post('advertising/changeActiveStatus/{advertisingId}', ['as' => 'admin.advertising.changeActiveStatus', 'before' => 'csrf-ajax', 'uses' => 'AdminАdvertisingController@changeActiveStatus']);
 		Route::resource('advertising', 'AdminАdvertisingController', ['except' => ['show']]);
+        Route::get('rules/search', ['as' => 'admin.rules.search', 'before' => 'csrf-ajax', 'uses' => 'AdminRulesController@search']);
 		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
         Route::get('notificationsMessages/search', ['as' => 'admin.notificationsMessages.search', 'before' => 'csrf-ajax', 'uses' => 'AdminNotificationsMessagesController@search']);
 		Route::resource('notificationsMessages', 'AdminNotificationsMessagesController', ['except' => ['show', 'create', 'destroy']]);
