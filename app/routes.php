@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 //	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
 	Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
+    Route::get('comments/search', ['as' => 'admin.comments.search', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@search']);
 	Route::post('comments/markAsDelete/{id}', ['as' => 'admin.comments.markAsDelete', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@ajaxMarkAsDeleted']);
 	Route::resource('comments', 'AdminCommentsController', ['except' => ['create']]);
     Route::get('tags/search', ['as' => 'admin.tags.search', 'before' => 'csrf-ajax', 'uses' => 'AdminTagsController@search']);

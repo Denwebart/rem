@@ -25,14 +25,104 @@ class AdminCommentsController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$comments = Comment::orderBy($sortBy, $direction)->with('page.parent.parent', 'user')->paginate(10);
-		} else {
-			$comments = Comment::orderBy('created_at', 'DESC')->with('page.parent.parent', 'user')->paginate(10);
-		}
+        $author = Request::get('author');
+        $searchQuery = Request::get('searchQuery');
+
+        $query = new Comment;
+        $query = $query->with('page.parent.parent', 'user');
+
+        if ($author) {
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $query = $query->whereHas('user', function($q) use ($name) {
+                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+            });
+        }
+        if ($searchQuery) {
+            $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(DB::raw('LOWER(comment)'), 'LIKE', "%$searchQuery%")
+                ->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "%$searchQuery%")
+                ->orWhereHas('page', function($q) use ($searchQuery) {
+                    $q->where(DB::raw('LOWER(meta_title)'), 'LIKE', "%$searchQuery%");
+                });
+        }
+
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('created_at', 'DESC');
+        }
+
+        $comments = $query->paginate(10);
 
 		return View::make('admin::comments.index', compact('comments'));
 	}
+
+    /**
+     * Поиск комментариев
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $author = $data['author'];
+            $searchQuery = $data['query'];
+
+            $query = new Comment;
+            $query = $query->with('page.parent.parent', 'user');
+
+            if ($author) {
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+                $query = $query->whereHas('user', function($q) use ($name) {
+                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+                })
+                ->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%");
+            }
+            if ($searchQuery) {
+                $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(comment)'), 'LIKE', "%$searchQuery%")
+                    ->orWhereHas('ip', function($q) use ($searchQuery) {
+                        $q->where(DB::raw('LOWER(ip)'), 'LIKE', "%$searchQuery%");
+                    })
+                    ->orWhereHas('page', function($q) use ($searchQuery) {
+                        $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+                    });
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $comments = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.comments.index', $data),
+                'commentsListHtmL' => (string) View::make('admin::comments.list', compact('comments'))->render(),
+                'commentsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $comments)->render(),
+                'commentsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $comments)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Display the specified comment.

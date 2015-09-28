@@ -111,7 +111,7 @@ View::share('title', $title);
                                 @include('admin::tags.list', ['tags' => $tags])
                             </tbody>
                         </table>
-                        <div class="pull-left">
+                        <div id="pagination" class="pull-left">
                             {{ SortingHelper::paginationLinks($tags) }}
                         </div>
                     </div><!-- /.box-body -->
@@ -148,7 +148,7 @@ View::share('title', $title);
         });
 
         $('#query').keyup(function () {
-            $("#search-pages-form").submit();
+            $("#search-tags-form").submit();
         });
         $("form[id^='search-tags-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;

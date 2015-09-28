@@ -18,11 +18,22 @@ class AdminTagsController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$tags = Tag::orderBy($sortBy, $direction)->with('pages')->paginate(10);
-		} else {
-			$tags = Tag::orderBy('id', 'DESC')->with('pages')->paginate(10);
-		}
+        $searchQuery = Request::get('query');
+
+        $query = new Tag;
+        $query = $query->with('pages');
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                ->orWhere(DB::raw('LOWER(title)'), 'LIKE', "%". TranslitHelper::make($title) ."%");
+        }
+
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('id', 'DESC');
+        }
+        $tags = $query->paginate(10);
 
 		$tag = new Tag();
 
@@ -43,7 +54,7 @@ class AdminTagsController extends \BaseController {
             $direction = isset($data['direction']) ? $data['direction'] : null;
             $searchQuery = $data['query'];
 
-            $query = new Page;
+            $query = new Tag;
             $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
             if ($searchQuery) {
                 $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
@@ -54,7 +65,7 @@ class AdminTagsController extends \BaseController {
             if ($sortBy && $direction) {
                 $query = $query->orderBy($sortBy, $direction);
             } else {
-                $query = $query->orderBy('created_at', 'DESC');
+                $query = $query->orderBy('id', 'DESC');
             }
 
             $tags = $query->paginate(10);
