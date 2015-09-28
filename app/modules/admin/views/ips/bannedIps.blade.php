@@ -7,17 +7,24 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1>
-            <i class="fa fa-ban"></i>
-            <i class="fa fa-laptop"></i>
-            {{ $title }}
-            <small>забаненные IP-адреса</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-ban"></i>
+                    <i class="fa fa-laptop"></i>
+                    {{ $title }}
+                    <small>забаненные IP-адреса</small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+            </div>
+        </div>
+
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
     <div class="content">
         <!-- Main row -->
@@ -27,13 +34,13 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.users.index') }}" class="btn btn-primary">
                     Все пользователи
                 </a>
-                <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary">
                     Забаненные пользователи
                 </a>
-                <a href="{{ URL::route('admin.users.ips') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.ips.index') }}" class="btn btn-primary">
                     Все IP-адреса
                 </a>
-                <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary btn-outline">
+                <a href="{{ URL::route('admin.ips.bannedIps') }}" class="btn btn-primary btn-outline">
                     Забаненные IP-адреса
                 </a>
             </div>
@@ -41,9 +48,26 @@ View::share('title', $title);
             <div id="message"></div>
 
             <div class="col-xs-6">
-                <div class="count">
-                    Показано: <span>{{ $bannedIps->count() }}</span>.
-                    Всего: <span>{{ $bannedIps->getTotal() }}</span>.
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div id="count" class="count">
+                            @include('admin::parts.count', ['models' => $ips])
+                        </div>
+                    </div>
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.ips.search'], 'id' => 'search-ips-form', 'class' => 'table-search']) }}
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                'class' => 'form-control',
+                                'id' => 'query',
+                                'placeholder' => 'Введите ip или логин пользователя'
+                            ]) }}
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
@@ -51,25 +75,23 @@ View::share('title', $title);
                             <thead>
                             <tr>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedIps', 'IP', 'ip') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'IP', 'ip') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedIps', 'Забанен', 'ban_at') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'Забанен', 'ban_at') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.bannedIps', 'Пользователи', 'users') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'Пользователи', 'users') }}
                                 </th>
                                 <th class="button-column"></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($bannedIps as $ip)
-                                @include('admin::users.bannedIpRow')
-                            @endforeach
+                            <tbody id="ips-list">
+                                @include('admin::ips.bannedList', ['ips' => $ips])
                             </tbody>
                         </table>
-                        <div class="pull-left">
-                            {{ SortingHelper::paginationLinks($bannedIps) }}
+                        <div id="pagination" class="pull-left">
+                            {{ SortingHelper::paginationLinks($ips) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -80,7 +102,7 @@ View::share('title', $title);
                 <h3>Забанить ip-адрес</h3>
 
                 {{ Form::open([
-                    'route' => ['admin.users.banIp', 'ipId' => null],
+                    'route' => ['admin.ips.banIp', 'ipId' => null],
                     'id' => 'ban-ip-form',
                 ]) }}
 
@@ -114,7 +136,7 @@ View::share('title', $title);
     <script type="text/javascript">
 
         $("#ip").autocomplete({
-            source: "<?php echo URL::route('admin.users.ipsAutocomplete') ?>",
+            source: "<?php echo URL::route('admin.ips.ipsAutocomplete') ?>",
             minLength: 2,
             select: function(e, ui) {
                 $(this).val(ui.item.value);
@@ -174,7 +196,7 @@ View::share('title', $title);
             $('[data-unban-modal-id='+ ipId +']').modal({ backdrop: 'static', keyboard: false })
                 .one('click', '.unban-confirm', function() {
                     $.ajax({
-                        url: '/admin/users/unbanIp/' + ipId,
+                        url: '/admin/ips/unbanIp/' + ipId,
                         dataType: "text json",
                         type: "POST",
                         data: {},
@@ -191,6 +213,34 @@ View::share('title', $title);
                         }
                     });
                 });
+        });
+
+        $('#query').keyup(function () {
+            $("#search-ips-form").submit();
+        });
+        $("form[id^='search-ips-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data, view: 'bannedList', route: 'bannedIps'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#ips-list').html(response.ipsListHtmL);
+                        $('#pagination').html(response.ipsPaginationHtmL);
+                        $('#count').html(response.ipsCountHtmL);
+                    }
+                },
+            });
         });
     </script>
 @stop

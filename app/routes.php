@@ -49,16 +49,17 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	/* Страницы доступные только для админа */
 	Route::group(['before' => 'isAdmin'], function(){
         Route::get('users/search', ['as' => 'admin.users.search', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@search']);
-		Route::get('users/banned', ['as' => 'admin.users.bannedUsers', 'uses' => 'AdminUsersController@bannedUsers']);
-		Route::get('users/ips', ['as' => 'admin.users.ips', 'uses' => 'AdminUsersController@ips']);
-		Route::get('users/bannedIps', ['as' => 'admin.users.bannedIps', 'uses' => 'AdminUsersController@bannedIps']);
-		Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@ban']);
-		Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@unban']);
-		Route::post('users/banIp', ['as' => 'admin.users.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@banIp']);
-		Route::post('users/banIp/{ipId}', ['as' => 'admin.users.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@banIp']);
-		Route::post('users/unbanIp/{id}', ['as' => 'admin.users.unbanIp', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@unbanIp']);
-		Route::get('users/ipsAutocomplete', ['as' => 'admin.users.ipsAutocomplete', 'uses' => 'AdminUsersController@ipsAutocomplete']);
-		Route::resource('users', 'AdminUsersController');
+		Route::get('users/banned', ['as' => 'admin.users.banned', 'uses' => 'AdminUsersController@banned']);
+        Route::post('users/ban/{id}', ['as' => 'admin.users.ban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@ban']);
+        Route::post('users/unban/{id}', ['as' => 'admin.users.unban', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@unban']);
+        Route::resource('users', 'AdminUsersController');
+        Route::get('ips', ['as' => 'admin.ips.index', 'uses' => 'AdminIpsController@index']);
+        Route::get('ips/search', ['as' => 'admin.ips.search', 'before' => 'csrf-ajax', 'uses' => 'AdminIpsController@search']);
+        Route::get('ips/bannedIps', ['as' => 'admin.ips.bannedIps', 'uses' => 'AdminIpsController@bannedIps']);
+		Route::post('ips/banIp', ['as' => 'admin.ips.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminIpsController@banIp']);
+		Route::post('ips/banIp/{ipId}', ['as' => 'admin.ips.banIp', 'before' => 'csrf-ajax', 'uses' => 'AdminIpsController@banIp']);
+		Route::post('ips/unbanIp/{id}', ['as' => 'admin.ips.unbanIp', 'before' => 'csrf-ajax', 'uses' => 'AdminIpsController@unbanIp']);
+		Route::get('ips/ipsAutocomplete', ['as' => 'admin.ips.ipsAutocomplete', 'uses' => 'AdminIpsController@ipsAutocomplete']);
 		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@changeRole']);
         Route::get('letters/search', ['as' => 'admin.letters.search', 'before' => 'csrf-ajax', 'uses' => 'AdminLettersController@search']);
         Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);

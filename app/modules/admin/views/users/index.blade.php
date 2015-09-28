@@ -32,13 +32,13 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.users.index') }}" class="btn btn-primary btn-outline">
                     Все пользователи
                 </a>
-                <a href="{{ URL::route('admin.users.bannedUsers') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary">
                     Забаненные пользователи
                 </a>
-                <a href="{{ URL::route('admin.users.ips') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.ips.index') }}" class="btn btn-primary">
                     Все IP-адреса
                 </a>
-                <a href="{{ URL::route('admin.users.bannedIps') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.ips.bannedIps') }}" class="btn btn-primary">
                     Забаненные IP-адреса
                 </a>
             </div>
@@ -236,7 +236,6 @@ View::share('title', $title);
         $('#query').keyup(function () {
             $("#search-users-form").submit();
         });
-
         $("form[id^='search-users-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),

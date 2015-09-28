@@ -1,7 +1,7 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Забаненные пользователи';
+$title = 'Все IP-адреса';
 View::share('title', $title);
 ?>
 
@@ -10,10 +10,9 @@ View::share('title', $title);
         <div class="row">
             <div class="col-md-10 col-sm-9 col-xs-12">
                 <h1>
-                    <i class="fa fa-ban"></i>
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-laptop"></i>
                     {{ $title }}
-                    <small>забаненные пользователи сайта</small>
+                    <small>все IP-адреса</small>
                 </h1>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12">
@@ -34,10 +33,10 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.users.index') }}" class="btn btn-primary">
                     Все пользователи
                 </a>
-                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary btn-outline">
+                <a href="{{ URL::route('admin.users.banned') }}" class="btn btn-primary">
                     Забаненные пользователи
                 </a>
-                <a href="{{ URL::route('admin.ips.index') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.ips.index') }}" class="btn btn-primary btn-outline">
                     Все IP-адреса
                 </a>
                 <a href="{{ URL::route('admin.ips.bannedIps') }}" class="btn btn-primary">
@@ -51,10 +50,10 @@ View::share('title', $title);
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div id="count" class="count">
-                            @include('admin::parts.count', ['models' => $users])
+                            @include('admin::parts.count', ['models' => $ips])
                         </div>
                     </div>
-                    {{ Form::open(['method' => 'GET', 'route' => ['admin.users.search'], 'id' => 'search-users-form', 'class' => 'table-search']) }}
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.ips.search'], 'id' => 'search-ips-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -64,7 +63,7 @@ View::share('title', $title);
                             {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
                                 'class' => 'form-control',
                                 'id' => 'query',
-                                'placeholder' => 'Введите логин, имя или email'
+                                'placeholder' => 'Введите ip или логин пользователя'
                             ]) }}
                             <span class="input-group-btn">
                                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
@@ -75,52 +74,30 @@ View::share('title', $title);
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover table-striped">
+                        <table class="table table-hover table-striped" id="banned-ips-table">
                             <thead>
                             <tr>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'ID', 'id') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'IP', 'ip') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Фото', 'avatar') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Пользователи', 'users') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Роль', 'role') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментарии', 'comments') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Логин', 'login') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Письма', 'letters') }}
                                 </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Имя', 'fullname') }}
-                                </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Email', 'email') }}
-                                </th>
-                                <th>
-                                    Сколько раз забанен
-{{--                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Сколько раз забанен', '') }}--}}
-                                </th>
-                                <th>
-                                    Забанен
-{{--                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Забанен', '') }}--}}
-                                </th>
-                                <th>
-                                    Разбанен
-{{--                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Разбанен', '') }}--}}
-                                </th>
-                                <th>
-                                    Причина бана
-                                </th>
-                                <th>
-                                </th>
+                                <th class="button-column"></th>
                             </tr>
                             </thead>
-                            <tbody id="users-list">
-                                @include('admin::users.bannedUsersList', ['users' => $users])
+                            <tbody id="ips-list">
+                                @include('admin::ips.list', ['ips' => $ips])
                             </tbody>
                         </table>
                         <div id="pagination" class="pull-left">
-                            {{ SortingHelper::paginationLinks($users) }}
+                            {{ SortingHelper::paginationLinks($ips) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -129,28 +106,68 @@ View::share('title', $title);
     </div>
 @stop
 
+@section('style')
+    @parent
+    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <script src="/js/jquery-ui.min.js"></script>
+@stop
+
 @section('script')
     @parent
 
     <script type="text/javascript">
-        // удаление пользователя
-        $('button[name="destroy"]').on('click', function(e){
-            var $form=$(this).closest('form');
-            e.preventDefault();
-            $('#confirm').modal({ backdrop: 'static', keyboard: false })
-                    .one('click', '#delete', function() {
-                        $form.trigger('submit'); // submit the form
+
+        $("#ip").autocomplete({
+            source: "<?php echo URL::route('admin.ips.ipsAutocomplete') ?>",
+            minLength: 2,
+            select: function(e, ui) {
+                $(this).val(ui.item.value);
+                $("#ban-ip-form").find('.error').empty();
+                $("#ban-ip-form").find('.error').parent().removeClass('has-error');
+            }
+        });
+
+        $("#ip").on('change', function() {
+            $form.find('.error').empty();
+            $form.find('.error').parent().removeClass('has-error');
+        });
+
+        // забанить
+        $('.buttons').on('click', '.ban', function(){
+            var ipId = $(this).data('id');
+
+            $('[data-ban-modal-id='+ ipId +']').modal({ backdrop: 'static', keyboard: false })
+                    .one('click', '.ban-confirm', function() {
+                        $.ajax({
+                            url: '/admin/ips/banIp/' + ipId,
+                            dataType: "text json",
+                            type: "POST",
+                            beforeSend: function(request) {
+                                return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                            },
+                            success: function(response) {
+                                if(response.success){
+                                    $('#message').text(response.message);
+                                    var $ipTr = $('[data-ip-id='+ ipId +']');
+                                    $ipTr.addClass('danger');
+                                    $ipTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
+                                    $form.find('#message').val('');
+                                } else {
+                                    $('#message').text(response.message);
+                                }
+                            }
+                        });
                     });
         });
 
         // разбанить
-        $('.buttons').on('click', '.unban', function(){
-            var userId = $(this).data('id');
+        $('#banned-ips-table').on('click', '.unban', function(){
+            var ipId = $(this).data('id');
 
-            $('[data-unban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
+            $('[data-unban-modal-id='+ ipId +']').modal({ backdrop: 'static', keyboard: false })
                 .one('click', '.unban-confirm', function() {
                     $.ajax({
-                        url: '/admin/users/unban/' + userId,
+                        url: '/admin/ips/unbanIp/' + ipId,
                         dataType: "text json",
                         type: "POST",
                         data: {},
@@ -159,8 +176,10 @@ View::share('title', $title);
                         },
                         success: function(response) {
                             if(response.success){
-                                $('[data-user-id='+ userId +']').remove();
                                 $('#message').text(response.message);
+                                var $ipTr = $('[data-ip-id='+ ipId +']');
+                                $ipTr.removeClass('danger');
+                                $ipTr.find('.banned-link').removeClass('unban').addClass('ban').html('<i class="fa fa-lock"></i>');
                             } else {
                                 $('#message').text(response.message);
                             }
@@ -170,10 +189,9 @@ View::share('title', $title);
         });
 
         $('#query').keyup(function () {
-            $("#search-users-form").submit();
+            $("#search-ips-form").submit();
         });
-
-        $("form[id^='search-users-form']").submit(function(event) {
+        $("form[id^='search-ips-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),
                     data = $form.serialize(),
@@ -181,7 +199,7 @@ View::share('title', $title);
             $.ajax({
                 url: url,
                 type: "get",
-                data: {searchData: data, view: 'bannedUsersList', route: 'banned'},
+                data: {searchData: data},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
@@ -190,9 +208,9 @@ View::share('title', $title);
                     window.history.pushState({parent: response.url}, '', response.url);
 
                     if(response.success) {
-                        $('#users-list').html(response.usersListHtmL);
-                        $('#pagination').html(response.usersPaginationHtmL);
-                        $('#count').html(response.usersCountHtmL);
+                        $('#ips-list').html(response.ipsListHtmL);
+                        $('#pagination').html(response.ipsPaginationHtmL);
+                        $('#count').html(response.ipsCountHtmL);
                     }
                 },
             });
