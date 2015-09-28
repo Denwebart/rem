@@ -61,12 +61,12 @@ View::share('title', $title);
                         <hr/>
 
                         <div class="row">
-                            {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
+                            {{ Form::open(['method' => 'GET', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
 
                             <div class="form-group">
-                                {{ Form::label('search', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
-                                {{ Form::text('search', null, ['class' => 'form-control', 'placeholder' => '']) }}
-                                {{ $errors->first('search') }}
+                                {{ Form::label('query', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
+                                {{ Form::text('query', null, ['class' => 'form-control', 'placeholder' => '']) }}
+                                {{ $errors->first('query') }}
                             </div>
 
                                 {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
@@ -183,8 +183,8 @@ View::share('title', $title);
             $.ajax({
                 url: url,
                 dataType: "text json",
-                type: "POST",
-                data: {formData: data},
+                type: "GET",
+                data: {searchData: data},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },

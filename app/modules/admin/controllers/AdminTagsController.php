@@ -29,6 +29,47 @@ class AdminTagsController extends \BaseController {
 		return View::make('admin::tags.index', compact('tags', 'tag'));
 	}
 
+    /**
+     * Поиск тегов
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $searchQuery = $data['query'];
+
+            $query = new Page;
+            $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(title)'), 'LIKE', "%". TranslitHelper::make($title) ."%");
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $tags = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.tags.index', $data),
+                'tagsListHtmL' => (string) View::make('admin::tags.list', compact('tags'))->render(),
+                'tagsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $tags)->render(),
+                'tagsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $tags)->render(),
+                'resultHtml' => (string) View::make('admin::tags.search', compact('tags'))->render(),
+            ]);
+        }
+    }
+
 	/**
 	 * Show the form for creating a new tag
 	 *
@@ -208,27 +249,6 @@ class AdminTagsController extends \BaseController {
 			->lists('title', 'id');
 
 		return Response::json($result);
-	}
-
-	public function search() {
-
-		if(Request::ajax()) {
-
-			$formData = Input::get('formData');
-			parse_str($formData, $formFields);
-			$search = $formFields['search'];
-
-			$tags = Tag::where('title', 'LIKE', "%$search%")
-				->orWhere('title', 'LIKE', "%" . TranslitHelper::make($search) . "%")
-				->with('pagesTags')
-				->get();
-
-			return Response::json(array(
-				'success' => true,
-				'resultHtml' => (string) View::make('admin::tags.search', compact('tags'))->render(),
-			));
-		}
-
 	}
 
 }
