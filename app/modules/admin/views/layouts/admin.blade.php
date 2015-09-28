@@ -6,7 +6,13 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title }} - Административная панель сайта Avtorem.info</title>
+    <title>
+        @if(isset($title))
+            {{ $title }}
+            -
+        @endif
+        Административная панель сайта Avtorem.info
+    </title>
 
     <!-- Maniac stylesheets -->
     <link rel="stylesheet" href="/backend/css/bootstrap.min.css" />

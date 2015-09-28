@@ -1,15 +1,10 @@
 @extends('admin::layouts.admin')
 
-<?php
-$title = 'Административная панель сайта';
-View::share('title', $title);
-?>
-
 @section('content')
     <div class="page-head">
         <h1>
             <i class="fa fa-home"></i>
-            {{ $title }}
+            Административная панель сайта
             <small></small>
         </h1>
     </div>
