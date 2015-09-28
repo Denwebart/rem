@@ -103,8 +103,10 @@ class AdminPagesController extends \BaseController {
             }
             if ($searchQuery) {
                 $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
-                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+                $query = $query->where(function($q) use($title) {
+                    $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+                });
             }
 
             if ($sortBy && $direction) {

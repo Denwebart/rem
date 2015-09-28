@@ -25,14 +25,98 @@ class AdminArticlesController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy($sortBy, $direction)->with('parent.parent', 'user', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		} else {
-			$pages = Page::whereType(Page::TYPE_ARTICLE)->orderBy('created_at', 'DESC')->with('parent.parent', 'user', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		}
+        $author = Request::get('author');
+        $searchQuery = Request::get('query');
+
+        $query = new Page;
+        $query = $query->whereType(Page::TYPE_ARTICLE);
+        $query = $query->with('parent', 'user');
+        if ($author) {
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $query = $query->whereHas('user', function($q) use ($name) {
+                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+            });
+        }
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($title) {
+                $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            });
+        }
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('created_at', 'DESC');
+        }
+
+        $pages = $query->paginate(10);
 
 		return View::make('admin::articles.index', compact('pages'));
 	}
+
+    /**
+     * Поиск статей
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $author = $data['author'];
+            $searchQuery = $data['query'];
+
+            $query = new Page;
+            $query = $query->whereType(Page::TYPE_ARTICLE);
+            $query = $query->with('parent', 'user');
+            if ($author) {
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+                $query = $query->whereHas('user', function($q) use ($name) {
+                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+                });
+            }
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(function($q) use($title) {
+                    $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+                });
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            dd($query->toSql());
+            $pages = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.articles.index', $data),
+                'pagesListHtmL' => (string) View::make('admin::articles.list', compact('pages'))->render(),
+                'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $pages)->render(),
+                'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $pages)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Show the form for creating a new page
