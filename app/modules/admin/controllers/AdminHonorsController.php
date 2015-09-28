@@ -18,14 +18,70 @@ class AdminHonorsController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$honors = Honor::orderBy($sortBy, $direction)->with('users.userHonors')->paginate(10);
-		} else {
-			$honors = Honor::orderBy('id', 'DESC')->with('users.userHonors')->paginate(10);
-		}
+        $searchQuery = Request::get('query');
+
+        $query = new Honor();
+        $query = $query->with('users.userHonors');
+        if ($searchQuery) {
+            $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($searchQuery) {
+                $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
+                    ->orWhere(DB::raw('LOWER(alias)'), 'LIKE', "%$searchQuery%");
+            });
+        }
+
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('id', 'ASC');
+        }
+
+        $honors = $query->paginate(10);
 
 		return View::make('admin::honors.index', compact('honors'));
 	}
+
+    /**
+     * Поиск награды
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $searchQuery = $data['query'];
+
+            $query = new Honor();
+            $query = $query->with('users.userHonors');
+            if ($searchQuery) {
+                $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(function($q) use($searchQuery) {
+                    $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
+                        ->orWhere(DB::raw('LOWER(alias)'), 'LIKE', "%$searchQuery%");
+                });
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('id', 'ASC');
+            }
+
+            $honors = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.honors.index', $data),
+                'honorsListHtmL' => (string) View::make('admin::honors.list', compact('honors'))->render(),
+                'honorsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $honors)->render(),
+                'honorsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $honors)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Display the specified honor.

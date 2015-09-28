@@ -7,15 +7,27 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1>
-            <i class="fa fa-trophy"></i>
-            {{ $title }}
-            <small>комментарии к статьям</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-trophy"></i>
+                    {{ $title }}
+                    <small>комментарии к статьям</small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+                <div class="buttons">
+                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.honors.create') }}">
+                        <i class="fa fa-plus "></i> Создать
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
     <div class="content">
         <!-- Main row -->
@@ -24,9 +36,30 @@ View::share('title', $title);
                 @if(Session::has('warningMessage'))
                     <p>{{ Session::get('warningMessage') }}</p>
                 @endif
-                <div class="count">
-                    Показано: <span>{{ $honors->count() }}</span>.
-                    Всего: <span>{{ $honors->getTotal() }}</span>.
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div id="count" class="count">
+                            @include('admin::parts.count', ['models' => $honors])
+                        </div>
+                    </div>
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.honors.search'], 'id' => 'search-honors-form', 'class' => 'table-search']) }}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="input-group">
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                'class' => 'form-control',
+                                'id' => 'query',
+                                'placeholder' => 'Введите запрос'
+                            ]) }}
+                            <span class="input-group-btn">
+                            <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
@@ -39,74 +72,16 @@ View::share('title', $title);
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Алиас', 'alias') }}</th>
                                 <th>Описание</th>
                                 <th>Пользователи</th>
-                                <th class="button-column">
-                                    <a class="btn btn-success btn-sm" href="{{ URL::route('admin.honors.create') }}">
-                                        <i class="fa fa-plus "></i> Создать
-                                    </a>
+                                <th>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($honors as $honor)
-                                <tr>
-                                    <td>{{ $honor->id }}</td>
-                                    <td>
-                                        <a href="{{ URL::route('admin.honors.show', ['id' => $honor->id]) }}">
-                                            {{ $honor->getImage(null, ['width' => '50px']) }}
-                                        </a>
-                                    </td>
-                                    <td>{{ $honor->title }}</td>
-                                    <td>{{ $honor->alias }}</td>
-                                    <td>{{ $honor->description }}</td>
-                                    <td>
-                                        @foreach($honor->users as $key => $user)
-                                            <div class="user">
-                                                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                                                    {{ $user->getAvatar('mini', ['width' => '25px']) }}
-                                                    <span>{{ $user->login }}</span>
-                                                </a>
-                                                {{ (count($honor->users) - 1 > $key) ? "," : "" }}
-                                            </div>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-info btn-sm" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
-                                            <i class="fa fa-edit "></i>
-                                        </a>
-
-                                        @if(Auth::user()->isAdmin() && is_null($honor->key))
-                                            {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.honors.destroy', $honor->id), 'class' => 'as-button')) }}
-                                                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                    <i class='fa fa-trash-o'></i>
-                                                </button>
-                                                {{ Form::hidden('_token', csrf_token()) }}
-                                            {{ Form::close() }}
-
-                                            <div id="confirm" class="modal fade">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                            <h4 class="modal-title">Удаление</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Вы уверены, что хотите удалить?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-success delete" data-dismiss="modal">Да</button>
-                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div><!-- /.modal -->
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tbody id="honors-list">
+                                @include('admin::honors.list', ['honors' => $honors])
                             </tbody>
                         </table>
-                        <div class="pull-left">
-                            {{ $honors->links() }}
+                        <div id="pagination" class="pull-left">
+                            {{ SortingHelper::paginationLinks($honors) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -126,6 +101,34 @@ View::share('title', $title);
                 .one('click', '.delete', function() {
                     $form.trigger('submit'); // submit the form
                 });
+        });
+
+        $('#query').keyup(function () {
+            $("#search-honors-form").submit();
+        });
+        $("form[id^='search-honors-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#honors-list').html(response.honorsListHtmL);
+                        $('#pagination').html(response.honorsPaginationHtmL);
+                        $('#count').html(response.honorsCountHtmL);
+                    }
+                },
+            });
         });
     </script>
 @stop

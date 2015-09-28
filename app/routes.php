@@ -67,7 +67,8 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsNew']);
         Route::get('settings/search', ['as' => 'admin.settings.search', 'before' => 'csrf-ajax', 'uses' => 'AdminSettingsController@search']);
         Route::resource('settings', 'AdminSettingsController');
-		Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@deleteImage']);
+        Route::get('honors/search', ['as' => 'admin.honors.search', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@search']);
+        Route::post('honors/deleteImage/{id}', ['as' => 'admin.honors.deleteImage', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@deleteImage']);
 		Route::resource('honors', 'AdminHonorsController');
 		Route::post('honors/toReward', ['as' => 'admin.honors.toReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@toReward']);
 		Route::post('honors/removeReward', ['as' => 'admin.honors.removeReward', 'before' => 'csrf-ajax', 'uses' => 'AdminHonorsController@removeReward']);
