@@ -33,7 +33,8 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 	Route::resource('pages', 'AdminPagesController');
 	Route::post('pages/openTree', ['as' => 'admin.pages.openTree', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@openTree']);
 //	Route::get('pages/{id}/children', ['as' => 'admin.pages.children', 'uses' => 'AdminPagesController@children']);
-	Route::resource('questions', 'AdminQuestionsController');
+    Route::get('questions/search', ['as' => 'admin.questions.search', 'before' => 'csrf-ajax', 'uses' => 'AdminQuestionsController@search']);
+    Route::resource('questions', 'AdminQuestionsController');
 	Route::resource('articles', 'AdminArticlesController');
     Route::get('comments/search', ['as' => 'admin.comments.search', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@search']);
 	Route::post('comments/markAsDelete/{id}', ['as' => 'admin.comments.markAsDelete', 'before' => 'csrf-ajax', 'uses' => 'AdminCommentsController@ajaxMarkAsDeleted']);

@@ -4,7 +4,7 @@
 $title = 'Вопросы';
 View::share('title', $title);
 
-$params = isset($parentPage) ? ['id' => $parentPage->id] : [];
+$params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
 ?>
 
 @section('content')
@@ -12,9 +12,7 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
         <div class="row">
             <div class="col-md-10 col-sm-9 col-xs-12">
                 <h1>
-                    <i class="fa fa-question"></i>
-                    {{ $title }}
-                    <small>вопросы пользователей</small>
+                    @include('admin::questions.title', ['parentPage' => $parentPage])
                 </h1>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12">
@@ -35,10 +33,47 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
     <!-- Main row -->
     <div class="row">
         <div class="col-xs-12">
-            <div class="count">
-                Показано: <span>{{ $pages->count() }}</span>.
-                Всего: <span>{{ $pages->getTotal() }}</span>.
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div id="count" class="count">
+                        @include('admin::parts.count', ['models' => $pages])
+                    </div>
+                </div>
+                {{ Form::open(['method' => 'GET', 'route' => ['admin.questions.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="input-group">
+                        {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
+                            'class' => 'form-control',
+                            'id' => 'author',
+                            'placeholder' => 'Логин или имя пользователя'
+                        ]) }}
+                        <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    {{ Form::select('parent_id', ['0' => '- Выберите категорию -'] + Page::getQuestionsCategory(), Request::has('parent_id') ? Request::get('parent_id') : null, [
+                        'id' => 'category',
+                        'class' => 'form-control',
+                        'placeholder' => 'Категория',
+                    ]) }}
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="input-group">
+                        {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                            'class' => 'form-control',
+                            'id' => 'query',
+                            'placeholder' => 'Введите заголовок статьи'
+                        ]) }}
+                        <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                    </div>
+                </div>
+                {{ Form::close() }}
             </div>
+
             <div class="box">
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover table-striped">
@@ -75,88 +110,11 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                        @foreach($pages as $page)
-                            <tr @if($page->created_at > $headerWidget->getLastActivity()) class="info" @endif>
-                                <td>{{ $page->id }}</td>
-                                <td>
-                                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                                        {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
-                                        {{ $page->user->login }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {{ $page->getImage('mini', ['width' => '50px']) }}
-                                </td>
-                                <td>
-                                    <a href="{{ URL::to($page->getUrl()) }}" target="_blank">
-                                        {{ $page->getTitle() }}
-                                    </a>
-                                </td>
-                                <td>
-                                    @if(count($page->bestComments))
-                                        <i class="glyphicon glyphicon-ok" title="Есть решение"></i>
-                                    @endif
-                                    <a href="{{ URL::to($page->getUrl()) }}#answers" target="_blank">
-                                        {{ count($page->publishedComments) }}
-                                    </a>
-                                </td>
-                                <td>
-                                    @if($page->parent)
-                                        <a href="{{ URL::to($page->parent->getUrl()) }}" target="_blank">
-                                            {{ $page->parent->getTitle() }}
-                                        </a>
-                                    @else
-                                        Нет
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($page->is_published)
-                                        <span class="label label-success">Опубликован</span>
-                                    @else
-                                        <span class="label label-warning">Ожидает модерации</span>
-                                    @endif
-                                </td>
-                                <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
-                                <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
-                                <td>
-                                    <a class="btn btn-info btn-sm" href="{{ URL::route('admin.questions.edit', $page->id) }}">
-                                        <i class="fa fa-edit "></i>
-                                    </a>
-
-                                    @if(Auth::user()->isAdmin())
-                                        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.questions.destroy', $page->id), 'class' => 'as-button')) }}
-                                            <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                <i class='fa fa-trash-o'></i>
-                                            </button>
-                                            {{ Form::hidden('_token', csrf_token()) }}
-                                        {{ Form::close() }}
-                                    @endif
-
-                                    <div id="confirm" class="modal fade">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title">Удаление</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Вы уверены, что хотите удалить?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
-                                    </div><!-- /.modal -->
-
-                                </td>
-                            </tr>
-                        @endforeach
+                        <tbody id="pages-list">
+                            @include('admin::questions.list', ['pages' => $pages])
                         </tbody>
                     </table>
-                    <div class="pull-left">
+                    <div id="pagination" class="pull-left">
                         {{ SortingHelper::paginationLinks($pages) }}
                     </div>
                 </div><!-- /.box-body -->
@@ -176,6 +134,39 @@ $params = isset($parentPage) ? ['id' => $parentPage->id] : [];
             $('#confirm').modal({ backdrop: 'static', keyboard: false })
             .one('click', '#delete', function() {
                 $form.trigger('submit'); // submit the form
+            });
+        });
+
+        $('#category').on('change', function() {
+            $("#search-pages-form").submit();
+        });
+        $('#author, #query').keyup(function () {
+            $("#search-pages-form").submit();
+        });
+
+        $("form[id^='search-pages-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#pages-list').html(response.pagesListHtmL);
+                        $('#pagination').html(response.pagesPaginationHtmL);
+                        $('#count').html(response.pagesCountHtmL);
+                        $('h1').html(response.pagesTitleHtmL);
+                    }
+                },
             });
         });
     </script>

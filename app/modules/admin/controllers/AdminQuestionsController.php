@@ -25,14 +25,108 @@ class AdminQuestionsController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy($sortBy, $direction)->with('parent.parent', 'user', 'publishedComments', 'bestComments', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		} else {
-			$pages = Page::whereType(Page::TYPE_QUESTION)->orderBy('created_at', 'DESC')->with('parent.parent', 'user', 'publishedComments', 'bestComments', 'relatedArticles', 'relatedQuestions')->paginate(10);
-		}
+        $parent_id = Request::get('parent_id');
+        $author = Request::get('author');
+        $searchQuery = Request::get('query');
 
-		return View::make('admin::questions.index', compact('pages'));
+        $query = new Page;
+        $query = $query->whereType(Page::TYPE_QUESTION);
+        $query = $query->with('parent.parent', 'user', 'publishedComments', 'bestComments');
+        if($parent_id) {
+            $query = $query->whereParentId($parent_id);
+            $parentPage = Page::find($parent_id);
+        } else {
+            $parentPage = null;
+        }
+        if ($author) {
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $query = $query->whereHas('user', function($q) use ($name) {
+                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+            });
+        }
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+        }
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('created_at', 'DESC');
+        }
+
+        $pages = $query->paginate(10);
+
+		return View::make('admin::questions.index', compact('pages', 'parentPage'));
 	}
+
+    /**
+     * Поиск вопросов
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $parent_id = $data['parent_id'];
+            $author = $data['author'];
+            $searchQuery = $data['query'];
+
+            $query = new Page;
+            $query = $query->whereType(Page::TYPE_QUESTION);
+            $query = $query->with('parent.parent', 'user', 'publishedComments', 'bestComments');
+            if ($parent_id) {
+                $query = $query->whereParentId($parent_id);
+                $parentPage = Page::find($parent_id);
+            } else {
+                $parentPage = null;
+            }
+            if ($author) {
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+                $query = $query->whereHas('user', function($q) use ($name) {
+                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+                });
+            }
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('created_at', 'DESC');
+            }
+
+            $pages = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.questions.index', $data),
+                'pagesListHtmL' => (string) View::make('admin::questions.list', compact('pages'))->render(),
+                'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $pages)->render(),
+                'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $pages)->render(),
+                'pagesTitleHtmL' => (string) View::make('admin::questions.title', compact('parentPage'))->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Show the form for creating a new page

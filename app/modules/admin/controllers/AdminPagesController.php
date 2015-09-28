@@ -38,7 +38,7 @@ class AdminPagesController extends \BaseController {
             $parentPage = null;
         }
         if ($author) {
-            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
             $query = $query->whereHas('user', function($q) use ($name) {
                 $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
                     ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
@@ -50,7 +50,7 @@ class AdminPagesController extends \BaseController {
             });
         }
         if ($searchQuery) {
-            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
             $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                 ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
         }

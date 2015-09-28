@@ -84,6 +84,11 @@ class AdminUsersController extends \BaseController {
             }
 
             $users = $query->paginate(10);
+            if(Request::has('route')) {
+                $users->setBaseUrl('/admin/users/' . Request::get('route'));
+            } else {
+                $users->setBaseUrl('/admin/users');
+            }
 
             $view = Request::has('view') ? Request::get('view') : 'list';
             $route = Request::has('route') ? Request::get('route') : 'index';
