@@ -75,6 +75,9 @@ h5, .h5 {
 .btn-full {
     width: 100%;
 }
+.collapse-box-panel {
+    cursor: pointer;
+}
 /* Таблицы */
 .button-column {
     min-width: 90px;

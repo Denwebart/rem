@@ -328,16 +328,14 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
         </div>
         <div class="box-body">
             <div class="box">
-                <div class="box-title">
+                <div class="box-title collapse-box-panel">
                     {{ Form::label('introtext', 'Краткое описание') }}
                     <div class="pull-right box-toolbar">
-                        <a href="#" class="btn btn-link btn-xs collapse-box">
-                            @if(!$page->introtext)
-                                <i class="fa fa-chevron-down"></i>
-                            @else
-                                <i class="fa fa-chevron-up"></i>
-                            @endif
-                        </a>
+                        @if(!$page->introtext)
+                            <i class="fa fa-chevron-down"></i>
+                        @else
+                            <i class="fa fa-chevron-up"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="box-body no-padding" @if(!$page->introtext) style="display: none" @endif>
@@ -436,6 +434,18 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             });
             $('#published_at').datepicker().on('changeDate', function(ev){
                 $('#is_published').iCheck('check');
+            });
+
+            $(".collapse-box-panel").click(function () {
+                var n = $(this).next(".box-body");
+                if (n.is(":visible")) {
+                    $(this).find("i").removeClass("fa-chevron-up");
+                    $(this).find("i").addClass("fa-chevron-down")
+                } else {
+                    $(this).find("i").removeClass("fa-chevron-down");
+                    $(this).find("i").addClass("fa-chevron-up")
+                }
+                n.slideToggle("slow")
             });
 
             // Related

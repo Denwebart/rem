@@ -192,13 +192,6 @@
         // number count
         $('.timer').countTo();
 
-        //TagsInput
-        $("[data-toggle='tags']").tagsinput({
-            tagClass: function(item) {
-                return 'label label-primary';
-            }
-        });
-
         // chat scroll
         $('#chat-box').slimScroll({
             height: '250px'
@@ -280,39 +273,6 @@
             } else {
                 $("#flot_tip").remove();
                 previousPoint = null;
-            }
-        });
-
-        // jvectormap
-        $('#map').vectorMap({
-            map: 'europe_merc_en',
-            zoomMin: '3',
-            backgroundColor: "#fff",
-            focusOn: { x: 0.5, y: 0.7, scale: 3 },
-            markers: [
-                {latLng: [42.5, 1.51], name: 'Andorra'},
-                {latLng: [43.73, 7.41], name: 'Monaco'},
-                {latLng: [47.14, 9.52], name: 'Liechtenstein'},
-                {latLng: [41.90, 12.45], name: 'Vatican City'},
-                {latLng: [43.93, 12.46], name: 'San Marino'},
-                {latLng: [35.88, 14.5], name: 'Malta'}
-            ],
-            markerStyle: {
-                initial: {
-                    fill: '#fa4547',
-                    stroke: '#fa4547',
-                    "stroke-width": 6,
-                    "stroke-opacity": 0.3
-                }
-            },
-            regionStyle: {
-                initial: {
-                    fill: '#e4e4e4',
-                    "fill-opacity": 1,
-                    stroke: 'none',
-                    "stroke-width": 0,
-                    "stroke-opacity": 1
-                }
             }
         });
     })(jQuery);
