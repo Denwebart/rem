@@ -60,7 +60,8 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::get('users/ipsAutocomplete', ['as' => 'admin.users.ipsAutocomplete', 'uses' => 'AdminUsersController@ipsAutocomplete']);
 		Route::resource('users', 'AdminUsersController');
 		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@changeRole']);
-		Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
+        Route::get('letters/search', ['as' => 'admin.letters.search', 'before' => 'csrf-ajax', 'uses' => 'AdminLettersController@search']);
+        Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('letters', 'AdminLettersController');
 		Route::post('letters/markAsDeleted/{id}', ['as' => 'admin.letters.markAsDeleted', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsDeleted']);
 		Route::post('letters/{id}/markAsNew', ['as' => 'admin.letters.markAsNew', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsNew']);

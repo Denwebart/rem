@@ -7,16 +7,22 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1>
-            <i class="fa fa-trash-o"></i>
-            {{ $title }}
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li class="active"><a href="{{ URL::to('admin.letters.index') }}">Письма</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-trash-o"></i>
+                    {{ $title }}
+                    <small></small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+            </div>
+        </div>
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li class="active"><a href="{{ URL::to('admin.letters.index') }}">Письма</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
     <div class="content">
         <!-- Main row -->
@@ -37,7 +43,7 @@ View::share('title', $title);
                                     <li>
                                         <a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
                                             @if(count($headerWidget->newLetters()))
-                                                <span class="label pull-right">
+                                                <span class="label label-success pull-right">
                                                     {{ count($headerWidget->newLetters()) }}
                                                 </span>
                                             @endif
@@ -95,110 +101,72 @@ View::share('title', $title);
                                 {{--</div>--}}
 
                                 <div class="table-responsive scroll">
-                                    @if(count($letters))
-                                        <div class="count">
-                                            Показано: <span>{{ $letters->count() }}</span>.
-                                            Всего: <span>{{ $letters->getTotal() }}</span>.
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div id="count" class="count">
+                                                @include('admin::parts.count', ['models' => $letters])
+                                            </div>
                                         </div>
-                                        <table class="table table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
-                                                </th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
-                                                </th>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Имя', 'name') }}
-                                                </th>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Email', 'email') }}
-                                                </th>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата создания', 'created_at') }}
-                                                </th>
-                                                <th>
-                                                    {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата удаления', 'deleted_at') }}
-                                                </th>
-                                                <th class="button-column"></th>
-                                            </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                @foreach($letters as $letter)
-                                                    <tr{{ ($letter->read_at) ? '' : ' class="unread"' }}>
-                                                        <td class="small">{{ $letter->id }}</td>
-                                                        <td class="small"><input type="checkbox" /></td>
-                                                        <td class="small"><i class="fa fa-star"></i></td>
-                                                        <td class="subject">{{ $letter->subject }}</td>
-                                                        <td class="name">
-                                                            @if($letter->user)
-                                                                <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
-                                                                    {{ $letter->user->login }}
-                                                                </a>
-                                                            @else
-                                                                {{ $letter->user_name }}
-                                                            @endif
-                                                        </td>
-                                                        <td class="email">
-                                                            @if($letter->user)
-                                                                <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
-                                                                    {{ $letter->user->email }}
-                                                                </a>
-                                                            @else
-                                                                {{ $letter->user_email }}
-                                                            @endif
-                                                        </td>
-                                                        <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
-                                                        <td class="time">{{ DateHelper::dateFormat($letter->deleted_at) }}</td>
-                                                        <td>
-                                                            <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
-                                                                <i class="fa fa-search-plus "></i>
-                                                            </a>
-                                                            {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsNew', $letter->id), 'class' => 'as-button')) }}
-                                                                <button type="submit" class="btn btn-success btn-sm">
-                                                                    <i class='fa fa-reply'></i>
-                                                                </button>
-                                                                {{ Form::hidden('_token', csrf_token()) }}
-                                                            {{ Form::close() }}
-                                                            {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.destroy', $letter->id), 'class' => 'destroy as-button')) }}
-                                                                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
-                                                                    <i class='fa fa-trash-o'></i>
-                                                                </button>
-                                                                {{ Form::hidden('_token', csrf_token()) }}
-                                                            {{ Form::close() }}
-
-                                                            <div id="confirm" class="modal fade">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                            <h4 class="modal-title">Удаление</h4>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Вы уверены, что хотите окончательно удалить письмо?</p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                                                                        </div>
-                                                                    </div><!-- /.modal-content -->
-                                                                </div><!-- /.modal-dialog -->
-                                                            </div><!-- /.modal -->
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                        <div class="pull-left">
-                                            {{ $letters->links() }}
+                                        {{ Form::open(['method' => 'GET', 'route' => ['admin.letters.search'], 'id' => 'search-letters-form', 'class' => 'table-search']) }}
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="input-group">
+                                                {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
+                                                    'class' => 'form-control',
+                                                    'id' => 'author',
+                                                    'placeholder' => 'Логин или имя пользователя'
+                                                ]) }}
+                                                <span class="input-group-btn">
+                                                    <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
                                         </div>
-                                    @else
-                                        <p>Удаленных писем нет.</p>
-                                    @endif
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="input-group">
+                                                {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                                    'class' => 'form-control',
+                                                    'id' => 'query',
+                                                    'placeholder' => 'Введите запрос'
+                                                ]) }}
+                                                <span class="input-group-btn">
+                                                    <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {{ Form::close() }}
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
+                                            </th>
+                                            {{--<th></th>--}}
+                                            {{--<th></th>--}}
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Имя', 'name') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Email', 'email') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата создания', 'created_at') }}
+                                            </th>
+                                            <th>
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Дата удаления', 'deleted_at') }}
+                                            </th>
+                                            <th class="button-column"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="letters-list">
+                                            @include('admin::letters.trashList', ['letters' => $letters, 'notFoundLetters' => !count(Request::all()) ? 'Удаленных писем нет.' : 'Ничего не найдено.'])
+                                        </tbody>
+                                    </table>
+                                    <div id="pagination" class="pull-left">
+                                        {{ SortingHelper::paginationLinks($letters) }}
+                                    </div>
                                 </div><!-- /.table-responsive -->
                             </div><!-- /.col -->
                         </div><!-- /.row -->
@@ -229,6 +197,34 @@ View::share('title', $title);
                     .one('click', '#delete', function() {
                         $form.trigger('submit'); // submit the form
                     });
+        });
+
+        $('#author, #query').keyup(function () {
+            $("#search-letters-form").submit();
+        });
+        $("form[id^='search-letters-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data, view: 'trashList', route: 'trash'},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#letters-list').html(response.lettersListHtmL);
+                        $('#pagination').html(response.lettersPaginationHtmL);
+                        $('#count').html(response.lettersCountHtmL);
+                    }
+                },
+            });
         });
     </script>
 
