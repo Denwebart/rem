@@ -64,7 +64,7 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                         {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
                             'class' => 'form-control',
                             'id' => 'query',
-                            'placeholder' => 'Введите заголовок статьи'
+                            'placeholder' => 'Введите заголовок вопроса'
                         ]) }}
                         <span class="input-group-btn">
                                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>

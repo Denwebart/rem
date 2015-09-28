@@ -18,14 +18,70 @@ class AdminNotificationsMessagesController extends \BaseController {
 	{
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
-		if ($sortBy && $direction) {
-			$notificationsMessages = NotificationMessage::orderBy($sortBy, $direction)->paginate(10);
-		} else {
-			$notificationsMessages = NotificationMessage::orderBy('id', 'ASC')->paginate(10);
-		}
+        $searchQuery = Request::get('query');
+
+        $query = new NotificationMessage();
+
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($title) {
+                $q->where(DB::raw('LOWER(message)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(description)'), 'LIKE', "%$title%");
+            });
+        }
+
+        if ($sortBy && $direction) {
+            $query = $query->orderBy($sortBy, $direction);
+        } else {
+            $query = $query->orderBy('id', 'ASC');
+        }
+
+        $notificationsMessages = $query->paginate(10);
 
 		return View::make('admin::notificationsMessages.index', compact('notificationsMessages'));
 	}
+
+    /**
+     * Поиск
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search() {
+        if(Request::ajax()) {
+            $inputData = Request::get('searchData');
+            parse_str($inputData, $data);
+
+            $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
+            $direction = isset($data['direction']) ? $data['direction'] : null;
+            $searchQuery = $data['query'];
+
+            $query = new NotificationMessage();
+
+            if ($searchQuery) {
+                $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+                $query = $query->where(function($q) use($title) {
+                    $q->where(DB::raw('LOWER(message)'), 'LIKE', "%$title%")
+                        ->orWhere(DB::raw('LOWER(description)'), 'LIKE', "%$title%");
+                });
+            }
+
+            if ($sortBy && $direction) {
+                $query = $query->orderBy($sortBy, $direction);
+            } else {
+                $query = $query->orderBy('id', 'ASC');
+            }
+
+            $notificationsMessages = $query->paginate(10);
+
+            return Response::json([
+                'success' => true,
+                'url' => URL::route('admin.notificationsMessages.index', $data),
+                'notificationsMessagesListHtmL' => (string) View::make('admin::notificationsMessages.list', compact('notificationsMessages'))->render(),
+                'notificationsMessagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $notificationsMessages)->render(),
+                'notificationsMessagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $notificationsMessages)->render(),
+            ]);
+        }
+    }
 
 	/**
 	 * Show the form for editing the specified notification message.

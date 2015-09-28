@@ -7,21 +7,53 @@ View::share('title', $title);
 
 @section('content')
     <div class="page-head">
-        <h1><i class="fa fa-exclamation-triangle"></i> {{ $title }} <small></small></h1>
-        <ol class="breadcrumb">
-            <li><a href="{{ URL::to('admin') }}">Главная</a></li>
-            <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
-            <li class="active">{{ $title }}</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+                <h1>
+                    <i class="fa fa-exclamation-triangle"></i>
+                    {{ $title }}
+                    <small></small>
+                </h1>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+            </div>
+        </div>
+
+        {{--<ol class="breadcrumb">--}}
+            {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
+            {{--<li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>--}}
+            {{--<li class="active">{{ $title }}</li>--}}
+        {{--</ol>--}}
     </div>
 
     <div class="content">
         <!-- Main row -->
         <div class="row">
             <div class="col-xs-12">
-                <div class="count">
-                    Показано: <span>{{ $notificationsMessages->count() }}</span>.
-                    Всего: <span>{{ $notificationsMessages->getTotal() }}</span>.
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div id="count" class="count">
+                            @include('admin::parts.count', ['models' => $notificationsMessages])
+                        </div>
+                    </div>
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.notificationsMessages.search'], 'id' => 'search-notifications-messages-form', 'class' => 'table-search']) }}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="input-group">
+                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                'class' => 'form-control',
+                                'id' => 'query',
+                                'placeholder' => 'Введите запрос'
+                            ]) }}
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive no-padding">
@@ -35,28 +67,51 @@ View::share('title', $title);
                                 <th class="button-column"></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($notificationsMessages as $notificationMessage)
-                                <tr>
-                                    <td>{{ $notificationMessage->id }}</td>
-                                    <td>{{ $notificationMessage->description }}</td>
-{{--                                    <td>{{ $notificationMessage->variables }}</td>--}}
-                                    <td>{{ $notificationMessage->message }}</td>
-                                    <td>
-                                        <a class="btn btn-info btn-sm" href="{{ URL::route('admin.notificationsMessages.edit', $notificationMessage->id) }}">
-                                            <i class="fa fa-edit "></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tbody id="notifications-messages-list">
+                                @include('admin::notificationsMessages.list', ['notificationsMessages' => $notificationsMessages])
                             </tbody>
                         </table>
-                        <div class="pull-left">
-                            {{ $notificationsMessages->links() }}
+                        <div id="pagination" class="pull-left">
+                            {{ SortingHelper::paginationLinks($notificationsMessages) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
         </div>
     </div>
+@stop
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        $('#query').keyup(function () {
+            $("#search-notifications-messages-form").submit();
+        });
+
+        $("form[id^='search-notifications-messages-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {searchData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('#notifications-messages-list').html(response.notificationsMessagesListHtmL);
+                        $('#pagination').html(response.notificationsMessagesPaginationHtmL);
+                        $('#count').html(response.notificationsMessagesCountHtmL);
+                    }
+                },
+            });
+        });
+    </script>
 @stop
