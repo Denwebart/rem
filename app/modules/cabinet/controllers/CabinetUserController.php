@@ -441,6 +441,7 @@ class CabinetUserController extends \BaseController
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
+		$page->content = $page->saveEditorImages($data['tempPath']);
 		$page->save();
 
 		// подписка на свой вопрос
@@ -558,6 +559,9 @@ class CabinetUserController extends \BaseController
 
 		$page->update($data);
 
+		$page->content = $page->saveEditorImages($data['tempPath']);
+		$page->save();
+
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')
 			: URL::route('user.questions', ['login' => $login]);
@@ -636,6 +640,7 @@ class CabinetUserController extends \BaseController
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
+		$page->content = $page->saveEditorImages($data['tempPath']);
 		$page->save();
 
 		// удаление тегов
@@ -708,6 +713,9 @@ class CabinetUserController extends \BaseController
 		$data['image'] = $page->setImage($data['image']);
 
 		$page->update($data);
+
+		$page->content = $page->saveEditorImages($data['tempPath']);
+		$page->save();
 
 		// удаление тегов
 		Tag::deleteTag($page, Input::get('tags'));

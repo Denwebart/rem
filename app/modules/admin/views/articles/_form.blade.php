@@ -260,6 +260,7 @@
 
             <!-- TinyMCE image -->
             {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+            {{ Form::hidden('tempPath', $page->getTempPath(), ['id' => 'tempPath']) }}
 
             {{ Form::hidden('backUrl', $backUrl) }}
 

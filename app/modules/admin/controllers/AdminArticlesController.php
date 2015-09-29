@@ -175,6 +175,7 @@ class AdminArticlesController extends \BaseController {
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
+		$page->content = $page->saveEditorImages($data['tempPath']);
 		$page->save();
 
 		// добавление похожих статей, вопросов
@@ -258,6 +259,9 @@ class AdminArticlesController extends \BaseController {
 		$data['image'] = $page->setImage($data['image']);
 
 		$page->update($data);
+
+		$page->content = $page->saveEditorImages($data['tempPath']);
+		$page->save();
 
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);

@@ -18,11 +18,10 @@
         image_title: true,
         imagetools_toolbar: 'imageoptions',
         image_advtab: true,
-        relative_urls: true,
-        remove_script_host : false,
-        convert_urls : true,
+        relative_urls: false,
+        remove_script_host : true,
+        convert_urls : false,
         file_browser_callback : function (field_name, url, type, win) {
-            console.log(type);
             if (type == 'file' || type == 'media') {
                 return false;
             }
@@ -32,10 +31,11 @@
             $('#editor_image').change(function () {
                 var fileData = new FormData();
                 fileData.append('image', $('#editor_image')[0].files[0]);
+                fileData.append('tempPath', $('#tempPath').val());
 
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('postUploadImage', ['path' => urlencode($imagePath)]) ?>',
+                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,
@@ -46,6 +46,7 @@
                     success: function(response) {
                         if(response.success) {
                             win.document.getElementById(field_name).value = response.imageUrl;
+                            $('#tempPath').val(request.tempPath);
                         }
                     }
                 });

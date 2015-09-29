@@ -82,6 +82,7 @@
 
         <!-- TinyMCE image -->
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+        {{ Form::hidden('tempPath', $question->getTempPath(), ['id' => 'tempPath']) }}
     </div>
 </div>
 
@@ -90,7 +91,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $question->getImageEditorPath()])
+    @include('tinymce-init')
 
 	<!-- FancyBox2 -->
 	<link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />

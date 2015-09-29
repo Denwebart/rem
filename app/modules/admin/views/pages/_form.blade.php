@@ -363,6 +363,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
 
             <!-- TinyMCE image -->
             {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+            {{ Form::hidden('tempPath', $page->getTempPath(), ['id' => 'tempPath']) }}
 
             {{ Form::hidden('backUrl', $backUrl) }}
 

@@ -172,6 +172,7 @@ Route::post('rules_request', ['as' => 'postRules', 'before' => ['csrf', 'authInC
 
 /* Загрузка изображений TinyMCE */
 Route::post('postUploadImage/{path}', ['as' => 'postUploadImage', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@postImageUpload']);
+Route::post('uploadIntoTemp', ['as' => 'uploadIntoTemp', 'before' => 'csrf-ajax', 'uses' => 'ImageUploadController@uploadIntoTemp']);
 
 /* Фронт */
 Route::get('/', 'SiteController@index');

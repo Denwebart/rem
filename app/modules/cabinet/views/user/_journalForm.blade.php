@@ -107,6 +107,7 @@
 
         <!-- TinyMCE image -->
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+        {{ Form::hidden('tempPath', $article->getTempPath(), ['id' => 'tempPath']) }}
     </div>
 </div>
 
@@ -117,7 +118,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $article->getImageEditorPath()])
+    @include('tinymce-init')
 @stop
 
 @section('script')

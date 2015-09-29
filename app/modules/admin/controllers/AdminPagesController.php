@@ -246,6 +246,7 @@ class AdminPagesController extends \BaseController {
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
+		$page->content = $page->saveEditorImages($data['tempPath']);
 		$page->save();
 
 		// добавление похожих статей, вопросов
@@ -313,12 +314,14 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
-		if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
-			$data['type'] = Page::TYPE_ARTICLE;
-		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
-			$data['type'] = Page::TYPE_QUESTION;
-		} else {
-			$data['type'] = Page::TYPE_PAGE;
+		if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type) {
+			if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
+				$data['type'] = Page::TYPE_ARTICLE;
+			} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
+				$data['type'] = Page::TYPE_QUESTION;
+			} else {
+				$data['type'] = Page::TYPE_PAGE;
+			}
 		}
 
 		$data['user_id'] = $page->user_id;
@@ -340,6 +343,9 @@ class AdminPagesController extends \BaseController {
 		$data['image'] = $page->setImage($data['image']);
 
 		$page->update($data);
+
+		$page->content = $page->saveEditorImages($data['tempPath']);
+		$page->save();
 
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
