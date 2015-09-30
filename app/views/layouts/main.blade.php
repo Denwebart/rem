@@ -98,7 +98,12 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs sidebar left-sidebar">
+
+            {{ $sidebarWidget->rss() }}
+            {{ $sidebarWidget->addToFavorites() }}
+            <div class="clearfix"></div>
+
             {{ $areaWidget->leftSidebar() }}
         </div>
 
@@ -114,11 +119,9 @@
             @yield('content')
         </div>
 
-        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs sidebar right-sidebar">
 
-            {{ $sidebarWidget->rss() }}
-            {{ $sidebarWidget->addToFavorites() }}
-            <div class="clearfix"></div>
+            @include('search')
 
             {{ $areaWidget->rightSidebar() }}
         </div>

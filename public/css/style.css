@@ -996,9 +996,14 @@ h1, h2, h3, h4, h5, h6,
 
 /* Search Widget */
 #search {
-    margin-top: 52px;
     display: inline-block;
     width: 100%;
+}
+.header #search {
+    margin-top: 52px;
+}
+.sidebar #search {
+    margin-bottom: 10px;
 }
 
 #search button {
