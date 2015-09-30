@@ -52,6 +52,7 @@
 
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+    {{ Form::hidden('tempPath', $comment->getTempPath(), ['id' => 'tempPath']) }}
 
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
@@ -62,7 +63,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['imagePath' => $comment->page->getCommentImagePath()])
+    @include('admin::tinymce-init')
 @stop
 
 @section('script')

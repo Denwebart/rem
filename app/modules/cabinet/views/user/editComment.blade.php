@@ -68,6 +68,7 @@ View::share('title', $title);
 
                                 <!-- TinyMCE image -->
                                 {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+                                {{ Form::hidden('tempPath', $comment->getTempPath(), ['id' => 'tempPath']) }}
                             </div>
 
                             {{ Form::hidden('_token', csrf_token()) }}

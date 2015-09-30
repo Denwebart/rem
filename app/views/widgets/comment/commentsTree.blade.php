@@ -143,6 +143,7 @@
 
         <!-- TinyMCE image -->
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+        {{ Form::hidden('tempPath', '/uploads/temp/' . Str::random(20) . '/', ['id' => 'tempPath']) }}
 
     </div>
     <!-- end of .comment-form -->
@@ -154,7 +155,6 @@
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init', [
-        'imagePath' => $page->getCommentImagePath(),
         'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'
     ])
 @stop
@@ -189,7 +189,7 @@
                 dataType: "text json",
                 type: "POST",
                 async: true,
-                data: {formData: data},
+                data: {formData: data, tempPath: $('#tempPath').val()},
                 beforeSend: function(request) {
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },

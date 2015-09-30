@@ -176,6 +176,7 @@ class AdminArticlesController extends \BaseController {
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
 		$page->content = $page->saveEditorImages($data['tempPath']);
+		$page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
 
 		// добавление похожих статей, вопросов
@@ -261,6 +262,7 @@ class AdminArticlesController extends \BaseController {
 		$page->update($data);
 
 		$page->content = $page->saveEditorImages($data['tempPath']);
+        $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
 
 		// добавление похожих статей, вопросов

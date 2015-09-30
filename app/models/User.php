@@ -413,6 +413,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 	}
 
+    /**
+     * Перемещение изображений из временной папки
+     *
+     * @param $tempPath
+     * @return mixed
+     */
+    public function saveEditorImages($tempPath)
+    {
+        $moveDirectory = File::copyDirectory(public_path($tempPath), public_path($this->getImageEditorPath()));
+        if($moveDirectory) {
+            File::deleteDirectory(public_path($tempPath));
+            return str_replace($tempPath, $this->getImageEditorPath(), $this->description);
+        }
+    }
+
+    /**
+     * Получение временного пути для загрузки изображения
+     *
+     * @return string
+     */
+    public function getTempPath() {
+        return '/uploads/temp/' . Str::random(20) . '/';
+    }
+
 	/**
 	 * Получение пути для загрузки изображения через редактор
 	 *

@@ -69,6 +69,7 @@
 <div class="col-md-12">
     <!-- TinyMCE image -->
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+    {{ Form::hidden('tempPath', $honor->getTempPath(), ['id' => 'tempPath']) }}
 
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ URL::route('admin.honors.index') }}" class="btn btn-primary">Отмена</a>
@@ -79,7 +80,7 @@
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('admin::tinymce-init', ['imagePath' => $honor->getImageEditorPath()])
+    @include('admin::tinymce-init')
 @stop
 
 @section('script')

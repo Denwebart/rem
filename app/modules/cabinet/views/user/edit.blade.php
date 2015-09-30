@@ -176,6 +176,7 @@ View::share('title', $title);
 
         <!-- TinyMCE image -->
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+        {{ Form::hidden('tempPath', $user->getTempPath(), ['id' => 'tempPath']) }}
 
     {{ Form::close() }}
 @stop
@@ -185,7 +186,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $user->getImageEditorPath()])
+    @include('tinymce-init')
 @stop
 
 @section('script')

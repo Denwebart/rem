@@ -322,7 +322,8 @@ header .navbar .navbar-header .navbar-form button {
     -moz-border-radius: 0 5px 5px 0;
     border-radius: 0 5px 5px 0;
 }
-.table-search .input-group {
+.table-search .input-group,
+.table-search select {
     width: 100%;
     margin-bottom: 5px;
 }

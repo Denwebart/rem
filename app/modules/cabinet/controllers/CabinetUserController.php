@@ -132,7 +132,9 @@ class CabinetUserController extends \BaseController
 			}
 		}
 
-		$user->update($data);
+		$user->fill($data);
+        $user->description = $user->saveEditorImages($data['tempPath']);
+        $user->save();
 
 		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
 	}
@@ -877,7 +879,9 @@ class CabinetUserController extends \BaseController
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$comment->update($data);
+		$comment->fill($data);
+        $comment->comment = $comment->saveEditorImages($data['tempPath']);
+        $comment->save();
 
 		return Redirect::route(($comment->is_answer) ? 'user.answers' : 'user.comments', ['login' => $login]);
 	}
@@ -1140,6 +1144,8 @@ class CabinetUserController extends \BaseController
 			else {
 				//save to DB user details
 				if ($message = Message::create($messageData)) {
+                    $message->message = $message->saveEditorImages($formFields['tempPath']);
+                    $message->save();
 					//return success message
 					return Response::json(array(
 						'success' => true,

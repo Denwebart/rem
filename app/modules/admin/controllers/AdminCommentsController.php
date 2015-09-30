@@ -169,7 +169,9 @@ class AdminCommentsController extends \BaseController {
 		{
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
-		$comment->update($data);
+		$comment->fill($data);
+        $comment->comment = $comment->saveEditorImages($data['tempPath']);
+        $comment->save();
 
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')

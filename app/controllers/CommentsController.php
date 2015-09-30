@@ -7,6 +7,7 @@ class CommentsController extends BaseController
 		if(Request::ajax()) {
 			$inputData = Input::get('formData');
 			parse_str($inputData, $formFields);
+            $tempPath = Input::get('tempPath');
 
 			//$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
 			$ip = Ip::whereIp(Request::ip())->first();
@@ -54,6 +55,8 @@ class CommentsController extends BaseController
 			else {
 				// save to DB user details
 				if ($comment = Comment::create($userData)) {
+                    $comment->comment = $comment->saveEditorImages($tempPath);
+                    $comment->save();
 					// adding points for comment
 					if($comment->user) {
 						if($comment->is_answer) {

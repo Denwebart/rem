@@ -568,15 +568,16 @@ class Page extends \Eloquent
 	 * Перемещение изображений из временной папки
 	 *
 	 * @param $tempPath
-	 * @return mixed
+     * @param string $field
+     * @return mixed
 	 */
-	public function saveEditorImages($tempPath)
+	public function saveEditorImages($tempPath, $field = 'content')
 	{
 		$moveDirectory = File::copyDirectory(public_path($tempPath), public_path($this->getImageEditorPath()));
 		if($moveDirectory) {
 			File::deleteDirectory(public_path($tempPath));
-			return str_replace($tempPath, $this->getImageEditorPath(), $this->content);
 		}
+        return str_replace($tempPath, $this->getImageEditorPath(), $this->$field);
 	}
 
 	/**

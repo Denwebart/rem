@@ -84,6 +84,7 @@ View::share('title', $title);
 
                                     <!-- TinyMCE image -->
                                     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
+                                    {{ Form::hidden('tempPath', '/uploads/temp/' . Str::random(20) . '/', ['id' => 'tempPath']) }}
 
                                     {{ Form::hidden('_token', csrf_token()) }}
 
@@ -117,7 +118,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['imagePath' => $user->getMessageImagePath(), 'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'])
+    @include('tinymce-init', ['toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'])
 @stop
 
 @section('script')

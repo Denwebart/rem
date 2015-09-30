@@ -234,6 +234,7 @@ class AdminHonorsController extends \BaseController {
 
 		// загрузка изображения
 		$honor->image = $honor->setImage($data['image']);
+        $honor->description = $honor->saveEditorImages($data['tempPath']);
 		$honor->save();
 
 		return Redirect::route('admin.honors.index');
@@ -274,7 +275,9 @@ class AdminHonorsController extends \BaseController {
 		// загрузка изображения
 		$data['image'] = $honor->setImage($data['image']);
 
-		$honor->update($data);
+		$honor->fill($data);
+        $honor->description = $honor->saveEditorImages($data['tempPath']);
+        $honor->save();
 
 		return Redirect::route('admin.honors.index');
 	}
