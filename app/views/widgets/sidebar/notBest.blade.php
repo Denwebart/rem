@@ -14,7 +14,7 @@
                         {{ $page->getRating() }}
                     </span>
                     <div class="rate-stars pull-left">
-                        <div class="jRate-{{ $page->id }}"></div>
+                        <div id="jRate-{{ $page->id }}"></div>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         @section('ratingNotBest')
             @parent
             <script type="text/javascript">
-                $(".jRate-<?php echo $page->id ?>").jRate({
+                $("#jRate-<?php echo $page->id ?>").jRate({
                     rating: '<?php echo $page->getRating(); ?>',
                     precision: 0, // целое число
                     width: 20,
