@@ -73,13 +73,15 @@ class Advertising extends \Eloquent
 	const WIDGET_QUESTIONS = 6;
 	const WIDGET_ANSWERS = 7;
 	const WIDGET_TAGS = 8;
+	const WIDGET_NOT_BEST = 9;
 
 	public static $widgets = [
 		self::WIDGET_LATEST => 'Самое новое',
-		self::WIDGET_BEST => 'По голосам',
-		self::WIDGET_POPULAR => 'Самое популярное',
-		self::WIDGET_UNPOPULAR => 'Аутсайдеры',
-		self::WIDGET_COMMENTS => 'Комментарии',
+		self::WIDGET_BEST => 'Лучшие по голосам',
+		self::WIDGET_NOT_BEST => 'Худшие по голосам',
+		self::WIDGET_POPULAR => 'Лучшие по просмотрам',
+		self::WIDGET_UNPOPULAR => 'Худшие по просмотрам',
+		self::WIDGET_COMMENTS => 'Новые комментарии',
 		self::WIDGET_QUESTIONS => 'Новые вопросы',
 		self::WIDGET_ANSWERS => 'Лучшие ответы',
 		self::WIDGET_TAGS => 'Теги',

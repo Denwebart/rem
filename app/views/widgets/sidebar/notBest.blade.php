@@ -1,4 +1,4 @@
-<div id="best-sidebar-widget" class="list-group sidebar-widget">
+<div id="not-best-sidebar-widget" class="list-group sidebar-widget">
     @foreach($pages as $key => $page)
         @if($key != 0)
             <div class="list-group-separator"></div>
@@ -23,7 +23,7 @@
                 {{ $page->getTitle() }}
             </a>
         </div>
-        @section('ratingBest')
+        @section('ratingNotBest')
             @parent
             <script type="text/javascript">
                 $(".jRate-<?php echo $page->id ?>").jRate({
@@ -45,5 +45,5 @@
 
     {{ HTML::script('js/jRate.js') }}
 
-    @yield('ratingBest')
+    @yield('ratingNotBest')
 @stop

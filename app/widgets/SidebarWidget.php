@@ -12,6 +12,9 @@ class SidebarWidget
 			case (Advertising::WIDGET_BEST):
 				return $this->best($limit);
 				break;
+            case (Advertising::WIDGET_NOT_BEST):
+                return $this->notBest($limit);
+                break;
 			case (Advertising::WIDGET_POPULAR):
 				return $this->popular($limit);
 				break;
@@ -55,7 +58,7 @@ class SidebarWidget
 	}
 
 	/**
-	 * TOP- 10 (рейтинг голосов)
+	 * Лучшие по голосам
 	 *
 	 * @param int $limit Количество записей
 	 * @return string
@@ -74,6 +77,27 @@ class SidebarWidget
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
 	}
+
+    /**
+     * Худшие по голосам
+     *
+     * @param int $limit Количество записей
+     * @return string
+     */
+    public function notBest($limit = 10)
+    {
+        $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
+            ->whereIsPublished(1)
+            ->where('published_at', '<', date('Y-m-d H:i:s'))
+            ->whereIsContainer(0)
+            ->where('parent_id', '!=', 0)
+            ->orderBy('rating', 'ASC')
+            ->limit($limit)
+            ->with('parent.parent', 'user')
+            ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'votes', 'voters']);
+
+        return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
+    }
 
 	/**
 	 * Самое популярное (по просмотрам)

@@ -836,11 +836,13 @@ h1, h2, h3, h4, h5, h6,
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 /* Sidebar Widget - Best */
-#best-sidebar-widget .rating {
+#best-sidebar-widget .rating,
+#not-best-sidebar-widget .rating {
     margin-bottom: 5px;
     width: 100%;
 }
-#best-sidebar-widget .rating .rate-votes {
+#best-sidebar-widget .rating .rate-votes,
+#not-best-sidebar-widget .rating .rate-votes {
     z-index: 9;
     top: 4px;
     margin-right: 10px;
@@ -848,7 +850,8 @@ h1, h2, h3, h4, h5, h6,
     line-height: 24px;
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
-#best-sidebar-widget .rating .rate-voters {
+#best-sidebar-widget .rating .rate-voters,
+#not-best-sidebar-widget .rating .rate-voters {
     margin-left: 10px;
     font-size: 13px;
     color: #444444;
