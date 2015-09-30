@@ -304,9 +304,12 @@ h1, h2, h3, h4, h5, h6,
 .content .fancybox img {
     max-width: 100% !important;
     height: auto !important;
+    margin: 5px;
 }
-.content .fancybox img:first-child {
-    margin: 0 0 10px;
+.content .page-image,
+.content .fancybox .page-image {
+    max-width: 280px !important;
+    margin: 0 15px 0 0;
 }
 #content iframe {
     max-width: 100% !important;
