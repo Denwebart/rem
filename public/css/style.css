@@ -1456,17 +1456,24 @@ h1, h2, h3, h4, h5, h6,
 /*-- Footer --*/
 footer {
     background: url("../images/footer.jpg");
-    margin-bottom: 0;
-    min-height: 250px;
+    margin: 30px 0 0;
+    min-height: 200px;
 }
 footer nav {
     width: 100%;
     text-align: center;
 }
+footer .logo {
+    width: 60px;
+    margin: 0 20px 0 0;
+    float: none;
+    display: inline-block;
+}
 footer .copyright {
     width: 100%;
     text-align: center;
     color: #E1E1E1;
+    line-height: 60px;
 }
 footer .copyright a {
     color: #03A9F4;

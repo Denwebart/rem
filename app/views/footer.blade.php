@@ -6,21 +6,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
-                <a href="{{ URL::to('/') }}">
-                    {{ HTML::image('images/logo-footer.png', '', ['class' => 'img-responsive margin-bottom-20']) }}
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Копирайт -->
-                @if(isset($settings['copyright']))
-                    <div class="copyright">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="copyright">
+                    <a href="{{ URL::to('/') }}">
+                        {{ HTML::image('images/logo-circle-footer.png', '', [
+                            'class' => 'img-responsive margin-bottom-20 logo',
+                        ]) }}
+                    </a>
+                    <!-- Копирайт -->
+                    @if(isset($settings['copyright']))
                         {{ $settings['copyright']['value'] }}
                         2010 - {{ \Carbon\Carbon::now()->year }}
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>
