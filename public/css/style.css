@@ -276,7 +276,8 @@ h1, h2, h3, h4, h5, h6,
 
 /*-- Content --*/
 .content {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.5;
 }
 /*.content,*/
 /*.blog .item {*/
@@ -912,7 +913,9 @@ h1, h2, h3, h4, h5, h6,
     margin-bottom: 10px;
 }
 .area .widget a {
-    color: #1292CE;
+    /*color: #1292CE;*/
+    color: #15678D;
+    font-weight: 600;
 }
 .area.edit {
     border: 2px dotted #bbbbbb;
