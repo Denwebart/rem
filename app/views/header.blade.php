@@ -17,14 +17,15 @@
                 @endif
                 {{ $menuWidget->topMenu() }}
             </div>
-            <div class="col-md-6 col-logo">
+            <div class="col-md-6 col-sm-2 col-xs-3">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/logo.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive']) }}
+                        {{ HTML::image('images/logo.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive hidden-sm hidden-xs']) }}
+                        {{ HTML::image('images/logo-circle.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive hidden-lg hidden-md']) }}
                     </a>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-9 col-xs-9">
                 <div class="row hidden-sm hidden-xs">
                     <div class="col-md-12">
                         @if (!Auth::check())
@@ -43,20 +44,21 @@
                         {{ $menuWidget->topMenu() }}
                     </div>
                 </div>
-                {{--@include('search')--}}
-            </div>
-            <div class="col-md-12">
-                <div id="site-title">
-                    @if(isset($settings))
-                        <h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="site-title">
+                            @if(isset($settings))
+                                <h1>
                             <span>
                                 {{ $settings['siteTitle']['value'] }}
                             </span>
                             <span class="slogan">
                                 {{ $settings['siteSlogan']['value'] }}
                             </span>
-                        </h1>
-                    @endif
+                                </h1>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
