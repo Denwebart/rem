@@ -20,8 +20,9 @@
             <div class="col-md-6 col-sm-2 col-xs-3">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
-                        {{ HTML::image('images/logo.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive hidden-sm hidden-xs']) }}
-                        {{ HTML::image('images/logo-circle.png', isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '', ['class' => 'img-responsive hidden-lg hidden-md']) }}
+                        <?php $alt = isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : ''; ?>
+                        {{ HTML::image('images/logo.png', $alt, ['title' => $alt, 'class' => 'img-responsive hidden-sm hidden-xs']) }}
+                        {{ HTML::image('images/logo-circle.png', $alt, ['title' => $alt, 'class' => 'img-responsive hidden-lg hidden-md']) }}
                     </a>
                 </div>
             </div>

@@ -4,7 +4,7 @@
         <div id="rate-voters" title="Количество проголосовавших" data-toggle="tooltip">
             (<i class="material-icons">group</i> <span>{{ $page->voters }}</span>)
         </div>
-        <div id="rate-stars">
+        <div id="rate-stars" title="Голосовать" data-toggle="tooltip" data-placement="bottom">
             <div id="jRate"></div>
         </div>
     </div>

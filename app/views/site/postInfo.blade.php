@@ -101,9 +101,11 @@
         @endif
     @endif
     <div class="col-md-12">
-        <a class="pull-right read-more" href="{{ URL::to($article->getUrl()) }}">
-            Читать полностью
-            <i class="material-icons">chevron_right</i>
-        </a>
+        <div class="read-more">
+            <a href="{{ URL::to($article->getUrl()) }}">
+                <span>Читать полностью</span>
+                <i class="material-icons">chevron_right</i>
+            </a>
+        </div>
     </div>
 </div>

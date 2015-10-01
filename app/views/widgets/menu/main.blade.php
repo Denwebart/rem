@@ -1,5 +1,5 @@
 <div class="container" style="box-sizing: content-box">
-    <nav class="navbar navbar-custom">
+    <nav class="navbar navbar-custom main-menu">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false" aria-controls="navbar-main">
                 <span class="sr-only">Toggle navigation</span>
