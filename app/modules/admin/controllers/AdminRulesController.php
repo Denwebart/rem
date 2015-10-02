@@ -111,7 +111,9 @@ class AdminRulesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		Rule::create($data);
+		$rule = Rule::create($data);
+        $rule->description = $rule->saveEditorImages($data['tempPath']);
+        $rule->save();
 
 		return Redirect::route('admin.rules.index');
 	}
@@ -146,7 +148,9 @@ class AdminRulesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$rule->update($data);
+		$rule->fill($data);
+        $rule->description = $rule->saveEditorImages($data['tempPath']);
+        $rule->save();
 
 		return Redirect::route('admin.rules.index');
 	}

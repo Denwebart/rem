@@ -146,9 +146,6 @@ View::share('title', $title);
                                                 </div>
                                             </div>
 
-                                            <!-- TinyMCE image -->
-                                            {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
-
                                             {{ Form::hidden('_token', csrf_token()) }}
 
                                             {{ Form::close() }}
