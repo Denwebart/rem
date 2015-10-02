@@ -46,7 +46,6 @@
                     success: function(response) {
                         if(response.success) {
                             win.document.getElementById(field_name).value = response.imageUrl;
-                            $('#tempPath').val(request.tempPath);
                         }
                     }
                 });

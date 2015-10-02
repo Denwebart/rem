@@ -233,7 +233,8 @@ h2, .h2 {
 #page-image {
     position: relative;
 }
-#page-image #delete-image {
+#page-image #delete-image,
+#page-image #delete-temp-image {
     position: absolute;
     top: 0;
     right: 0;

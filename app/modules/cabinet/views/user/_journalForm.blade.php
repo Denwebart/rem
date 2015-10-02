@@ -18,13 +18,15 @@
 <div class="row">
     <div class="col-md-4">
         <div class="form-group">
-            @if($article->image)
-                <div id="page-image" class="margin-bottom-10">
+            <div id="page-image" class="margin-bottom-10">
+                @if($article->image)
                     {{ $article->getImage(null, ['class' => 'page-image']) }}
                     <a href="javascript:void(0)" id="delete-image">
                         <i class="material-icons">delete</i>
                     </a>
-                </div>
+                @endif
+            </div>
+            @if($article->image)
                 @section('script')
                     @parent
 
@@ -53,7 +55,7 @@
                 @stop
             @endif
 
-            {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+            {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
             {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
             <small class="image_error error text-danger">
                 {{ $errors->first('image') }}
@@ -255,11 +257,60 @@
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
+    </script>
 
-        $(".file-inputs").on("change", function(){
-            var file = this.files[0];
-            if (file.size > 5242880) {
+    <!-- Загрузка изображения ajax -->
+    <script type="text/javascript">
+        $('.ajax-upload').on('change', function () {
+            if (this.files[0].size > 5242880) {
                 $(this).parent().parent().append('Недопустимый размер файла.');
+            } else {
+                var fileData = new FormData();
+                fileData.append('image', $(this)[0].files[0]);
+                fileData.append('tempPath', $('#tempPath').val());
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
+                    data: fileData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            $('#page-image').html(response.imageHtml);
+                        }
+                    }
+                });
+            }
+
+
+        });
+
+        <!-- Удаление временного изображения ajax -->
+        $('#page-image').on('click', '#delete-temp-image', function(){
+            var $button = $(this);
+            if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                var imageName = $(this).parent().parent().find('.file-input-name');
+                $.ajax({
+                    url: '<?php echo URL::route('deleteFromTemp') ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {'imageName': imageName.text(), 'tempPath': $('#tempPath').val()},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#site-messages').prepend(response.message);
+                            $button.css('display', 'none');
+                            $('.page-image').remove();
+                            imageName.text('');
+                        }
+                    }
+                });
             }
         });
     </script>

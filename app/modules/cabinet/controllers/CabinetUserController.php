@@ -486,7 +486,6 @@ class CabinetUserController extends \BaseController
 	 * Предварительный просмотр
 	 *
 	 * @param $login
-	 * @param $id
 	 * @return \Illuminate\View\View
 	 */
 	public function preview($login)

@@ -2,52 +2,11 @@
 
 class ImageUploadController extends BaseController
 {
-	public function postImageUpload($path)
-	{
-		if(Request::ajax()) {
-
-			$data = Input::all();
-
-			$rules = [
-				'image' => 'image|max:15000|required',
-			];
-
-			$validation = Validator::make($data, $rules);
-
-			if ($validation->fails())
-			{
-				return Response::json(array(
-					'fail' => true,
-					'errors' => $validation->getMessageBag()->toArray(),
-				));
-			}
-
-			$file = $data['image'];
-
-			$fileName = TranslitHelper::generateFileName($file->getClientOriginalName());
-
-			$imagePath = public_path() . urldecode($path);
-			$image = Image::make($file->getRealPath());
-			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
-
-			$watermark = Image::make(public_path('images/watermark.png'));
-			$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'watermark.png');
-
-			$image->insert($imagePath . 'watermark.png', 'center')
-				->save($imagePath . $fileName);
-
-			$imageUrl = URL::to(urldecode($path) . $fileName);
-
-			return Response::json(array(
-				'success' => true,
-				'imageUrl' => $imageUrl,
-				'imageName' => $fileName,
-			));
-		}
-	}
-
+    /**
+     * Загрузка временного изображения
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function uploadIntoTemp()
 	{
 		if(Request::ajax()) {
@@ -95,9 +54,34 @@ class ImageUploadController extends BaseController
 			return Response::json(array(
 				'success' => true,
 				'imageUrl' => $imageUrl,
-				'imageName' => $fileName,
-				'tempPath' => $tempPath,
+                'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl])->render(),
 			));
 		}
 	}
+
+    /**
+     * Удаление временного изображения
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteFromTemp()
+    {
+        if(Request::ajax())
+        {
+            $image = Input::get('imageName');
+            $tempPath = Input::get('tempPath');
+
+            dd(public_path() . $tempPath . $image);
+            // delete old image with directory
+            if(File::exists(public_path() . $tempPath . $image)) {
+                dd('yes');
+                File::delete(public_path() . $tempPath . $image);
+            }
+
+//            return Response::json([
+//                'success' => true,
+//                'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Изображение удалено.'])
+//            ]);
+        }
+    }
 }
