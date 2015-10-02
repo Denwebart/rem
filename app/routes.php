@@ -120,7 +120,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/questions/delete', ['as' => 'user.questions.delete', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteQuestion']);
 	Route::get('{login}/journal/create', ['as' => 'user.journal.create', 'uses' => 'CabinetUserController@createJournal']);
 	Route::post('{login}/journal/store', ['as' => 'user.journal.store', 'before' => 'csrf', 'uses' => 'CabinetUserController@storeJournal']);
-	Route::post('{login}/preview/{id}', ['as' => 'user.preview', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@preview']);
+	Route::post('{login}/preview', ['as' => 'user.preview', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@preview']);
 	Route::get('{login}/journal/{id}/edit', ['as' => 'user.journal.edit', 'uses' => 'CabinetUserController@editJournal']);
 	Route::put('{login}/journal/{id}', ['as' => 'user.journal.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@updateJournal']);
 	Route::post('{login}/journal/delete', ['as' => 'user.journal.delete', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteJournal']);

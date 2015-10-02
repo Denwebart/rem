@@ -489,7 +489,7 @@ class CabinetUserController extends \BaseController
 	 * @param $id
 	 * @return \Illuminate\View\View
 	 */
-	public function preview($login, $id = null)
+	public function preview($login)
 	{
 		$user = (Auth::user()->getLoginForUrl() == $login)
 			? Auth::user()
@@ -498,10 +498,10 @@ class CabinetUserController extends \BaseController
 		$inputData = Input::get('formData');
 		parse_str($inputData, $formFields);
 
-		if($id == null) {
+		if(!Request::has('id')) {
 			$page = new Page();
 		} else {
-			$page = Page::find($id);
+			$page = Page::find(Request::get('id'));
 		}
 
 		$data = $formFields;

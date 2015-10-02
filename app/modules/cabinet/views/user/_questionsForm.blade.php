@@ -55,20 +55,26 @@
 
             {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-full btn-sm file-inputs', 'id' => 'image']) }}
             {{ Form::hidden('image-url', ($question->image) ? $question->getImagePath() . $question->image : '', ['id' => 'image-name']) }}
-            {{ $errors->first('image') }}
+            <small class="image_error error text-danger">
+                {{ $errors->first('image') }}
+            </small>
         </div>
     </div>
     <div class="col-md-8">
         <div class="form-group">
             {{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
             {{ Form::select('parent_id', Page::getQuestionsCategory(), $question->parent_id, ['class' => 'form-control']) }}
-            {{ $errors->first('parent_id') }}
+            <small class="parent_id_error error text-danger">
+                {{ $errors->first('parent_id') }}
+            </small>
         </div>
         <div class="form-group">
             {{ Form::hidden('type', $question->type) }}
             {{ Form::label('title', 'Заголовок') }}
             {{ Form::text('title', $question->title, ['class' => 'form-control']) }}
-            {{ $errors->first('title') }}
+            <small class="title_error error text-danger">
+                {{ $errors->first('title') }}
+            </small>
         </div>
     </div>
 </div>
@@ -77,7 +83,9 @@
         <div class="form-group">
             {{ Form::label('content', 'Текст вопроса') }}
             {{ Form::textarea('content', $question->content, ['class' => 'form-control editor']) }}
-            {{ $errors->first('content') }}
+            <small class="content_error error text-danger">
+                {{ $errors->first('content') }}
+            </small>
         </div>
 
         <!-- TinyMCE image -->
@@ -123,6 +131,12 @@
 
     {{ HTML::script('js/jRate.js') }}
 	<script type="text/javascript">
+        // убираем ошибку при изменении поля
+        $('input, textarea').on('focus', function(){
+            $(this).parent().find('.error').hide();
+            $(this).parent().removeClass('has-error');
+        });
+
 		$('.preview').on('click', function() {
 			tinyMCE.get("content").save();
 			var $form = $('form'),
@@ -142,7 +156,7 @@
 						$.each(data.errors, function(index, value) {
 							var errorDiv = '.' + index + '_error';
 							$form.find(errorDiv).parent().addClass('has-error');
-							$form.find(errorDiv).empty().append(value);
+							$form.find(errorDiv).empty().append(value).show();
 						});
 					}
 					if(data.success) {

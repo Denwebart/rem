@@ -55,7 +55,9 @@
 
             {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
             {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
-            {{ $errors->first('image') }}
+            <small class="image_error error text-danger">
+                {{ $errors->first('image') }}
+            </small>
         </div>
     </div>
     <div class="col-md-8">
@@ -63,7 +65,9 @@
             {{ Form::hidden('type', $article->type) }}
             {{ Form::label('title', 'Заголовок') }}
             {{ Form::text('title', $article->title, ['class' => 'form-control']) }}
-            {{ $errors->first('title') }}
+            <small class="title_error error text-danger">
+                {{ $errors->first('title') }}
+            </small>
         </div>
     </div>
 </div>
@@ -72,7 +76,9 @@
         <div class="form-group">
             {{ Form::label('content', 'Текст статьи') }}
             {{ Form::textarea('content', $article->content, ['class' => 'form-control editor']) }}
-            {{ $errors->first('content') }}
+            <small class="content_error error text-danger">
+                {{ $errors->first('content') }}
+            </small>
         </div>
 
         <div class="form-group">
@@ -126,13 +132,13 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            // Теги
-            var tagNumber = 0;
             // убираем ошибку при изменении поля
-            $('#tag-input').on('focus', function(){
+            $('#tag-input, input, textarea').on('focus', function(){
                 $(this).parent().find('.error').hide().text('');
                 $(this).parent().removeClass('has-error');
             });
+            // Теги
+            var tagNumber = 0;
             // автокомплит при добавлении тега
             $("#tag-input").autocomplete({
                 source: "<?php echo URL::route('tagAutocomplete') ?>",
@@ -215,7 +221,7 @@
                         $.each(data.errors, function(index, value) {
                             var errorDiv = '.' + index + '_error';
                             $form.find(errorDiv).parent().addClass('has-error');
-                            $form.find(errorDiv).empty().append(value);
+                            $form.find(errorDiv).empty().append(value).show();
                         });
                     }
                     if(data.success) {
