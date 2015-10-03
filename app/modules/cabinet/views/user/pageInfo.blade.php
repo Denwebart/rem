@@ -130,9 +130,11 @@
         </ul>
     </div>
 @endif
-<div class="col-md-12 col-xs-12">
-    <a class="pull-right read-more" href="{{ URL::to($page->getUrl()) }}">
-        Читать полностью
-        <i class="material-icons">chevron_right</i>
-    </a>
+<div class="col-md-12">
+    <div class="read-more">
+        <a href="{{ URL::to($page->getUrl()) }}">
+            <span>Читать полностью</span>
+            <i class="material-icons">chevron_right</i>
+        </a>
+    </div>
 </div>

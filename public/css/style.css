@@ -744,13 +744,17 @@ form .page-image {
     margin-top: 10px;
     width: 100%;
     text-align: center;
+    background: #1B609C; /* #1292CE */
+    box-shadow: -3px 2px 3px rgba(0, 0, 0, 0.5) inset;
 }
 .read-more a {
     display: inline-block;
+    padding-top: 7px;
 }
 .read-more span,
 .read-more .material-icons {
-    float: right;
+    float: left;
+    color: #ffffff;
 }
 
 /*-- Sidebar Widget --*/
