@@ -153,8 +153,8 @@ class Honor extends \Eloquent
         $moveDirectory = File::copyDirectory(public_path($tempPath), public_path($this->getImageEditorPath()));
         if($moveDirectory) {
             File::deleteDirectory(public_path($tempPath));
-            return str_replace($tempPath, $this->getImageEditorPath(), $this->description);
         }
+	    return str_replace($tempPath, $this->getImageEditorPath(), $this->description);
     }
 
     /**
