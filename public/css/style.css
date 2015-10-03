@@ -1489,6 +1489,7 @@ footer {
     background: url("../images/footer.jpg");
     margin: 30px 0 0;
     min-height: 200px;
+    color: #ffffff;
 }
 footer nav {
     width: 100%;
@@ -1508,6 +1509,9 @@ footer .copyright {
 }
 footer .copyright a {
     color: #03A9F4;
+}
+footer .counter {
+    text-align: center;
 }
 
 /* Всплывающие сообщения */

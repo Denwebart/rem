@@ -21,6 +21,16 @@
                 </div>
             </div>
         </div>
+        <!-- Счетчик -->
+        @if(isset($settings['counter']))
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="counter">
+                        {{ $settings['counter']['value'] }}
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </footer>
 
