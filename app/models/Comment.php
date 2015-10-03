@@ -68,6 +68,16 @@ class Comment extends \Eloquent
 		'published_at',
 	];
 
+	const STATUS_NOT_PUBLISHED = 0;
+	const STATUS_PUBLISHED = 1;
+	const STATUS_DELETED = 2;
+
+	public static $status = [
+		self::STATUS_PUBLISHED => 'Опубликован',
+		self::STATUS_NOT_PUBLISHED => 'Не опубликован',
+		self::STATUS_DELETED => 'Удалён',
+	];
+
 	public static $rules = [
 		'is_answer' => 'boolean',
 		'page_id' => 'required|numeric',

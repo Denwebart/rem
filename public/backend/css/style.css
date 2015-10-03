@@ -113,8 +113,8 @@ h5, .h5 {
 }
 .status span {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: #cccccc;
 }
@@ -123,6 +123,9 @@ h5, .h5 {
 }
 .status .not-published {
     background: #F0AD4E;
+}
+.status .deleted {
+    background: #E74C3C;
 }
 /* Формы */
 select {
@@ -3319,6 +3322,18 @@ footer ul li a {
     }
     #header-widget .navbar-nav .dropdown-menu {
         width: 270px !important;
+    }
+
+    /* Таблицы */
+    .table-search .input-group,
+    .table-search select {
+        margin-bottom: 10px;
+    }
+    .count {
+        margin: 0 0 10px;
+    }
+    .pagination {
+        margin: 20px 10px;
     }
 }
 

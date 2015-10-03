@@ -41,8 +41,6 @@ View::share('title', $title);
                     </div>
                     {{ Form::open(['method' => 'GET', 'route' => ['admin.comments.search'], 'id' => 'search-comments-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
                             {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
                                 'class' => 'form-control',
@@ -53,6 +51,13 @@ View::share('title', $title);
                                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        {{ Form::select('status', ['' => '- Статус публикации -'] + Comment::$status, Request::has('status') ? Request::get('status') : null, [
+                            'id' => 'status',
+                            'class' => 'form-control',
+                            'placeholder' => 'Статус публикации',
+                        ]) }}
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="input-group">
@@ -78,8 +83,8 @@ View::share('title', $title);
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'IP', 'ip_id') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Страница', 'page_id') }}</th>
                                 <th max-width="30%">Комментарий</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at') }}</th>
+                                <th class="status">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Создан', 'created_at') }}</th>
                                 <th class="button-column"></th>
                             </tr>
                             </thead>
@@ -110,6 +115,9 @@ View::share('title', $title);
                     });
         });
 
+        $('#status').on('change', function() {
+            $("#search-comments-form").submit();
+        });
         $('#author, #query').keyup(function () {
             $("#search-comments-form").submit();
         });

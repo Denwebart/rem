@@ -5,7 +5,6 @@
             @if($comment->user)
                 <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
                     {{ $comment->user->getAvatar('mini', ['width' => '25px']) }}
-                    {{ $comment->user->login }}
                 </a>
             @else
                 {{{ $comment->user_name }}}
@@ -20,7 +19,7 @@
         </td>
         <td>
             @if($comment->page)
-                <a href="{{ URL::to($comment->page->getUrl()) }}">
+                <a href="{{ URL::to($comment->getUrl()) }}">
                     {{ $comment->page->getTitle() }}
                 </a>
             @else
@@ -28,15 +27,15 @@
             @endif
         </td>
         <td>{{ $comment->comment }}</td>
-        <td>
+        <td class="status">
             @if(!$comment->is_deleted)
                 @if($comment->is_published)
-                    <span class="label label-success">Опубликован</span>
+                    <span class="published" title="Опубликован" data-toggle="tooltip"></span>
                 @else
-                    <span class="label label-warning">Ожидает модерации</span>
+                    <span class="not-published" title="Не опубликован" data-toggle="tooltip"></span>
                 @endif
             @else
-                <span class="label label-danger">Удален</span>
+                <span class="deleted" title="Удалён" data-toggle="tooltip"></span>
             @endif
         </td>
         <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>

@@ -82,11 +82,11 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id', $params) }}
                                 </th>
-                                <th>
+                                <th class="author">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изобр.', 'image', $params) }}
                                 </th>
                                 <th width="30%">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
@@ -97,14 +97,14 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
                                 </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус публикации', 'is_published', $params) }}
+                                <th class="status">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата создания', 'created_at', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Создан', 'created_at', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Дата публикации', 'published_at', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Опубликован', 'published_at', $params) }}
                                 </th>
                                 <th class="button-column">
                                 </th>

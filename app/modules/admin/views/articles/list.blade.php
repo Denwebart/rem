@@ -1,10 +1,9 @@
 @foreach($pages as $page)
     <tr @if($page->created_at > $headerWidget->getLastActivity()) class="info" @endif>
         <td>{{ $page->id }}</td>
-        <td>
+        <td class="author">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
                 {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
-                {{ $page->user->login }}
             </a>
         </td>
         <td>
@@ -15,20 +14,11 @@
                 {{ $page->getTitle() }}
             </a>
         </td>
-        <td>
-            @if($page->parent)
-                <a href="{{ URL::to($page->parent->getUrl()) }}" target="_blank">
-                    {{ $page->parent->getTitle() }}
-                </a>
-            @else
-                Нет
-            @endif
-        </td>
-        <td>
+        <td class="status">
             @if($page->is_published)
-                <span class="label label-success">Опубликован</span>
+                <span class="published" title="Опубликована" data-toggle="tooltip"></span>
             @else
-                <span class="label label-warning">Ожидает модерации</span>
+                <span class="not-published" title="Не опубликована" data-toggle="tooltip"></span>
             @endif
         </td>
         <td>{{ DateHelper::dateFormat($page->created_at) }}</td>

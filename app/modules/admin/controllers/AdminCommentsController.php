@@ -26,6 +26,7 @@ class AdminCommentsController extends \BaseController {
 		$sortBy = Request::get('sortBy');
 		$direction = Request::get('direction');
         $author = Request::get('author');
+        $status = Request::get('status');
         $searchQuery = Request::get('searchQuery');
 
         $query = new Comment;
@@ -42,6 +43,14 @@ class AdminCommentsController extends \BaseController {
                     ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
                     ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
             });
+        }
+        if (!is_null($status) && $status !== '') {
+            if(Comment::STATUS_DELETED == $status) {
+                $query = $query->whereIsDeleted(1);
+            } else {
+                $query = $query->whereIsPublished($status);
+                $query = $query->whereIsDeleted(0);
+            }
         }
         if ($searchQuery) {
             $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
@@ -76,6 +85,7 @@ class AdminCommentsController extends \BaseController {
             $sortBy = isset($data['sortBy']) ? $data['sortBy'] : null;
             $direction = isset($data['direction']) ? $data['direction'] : null;
             $author = $data['author'];
+            $status = $data['status'];
             $searchQuery = $data['query'];
 
             $query = new Comment;
@@ -93,6 +103,14 @@ class AdminCommentsController extends \BaseController {
                         ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
                 })
                 ->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%");
+            }
+            if (!is_null($status) && $status !== '') {
+                if(Comment::STATUS_DELETED == $status) {
+                    $query = $query->whereIsDeleted(1);
+                } else {
+                    $query = $query->whereIsPublished($status);
+                    $query = $query->whereIsDeleted(0);
+                }
             }
             if ($searchQuery) {
                 $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));

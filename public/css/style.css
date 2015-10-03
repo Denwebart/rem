@@ -1112,8 +1112,8 @@ form .page-image {
 
 /*-- Комментарии --*/
 .comment .media-body {
-    display: inline-block;
-    width: 100%;
+    /*display: inline-block;*/
+    /*width: 100%;*/
 }
 .comment img {
     max-width: 100%;

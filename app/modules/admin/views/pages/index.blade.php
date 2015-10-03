@@ -90,7 +90,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id', $params) }}
                                 </th>
-                                <th>
+                                <th class="author">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Автор', 'user_id', $params) }}
                                 </th>
                                 <th>
@@ -105,7 +105,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
                                 </th>
-                                <th>
+                                <th class="status">
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published', $params) }}
                                 </th>
                                 <th>
