@@ -368,6 +368,7 @@ h2, .h2 {
     padding: 10px 20px 10px 10px;
     margin-bottom: 10px;
     display: inline-block;
+    width: 100%;
 }
 #comments-area .comment-text.best,
 #answers-area .comment-text.best {

@@ -1111,7 +1111,14 @@ form .page-image {
 /*-- End Sidebar Widget --*/
 
 /*-- Комментарии --*/
-
+.comment .media-body {
+    display: inline-block;
+    width: 100%;
+}
+.comment img {
+    max-width: 100%;
+    height: auto !important;
+}
 #comments-widget .comment {
     position: relative;
     text-align: left;
