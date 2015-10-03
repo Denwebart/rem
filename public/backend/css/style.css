@@ -59,6 +59,11 @@ h5, .h5 {
 }
 
 /* Our style==================================================*/
+/* Firefox outline */
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
 .margin-left-5 {
     margin-left: 5px;
 }

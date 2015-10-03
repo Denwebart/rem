@@ -36,6 +36,11 @@
     /* Support for IE. */
     font-feature-settings: 'liga';
 }
+/* Firefox outline */
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
 
 body {
     padding: 0 !important;
