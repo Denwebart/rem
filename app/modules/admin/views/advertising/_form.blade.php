@@ -72,7 +72,7 @@
 
 <div class="col-md-5">
 
-    <div class="box" id="advertising">
+    <div class="box" id="widget">
         <div class="box-body">
             <div class="form-group" id="pages-types">
                 <h4>Выберите страницу</h4>

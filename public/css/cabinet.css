@@ -367,6 +367,7 @@ h2, .h2 {
     border-bottom: 2px solid rgb(3, 169, 244);
     padding: 10px 20px 10px 10px;
     margin-bottom: 10px;
+    display: inline-block;
 }
 #comments-area .comment-text.best,
 #answers-area .comment-text.best {

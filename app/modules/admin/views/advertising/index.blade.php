@@ -39,7 +39,7 @@ View::share('title', $title);
                             @include('admin::parts.count', ['models' => $advertising])
                         </div>
                     </div>
-                    {{ Form::open(['method' => 'GET', 'route' => ['admin.advertising.search'], 'id' => 'search-advertising-form', 'class' => 'table-search']) }}
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.advertising.search'], 'id' => 'search-widget-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -80,7 +80,7 @@ View::share('title', $title);
                                 </th>
                             </tr>
                             </thead>
-                            <tbody id="advertising-list">
+                            <tbody id="widget-list">
                                 @include('admin::advertising.list', ['advertising' => $advertising])
                             </tbody>
                         </table>
@@ -108,7 +108,7 @@ View::share('title', $title);
                 });
         });
 
-        $('.advertising').on('click', '.change-active-status', function(){
+        $('.widget').on('click', '.change-active-status', function(){
             var $button = $(this),
                     isActive = $button.attr('data-is-active'),
                     advertisingId = $button.data('id');
@@ -137,13 +137,13 @@ View::share('title', $title);
         });
 
         $('#area').on('change', function() {
-            $("#search-advertising-form").submit();
+            $("#search-widget-form").submit();
         });
         $('#query').keyup(function () {
-            $("#search-advertising-form").submit();
+            $("#search-widget-form").submit();
         });
 
-        $("form[id^='search-advertising-form']").submit(function(event) {
+        $("form[id^='search-widget-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),
                     data = $form.serialize(),
@@ -160,7 +160,7 @@ View::share('title', $title);
                     window.history.pushState({parent: response.url}, '', response.url);
 
                     if(response.success) {
-                        $('#advertising-list').html(response.advertisingListHtmL);
+                        $('#widget-list').html(response.advertisingListHtmL);
                         $('#pagination').html(response.advertisingPaginationHtmL);
                         $('#count').html(response.advertisingCountHtmL);
                     }

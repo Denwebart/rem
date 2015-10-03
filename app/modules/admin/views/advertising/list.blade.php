@@ -1,5 +1,5 @@
 @foreach($advertising as $item)
-    <tr class="advertising">
+    <tr class="widget">
         <td>{{ $item->id }}</td>
         <td>{{ Advertising::$types[$item->type] }}</td>
         <td>{{ Advertising::$areas[$item->area] }}</td>

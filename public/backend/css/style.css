@@ -152,13 +152,13 @@ form.as-button {
 }
 
 /* Advertising Areas */
-#advertising .box-title {
+#widget .box-title {
     padding: 5px 10px;
 }
-#advertising .toggle-buttons a {
+#widget .toggle-buttons a {
     text-decoration: underline;
 }
-#advertising .toggle-buttons a.active {
+#widget .toggle-buttons a.active {
     background: #F3F3F4;
     text-decoration: none;
 }

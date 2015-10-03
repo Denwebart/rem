@@ -349,6 +349,8 @@ form .page-image {
 }
 .blog img {
     margin: 5px;
+    max-width: 100%;
+    height: auto !important;
 }
 .blog .avatar-link img {
     margin: 0;
@@ -475,6 +477,10 @@ form .page-image {
 .blog .col-md-12 .answers-value {
     line-height: 40px;
     margin: 0 7px 0 0;
+}
+
+.pagination a {
+    text-decoration: none !important;
 }
 
 /* Subscriptions Area, Saved Pages Area */
