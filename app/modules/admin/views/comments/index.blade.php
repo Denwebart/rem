@@ -45,7 +45,7 @@ View::share('title', $title);
                             {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
                                 'class' => 'form-control',
                                 'id' => 'author',
-                                'placeholder' => 'Логин или имя пользователя'
+                                'placeholder' => 'Логин, имя пользователя или email'
                             ]) }}
                             <span class="input-group-btn">
                                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
