@@ -220,7 +220,7 @@
                         $('.count-comments').text(data.countComments);
 
                         $('#comment-' + data.parent_id).find('.close-comment').show();
-
+                        $('.mce-floatpanel').hide();
                         // скролл на новый комментарий
                         $('html, body').animate({
                             scrollTop: $('#comment-' + data.comment_id).offset().top - 50
