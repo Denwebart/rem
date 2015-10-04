@@ -21,8 +21,20 @@
                 <span class="not-published" title="Не опубликована" data-toggle="tooltip"></span>
             @endif
         </td>
-        <td>{{ DateHelper::dateFormat($page->created_at) }}</td>
-        <td>{{ !is_null($page->published_at) ? DateHelper::dateFormat($page->published_at) : '-'}}</td>
+        <td class="date">
+            {{ DateHelper::dateFormat($page->created_at, false) }}
+            <br>
+            {{ date('H:i', strtotime($page->created_at)) }}
+        </td>
+        <td class="date">
+            @if(!is_null($page->published_at))
+                {{ DateHelper::dateFormat($page->published_at, false) }}
+                <br>
+                {{ date('H:i', strtotime($page->published_at)) }}
+            @else
+                -
+            @endif
+        </td>
         <td>
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.articles.edit', $page->id) }}">
                 <i class="fa fa-edit "></i>

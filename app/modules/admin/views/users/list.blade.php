@@ -33,7 +33,11 @@
                 <span class="label label-warning">Неактивный</span>
             @endif
         </td>
-        <td>{{ DateHelper::dateFormat($user->created_at) }}</td>
+        <td class="date">
+            {{ DateHelper::dateFormat($user->created_at, false) }}
+            <br>
+            {{ date('H:i', strtotime($user->created_at)) }}
+        </td>
         <td>
             @foreach($user->userHonors as $userHonor)
                 <a href="{{ URL::route('admin.honors.show', ['id' => $userHonor->id]) }}">

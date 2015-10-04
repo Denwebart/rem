@@ -23,8 +23,16 @@
                     {{ $letter->user_email }}
                 @endif
             </td>
-            <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
-            <td class="time">{{ DateHelper::dateFormat($letter->deleted_at) }}</td>
+            <td class="date time">
+                {{ DateHelper::dateFormat($letter->created_at, false) }}
+                <br>
+                {{ date('H:i', strtotime($letter->created_at)) }}
+            </td>
+            <td class="date time">
+                {{ DateHelper::dateFormat($letter->deleted_at, false) }}
+                <br>
+                {{ date('H:i', strtotime($letter->deleted_at)) }}
+            </td>
             <td>
                 <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
                     <i class="fa fa-search-plus "></i>

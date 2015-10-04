@@ -38,7 +38,7 @@
                 <span class="deleted" title="Удалён" data-toggle="tooltip"></span>
             @endif
         </td>
-        <td>{{ DateHelper::dateFormat($comment->created_at) }}</td>
+        <td class="date">{{ DateHelper::dateFormat($comment->created_at) }}</td>
         <td>
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
                 <i class="fa fa-edit "></i>

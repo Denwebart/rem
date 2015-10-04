@@ -21,8 +21,20 @@
                     {{ $letter->ip->ip }}
                 @endif
             </td>
-            <td class="time">{{ DateHelper::dateFormat($letter->created_at) }}</td>
-            <td class="time">{{ ($letter->read_at) ? DateHelper::dateFormat($letter->read_at) : '-'}}</td>
+            <td class="date time">
+                {{ DateHelper::dateFormat($letter->created_at, false) }}
+                <br>
+                {{ date('H:i', strtotime($letter->created_at)) }}
+            </td>
+            <td class="date time">
+                @if($letter->read_at)
+                    {{ DateHelper::dateFormat($letter->read_at, false) }}
+                    <br>
+                    {{ date('H:i', strtotime($letter->read_at)) }}
+                @else
+                    -
+                @endif
+            </td>
             <td>
                 <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
                     <i class="fa fa-search-plus"></i>
