@@ -256,10 +256,13 @@
             if ($(childrenCommentsContainer).is(':visible')) {
                 $(childrenCommentsContainer).slideUp();
                 $(this).html('<i class="material-icons">keyboard_arrow_down</i>');
+                $(this).attr('data-original-title', 'Показать дочерние комментарии');
             } else {
                 $(childrenCommentsContainer).slideDown();
                 $(this).html('<i class="material-icons">keyboard_arrow_up</i>');
+                $(this).attr('data-original-title', 'Скрыть дочерние комментарии');
             }
+            $(this).nextAll('.tooltip:first').remove();
         });
 
         // Отметить комментарий как лучший

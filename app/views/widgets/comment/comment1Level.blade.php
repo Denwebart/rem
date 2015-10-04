@@ -1,5 +1,5 @@
 <div id="comment-{{ $comment->id }}" class="comment">
-    <a href="javascript:void(0)" class="close-comment" @if(!count($comment->publishedChildren)) style="display: none" @endif>
+    <a href="javascript:void(0)" class="close-comment" @if(!count($comment->publishedChildren)) style="display: none" @endif title="Скрыть дочерние комментарии" data-toggle="tooltip">
         <i class="material-icons">keyboard_arrow_up</i>
     </a>
     @if(!$comment->is_deleted)

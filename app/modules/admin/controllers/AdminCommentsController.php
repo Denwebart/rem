@@ -96,6 +96,7 @@ class AdminCommentsController extends \BaseController {
             if ($author) {
                 $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
                 $query = $query->where(function($qu) use ($name) {
+                    $qu->has('user');
 	                $qu->whereHas('user', function($q) use ($name) {
 		                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
 			                ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
