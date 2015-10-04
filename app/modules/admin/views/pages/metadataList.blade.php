@@ -39,8 +39,8 @@
         <td>{{ $page->meta_title }}</td>
         <td>{{ $page->meta_desc }}</td>
         <td>{{ $page->meta_key }}</td>
-        <td class="button-column">
-            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.pages.edit', $page->id) }}">
+        <td class="button-column two-buttons">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.pages.edit', ['id' => $page->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                 <i class="fa fa-edit"></i>
             </a>
 

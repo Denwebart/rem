@@ -130,10 +130,12 @@ class AdminPagesController extends \BaseController {
 
             $view = Request::has('view') ? Request::get('view') : 'list';
             $route = Request::has('route') ? Request::get('route') : 'index';
+			$url = URL::route('admin.pages.' . $route, $data);
+
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.pages.' . $route, $data),
-                'pagesListHtmL' => (string) View::make('admin::pages.' . $view, compact('pages'))->render(),
+                'url' => $url,
+                'pagesListHtmL' => (string) View::make('admin::pages.' . $view, compact('pages', 'url'))->render(),
                 'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $pages)->render(),
                 'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $pages)->render(),
                 'pagesTitleHtmL' => (string) View::make('admin::pages.title', compact('parentPage'))->render(),

@@ -25,11 +25,23 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
 <div class="content">
     <!-- Main row -->
     <div class="row">
+
+        <div class="col-xs-12 margin-bottom-15">
+            <a href="{{ URL::route('admin.pages.index') }}" class="btn btn-dashed">
+                <span>
+                    Вся информация
+                </span>
+            </a>
+            <a href="{{ URL::route('admin.pages.metadata') }}" class="btn btn-primary">
+                SEO Мета-теги
+            </a>
+        </div>
+
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <div id="count" class="count">
-                        @include('admin::pages.count', ['pages' => $pages])
+                        @include('admin::parts.count', ['models' => $pages])
                     </div>
                 </div>
                 {{ Form::open(['method' => 'GET', 'route' => ['admin.pages.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
@@ -90,14 +102,14 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published', $params) }}
                                 </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Meta-тег Title', 'meta_title', $params) }}
+                                <th class="nowrap">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'SEO Title', 'meta_title', $params) }}
                                 </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Meta-тег Description', 'meta_desc', $params) }}
+                                <th class="nowrap">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'SEO Description', 'meta_desc', $params) }}
                                 </th>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Meta-тег Keywords', 'meta_key', $params) }}
+                                <th class="nowrap">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'SEO Keywords', 'meta_key', $params) }}
                                 </th>
                                 <th class="">
                                 </th>

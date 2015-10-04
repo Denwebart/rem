@@ -40,6 +40,18 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
 <div class="content">
     <!-- Main row -->
     <div class="row">
+
+        <div class="col-xs-12 margin-bottom-15">
+            <a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">
+                Вся информация
+            </a>
+            <a href="{{ URL::route('admin.pages.metadata') }}" class="btn btn-dashed">
+                <span>
+                    SEO Мета-теги
+                </span>
+            </a>
+        </div>
+
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
