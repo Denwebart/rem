@@ -26,16 +26,23 @@ class AdminLettersController extends \BaseController {
         $query = $query->with('ip', 'user');
 
         if ($author) {
-            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
-            $query = $query->whereHas('user', function($q) use ($name) {
-                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
-            })->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%");
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
+            $query = $query->where(function($qu) use ($name) {
+                $qu->whereHas('user', function($q) use ($name) {
+                    $q->where(function($que) use ($name) {
+                        $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%")
+                            ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$name%");
+                    });
+                })
+                ->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%")
+                ->orWhere(DB::raw('LOWER(user_email)'), 'LIKE', "$name%");
+            });
         }
         if ($searchQuery) {
             $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
@@ -81,16 +88,23 @@ class AdminLettersController extends \BaseController {
             $query = $query->with('ip', 'user');
 
             if ($author) {
-                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
-                $query = $query->whereHas('user', function($q) use ($name) {
-                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
-                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
-                })->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%");
+                $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
+                $query = $query->where(function($qu) use ($name) {
+                    $qu->whereHas('user', function($q) use ($name) {
+                        $q->where(function($que) use ($name) {
+                            $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%")
+                                ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$name%");
+                        });
+                    })
+                    ->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%")
+                    ->orWhere(DB::raw('LOWER(user_email)'), 'LIKE', "$name%");
+                });
             }
             if ($searchQuery) {
                 $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));

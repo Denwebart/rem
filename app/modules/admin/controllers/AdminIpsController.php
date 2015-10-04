@@ -23,17 +23,24 @@ class AdminIpsController extends \BaseController
 
         $query = new Ip();
         $query = $query->with('users', 'comments', 'letters');
+
         if ($searchQuery) {
             $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-            $query = $query->whereHas('users', function($q) use($searchQuery) {
-                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
-                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%");
-            })->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
+            $query = $query->where(function($qu) use ($searchQuery) {
+                $qu->whereHas('users', function($q) use ($searchQuery) {
+                    $q->where(function($que) use ($searchQuery) {
+                        $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+                    });
+                })
+                ->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
+            });
         }
 
         if ($sortBy && $direction) {
@@ -66,18 +73,23 @@ class AdminIpsController extends \BaseController
                 $query = $query->whereIsBanned(1);
             }
             $query = $query->with('users', 'comments', 'letters');
+
             if ($searchQuery) {
                 $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-                $query = $query->where(function($qu) use($searchQuery) {
-                    $qu->whereHas('users', function($q) use($searchQuery) {
-                        $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%");
-                    })->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
+                $query = $query->where(function($qu) use ($searchQuery) {
+                    $qu->whereHas('users', function($q) use ($searchQuery) {
+                        $q->where(function($que) use ($searchQuery) {
+                            $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                                ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+                        });
+                    })
+                        ->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
                 });
             }
 
@@ -122,16 +134,20 @@ class AdminIpsController extends \BaseController
         $query = $query->with('users', 'comments', 'letters');
         if ($searchQuery) {
             $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-            $query = $query->where(function($qu) use($searchQuery) {
-                $qu->whereHas('users', function($q) use($searchQuery) {
-                    $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
-                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%");
-                })->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
+            $query = $query->where(function($qu) use ($searchQuery) {
+                $qu->whereHas('users', function($q) use ($searchQuery) {
+                    $q->where(function($que) use ($searchQuery) {
+                        $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$searchQuery%")
+                            ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$searchQuery%");
+                    });
+                })
+                    ->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "$searchQuery%");
             });
         }
 
