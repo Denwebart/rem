@@ -27,8 +27,14 @@ View::share('title', $title);
     <div class="content">
         <!-- Main row -->
         <div class="row">
-            <div class="col-md-12">
-                <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-primary">Объединение тегов</a>
+
+            <div class="col-xs-12 margin-bottom-15">
+                <a href="{{ URL::route('admin.tags.index') }}" class="btn btn-primary">
+                    <span>Все теги</span>
+                </a>
+                <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-dashed">
+                    <span>Объединение тегов</span>
+                </a>
             </div>
 
             <div class="col-md-12">
@@ -40,20 +46,18 @@ View::share('title', $title);
                         {{ Form::model($tag, ['method' => 'POST', 'route' => ['admin.tags.store'], 'id' => 'tagsForm', 'files' => true]) }}
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {{ Form::label('image', 'Изображение') }}<br/>
                                     {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
                                     {{ $errors->first('image') }}
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="form-group">
-                                    {{ Form::label('title', 'Тег') }}
                                     {{ Form::text('title', $tag->title, ['class' => 'form-control', 'placeholder' => 'Новый тег']) }}
                                     {{ $errors->first('title') }}
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success margin-top-25']) }}
+                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
                             </div>
                             {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::close() }}

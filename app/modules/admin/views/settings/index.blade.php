@@ -28,12 +28,15 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
 
-            <div class="col-xs-12">
-                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">
-                    Правила сайта
+            <div class="col-xs-12 margin-bottom-15">
+                <a href="{{ URL::route('admin.settings.index') }}" class="btn btn-primary">
+                    <span>Все настройки</span>
                 </a>
-                <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-primary">
-                    Шаблоны уведомлений
+                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-dashed">
+                    <span>Правила сайта</span>
+                </a>
+                <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-dashed">
+                    <span>Шаблоны уведомлений</span>
                 </a>
             </div>
 

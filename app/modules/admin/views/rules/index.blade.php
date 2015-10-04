@@ -33,6 +33,19 @@ View::share('title', $title);
     <div class="content">
         <!-- Main row -->
         <div class="row">
+
+            <div class="col-xs-12 margin-bottom-15">
+                <a href="{{ URL::route('admin.settings.index') }}" class="btn btn-dashed">
+                    <span>Все настройки</span>
+                </a>
+                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">
+                    <span>Правила сайта</span>
+                </a>
+                <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-dashed">
+                    <span>Шаблоны уведомлений</span>
+                </a>
+            </div>
+
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">

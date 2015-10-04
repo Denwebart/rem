@@ -23,6 +23,16 @@ View::share('title', $title);
     <div class="content">
         <!-- Main row -->
         <div class="row">
+
+            <div class="col-xs-12 margin-bottom-15">
+                <a href="{{ URL::route('admin.tags.index') }}" class="btn btn-dashed">
+                    <span>Все теги</span>
+                </a>
+                <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-primary">
+                    <span>Объединение тегов</span>
+                </a>
+            </div>
+
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
