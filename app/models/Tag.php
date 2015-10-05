@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Tag
+ *
+ * @property integer $id 
+ * @property string $image 
+ * @property string $title 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $pages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\PageTag[] $pagesTags 
+ * @method static \Illuminate\Database\Query\Builder|\Tag whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Tag whereImage($value)
+ * @method static \Illuminate\Database\Query\Builder|\Tag whereTitle($value)
+ */
 class Tag extends \Eloquent
 {
 	protected $table = 'tags';

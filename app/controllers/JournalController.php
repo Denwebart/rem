@@ -141,6 +141,7 @@ class JournalController extends BaseController
 		$page->meta_title = 'Статьи по тегу "' . $tag->title . '"';
 		$page->meta_desc = 'Статьи по тегу "' . $tag->title . '"';
 		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
+		$tags->parent_id = $tagsParent->id;
 
 		$articles = $tag->pages()
 			->with('parent', 'tags', 'whoSaved', 'publishedComments', 'user')
