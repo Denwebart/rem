@@ -24,7 +24,7 @@
             @endforeach
         </td>
         <td class="button-column one-button">
-            <a class="btn btn-info btn-sm" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
                 <i class="fa fa-edit "></i>
             </a>
 

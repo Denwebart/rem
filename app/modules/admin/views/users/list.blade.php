@@ -63,18 +63,18 @@
             @endif
         </td>
         <td class="button-column three-buttons">
-            <a class="btn btn-info btn-sm" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
                 <i class="fa fa-edit"></i>
             </a>
             @if(!$user->isAdmin())
                 <!-- Бан пользователя -->
                 @if(!$user->isAdmin())
                     @if(!$user->is_banned)
-                        <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}" data-toggle="tooltip">
+                        <a class="btn btn-primary btn-sm margin-right-5 banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $user->id }}" data-toggle="tooltip">
                             <i class="fa fa-lock"></i>
                         </a>
                     @else
-                        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}" data-toggle="tooltip">
+                        <a class="btn btn-primary btn-sm margin-right-5 banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $user->id }}" data-toggle="tooltip">
                             <i class="fa fa-unlock"></i>
                         </a>
                     @endif

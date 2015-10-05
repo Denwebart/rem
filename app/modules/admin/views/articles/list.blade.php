@@ -36,7 +36,7 @@
             @endif
         </td>
         <td class="button-column two-buttons">
-            <a class="btn btn-info btn-sm" href="{{ URL::route('admin.articles.edit', $page->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.articles.edit', $page->id) }}">
                 <i class="fa fa-edit "></i>
             </a>
 

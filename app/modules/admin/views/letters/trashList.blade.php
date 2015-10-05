@@ -31,11 +31,12 @@
                 {{ date('H:i', strtotime($letter->deleted_at)) }}
             </td>
             <td class="button-column three-buttons">
-                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
+                <a class="btn btn-primary btn-sm margin-right-5" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
                     <i class="fa fa-search-plus "></i>
                 </a>
+
                 {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsNew', $letter->id), 'class' => 'as-button')) }}
-                <button type="submit" class="btn btn-success btn-sm" title="Переместить во входящие" data-toggle="tooltip" data-placement="left">
+                <button type="submit" class="btn btn-success btn-sm margin-right-5" title="Переместить во входящие" data-toggle="tooltip" data-placement="left">
                     <i class='fa fa-reply'></i>
                 </button>
                 {{ Form::hidden('_token', csrf_token()) }}

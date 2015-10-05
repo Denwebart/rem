@@ -35,9 +35,10 @@
                 @endif
             </td>
             <td class="button-column two-buttons">
-                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
+                <a class="btn btn-primary btn-sm margin-right-5" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
                     <i class="fa fa-search-plus"></i>
                 </a>
+
                 {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsDeleted', $letter->id), 'class' => 'destroy as-button')) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="В корзину" data-toggle="tooltip" data-placement="left">
                     <i class='fa fa-trash-o'></i>

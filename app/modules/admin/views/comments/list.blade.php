@@ -40,7 +40,7 @@
         </td>
         <td class="date">{{ DateHelper::dateFormat($comment->created_at) }}</td>
         <td class="button-column two-buttons">
-            <a class="btn btn-info btn-sm" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
                 <i class="fa fa-edit "></i>
             </a>
 
@@ -51,26 +51,25 @@
                 </button>
                 {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
+
+                <div id="confirm" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Удаление</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Вы уверены, что хотите удалить?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             @endif
-
-            <div id="confirm" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Удаление</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal" id="delete">Да</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Нет</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
         </td>
     </tr>
 @endforeach
