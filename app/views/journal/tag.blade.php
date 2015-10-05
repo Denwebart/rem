@@ -16,7 +16,13 @@
 @section('content')
     <section id="content" class="well">
 
-        <h2>{{ $page->title }}</h2>
+        @if($tag->image)
+            {{ $tag->getImage(null, ['width' => '50px', 'class' => 'pull-left margin-right-10']) }}
+            <h2 class="pull-left margin-top-10">{{ $page->title }}</h2>
+        @else
+            <h2 class="pull-left">{{ $page->title }}</h2>
+        @endif
+
 
         {{ $areaWidget->contentTop() }}
 

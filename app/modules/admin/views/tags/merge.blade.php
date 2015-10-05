@@ -29,7 +29,7 @@ View::share('title', $title);
                     <span>Все теги</span>
                 </a>
                 <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-primary">
-                    <span>Объединение тегов</span>
+                    <span>Объединенить теги</span>
                 </a>
             </div>
 

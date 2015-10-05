@@ -8,9 +8,11 @@
             </a>
         </td>
         <td>
-            {{ count($tag->pages) }}
+            <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" target="_blank">
+                {{ count($tag->pages) }}
+            </a>
         </td>
-        <td>
+        <td class="button-column two-buttons">
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.tags.edit', $tag->id) }}">
                 <i class="fa fa-edit "></i>
             </a>

@@ -12,13 +12,6 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                 @include('admin::pages.title', ['parentPage' => $parentPage])
             </h1>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-12">
-            <div class="buttons">
-                <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.pages.create') }}">
-                    <i class="fa fa-plus "></i> Создать
-                </a>
-            </div>
-        </div>
     </div>
     {{--<ol class="breadcrumb">--}}
         {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
@@ -41,7 +34,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
     <!-- Main row -->
     <div class="row">
 
-        <div class="col-xs-12 margin-bottom-15">
+        <div class="col-md-10 col-sm-9 col-xs-12 margin-bottom-15">
             <a href="{{ URL::route('admin.pages.index') }}" class="btn btn-primary">
                 Вся информация
             </a>
@@ -50,6 +43,13 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
                     SEO Мета-теги
                 </span>
             </a>
+        </div>
+        <div class="col-md-2 col-sm-3 col-xs-12 margin-bottom-15">
+            <div class="buttons">
+                <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.pages.create') }}">
+                    <i class="fa fa-plus "></i> Создать
+                </a>
+            </div>
         </div>
 
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

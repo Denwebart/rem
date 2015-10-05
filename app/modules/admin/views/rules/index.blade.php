@@ -15,13 +15,6 @@ View::share('title', $title);
                     <small></small>
                 </h1>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <div class="buttons">
-                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.rules.create') }}">
-                        <i class="fa fa-plus "></i> Создать
-                    </a>
-                </div>
-            </div>
         </div>
 
         {{--<ol class="breadcrumb">--}}
@@ -34,7 +27,7 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
 
-            <div class="col-xs-12 margin-bottom-15">
+            <div class="col-md-10 col-sm-9 col-xs-12 margin-bottom-15">
                 <a href="{{ URL::route('admin.settings.index') }}" class="btn btn-dashed">
                     <span>Все настройки</span>
                 </a>
@@ -44,6 +37,13 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-dashed">
                     <span>Шаблоны уведомлений</span>
                 </a>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-12 margin-bottom-15">
+                <div class="buttons">
+                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.rules.create') }}">
+                        <i class="fa fa-plus "></i> Создать
+                    </a>
+                </div>
             </div>
 
             <div class="col-xs-12">

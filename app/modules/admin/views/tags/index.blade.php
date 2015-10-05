@@ -28,42 +28,50 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
 
-            <div class="col-xs-12 margin-bottom-15">
+            <div class="col-md-10 col-sm-9 col-xs-12 margin-bottom-15">
                 <a href="{{ URL::route('admin.tags.index') }}" class="btn btn-primary">
                     <span>Все теги</span>
                 </a>
                 <a href="{{ URL::route('admin.tags.merge') }}" class="btn btn-dashed">
-                    <span>Объединение тегов</span>
+                    <span>Объединенить теги</span>
                 </a>
             </div>
-
-            <div class="col-md-12">
-                <div class="box">
-                    <div class="box-title">
-                        <h3>Добавить тег</h3>
-                    </div>
-                    <div class="box-body row">
-                        {{ Form::model($tag, ['method' => 'POST', 'route' => ['admin.tags.store'], 'id' => 'tagsForm', 'files' => true]) }}
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                                    {{ $errors->first('image') }}
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    {{ Form::text('title', $tag->title, ['class' => 'form-control', 'placeholder' => 'Новый тег']) }}
-                                    {{ $errors->first('title') }}
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-                            </div>
-                            {{ Form::hidden('_token', csrf_token()) }}
-                        {{ Form::close() }}
-                    </div>
+            <div class="col-md-2 col-sm-3 col-xs-12 margin-bottom-15">
+                <div class="buttons">
+                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.tags.create') }}">
+                        <i class="fa fa-plus "></i>
+                        Добавить тег
+                    </a>
                 </div>
-            </div><!-- ./col -->
+            </div>
+
+            {{--<div class="col-md-12">--}}
+                {{--<div class="box">--}}
+                    {{--<div class="box-title">--}}
+                        {{--<h3>Добавить тег</h3>--}}
+                    {{--</div>--}}
+                    {{--<div class="box-body row">--}}
+                        {{--{{ Form::model($tag, ['method' => 'POST', 'route' => ['admin.tags.store'], 'id' => 'tagsForm', 'files' => true]) }}--}}
+                            {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--{{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}--}}
+                                    {{--{{ $errors->first('image') }}--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-7">--}}
+                                {{--<div class="form-group">--}}
+                                    {{--{{ Form::text('title', $tag->title, ['class' => 'form-control', 'placeholder' => 'Новый тег']) }}--}}
+                                    {{--{{ $errors->first('title') }}--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-2">--}}
+                                {{--{{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}--}}
+                            {{--</div>--}}
+                            {{--{{ Form::hidden('_token', csrf_token()) }}--}}
+                        {{--{{ Form::close() }}--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div><!-- ./col -->--}}
 
             <div class="col-xs-12">
                 <div class="row">
