@@ -199,38 +199,40 @@ class Comment extends \Eloquent
 	 */
 	public function markAsDeleted()
 	{
-		if($this->is_answer) {
-			$this->user->removePoints(User::POINTS_FOR_ANSWER);
-			if($this->mark == Comment::MARK_BEST) {
-				$this->user->removePoints(User::POINTS_FOR_BEST_ANSWER);
-				$this->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED, [
-					'[answer]' => strip_tags($this->comment),
-					'[linkToAnswer]' => URL::route('user.answers', [
-							'login' => $this->user->getLoginForUrl()
-						]) . '#answer-' . $this->id,
-					'[pageTitle]' => $this->page->getTitle(),
-					'[linkToPage]' => URL::to($this->page->getUrl())
-				]);
+		if(!is_null($this->user)) {
+			if($this->is_answer) {
+				$this->user->removePoints(User::POINTS_FOR_ANSWER);
+				if($this->mark == Comment::MARK_BEST) {
+					$this->user->removePoints(User::POINTS_FOR_BEST_ANSWER);
+					$this->user->setNotification(Notification::TYPE_POINTS_FOR_BEST_ANSWER_REMOVED, [
+						'[answer]' => strip_tags($this->comment),
+						'[linkToAnswer]' => URL::route('user.answers', [
+								'login' => $this->user->getLoginForUrl()
+							]) . '#answer-' . $this->id,
+						'[pageTitle]' => $this->page->getTitle(),
+						'[linkToPage]' => URL::to($this->page->getUrl())
+					]);
+				} else {
+					$this->user->setNotification(Notification::TYPE_ANSWER_DELETED, [
+						'[answer]' => strip_tags($this->comment),
+						'[linkToAnswer]' => URL::route('user.answers', [
+								'login' => $this->user->getLoginForUrl()
+							]) . '#answer-' . $this->id,
+						'[pageTitle]' => $this->page->getTitle(),
+						'[linkToPage]' => URL::to($this->page->getUrl())
+					]);
+				}
 			} else {
-				$this->user->setNotification(Notification::TYPE_ANSWER_DELETED, [
-					'[answer]' => strip_tags($this->comment),
-					'[linkToAnswer]' => URL::route('user.answers', [
+				$this->user->removePoints(User::POINTS_FOR_COMMENT);
+				$this->user->setNotification(Notification::TYPE_COMMENT_DELETED, [
+					'[comment]' => strip_tags($this->comment),
+					'[linkToComment]' => URL::route('user.comments', [
 							'login' => $this->user->getLoginForUrl()
-						]) . '#answer-' . $this->id,
+						]) . '#comment-' . $this->id,
 					'[pageTitle]' => $this->page->getTitle(),
 					'[linkToPage]' => URL::to($this->page->getUrl())
 				]);
 			}
-		} else {
-			$this->user->removePoints(User::POINTS_FOR_COMMENT);
-			$this->user->setNotification(Notification::TYPE_COMMENT_DELETED, [
-				'[comment]' => strip_tags($this->comment),
-				'[linkToComment]' => URL::route('user.comments', [
-						'login' => $this->user->getLoginForUrl()
-					]) . '#comment-' . $this->id,
-				'[pageTitle]' => $this->page->getTitle(),
-				'[linkToPage]' => URL::to($this->page->getUrl())
-			]);
 		}
 
 		$this->is_deleted = 1;

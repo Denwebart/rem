@@ -39,7 +39,7 @@
             @endif
         </td>
         <td class="date">{{ DateHelper::dateFormat($comment->created_at) }}</td>
-        <td>
+        <td class="button-column two-buttons">
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
                 <i class="fa fa-edit "></i>
             </a>

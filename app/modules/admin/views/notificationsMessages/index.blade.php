@@ -77,7 +77,7 @@ View::share('title', $title);
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'description') }}</th>
                                 {{--<th>Переменные</th>--}}
                                 <th>Текст уведомления</th>
-                                <th class="button-column"></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="notifications-messages-list">

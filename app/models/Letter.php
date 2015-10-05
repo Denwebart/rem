@@ -5,7 +5,7 @@
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $user_ip
+ * @property string $ip_id
  * @property string $user_name
  * @property string $user_email
  * @property string $subject
@@ -16,7 +16,7 @@
  * @property string $deleted_at
  * @method static \Illuminate\Database\Query\Builder|\Letter whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Letter whereUserId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Letter whereUserIp($value)
+ * @method static \Illuminate\Database\Query\Builder|\Letter whereIpId($value)
  * @method static \Illuminate\Database\Query\Builder|\Letter whereUserName($value)
  * @method static \Illuminate\Database\Query\Builder|\Letter whereUserEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\Letter whereSubject($value) 
@@ -35,7 +35,7 @@ class Letter extends \Eloquent
 		'user_id',
 		'user_name',
 		'user_email',
-		'user_ip',
+		'ip_id',
 		'subject',
 		'message',
 		'read_at',
@@ -44,7 +44,6 @@ class Letter extends \Eloquent
 
 	public static $rules = [
 		'user_id' => 'required_without_all:user_name,user_email|numeric',
-		'user_ip' => 'ip',
 		'user_name' => 'required_without_all:user_id|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u|min:3',
 		'user_email' => 'required_without_all:user_id|email',
 		'subject' => 'max:500',

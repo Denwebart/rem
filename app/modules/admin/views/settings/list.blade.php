@@ -28,14 +28,14 @@
                 </ul>
             @endif
         </td>
-        <td>
+        <td class="status">
             @if($setting->is_active)
-                <span class="label label-success">Активна</span>
+                <span class="published" title="Активна" data-toggle="tooltip"></span>
             @else
-                <span class="label label-warning">Неактивна</span>
+                <span class="not-published" title="Неактивна" data-toggle="tooltip"></span>
             @endif
         </td>
-        <td>
+        <td class="button-column one-button">
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.settings.edit', $setting->id) }}">
                 <i class="fa fa-edit "></i>
             </a>

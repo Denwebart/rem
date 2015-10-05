@@ -30,7 +30,7 @@ View::share('title', $title);
         <!-- Main row -->
         <div class="row">
 
-            <div class="col-xs-12 margin-bottom-15">
+            <div class="col-md-8 col-sm-8 col-xs-12 margin-bottom-15">
                 <a href="{{ URL::route('admin.users.index') }}" class="btn btn-dashed">
                     <span>Все пользователи</span>
                 </a>
@@ -44,18 +44,46 @@ View::share('title', $title);
                     <span>Забаненные IP-адреса</span>
                 </a>
             </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                {{ Form::open([
+                    'route' => ['admin.ips.banIp', 'ipId' => null],
+                    'id' => 'ban-ip-form',
+                ]) }}
+
+                <div class="message"></div>
+
+                <div class="input-group">
+                    {{ Form::text('ip', null, ['class' => 'form-control', 'placeholder' => 'Забанить ip-адрес', 'id' => 'ip']) }}
+                    <span class="input-group-btn">
+                        {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
+                    </span>
+                </div>
+
+                {{--<div class="col-md-10">--}}
+                    {{--<div class="form-group">--}}
+                        {{--{{ Form::text('ip', null, ['class' => 'form-control', 'placeholder' => 'Забанить ip-адрес', 'id' => 'ip']) }}--}}
+                        {{--<div class="ip_error error"></div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="col-md-2">--}}
+                    {{--{{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}--}}
+                {{--</div>--}}
+
+                {{ Form::hidden('_token', csrf_token()) }}
+                {{ Form::close() }}
+            </div>
 
             <div id="message"></div>
 
-            <div class="col-xs-6">
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div id="count" class="count">
                             @include('admin::parts.count', ['models' => $ips])
                         </div>
                     </div>
                     {{ Form::open(['method' => 'GET', 'route' => ['admin.ips.search'], 'id' => 'search-ips-form', 'class' => 'table-search']) }}
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-3 col-sm-offset-6 col-xs-12">
                         <div class="input-group">
                             {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
                                 'class' => 'form-control',
@@ -81,7 +109,13 @@ View::share('title', $title);
                                     {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'Забанен', 'ban_at') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'Пользователи', 'users') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Пользователи', 'users') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментариев', 'comments') }}
+                                </th>
+                                <th>
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Писем', 'letters') }}
                                 </th>
                                 <th class="button-column"></th>
                             </tr>
@@ -95,30 +129,6 @@ View::share('title', $title);
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
-            </div>
-
-            <div class="col-xs-6">
-
-                <h3>Забанить ip-адрес</h3>
-
-                {{ Form::open([
-                    'route' => ['admin.ips.banIp', 'ipId' => null],
-                    'id' => 'ban-ip-form',
-                ]) }}
-
-                    <div class="message"></div>
-
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            {{ Form::text('ip', null, ['class' => 'form-control', 'id' => 'ip']) }}
-                            <div class="ip_error error"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
-                    </div>
-                    {{ Form::hidden('_token', csrf_token()) }}
-                {{ Form::close() }}
             </div>
         </div>
     </div>

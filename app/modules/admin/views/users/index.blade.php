@@ -97,16 +97,16 @@ View::share('title', $title);
                                 <th>
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Баллы', 'points') }}
                                 </th>
-                                <th>
+                                <th class="status">
                                     {{ SortingHelper::sortingLink('admin.users.index', 'Статус', 'is_active') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.users.index', 'Дата регистрации', 'created_at') }}
+                                    {{ SortingHelper::sortingLink('admin.users.index', 'Зарегистрирован', 'created_at') }}
                                 </th>
                                 <th>
                                     Награды
                                 </th>
-                                <th class="button-column">
+                                <th>
                                 </th>
                             </tr>
                             </thead>
@@ -175,7 +175,7 @@ View::share('title', $title);
         });
 
         // забанить
-        $('.buttons').on('click', '.ban', function(){
+        $('.button-column').on('click', '.ban', function(){
             var userId = $(this).data('id');
 
             $('[data-ban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
@@ -195,7 +195,10 @@ View::share('title', $title);
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.addClass('danger');
-                                $userTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
+                                $userTr.find('.banned-link')
+                                        .removeClass('ban').addClass('unban')
+                                        .html('<i class="fa fa-unlock"></i>')
+                                        .attr('data-original-title', 'Разбанить');
                                 $form.find('#message').val('');
                             } else {
                                 $('#message').text(response.message);
@@ -206,7 +209,7 @@ View::share('title', $title);
         });
 
         // разбанить
-        $('.buttons').on('click', '.unban', function(){
+        $('.button-column').on('click', '.unban', function(){
             var userId = $(this).data('id');
 
             $('[data-unban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })
@@ -224,7 +227,10 @@ View::share('title', $title);
                                 $('#message').text(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.removeClass('danger');
-                                $userTr.find('.banned-link').removeClass('unban').addClass('ban').html('<i class="fa fa-lock"></i>');
+                                $userTr.find('.banned-link')
+                                        .removeClass('unban').addClass('ban')
+                                        .html('<i class="fa fa-lock"></i>')
+                                        .attr('data-original-title', 'Забанить');
                             } else {
                                 $('#message').text(response.message);
                             }

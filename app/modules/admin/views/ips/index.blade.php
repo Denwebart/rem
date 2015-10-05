@@ -84,12 +84,12 @@ View::share('title', $title);
                                     {{ SortingHelper::sortingLink('admin.ips.index', 'Пользователи', 'users') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментарии', 'comments') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментариев', 'comments') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Письма', 'letters') }}
+                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Писем', 'letters') }}
                                 </th>
-                                <th class="button-column"></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="ips-list">
@@ -133,7 +133,7 @@ View::share('title', $title);
         });
 
         // забанить
-        $('.buttons').on('click', '.ban', function(){
+        $('.button-column').on('click', '.ban', function(){
             var ipId = $(this).data('id');
 
             $('[data-ban-modal-id='+ ipId +']').modal({ backdrop: 'static', keyboard: false })

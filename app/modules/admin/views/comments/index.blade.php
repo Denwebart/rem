@@ -85,7 +85,7 @@ View::share('title', $title);
                                 <th max-width="30%">Комментарий</th>
                                 <th class="status">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Создан', 'created_at') }}</th>
-                                <th class="button-column"></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="comments-list">

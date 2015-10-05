@@ -1,7 +1,7 @@
 @foreach($tags as $tag)
     <tr>
         <td>{{ $tag->id }}</td>
-        <td>{{ $tag->getImage(null, ['width' => '50px']) }}</td>
+        <td class="image">{{ $tag->getImage(null, ['width' => '50px']) }}</td>
         <td>
             <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" target="_blank">
                 {{ $tag->title }}

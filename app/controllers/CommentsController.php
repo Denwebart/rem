@@ -9,7 +9,6 @@ class CommentsController extends BaseController
 			parse_str($inputData, $formFields);
             $tempPath = Input::get('tempPath');
 
-			//$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
 			$ip = Ip::whereIp(Request::ip())->first();
 			if(!is_object($ip)) {
 				$ip = Ip::create(['ip' => Request::ip()]);

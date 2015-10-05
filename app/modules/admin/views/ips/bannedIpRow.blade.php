@@ -3,12 +3,26 @@
     <td>
         {{ DateHelper::dateFormat($ip->ban_at) }}
     </td>
-    <td>
-        {{ count($ip->users) }}
+    <td class="users">
+        @foreach($ip->users as $key => $user)
+            <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="pull-left margin-right-10">
+                {{ $user->getAvatar('mini', ['width' => '25px']) }}
+            </a>
+        @endforeach
     </td>
-    <td class="buttons">
+    <td>
+        <a href="{{ URL::route('admin.comments.index', ['query' => $ip->ip]) }}" title="Все комментарии с этого ip">
+            {{ count($ip->comments) }}
+        </a>
+    </td>
+    <td>
+        <a href="{{ URL::route('admin.letters.index', ['query' => $ip->ip]) }}" title="Все письма с этого ip">
+            {{ count($ip->letters) }}
+        </a>
+    </td>
+    <td class="button-column one-button">
         <!-- Снятие бана с ip-адреса -->
-        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $ip->id }}">
+        <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $ip->id }}" data-toggle="tooltip">
             <i class="fa fa-unlock"></i>
         </a>
         <div class="modal fade unban-modal" data-unban-modal-id="{{ $ip->id }}">

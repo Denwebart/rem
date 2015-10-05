@@ -107,7 +107,7 @@ View::share('title', $title);
                                     <th>
                                         {{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}
                                     </th>
-                                    <th>
+                                    <th class="image">
                                         {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Изображение', 'image') }}
                                     </th>
                                     <th>

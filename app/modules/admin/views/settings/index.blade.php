@@ -78,8 +78,8 @@ View::share('title', $title);
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Описание', 'description') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Значение', 'value') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}</th>
-                                <th class="button-column"></th>
+                                <th class="status">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="settings-list">

@@ -1,29 +1,32 @@
 @foreach($ips as $ip)
     <tr data-ip-id="{{ $ip->id }}" @if($ip->is_banned) class="danger" @endif>
         <td>{{ $ip->ip }}</td>
-        <td>
-            <p>Пользователи: {{ count($ip->users) }}</p>
+        <td class="users">
             @foreach($ip->users as $key => $user)
-                <div class="user">
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ $user->getAvatar('mini', ['width' => '25px']) }}
-                        <span>{{ $user->login }}</span>
-                    </a>
-                    {{ (count($ip->users) - 1 > $key) ? "," : "" }}
-                </div>
+                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="pull-left margin-right-10">
+                    {{ $user->getAvatar('mini', ['width' => '25px']) }}
+                </a>
             @endforeach
         </td>
-        <td>{{ count($ip->comments) }}</td>
-        <td>{{ count($ip->letters) }}</td>
-        <td class="buttons">
+        <td>
+            <a href="{{ URL::route('admin.comments.index', ['query' => $ip->ip]) }}" title="Все комментарии с этого ip">
+                {{ count($ip->comments) }}
+            </a>
+        </td>
+        <td>
+            <a href="{{ URL::route('admin.letters.index', ['query' => $ip->ip]) }}" title="Все письма с этого ip">
+                {{ count($ip->letters) }}
+            </a>
+        </td>
+        <td class="button-column one-button">
             <!-- Бан ip-адреса -->
             @if(Request::ip() != $ip->ip)
                 @if(!$ip->is_banned)
-                    <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $ip->id }}">
+                    <a class="btn btn-primary btn-sm banned-link ban" href="javascript:void(0)" title="Забанить" data-id="{{ $ip->id }}" data-toggle="tooltip">
                         <i class="fa fa-lock"></i>
                     </a>
                 @else
-                    <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $ip->id }}">
+                    <a class="btn btn-primary btn-sm banned-link unban" href="javascript:void(0)" title="Разбанить" data-id="{{ $ip->id }}" data-toggle="tooltip">
                         <i class="fa fa-unlock"></i>
                     </a>
                 @endif

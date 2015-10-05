@@ -77,12 +77,17 @@ View::share('title', $title);
                         <table class="table table-hover table-striped">
                             <thead>
                             <tr>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Номер', 'position') }}</th>
-                                <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
-                                <th>Описание</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}</th>
                                 <th>
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Номер', 'position') }}
                                 </th>
+                                <th max-width="20%">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}
+                                </th>
+                                <th>Описание</th>
+                                <th class="status">
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}
+                                </th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="rules-list">

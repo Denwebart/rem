@@ -72,8 +72,7 @@ View::share('title', $title);
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Алиас', 'alias') }}</th>
                                 <th>Описание</th>
                                 <th>Пользователи</th>
-                                <th>
-                                </th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="honors-list">

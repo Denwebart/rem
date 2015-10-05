@@ -3,14 +3,14 @@
     <td>{{ $rule->position }}</td>
     <td>{{ $rule->title }}</td>
     <td>{{ $rule->description }}</td>
-    <td>
+    <td class="status">
         @if($rule->is_published)
-        <span class="label label-success">Активно</span>
+            <span class="published" title="Активно" data-toggle="tooltip"></span>
         @else
-        <span class="label label-warning">Неактивно</span>
+            <span class="not-published" title="Неактивно" data-toggle="tooltip"></span>
         @endif
     </td>
-    <td>
+    <td class="button-column two-buttons">
         <a class="btn btn-info btn-sm" href="{{ URL::route('admin.rules.edit', $rule->id) }}">
             <i class="fa fa-edit "></i>
         </a>

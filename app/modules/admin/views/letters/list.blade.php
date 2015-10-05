@@ -4,12 +4,10 @@
             <td class="small">{{ $letter->id }}</td>
             {{--<td class="small"><input type="checkbox" /></td>--}}
             {{--<td class="small"><i class="fa fa-star"></i></td>--}}
-            <td class="subject">{{ $letter->subject }}</td>
-            <td class="name">
+            <td>
                 @if($letter->user)
                     <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
                         {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
-                        {{ $letter->user->login }}
                     </a>
                 @else
                     {{{ $letter->user_name }}}
@@ -21,12 +19,13 @@
                     {{ $letter->ip->ip }}
                 @endif
             </td>
-            <td class="date time">
+            <td class="subject">{{ $letter->subject }}</td>
+            <td>
                 {{ DateHelper::dateFormat($letter->created_at, false) }}
                 <br>
                 {{ date('H:i', strtotime($letter->created_at)) }}
             </td>
-            <td class="date time">
+            <td>
                 @if($letter->read_at)
                     {{ DateHelper::dateFormat($letter->read_at, false) }}
                     <br>
@@ -35,12 +34,12 @@
                     -
                 @endif
             </td>
-            <td>
-                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
+            <td class="button-column two-buttons">
+                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
                     <i class="fa fa-search-plus"></i>
                 </a>
                 {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsDeleted', $letter->id), 'class' => 'destroy as-button')) }}
-                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="В корзину" data-toggle="tooltip" data-placement="left">
                     <i class='fa fa-trash-o'></i>
                 </button>
                 {{ Form::hidden('_token', csrf_token()) }}

@@ -27,54 +27,57 @@ class AdminCommentsController extends \BaseController {
 		$direction = Request::get('direction');
         $author = Request::get('author');
         $status = Request::get('status');
-        $searchQuery = Request::get('searchQuery');
+        $searchQuery = Request::get('query');
 
         $query = new Comment;
         $query = $query->with('page.parent.parent', 'user');
 
-        if ($author) {
-            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
-            $query = $query->where(function($qu) use ($name) {
-                $qu->whereHas('user', function($q) use ($name) {
-                    $q->where(function($que) use ($name) {
-                        $que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%")
-                            ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$name%");
-                    });
-                })
-                    ->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(user_email)'), 'LIKE', "$name%");
-            });
-        }
-        if (!is_null($status) && $status !== '') {
-            if(Comment::STATUS_DELETED == $status) {
-                $query = $query->whereIsDeleted(1);
-            } else {
-                $query = $query->whereIsPublished($status);
-                $query = $query->whereIsDeleted(0);
-            }
-        }
-        if ($searchQuery) {
-            $searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-            $query = $query->where(DB::raw('LOWER(comment)'), 'LIKE', "%$searchQuery%")
-                ->orWhere(DB::raw('LOWER(ip)'), 'LIKE', "%$searchQuery%")
-                ->orWhereHas('page', function($q) use ($searchQuery) {
-                    $q->where(DB::raw('LOWER(meta_title)'), 'LIKE', "%$searchQuery%");
-                });
-        }
+		if ($author) {
+			$name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
+			$query = $query->where(function($qu) use ($name) {
+				$qu->whereHas('user', function($q) use ($name) {
+					$q->where(function($que) use ($name) {
+						$que->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%")
+							->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$name%");
+					});
+				})
+					->orWhere(DB::raw('LOWER(user_name)'), 'LIKE', "$name%")
+					->orWhere(DB::raw('LOWER(user_email)'), 'LIKE', "$name%");
+			});
+		}
+		if (!is_null($status) && $status !== '') {
+			if(Comment::STATUS_DELETED == $status) {
+				$query = $query->whereIsDeleted(1);
+			} else {
+				$query = $query->whereIsPublished($status);
+				$query = $query->whereIsDeleted(0);
+			}
+		}
+		if ($searchQuery) {
+			$searchQuery = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+			$query = $query->where(DB::raw('LOWER(comment)'), 'LIKE', "%$searchQuery%")
+				->orWhereHas('ip', function($q) use ($searchQuery) {
+					$q->where(DB::raw('LOWER(ip)'), 'LIKE', "%$searchQuery%");
+				})
+				->orWhereHas('page', function($q) use ($searchQuery) {
+					$q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
+						->orWhere(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+				});
+		}
 
-        if ($sortBy && $direction) {
-            $query = $query->orderBy($sortBy, $direction);
-        } else {
-            $query = $query->orderBy('created_at', 'DESC');
-        }
+		if ($sortBy && $direction) {
+			$query = $query->orderBy($sortBy, $direction);
+		} else {
+			$query = $query->orderBy('created_at', 'DESC');
+		}
 
-        $comments = $query->paginate(10);
+		$comments = $query->paginate(10);
 
 		return View::make('admin::comments.index', compact('comments'));
 	}
@@ -234,6 +237,7 @@ class AdminCommentsController extends \BaseController {
 	public function ajaxMarkAsDeleted($id)
 	{
 		$comment = Comment::find($id);
+        dd($comment);
 		$parentId = $comment->parent_id;
 		$comment->markAsDeleted();
 

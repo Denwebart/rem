@@ -70,12 +70,13 @@ View::share('title', $title);
                             <tr>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тип', 'type') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Область', 'area') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Позиция', 'position') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Описание', 'description') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Область', 'area') }}</th>
+                                <th>На страницах</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Позиция', 'position') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Доступ', 'access') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_active') }}</th>
+                                <th class="status">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_active') }}</th>
                                 <th>
                                 </th>
                             </tr>
@@ -122,12 +123,14 @@ View::share('title', $title);
                 },
                 success: function(response) {
                     if(response.success){
-                        console.log($('[data-advertising-id='+ advertisingId +']'));
                         if(response.isActive) {
-                            $button.attr('title', 'Выключить этот рекламный блок.').html('<span class="label label-success">Включен</span>');
+                            $button.find('span').toggleClass('published not-published');
+                            $button.attr('data-original-title', 'Включен. Выключить этот рекламный блок?');
                         } else {
-                            $button.attr('title', 'Включить этот рекламный блок.').html('<span class="label label-warning">Выключен</span>');
+                            $button.find('span').toggleClass('published not-published');
+                            $button.attr('data-original-title', 'Выключен. Включить этот рекламный блок?');
                         }
+                        $button.nextAll('.tooltip:first').remove();
                         $button.attr('data-is-active', response.isActive);
                     } else {
                         alert(response.message)

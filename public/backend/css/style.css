@@ -85,9 +85,19 @@ select:-moz-focusring {
 .nowrap {
     white-space: nowrap;
 }
+.numeric-list li {
+    font-weight: 600;
+}
+.numeric-list li span {
+    font-weight: 400;
+}
 .tooltip {
     min-width: 120px;
     white-space: nowrap;
+    z-index: 9999;
+}
+.tooltip .tooltip-inner {
+    max-width: 600px;
 }
 .material-icons {
     max-width: 30px;
@@ -105,11 +115,14 @@ select:-moz-focusring {
     cursor: pointer;
 }
 /* Таблицы */
-.button-column {
-    min-width: 90px;
+.button-column.one-button {
+    width: 65px;
 }
 .button-column.two-buttons {
     width: 90px;
+}
+.button-column.three-buttons {
+    width: 130px;
 }
 .button-column .btn.btn-sm {
     padding: 4px 9px;
@@ -124,8 +137,32 @@ select:-moz-focusring {
     max-width: 100px;
     height: auto !important;
 }
+.table .users > a {
+    border: 1px solid #aaa;
+}
+.table .users > .user {
+    margin-bottom: 10px;
+}
+.table .users > .user a {
+    margin-right: 5px;
+}
+.table .users > .user a,
+.table .users > .user span {
+    float: left;
+    line-height: 25px;
+}
+.table .numeric-list {
+    padding-left: 20px;
+}
 .table .date {
     white-space: nowrap;
+}
+.table .honors {
+    min-width: 100px;
+}
+.table .honors a {
+    float: left;
+    line-height: 25px;
 }
 .table .author,
 .table .status {
@@ -371,10 +408,6 @@ header .navbar .navbar-header .navbar-form button {
 .table-search .form-control,
 .table-search button {
     background: #ffffff;
-}
-.mailbox .table-search .form-control,
-.mailbox .table-search button  {
-    background: #f3f3f4;
 }
 
 header .navbar .nav > li.user > a {

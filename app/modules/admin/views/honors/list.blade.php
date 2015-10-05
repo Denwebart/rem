@@ -9,18 +9,21 @@
         <td>{{ $honor->title }}</td>
         <td>{{ $honor->alias }}</td>
         <td>{{ $honor->description }}</td>
-        <td>
+        <td class="users">
             @foreach($honor->users as $key => $user)
-                <div class="user">
+                <div class="user pull-left margin-right-10">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
                         {{ $user->getAvatar('mini', ['width' => '25px']) }}
-                        <span>{{ $user->login }}</span>
                     </a>
-                    {{ (count($honor->users) - 1 > $key) ? "," : "" }}
+                    @if($user->awardsNumber > 1)
+                        <span>
+                            x {{ $user->awardsNumber }}
+                        </span>
+                    @endif
                 </div>
             @endforeach
         </td>
-        <td>
+        <td class="button-column one-button">
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
                 <i class="fa fa-edit "></i>
             </a>

@@ -96,8 +96,8 @@ View::share('title', $title);
                                 <th>
                                     {{ SortingHelper::sortingLink('admin.users.banned', 'Email', 'email') }}
                                 </th>
-                                <th>
-                                    Сколько раз забанен
+                                <th class="nowrap">
+                                    Кол-во банов
 {{--                                    {{ SortingHelper::sortingLink('admin.users.banned', 'Сколько раз забанен', '') }}--}}
                                 </th>
                                 <th>
@@ -144,7 +144,7 @@ View::share('title', $title);
         });
 
         // разбанить
-        $('.buttons').on('click', '.unban', function(){
+        $('.button-column').on('click', '.unban', function(){
             var userId = $(this).data('id');
 
             $('[data-unban-modal-id='+ userId +']').modal({ backdrop: 'static', keyboard: false })

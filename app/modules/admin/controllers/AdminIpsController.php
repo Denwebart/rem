@@ -199,6 +199,13 @@ class AdminIpsController extends \BaseController
                 ));
             }
 
+            if(Request::ip() == $ip->ip) {
+                return Response::json(array(
+                    'success' => false,
+                    'message' => 'Ваш текущий ip-адрес нельзя забанить.',
+                ));
+            }
+
             $ip->is_banned = 1;
             $ip->ban_at = date('Y:m:d H:i:s');
 

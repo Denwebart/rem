@@ -77,7 +77,10 @@ class Honor extends \Eloquent
 	 */
 	public function users()
 	{
-		return $this->belongsToMany('User', 'users_honors')->orderBy('users_honors.created_at', 'DESC');
+		return $this->belongsToMany('User', 'users_honors')
+			->select(DB::raw('*, count(users_honors.honor_id) as awardsNumber'))
+			->orderBy('users_honors.created_at', 'DESC')
+			->groupBy(['users_honors.honor_id', 'users_honors.user_id']);
 	}
 
 	public function honorUsers()

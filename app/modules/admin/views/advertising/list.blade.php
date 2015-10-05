@@ -2,8 +2,6 @@
     <tr class="widget">
         <td>{{ $item->id }}</td>
         <td>{{ Advertising::$types[$item->type] }}</td>
-        <td>{{ Advertising::$areas[$item->area] }}</td>
-        <td>{{ $item->position }}</td>
         <td>{{ $item->title }}</td>
         <td>
             @if(Advertising::TYPE_ADVERTISING == $item->type)
@@ -20,18 +18,31 @@
                 @endif
             @endif
         </td>
-        <td>{{ Advertising::$access[$item->access] }}</td>
+        <td>{{ Advertising::$areas[$item->area] }}</td>
         <td>
+            @if(count($item->pagesTypes))
+                <ul>
+                    @foreach($item->pagesTypes as $pageType)
+                        <li>
+                            {{ AdvertisingPage::$pages[$pageType->page_type] }}
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </td>
+        <td>{{ $item->position }}</td>
+        <td>{{ Advertising::$access[$item->access] }}</td>
+        <td class="status">
             <!-- Отключить/выключить рекламный блок -->
-            <a href="javascript:void(0)" class="change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Выключить этот рекламный блок.' : 'Включить этот рекламный блок.' }}">
+            <a href="javascript:void(0)" class="change-active-status" data-id="{{ $item->id }}" data-is-active="{{ $item->is_active }}" title="{{ $item->is_active ? 'Включен. Выключить этот рекламный блок?' : 'Выключен. Включить этот рекламный блок?' }}" data-toggle="tooltip">
                 @if($item->is_active)
-                    <span class="label label-success">Включен</span>
+                    <span class="published"></span>
                 @else
-                    <span class="label label-warning">Выключен</span>
+                    <span class="not-published"></span>
                 @endif
             </a>
         </td>
-        <td>
+        <td class="button-column two-buttons">
             <a class="btn btn-info btn-sm" href="{{ URL::route('admin.advertising.edit', $item->id) }}">
                 <i class="fa fa-edit "></i>
             </a>

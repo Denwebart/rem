@@ -4,47 +4,44 @@
             <td class="small">{{ $letter->id }}</td>
             {{--<td class="small"><input type="checkbox" /></td>--}}
             {{--<td class="small"><i class="fa fa-star"></i></td>--}}
+            <td>
+                @if($letter->user)
+                    <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
+                        {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
+                    </a>
+                @else
+                    {{{ $letter->user_name }}}
+                    ({{{ $letter->user_email }}})
+                @endif
+            </td>
+            <td>
+                @if($letter->ip)
+                    {{ $letter->ip->ip }}
+                @endif
+            </td>
             <td class="subject">{{ $letter->subject }}</td>
-            <td class="name">
-                @if($letter->user)
-                    <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
-                        {{ $letter->user->login }}
-                    </a>
-                @else
-                    {{ $letter->user_name }}
-                @endif
-            </td>
-            <td class="email">
-                @if($letter->user)
-                    <a href="{{ URl::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" target="_blank">
-                        {{ $letter->user->email }}
-                    </a>
-                @else
-                    {{ $letter->user_email }}
-                @endif
-            </td>
-            <td class="date time">
+            <td>
                 {{ DateHelper::dateFormat($letter->created_at, false) }}
                 <br>
                 {{ date('H:i', strtotime($letter->created_at)) }}
             </td>
-            <td class="date time">
+            <td>
                 {{ DateHelper::dateFormat($letter->deleted_at, false) }}
                 <br>
                 {{ date('H:i', strtotime($letter->deleted_at)) }}
             </td>
-            <td>
-                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}">
+            <td class="button-column three-buttons">
+                <a class="btn btn-primary btn-sm" href="{{ URL::route('admin.letters.show', $letter->id) }}" title="Просмотреть письмо" data-toggle="tooltip" data-placement="left">
                     <i class="fa fa-search-plus "></i>
                 </a>
                 {{ Form::open(array('method' => 'POST', 'route' => array('admin.letters.markAsNew', $letter->id), 'class' => 'as-button')) }}
-                <button type="submit" class="btn btn-success btn-sm">
+                <button type="submit" class="btn btn-success btn-sm" title="Переместить во входящие" data-toggle="tooltip" data-placement="left">
                     <i class='fa fa-reply'></i>
                 </button>
                 {{ Form::hidden('_token', csrf_token()) }}
                 {{ Form::close() }}
                 {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.letters.destroy', $letter->id), 'class' => 'destroy as-button')) }}
-                <button type="submit" class="btn btn-danger btn-sm" name="destroy">
+                <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить полностью" data-toggle="tooltip" data-placement="left">
                     <i class='fa fa-trash-o'></i>
                 </button>
                 {{ Form::hidden('_token', csrf_token()) }}

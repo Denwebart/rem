@@ -232,7 +232,10 @@ class SiteController extends BaseController {
 
 	public function contactPost()
 	{
-		$ip = Ip::firstOrCreate(['ip' => Request::ip()]);
+		$ip = Ip::whereIp(Request::ip())->first();
+		if(!is_object($ip)) {
+			$ip = Ip::create(['ip' => Request::ip()]);
+		}
 
 		$data = [
 			'user_id' => Auth::check() ? Auth::user()->id : null,

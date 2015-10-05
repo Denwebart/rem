@@ -41,7 +41,7 @@ class AdminUsersController extends \BaseController {
                 $query = $query->orderBy($sortBy, $direction);
             }
         } else {
-            $query = $query->orderBy('role', 'ASC');
+            $query = $query->orderBy('created_at', 'DESC');
         }
 
         $users = $query->paginate(10);
