@@ -8,12 +8,12 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
     <div class="box">
         <div class="box-title">
             <h3>Основная информация</h3>
-            <div class="pull-right author">
+            <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" target="_blank" class="pull-right author">
                 {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
-                <span class="pull-right">
+                    <span class="pull-right">
                     {{ $page->user->login }}
                 </span>
-            </div>
+            </a>
         </div>
         <div class="box-body">
             <div class="form-group">
@@ -50,14 +50,12 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                         @endif
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div class="form-group">
-                        {{ Form::label('is_container', 'Содержит подпункты') }}
+                        {{ Form::label('is_container', 'Категория') }}
                         {{ Form::hidden('is_container', 0) }}
                         {{ Form::checkbox('is_container', 1) }}
                     </div>
-                </div>
-                <div class="col-sm-3">
                     <div class="form-group">
                         {{ Form::label('show_submenu', 'Показывать подменю') }}
                         {{ Form::hidden('show_submenu', 0) }}
@@ -68,18 +66,12 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group @if($errors->has('image')) has-error @endif">
-                        {{ Form::label('image', 'Изображение') }}<br/>
-                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                        @if($errors->has('image'))
-                            <small class="help-block">
-                                {{ $errors->first('image') }}
-                            </small>
-                        @endif
+                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs pull-left']) }}
 
                         @if($page->image)
-                            {{ $page->getImage(null, ['class' => 'page-image']) }}
-
-                            <a href="javascript:void(0)" id="delete-image">Удалить</a>
+                            <a href="javascript:void(0)" id="delete-image" title="Удалить изображение" data-toggle="tooltip">
+                                <i class="fa fa-trash"></i>
+                            </a>
                             @section('script')
                                 @parent
 
@@ -105,6 +97,17 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                     });
                                 </script>
                             @stop
+                        @endif
+
+                        @if($errors->has('image'))
+                            <small class="help-block">
+                                {{ $errors->first('image') }}
+                            </small>
+                        @endif
+
+                        @if($page->image)
+                            <div class="clearfix"></div>
+                            {{ $page->getImage(null, ['class' => 'page-image margin-top-10']) }}
                         @endif
                     </div>
                 </div>
@@ -136,31 +139,31 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                             <ul>
                                 @foreach($page->relatedArticles as $articles)
                                     <li data-id="{{ $articles->id }}">
+                                        <a href="javascript:void(0)" class="remove-related" title="Удалить" data-toggle="tooltip">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
                                         {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
                                         <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
                                             {{ $articles->getTitle() }}
                                         </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </a>
                                     </li>
                                 @endforeach
                             </ul>
-                            <div class="row add-related-input">
-                                <div class="col-xs-10">
-                                    <div class="form-group">
-                                        {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
-                                        <small class="help-block" style="display: none"></small>
+                            <div class="add-related-input">
+                                <div class="input-group">
+                                    {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
+                                    <div class="input-group-btn">
+                                        <a href="javascript:void(0)" class="btn btn-success add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}" title="Добавить похожую статью" data-toggle="tooltip">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-xs-2">
-                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}" title="Добавить похожую статью">
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </a>
-                                </div>
+                                <small class="help-block" style="display: none"></small>
+
+                                <!-- Очистить поле -->
+                                <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip" style="display: none">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -174,7 +177,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                         <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
                                             {{ $question->getTitle() }}
                                         </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить" data-toggle="tooltip">
                                             <i class="glyphicon glyphicon-remove"></i>
                                         </a>
                                     </li>
@@ -188,10 +191,10 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                     </div>
                                 </div>
                                 <div class="col-xs-2">
-                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
+                                    <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос">
+                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос" data-toggle="tooltip">
                                         <i class="glyphicon glyphicon-ok"></i>
                                     </a>
                                 </div>
@@ -290,7 +293,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="form-group">
+                    <div class="form-group margin-top-25">
                         {{ Form::label('is_published', 'Опубликован') }}
                         {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
                         {{ Form::checkbox('is_published', 1) }}
@@ -378,7 +381,6 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
     <link rel="stylesheet" href="/backend/css/datepicker/datepicker.css" />
 
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    <script src="/js/jquery-ui.min.js"></script>
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
@@ -455,6 +457,11 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                 $(this).parent().parent().find('input').val('');
                 $(this).parent().parent().find('.help-block').hide().text('');
                 $(this).parent().parent().find('.form-group').removeClass('has-error');
+                $(this).nextAll('.tooltip:first').remove();
+                $(this).hide();
+            });
+            $('#related-articles, #related-questions').on('keyup', function(){
+                $(this).parent().parent().find('.cancel-related').show();
             });
             // убираем ошибку при изменении поля
             $('#related-articles, #related-questions').on('focus', function(){
@@ -501,14 +508,14 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                         success: function(response) {
                             if(response.success){
                                 var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
+                                        '<a href="javascript:void(0)" class="remove-related" title="Удалить" data-toggle="tooltip">' +
+                                        '<i class="glyphicon glyphicon-remove"></i>'+
+                                        '</a>' +
                                         '<a href="'+ response.pageUrl +'" target="_blank">' +
                                         $relatedBlock.find('.add-related-input input').val() +
-                                        '</a>' +
-                                        '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +
-                                        '<i class="glyphicon glyphicon-remove"></i>'+
                                         '</a></li>';
                                 $relatedBlock.find('ul').append(html);
-                                $relatedBlock.find('.add-related-input').slideUp();
+                                $relatedBlock.find('.add-related-input input').val('');
                                 $relatedBlock.find('.show-add-related').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
                                 $('#related-' + type).attr('data-page-id', '');
                             } else {

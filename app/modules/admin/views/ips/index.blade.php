@@ -109,7 +109,6 @@ View::share('title', $title);
 @section('style')
     @parent
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    <script src="/js/jquery-ui.min.js"></script>
 @stop
 
 @section('script')

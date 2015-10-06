@@ -100,7 +100,6 @@ View::share('title', $title);
     @parent
     <link rel="stylesheet" href="/backend/css/bootstrapValidator/bootstrapValidator.min.css" />
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    {{--<script src="/js/jquery-ui.min.js"></script>--}}
 @stop
 
 @section('script')

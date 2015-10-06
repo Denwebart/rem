@@ -238,7 +238,6 @@
     <link rel="stylesheet" href="/backend/css/datepicker/datepicker.css" />
 
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    <script src="/js/jquery-ui.min.js"></script>
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
