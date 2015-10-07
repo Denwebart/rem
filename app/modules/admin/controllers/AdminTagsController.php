@@ -55,7 +55,7 @@ class AdminTagsController extends \BaseController {
             $searchQuery = $data['query'];
 
             $query = new Tag;
-            $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
+            $query = $query->with('pages');
             if ($searchQuery) {
                 $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
                 $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
@@ -70,10 +70,13 @@ class AdminTagsController extends \BaseController {
 
             $tags = $query->paginate(10);
 
+            $url = URL::route('admin.tags.index', $data);
+            Session::set('user.url', $url);
+
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.tags.index', $data),
-                'tagsListHtmL' => (string) View::make('admin::tags.list', compact('tags'))->render(),
+                'url' => $url,
+                'tagsListHtmL' => (string) View::make('admin::tags.list', compact('tags', 'url'))->render(),
                 'tagsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $tags)->render(),
                 'tagsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $tags)->render(),
                 'resultHtml' => (string) View::make('admin::tags.search', compact('tags'))->render(),
@@ -89,7 +92,12 @@ class AdminTagsController extends \BaseController {
 	public function create()
 	{
 		$tag = new Tag();
-		return View::make('admin::tags.create', compact('tag'));
+
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.pages.index');
+
+		return View::make('admin::tags.create', compact('tag', 'backUrl'));
 	}
 
 	/**
@@ -114,7 +122,8 @@ class AdminTagsController extends \BaseController {
 		$tag->image = $tag->setImage($data['image']);
 		$tag->save();
 
-		return Redirect::route('admin.tags.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.tags.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -140,7 +149,11 @@ class AdminTagsController extends \BaseController {
 	{
 		$tag = Tag::find($id);
 
-		return View::make('admin::tags.edit', compact('tag'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.pages.index');
+
+		return View::make('admin::tags.edit', compact('tag', 'backUrl'));
 	}
 
 	/**
@@ -167,7 +180,8 @@ class AdminTagsController extends \BaseController {
 
 		$tag->update($data);
 
-		return Redirect::route('admin.tags.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.tags.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -180,7 +194,10 @@ class AdminTagsController extends \BaseController {
 	{
 		Tag::destroy($id);
 
-		return Redirect::route('admin.tags.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.tags.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**

@@ -50,8 +50,11 @@
                 </div>
             </div>
             <div class="col-md-2">
+
+                {{ Form::hidden('backUrl', $backUrl) }}
+
                 {{ Form::submit('Сохранить', ['class' => 'btn btn-success margin-top-25']) }}
-                <a href="{{ URL::route('admin.tags.index') }}" class="btn btn-primary">Отмена</a>
+                <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
             </div>
         </div>
     </div>

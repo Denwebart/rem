@@ -310,7 +310,10 @@ class AdminQuestionsController extends \BaseController {
 		$page->user->removePoints(User::POINTS_FOR_QUESTION);
 		$page->delete();
 
-		return Redirect::route('admin.questions.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.questions.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**

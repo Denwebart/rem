@@ -148,10 +148,12 @@ class AdminCommentsController extends \BaseController {
 
             $comments = $query->paginate(10);
 
+            $url = URL::route('admin.comments.index', $data);
+
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.comments.index', $data),
-                'commentsListHtmL' => (string) View::make('admin::comments.list', compact('comments'))->render(),
+                'url' => $url,
+                'commentsListHtmL' => (string) View::make('admin::comments.list', compact('comments', 'url'))->render(),
                 'commentsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $comments)->render(),
                 'commentsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $comments)->render(),
             ]);
@@ -225,7 +227,10 @@ class AdminCommentsController extends \BaseController {
 		$comment = Comment::find($id);
 		$comment->markAsDeleted();
 
-		return Redirect::route('admin.comments.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.comments.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**

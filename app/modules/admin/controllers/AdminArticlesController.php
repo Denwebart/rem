@@ -306,7 +306,10 @@ class AdminArticlesController extends \BaseController {
 		$page->user->removePoints(User::POINTS_FOR_ARTICLE);
 		$page->delete();
 
-		return Redirect::route('admin.articles.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.articles.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**

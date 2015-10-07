@@ -40,12 +40,12 @@
         </td>
         <td class="date">{{ DateHelper::dateFormat($comment->created_at) }}</td>
         <td class="button-column two-buttons">
-            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.comments.edit', $comment->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                 <i class="fa fa-edit "></i>
             </a>
 
             @if(Auth::user()->isAdmin())
-                {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.comments.destroy', $comment->id), 'class' => 'as-button')) }}
+                {{ Form::open(array('method' => 'DELETE', 'url' => URL::route('admin.comments.destroy', ['id' => $comment->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button')) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                     <i class='fa fa-trash-o'></i>
                 </button>
