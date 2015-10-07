@@ -2,12 +2,12 @@
     <div class="box">
         <div class="box-title" style="padding: 7px 10px">
             <h3>Основная информация</h3>
-            <div class="pull-right author">
+            <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" target="_blank" class="pull-right author">
                 {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
                 <span class="pull-right">
                     {{ $page->user->login }}
                 </span>
-            </div>
+            </a>
         </div>
         <div class="box-body">
             <div class="form-group">
@@ -26,20 +26,20 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
-                        {{ Form::label('image', 'Изображение') }}<br/>
-                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                        {{ $errors->first('image') }}
+                    <div class="col-lg-6 col-md-12 col-sm-6">
+                        <div class="form-group display-inline-block @if($errors->has('image')) has-error @endif">
+                            {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs pull-left']) }}
 
-                        @if($page->image)
-                            {{ $page->getImage(null, ['class' => 'page-image']) }}
-
-                            <a href="javascript:void(0)" id="delete-image">Удалить</a>
+                            @if($page->image)
+                                <a href="javascript:void(0)" id="delete-image" title="Удалить изображение" data-toggle="tooltip">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             @section('script')
                                 @parent
 
                                 <script type="text/javascript">
                                     $('#delete-image').click(function(){
+                                        var $deleteButton = $(this);
                                         if(confirm('Вы уверены, что хотите удалить изображение?')) {
                                             $.ajax({
                                                 url: '<?php echo URL::route('admin.pages.deleteImage', ['id' => $page->id]) ?>',
@@ -51,7 +51,8 @@
                                                 },
                                                 success: function(response) {
                                                     if(response.success){
-                                                        $('#delete-image').css('display', 'none');
+                                                        $deleteButton.css('display', 'none');
+                                                        $deleteButton.nextAll('.tooltip:first').remove();
                                                         $('.page-image').remove();
                                                     }
                                                 }
@@ -60,96 +61,38 @@
                                     });
                                 </script>
                             @stop
-                        @endif
-                    </div>
-                    <div class="col-sm-6">
-                        {{ Form::label('image_alt', 'Альт к изображению') }}
-                        {{ Form::textarea('image_alt', $page->image_alt, ['class' => 'form-control', 'rows' => 4]) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="box">
-        <!-- Похожие -->
-        <div class="box-title">
-            <h3>Похожие</h3>
-        </div>
-        <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="related related-articles">
-                            <h4>Похожие статьи</h4>
-                            <ul>
-                                @foreach($page->relatedArticles as $articles)
-                                    <li data-id="{{ $articles->id }}">
-                                        {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
-                                        <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
-                                            {{ $articles->getTitle() }}
-                                        </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="row add-related-input">
-                                <div class="col-xs-10">
-                                    <div class="form-group">
-                                        {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
-                                        <small class="help-block" style="display: none"></small>
-                                    </div>
-                                </div>
-                                <div class="col-xs-2">
-                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="articles" data-type-id="{{ RelatedPage::TYPE_ARTICLE }}" title="Добавить похожую статью">
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </a>
-                                </div>
-                            </div>
+                            @endif
+
+                            @if($errors->has('image'))
+                                <small class="help-block">
+                                    {{ $errors->first('image') }}
+                                </small>
+                            @endif
+
+                            @if($page->image)
+                                <div class="clearfix"></div>
+                                {{ $page->getImage(null, ['class' => 'page-image margin-top-10']) }}
+                            @endif
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="related related-questions">
-                            <h4>Похожие вопросы</h4>
-                            <ul>
-                                @foreach($page->relatedQuestions as $question)
-                                    <li data-id="{{ $question->id }}">
-                                        {{ Form::hidden("relatedquestions[$question->id]", $question->id) }}
-                                        <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
-                                            {{ $question->getTitle() }}
-                                        </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="row add-related-input">
-                                <div class="col-xs-10">
-                                    <div class="form-group">
-                                        {{ Form::text('relatedquestions[new]', null, ['class' => 'form-control', 'id' => 'related-questions']) }}
-                                        <small class="help-block" style="display: none"></small>
-                                    </div>
-                                </div>
-                                <div class="col-xs-2">
-                                    <a href="javascript:void(0)" class="cancel-related" title="Отмена">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос">
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </a>
-                                </div>
-                            </div>
+                    <div class="col-lg-6 col-md-12 col-sm-6">
+                        <div class="form-group @if($errors->has('image_alt')) has-error @endif">
+                            {{ Form::label('image_alt', 'Альт к изображению') }}
+                            {{ Form::textarea('image_alt', $page->image_alt, ['class' => 'form-control', 'rows' => 4]) }}
+                            @if($errors->has('image_alt'))
+                                <small class="help-block">
+                                    {{ $errors->first('image_alt') }}
+                                </small>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @include('admin::pages._addRelated', ['page' => $page])
+
 </div>
 
 <div class="col-md-5">
@@ -160,17 +103,17 @@
         <div class="box-body">
             <div class="form-group">
                 {{ Form::label('meta_title', 'Мета-тег Title') }}
-                {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 2]) }}
+                {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 4]) }}
                 {{ $errors->first('meta_title') }}
             </div>
             <div class="form-group">
                 {{ Form::label('meta_desc', 'Мета-тег Description') }}
-                {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 3]) }}
+                {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 5]) }}
                 {{ $errors->first('meta_desc') }}
             </div>
             <div class="form-group">
                 {{ Form::label('meta_key', 'Мета-тег Keywords') }}
-                {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 3]) }}
+                {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 5]) }}
                 {{ $errors->first('meta_key') }}
             </div>
         </div>
@@ -183,26 +126,33 @@
         <div class="box-body">
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
-                        {{ Form::label('is_published', 'Опубликован') }}
-                        {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
-                        {{ Form::checkbox('is_published', 1) }}
-                    </div>
-                    <div class="col-sm-6">
-                        {{ Form::label('published_at', 'Дата публикации') }}
-
-                        <div class="input-group">
-                            {{ Form::text('published_at',
-                                !is_null($page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
-                                ['class' => 'form-control datepicker-input'])
-                            }}
-                            <span id="published_at_time" class="input-group-addon">
-                                {{ Form::hidden('publishedTime', !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
-                                {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
-                            </span>
+                    <div class="col-lg-5 col-md-12 col-sm-6">
+                        <div class="form-group margin-top-25 md-margin-top-0 xs-margin-top-0">
+                            {{ Form::label('is_published', 'Опубликован') }}
+                            {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
+                            {{ Form::checkbox('is_published', 1) }}
                         </div>
+                    </div>
+                    <div class="col-lg-7 col-md-12 col-sm-6">
+                        <div class="form-group @if($errors->has('published_at')) has-error @endif">
+                            {{ Form::label('published_at', 'Дата публикации') }}
 
-                        {{ $errors->first('published_at') }}
+                            <div class="input-group">
+                                {{ Form::text('published_at',
+                                    !is_null($page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
+                                    ['class' => 'form-control datepicker-input'])
+                                }}
+                                <span id="published_at_time" class="input-group-addon">
+                                {{ Form::hidden('publishedTime', !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
+                                    {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
+                            </span>
+                            </div>
+                            @if($errors->has('published_at'))
+                                <small class="help-block">
+                                    {{ $errors->first('published_at') }}
+                                </small>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -294,84 +244,6 @@
             });
             $('#published_at').datepicker().on('changeDate', function(ev){
                 $('#is_published').iCheck('check');
-            });
-
-            // Related
-            // кнопка отмена: очистка поля
-            $('.cancel-related').on('click', function() {
-                $(this).parent().parent().find('input').val('');
-                $(this).parent().parent().find('.help-block').hide().text('');
-                $(this).parent().parent().find('.form-group').removeClass('has-error');
-            });
-            // убираем ошибку при изменении поля
-            $('#related-articles, #related-questions').on('focus', function(){
-                $(this).parent().find('.help-block').hide().text('');
-                $(this).parent().removeClass('has-error');
-            });
-            // автокомплит при добавлении похожей страницы
-            $("#related-articles").autocomplete({
-                source: "<?php echo URL::route('admin.pages.articlesAutocomplete') ?>",
-                minLength: 3,
-                select: function(e, ui) {
-                    $(this).val(ui.item.value);
-                    $(this).attr('data-page-id', ui.item.id);
-                }
-            });
-            $("#related-questions").autocomplete({
-                source: "<?php echo URL::route('admin.pages.questionsAutocomplete') ?>",
-                minLength: 3,
-                select: function(e, ui) {
-                    $(this).val(ui.item.value);
-                    $(this).attr('data-page-id', ui.item.id);
-                }
-            });
-            // добавление похожей страницы
-            $('.add-related').on('click', function() {
-                var type = $(this).data('type'),
-                        $relatedBlock = $('.related-' + type),
-                        addedPageTitle = $relatedBlock.find('.add-related-input input').val(),
-                        addedPageId = $relatedBlock.find('.add-related-input input').attr('data-page-id');
-
-                if(addedPageTitle.trim() != '') {
-                    $.ajax({
-                        url: '/admin/pages/checkRelated' ,
-                        dataType: "text json",
-                        type: "POST",
-                        data: {
-                            addedPageTitle: addedPageTitle,
-                            addedPageId: addedPageId,
-                            typeId: $(this).data('typeId')
-                        },
-                        beforeSend: function(request) {
-                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                        },
-                        success: function(response) {
-                            if(response.success){
-                                var html = '<li data-id="'+ addedPageId +'" class="success"><input name="related'+ type +'['+ addedPageId +']" value="'+ addedPageId +'" type="hidden">' +
-                                        '<a href="'+ response.pageUrl +'" target="_blank">' +
-                                        $relatedBlock.find('.add-related-input input').val() +
-                                        '</a>' +
-                                        '<a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related">' +
-                                        '<i class="glyphicon glyphicon-remove"></i>'+
-                                        '</a></li>';
-                                $relatedBlock.find('ul').append(html);
-                                $relatedBlock.find('.add-related-input').slideUp();
-                                $relatedBlock.find('.show-add-related').toggleClass('btn-info btn-warning').html('<i class="glyphicon glyphicon-plus"></i>');
-                                $('#related-' + type).attr('data-page-id', '');
-                            } else {
-                                $relatedBlock.find('.add-related-input .help-block').show().text(response.message);
-                                $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
-                            }
-                        }
-                    });
-                } else {
-                    $relatedBlock.find('.add-related-input .help-block').show().text('Введите заголовок страницы.');
-                    $relatedBlock.find('.add-related-input .form-group').addClass('has-error');
-                }
-            });
-            // удаление похожей страницы
-            $('.related').on('click', '.remove-related', function() {
-                $(this).parent().remove();
             });
         });
     </script>
