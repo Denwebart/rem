@@ -258,13 +258,18 @@ class AdminPagesController extends \BaseController {
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
 
-		// добавление похожих статей, вопросов
-		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
-		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+        // удаление тегов
+        Tag::deleteTag($page, Input::get('tags'));
+        // добавление тегов
+        Tag::addTag($page, Input::get('tags'));
 
 		// удаление похожих статей, вопросов
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+        // добавление похожих статей, вопросов
+        RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+        RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
 		return Redirect::to($backUrl);
@@ -357,13 +362,18 @@ class AdminPagesController extends \BaseController {
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
 
-		// добавление похожих статей, вопросов
-		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
-		RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+        // удаление тегов
+        Tag::deleteTag($page, Input::get('tags'));
+        // добавление тегов
+        Tag::addTag($page, Input::get('tags'));
 
-		// удаление похожих статей, вопросов
-		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
-		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+        // удаление похожих статей, вопросов
+        RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+        RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+        // добавление похожих статей, вопросов
+        RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
+        RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
 		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
 		return Redirect::to($backUrl);

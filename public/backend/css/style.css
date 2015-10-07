@@ -88,6 +88,9 @@ select:-moz-focusring {
 .margin-bottom-20 {
     margin-bottom: 20px;
 }
+.display-inline-block {
+    display: inline-block;
+}
 .nowrap {
     white-space: nowrap;
 }
@@ -206,6 +209,9 @@ select:-moz-focusring {
 select {
     cursor: pointer;
 }
+.icheckbox_minimal {
+    margin-left: 5px;
+}
 
 /* Похожие */
 .related > ul {
@@ -214,6 +220,7 @@ select {
 }
 .related > ul li {
     display: inline-block;
+    width: 100%;
 }
 .related > ul li a {
     display: block;
@@ -229,12 +236,26 @@ select {
 .add-related-input {
     position: relative;
 }
+.add-related-input .form-group {
+    margin-bottom: 0;
+}
 .add-related-input .cancel-related {
     position: absolute;
     right: 50px;
-    margin-top: -26px;
+    top: 8px;
     z-index: 999;
 }
+/* Теги */
+.tags,
+.add-tag-input {
+    display: inline-block;
+    width: 100%;
+}
+.tags .tag {
+    margin: 0 5px 10px 0;
+    float: left;
+}
+
 
 /* Colors */
 .success {
@@ -3315,6 +3336,11 @@ footer ul li a {
         display: none;
     }
 }
+@media (min-width: 992px) and (max-width: 1199px) {
+    .md-margin-top-0 {
+        margin-top: 0 !important;
+    }
+}
 @media screen and (max-width: 992px) {
     .leftside, header .logo {
         width: 42px;
@@ -3375,6 +3401,10 @@ footer ul li a {
 }
 
 @media screen and (max-width: 767px) {
+    .xs-margin-top-0 {
+        margin-top: 0 !important;
+    }
+
     .navbar-header {
         float: left;
         width: 30%;

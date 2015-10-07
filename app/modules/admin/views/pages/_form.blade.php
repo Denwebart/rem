@@ -64,8 +64,8 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group @if($errors->has('image')) has-error @endif">
+                <div class="col-lg-6 col-md-12 col-sm-6">
+                    <div class="form-group display-inline-block @if($errors->has('image')) has-error @endif">
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs pull-left']) }}
 
                         @if($page->image)
@@ -77,6 +77,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
 
                                 <script type="text/javascript">
                                     $('#delete-image').click(function(){
+                                        var $deleteButton = $(this);
                                         if(confirm('Вы уверены, что хотите удалить изображение?')) {
                                             $.ajax({
                                                 url: '<?php echo URL::route('admin.pages.deleteImage', ['id' => $page->id]) ?>',
@@ -88,7 +89,8 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                                 },
                                                 success: function(response) {
                                                     if(response.success){
-                                                        $('#delete-image').css('display', 'none');
+                                                        $deleteButton.css('display', 'none');
+                                                        $deleteButton.nextAll('.tooltip:first').remove();
                                                         $('.page-image').remove();
                                                     }
                                                 }
@@ -111,7 +113,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                         @endif
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-lg-6 col-md-12 col-sm-6">
                     <div class="form-group @if($errors->has('image_alt')) has-error @endif">
                         {{ Form::label('image_alt', 'Альт к изображению') }}
                         {{ Form::textarea('image_alt', $page->image_alt, ['class' => 'form-control', 'rows' => 4]) }}
@@ -131,25 +133,25 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             <h3>Похожие</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="related related-articles">
-                            <h4>Похожие статьи</h4>
-                            <ul>
-                                @foreach($page->relatedArticles as $articles)
-                                    <li data-id="{{ $articles->id }}">
-                                        <a href="javascript:void(0)" class="remove-related" title="Удалить" data-toggle="tooltip">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </a>
-                                        {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
-                                        <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
-                                            {{ $articles->getTitle() }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="add-related-input">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="related related-articles">
+                        <h4>Похожие статьи</h4>
+                        <ul>
+                            @foreach($page->relatedArticles as $articles)
+                                <li data-id="{{ $articles->id }}">
+                                    <a href="javascript:void(0)" class="remove-related" title="Удалить" data-toggle="tooltip">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                    {{ Form::hidden("relatedarticles[$articles->id]", $articles->id) }}
+                                    <a href="{{ URL::to($articles->getUrl()) }}" target="_blank">
+                                        {{ $articles->getTitle() }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="add-related-input">
+                            <div class="form-group">
                                 <div class="input-group">
                                     {{ Form::text('relatedarticles[new]', null, ['class' => 'form-control', 'id' => 'related-articles']) }}
                                     <div class="input-group-btn">
@@ -159,46 +161,48 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                     </div>
                                 </div>
                                 <small class="help-block" style="display: none"></small>
-
-                                <!-- Очистить поле -->
-                                <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip" style="display: none">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
                             </div>
+
+                            <!-- Очистить поле -->
+                            <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip" style="display: none">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="related related-questions">
-                            <h4>Похожие вопросы</h4>
-                            <ul>
-                                @foreach($page->relatedQuestions as $question)
-                                    <li data-id="{{ $question->id }}">
-                                        {{ Form::hidden("relatedquestions[$question->id]", $question->id) }}
-                                        <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
-                                            {{ $question->getTitle() }}
-                                        </a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-circle remove-related" title="Удалить" data-toggle="tooltip">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="row add-related-input">
-                                <div class="col-xs-10">
-                                    <div class="form-group">
-                                        {{ Form::text('relatedquestions[new]', null, ['class' => 'form-control', 'id' => 'related-questions']) }}
-                                        <small class="help-block" style="display: none"></small>
-                                    </div>
-                                </div>
-                                <div class="col-xs-2">
-                                    <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip">
+                </div>
+                <div class="col-sm-6">
+                    <div class="related related-questions">
+                        <h4>Похожие вопросы</h4>
+                        <ul>
+                            @foreach($page->relatedQuestions as $question)
+                                <li data-id="{{ $question->id }}">
+                                    <a href="javascript:void(0)" class="remove-related" title="Удалить" data-toggle="tooltip">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-success btn-circle add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос" data-toggle="tooltip">
-                                        <i class="glyphicon glyphicon-ok"></i>
+                                    {{ Form::hidden("relatedquestions[$question->id]", $question->id) }}
+                                    <a href="{{ URL::to($question->getUrl()) }}" target="_blank">
+                                        {{ $question->getTitle() }}
                                     </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="add-related-input">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    {{ Form::text('relatedquestions[new]', null, ['class' => 'form-control', 'id' => 'related-questions']) }}
+                                    <div class="input-group-btn">
+                                        <a href="javascript:void(0)" class="btn btn-success add-related" data-type="questions" data-type-id="{{ RelatedPage::TYPE_QUESTION }}" title="Добавить похожий вопрос" data-toggle="tooltip">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </a>
+                                    </div>
                                 </div>
+                                <small class="help-block" style="display: none"></small>
                             </div>
+
+                            <!-- Очистить поле -->
+                            <a href="javascript:void(0)" class="cancel-related" title="Очистить" data-toggle="tooltip" style="display: none">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -213,35 +217,29 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                 <h3>Теги</h3>
             </div>
             <div class="box-body">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div id="tags-area">
-                                <div class="tags">
-                                    @foreach($page->tags as $tag)
-                                        <div class="btn-group tag" data-id="{{ $tag->id }}">
-                                            {{ Form::hidden("tags[$tag->id]", $tag->title) }}
-                                            <button type="button" class="btn btn-info tag-title">{{ $tag->title }}</button>
-                                            <button type="button" class="btn btn-danger remove-tag" title="Удалить тег">
-                                                <i class="glyphicon glyphicon-remove"></i>
-                                            </button>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="row add-tag-input">
-                                    <div class="col-xs-10">
-                                        <div class="form-group">
-                                            {{ Form::text('tags[new]', null, ['class' => 'form-control', 'id' => 'tag-input', 'placeholder' => 'Добавить новый тег']) }}
-                                            <small class="help-block" style="display: none"></small>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <a href="javascript:void(0)" class="btn btn-success btn-circle add-tag" title="Добавить тег">
-                                            <i class="glyphicon glyphicon-ok"></i>
-                                        </a>
-                                    </div>
+                <div id="tags-area">
+                    <div class="tags">
+                        @foreach($page->tags as $tag)
+                            <div class="btn-group tag" data-id="{{ $tag->id }}">
+                                {{ Form::hidden("tags[$tag->id]", $tag->title) }}
+                                <button type="button" class="btn btn-info btn-sm tag-title">{{ $tag->title }}</button>
+                                <button type="button" class="btn btn-danger btn-sm remove-tag" title="Удалить тег">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="add-tag-input">
+                        <div class="form-group">
+                            <div class="input-group">
+                                {{ Form::text('tags[new]', null, ['class' => 'form-control', 'id' => 'tag-input', 'placeholder' => 'Добавить новый тег']) }}
+                                <div class="input-group-btn">
+                                    <a href="javascript:void(0)" class="btn btn-success add-tag" title="Добавить тег" data-toggle="tooltip">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
                                 </div>
                             </div>
+                            <small class="help-block" style="display: none"></small>
                         </div>
                     </div>
                 </div>
@@ -292,14 +290,14 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group margin-top-25">
+                <div class="col-lg-5 col-md-12 col-sm-6">
+                    <div class="form-group margin-top-25 md-margin-top-0 xs-margin-top-0">
                         {{ Form::label('is_published', 'Опубликован') }}
                         {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
                         {{ Form::checkbox('is_published', 1) }}
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-lg-7 col-md-12 col-sm-6">
                     <div class="form-group @if($errors->has('published_at')) has-error @endif">
                         {{ Form::label('published_at', 'Дата публикации') }}
 
@@ -455,18 +453,20 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             // кнопка отмена: очистка поля
             $('.cancel-related').on('click', function() {
                 $(this).parent().parent().find('input').val('');
+                $(this).parent().parent().find('.input-group').removeClass('has-error');
                 $(this).parent().parent().find('.help-block').hide().text('');
                 $(this).parent().parent().find('.form-group').removeClass('has-error');
                 $(this).nextAll('.tooltip:first').remove();
                 $(this).hide();
             });
             $('#related-articles, #related-questions').on('keyup', function(){
-                $(this).parent().parent().find('.cancel-related').show();
+                $(this).parent().parent().parent().find('.cancel-related').show();
             });
             // убираем ошибку при изменении поля
             $('#related-articles, #related-questions').on('focus', function(){
-                $(this).parent().find('.help-block').hide().text('');
-                $(this).parent().removeClass('has-error');
+                $(this).parent().parent().find('.input-group').removeClass('has-error');
+                $(this).parent().parent().find('.help-block').hide().text('');
+                $(this).parent().parent().removeClass('has-error');
             });
             // автокомплит при добавлении похожей страницы
             $("#related-articles").autocomplete({
@@ -589,10 +589,10 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                 : 'tags[newTags]['+ tagNumber +']';
                         var html = '<div class="btn-group tag" data-id="'+ addedTagId +'">' +
                                 '<input name="'+ addedTagInputName +'" value="'+ addedTagTitle +'" type="hidden">' +
-                                '<a href="javascript:void(0)" class="btn btn-info btn-sm tag-title">'+ addedTagTitle +'</a>' +
-                                '<a href="javascript:void(0)" class="btn btn-danger btn-sm remove-tag">' +
+                                '<button class="btn btn-info btn-sm tag-title">'+ addedTagTitle +'</button>' +
+                                '<button class="btn btn-danger btn-sm remove-tag">' +
                                 '<i class="glyphicon glyphicon-remove"></i>' +
-                                '</a></div>';
+                                '</button></div>';
 
                         $tagBlock.find('.tags').append(html);
                         $('#tag-input').val('');
