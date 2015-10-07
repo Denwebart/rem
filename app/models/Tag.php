@@ -144,36 +144,38 @@ class Tag extends \Eloquent
 	 */
 	public static function addTag($page, $addedArray)
 	{
-		$tags = $page->tags()->lists('title', 'id');
+        if($addedArray) {
+            $tags = $page->tags()->lists('title', 'id');
 
-		$newTagsIds = [];
-		if(isset($addedArray['newTags'])) {
-			$newTags = array_unique(array_map("mb_strtolower", $addedArray['newTags']));
-			foreach($newTags as $key => $title) {
-				$tag = Tag::whereTitle($title)->first();
-				if(!is_object($tag)) {
-					$tag = Tag::create(['title' => $title]);
-				}
-				$newTagsIds[$tag->id] = $title;
-			}
-		}
+            $newTagsIds = [];
+            if(isset($addedArray['newTags'])) {
+                $newTags = array_unique(array_map("mb_strtolower", $addedArray['newTags']));
+                foreach($newTags as $key => $title) {
+                    $tag = Tag::whereTitle($title)->first();
+                    if(!is_object($tag)) {
+                        $tag = Tag::create(['title' => $title]);
+                    }
+                    $newTagsIds[$tag->id] = $title;
+                }
+            }
 
-		unset($addedArray['new'], $addedArray['newTags']);
-		$added = array_diff($newTagsIds + $addedArray, $tags);
+            unset($addedArray['new'], $addedArray['newTags']);
+            $added = array_diff($newTagsIds + $addedArray, $tags);
 
-		$dataAdded = [];
-		if($added) {
-			foreach($added as $id => $title) {
-				$dataAdded[] = [
-					'page_id' => $page->id,
-					'tag_id' => $id,
-				];
-			}
-		}
+            $dataAdded = [];
+            if($added) {
+                foreach($added as $id => $title) {
+                    $dataAdded[] = [
+                        'page_id' => $page->id,
+                        'tag_id' => $id,
+                    ];
+                }
+            }
 
-		if(count($dataAdded)) {
-			DB::table('pages_tags')->insert($dataAdded);
-		}
+            if(count($dataAdded)) {
+                DB::table('pages_tags')->insert($dataAdded);
+            }
+        }
 	}
 
 	/**
@@ -184,14 +186,16 @@ class Tag extends \Eloquent
 	 */
 	public static function deleteTag($page, $deletedArray)
 	{
-		$tags = $page->tags()->lists('title', 'id');
-		unset($deletedArray['new'], $deletedArray['newTags']);
-		$deleted = array_diff($tags, $deletedArray);
-		if(count($deleted)) {
-			PageTag::wherePageId($page->id)
-				->whereIn('tag_id', array_flip($deleted))
-				->delete();
-		}
+        if($deletedArray) {
+            $tags = $page->tags()->lists('title', 'id');
+            unset($deletedArray['new'], $deletedArray['newTags']);
+            $deleted = array_diff($tags, $deletedArray);
+            if(count($deleted)) {
+                PageTag::wherePageId($page->id)
+                    ->whereIn('tag_id', array_flip($deleted))
+                    ->delete();
+            }
+        }
 	}
 
 }

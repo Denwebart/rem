@@ -59,7 +59,7 @@
             </a>
 
             @if(Auth::user()->isAdmin() && $page->type != Page::TYPE_SYSTEM_PAGE)
-                {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.pages.destroy', $page->id), 'class' => 'as-button')) }}
+                {{ Form::open(array('method' => 'DELETE', 'url' => URL::route('admin.pages.destroy', ['id' => $page->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button')) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                     <i class='fa fa-trash-o'></i>
                 </button>

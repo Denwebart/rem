@@ -47,12 +47,13 @@ class AdminArticlesController extends \BaseController {
             });
         }
         if ($searchQuery) {
-            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
             $query = $query->where(function($q) use($title) {
                 $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                     ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             });
         }
+
         if ($sortBy && $direction) {
             $query = $query->orderBy($sortBy, $direction);
         } else {
@@ -111,13 +112,15 @@ class AdminArticlesController extends \BaseController {
                 $query = $query->orderBy('created_at', 'DESC');
             }
 
-            dd($query->toSql());
             $pages = $query->paginate(10);
+
+            $url = URL::route('admin.articles.index', $data);
+            Session::set('user.url', $url);
 
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.articles.index', $data),
-                'pagesListHtmL' => (string) View::make('admin::articles.list', compact('pages'))->render(),
+                'url' => $url,
+                'pagesListHtmL' => (string) View::make('admin::articles.list', compact('pages', 'url'))->render(),
                 'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $pages)->render(),
                 'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $pages)->render(),
             ]);

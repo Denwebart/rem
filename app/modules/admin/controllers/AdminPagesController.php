@@ -132,6 +132,8 @@ class AdminPagesController extends \BaseController {
             $route = Request::has('route') ? Request::get('route') : 'index';
 			$url = URL::route('admin.pages.' . $route, $data);
 
+            Session::set('user.url', $url);
+
             return Response::json([
                 'success' => true,
                 'url' => $url,
@@ -403,7 +405,10 @@ class AdminPagesController extends \BaseController {
             $page->delete();
         }
 
-		return Redirect::back();
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.pages.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**

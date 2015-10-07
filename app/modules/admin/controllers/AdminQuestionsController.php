@@ -32,7 +32,7 @@ class AdminQuestionsController extends \BaseController {
         $query = new Page;
         $query = $query->whereType(Page::TYPE_QUESTION);
         $query = $query->with('parent.parent', 'user', 'publishedComments', 'bestComments');
-        if($parent_id) {
+        if ($parent_id) {
             $query = $query->whereParentId($parent_id);
             $parentPage = Page::find($parent_id);
         } else {
@@ -54,12 +54,13 @@ class AdminQuestionsController extends \BaseController {
             });
         }
         if ($searchQuery) {
-            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
             $query = $query->where(function($q) use($title) {
                 $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
                     ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             });
         }
+
         if ($sortBy && $direction) {
             $query = $query->orderBy($sortBy, $direction);
         } else {
@@ -127,10 +128,13 @@ class AdminQuestionsController extends \BaseController {
 
             $pages = $query->paginate(10);
 
+            $url = URL::route('admin.questions.index', $data);
+            Session::set('user.url', $url);
+
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.questions.index', $data),
-                'pagesListHtmL' => (string) View::make('admin::questions.list', compact('pages'))->render(),
+                'url' => $url,
+                'pagesListHtmL' => (string) View::make('admin::questions.list', compact('pages', 'url'))->render(),
                 'pagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $pages)->render(),
                 'pagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $pages)->render(),
                 'pagesTitleHtmL' => (string) View::make('admin::questions.title', compact('parentPage'))->render(),
