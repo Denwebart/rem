@@ -148,12 +148,11 @@ class AdminCommentsController extends \BaseController {
 
             $comments = $query->paginate(10);
 
-            $url = URL::route('admin.comments.index', $data);
 
             return Response::json([
                 'success' => true,
-                'url' => $url,
-                'commentsListHtmL' => (string) View::make('admin::comments.list', compact('comments', 'url'))->render(),
+                'url' => URL::route('admin.comments.index', $data),
+                'commentsListHtmL' => (string) View::make('admin::comments.list', compact('comments'))->render(),
                 'commentsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $comments)->render(),
                 'commentsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $comments)->render(),
             ]);
@@ -225,12 +224,17 @@ class AdminCommentsController extends \BaseController {
 	public function destroy($id)
 	{
 		$comment = Comment::find($id);
-		$comment->markAsDeleted();
 
-        $backUrl = Request::has('backUrl')
-            ? urldecode(Request::get('backUrl'))
+        $backUrl = Input::has('backUrl')
+            ? Input::get('backUrl')
             : URL::route('admin.comments.index');
-        return Redirect::to($backUrl);
+
+        if(!$comment->is_deleted) {
+            $comment->markAsDeleted();
+            return Redirect::to($backUrl)->with('warningMessage', 'Комментарий уже удален.');
+        } else {
+            return Redirect::to($backUrl);
+        }
 	}
 
 	/**
@@ -241,16 +245,22 @@ class AdminCommentsController extends \BaseController {
 	 */
 	public function ajaxMarkAsDeleted($id)
 	{
-		$comment = Comment::find($id);
-        dd($comment);
-		$parentId = $comment->parent_id;
-		$comment->markAsDeleted();
+        $comment = Comment::find($id);
+        if(!$comment->is_deleted) {
+            $parentId = $comment->parent_id;
+            $comment->markAsDeleted();
 
-		return Response::json(array(
-			'success' => true,
-			'parentId' => $parentId,
-			'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Комментарий удален.']),
-		));
+            return Response::json(array(
+                'success' => true,
+                'parentId' => $parentId,
+                'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Комментарий удален.']),
+            ));
+        } else {
+            return Response::json(array(
+                'success' => false,
+                'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Комментарий уже был удален.']),
+            ));
+        }
 	}
 
 }
