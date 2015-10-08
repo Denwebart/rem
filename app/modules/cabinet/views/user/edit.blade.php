@@ -85,7 +85,7 @@ View::share('title', $title);
                         <div class="row">
                             <div class="col-md-6 col-sm-6 pull-right">
                                 <div class="button-group">
-                                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ $backUrl }}" class="btn btn-primary btn-sm">
                                         <i class="material-icons">keyboard_arrow_left</i>
                                         <span class="hidden-xxs">Отмена</span>
                                     </a>
@@ -178,6 +178,7 @@ View::share('title', $title);
         {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
         {{ Form::hidden('tempPath', $user->getTempPath(), ['id' => 'tempPath']) }}
 
+        {{ Form::hidden('backUrl', $backUrl) }}
     {{ Form::close() }}
 @stop
 

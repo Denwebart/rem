@@ -72,11 +72,14 @@ class AdminRulesController extends \BaseController {
             }
 
             $rules = $query->paginate(10);
+            $url = URL::route('admin.rules.index', $data);
+
+            Session::set('user.url', $url);
 
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.rules.index', $data),
-                'rulesListHtmL' => (string) View::make('admin::rules.list', compact('rules'))->render(),
+                'url' => $url,
+                'rulesListHtmL' => (string) View::make('admin::rules.list', compact('rules', 'url'))->render(),
                 'rulesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $rules)->render(),
                 'rulesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $rules)->render(),
             ]);
@@ -92,7 +95,11 @@ class AdminRulesController extends \BaseController {
 	{
 		$rule = new Rule();
 
-		return View::make('admin::rules.create', compact('rule'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.pages.index');
+
+		return View::make('admin::rules.create', compact('rule', 'backUrl'));
 	}
 
 	/**
@@ -115,7 +122,8 @@ class AdminRulesController extends \BaseController {
         $rule->description = $rule->saveEditorImages($data['tempPath']);
         $rule->save();
 
-		return Redirect::route('admin.rules.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.rules.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -128,7 +136,11 @@ class AdminRulesController extends \BaseController {
 	{
 		$rule = Rule::find($id);
 
-		return View::make('admin::rules.edit', compact('rule'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.pages.index');
+
+		return View::make('admin::rules.edit', compact('rule', 'backUrl'));
 	}
 
 	/**
@@ -152,7 +164,8 @@ class AdminRulesController extends \BaseController {
         $rule->description = $rule->saveEditorImages($data['tempPath']);
         $rule->save();
 
-		return Redirect::route('admin.rules.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.rules.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -165,7 +178,10 @@ class AdminRulesController extends \BaseController {
 	{
 		Rule::destroy($id);
 
-		return Redirect::route('admin.rules.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.rules.index');
+        return Redirect::to($backUrl);
 	}
 
 }

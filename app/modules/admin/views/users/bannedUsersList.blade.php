@@ -49,7 +49,7 @@
             </ol>
         </td>
         <td class="button-column three-buttons">
-            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl()]) }}" title="Редактировать">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('user.edit', ['login' => $user->getLoginForUrl(), 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}" title="Редактировать">
                 <i class="fa fa-edit"></i>
             </a>
 
@@ -77,7 +77,7 @@
             </div><!-- /.modal -->
 
             <!-- Удалить -->
-            {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.users.destroy', $user->id), 'class' => 'as-button')) }}
+            {{ Form::open(['method' => 'DELETE', 'url' => URL::route('admin.users.destroy', ['id' => $user->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button']) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy" title="Удалить">
                     <i class='fa fa-trash-o'></i>
                 </button>

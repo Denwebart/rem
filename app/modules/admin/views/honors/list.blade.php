@@ -24,12 +24,12 @@
             @endforeach
         </td>
         <td class="button-column one-button">
-            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.honors.edit', ['id' => $honor->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                 <i class="fa fa-edit "></i>
             </a>
 
             @if(Auth::user()->isAdmin() && is_null($honor->key))
-                {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.honors.destroy', $honor->id), 'class' => 'as-button')) }}
+                {{ Form::open(['method' => 'DELETE', 'url' => URL::route('admin.honors.destroy', ['id' => $honor->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button']) }}
                 <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                     <i class='fa fa-trash-o'></i>
                 </button>

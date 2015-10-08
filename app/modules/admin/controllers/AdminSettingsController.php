@@ -78,11 +78,12 @@ class AdminSettingsController extends \BaseController {
             }
 
             $settings = $query->paginate(10);
+            $url = URL::route('admin.settings.index', $data);
 
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.settings.index', $data),
-                'settingsListHtmL' => (string) View::make('admin::settings.list', compact('settings'))->render(),
+                'url' => $url,
+                'settingsListHtmL' => (string) View::make('admin::settings.list', compact('settings', 'url'))->render(),
                 'settingsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $settings)->render(),
                 'settingsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $settings)->render(),
             ]);
@@ -112,7 +113,11 @@ class AdminSettingsController extends \BaseController {
 	{
 		$setting = Setting::find($id);
 
-		return View::make('admin::settings.edit', compact('setting'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.setting.index');
+
+		return View::make('admin::settings.edit', compact('setting', 'backUrl'));
 	}
 
 	/**
@@ -139,7 +144,8 @@ class AdminSettingsController extends \BaseController {
 
 		$setting->update($data);
 
-		return Redirect::route('admin.settings.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.settings.index');
+        return Redirect::to($backUrl);
 	}
 
 }

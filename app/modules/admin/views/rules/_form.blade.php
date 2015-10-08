@@ -51,8 +51,9 @@
     {{ Form::file('editor_image', ['style' => 'display:none', 'id' => 'editor_image']) }}
     {{ Form::hidden('tempPath', $rule->getTempPath(), ['id' => 'tempPath']) }}
 
+    {{ Form::hidden('backUrl', $backUrl) }}
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-    <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">Отмена</a>
+    <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
 </div>
 
 @section('style')

@@ -21,7 +21,7 @@ View::share('title', $title);
     <div class="content label-normal">
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-info btn-sm pull-right" href="{{ URL::route('admin.honors.edit', $honor->id) }}">
+                <a class="btn btn-info btn-sm pull-right" href="{{ URL::route('admin.honors.edit', ['id' => $honor->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                     <i class="fa fa-edit "></i> Редактировать
                 </a>
                 {{ $honor->getImage() }}

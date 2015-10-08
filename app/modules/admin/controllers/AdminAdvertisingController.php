@@ -149,9 +149,10 @@ class AdminАdvertisingController extends \BaseController {
 	{
 		Advertising::destroy($id);
 
-		return Request::has('backUrl')
-			? Redirect::to(urldecode(Request::get('backUrl')))
-			: Redirect::back();
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.advertising.index');
+        return Redirect::to($backUrl);
 	}
 
     /**
@@ -188,10 +189,13 @@ class AdminАdvertisingController extends \BaseController {
 
             $advertising = $query->paginate(10);
 
+            $url = URL::route('admin.advertising.index', $data);
+            Session::set('user.url', $url);
+
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.advertising.index', $data),
-                'advertisingListHtmL' => (string) View::make('admin::advertising.list', compact('advertising'))->render(),
+                'url' => $url,
+                'advertisingListHtmL' => (string) View::make('admin::advertising.list', compact('advertising', 'url'))->render(),
                 'advertisingPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $advertising)->render(),
                 'advertisingCountHtmL' => (string) View::make('admin::parts.count')->with('models', $advertising)->render(),
             ]);

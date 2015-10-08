@@ -101,10 +101,12 @@ class AdminUsersController extends \BaseController {
 
             $view = Request::has('view') ? Request::get('view') : 'list';
             $route = Request::has('route') ? Request::get('route') : 'index';
+
+            $url = URL::route('admin.users.' . $route, $data);
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.users.' . $route, $data),
-                'usersListHtmL' => (string) View::make('admin::users.' . $view, compact('users'))->render(),
+                'url' => $url,
+                'usersListHtmL' => (string) View::make('admin::users.' . $view, compact('users', 'url'))->render(),
                 'usersPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $users)->render(),
                 'usersCountHtmL' => (string) View::make('admin::parts.count')->with('models', $users)->render(),
             ]);
@@ -121,7 +123,10 @@ class AdminUsersController extends \BaseController {
 	{
 		User::destroy($id);
 
-		return Redirect::route('admin.users.index');
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.users.index');
+        return Redirect::to($backUrl);
 	}
 
 	public function changeRole($id)

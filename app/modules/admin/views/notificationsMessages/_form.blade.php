@@ -24,6 +24,8 @@
 </div>
 
 <div class="col-md-12">
+    {{ Form::hidden('backUrl', $backUrl) }}
+
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
-    <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">Отмена</a>
+    <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
 </div>

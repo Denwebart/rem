@@ -72,11 +72,12 @@ class AdminNotificationsMessagesController extends \BaseController {
             }
 
             $notificationsMessages = $query->paginate(10);
+            $url = URL::route('admin.notificationsMessages.index', $data);
 
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.notificationsMessages.index', $data),
-                'notificationsMessagesListHtmL' => (string) View::make('admin::notificationsMessages.list', compact('notificationsMessages'))->render(),
+                'url' => $url,
+                'notificationsMessagesListHtmL' => (string) View::make('admin::notificationsMessages.list', compact('notificationsMessages', 'url'))->render(),
                 'notificationsMessagesPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $notificationsMessages)->render(),
                 'notificationsMessagesCountHtmL' => (string) View::make('admin::parts.count')->with('models', $notificationsMessages)->render(),
             ]);
@@ -93,7 +94,11 @@ class AdminNotificationsMessagesController extends \BaseController {
 	{
 		$notificationMessage = NotificationMessage::find($id);
 
-		return View::make('admin::notificationsMessages.edit', compact('notificationMessage'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.notificationsMessages.index');
+
+		return View::make('admin::notificationsMessages.edit', compact('notificationMessage', 'backUrl'));
 	}
 
 	/**
@@ -115,6 +120,7 @@ class AdminNotificationsMessagesController extends \BaseController {
 
 		$notificationMessage->update($data);
 
-		return Redirect::route('admin.notificationsMessages.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.notificationsMessages.index');
+        return Redirect::to($backUrl);
 	}
 }

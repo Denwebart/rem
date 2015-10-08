@@ -43,11 +43,11 @@
             </a>
         </td>
         <td class="button-column two-buttons">
-            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.advertising.edit', $item->id) }}">
+            <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.advertising.edit', ['id' => $item->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                 <i class="fa fa-edit "></i>
             </a>
 
-            {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.advertising.destroy', $item->id), 'class' => 'as-button')) }}
+            {{ Form::open(array('method' => 'DELETE', 'url' => URL::route('admin.advertising.destroy', ['id' => $item->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button')) }}
             <button type="submit" class="btn btn-danger btn-sm" name="destroy">
                 <i class='fa fa-trash-o'></i>
             </button>

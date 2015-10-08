@@ -36,7 +36,7 @@
             @endif
         </td>
         <td class="button-column one-button">
-            <a class="btn btn-info btn-sm" href="{{ URL::route('admin.settings.edit', $setting->id) }}">
+            <a class="btn btn-info btn-sm" href="{{ URL::route('admin.settings.edit', ['id' => $setting->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
                 <i class="fa fa-edit "></i>
             </a>
         </td>

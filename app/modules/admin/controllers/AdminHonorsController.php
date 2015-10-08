@@ -72,11 +72,14 @@ class AdminHonorsController extends \BaseController {
             }
 
             $honors = $query->paginate(10);
+            $url = URL::route('admin.honors.index', $data);
+
+            Session::set('user.url', $url);
 
             return Response::json([
                 'success' => true,
-                'url' => URL::route('admin.honors.index', $data),
-                'honorsListHtmL' => (string) View::make('admin::honors.list', compact('honors'))->render(),
+                'url' => $url,
+                'honorsListHtmL' => (string) View::make('admin::honors.list', compact('honors', 'url'))->render(),
                 'honorsPaginationHtmL' => (string) View::make('admin::parts.pagination', compact('data'))->with('models', $honors)->render(),
                 'honorsCountHtmL' => (string) View::make('admin::parts.count')->with('models', $honors)->render(),
             ]);
@@ -210,7 +213,11 @@ class AdminHonorsController extends \BaseController {
 	{
 		$honor = new Honor();
 
-		return View::make('admin::honors.create', compact('honor'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.honors.index');
+
+		return View::make('admin::honors.create', compact('honor', 'backUrl'));
 	}
 
 	/**
@@ -237,7 +244,8 @@ class AdminHonorsController extends \BaseController {
         $honor->description = $honor->saveEditorImages($data['tempPath']);
 		$honor->save();
 
-		return Redirect::route('admin.honors.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.honors.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -250,7 +258,11 @@ class AdminHonorsController extends \BaseController {
 	{
 		$honor = Honor::find($id);
 
-		return View::make('admin::honors.edit', compact('honor'));
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.honors.index');
+
+		return View::make('admin::honors.edit', compact('honor', 'backUrl'));
 	}
 
 	/**
@@ -279,7 +291,8 @@ class AdminHonorsController extends \BaseController {
         $honor->description = $honor->saveEditorImages($data['tempPath']);
         $honor->save();
 
-		return Redirect::route('admin.honors.index');
+        $backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.honors.index');
+        return Redirect::to($backUrl);
 	}
 
 	/**
@@ -291,14 +304,18 @@ class AdminHonorsController extends \BaseController {
 	public function destroy($id)
 	{
 		$honor = Honor::find($id);
+
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('admin.honors.index');
+
 		if(is_null($honor->key)) {
 			$honor->delete();
 		} else {
-			return Redirect::route('admin.honors.index')
-				->with('warningMessage', 'Эту награду нельзя удалить.');
+			return Redirect::to($backUrl)->with('warningMessage', 'Эту награду нельзя удалить.');
 		}
 
-		return Redirect::route('admin.honors.index');
+		return Redirect::to($backUrl);;
 	}
 
 	/**

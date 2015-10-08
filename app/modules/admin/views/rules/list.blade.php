@@ -11,11 +11,11 @@
         @endif
     </td>
     <td class="button-column two-buttons">
-        <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.rules.edit', $rule->id) }}">
+        <a class="btn btn-info btn-sm margin-right-5" href="{{ URL::route('admin.rules.edit', ['id' => $rule->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]) }}">
             <i class="fa fa-edit "></i>
         </a>
 
-        {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.rules.destroy', $rule->id), 'class' => 'as-button')) }}
+        {{ Form::open(array('method' => 'DELETE', 'url' => URL::route('admin.rules.destroy', ['id' => $rule->id, 'backUrl' => isset($url) ? urlencode($url) : urlencode(Request::fullUrl())]), 'class' => 'as-button')) }}
         <button type="submit" class="btn btn-danger btn-sm" name="destroy">
             <i class='fa fa-trash-o'></i>
         </button>

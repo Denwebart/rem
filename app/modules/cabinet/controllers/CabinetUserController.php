@@ -84,7 +84,12 @@ class CabinetUserController extends \BaseController
 			? Auth::user()
 			: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 		View::share('user', $user);
-		return View::make('cabinet::user.edit');
+
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
+            : URL::route('user.profile', ['login' => $user->getLoginForUrl()]);
+
+		return View::make('cabinet::user.edit', compact('backUrl'));
 	}
 
 	/**
@@ -136,7 +141,11 @@ class CabinetUserController extends \BaseController
         $user->description = $user->saveEditorImages($data['tempPath']);
         $user->save();
 
-		return Redirect::route('user.profile', ['login' => $user->getLoginForUrl()]);
+        $backUrl = Input::has('backUrl')
+            ? Input::get('backUrl')
+            : URL::route('user.profile', ['login' => $user->getLoginForUrl()]);
+
+        return Redirect::to($backUrl);
 	}
 
 	public function getChangePassword($login)
