@@ -513,7 +513,7 @@ class CabinetUserController extends \BaseController
 		}
 
 		$data = $formFields;
-		$data['image'] = $data['image-url'];
+		$data['image'] = $data['image_url'];
 		$data['user_id'] = $user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['published_at'] = \Carbon\Carbon::now();
@@ -551,7 +551,6 @@ class CabinetUserController extends \BaseController
 			->firstOrFail();
 
 		$data = Input::all();
-
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);

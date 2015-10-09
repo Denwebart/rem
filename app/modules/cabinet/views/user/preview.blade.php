@@ -92,7 +92,7 @@
                 <div class="content">
                     @if($page->image)
                         <a class="fancybox" rel="group-content" href="{{ $page->image }}">
-                            <img src="{{ $page->image }}" alt=""/>
+                            <img src="{{ $page->image }}" alt="{{ $page->title }}" class="img-responsive page-image"/>
                         </a>
                     @endif
 

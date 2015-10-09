@@ -61,6 +61,12 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 //	}
 //});
 
+App::error(function(Illuminate\Session\TokenMismatchException $exception)
+{
+    Redirect::back();
+    Log::error($exception);
+});
+
 App::error(function(Exception $exception, $code)
 {
 	if(403 == $code) {

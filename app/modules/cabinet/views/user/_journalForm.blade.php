@@ -56,7 +56,7 @@
             @endif
 
             {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
-            {{ Form::hidden('image-url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image-name']) }}
+            {{ Form::hidden('image_url', ($article->image) ? $article->getImagePath() . $article->image : '', ['id' => 'image_url']) }}
             <small class="image_error error text-danger">
                 {{ $errors->first('image') }}
             </small>
@@ -281,6 +281,7 @@
                     success: function(response) {
                         if(response.success) {
                             $('#page-image').html(response.imageHtml);
+                            $('#image_url').val(response.imageUrl);
                         }
                     }
                 });
@@ -308,6 +309,7 @@
                             $button.css('display', 'none');
                             $('.page-image').remove();
                             imageName.text('');
+                            $('#image_url').val('');
                         }
                     }
                 });
