@@ -9,7 +9,8 @@
             "advlist lists link autolink image",
             "wordcount",
             "media table contextmenu",
-            "emoticons imagetools"
+            "emoticons imagetools",
+            "paste"
         ],
         menubar:false,
         toolbar1: "<?php echo $toolbar ?>",
@@ -21,6 +22,8 @@
         relative_urls: false,
         remove_script_host : true,
         convert_urls : false,
+        paste_text_sticky: true,
+        paste_text_sticky_default: true,
         file_browser_callback : function (field_name, url, type, win) {
             if (type == 'file' || type == 'media') {
                 return false;
