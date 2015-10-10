@@ -518,6 +518,14 @@ class CabinetUserController extends \BaseController
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['published_at'] = \Carbon\Carbon::now();
 
+        if(isset($data['tags'])) {
+            $newTag = isset($data['tags']['newTags']) ? $data['tags']['newTags'] : [];
+            unset($data['tags']['newTags'], $data['tags']['new']);
+            $tags = $newTag + $data['tags'];
+        } else {
+            $tags = [];
+        }
+
 		unset(Page::$rulesForUsers['image']);
 		if($data['type'] == Page::TYPE_ARTICLE) {
 			unset(Page::$rulesForUsers['parent_id']);
@@ -536,7 +544,7 @@ class CabinetUserController extends \BaseController
 
 		return Response::json(array(
 			'success' => true,
-			'previewHtml' => (string) View::make('cabinet::user.preview', compact('page'))->render(),
+			'previewHtml' => (string) View::make('cabinet::user.preview', compact('page', 'tags'))->render(),
 		));
 	}
 

@@ -98,18 +98,19 @@
 
                     {{ $page->getContentWithWidget() }}
 
-                    @if(count($page->tags))
+                    @if(count($tags))
                         <ul class="tags">
-                            @foreach($page->tags as $tag)
+                            @foreach($tags as $tag)
                                 <li>
-                                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag->title]) }}" title="{{ $tag->title }}" class="tag btn btn-sm btn-info">
-                                        {{ $tag->title }}
+                                    <a href="{{ URL::route('journal.tag', ['journalAlias' => Config::get('settings.journalAlias'), 'tag' => $tag]) }}" title="{{ $tag }}" class="tag btn btn-sm btn-info">
+                                        {{ $tag }}
                                     </a>
                                 </li>
                             @endforeach
                         </ul>
                     @endif
                 </div>
+
             </div>
         </div>
     </div>
