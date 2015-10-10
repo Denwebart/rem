@@ -103,7 +103,7 @@
         </div>
     @endif
     <div class="col-md-12">
-        <a href="{{ URL::to($page->getUrl()) }}" class="read-more">
+        <a href="{{ URL::to($article->getUrl()) }}" class="read-more">
             <span class="link-text">
                 <span>Читать полностью</span>
                 <i class="material-icons">chevron_right</i>
