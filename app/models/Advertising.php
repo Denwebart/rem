@@ -31,6 +31,7 @@ class Advertising extends \Eloquent
 {
 	protected $table = 'advertising';
 
+	const AREA_NONE = 0;
 	const AREA_LEFT_SIDEBAR = 1;
 	const AREA_RIGHT_SIDEBAR = 2;
 	const AREA_CONTENT_TOP = 3;
@@ -39,6 +40,7 @@ class Advertising extends \Eloquent
 	const AREA_SITE_BOTTOM = 6;
 
 	public static $areas = [
+		self::AREA_NONE => '- Не выбрана -',
 		self::AREA_LEFT_SIDEBAR => 'В левой колонке',
 		self::AREA_RIGHT_SIDEBAR => 'В правой колонке',
 		self::AREA_CONTENT_TOP => 'Над текстом страницы',
@@ -102,7 +104,7 @@ class Advertising extends \Eloquent
 
 	public static $rules = [
 		'type' => 'required|numeric',
-		'area' => 'required',
+		'area' => 'numeric',
 		'position' => 'numeric',
 		'access' => 'numeric',
 		'title' => 'max:100',

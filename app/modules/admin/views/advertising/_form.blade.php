@@ -207,10 +207,15 @@
         $(document).ready(function() {
             $('#areas').on('click', '.area', function(){
                 if(!$(this).hasClass('not-active')) {
-                    $('#areas .area').removeClass('selected-area');
-                    $(this).addClass('selected-area');
-                    $('#areas').find('[data-area=' + $(this).data('area') + ']').addClass('selected-area');
-                    $('#area').val($(this).data('area'));
+                    if (!$(this).hasClass('selected-area')) {
+                        $('#areas .area').removeClass('selected-area');
+                        $(this).addClass('selected-area');
+                        $('#areas').find('[data-area=' + $(this).data('area') + ']').addClass('selected-area');
+                        $('#area').val($(this).data('area'));
+                    } else {
+                        $('#areas .area').removeClass('selected-area');
+                        $('#area').val('');
+                    }
                 }
             });
 

@@ -24,7 +24,7 @@ class AdminАdvertisingController extends \BaseController {
 
             $query = new Advertising();
             $query = $query->with('pagesTypes');
-            if ($area) {
+            if ($area != '') {
                 $query = $query->whereArea($area);
             }
             if ($searchQuery) {
@@ -126,7 +126,14 @@ class AdminАdvertisingController extends \BaseController {
 			? Input::get('code-widget')
 			: Input::get('code-advertising');
 
-		$validator = Validator::make($data, Advertising::$rules);
+        if($data['type'] == Advertising::TYPE_ADVERTISING) {
+            $rules = Advertising::$rules;
+            unset($rules['limit']);
+        } else {
+            $rules = Advertising::$rules;
+        }
+
+		$validator = Validator::make($data, $rules);
 
 		if ($validator->fails())
 		{
@@ -134,6 +141,7 @@ class AdminАdvertisingController extends \BaseController {
 		}
 
 		$advertising->update($data);
+
 		AdvertisingPage::add($advertising, Input::get('pages'));
 
 		return Redirect::to(Input::get('backUrl'));
@@ -172,7 +180,7 @@ class AdminАdvertisingController extends \BaseController {
 
             $query = new Advertising();
             $query = $query->with('pagesTypes');
-            if ($area) {
+            if ($area != '') {
                 $query = $query->whereArea($area);
             }
             if ($searchQuery) {

@@ -43,7 +43,7 @@ View::share('title', $title);
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        {{ Form::select('area', ['0' => '- Выберите область -'] + Advertising::$areas, Request::has('area') ? Request::get('area') : null, [
+                        {{ Form::select('area', ['' => '- Выберите область -'] + Advertising::$areas, Request::has('area') ? Request::get('area') : null, [
                             'id' => 'area',
                             'class' => 'form-control',
                             'placeholder' => 'Область',

@@ -56,10 +56,16 @@ class AdvertisingPage extends \Eloquent
 		return $this->belongsTo('Advertising', 'advertising_id');
 	}
 
+    /**
+     * Добавление рекламы на страницы
+     *
+     * @param $advertising
+     * @param $pages
+     */
 	public static function add($advertising, $pages)
 	{
+        AdvertisingPage::whereAdvertisingId($advertising->id)->delete();
 		if(is_array($pages)) {
-			AdvertisingPage::whereAdvertisingId($advertising->id)->delete();
 			$advertisingPageData = [];
 			foreach($pages as $pageType => $value) {
 				$advertisingPageData[] = [
