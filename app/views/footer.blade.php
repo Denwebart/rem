@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="copyright">
-                    <a href="{{ URL::to('/') }}">
+                    <a href="{{ URL::to('/') }}" class="logo">
                         {{ HTML::image('images/logo-circle-footer.png', '', [
                             'class' => 'img-responsive margin-bottom-20 logo',
                         ]) }}

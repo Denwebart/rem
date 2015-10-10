@@ -1525,6 +1525,9 @@ footer .copyright {
 footer .copyright a {
     color: #03A9F4;
 }
+footer .copyright a.logo:hover {
+    text-decoration: none;
+}
 footer .counter {
     text-align: center;
 }
