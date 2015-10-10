@@ -342,7 +342,7 @@
             var commentId = $(this).data('id');
             if(confirm('Вы уверены, что хотите удалить комментарий?')) {
                 $.ajax({
-                    url: '/admin/comments/markAsDelete/' + commentId,
+                    url: '/admin/comments/ajaxDelete/' + commentId,
                     dataType: "text json",
                     type: "POST",
                     data: {},
@@ -351,14 +351,7 @@
                     },
                     success: function (response) {
                         if (response.success) {
-                            if(response.parentId == 0) {
-                                var commentClass = '.parent-comment.comment-text';
-                            } else {
-                                var commentClass = '.comment-text';
-                            }
-                            $('[id="comment-' + commentId + '"]').find(commentClass)
-                                    .addClass('deleted')
-                                    .html('Комментарий удален.');
+                            $('[id="comment-' + commentId + '"]').remove();
                             $('#site-messages').prepend(response.message);
                         }
                     }

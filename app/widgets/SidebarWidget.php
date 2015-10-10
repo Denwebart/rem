@@ -148,6 +148,7 @@ class SidebarWidget
 	public function comments($limit = 9)
 	{
 		$comments = Comment::whereIsPublished(1)
+            ->whereIsDeleted(0)
 			->whereIsAnswer(0)
 			->limit($limit)
 			->with('page.parent.parent', 'user')
@@ -166,6 +167,7 @@ class SidebarWidget
 	public function answers($limit = 9)
 	{
 		$answers = Comment::whereIsPublished(1)
+            ->whereIsDeleted(0)
 			->whereIsAnswer(1)
 			->whereMark(Comment::MARK_BEST)
 			->limit($limit)

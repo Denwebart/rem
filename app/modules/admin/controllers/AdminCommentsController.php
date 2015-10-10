@@ -225,21 +225,47 @@ class AdminCommentsController extends \BaseController {
 	{
 		$comment = Comment::find($id);
 
-        $backUrl = Input::has('backUrl')
-            ? Input::get('backUrl')
+        $backUrl = Request::has('backUrl')
+            ? urldecode(Request::get('backUrl'))
             : URL::route('admin.comments.index');
 
-        if(!$comment->is_deleted) {
-            $comment->markAsDeleted();
-            return Redirect::to($backUrl)->with('warningMessage', 'Комментарий уже удален.');
+        if($comment) {
+            $comment->sendNotificationsAboutDelete();
+            $comment->delete();
+            return Redirect::to($backUrl)->with('successMessage', 'Комментарий удален.');
         } else {
-            return Redirect::to($backUrl);
+            return Redirect::to($backUrl)->with('warningMessage', 'Комментарий уже был удален.');
         }
 	}
 
+    public function ajaxDelete($id)
+    {
+        $comment = Comment::find($id);
+        
+        if($comment) {
+            $comment->sendNotificationsAboutDelete();
+            $comment->delete();
+            return Response::json(array(
+                'success' => true,
+                'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Комментарий удален.']),
+            ));
+        } else {
+            return Response::json(array(
+                'success' => false,
+                'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Комментарий уже был удален.']),
+            ));
+        }
+    }
 	/**
 	 * Remove the specified comment from storage.
 	 *
+        if(!$comment->is_deleted) {
+            $comment->markAsDeleted();
+            return Redirect::to($backUrl)->with('successMessage', 'Комментарий удален.');
+        } else {
+            return Redirect::to($backUrl)->with('warningMessage', 'Комментарий уже удален.');
+        }
+     *
 	 * @param  int  $id
 	 * @return Response
 	 */

@@ -138,6 +138,14 @@ class Page extends \Eloquent
 			$page->title = StringHelper::mbUcFirst($page->title);
 		});
 
+        static::deleting(function($page) {
+            // удаление комментариев
+            foreach($page->allComments as $comment) {
+                $comment->sendNotificationsAboutDelete();
+                $comment->delete();
+            }
+        });
+
 		static::deleted(function($page)
 		{
 			// удаление похожих при удалении
@@ -215,6 +223,15 @@ class Page extends \Eloquent
 			->orderBy('related_pages.created_at', 'ASC');
 	}
 
+    /**
+     * Все комментарии и ответы.
+     * @return mixed
+     */
+    public function allComments()
+    {
+        return $this->hasMany('Comment', 'page_id');
+    }
+
 	/**
 	 * Все комментарии.
 	 * @return mixed
@@ -234,6 +251,15 @@ class Page extends \Eloquent
 			->whereIsAnswer(0)
 			->whereIsPublished(1);
 	}
+
+    /**
+     * Все ответы.
+     * @return mixed
+     */
+    public function answers()
+    {
+        return $this->hasMany('Comment', 'page_id')->whereIsAnswer(1);
+    }
 
 	/**
 	 * Опубликованные ответы.

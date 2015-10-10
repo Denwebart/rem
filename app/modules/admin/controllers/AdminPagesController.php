@@ -31,7 +31,7 @@ class AdminPagesController extends \BaseController {
 
         $query = new Page;
         $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
-        if($parent_id) {
+        if ($parent_id) {
             $query = $query->whereParentId($parent_id);
             $parentPage = Page::find($parent_id);
         } else {
@@ -53,10 +53,13 @@ class AdminPagesController extends \BaseController {
             });
         }
         if ($searchQuery) {
-            $title = mb_strtolower(trim(-preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
-            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
-                ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($title) {
+                $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            });
         }
+
         if ($sortBy && $direction) {
             $query = $query->orderBy($sortBy, $direction);
         } else {
@@ -151,33 +154,39 @@ class AdminPagesController extends \BaseController {
         $direction = Request::get('direction');
         $parent_id = Request::get('parent_id');
         $author = Request::get('author');
-        $title = Request::get('query');
+        $searchQuery = Request::get('query');
 
         $query = new Page;
         $query = $query->with('parent.parent', 'children', 'user', 'relatedArticles', 'relatedQuestions');
-        if($parent_id) {
+        if ($parent_id) {
             $query = $query->whereParentId($parent_id);
             $parentPage = Page::find($parent_id);
         } else {
             $parentPage = null;
         }
         if ($author) {
-            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $author))));
+            $name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ.@_ \-\']+$/u%', '', $author))));
             $query = $query->whereHas('user', function($q) use ($name) {
-                $q->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
-                    ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%");
+                $q->where(function($qu) use ($name) {
+                    $qu->where(DB::raw('LOWER(CONCAT(login, " ", firstname, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(login, " ", lastname, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", firstname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", lastname, " ", login))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(firstname, " ", login, " ", lastname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(CONCAT(lastname, " ", login, " ", firstname))'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(login)'), 'LIKE', "$name%")
+                        ->orWhere(DB::raw('LOWER(email)'), 'LIKE', "$name%");
+                });
             });
         }
-        if ($title) {
-            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $title))));
-            $query = $query->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
-                ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+        if ($searchQuery) {
+            $title = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[0-9A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $searchQuery))));
+            $query = $query->where(function($q) use($title) {
+                $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$title%")
+                    ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
+            });
         }
+
         if ($sortBy && $direction) {
             $query = $query->orderBy($sortBy, $direction);
         } else {
