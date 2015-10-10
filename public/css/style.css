@@ -314,8 +314,8 @@ h1, h2, h3, h4, h5, h6,
 .content .fancybox {
     /*float: left;*/
     max-width: 100%;
-    display: inline-block;
-    /*width: 100%;*/
+    /*display: inline-block;*/
+    /*width: 100%;*
     /*text-align: center;*/
 }
 .content .fancybox img {

@@ -71,17 +71,15 @@ class ImageUploadController extends BaseController
             $image = Input::get('imageName');
             $tempPath = Input::get('tempPath');
 
-            dd(public_path() . $tempPath . $image);
             // delete old image with directory
             if(File::exists(public_path() . $tempPath . $image)) {
-                dd('yes');
                 File::delete(public_path() . $tempPath . $image);
             }
 
-//            return Response::json([
-//                'success' => true,
+            return Response::json([
+                'success' => true,
 //                'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Изображение удалено.'])
-//            ]);
+            ]);
         }
     }
 }
