@@ -971,6 +971,10 @@ form .page-image {
 .widget-body img {
     max-width: 100% !important;
 }
+.area-content .widget-body h4 {
+    text-align: center !important;
+    margin-top: 0;
+}
 .area-content .widget-body iframe,
 .area-content .widget-body img  {
     padding-right: 15px;
