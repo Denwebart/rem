@@ -1646,6 +1646,10 @@ footer .counter {
     width: 100%;
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
+.error p {
+    font-size: 16px;
+    font-weight: 300;
+}
 .error .error-code {
     font-size: 200px;
     font-weight: 300;
@@ -1653,6 +1657,17 @@ footer .counter {
 .error .error-message {
     font-size: 34px;
     font-weight: 300;
+}
+.error-404 img{
+    float: right;
+}
+.error-404 .error-message {
+    display: inline-block;
+    margin-top: 50px;
+}
+.error #search {
+    margin: 20px 0 0 0;
+    padding-left: 20px;
 }
 
 /*-- Полоса уведомлений для авторизованных пользователей --*/
@@ -2385,6 +2400,17 @@ footer .counter {
         float: left;
         margin: 0 10px 5px;
     }
+    /* Ошибки */
+    .error-404 .col-md-6 {
+        text-align: center;
+    }
+    .error-404 img{
+        float: none;
+        display: inline;
+    }
+    .error-404 .error-message {
+        margin-top: 0;
+    }
 }
 @media (min-width: 768px) and (max-width: 991px) {
     .container {
@@ -2441,6 +2467,17 @@ footer .counter {
         margin: 0 10px 5px;
     }
     .blog .image {
+        margin-top: 0;
+    }
+    /* Ошибки */
+    .error p {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .error .error-message {
+        font-size: 30px;
+    }
+    .error-404 .error-message {
         margin-top: 0;
     }
 }
@@ -2541,6 +2578,10 @@ footer .counter {
     /* Профиль пользователя */
     .profile-user-status .text {
         font-size: 12px;
+    }
+    /* Ошибки */
+    .error-404 .error-message {
+        margin-top: 30px;
     }
 }
 @media (min-width: 1200px) and (max-width: 1329px) {
