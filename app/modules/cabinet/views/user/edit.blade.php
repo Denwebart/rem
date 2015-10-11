@@ -16,16 +16,18 @@ View::share('title', $title);
                         </a>
                     </div>
                     <div class="form-group">
-                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-                        {{ $errors->first('avatar') }}
+                        {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
+                        <small class="image_error error text-danger">
+                            {{ $errors->first('avatar') }}
+                        </small>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-2" style="padding: 0">
-                    @if($user->avatar)
-                        <a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">
-                            <i class="material-icons">delete</i>
-                        </a>
-                    @endif
+                    {{--@if($user->avatar)--}}
+                        {{--<a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">--}}
+                            {{--<i class="material-icons">delete</i>--}}
+                        {{--</a>--}}
+                    {{--@endif--}}
                 </div>
             </div>
         </div>
@@ -197,13 +199,6 @@ View::share('title', $title);
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
-
-        $(".file-inputs").on("change", function(){
-            var file = this.files[0];
-            if (file.size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
-            }
-        });
     </script>
 
     <!-- Delete Avatar -->
@@ -225,6 +220,61 @@ View::share('title', $title);
                             $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
                             $('.avatar-link img').attr('src', response.imageUrlMini).addClass('avatar-default');
                             $('.widget-user img').attr('src', response.imageUrlMini).addClass('avatar-default');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Загрузка изображения ajax -->
+    <script type="text/javascript">
+        $('.ajax-upload').on('change', function () {
+            if (this.files[0].size > 5242880) {
+                $(this).parent().parent().append('Недопустимый размер файла.');
+            } else {
+                var fileData = new FormData();
+                fileData.append('image', $(this)[0].files[0]);
+                fileData.append('tempPath', $('#tempPath').val());
+                fileData.append('class', ' avatar');
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
+                    data: fileData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            $('.profile-user-avatar').html(response.imageHtml);
+                        }
+                    }
+                });
+            }
+        });
+
+        <!-- Удаление временного изображения ajax -->
+        $('.profile-user-avatar').on('click', '#delete-temp-image', function(){
+            var $button = $(this);
+            if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                var imageName = $(this).parent().parent().find('.file-input-name');
+                $.ajax({
+                    url: '<?php echo URL::route('deleteFromTemp') ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {'imageName': imageName.text(), 'tempPath': $('#tempPath').val()},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#site-messages').prepend(response.message);
+                            $button.css('display', 'none');
+                            $('.avatar').remove();
+                            imageName.text('');
                         }
                     }
                 });

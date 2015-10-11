@@ -14,7 +14,7 @@ class ImageUploadController extends BaseController
 			$data = Input::all();
 
 			$rules = [
-				'image' => 'image|max:15000|required',
+				'image' => 'image|max:15000|required_without_all:avatar',
 			];
 
 			$validation = Validator::make($data, $rules);
@@ -51,10 +51,11 @@ class ImageUploadController extends BaseController
 				File::delete($imagePath . 'watermark.png');
 			}
 
+            $class = Request::has('class') ? Request::get('class') : ' page-image';
 			return Response::json(array(
 				'success' => true,
 				'imageUrl' => $imageUrl,
-                'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl])->render(),
+                'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl, 'class' => $class])->render(),
 			));
 		}
 	}
