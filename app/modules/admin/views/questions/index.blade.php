@@ -92,7 +92,7 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedComments', $params) }}
+                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', $params) }}
                                 </th>
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
@@ -115,7 +115,11 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                         </tbody>
                     </table>
                     <div id="pagination" class="pull-left">
-                        {{ SortingHelper::paginationLinks($pages) }}
+                        {{ $pages->appends([
+                            //'name' => $name,
+                            'sortBy' => Request::get('sortBy'),
+                            'direction' => Request::get('direction'),
+                        ])->links() }}
                     </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->

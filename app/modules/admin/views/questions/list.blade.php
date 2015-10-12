@@ -19,7 +19,7 @@
                 <i class="glyphicon glyphicon-ok" title="Есть решение"></i>
             @endif
             <a href="{{ URL::to($page->getUrl()) }}#answers" target="_blank">
-                {{ count($page->publishedComments) }}
+                {{ count($page->publishedAnswers) }}
             </a>
         </td>
         <td>

@@ -29,9 +29,12 @@ class AdminQuestionsController extends \BaseController {
         $author = Request::get('author');
         $searchQuery = Request::get('query');
 
+        $limit = 10;
+        $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
+
         $query = new Page;
         $query = $query->whereType(Page::TYPE_QUESTION);
-        $query = $query->with('parent.parent', 'user', 'publishedComments', 'bestComments');
+        $query = $query->with($relations);
         if ($parent_id) {
             $query = $query->whereParentId($parent_id);
             $parentPage = Page::find($parent_id);
@@ -62,12 +65,30 @@ class AdminQuestionsController extends \BaseController {
         }
 
         if ($sortBy && $direction) {
-            $query = $query->orderBy($sortBy, $direction);
+            if(in_array($sortBy, $relations)) {
+                $page = Request::get('stranitsa', 1);
+
+                if($direction == 'asc') {
+                    $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
+                        ->sortBy(function($user) use($sortBy) {
+                            return $user->$sortBy->count();
+                        });
+                    $pages = Paginator::make($pages->all(), count($pages), $limit);
+                } else {
+                    $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
+                        ->sortBy(function($user) use($sortBy) {
+                            return $user->$sortBy->count();
+                        })->reverse();
+                    $pages = Paginator::make($pages->all(), count($pages), $limit);
+                }
+            } else {
+                $query = $query->orderBy($sortBy, $direction);
+                $pages = $query->paginate($limit);
+            }
         } else {
             $query = $query->orderBy('created_at', 'DESC');
+            $pages = $query->paginate($limit);
         }
-
-        $pages = $query->paginate(10);
 
 		return View::make('admin::questions.index', compact('pages', 'parentPage'));
 	}
@@ -88,9 +109,12 @@ class AdminQuestionsController extends \BaseController {
             $author = $data['author'];
             $searchQuery = $data['query'];
 
+            $limit = 10;
+            $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
+
             $query = new Page;
             $query = $query->whereType(Page::TYPE_QUESTION);
-            $query = $query->with('parent.parent', 'user', 'publishedComments', 'bestComments');
+            $query = $query->with($relations);
             if ($parent_id) {
                 $query = $query->whereParentId($parent_id);
                 $parentPage = Page::find($parent_id);
@@ -121,12 +145,30 @@ class AdminQuestionsController extends \BaseController {
             }
 
             if ($sortBy && $direction) {
-                $query = $query->orderBy($sortBy, $direction);
+                if(in_array($sortBy, $relations)) {
+                    $page = Request::get('stranitsa', 1);
+
+                    if($direction == 'asc') {
+                        $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
+                            ->sortBy(function($user) use($sortBy) {
+                                return $user->$sortBy->count();
+                            });
+                        $pages = Paginator::make($pages->all(), count($pages), $limit);
+                    } else {
+                        $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
+                            ->sortBy(function($user) use($sortBy) {
+                                return $user->$sortBy->count();
+                            })->reverse();
+                        $pages = Paginator::make($pages->all(), count($pages), $limit);
+                    }
+                } else {
+                    $query = $query->orderBy($sortBy, $direction);
+                    $pages = $query->paginate($limit);
+                }
             } else {
                 $query = $query->orderBy('created_at', 'DESC');
+                $pages = $query->paginate($limit);
             }
-
-            $pages = $query->paginate(10);
 
             $url = URL::route('admin.questions.index', $data);
             Session::set('user.url', $url);

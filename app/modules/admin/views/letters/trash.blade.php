@@ -102,10 +102,10 @@ View::share('title', $title);
                                             {{--<th></th>--}}
                                             {{--<th></th>--}}
                                             <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.index', 'Автор', 'user_id') }}
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Автор', 'user_id') }}
                                             </th>
                                             <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.index', 'IP', 'ip_id') }}
+                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'IP', 'ip_id') }}
                                             </th>
                                             <th>
                                                 {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
