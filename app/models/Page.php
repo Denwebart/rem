@@ -309,6 +309,16 @@ class Page extends \Eloquent
 	}
 
 	/**
+	 * Пункт меню
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function menuItem()
+	{
+		return $this->belongsTo('Menu', 'page_id');
+	}
+
+	/**
 	 * Теги
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
