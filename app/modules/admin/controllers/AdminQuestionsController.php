@@ -29,7 +29,7 @@ class AdminQuestionsController extends \BaseController {
         $author = Request::get('author');
         $searchQuery = Request::get('query');
 
-        $limit = 10;
+        $limit = 1;
         $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
 
         $query = new Page;
@@ -70,17 +70,15 @@ class AdminQuestionsController extends \BaseController {
 
                 if($direction == 'asc') {
                     $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
-                        ->sortBy(function($user) use($sortBy) {
-                            return $user->$sortBy->count();
+                        ->sortBy(function($q) use($sortBy) {
+                            return $q->$sortBy->count();
                         });
-                    $pages = Paginator::make($pages->all(), count($pages), $limit);
                 } else {
-                    $pages = $query->skip($limit * ($page - 1))->take($limit)->get()
-                        ->sortBy(function($user) use($sortBy) {
-                            return $user->$sortBy->count();
+                    $pages = $query->sortBy(function($q) use($sortBy) {
+                            return $q->$sortBy->count();
                         })->reverse();
-                    $pages = Paginator::make($pages->all(), count($pages), $limit);
                 }
+                $pages = Paginator::make($pages->all(), count($pages), $limit);
             } else {
                 $query = $query->orderBy($sortBy, $direction);
                 $pages = $query->paginate($limit);
