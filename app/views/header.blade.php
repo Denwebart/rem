@@ -14,6 +14,15 @@
                             Зарегистрироваться
                         </a>
                     </div>
+                @else
+                    <div class="buttons pull-right">
+                        <a href="{{ URL::route('logout') }}" class="btn btn-primary margin-top-20 pull-right btn-logout">
+                            <span>
+                                <span class="text hidden-xs">Выйти</span>
+                                <i class="material-icons">exit_to_app</i>
+                            </span>
+                        </a>
+                    </div>
                 @endif
                 {{ $menuWidget->topMenu() }}
             </div>
@@ -39,6 +48,15 @@
                                 </a>
                                 <a href="{{ URL::route('register') }}" class="pull-right btn-register">
                                     Зарегистрироваться
+                                </a>
+                            </div>
+                        @else
+                            <div class="buttons pull-right">
+                                <a href="{{ URL::route('logout') }}" class="btn btn-primary margin-top-20 pull-right btn-logout">
+                                    <span>
+                                        <span class="text hidden-md">Выйти</span>
+                                        <i class="material-icons">exit_to_app</i>
+                                    </span>
                                 </a>
                             </div>
                         @endif

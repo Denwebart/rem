@@ -265,23 +265,28 @@ h1, h2, h3, h4, h5, h6,
 .header {
     /*background: #DDDDDD;*/
 }
-.btn-login {
-    width: 136px;
+.btn-login,
+.btn-logout {
+    width: 140px;
     padding-top: 1px;
     padding-bottom: 3px;
     line-height: 24px;
 }
-.btn-login span {
+.btn-login span,
+.btn-logout span {
     text-align: center;
     vertical-align: middle;
     display: inline-block;
 }
 .btn-login span .text,
-.btn-login span .material-icons {
+.btn-login span .material-icons,
+.btn-logout span .text,
+.btn-logout span .material-icons {
     float: left;
     line-height: 24px;
 }
-.btn-login span .material-icons {
+.btn-login span .material-icons,
+.btn-logout span .material-icons {
     margin: 0 0 0 5px;
     float: right;
 }
@@ -657,7 +662,8 @@ form .page-image {
 .header .buttons {
     margin-top: 7px;
 }
-.header .btn-login {
+.header .btn-login,
+.header .btn-logout {
     margin: 0;
 }
 .header .btn-register {
@@ -2257,7 +2263,8 @@ footer .counter {
         max-width: 100px;
         width: 100%;
     }
-    .btn-login {
+    .btn-login,
+    .btn-logout {
         width: auto;
         padding-left: 6px;
         padding-right: 10px;
@@ -2508,7 +2515,8 @@ footer .counter {
     #site-title h1 .slogan {
         font-size: 16px;
     }
-    .btn-login {
+    .btn-login,
+    .btn-logout {
         width: auto;
         padding-left: 6px;
         padding-right: 10px;
