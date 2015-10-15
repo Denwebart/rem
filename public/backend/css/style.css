@@ -124,6 +124,12 @@ select:-moz-focusring {
     cursor: pointer;
 }
 /* Таблицы */
+table tr.link {
+    cursor: pointer;
+}
+table tr td {
+    text-decoration: underline;
+}
 .button-column.one-button {
     width: 65px;
 }
@@ -1830,7 +1836,7 @@ header .logo i {
     -moz-border-radius: 2px;
     border-radius: 2px;
     padding: 10px;
-    background: #f4f4f4;
+    background: #ffffff; /*#f4f4f4;*/
     margin-bottom: 2px;
     color: #444;
 }
@@ -1854,9 +1860,9 @@ header .logo i {
     font-size: 9px;
 }
 
-.todo > li:hover {
-    background-color: #f1f1f1;
-}
+/*.todo > li:hover {*/
+    /*background-color: #EEF9FD; /!*#f1f1f1;*!/*/
+/*}*/
 
 .todo > li.through {
     color: #999;
@@ -1870,6 +1876,18 @@ header .logo i {
 .todo > li.through.label {
     background: #eaeaec !important;
 }
+.todo .sublist  li {
+    list-style: disc;
+    cursor: default;
+    background: #f4f4f4;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.todo .sublist  li:hover {
+    cursor: default;
+    background: #ffffff;
+}
+
 
 /* Chat */
 .box .chat {

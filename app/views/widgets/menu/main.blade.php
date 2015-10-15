@@ -10,19 +10,19 @@
         </div>
         <div id="navbar-main" class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                @foreach($pages as $page)
-                    <li class="dropdown {{ (Request::is($page->alias . '/*') || Request::is($page->getUrl())) ? 'active' : '' }}">
-                        <a href="{{ URL::to($page->getUrl()) }}">
-                            {{ $page->getTitle() }}
-                            @if($page->show_submenu && count($page->publishedChildren))
+                @foreach($items as $item)
+                    <li class="dropdown {{ (Request::is($item->page->alias . '/*') || Request::is($item->page->getUrl())) ? 'active' : '' }}">
+                        <a href="{{ URL::to($item->page->getUrl()) }}">
+                            {{ $item->getTitle() }}
+                            @if(count($item->children))
                                 <b class="caret hidden-xs"></b>
                             @endif
                         </a>
-                        @if($page->show_submenu && count($page->publishedChildren))
+                        @if(count($item->children))
                             <ul class="dropdown-menu hidden-xs">
-                                @foreach($page->publishedChildren as $child)
+                                @foreach($item->children as $child)
                                     <li>
-                                        <a href="{{ URL::to($child->getUrl()) }}">
+                                        <a href="{{ URL::to($child->page->getUrl()) }}">
                                             {{ $child->getTitle() }}
                                         </a>
                                     </li>

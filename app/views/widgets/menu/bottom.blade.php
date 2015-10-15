@@ -1,9 +1,9 @@
 <nav>
     <ul id="navbar-bottom">
-        @foreach($pages as $page)
-            <li class="{{ (Request::is($page->alias . '/*') || Request::is($page->getUrl())) ? 'active' : '' }}">
-                <a href="{{ URL::to($page->getUrl()) }}">
-                    {{ $page->getTitle() }}
+        @foreach($items as $item)
+            <li class="{{ (Request::is($item->page->alias . '/*') || Request::is($item->page->getUrl())) ? 'active' : '' }}">
+                <a href="{{ URL::to($item->page->getUrl()) }}">
+                    {{ $item->getTitle() }}
                 </a>
             </li>
         @endforeach

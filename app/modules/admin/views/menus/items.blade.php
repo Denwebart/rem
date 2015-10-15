@@ -45,40 +45,26 @@ View::share('title', $title);
             </div>
 
             <div class="col-xs-6">
-                <div class="box">
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Заголовок пункта меню
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="menus-list" class="sortable">
-                                @foreach($menuItems as $item)
-                                    <tr id="{{ $item->id }}">
-                                        <td>
-                                            {{ $item->menu_title }}
-                                        </td>
-                                        <td>Кнопки</td>
-                                    </tr>
-                                    @if(count($item->children))
-                                        @foreach($item->children as $itemChild)
-                                            <tr id="{{ $itemChild->id }}">
-                                                <td>
-                                                    --- {{ $itemChild->menu_title }}
-                                                </td>
-                                                <td>Кнопки</td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+                <ul id="menus-list" class="sortable todo">
+                    @foreach($menuItems as $item)
+                        <li id="{{ $item->id }}">
+                            <span class="title">
+                                {{ $item->menu_title }}
+                            </span>
+                            @if(count($item->children))
+                                <ul class="sortable-sublist sublist">
+                                    @foreach($item->children as $itemChild)
+                                        <li id="{{ $itemChild->id }}">
+                                            <span class="title">
+                                                {{ $itemChild->menu_title }}
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>
@@ -89,7 +75,7 @@ View::share('title', $title);
 
     <script type="text/javascript">
         $(function() {
-            $(".sortable").sortable({
+            $(".sortable, .sortable-sublist").sortable({
                 cursor: 'move',
                 axis: 'y',
                 update: function (event, ui) {

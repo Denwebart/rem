@@ -62,4 +62,9 @@ class Menu extends \Eloquent
 	{
 		return $this->belongsTo('Menu', 'parent_id');
 	}
+
+	public function getTitle()
+	{
+		return $this->menu_title ? $this->menu_title : $this->page->getTitle();
+	}
 }

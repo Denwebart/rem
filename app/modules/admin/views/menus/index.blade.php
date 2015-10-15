@@ -59,7 +59,12 @@ View::share('title', $title);
                                 </tr>
                             </thead>
                             <tbody id="menus-list">
-                                @include('admin::menus.list', ['menus' => $menus])
+                                @foreach($menus as $menu)
+                                    <tr onclick="window.location.href='{{ URL::route('admin.menus.items', ['type' => $menu->type]) }}'; return false" class="link">
+                                        <td>{{ Menu::$types[$menu->type] }}</td>
+                                        <td>{{ $menu->pagesCount }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
