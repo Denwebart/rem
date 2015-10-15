@@ -300,6 +300,9 @@ h1, h2, h3, h4, h5, h6,
 /*.blog .item {*/
     /*text-align: justify;*/
 /*}*/
+#content {
+    min-height: 200px;
+}
 #content h2, .content h2 {
     margin-top: 0;
 }

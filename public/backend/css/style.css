@@ -127,7 +127,7 @@ select:-moz-focusring {
 table tr.link {
     cursor: pointer;
 }
-table tr td {
+table tr.link td {
     text-decoration: underline;
 }
 .button-column.one-button {

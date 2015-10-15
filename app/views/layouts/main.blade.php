@@ -121,6 +121,7 @@
 
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs sidebar right-sidebar">
 
+            <!-- Поиск -->
             @include('search')
 
             {{ $areaWidget->rightSidebar() }}

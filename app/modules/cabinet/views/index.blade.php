@@ -221,16 +221,6 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                 if($("#name").val() == "") {
                     $("#name").prop("disabled", true);
                 }
-                if($("#interval").val() == '<?php echo User::INTERVAL_ALL_TIMES ?>') {
-                    $("#month").prop("disabled", true);
-                    $("#year").prop("disabled", true);
-                }
-                if($("#month").val() == 0) {
-                    $("#month").prop("disabled", true);
-                }
-                if($("#year").val() == 0) {
-                    $("#year").prop("disabled", true);
-                }
                 if($("[name='direction']").val() == 0) {
                     $("[name='direction']").prop("disabled", true);
                 }

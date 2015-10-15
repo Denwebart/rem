@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xs-11">
                     <div class="form-group">
-                        {{ Form::input('search', 'query', null,
+                        {{ Form::input('search', 'query', Request::has('query') ? Request::get('query') : null,
                             [
                                 'class' => 'form-control floating-label',
                                 'id' => 'query',
