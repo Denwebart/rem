@@ -67,7 +67,9 @@ class AdminCommentsController extends \BaseController {
 				})
 				->orWhereHas('page', function($q) use ($searchQuery) {
 					$q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
-						->orWhere(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+						->orWhereHas('menuItem', function($qu) use($searchQuery) {
+							$qu->where(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+						});
 				});
 		}
 
@@ -136,7 +138,9 @@ class AdminCommentsController extends \BaseController {
                     })
                     ->orWhereHas('page', function($q) use ($searchQuery) {
                         $q->where(DB::raw('LOWER(title)'), 'LIKE', "%$searchQuery%")
-                            ->orWhere(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+	                        ->orWhereHas('menuItem', function($qu) use($searchQuery) {
+		                        $qu->where(DB::raw('LOWER(menu_title)'), 'LIKE', "%$searchQuery%");
+	                        });
                     });
             }
 

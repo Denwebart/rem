@@ -196,8 +196,8 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent', 'publishedChildren.user'])
-			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'menu_title', 'title']);
+			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent', 'publishedChildren.user', 'menuItem'])
+			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'title']);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		$page->setViews();

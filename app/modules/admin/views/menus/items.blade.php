@@ -45,6 +45,7 @@ View::share('title', $title);
             </div>
 
             <div class="col-xs-6">
+                <h4>Пункты меню</h4>
                 <ul id="menus-list" class="sortable todo">
                     @foreach($menuItems as $item)
                         <li id="{{ $item->id }}">
@@ -65,6 +66,11 @@ View::share('title', $title);
                         </li>
                     @endforeach
                 </ul>
+            </div>
+
+            <div class="col-xs-6">
+                <h4>Добавление пункта меню</h4>
+
             </div>
         </div>
     </div>

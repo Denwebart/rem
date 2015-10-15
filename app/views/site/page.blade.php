@@ -11,13 +11,21 @@
             @if($page->parent->parent)
                 <li>
                     <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                        {{ $page->parent->parent->getTitle() }}
+                        @if($page->parent->parent->menuItem)
+                            {{ $page->parent->parent->menuItem->getTitle() }}
+                        @else
+                            {{ $page->parent->parent->getTitle() }}
+                        @endif
                     </a>
                 </li>
             @endif
             <li>
                 <a href="{{ URL::to($page->parent->getUrl()) }}">
-                    {{ $page->parent->getTitle() }}
+                    @if($page->parent->menuItem)
+                        {{ $page->parent->menuItem->getTitle() }}
+                    @else
+                        {{ $page->parent->getTitle() }}
+                    @endif
                 </a>
             </li>
             <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
@@ -32,7 +40,7 @@
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
-                @if($page->title)
+                @if($page->is_show_title)
                     <h2>{{ $page->title }}</h2>
                 @endif
             </div>

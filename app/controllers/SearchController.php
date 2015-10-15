@@ -24,7 +24,9 @@ class SearchController extends BaseController
 			$results = Page::whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
 				->where('title', 'LIKE', "%$query%")
-				->orWhere('menu_title', 'LIKE', "%$query%")
+				->orWhereHas('menuItem', function($q) use($query) {
+					$q->where('menu_title', 'LIKE', "%$query%");
+				})
 				->orWhere('content', 'LIKE', "%$query%")
 				->with('parent.parent')
 				->paginate(10);

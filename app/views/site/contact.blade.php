@@ -14,7 +14,7 @@
 @section('content')
 	<section id="content" class="well">
 
-		@if($page->title)
+		@if($page->is_show_title)
 			<h2>{{ $page->title }}</h2>
 		@endif
 

@@ -9,7 +9,11 @@
         </li>
         <li>
             <a href="{{ URL::to($page->parent->getUrl()) }}">
-                {{ $page->parent->getTitle() }}
+                @if($page->parent->menuItem)
+                    {{ $page->parent->menuItem->getTitle() }}
+                @else
+                    {{ $page->parent->getTitle() }}
+                @endif
             </a>
         </li>
         <li>

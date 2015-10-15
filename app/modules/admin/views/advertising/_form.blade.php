@@ -52,8 +52,8 @@
             </div>
             <div class="form-group">
                 {{ Form::label('is_show_title', 'Отображать заголовок') }}
-                {{ Form::hidden('is_show_title', 0, ['id' => 'is_published_uncheck']) }}
-                {{ Form::checkbox('is_show_title', 1) }}
+                {{ Form::hidden('is_show_title', 0, ['id' => 'is_show_title_uncheck']) }}
+                {{ Form::checkbox('is_show_title', 1, $advertising->is_show_title) }}
             </div>
             <div class="form-group">
                 <h4>Доступно</h4>

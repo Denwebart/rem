@@ -365,6 +365,9 @@ class AdminPagesController extends \BaseController {
 			unset(Page::$rules['alias']);
 			$rules = Page::$rules + ['alias' => 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u'];
 		}
+		if($page->menuItem) {
+			$rules = $rules + ['menu_title' => Menu::$rules['menu_title']];
+		}
 
 		$validator = Validator::make($data, $rules);
 		if ($validator->fails())
@@ -377,6 +380,10 @@ class AdminPagesController extends \BaseController {
 
 		$page->update($data);
 
+		if($page->menuItem) {
+			$page->menuItem->menu_title = $data['menu_title'];
+			$page->menuItem->save();
+		}
 		$page->content = $page->saveEditorImages($data['tempPath']);
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
@@ -456,9 +463,9 @@ class AdminPagesController extends \BaseController {
 			$parentId = Input::get('pageId');
 
 			$pages = Page::whereParentId($parentId)
-				->with('children')
+				->with('children.menuItem', 'menuItem')
 				->whereIsContainer(1)
-				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
+				->get(['id', 'title', 'is_published', 'is_container']);
 
 			return Response::json(array(
 				'success' => true,

@@ -3,54 +3,68 @@
 /**
  * Page
  *
- * @property integer $id
- * @property integer $type
- * @property integer $parent_id
- * @property integer $user_id
- * @property boolean $is_published
- * @property string $alias
- * @property boolean $is_container
- * @property boolean $show_submenu
- * @property boolean $show_comments
- * @property string $menu_title
- * @property string $title
- * @property string $image
- * @property string $image_alt
- * @property integer $views
- * @property integer $voters
- * @property integer $votes
- * @property string $introtext
- * @property string $content
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $published_at
- * @property string $meta_title
- * @property string $meta_desc
- * @property string $meta_key
- * @method static \Illuminate\Database\Query\Builder|\Page whereId($value) 
+ * @property integer $id 
+ * @property boolean $type 
+ * @property integer $parent_id 
+ * @property integer $user_id 
+ * @property boolean $is_published 
+ * @property string $alias 
+ * @property boolean $is_container 
+ * @property boolean $is_show_title 
+ * @property string $title 
+ * @property string $image 
+ * @property string $image_alt 
+ * @property integer $views 
+ * @property integer $voters 
+ * @property integer $votes 
+ * @property string $introtext 
+ * @property string $content 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property string $published_at 
+ * @property string $meta_title 
+ * @property string $meta_desc 
+ * @property string $meta_key 
+ * @property-read \Page $parent 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $children 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $publishedChildren 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\RelatedPage[] $relatedPages 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $relatedArticles 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Page[] $relatedQuestions 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $allComments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $comments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedComments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $answers 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $publishedAnswers 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Comment[] $bestComments 
+ * @property-read \User $user 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Subscription[] $subscribers 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $whoSaved 
+ * @property-read \Menu $menuItem 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Tag[] $tags 
+ * @method static \Illuminate\Database\Query\Builder|\Page whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereType($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereParentId($value)
- * @method static \Illuminate\Database\Query\Builder|\Page whereUserId($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereIsPublished($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereAlias($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereIsContainer($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereShowSubmenu($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereShowComments($value)
- * @method static \Illuminate\Database\Query\Builder|\Page whereMenuTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\Page whereTitle($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereImage($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereImageAlt($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereViews($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereVoters($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereVotes($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereIntrotext($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereContent($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereCreatedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereUpdatedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page wherePublishedAt($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereMetaTitle($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereMetaDesc($value) 
- * @method static \Illuminate\Database\Query\Builder|\Page whereMetaKey($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Page whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereIsPublished($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereAlias($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereIsContainer($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereIsShowTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereImage($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereImageAlt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereViews($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereVoters($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereVotes($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereIntrotext($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereContent($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page wherePublishedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereMetaTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereMetaDesc($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereMetaKey($value)
+ * @method static \Page getPageByAlias($alias = '/')
  */
 
 class Page extends \Eloquent
@@ -81,9 +95,8 @@ class Page extends \Eloquent
 		'user_id',
 		'is_published',
 		'alias',
-		'menu_title',
 		'is_container',
-		'show_submenu',
+		'is_show_title',
 		'image',
 		'image_alt',
 		'title',
@@ -101,12 +114,11 @@ class Page extends \Eloquent
 		'user_id' => 'required|integer',
 		'is_published' => 'boolean',
 		'alias' => 'max:300|regex:/^[A-Za-z0-9\-\']+$/u',
-		'menu_title' => 'required_without_all:title|max:200',
 		'is_container' => 'boolean',
-		'show_submenu' => 'boolean',
+		'is_show_title' => 'boolean',
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'image_alt' => 'max:1000',
-		'title' => 'required_without_all:menu_title|max:500',
+		'title' => 'required|max:500',
 		'introtext' => 'max:2000',
 		'views' => 'integer',
 		'votes' => 'integer',
@@ -315,7 +327,7 @@ class Page extends \Eloquent
 	 */
 	public function menuItem()
 	{
-		return $this->belongsTo('Menu', 'page_id');
+		return $this->hasOne('Menu', 'page_id');
 	}
 
 	/**
@@ -352,7 +364,7 @@ class Page extends \Eloquent
 
 	public function getTitle()
 	{
-		return $this->menu_title ? $this->menu_title : $this->title;
+		return $this->title;
 	}
 
     public function getMetaTitle()
@@ -386,9 +398,15 @@ class Page extends \Eloquent
 	{
 		$maxLength = 72;
 		if($this->parent) {
-			$parentLength = Str::length($this->parent->getTitle());
+			$title = $this->parent->menuItem
+				? $this->parent->menuItem->getTitle()
+				: $this->parent->getTitle();
+			$parentLength = Str::length($title);
 			if($this->parent->parent) {
-				$parentLength = $parentLength + Str::length($this->parent->parent->getTitle());
+				$title = $this->parent->parent->menuItem
+					? $this->parent->parent->menuItem->getTitle()
+					: $this->parent->parent->getTitle();
+				$parentLength = $parentLength + Str::length($title);
 			}
 			if(self::TYPE_ARTICLE == $this->type) {
 				$parentLength = $parentLength + (2 * Str::length($this->user->login));
@@ -397,7 +415,8 @@ class Page extends \Eloquent
 		} else {
 			$length = $maxLength;
 		}
-		return Str::limit($this->getTitle(), $length);
+		$title = $this->menuItem ? $this->menuItem->getTitle() : $this->getTitle();
+		return Str::limit($title, $length);
 	}
 
 	public function getContentWithWidget()
@@ -460,12 +479,12 @@ class Page extends \Eloquent
 	public static function getContainer($withChildren = true, $withEmptyField = true)
 	{
 		$categoriesArray = [];
-        $pages = self::whereIsContainer(1)->whereParentId(0)->where('type', '!=', self::TYPE_SYSTEM_PAGE)->get();
+        $pages = self::whereIsContainer(1)->whereParentId(0)->with('menuItem')->where('type', '!=', self::TYPE_SYSTEM_PAGE)->get();
 		foreach ($pages as $page) {
-			$categoriesArray[$page->id] = $page->getTitle();
+			$categoriesArray[$page->id] = $page->menuItem ? $page->menuItem->menu_title : $page->title;
 			if($withChildren && $page->type != Page::TYPE_JOURNAL) {
 				foreach($page->children()->whereIsContainer(1)->get() as $child) {
-					$categoriesArray[$child->id] = ' --- ' . $child->getTitle();
+					$categoriesArray[$child->id] = ' --- ' . ($child->menuItem ? $child->menuItem->menu_title : $child->title);
 				}
 			}
 		}
@@ -475,7 +494,14 @@ class Page extends \Eloquent
 	public static function getQuestionsCategory()
 	{
 		$page = self::whereType(self::TYPE_QUESTIONS)->firstOrFail();
-		return ['' => 'Нет'] + $page->children()->whereIsContainer(1)->lists('menu_title', 'id');
+		$items = $page->children()->with('menuItem')->whereIsContainer(1)->get();
+
+		$result = ['' => 'Нет'];
+		foreach($items as $item) {
+			$result[$item->id] = $item->menuItem ? $item->menuItem->menu_title : $item->title;
+		}
+		return $result;
+//		return  + $page->children()->whereIsContainer(1)->lists('title', 'id');
 	}
 
 	public function showComments() {

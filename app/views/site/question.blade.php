@@ -10,12 +10,20 @@
         @if($page->parent)
             <li>
                 <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                    {{ $page->parent->parent->getTitle() }}
+                    @if($page->parent->parent->menuItem)
+                        {{ $page->parent->parent->menuItem->getTitle() }}
+                    @else
+                        {{ $page->parent->parent->getTitle() }}
+                    @endif
                 </a>
             </li>
             <li>
                 <a href="{{ URL::to($page->parent->getUrl()) }}">
-                    {{ $page->parent->getTitle() }}
+                    @if($page->parent->menuItem)
+                        {{ $page->parent->menuItem->getTitle() }}
+                    @else
+                        {{ $page->parent->getTitle() }}
+                    @endif
                 </a>
             </li>
         @endif

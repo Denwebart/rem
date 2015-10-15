@@ -52,7 +52,7 @@ class SidebarWidget
 			->orderBy('published_at', 'DESC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
 
 		return (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
 	}
@@ -65,7 +65,7 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
-		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
+		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)
@@ -73,7 +73,7 @@ class SidebarWidget
 			->orderBy('rating', 'DESC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'votes', 'voters']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
 	}
@@ -86,7 +86,7 @@ class SidebarWidget
      */
     public function notBest($limit = 10)
     {
-        $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, menu_title, alias, votes, voters, (votes/voters) AS rating')])
+        $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
             ->whereIsPublished(1)
             ->where('published_at', '<', date('Y-m-d H:i:s'))
             ->whereIsContainer(0)
@@ -94,7 +94,7 @@ class SidebarWidget
             ->orderBy('rating', 'ASC')
             ->limit($limit)
             ->with('parent.parent', 'user')
-            ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'votes', 'voters']);
+            ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
         return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
     }
@@ -114,7 +114,7 @@ class SidebarWidget
 			->orderBy('views', 'DESC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views', 'image', 'image_alt']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
 	}
@@ -134,7 +134,7 @@ class SidebarWidget
 			->orderBy('views', 'ASC')
 			->limit($limit)
 			->with('parent.parent', 'user')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'menu_title', 'views', 'image', 'image_alt']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
 	}
@@ -192,7 +192,7 @@ class SidebarWidget
 			->limit($limit)
 			->with('parent.parent', 'user', 'publishedAnswers', 'bestComments')
 			->orderBy('created_at', 'DESC')
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title', 'menu_title']);
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title']);
 
 		return (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 	}

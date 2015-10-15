@@ -39,6 +39,11 @@ class AdminMenusController extends \BaseController {
 		return View::make('admin::menus.items', compact('menuItems', 'type'));
 	}
 
+	/**
+	 * Изменение позиции пункта меню
+	 *
+	 * @param $type
+	 */
 	public function changePosition($type)
 	{
 		$positions = \Input::get('positions');

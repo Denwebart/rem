@@ -40,15 +40,17 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="form-group @if($errors->has('menu_title')) has-error @endif">
-                        {{ Form::label('menu_title', 'Заголовок меню') }}
-                        {{ Form::text('menu_title', $page->menu_title, ['class' => 'form-control']) }}
-                        @if($errors->has('menu_title'))
-                            <small class="help-block">
-                                {{ $errors->first('menu_title') }}
-                            </small>
-                        @endif
-                    </div>
+                    @if($page->menuItem)
+                        <div class="form-group @if($errors->has('menu_title')) has-error @endif">
+                            {{ Form::label('menu_title', 'Заголовок меню') }}
+                            {{ Form::text('menu_title', $page->menuItem->menu_title, ['class' => 'form-control']) }}
+                            @if($errors->has('menu_title'))
+                                <small class="help-block">
+                                    {{ $errors->first('menu_title') }}
+                                </small>
+                            @endif
+                        </div>
+                    @endif
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -57,9 +59,9 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                         {{ Form::checkbox('is_container', 1) }}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('show_submenu', 'Показывать подменю') }}
-                        {{ Form::hidden('show_submenu', 0) }}
-                        {{ Form::checkbox('show_submenu', 1) }}
+                        {{ Form::label('is_show_title', 'Показывать заголовок') }}
+                        {{ Form::hidden('is_show_title', 0, ['id' => 'is_show_title_uncheck']) }}
+                        {{ Form::checkbox('is_show_title', 1, $page->is_show_title) }}
                     </div>
                 </div>
             </div>
