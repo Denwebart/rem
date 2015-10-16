@@ -1460,6 +1460,13 @@ form .page-image {
     display: inline-block;
     margin-right: 10px;
 }
+#rewarded-users .user .count {
+    display: inline-block;
+    line-height: 52px;
+    margin-left: 10px;
+    color: #333333;
+    font-size: 20px;
+}
 #honors-sidebar-widget {
     text-align: center;
 }

@@ -3367,6 +3367,9 @@ footer ul li a {
     header .logo span, .sidebar .alert, .sidebar .sidebar-widget, .title, .leftside .sidebar span, .leftside .sidebar .label, .leftside .sidebar .pull-right.fa, .leftside .user-box {
         display: none;
     }
+    .sortable .title {
+        display: block;
+    }
 
     .rightside, header .navbar {
         margin-left: 42px;

@@ -109,13 +109,16 @@ View::share('title', $title);
                                     {{ SortingHelper::sortingLink('admin.ips.bannedIps', 'Забанен', 'ban_at') }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Пользователи', 'users') }}
+                                    Пользователи
+{{--                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Пользователи', 'users') }}--}}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментариев', 'comments') }}
+                                    Комментариев
+{{--                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Комментариев', 'comments') }}--}}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Писем', 'letters') }}
+                                    Писем
+{{--                                    {{ SortingHelper::sortingLink('admin.ips.index', 'Писем', 'letters') }}--}}
                                 </th>
                                 <th class="button-column"></th>
                             </tr>

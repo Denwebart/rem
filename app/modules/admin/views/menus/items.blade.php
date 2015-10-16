@@ -44,21 +44,28 @@ View::share('title', $title);
             <div class="col-md-2 col-sm-3 col-xs-12 margin-bottom-15">
             </div>
 
-            <div class="col-xs-6">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <h4>Пункты меню</h4>
                 <ul id="menus-list" class="sortable todo">
                     @foreach($menuItems as $item)
                         <li id="{{ $item->id }}">
-                            <span class="title">
+                            <span class="title pull-left">
                                 {{ $item->menu_title }}
                             </span>
+                            <a href="{{ URL::route('admin.pages.edit', ['id' => $item->page->id]) }}" class="pull-right margin-right-5" title="Редактировать страницу" data-toggle="tooltip">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <div class="clearfix"></div>
                             @if(count($item->children))
-                                <ul class="sortable-sublist sublist">
+                                <ul class="sortable-sublist sublist margin-top-10">
                                     @foreach($item->children as $itemChild)
                                         <li id="{{ $itemChild->id }}">
-                                            <span class="title">
+                                            <span class="title pull-left">
                                                 {{ $itemChild->menu_title }}
                                             </span>
+                                            <a href="{{ URL::route('admin.pages.edit', ['id' => $itemChild->page->id]) }}" class="pull-right" title="Редактировать страницу" data-toggle="tooltip">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
                                         </li>
                                     @endforeach
                                 </ul>

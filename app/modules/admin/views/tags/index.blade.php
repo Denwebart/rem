@@ -114,7 +114,8 @@ View::share('title', $title);
                                         {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}
                                     </th>
                                     <th>
-                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи по тегу', 'pages') }}
+                                        Статьи по тегу
+{{--                                        {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статьи по тегу', 'pages') }}--}}
                                     </th>
                                     <th class="button-column"></th>
                                 </tr>

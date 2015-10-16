@@ -92,7 +92,8 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title', $params) }}
                                 </th>
                                 <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', $params) }}
+                                    Ответы
+{{--                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ответы', 'publishedAnswers', $params) }}--}}
                                 </th>
                                 <th>
                                     {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'parent_id', $params) }}
