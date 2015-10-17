@@ -198,9 +198,9 @@ class SidebarWidget
 	}
 
 	/**
-	 * Вопросы пользователей (новые вопросы)
+	 * Теги
 	 *
-	 * @param int $limit Количество записей
+	 * @param int $limit Количество тегов
 	 * @return string
 	 */
 	public function tags($limit = 20)
@@ -214,6 +214,34 @@ class SidebarWidget
 			})->reverse();
 
 		return (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
+	}
+
+	/**
+	 * Подменю
+	 *
+	 * @param int $page Текущая страница
+	 * @return string
+	 */
+	public function submenu($page)
+	{
+		if($page->is_container) {
+			$items = Page::select(DB::raw('pages.id, pages.alias, pages.title, menus.menu_title, menus.position, pages.is_published, pages.published_at, pages.parent_id, pages.is_container, count(children.id) as pagesCount'))
+				->where('pages.parent_id', '=', $page->id)
+				->where('pages.is_container', '=', 1)
+				->where('pages.is_published', '=', 1)
+				->where('pages.published_at', '<', date('Y-m-d H:i:s'))
+				->with('parent')
+				->join('menus', 'pages.id', '=', 'menus.page_id')
+				->leftJoin(DB::raw('pages children'), 'pages.id', '=', 'children.parent_id')
+				->where('children.is_published', '=', 1)
+				->where('children.published_at', '<', date('Y-m-d H:i:s'))
+				->groupBy('pages.id')
+				->orderBy('menus.position', 'ASC')
+				->orderBy('pages.id', 'ASC')
+				->get();
+
+			return (string) View::make('widgets.sidebar.submenu', compact('items', 'page'))->render();
+		}
 	}
 
 	/**

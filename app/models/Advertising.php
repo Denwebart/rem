@@ -110,7 +110,7 @@ class Advertising extends \Eloquent
 		'title' => 'max:100',
 		'is_show_title' => 'boolean',
 		'code' => 'required',
-		'limit' => 'numeric|min:1|max:100',
+		'limit' => 'numeric|min:0|max:100',
 		'description' => 'max:1000',
 		'is_active' => 'boolean',
 	];

@@ -104,6 +104,22 @@
             {{ $sidebarWidget->addToFavorites() }}
             <div class="clearfix"></div>
 
+            @if($page->parent_id == 0)
+                {{ $sidebarWidget->submenu($page) }}
+            @else
+                @if($page->parent)
+                    @if($page->parent->parent_id == 0)
+                        {{ $sidebarWidget->submenu($page->parent) }}
+                    @else
+                        @if($page->parent->parent)
+                            @if($page->parent->parent->parent_id == 0)
+                                {{ $sidebarWidget->submenu($page->parent->parent) }}
+                            @endif
+                        @endif
+                    @endif
+                @endif
+            @endif
+
             {{ $areaWidget->leftSidebar() }}
         </div>
 

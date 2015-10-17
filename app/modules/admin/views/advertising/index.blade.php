@@ -17,7 +17,7 @@ View::share('title', $title);
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12">
                 <div class="buttons">
-                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.advertising.create', ['backUrl' => Session::has('user.url') ? urlencode(Session::get('user.url')) : urlencode(Request::fullUrl())]) }}">
+                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.advertising.create', ['backUrl' => urlencode(Request::fullUrl())]) }}">
                         <i class="fa fa-plus "></i> Создать
                     </a>
                 </div>

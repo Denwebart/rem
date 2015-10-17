@@ -16,7 +16,7 @@ class MenuWidget
 	{
 		$items = Menu::whereType(Menu::TYPE_MAIN)
 			->whereParentId(0)
-			->with('page', 'children.page')
+			->with('page', 'children.page.parent')
 			->orderBy('position', 'ASC')
 			->get();
 
