@@ -51,3 +51,12 @@
         </div>
     </div>
 @stop
+
+@section('script')
+    <script type="text/javascript">
+        (function($) {
+            // number count
+            $('.timer').countTo();
+        })(jQuery);
+    </script>
+@stop
