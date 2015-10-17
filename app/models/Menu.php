@@ -63,4 +63,27 @@ class Menu extends \Eloquent
 	{
 		return $this->menu_title ? $this->menu_title : $this->page->getTitle();
 	}
+
+	public static function inMenu($page)
+	{
+		$menuItem = Menu::wherePageId($page->id)->first();
+		if($page->is_published) {
+			if(Page::TYPE_SYSTEM_PAGE == $page->type || Page::TYPE_QUESTIONS == $page->type || Page::TYPE_JOURNAL == $page->type || Page::TYPE_PAGE == $page->type) {
+				if($page->parent_id == 0) {
+					Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'menu_title' => $page->title]);
+				} else {
+					if($page->is_container) {
+						$parentMenuItem = Menu::wherePageId($page->parent_id)->first();
+						if($parentMenuItem) {
+							Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'menu_title' => $page->title, 'parent_id' => $parentMenuItem->id]);
+						}
+					}
+				}
+			}
+		} else {
+			if($menuItem) {
+				$menuItem->delete();
+			}
+		}
+	}
 }

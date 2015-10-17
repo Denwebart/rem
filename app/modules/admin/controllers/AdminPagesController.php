@@ -286,6 +286,9 @@ class AdminPagesController extends \BaseController {
         RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
         RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
+		// добавление в меню
+		Menu::inMenu($page);
+
 		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
 		return Redirect::to($backUrl);
 	}
@@ -343,7 +346,7 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
-		if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type) {
+		if(Page::TYPE_SYSTEM_PAGE != $page->type || Page::TYPE_QUESTIONS != $page->type || Page::TYPE_JOURNAL != $page->type) {
 			if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
 				$data['type'] = Page::TYPE_ARTICLE;
 			} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
@@ -400,6 +403,9 @@ class AdminPagesController extends \BaseController {
         // добавление похожих статей, вопросов
         RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
         RelatedPage::addRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
+
+		// добавление в меню
+		Menu::inMenu($page);
 
 		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
 		return Redirect::to($backUrl);

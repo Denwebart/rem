@@ -164,6 +164,8 @@ class Page extends \Eloquent
 			$page->relatedPages()->delete();
 			// удаление подстатей при удалении
 			$page->children()->delete();
+			// удаление пункта меню
+			$page->menuItem()->delete();
 			//удаление папки с изображениями
 			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
 		});
