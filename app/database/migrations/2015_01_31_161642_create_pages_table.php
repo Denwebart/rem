@@ -22,7 +22,7 @@ class CreatePagesTable extends Migration {
 			$table->integer('views')->default(0);
 			$table->integer('voters')->default(0);
 			$table->integer('votes')->default(0);
-			$table->string('introtext', 2000)->nullable();
+			$table->text('introtext')->nullable();
 			$table->text('content')->nullable();
 			$table->timestamps();
 			$table->timestamp('published_at');

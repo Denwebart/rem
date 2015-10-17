@@ -191,7 +191,7 @@ class SidebarWidget
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->limit($limit)
 			->with('parent.parent', 'user', 'publishedAnswers', 'bestComments')
-			->orderBy('created_at', 'DESC')
+			->orderBy('published_at', 'DESC')
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title']);
 
 		return (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
