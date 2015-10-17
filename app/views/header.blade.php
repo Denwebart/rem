@@ -24,7 +24,7 @@
                         </a>
                     </div>
                 @endif
-                {{ $menuWidget->topMenu() }}
+                {{ $menuWidget->topMenu }}
             </div>
             <div class="col-md-6 col-sm-2 col-xs-3">
                 <div class="logo">
@@ -60,7 +60,7 @@
                                 </a>
                             </div>
                         @endif
-                        {{ $menuWidget->topMenu() }}
+                        {{ $menuWidget->topMenu }}
                     </div>
                 </div>
                 <div class="row">

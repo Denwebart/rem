@@ -92,7 +92,7 @@
 <!-- Header -->
 @include('header')
 
-{{ $menuWidget->mainMenu() }}
+{{ $menuWidget->mainMenu }}
 
 <div class="container">
     <div class="row">

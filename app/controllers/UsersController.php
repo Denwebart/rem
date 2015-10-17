@@ -93,15 +93,11 @@ class UsersController extends BaseController
 				Session::set('user.entryTime', \Carbon\Carbon::now());
 				Session::set('user.lastActivity', Auth::user()->last_activity);
 
-				// Редирект в админку (если админ) или на предыдущую (для остальных)
-				if(Auth::user()->isAdmin()){
-					return Redirect::to('admin');
+				// Редирект на предыдущую или на главную
+				if(Session::has('user.previousUrl')) {
+					return Redirect::to(Session::get('user.previousUrl'));
 				} else {
-					if(Session::has('user.previousUrl')) {
-						return Redirect::to(Session::get('user.previousUrl'));
-					} else {
-						return Redirect::to('/');
-					}
+					return Redirect::to('/');
 				}
 			} else {
 				Log::info("User [{$login}] failed to login.");

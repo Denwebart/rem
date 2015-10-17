@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {{ $menuWidget->bottomMenu() }}
+                {{ $menuWidget->bottomMenu }}
             </div>
         </div>
         <div class="row">
