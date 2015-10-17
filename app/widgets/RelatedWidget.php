@@ -6,6 +6,7 @@ class RelatedWidget
 	{
 		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
 		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
+		$keywords = preg_replace('/\|{2,}/','|', $keywords);
 
 		$pages0 = $page->relatedArticles;
 

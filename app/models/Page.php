@@ -119,7 +119,6 @@ class Page extends \Eloquent
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
 		'image_alt' => 'max:1000',
 		'title' => 'required|max:500',
-		'introtext' => 'max:2000',
 		'views' => 'integer',
 		'votes' => 'integer',
 		'voters' => 'integer',
