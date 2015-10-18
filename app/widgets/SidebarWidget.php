@@ -51,7 +51,17 @@ class SidebarWidget
 			->where('type', '!=', Page::TYPE_QUESTION)
 			->orderBy('published_at', 'DESC')
 			->limit($limit)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
 
 		return (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
@@ -72,7 +82,17 @@ class SidebarWidget
 			->where('parent_id', '!=', 0)
 			->orderBy('rating', 'DESC')
 			->limit($limit)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
@@ -93,7 +113,17 @@ class SidebarWidget
             ->where('parent_id', '!=', 0)
             ->orderBy('rating', 'ASC')
             ->limit($limit)
-            ->with('parent.parent', 'user')
+	        ->with([
+		        'parent' => function($query) {
+			        $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+		        },
+		        'parent.parent' => function($query) {
+			        $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+		        },
+		        'user' => function($query) {
+			        $query->select('id', 'login', 'alias');
+		        },
+	        ])
             ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
         return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
@@ -113,7 +143,17 @@ class SidebarWidget
 			->where('parent_id', '!=', 0)
 			->orderBy('views', 'DESC')
 			->limit($limit)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
@@ -133,7 +173,17 @@ class SidebarWidget
 			->where('parent_id', '!=', 0)
 			->orderBy('views', 'ASC')
 			->limit($limit)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
 
 		return (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
@@ -151,7 +201,23 @@ class SidebarWidget
             ->whereIsDeleted(0)
 			->whereIsAnswer(0)
 			->limit($limit)
-			->with('page.parent.parent', 'user')
+			->with([
+				'page' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+				},
+				'page.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->orderBy('created_at', 'DESC')
 			->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
@@ -171,9 +237,22 @@ class SidebarWidget
 			->whereIsAnswer(1)
 			->whereMark(Comment::MARK_BEST)
 			->limit($limit)
-			->with('page.parent.parent', 'user')
+			->with([
+				'page' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+				},
+				'page.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->orderBy('updated_at', 'DESC')
-			->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+			->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
 		return (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
 	}
@@ -190,7 +269,23 @@ class SidebarWidget
 		    ->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->limit($limit)
-			->with('parent.parent', 'user', 'publishedAnswers', 'bestComments')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+			])
 			->orderBy('published_at', 'DESC')
 			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title']);
 
@@ -205,12 +300,17 @@ class SidebarWidget
 	 */
 	public function tags($limit = 20)
 	{
-		$tags = Tag::has('pages')
-			->with('pages')
+		$tags = Tag::select('id', 'title')
+			->has('pages')
+			->with([
+				'pages' => function($query) {
+					$query->select('id');
+				}
+			])
 			->limit($limit)
 			->get()
 			->sortBy(function($tag) {
-					return $tag->pages->count();
+				return $tag->pages->count();
 			})->reverse();
 
 		return (string) View::make('widgets.sidebar.tags', compact('tags'))->render();

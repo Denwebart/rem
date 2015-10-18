@@ -22,14 +22,31 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
-		$categories = Setting::whereKey('categoriesOnMainPage')->first();
+		$categories = Setting::whereKey('categoriesOnMainPage')->first(['id', 'key', 'value']);
 
 		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 			->whereIn('parent_id', explode(',', $categories->value))
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-//			->where('parent_id', '!=', 0)
-//			->whereType(Page::TYPE_PAGE)
-			->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'whoSaved' => function($query) {
+					$query->select('id');
+				},
+				'tags' => function($query) {
+					$query->select('id', 'title');
+				},
+			])
 			->whereIsContainer(0)
 			->orderBy('published_at', 'DESC')
 			->paginate(10);

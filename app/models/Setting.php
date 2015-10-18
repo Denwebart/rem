@@ -69,7 +69,7 @@ class Setting extends \Eloquent
 	{
 		$settings = Setting::whereIn('category', $category)
 			->whereIsActive(1)
-			->get()
+			->get(['id', 'key', 'category', 'value', 'is_active'])
 			->toArray();
 		$result = [];
 		foreach($settings as $setting) {

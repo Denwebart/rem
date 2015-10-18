@@ -25,9 +25,23 @@ class MenuWidget
 
 	public function mainMenu()
 	{
-		$items = Menu::whereType(Menu::TYPE_MAIN)
+		$items = Menu::select('id', 'type', 'page_id', 'parent_id', 'position', 'menu_title')
+			->whereType(Menu::TYPE_MAIN)
 			->whereParentId(0)
-			->with('page', 'children.page.parent')
+			->with([
+				'page' => function($query) {
+				    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'children' => function($query) {
+					$query->select('id', 'type', 'page_id', 'parent_id', 'position', 'menu_title');
+				},
+				'children.page' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'children.page.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+			])
 			->orderBy('position', 'ASC')
 			->get();
 

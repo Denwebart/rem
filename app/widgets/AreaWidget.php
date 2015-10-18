@@ -12,7 +12,7 @@ class AreaWidget
 					->whereHas('pagesTypes', function($query) use($pageType) {
 						$query->where('page_type', '=', $pageType);
 					})
-					->get();
+					->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'limit', 'is_active']);
 			} else {
 				$advertising = Advertising::whereIsActive(1)
 					->whereHas('pagesTypes', function($query) use($pageType) {
@@ -20,7 +20,7 @@ class AreaWidget
 					})
 					->whereIn('access', [Advertising::ACCESS_FOR_ALL, Advertising::ACCESS_FOR_REGISTERED])
 					->orderBy('position', 'ASC')
-					->get();
+					->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'limit', 'is_active']);
 			}
 		} else {
 			$advertising = Advertising::whereIsActive(1)
@@ -29,7 +29,7 @@ class AreaWidget
 				})
 				->whereIn('access', [Advertising::ACCESS_FOR_ALL, Advertising::ACCESS_FOR_GUEST])
 				->orderBy('position', 'ASC')
-				->get();
+				->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'limit', 'is_active']);
 		}
 
 		foreach($advertising as $item) {
