@@ -358,7 +358,7 @@ class Page extends \Eloquent
 			return $parentUrl . $this->alias . $sufix;
 		}
 		else {
-			$parentUrl = ($this->parent) ? $this->parent->alias : '';
+			$parentUrl = ($this->parent_id != 0) ? ($this->parent) ? $this->parent->alias : '' : '';
 			return $parentUrl . '/' . $this->user->getLoginForUrl() . '/' . $this->alias . $sufix;
 		}
 	}
@@ -398,21 +398,25 @@ class Page extends \Eloquent
 	public function getTitleForBreadcrumbs()
 	{
 		$maxLength = 72;
-		if($this->parent) {
-			$title = $this->parent->menuItem
-				? $this->parent->menuItem->getTitle()
-				: $this->parent->getTitle();
-			$parentLength = Str::length($title);
-			if($this->parent->parent) {
-				$title = $this->parent->parent->menuItem
-					? $this->parent->parent->menuItem->getTitle()
-					: $this->parent->parent->getTitle();
-				$parentLength = $parentLength + Str::length($title);
+		if($this->parent_id != 0) {
+			if($this->parent) {
+				$title = $this->parent->menuItem
+					? $this->parent->menuItem->getTitle()
+					: $this->parent->getTitle();
+				$parentLength = Str::length($title);
+				if ($this->parent->parent_id != 0) {
+					if ($this->parent->parent) {
+						$title = $this->parent->parent->menuItem
+							? $this->parent->parent->menuItem->getTitle()
+							: $this->parent->parent->getTitle();
+						$parentLength = $parentLength + Str::length($title);
+					}
+				}
+				if (self::TYPE_ARTICLE == $this->type) {
+					$parentLength = $parentLength + (2 * Str::length($this->user->login));
+				}
+				$length = $maxLength - $parentLength;
 			}
-			if(self::TYPE_ARTICLE == $this->type) {
-				$parentLength = $parentLength + (2 * Str::length($this->user->login));
-			}
-			$length = $maxLength - $parentLength;
 		} else {
 			$length = $maxLength;
 		}
@@ -514,7 +518,7 @@ class Page extends \Eloquent
 	}
 
 	public function isLastLevel() {
-		return (!$this->is_container && $this->parent) ? true : false;
+		return (!$this->is_container && $this->parent_id != 0) ? true : false;
 	}
 
 	public function showViews() {

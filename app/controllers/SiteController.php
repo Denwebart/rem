@@ -63,7 +63,16 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
-		$page = Page::getPageByAlias($alias)->whereParentId(0)->firstOrFail();
+		$page = Page::getPageByAlias($alias)
+			->with([
+				'publishedComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'menuItem' => function($query) {
+					$query->select('id', 'menu_title');
+				},
+			])
+			->whereParentId(0)->firstOrFail();
 
 		if(!$page->is_container && is_null($suffix)) {
 			return Response::view('errors.404', [], 404);
@@ -74,17 +83,21 @@ class SiteController extends BaseController {
 		$page->setViews();
 
 		// вывод страниц блогом, учитывая подкатегории
-		$categoryArray = $page->publishedChildren->lists('id');
-		if(count($categoryArray)) {
-			$children = Page::where(function($query) use ($categoryArray, $page){
-				$query->whereIn('parent_id', $categoryArray)
-					->orWhere('parent_id', $page->id);
+		if($page->is_container) {
+			$categoryArray = $page->publishedChildren->lists('id');
+			if(count($categoryArray)) {
+				$children = Page::where(function($query) use ($categoryArray, $page){
+					$query->whereIn('parent_id', $categoryArray)
+						->orWhere('parent_id', $page->id);
 				})->whereIsContainer(0)
 					->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
 					->whereIsPublished(1)
 					->where('published_at', '<', date('Y-m-d H:i:s'))
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
+			} else {
+				$children = [];
+			}
 		} else {
 			$children = [];
 		}
@@ -213,7 +226,12 @@ class SiteController extends BaseController {
 		$pages = Page::whereParentId(0)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->with(['publishedChildren.publishedChildren.parent.parent', 'publishedChildren.parent.parent', 'publishedChildren.user', 'menuItem'])
+			->with([
+				'publishedChildren.publishedChildren.parent.parent',
+				'publishedChildren.parent.parent',
+				'publishedChildren.user',
+				'menuItem'
+			])
 			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'title']);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
@@ -240,7 +258,12 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page = Page::getPageByAlias($alias)
+			->with([
+				'menuItem' => function($query) {
+					$query->select('id', 'menu_title');
+				},
+			])->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);

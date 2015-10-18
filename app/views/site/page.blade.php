@@ -7,28 +7,32 @@
                 <i class="material-icons">home</i>
             </a>
         </li>
-        @if($page->parent)
-            @if($page->parent->parent)
+        @if($page->parent_id != 0)
+            @if($page->parent)
+                @if($page->parent->parent_id != 0)
+                    @if($page->parent->parent)
+                        <li>
+                            <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
+                                @if($page->parent->parent->menuItem)
+                                    {{ $page->parent->parent->menuItem->getTitle() }}
+                                @else
+                                    {{ $page->parent->parent->getTitle() }}
+                                @endif
+                            </a>
+                        </li>
+                    @endif
+                @endif
                 <li>
-                    <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                        @if($page->parent->parent->menuItem)
-                            {{ $page->parent->parent->menuItem->getTitle() }}
+                    <a href="{{ URL::to($page->parent->getUrl()) }}">
+                        @if($page->parent->menuItem)
+                            {{ $page->parent->menuItem->getTitle() }}
                         @else
-                            {{ $page->parent->parent->getTitle() }}
+                            {{ $page->parent->getTitle() }}
                         @endif
                     </a>
                 </li>
+                <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
             @endif
-            <li>
-                <a href="{{ URL::to($page->parent->getUrl()) }}">
-                    @if($page->parent->menuItem)
-                        {{ $page->parent->menuItem->getTitle() }}
-                    @else
-                        {{ $page->parent->getTitle() }}
-                    @endif
-                </a>
-            </li>
-            <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
         @else
             <li>{{ $page->getTitleForBreadcrumbs() }}</li>
         @endif
@@ -122,23 +126,25 @@
 
 		{{ $areaWidget->contentMiddle() }}
 
-		@if(count($children))
-			<section id="blog-area" class="blog margin-top-10">
-                <div class="count">
-                    Показано: <span>{{ $children->count() }}</span>.
-                    Всего: <span>{{ $children->getTotal() }}</span>.
-                </div>
-				@foreach($children as $key => $child)
-                    @if(0 != $key)
-                        <hr/>
-                    @endif
-                    @include('site.postInfo', ['article' => $child])
-				@endforeach
-				{{ $children->links() }}
-			</section><!--blog-area-->
+		@if($page->is_container)
+            @if(count($children))
+                <section id="blog-area" class="blog margin-top-10">
+                    <div class="count">
+                        Показано: <span>{{ $children->count() }}</span>.
+                        Всего: <span>{{ $children->getTotal() }}</span>.
+                    </div>
+                    @foreach($children as $key => $child)
+                        @if(0 != $key)
+                            <hr/>
+                        @endif
+                        @include('site.postInfo', ['article' => $child])
+                    @endforeach
+                    {{ $children->links() }}
+                </section><!--blog-area-->
+            @endif
 		@endif
 
-		@if(!$page->is_container && !count($page->children) && $page->parent_id != 0)
+		@if(!$page->is_container && $page->parent_id != 0)
 			{{-- Читайте также --}}
 			<?php $relatedWidget = app('RelatedWidget') ?>
 			{{ $relatedWidget->show($page) }}

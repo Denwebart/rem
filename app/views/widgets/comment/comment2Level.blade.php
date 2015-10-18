@@ -34,7 +34,7 @@
                                         <span class="date">
                                             {{ DateHelper::dateFormat($commentLevel2->created_at) }}
                                         </span>
-                                        <a href="{{ URL::to($commentLevel2->getUrl()) }}" class="get-link pull-left margin-top-10" data-comment-id="{{ $commentLevel2->id }}" title="Ссылка на комментарий" data-toggle="tooltip" data-placement="bottom">
+                                        <a href="{{ URL::to($page->getUrl()) }}#comment-{{ $commentLevel2->id }}" class="get-link pull-left margin-top-10" data-comment-id="{{ $commentLevel2->id }}" title="Ссылка на комментарий" data-toggle="tooltip" data-placement="bottom">
                                             <span>#</span>
                                         </a>
                                     </div>

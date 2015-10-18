@@ -138,7 +138,7 @@ class UsersController extends BaseController
 	 */
 	public function getRules($alias)
 	{
-		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get();
+		$rules = Rule::whereIsPublished(1)->orderBy('position', 'ASC')->get(['id', 'position', 'is_published', 'title', 'description']);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		if(Auth::check()){
