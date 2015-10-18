@@ -220,6 +220,18 @@ class Page extends \Eloquent
 	public function relatedArticles()
 	{
 		return $this->belongsToMany('Page', 'related_pages', 'page_id', 'related_page_id')
+			->select('id', 'related_pages.type', 'alias', 'is_container', 'parent_id', 'title')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->where('related_pages.type', '=', RelatedPage::TYPE_ARTICLE)
 			->orderBy('related_pages.created_at', 'ASC');
 	}
@@ -298,7 +310,8 @@ class Page extends \Eloquent
 
 	public function user()
 	{
-		return $this->belongsTo('User', 'user_id');
+		return $this->belongsTo('User', 'user_id')
+			->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
 	}
 
 	/**
@@ -401,13 +414,13 @@ class Page extends \Eloquent
 		if($this->parent_id != 0) {
 			if($this->parent) {
 				$title = $this->parent->menuItem
-					? $this->parent->menuItem->getTitle()
+					? $this->parent->menuItem->menu_title
 					: $this->parent->getTitle();
 				$parentLength = Str::length($title);
 				if ($this->parent->parent_id != 0) {
 					if ($this->parent->parent) {
 						$title = $this->parent->parent->menuItem
-							? $this->parent->parent->menuItem->getTitle()
+							? $this->parent->parent->menuItem->menu_title
 							: $this->parent->parent->getTitle();
 						$parentLength = $parentLength + Str::length($title);
 					}
@@ -420,7 +433,7 @@ class Page extends \Eloquent
 		} else {
 			$length = $maxLength;
 		}
-		$title = $this->menuItem ? $this->menuItem->getTitle() : $this->getTitle();
+		$title = $this->menuItem ? $this->menuItem->menu_title : $this->getTitle();
 		return Str::limit($title, $length);
 	}
 
@@ -435,20 +448,20 @@ class Page extends \Eloquent
 				if(Auth::user()->isAdmin()) {
 					$advertising = Advertising::whereId($id[1])
 						->whereType(Advertising::TYPE_ADVERTISING)
-						->get();
+						->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'is_active']);
 				} else {
 					$advertising = Advertising::whereId($id[1])
 						->whereIsActive(1)
 						->whereType(Advertising::TYPE_ADVERTISING)
 						->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
-						->get();
+						->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'is_active']);
 				}
 			} else {
 				$advertising = Advertising::whereId($id[1])
 					->whereIsActive(1)
 					->whereType(Advertising::TYPE_ADVERTISING)
 					->whereIn('access', [Advertising::ACCESS_FOR_ALL, $access])
-					->get();
+					->get(['id', 'type', 'area', 'position', 'title', 'is_show_title', 'access', 'code', 'is_active']);
 			}
 
 			if(count($advertising)) {

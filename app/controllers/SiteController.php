@@ -22,7 +22,7 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
-		$categories = Setting::whereKey('categoriesOnMainPage')->first(['id', 'key', 'value']);
+		$categories = Setting::select('id', 'key', 'value')->whereKey('categoriesOnMainPage')->first();
 
 		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 			->whereIn('parent_id', explode(',', $categories->value))
@@ -69,7 +69,7 @@ class SiteController extends BaseController {
 					$query->select('id', 'page_id');
 				},
 				'menuItem' => function($query) {
-					$query->select('id', 'menu_title');
+					$query->select('id', 'page_id', 'menu_title');
 				},
 			])
 			->whereParentId(0)->firstOrFail();
@@ -84,13 +84,37 @@ class SiteController extends BaseController {
 
 		// вывод страниц блогом, учитывая подкатегории
 		if($page->is_container) {
-			$categoryArray = $page->publishedChildren->lists('id');
+			$categoryArray = Page::select(['id', 'parent_id'])
+				->whereParentId($page->id)
+				->whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->lists('id');
 			if(count($categoryArray)) {
-				$children = Page::where(function($query) use ($categoryArray, $page){
+				$children = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
+					->where(function($query) use ($categoryArray, $page){
 					$query->whereIn('parent_id', $categoryArray)
 						->orWhere('parent_id', $page->id);
 				})->whereIsContainer(0)
-					->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
+					->with([
+						'parent' => function($query) {
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						},
+						'parent.parent' => function($query) {
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						},
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedComments' => function($query) {
+							$query->select('id', 'page_id');
+						},
+						'whoSaved' => function($query) {
+							$query->select('id');
+						},
+						'tags' => function($query) {
+							$query->select('id', 'title');
+						}
+					])
 					->whereIsPublished(1)
 					->where('published_at', '<', date('Y-m-d H:i:s'))
 					->orderBy('created_at', 'DESC')
@@ -115,6 +139,20 @@ class SiteController extends BaseController {
 
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
+			->with([
+				'publishedComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+			])
 			->firstOrFail();
 
 		if(!$page->is_container && is_null($suffix)) {
@@ -125,17 +163,45 @@ class SiteController extends BaseController {
 
 		$page->setViews();
 
-		$categoryArray = $page->publishedChildren->lists('id');
-		if(count($categoryArray)) {
-			$children = Page::where(function($query) use ($categoryArray, $page){
-				$query->whereIn('parent_id', $categoryArray)
-					->orWhere('parent_id', $page->id);
-				})->whereIsContainer(0)
-					->with('parent.parent', 'user', 'publishedComments', 'whoSaved', 'tags')
+		if($page->is_container) {
+			$categoryArray = Page::select(['id', 'parent_id'])
+				->whereParentId($page->id)
+				->whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->lists('id');
+			if(count($categoryArray)) {
+				$children = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
+					->where(function($query) use ($categoryArray, $page){
+						$query->whereIn('parent_id', $categoryArray)
+							->orWhere('parent_id', $page->id);
+					})->whereIsContainer(0)
+					->with([
+						'parent' => function($query) {
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						},
+						'parent.parent' => function($query) {
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						},
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedComments' => function($query) {
+							$query->select('id', 'page_id');
+						},
+						'whoSaved' => function($query) {
+							$query->select('id');
+						},
+						'tags' => function($query) {
+							$query->select('id', 'title');
+						}
+					])
 					->whereIsPublished(1)
 					->where('published_at', '<', date('Y-m-d H:i:s'))
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
+			} else {
+				$children = [];
+			}
 		} else {
 			$children = [];
 		}
@@ -170,13 +236,42 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS]);
 		View::share('areaWidget', $areaWidget);
 
-		$questions = Page::whereType(Page::TYPE_QUESTION)
+		$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+			->whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user', 'bestComments', 'publishedAnswers', 'whoSaved', 'subscribers')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'whoSaved' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'subscribers' => function($query) {
+					$query->select('id', 'page_id');
+				}
+			])
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page = Page::getPageByAlias($alias)
+			->with([
+				'menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				}
+			])
+			->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);
@@ -188,13 +283,48 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS_CATEGORY]);
 		View::share('areaWidget', $areaWidget);
 
-		$page = Page::getPageByAlias($alias)->firstOrFail();
+		$page = Page::getPageByAlias($alias)
+			->with([
+				'menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+			])
+			->firstOrFail();
 		$page->setViews();
 
-		$questions = Page::whereType(Page::TYPE_QUESTION)
+		$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+			->whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
-			->with('parent.parent', 'user', 'bestComments', 'publishedAnswers', 'whoSaved', 'subscribers')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'whoSaved' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'subscribers' => function($query) {
+					$query->select('id', 'page_id');
+				}
+			])
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
@@ -207,11 +337,41 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTION]);
 		View::share('areaWidget', $areaWidget);
 
-		$category = Page::getPageByAlias($categoryAlias)->firstOrFail();
+		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
-			->with('parent.parent', 'user', 'comments', 'bestComments')
-			->firstOrFail();
+			->with([
+				'menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'parent.parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'whoSaved' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'subscribers' => function($query) {
+					$query->select('id', 'page_id');
+				}
+			])->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);
@@ -227,10 +387,30 @@ class SiteController extends BaseController {
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
-				'publishedChildren.publishedChildren.parent.parent',
-				'publishedChildren.parent.parent',
-				'publishedChildren.user',
-				'menuItem'
+				'menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'publishedChildren' => function($query) {
+					$query->select('id', 'parent_id', 'user_id', 'type', 'is_container', 'alias', 'title');
+				},
+				'publishedChildren.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
+				},
+				'publishedChildren.user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+				'publishedChildren.parent' => function($query) {
+					$query->select('id', 'parent_id', 'user_id', 'type', 'is_container', 'alias', 'title');
+				},
+				'publishedChildren.publishedChildren' => function($query) {
+					$query->select('id', 'parent_id', 'user_id', 'type', 'is_container', 'alias', 'title');
+				},
+				'publishedChildren.publishedChildren.parent' => function($query) {
+					$query->select('id', 'parent_id', 'user_id', 'type', 'is_container', 'alias', 'title');
+				},
+				'publishedChildren.publishedChildren.parent.parent' => function($query) {
+					$query->select('id', 'parent_id', 'user_id', 'type', 'is_container', 'alias', 'title');
+				},
 			])
 			->get(['id', 'parent_id', 'type', 'user_id', 'is_container', 'alias', 'title']);
 
@@ -261,7 +441,7 @@ class SiteController extends BaseController {
 		$page = Page::getPageByAlias($alias)
 			->with([
 				'menuItem' => function($query) {
-					$query->select('id', 'menu_title');
+					$query->select('id', 'page_id', 'menu_title');
 				},
 			])->firstOrFail();
 		$page->setViews();

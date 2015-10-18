@@ -538,7 +538,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function publishedComments()
 	{
-		return $this->hasMany('Comment', 'user_id')->whereIsPublished(1)->whereIsAnswer(0);
+		return $this->hasMany('Comment', 'user_id')
+			->whereIsPublished(1)
+			->whereIsAnswer(0)
+			->select(['id', 'is_answer', 'is_published']);
 	}
 
 	/**
@@ -558,7 +561,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function publishedAnswers()
 	{
-		return $this->hasMany('Comment', 'user_id')->whereIsAnswer(1)->whereIsPublished(1);
+		return $this->hasMany('Comment', 'user_id')
+			->whereIsAnswer(1)
+			->whereIsPublished(1)
+			->select(['id', 'is_answer', 'is_published']);
 	}
 
 	/**
@@ -595,7 +601,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'));
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->select(['id', 'type', 'is_published', 'published_at']);
 	}
 
 	/**
@@ -612,7 +619,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->hasMany('Page', 'user_id')->whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'));
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->select(['id', 'type', 'is_published', 'published_at']);
 	}
 
 	/**
@@ -652,7 +660,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function honors()
 	{
-		return $this->belongsToMany('Honor', 'users_honors');
+		return $this->belongsToMany('Honor', 'users_honors')
+			->select(['id', 'user_id', 'title', 'alias', 'image']);
 	}
 
 	public function userHonors()

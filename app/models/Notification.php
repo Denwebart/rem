@@ -141,7 +141,7 @@ class Notification extends \Eloquent
 
 	private function getMessage($notificationType, $variables)
 	{
-		$notificationMessage = NotificationMessage::find($notificationType);
+		$notificationMessage = NotificationMessage::select('id', 'message')->whereId($notificationType)->first();
 		if($notificationMessage) {
 			return strtr($notificationMessage->message, $variables);
 		}

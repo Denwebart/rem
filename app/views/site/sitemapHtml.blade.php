@@ -37,13 +37,23 @@
 			<ul id="sitemap">
 				@foreach($pages as $item)
 					<li>
-						<a href="{{ URL::to($item->getUrl()) }}">{{ $item->getTitle() }}</a>
+						<a href="{{ URL::to($item->getUrl()) }}">
+                            @if($item->menuItem)
+                                {{ $item->menuItem->menu_title }}
+                            @else
+                                {{ $item->getTitle() }}
+                            @endif
+                        </a>
 						@if(count($item->publishedChildren))
 							<ul>
 								@foreach($item->publishedChildren as $secondLevel)
 									<li>
 										<a href="{{ URL::to($secondLevel->getUrl()) }}">
-											{{ $secondLevel->getTitle() }}
+                                            @if($secondLevel->menuItem)
+                                                {{ $secondLevel->menuItem->menu_title }}
+                                            @else
+                                                {{ $secondLevel->getTitle() }}
+                                            @endif
 										</a>
 										@if(count($secondLevel->publishedChildren))
 											<ul>

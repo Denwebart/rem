@@ -17,7 +17,17 @@ class RelatedWidget
 			->whereIsContainer(0)
 			->where('parent_id', '!=', 0)
 			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -28,7 +38,17 @@ class RelatedWidget
 			->whereIsContainer(0)
 			->where('parent_id', '!=', 0)
 			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -40,7 +60,17 @@ class RelatedWidget
 			->whereIsContainer(0)
 			->where('parent_id', '!=', 0)
 			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -51,8 +81,17 @@ class RelatedWidget
 			->whereIsContainer(0)
 			->where('parent_id', '!=', 0)
 			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -63,7 +102,17 @@ class RelatedWidget
 			->whereIsContainer(0)
 			->where('parent_id', '!=', 0)
 			->whereParentId($page->parent_id)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -89,7 +138,17 @@ class RelatedWidget
 			->where('id', '!=', $page->id)
 			->whereType(Page::TYPE_QUESTION)
 			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -98,7 +157,17 @@ class RelatedWidget
 			->where('id', '!=', $page->id)
 			->whereType(Page::TYPE_QUESTION)
 			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -108,7 +177,17 @@ class RelatedWidget
 			->where('id', '!=', $page->id)
 			->whereType(Page::TYPE_QUESTION)
 			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -117,7 +196,17 @@ class RelatedWidget
 			->where('id', '!=', $page->id)
 			->whereType(Page::TYPE_QUESTION)
 			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -126,7 +215,17 @@ class RelatedWidget
 			->where('id', '!=', $page->id)
 			->whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->parent_id)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 		
@@ -159,7 +258,17 @@ class RelatedWidget
 					});
 			})
 			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -175,7 +284,17 @@ class RelatedWidget
 					});
 			})
 			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -192,7 +311,17 @@ class RelatedWidget
 					});
 			})
 			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -208,7 +337,17 @@ class RelatedWidget
 					});
 			})
 			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 
@@ -224,7 +363,17 @@ class RelatedWidget
 					});
 			})
 			->whereParentId($page->parent_id)
-			->with('parent.parent', 'user')
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
 			->limit($limit)
 			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
 

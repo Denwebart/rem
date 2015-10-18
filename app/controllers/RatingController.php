@@ -7,7 +7,13 @@ class RatingController extends BaseController {
 		if(Request::ajax()) {
 
 			$isVote = Session::has('user.rating.page') ? (in_array($id, Session::get('user.rating.page')) ? 1 : 0) : 0;
-			$page = Page::findOrFail($id);
+			$page = Page::select('id', 'user_id', 'parent_id', 'type', 'is_container', 'votes', 'voters', 'title')
+				->with([
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'firstname', 'lastname', 'email');
+					},
+				])
+				->findOrFail($id);
 
 			if(Ip::isBanned()) {
 				return Response::json(array(

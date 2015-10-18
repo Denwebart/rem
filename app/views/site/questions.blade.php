@@ -7,17 +7,6 @@
                 <i class="material-icons">home</i>
             </a>
         </li>
-        @if($page->parent)
-            <li>
-                <a href="{{ URL::to($page->parent->alias) }}">
-                    @if($page->parent->menuItem)
-                        {{ $page->parent->menuItem->getTitle() }}
-                    @else
-                        {{ $page->parent->getTitle() }}
-                    @endif
-                </a>
-            </li>
-        @endif
         <li>{{ $page->getTitleForBreadcrumbs() }}</li>
     </ol>
 @stop
@@ -60,7 +49,7 @@
             </div>
         @endif
 
-        @if(count($page->publishedChildren))
+        @if(count($questions))
             <section id="questions-area" class="blog margin-top-10">
                 <div class="count margin-bottom-20">
                     Показано: <span>{{ $questions->count() }}</span>.

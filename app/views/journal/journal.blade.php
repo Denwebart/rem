@@ -15,11 +15,11 @@
                 </a>
             </li>
             <li>
-                <a href="{{ URL::to($page->parent->getUrl()) }}">
-                    @if($page->parent->menuItem)
-                        {{ $page->parent->menuItem->getTitle() }}
+                <a href="{{ URL::to($journalParent->getUrl()) }}">
+                    @if($journalParent->menuItem)
+                        {{ $journalParent->menuItem->getTitle() }}
                     @else
-                        {{ $page->parent->getTitle() }}
+                        {{ $journalParent->getTitle() }}
                     @endif
                 </a>
             </li>
@@ -54,7 +54,7 @@
                                         <i class="material-icons">chrome_reader_mode</i>
                                         <div class="text">
                                             Статей:
-                                            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
+                                            <a href="{{ URL::route('user.journal', ['journalAlias' => $journalAlias, 'login' => $user->getLoginForUrl()]) }}">
                                                 {{ count($user->publishedArticles) }}
                                             </a>
                                         </div>

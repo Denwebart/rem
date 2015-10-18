@@ -21,26 +21,60 @@ class SearchController extends BaseController
 		$tag = trim(Input::get('tag'));
 
 		if($query) {
-			$results = Page::whereIsPublished(1)
+			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
 				->where('title', 'LIKE', "%$query%")
 				->orWhereHas('menuItem', function($q) use($query) {
 					$q->where('menu_title', 'LIKE', "%$query%");
 				})
 				->orWhere('content', 'LIKE', "%$query%")
-				->with('parent.parent')
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+				])
 				->paginate(10);
 		} elseif($tag) {
-			$results = Page::whereIsPublished(1)
+			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
 				->whereHas('tags', function($q) use($tag) {
 					$q->where('title', '=', $tag);
 				})
-				->with('parent.parent')
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+				])
 				->paginate(10);
 		} else {
-			$results = Page::whereIsPublished(1)
+			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+				])
 				->paginate(10);
 		}
 

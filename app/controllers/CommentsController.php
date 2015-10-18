@@ -13,7 +13,13 @@ class CommentsController extends BaseController
 			if(!is_object($ip)) {
 				$ip = Ip::create(['ip' => Request::ip()]);
 			}
-			$page = Page::findOrFail($id);
+			$page = Page::select('id', 'user_id', 'parent_id', 'type', 'is_container', 'title')
+				->with([
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'firstname', 'lastname', 'email');
+					},
+				])
+				->findOrFail($id);
 
 			$userData = [
 				'is_answer' => (Page::TYPE_QUESTION == $page->type && 0 == $formFields['parent_id']) ? 1 : 0,
