@@ -53,7 +53,9 @@ class UsersController extends BaseController
 
 	public function getLogin()
 	{
-		Session::put('user.previousUrl', URL::previous());
+		if(URL::previous() != URL::current()) {
+			Session::put('user.previousUrl', URL::previous());
+		}
 		return View::make('users.login');
 	}
 
@@ -86,6 +88,8 @@ class UsersController extends BaseController
 				Auth::user()->setIp(Request::ip());
 				Auth::user()->setOnline(1);
 
+				$urlPrevious = Session::has('user.previousUrl') ? Session::get('user.previousUrl') : false;
+
 				// Вытираем предыдущую сессию
 				Session::forget('user');
 
@@ -94,8 +98,8 @@ class UsersController extends BaseController
 				Session::set('user.lastActivity', Auth::user()->last_activity);
 
 				// Редирект на предыдущую или на главную
-				if(Session::has('user.previousUrl')) {
-					return Redirect::to(Session::get('user.previousUrl'));
+				if($urlPrevious) {
+					return Redirect::to($urlPrevious);
 				} else {
 					return Redirect::to('/');
 				}
