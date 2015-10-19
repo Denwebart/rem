@@ -233,6 +233,7 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
+		$data['parent_id'] = isset($data['parent_id']) ? $data['parent_id'] : 0;
 		$parent = Page::find($data['parent_id']);
 		$parentParentId = $parent ? $parent->parent_id : 0;
 		$questions = Page::whereType(Page::TYPE_QUESTIONS)->first();
@@ -351,6 +352,7 @@ class AdminPagesController extends \BaseController {
 		}
 
 		if(Page::TYPE_SYSTEM_PAGE != $page->type || Page::TYPE_QUESTIONS != $page->type || Page::TYPE_JOURNAL != $page->type) {
+			$data['parent_id'] = isset($data['parent_id']) ? $data['parent_id'] : 0;
 			$parent = Page::find($data['parent_id']);
 			$parentParentId = $parent ? $parent->parent_id : 0;
 			$questions = Page::whereType(Page::TYPE_QUESTIONS)->first();
