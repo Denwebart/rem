@@ -55,31 +55,47 @@ class HeaderWidget
 
 
 	public function newLetters($limit = 5) {
-		return Letter::whereNull('read_at')
+		return Letter::select('id', 'user_id', 'user_name', 'user_email', 'subject', 'created_at')
+			->whereNull('read_at')
 			->whereNull('deleted_at')
-			->with('user')
+			->with([
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+				}
+			])
 			->orderBy('created_at', 'DESC')
 			->paginate($limit);
 	}
 
 	public function newMessages($limit = 5) {
-		return Message::whereUserIdRecipient(Auth::user()->id)
+		return Message::select('id', 'user_id_sender', 'user_id_recipient', 'message', 'created_at')
+			->whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
-			->with('userSender')
+			->with([
+				'userSender' => function($query) {
+					$query->select('id', 'login', 'alias', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+				}
+			])
 			->orderBy('created_at', 'DESC')
 			->paginate($limit);
 	}
 
 	public function newNotifications($limit = 5) {
-		return Notification::whereUserId(Auth::user()->id)
-			->with('user')
+		return Notification::select('id', 'user_id', 'type', 'message', 'created_at')
+			->whereUserId(Auth::user()->id)
+			->with([
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+				}
+			])
 			->orderBy('created_at', 'DESC')
 			->orderBy('id', 'DESC')
 			->paginate($limit);
 	}
 
 	public function newSubscriptionsNotifications() {
-		return SubscriptionNotification::whereHas('subscription', function($query){
+		return SubscriptionNotification::select('id', 'subscription_id', 'message', 'created_at')
+			->whereHas('subscription', function($query){
 				$query->whereUserId(Auth::user()->id);
 			})
 			->with('subscription')
@@ -88,7 +104,9 @@ class HeaderWidget
 	}
 
 	public function newUsers() {
-		return User::where('created_at', '>', $this->getLastActivity())->get();
+		return User::select('id', 'created_at')
+			->where('created_at', '>', $this->getLastActivity())
+			->get();
 	}
 
 	public function deletedLetters() {
@@ -102,38 +120,48 @@ class HeaderWidget
 	}
 
 	public function newQuestions() {
-		return Page::whereType(Page::TYPE_QUESTION)
+		return Page::select('id', 'type', 'user_id', 'created_at')
+			->whereType(Page::TYPE_QUESTION)
+			->where('user_id', '!=', Auth::user()->id)
 			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
 	public function newArticles() {
-		return Page::whereType(Page::TYPE_ARTICLE)
+		return Page::select('id', 'type', 'user_id', 'created_at')
+			->whereType(Page::TYPE_ARTICLE)
+			->where('user_id', '!=', Auth::user()->id)
 			->where('created_at', '>', $this->getLastActivity())
 			->get();
 	}
 
 	public function newComments() {
-		return Comment::whereIsAnswer(0)
+		return Comment::select('id', 'is_answer', 'user_id', 'created_at')
+			->whereIsAnswer(0)
 			->where('created_at', '>', $this->getLastActivity())
+			->where('user_id', '!=', Auth::user()->id)
 			->get();
 	}
 
 	public function newAnswers() {
-		return Comment::whereIsAnswer(1)
+		return Comment::select('id', 'is_answer', 'user_id', 'created_at')
+			->whereIsAnswer(1)
 			->where('created_at', '>', $this->getLastActivity())
+			->where('user_id', '!=', Auth::user()->id)
 			->get();
 	}
 
 	public function notPublishedComments() {
-		return Comment::whereIsAnswer(0)
+		return Comment::select('id', 'is_answer', 'user_id', 'is_published', 'created_at')
+			->whereIsAnswer(0)
 			->whereIsPublished(0)
 			->orderBy('created_at', 'DESC')
 			->get();
 	}
 
 	public function notPublishedAnswers() {
-		return Comment::whereIsAnswer(1)
+		return Comment::select('id', 'is_answer', 'user_id', 'is_published', 'created_at')
+			->whereIsAnswer(1)
 			->whereIsPublished(0)
 			->orderBy('created_at', 'DESC')
 			->get();

@@ -291,7 +291,14 @@ class CabinetUserController extends \BaseController
 				: User::whereAlias($login)->whereIsActive(1)->firstOrFail())
 			: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 
-		$images = $user->images()->with('user')->get();
+		$images = $user->images()
+			->select('id', 'user_id', 'is_published', 'title', 'image', 'description', 'created_at')
+			->with([
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				}
+			])
+			->get();
 
 		View::share('user', $user);
 		return View::make('cabinet::user.gallery', compact('images'));
@@ -387,13 +394,15 @@ class CabinetUserController extends \BaseController
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$questions = Page::whereType(Page::TYPE_QUESTION)
+				$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+					->whereType(Page::TYPE_QUESTION)
 					->whereUserId($user->id)
 					->with('parent.parent', 'publishedComments', 'bestComments')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
-				$questions = Page::whereType(Page::TYPE_QUESTION)
+				$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+					->whereType(Page::TYPE_QUESTION)
 					->whereUserId($user->id)
 					->whereIsPublished(1)
 					->with('parent.parent', 'publishedComments', 'bestComments')
@@ -401,7 +410,8 @@ class CabinetUserController extends \BaseController
 					->paginate(10);
 			}
 		} else {
-			$questions = Page::whereType(Page::TYPE_QUESTION)
+			$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+				->whereType(Page::TYPE_QUESTION)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
 				->with('parent.parent', 'publishedComments', 'bestComments')
@@ -814,24 +824,81 @@ class CabinetUserController extends \BaseController
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$comments = Comment::whereUserId($user->id)
+				$comments = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+					->whereUserId($user->id)
 					->whereIsAnswer(0)
-					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
+					->whereIsDeleted(0)
+					->with([
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedChildren' => function($query) {
+							$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+						},
+						'parent.user',
+						'page' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+					])
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
-				$comments = Comment::whereUserId($user->id)
+				$comments = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+					->whereUserId($user->id)
 					->whereIsPublished(1)
 					->whereIsAnswer(0)
-					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
+					->whereIsDeleted(0)
+					->with([
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedChildren' => function($query) {
+							$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+						},
+						'parent.user',
+						'page' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+					])
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
 		} else {
-			$comments = Comment::whereUserId($user->id)
+			$comments = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+				->whereUserId($user->id)
 				->whereIsPublished(1)
 				->whereIsAnswer(0)
-				->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
+				->whereIsDeleted(0)
+				->with([
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+					'publishedChildren' => function($query) {
+						$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+					},
+					'parent.user',
+					'page' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+					'page.parent' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+					'page.parent.parent' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+				])
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}
@@ -950,24 +1017,75 @@ class CabinetUserController extends \BaseController
 
 		if(Auth::check()){
 			if(Auth::user()->is($user) || Auth::user()->isAdmin()) {
-				$answers = Comment::whereUserId($user->id)
+				$answers = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+					->whereUserId($user->id)
 					->whereIsAnswer(1)
-					->with('page.parent.parent', 'user', 'publishedChildren')
+					->with([
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedChildren' => function($query) {
+							$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+						},
+						'page' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+					])
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
-				$answers = Comment::whereUserId($user->id)
+				$answers = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+					->whereUserId($user->id)
 					->whereIsPublished(1)
 					->whereIsAnswer(1)
-					->with('page.parent.parent', 'user', 'publishedChildren')
+					->with([
+						'user' => function($query) {
+							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+						},
+						'publishedChildren' => function($query) {
+							$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+						},
+						'page' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+						'page.parent.parent' => function($query) {
+							$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+						},
+					])
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			}
 		} else {
-			$answers = Comment::whereUserId($user->id)
+			$answers = Comment::select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+				->whereUserId($user->id)
 				->whereIsPublished(1)
 				->whereIsAnswer(1)
-				->with('page.parent.parent', 'user', 'publishedChildren')
+				->with([
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+					'publishedChildren' => function($query) {
+						$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+					},
+					'page' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+					'page.parent' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+					'page.parent.parent' => function($query) {
+						$query->select('id', 'alias', 'parent_id', 'user_id', 'is_container', 'type', 'title');
+					},
+				])
 				->orderBy('created_at', 'DESC')
 				->paginate(10);
 		}
