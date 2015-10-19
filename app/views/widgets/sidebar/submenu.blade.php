@@ -1,6 +1,12 @@
 @if(count($items))
     <div id="submenu-sidebar-widget" class="sidebar-widget">
-        <h3>Разделы</h3>
+        <h3>
+            @if($page->type == Page::TYPE_QUESTIONS)
+                Категории вопросов
+            @else
+                Категории статей
+            @endif
+        </h3>
         <ul>
             @foreach($items as $item)
                 <li @if(Request::is($item->getUrl() . '*')) class="active" @endif>
