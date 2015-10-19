@@ -174,7 +174,7 @@
     <script type="text/javascript">
 
         // Отправка комментария
-        $("form[id^='comment-form']").submit(function(event) {
+        $("#comments").on('submit', "form[id^='comment-form']", function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var parentCommentId = $(this).find('textarea').data('parentCommentId');
             if(tinyMCE.get("comment-textarea-" + parentCommentId))
@@ -229,9 +229,14 @@
                         // отметить комментарий как новый
                         $('#comment-' + data.comment_id).addClass('new-comment');
                         setTimeout(function() {
-                            $('#comment-' + data.comment_id).find('.comment-text')
-                                    .css('background', '#F2F2F2')
-                                    .css('border-color', '#03A9F4');
+                            if(0 == data.parent_id){
+                                $('#comment-' + data.comment_id).find('.comment-text')
+                                        .css('background', '#F2F2F2')
+                                        .css('border-color', '#03A9F4');
+                            } else {
+                                $('#comment-' + data.comment_id).find('.comment-text')
+                                        .css('background', '#FFFFFF');
+                            }
                         }, 3000);
                     } //success
                 }
