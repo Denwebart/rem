@@ -25,6 +25,7 @@ class CabinetController extends \BaseController
 		$limit = 10;
 		$sortBy = Request::get('sortBy');
 		$direction = Request::has('direction') ? Request::get('direction') : 'desc';
+		$is_online = (Input::get('is_online') == 1) ? 1 : 0;
 
 		$relations = ['publishedArticles', 'publishedQuestions', 'publishedComments', 'publishedAnswers', 'userHonors.honor', 'honors'];
 		$name = trim(Input::get('name'));
@@ -46,7 +47,6 @@ class CabinetController extends \BaseController
 			});
 		}
 
-		$is_online = (Input::get('is_online') == 1) ? 1 : 0;
 		if($is_online) {
 			$query = $query->whereIsOnline(1);
 			$query = $query->where('last_activity', '>', \Carbon\Carbon::now()->subMinutes(2));

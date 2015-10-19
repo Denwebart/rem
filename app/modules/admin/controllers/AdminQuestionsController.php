@@ -29,7 +29,7 @@ class AdminQuestionsController extends \BaseController {
         $author = Request::get('author');
         $searchQuery = Request::get('query');
 
-        $limit = 1;
+        $limit = 10;
         $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
 
         $query = new Page;

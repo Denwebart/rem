@@ -233,9 +233,13 @@ class AdminPagesController extends \BaseController {
 			$data['published_at'] = null;
 		}
 
+		$parent = Page::find($data['parent_id']);
+		$parentParentId = $parent ? $parent->parent_id : 0;
+		$questions = Page::whereType(Page::TYPE_QUESTIONS)->first();
+
 		if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
 			$data['type'] = Page::TYPE_ARTICLE;
-		} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
+		} elseif($questions->first()->id == $data['parent_id'] || $parentParentId == $data['parent_id']) {
 			if($data['is_container'] == 1) {
                 $data['type'] = Page::TYPE_PAGE;
             } else {
@@ -347,15 +351,19 @@ class AdminPagesController extends \BaseController {
 		}
 
 		if(Page::TYPE_SYSTEM_PAGE != $page->type || Page::TYPE_QUESTIONS != $page->type || Page::TYPE_JOURNAL != $page->type) {
+			$parent = Page::find($data['parent_id']);
+			$parentParentId = $parent ? $parent->parent_id : 0;
+			$questions = Page::whereType(Page::TYPE_QUESTIONS)->first();
+
 			if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
 				$data['type'] = Page::TYPE_ARTICLE;
-			} elseif(Page::whereType(Page::TYPE_QUESTIONS)->first()->id == $data['parent_id']) {
-                if($data['is_container'] == 1) {
-                    $data['type'] = Page::TYPE_PAGE;
-                } else {
-                    $data['type'] = Page::TYPE_QUESTION;
-                }
-            } else {
+			} elseif($questions->id == $data['parent_id'] || $questions->id == $parentParentId) {
+				if($data['is_container'] == 1) {
+					$data['type'] = Page::TYPE_PAGE;
+				} else {
+					$data['type'] = Page::TYPE_QUESTION;
+				}
+			} else {
 				$data['type'] = Page::TYPE_PAGE;
 			}
 		}

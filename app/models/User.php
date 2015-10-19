@@ -661,7 +661,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function honors()
 	{
 		return $this->belongsToMany('Honor', 'users_honors')
-			->select(['id', 'user_id', 'title', 'alias', 'image']);
+			->select(['honors.id', 'user_id', 'title', 'honors.alias', 'image']);
 	}
 
 	public function userHonors()
@@ -683,7 +683,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function latestBanNotification()
 	{
 		return $this->hasOne('BanNotification', 'user_id')->orderBy('ban_at', 'DESC');
-//		return $this->hasMany('BanNotification', 'user_id')->latest('ban_notifications.ban_at');
 	}
 
 	/**
