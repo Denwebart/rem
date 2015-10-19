@@ -60,7 +60,7 @@ class HeaderWidget
 			->whereNull('deleted_at')
 			->with([
 				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+					$query->select('id', 'login', 'alias', 'avatar', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
 				}
 			])
 			->orderBy('created_at', 'DESC')
@@ -73,7 +73,7 @@ class HeaderWidget
 			->whereNull('read_at')
 			->with([
 				'userSender' => function($query) {
-					$query->select('id', 'login', 'alias', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+					$query->select('id', 'login', 'alias', 'avatar', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
 				}
 			])
 			->orderBy('created_at', 'DESC')
