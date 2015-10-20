@@ -41,7 +41,6 @@
         {{ $comments->links() }}
     </div>
     <!-- end of .comments -->
-
     <div class="comment-form margin-top-20" id="add-comment">
         <h3>{{ $formTitle }}</h3>
 
@@ -363,5 +362,51 @@
                 });
             }
         });
+
+        var selectedText = '';
+        function selectQuoteText() {
+            if (selectedText = window.getSelection) // Not IE, используем метод getSelection
+                selectedText = window.getSelection().toString();
+            else // IE, используем объект selection
+                selectedText = document.selection.createRange().text;
+            selectedText = $.trim(selectedText);
+
+            if(selectedText != '' && selectedText.length > 2) {
+                return selectedText;
+            } else {
+                return false
+            }
+        }
+
+//        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
+//            selectQuoteText('comment-1-level');
+//        });
+//
+//        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
+//            selectQuoteText('comment-2-level');
+//        });
+
+        $('.content').on('mouseup', function(e) {
+            if(selectQuoteText()) {
+//              $('#popUpBox').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
+                $(this).prepend('<a id="add-quote" data-section="content" href="#">Цитировать</a>');
+//              $('#add-quote').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
+            }
+        });
+
+        $(document).bind("mousedown", function(){
+            $('#add-quote').remove();
+        });
+
+        $(document).on("mousedown", '#add-quote', function(){
+            var value = tinyMCE.get("comment-textarea-0").save();
+            value = '<blockquote>'+ selectedText +'</blockquote><br>';
+            tinyMCE.get("comment-textarea-0").insertContent(value);
+            console.log();
+
+//            $('[name^="comment"]').val(value + '<blockquote>'+ selectedText +'</blockquote>');
+//            $('#add-quote').remove();
+        });
+
     </script>
 @stop

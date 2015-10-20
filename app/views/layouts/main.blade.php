@@ -188,8 +188,7 @@
 
         });
 
-        $('.bs-component [data-toggle="popover"]').popover();
-        $('.bs-component [data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
         $('[data-toggle="tooltip"]').tooltip();
 
         $(".bs-component").hover(function(){
