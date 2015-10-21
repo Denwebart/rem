@@ -378,18 +378,21 @@
             }
         }
 
-//        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
-//            selectQuoteText('comment-1-level');
-//        });
-//
-//        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
-//            selectQuoteText('comment-2-level');
-//        });
-
+        $('#comments-widget').on('mouseup', '.children-comments .comment-content', function(e) {
+            var commentParentId = $(this).data("id");
+            if(selectQuoteText()) {
+                $(this).prepend('<a id="add-quote" data-section="comment-level-2" href="javascript:void(0)" data-comment-parent-id="">Цитировать</a>');
+            }
+        });
+        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
+            if(selectQuoteText()) {
+                $(this).prepend('<a id="add-quote" data-section="comment-level-1" data-comment-parent-id="0" href="javascript:void(0)">Цитировать</a>');
+            }
+        });
         $('.content').on('mouseup', function(e) {
             if(selectQuoteText()) {
 //              $('#popUpBox').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
-                $(this).prepend('<a id="add-quote" data-section="content" href="#">Цитировать</a>');
+                $(this).prepend('<a id="add-quote" data-section="content" data-comment-parent-id="0" href="javascript:void(0)">Цитировать</a>');
 //              $('#add-quote').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
             }
         });
@@ -399,13 +402,30 @@
         });
 
         $(document).on("mousedown", '#add-quote', function(){
-            var value = tinyMCE.get("comment-textarea-0").save();
-            value = '<blockquote>'+ selectedText +'</blockquote><br>';
-            tinyMCE.get("comment-textarea-0").insertContent(value);
-            console.log();
+            var section = $(this).data('section');
+            if(section = 'content') {
+                console.log(section);
+                var value = tinyMCE.get("comment-textarea-0").save();
+                value = '<blockquote>'+ selectedText +'</blockquote><br>';
+                tinyMCE.get("comment-textarea-0").insertContent(value);
 
 //            $('[name^="comment"]').val(value + '<blockquote>'+ selectedText +'</blockquote>');
 //            $('#add-quote').remove();
+            } else if(section = 'comment-level-2') {
+                console.log(section);
+                var commentParentId = $(this).data('commentParentId');
+                var value = $('#comment-textarea-' + commentParentId).val();
+                value = value + '<br><blockquote>'+ selectedText +'</blockquote><br>';
+                $('#comment-textarea-' + commentParentId).val(value);
+            } else if(section = 'comment-level-1') {
+                console.log(section);
+//                var value = tinyMCE.get("comment-textarea-0").save();
+//                value = '<blockquote>'+ selectedText +'</blockquote><br>';
+//                tinyMCE.get("comment-textarea-0").insertContent(value);
+
+//            $('[name^="comment"]').val(value + '<blockquote>'+ selectedText +'</blockquote>');
+//            $('#add-quote').remove();
+            }
         });
 
     </script>

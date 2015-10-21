@@ -76,8 +76,6 @@ View::share('title', $title);
             </div>
 
             <div class="col-xs-6">
-                <h4>Добавление пункта меню</h4>
-
             </div>
         </div>
     </div>

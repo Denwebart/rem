@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-content">
+                        <div class="comment-content" data-id="{{ $comment->id }}">
                             {{ StringHelper::addFancybox($commentLevel2->comment, 'group-comment-' . $commentLevel2->id) }}
                         </div>
                     </div>
