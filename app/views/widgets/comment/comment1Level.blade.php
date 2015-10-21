@@ -52,8 +52,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 comment-content" data-id="{{ $comment->id }}">
-                                {{ StringHelper::addFancybox($comment->comment, 'group-comment-' . $comment->id) }}
+                            <div class="col-md-12">
+                                <div class="comment-content" data-id="{{ $comment->id }}">
+                                    {{ StringHelper::addFancybox($comment->comment, 'group-comment-' . $comment->id) }}
+                                </div>
                             </div>
                         </div>
                     </div>

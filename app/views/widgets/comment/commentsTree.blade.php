@@ -148,6 +148,12 @@
     <!-- end of .comment-form -->
 </section> <!-- end of .comments-area -->
 
+@section('footer')
+    @parent
+
+    <a id="add-quote" href="javascript:void(0)">Цитировать</a>
+@stop
+
 @section('style')
     @parent
 
@@ -244,13 +250,21 @@
         });
 
         // Раскрытие формы для ответа на комментарий
-        $('.comments, #best-comments').on('click', '.reply', function() {
-            var formContainer = '#reply-comment-form-' + $(this).data('commentId');
-            if ($(formContainer).is(':visible')) {
-                $(formContainer).slideUp();
+        function openReplyCommentForm(formId, isCheck) {
+            var formContainer = '#reply-comment-form-' + formId;
+            if(isCheck) {
+                if ($(formContainer).is(':visible')) {
+                    $(formContainer).slideUp();
+                } else {
+                    $(formContainer).slideDown();
+                }
             } else {
                 $(formContainer).slideDown();
             }
+        }
+
+        $('.comments, #best-comments').on('click', '.reply', function() {
+            openReplyCommentForm($(this).attr('data-comment-id'), true);
         });
 
         // Сворачивание/разворачивание дочерних комментариев
@@ -363,12 +377,15 @@
             }
         });
 
+        <!-- Цитирование комментария, текста страницы -->
         var selectedText = '';
         function selectQuoteText() {
-            if (selectedText = window.getSelection) // Not IE, используем метод getSelection
+            if (selectedText = window.getSelection) { // Not IE, используем метод getSelection
                 selectedText = window.getSelection().toString();
-            else // IE, используем объект selection
+            }
+            else {// IE, используем объект selection
                 selectedText = document.selection.createRange().text;
+            }
             selectedText = $.trim(selectedText);
 
             if(selectedText != '' && selectedText.length > 2) {
@@ -378,54 +395,72 @@
             }
         }
 
-        $('#comments-widget').on('mouseup', '.children-comments .comment-content', function(e) {
-            var commentParentId = $(this).data("id");
+        $('#comments').on('mouseup', '.children-comments .comment-content', function(e) {
+            var commentParentId = $(this).attr("data-id");
             if(selectQuoteText()) {
-                $(this).prepend('<a id="add-quote" data-section="comment-level-2" href="javascript:void(0)" data-comment-parent-id="">Цитировать</a>');
+                $('#add-quote').show()
+                    .attr('data-section', 'comment-level-2')
+                    .attr('data-comment-parent-id', commentParentId);
+                $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
-        $('#comments-widget').on('mouseup', '.comment-content', function(e) {
+        $('#comments').on('mouseup', '.parent-comment .comment-content', function(e) {
+            var commentParentId = $(this).attr("data-id");
             if(selectQuoteText()) {
-                $(this).prepend('<a id="add-quote" data-section="comment-level-1" data-comment-parent-id="0" href="javascript:void(0)">Цитировать</a>');
+                $('#add-quote').show()
+                    .attr('data-section', 'comment-level-1')
+                    .attr('data-comment-parent-id', commentParentId);
+                $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
         $('.content').on('mouseup', function(e) {
             if(selectQuoteText()) {
-//              $('#popUpBox').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
-                $(this).prepend('<a id="add-quote" data-section="content" data-comment-parent-id="0" href="javascript:void(0)">Цитировать</a>');
-//              $('#add-quote').css({'display':'block', 'left':e.pageX-60+'px', 'top':e.pageY+5+'px'});
+                $('#add-quote').show()
+                    .attr('data-section', 'content')
+                    .attr('data-comment-parent-id', 0);
+                $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
 
         $(document).bind("mousedown", function(){
-            $('#add-quote').remove();
+            selectedText = '';
+            $('#add-quote')
+                .removeAttr('style')
+                .css('display', 'none')
+                .removeAttr('data-section')
+                .removeAttr('data-comment-parent-id');
         });
 
         $(document).on("mousedown", '#add-quote', function(){
-            var section = $(this).data('section');
-            if(section = 'content') {
-                console.log(section);
+            var section = $(this).attr('data-section');
+            var commentParentId = $(this).attr('data-comment-parent-id');
+            $('#add-quote').removeAttr('style')
+                    .css('display', 'none')
+                    .removeAttr('data-section')
+                    .removeAttr('data-comment-parent-id');
+            if(section == 'content') {
                 var value = tinyMCE.get("comment-textarea-0").save();
                 value = '<blockquote>'+ selectedText +'</blockquote><br>';
                 tinyMCE.get("comment-textarea-0").insertContent(value);
-
-//            $('[name^="comment"]').val(value + '<blockquote>'+ selectedText +'</blockquote>');
-//            $('#add-quote').remove();
-            } else if(section = 'comment-level-2') {
-                console.log(section);
-                var commentParentId = $(this).data('commentParentId');
+                // скролл на форму
+                $('html, body').animate({
+                    scrollTop: $('#comment-form-0').offset().top - 50
+                }, 500);
+            } else {
                 var value = $('#comment-textarea-' + commentParentId).val();
-                value = value + '<br><blockquote>'+ selectedText +'</blockquote><br>';
+                if(section == 'comment-level-2') {
+                    value = value + "<blockquote>"+ selectedText +"</blockquote>\n";
+                } else if(section == 'comment-level-1') {
+                    value = value + "<blockquote>"+ selectedText +"</blockquote>\n";
+                }
+                openReplyCommentForm(commentParentId, false);
                 $('#comment-textarea-' + commentParentId).val(value);
-            } else if(section = 'comment-level-1') {
-                console.log(section);
-//                var value = tinyMCE.get("comment-textarea-0").save();
-//                value = '<blockquote>'+ selectedText +'</blockquote><br>';
-//                tinyMCE.get("comment-textarea-0").insertContent(value);
-
-//            $('[name^="comment"]').val(value + '<blockquote>'+ selectedText +'</blockquote>');
-//            $('#add-quote').remove();
+                // скролл на форму
+                $('html, body').animate({
+                    scrollTop: $('#reply-comment-form-' + commentParentId).offset().top - 50
+                }, 1000);
             }
+            selectedText = '';
         });
 
     </script>

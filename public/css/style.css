@@ -1360,22 +1360,28 @@ form .page-image {
     vertical-align: -0.6em;
 }
 #add-quote {
+    display: none;
     font-size: 14px;
     font-weight: 400;
+    width: 120px;
+    height: 32px;
     color: #ECECEC !important;
-    line-height: 1em;
+    text-align: center;
+    line-height: 32px;
     background: rgba(101, 101, 101, 0.9) none repeat scroll 0% 0%;
     border: medium none;
     border-radius: 2px;
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.12), 0px 1px 6px 0px rgba(0, 0, 0, 0.12);
-    padding: 9px 14px;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 9999;
 }
+#add-quote:hover {
+    text-decoration: none;
+}
 
-/* Аватарка пользователя, статус online/offline */
+    /* Аватарка пользователя, статус online/offline */
 .avatar {
     background: rgba(0, 0, 0, 0.1);
     padding: 1px;
