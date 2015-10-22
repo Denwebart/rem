@@ -378,13 +378,38 @@
         });
 
         <!-- Цитирование комментария, текста страницы -->
+
+        // снятие выделения с текста
+        function clearPageSelection()
+        {
+            if (window.getSelection) {
+                if (window.getSelection().empty) { // Chrome
+                    window.getSelection().empty();
+                } else if (window.getSelection().removeAllRanges) { // Firefox
+                    window.getSelection().removeAllRanges();
+                }
+            } else if (document.selection) { // IE?
+                document.selection.empty();
+            }
+        }
+
+        // получение выделенного текста (c html)
         var selectedText = '';
         function selectQuoteText() {
-            if (selectedText = window.getSelection) { // Not IE, используем метод getSelection
-                selectedText = window.getSelection().toString();
+            if (typeof window.getSelection != "undefined") { // Not IE, используем метод getSelection
+                var selectedText = window.getSelection();
+                if (selectedText.rangeCount) {
+                    var container = document.createElement("div");
+                    for (var i = 0, len = selectedText.rangeCount; i < len; ++i) {
+                        container.appendChild(selectedText.getRangeAt(i).cloneContents());
+                    }
+                    selectedText = container.innerHTML;
+                }
             }
             else {// IE, используем объект selection
-                selectedText = document.selection.createRange().text;
+                if (document.selection.type == "Text") {
+                    selectedText = document.selection.createRange().htmlText;
+                }
             }
             selectedText = $.trim(selectedText);
 
@@ -395,9 +420,28 @@
             }
         }
 
+//        function getSelectionHtml() {
+//            var html = "";
+//            if (typeof window.getSelection != "undefined") {
+//                var sel = window.getSelection();
+//                if (sel.rangeCount) {
+//                    var container = document.createElement("div");
+//                    for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+//                        container.appendChild(sel.getRangeAt(i).cloneContents());
+//                    }
+//                    html = container.innerHTML;
+//                }
+//            } else if (typeof document.selection != "undefined") {
+//                if (document.selection.type == "Text") {
+//                    html = document.selection.createRange().htmlText;
+//                }
+//            }
+//            console.log(html);
+//        }
+
         $('#comments').on('mouseup', '.children-comments .comment-content', function(e) {
             var commentParentId = $(this).attr("data-id");
-            if(selectQuoteText()) {
+            if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'comment-level-2')
                     .attr('data-comment-parent-id', commentParentId);
@@ -406,7 +450,7 @@
         });
         $('#comments').on('mouseup', '.parent-comment .comment-content', function(e) {
             var commentParentId = $(this).attr("data-id");
-            if(selectQuoteText()) {
+            if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'comment-level-1')
                     .attr('data-comment-parent-id', commentParentId);
@@ -414,7 +458,7 @@
             }
         });
         $('.content').on('mouseup', function(e) {
-            if(selectQuoteText()) {
+            if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'content')
                     .attr('data-comment-parent-id', 0);
@@ -422,22 +466,15 @@
             }
         });
 
-        $(document).bind("mousedown", function(){
-            selectedText = '';
-            $('#add-quote')
-                .removeAttr('style')
-                .css('display', 'none')
-                .removeAttr('data-section')
-                .removeAttr('data-comment-parent-id');
-        });
-
         $(document).on("mousedown", '#add-quote', function(){
+            console.log(selectedText);
             var section = $(this).attr('data-section');
             var commentParentId = $(this).attr('data-comment-parent-id');
             $('#add-quote').removeAttr('style')
                     .css('display', 'none')
                     .removeAttr('data-section')
                     .removeAttr('data-comment-parent-id');
+            clearPageSelection();
             if(section == 'content') {
                 var value = tinyMCE.get("comment-textarea-0").save();
                 value = '<blockquote>'+ selectedText +'</blockquote><br>';
@@ -461,6 +498,16 @@
                 }, 1000);
             }
             selectedText = '';
+        });
+
+        $(document).bind("mousedown", function(){
+            selectedText = '';
+            $('#add-quote')
+                    .removeAttr('style')
+                    .css('display', 'none')
+                    .removeAttr('data-section')
+                    .removeAttr('data-comment-parent-id');
+            clearPageSelection();
         });
 
     </script>
