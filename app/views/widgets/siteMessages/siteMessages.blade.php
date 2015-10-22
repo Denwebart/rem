@@ -16,6 +16,15 @@
             setTimeout(function() {
                 $message.remove();
             }, 2000);
+        });
+
+        $(window).scroll(function(){
+            var $message = $('.site-message');
+            $message.show("slow").animate({ right: "-=1000" }, 1000 );
+
+            setTimeout(function() {
+                $message.remove();
+            }, 2000);
         })
     </script>
 @stop
