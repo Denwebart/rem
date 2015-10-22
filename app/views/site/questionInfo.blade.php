@@ -18,29 +18,35 @@
     <div class="col-md-10 col-sm-10 col-xs-10">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации">
+                <div class="date pull-left hidden-lg hidden-md hidden-sm" title="Дата публикации" data-toggle="tooltip" data-placement="top">
                     <i class="material-icons pull-left">today</i>
                     <span class="pull-left">{{ DateHelper::dateFormat($question->published_at) }}</span>
                 </div>
                 <div class="page-info">
-                    <div class="date pull-left hidden-xs" title="Дата публикации">
+                    <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip" data-placement="top">
                         <i class="material-icons">today</i>
                         <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
                     </div>
                     <div class="pull-right">
-                        <div class="views pull-left" title="Количество просмотров">
+                        <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
                             <i class="material-icons">visibility</i>
                             <span>{{ $question->views }}</span>
                         </div>
-                        <div class="saved-count pull-left" title="Сколько пользователей сохранили">
+                        <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
                             <i class="material-icons">archive</i>
                             <span>{{ count($question->whoSaved) }}</span>
                         </div>
-                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                             <i class="material-icons">grade</i>
-                            <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
+                            <span>
+                                <span itemprop="ratingValue">{{ $question->getRating() }}</span>
+                                <meta itemprop="ratingCount" content="{{ $question->votes }}" />
+                                (
+                                <span itemprop="reviewCount">{{ $question->voters }}</span>
+                                )
+                            </span>
                         </div>
-                        <div class="subscribers pull-left" title="Количество подписавшихся на вопрос">
+                        <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="top">
                             <i class="material-icons">local_library</i>
                             <span>{{ count($question->subscribers) }}</span>
                         </div>

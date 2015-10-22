@@ -76,12 +76,18 @@
                 <i class="material-icons">archive</i>
                 <span>{{ count($page->whoSaved) }}</span>
             </div>
-            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top">
+            <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                 <i class="material-icons">grade</i>
-                <span>{{ $page->getRating() }} ({{ $page->voters }})</span>
+                <span>
+                    <span itemprop="ratingValue">{{ $page->getRating() }}</span>
+                    <meta itemprop="ratingCount" content="{{ $page->votes }}" />
+                    (
+                    <span itemprop="reviewCount">{{ $page->voters }}</span>
+                    )
+                </span>
             </div>
             @if(Page::TYPE_QUESTION == $page->type)
-                <div class="rating pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="top">
+                <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip" data-placement="top">
                     <i class="material-icons">local_library</i>
                     <span>{{ count($page->subscribers) }}</span>
                 </div>

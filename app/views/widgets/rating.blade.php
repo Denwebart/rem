@@ -1,8 +1,11 @@
-<div id="rating">
+<div id="rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
     <div class="rating pull-right">
-        <div id="rate-votes">{{ $page->getRating() }}</div>
+        <div id="rate-votes" itemprop="ratingValue">{{ $page->getRating() }}</div>
+        <meta itemprop="worstRating" content="1" />
+        <meta itemprop="bestRating" content="5" />
+        <meta itemprop="ratingCount" content="{{ $page->votes }}" />
         <div id="rate-voters" title="Количество проголосовавших" data-toggle="tooltip">
-            (<i class="material-icons">group</i> <span>{{ $page->voters }}</span>)
+            (<i class="material-icons">group</i> <span itemprop="reviewCount">{{ $page->voters }}</span>)
         </div>
         <div id="rate-stars" title="Голосовать" data-toggle="tooltip" data-placement="bottom">
             <div id="jRate"></div>

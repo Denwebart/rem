@@ -105,9 +105,15 @@ View::share('title', $title);
                                                             <i class="material-icons">archive</i>
                                                             <span>{{ count($question->whoSaved) }}</span>
                                                         </div>
-                                                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip">
+                                                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                                                             <i class="material-icons">grade</i>
-                                                            <span>{{ $question->getRating() }} ({{ $question->voters }})</span>
+                                                            <span>
+                                                                <span itemprop="ratingValue">{{ $question->getRating() }}</span>
+                                                                <meta itemprop="ratingCount" content="{{ $question->votes }}" />
+                                                                (
+                                                                <span itemprop="reviewCount">{{ $question->voters }}</span>
+                                                                )
+                                                            </span>
                                                         </div>
                                                         <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip">
                                                             <i class="material-icons">local_library</i>

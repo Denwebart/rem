@@ -64,9 +64,15 @@
                     <i class="material-icons">archive</i>
                     <span>{{ count($article->whoSaved) }}</span>
                 </div>
-                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)">
+                <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                     <i class="material-icons">grade</i>
-                    <span>{{ $article->getRating() }} ({{ $article->voters }})</span>
+                    <span>
+                        <span itemprop="ratingValue">{{ $article->getRating() }}</span>
+                        <meta itemprop="ratingCount" content="{{ $article->votes }}" />
+                        (
+                        <span itemprop="reviewCount">{{ $article->voters }}</span>
+                        )
+                    </span>
                 </div>
             </div>
         </div>
