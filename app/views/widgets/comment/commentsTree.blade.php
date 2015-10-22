@@ -420,40 +420,25 @@
             }
         }
 
-//        function getSelectionHtml() {
-//            var html = "";
-//            if (typeof window.getSelection != "undefined") {
-//                var sel = window.getSelection();
-//                if (sel.rangeCount) {
-//                    var container = document.createElement("div");
-//                    for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-//                        container.appendChild(sel.getRangeAt(i).cloneContents());
-//                    }
-//                    html = container.innerHTML;
-//                }
-//            } else if (typeof document.selection != "undefined") {
-//                if (document.selection.type == "Text") {
-//                    html = document.selection.createRange().htmlText;
-//                }
-//            }
-//            console.log(html);
-//        }
-
         $('#comments').on('mouseup', '.children-comments .comment-content', function(e) {
-            var commentParentId = $(this).attr("data-id");
+            var commentParentId = $(this).attr("data-parent-id");
             if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'comment-level-2')
-                    .attr('data-comment-parent-id', commentParentId);
+                    .attr('data-author', $(this).prevAll('.author:first').find('.login').text().trim())
+                    .attr('data-comment-parent-id', commentParentId)
+                    .attr('data-cite-comment-url', $(this).prevAll('.author:first').find('.get-link').attr('href'));
                 $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
         $('#comments').on('mouseup', '.parent-comment .comment-content', function(e) {
-            var commentParentId = $(this).attr("data-id");
+            var commentParentId = $(this).attr("data-parent-id");
             if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'comment-level-1')
-                    .attr('data-comment-parent-id', commentParentId);
+                    .attr('data-author', $(this).prevAll('.author:first').find('.login').text().trim())
+                    .attr('data-comment-parent-id', commentParentId)
+                    .attr('data-cite-comment-url', $(this).prevAll('.author:first').find('.get-link').attr('href'));
                 $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
@@ -461,23 +446,18 @@
             if(selectedText = selectQuoteText()) {
                 $('#add-quote').show()
                     .attr('data-section', 'content')
+                    .attr('data-author', $(this).prevAll('.author:first').find('.login').text().trim())
                     .attr('data-comment-parent-id', 0);
                 $('#add-quote').css({'left':e.pageX-60+'px', 'top':e.pageY+10+'px'});
             }
         });
 
         $(document).on("mousedown", '#add-quote', function(){
-            console.log(selectedText);
             var section = $(this).attr('data-section');
             var commentParentId = $(this).attr('data-comment-parent-id');
-            $('#add-quote').removeAttr('style')
-                    .css('display', 'none')
-                    .removeAttr('data-section')
-                    .removeAttr('data-comment-parent-id');
-            clearPageSelection();
             if(section == 'content') {
                 var value = tinyMCE.get("comment-textarea-0").save();
-                value = '<blockquote>'+ selectedText +'</blockquote><br>';
+                value = '<blockquote><div class="text">'+ selectedText +'</div></blockquote><br>';
                 tinyMCE.get("comment-textarea-0").insertContent(value);
                 // скролл на форму
                 $('html, body').animate({
@@ -485,10 +465,12 @@
                 }, 500);
             } else {
                 var value = $('#comment-textarea-' + commentParentId).val();
+                var commentAuthor = $(this).attr('data-author');
+                var citeCommentUrl = $(this).attr('data-cite-comment-url');
                 if(section == 'comment-level-2') {
-                    value = value + "<blockquote>"+ selectedText +"</blockquote>\n";
+                    value = value + '<blockquote><a href="'+ citeCommentUrl +'"><span class="author">'+ commentAuthor +':</span></a><div class="text">'+ selectedText +"</div></blockquote>\n";
                 } else if(section == 'comment-level-1') {
-                    value = value + "<blockquote>"+ selectedText +"</blockquote>\n";
+                    value = value + '<blockquote><a href="'+ citeCommentUrl + '"><span class="author">'+ commentAuthor +':</span></a><div class="text">'+ selectedText +"</div></blockquote>\n";
                 }
                 openReplyCommentForm(commentParentId, false);
                 $('#comment-textarea-' + commentParentId).val(value);
@@ -498,6 +480,13 @@
                 }, 1000);
             }
             selectedText = '';
+            $('#add-quote').removeAttr('style')
+                    .css('display', 'none')
+                    .removeAttr('data-section')
+                    .removeAttr('data-author')
+                    .removeAttr('data-comment-parent-id')
+                    .removeAttr('data-cite-comment-url');
+            clearPageSelection();
         });
 
         $(document).bind("mousedown", function(){
@@ -506,7 +495,9 @@
                     .removeAttr('style')
                     .css('display', 'none')
                     .removeAttr('data-section')
-                    .removeAttr('data-comment-parent-id');
+                    .removeAttr('data-author')
+                    .removeAttr('data-comment-parent-id')
+                    .removeAttr('data-cite-comment-url');
             clearPageSelection();
         });
 
