@@ -6,15 +6,16 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li><a href="{{ URL::route('honors') }}">Награды</a></li>
-        <li class="hidden-md hidden-xs">{{ $honor->title }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => 'Награды',
+            'url' => URL::route('honors')
+        ],
+        [
+            'title' => $honor->title
+        ]
+    ]])
 
     <section id="content">
 

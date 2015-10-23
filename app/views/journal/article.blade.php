@@ -1,28 +1,20 @@
 @extends('layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>
-            <a href="{{ URL::to($page->parent->getUrl()) }}">
-                @if($page->parent->menuItem)
-                    {{ $page->parent->menuItem->menu_title }}
-                @else
-                    {{ $page->parent->getTitle() }}
-                @endif
-            </a>
-        </li>
-        <li>
-            <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
-                {{ $user->login }}
-            </a>
-        </li>
-        <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => ($page->parent->menuItem) ? $page->parent->menuItem->menu_title : $page->parent->getTitle(),
+            'url' => URL::to($page->parent->getUrl())
+        ],
+        [
+            'title' => $user->login,
+            'url' => URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()])
+        ],
+        [
+            'title' => $page->getTitleForBreadcrumbs()
+        ]
+    ]])
 @stop
 
 @section('content')

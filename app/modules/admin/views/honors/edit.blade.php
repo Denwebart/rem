@@ -12,7 +12,7 @@ View::share('title', $title);
             {{ $title }}
             <small>редактирование награды</small>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.honors.index') }}">Награды</a></li>
             <li>{{ $title }}</li>

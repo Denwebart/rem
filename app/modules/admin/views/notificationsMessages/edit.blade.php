@@ -10,7 +10,7 @@ View::share('title', $title);
         <h1><i class="fa fa-edit "></i>
             {{ $title }}
             <small></small></h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
             <li class="active"><a href="{{ URL::route('admin.notificationsMessages.index') }}">Шаблоны уведомлений</a></li>

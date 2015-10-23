@@ -1,42 +1,27 @@
 @extends('layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        @if($page->parent_id != 0)
-            @if($page->parent)
-                @if($page->parent->parent_id != 0)
-                    @if($page->parent->parent)
-                        <li>
-                            <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                                @if($page->parent->parent->menuItem)
-                                    {{ $page->parent->parent->menuItem->getTitle() }}
-                                @else
-                                    {{ $page->parent->parent->getTitle() }}
-                                @endif
-                            </a>
-                        </li>
-                    @endif
-                @endif
-                <li>
-                    <a href="{{ URL::to($page->parent->getUrl()) }}">
-                        @if($page->parent->menuItem)
-                            {{ $page->parent->menuItem->getTitle() }}
-                        @else
-                            {{ $page->parent->getTitle() }}
-                        @endif
-                    </a>
-                </li>
-                <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
-            @endif
-        @else
-            <li>{{ $page->getTitleForBreadcrumbs() }}</li>
-        @endif
-    </ol>
+    <?php
+        if($page->parent_id != 0) {
+            if($page->parent) {
+                if($page->parent->parent_id != 0) {
+                    if($page->parent->parent) {
+                        $breadcrumbs[0]['title'] = ($page->parent->parent->menuItem)
+                                ? $page->parent->parent->menuItem->getTitle()
+                                : $page->parent->parent->getTitle();
+                        $breadcrumbs[0]['url'] = URL::to($page->parent->parent->getUrl());
+                    }
+                }
+                $breadcrumbs[1]['title'] = ($page->parent->menuItem)
+                    ? $page->parent->menuItem->getTitle()
+                    : $page->parent->getTitle();
+                $breadcrumbs[1]['url'] = URL::to($page->parent->getUrl());
+            }
+        }
+        $breadcrumbs[2]['title'] = $page->getTitleForBreadcrumbs();
+    ?>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => $breadcrumbs])
 @stop
 
 @section('content')

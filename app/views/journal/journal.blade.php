@@ -8,25 +8,15 @@
     </div>
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-            <li class="home-page">
-                <a href="{{ URL::to('/') }}">
-                    <i class="material-icons">home</i>
-                </a>
-            </li>
-            <li>
-                <a href="{{ URL::to($journalParent->getUrl()) }}">
-                    @if($journalParent->menuItem)
-                        {{ $journalParent->menuItem->getTitle() }}
-                    @else
-                        {{ $journalParent->getTitle() }}
-                    @endif
-                </a>
-            </li>
-            <li>
-                {{ $user->login }}
-            </li>
-        </ol>
+        @include('widgets.breadcrumbs', ['items' => [
+            [
+                'title' => ($journalParent->menuItem) ? $journalParent->menuItem->getTitle() : $journalParent->getTitle(),
+                'url' => URL::to($journalParent->getUrl())
+            ],
+            [
+                'title' => $user->login
+            ]
+        ]])
 
         <div class="row">
             <div class="col-lg-12" id="content">

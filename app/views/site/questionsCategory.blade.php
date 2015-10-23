@@ -1,25 +1,16 @@
 @extends('layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        @if($page->parent)
-            <li>
-                <a href="{{ URL::to($page->parent->getUrl()) }}">
-                    @if($page->parent->menuItem)
-                        {{ $page->parent->menuItem->menu_title }}
-                    @else
-                        {{ $page->parent->getTitle() }}
-                    @endif
-                </a>
-            </li>
-        @endif
-        <li class="hidden-md hidden-xs">{{ $page->getTitleForBreadcrumbs() }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => $page->getTitleForBreadcrumbs(),
+            'url' => ($page->parent->menuItem) ? $page->parent->menuItem->menu_title : $page->parent->getTitle()
+        ],
+        [
+            'title' => $page->getTitleForBreadcrumbs()
+        ]
+    ]])
 @stop
 
 @section('content')

@@ -12,7 +12,7 @@ View::share('title', $title);
             {{ $title }}
             <small></small>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li><a href="{{ URL::route('admin.settings.index') }}">Настройки</a></li>
             <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Правила сайта</a></li>

@@ -11,28 +11,21 @@ View::share('title', $title);
     </div>
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-            <li class="home-page">
-                <a href="{{ URL::to('/') }}">
-                    <i class="material-icons">home</i>
-                </a>
-            </li>
-            <li>
-                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                </a>
-            </li>
-            @if($comment->is_answer)
-                <li>
-                    <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">Мои ответы</a>
-                </li>
-            @else
-                <li>
-                    <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">Мои комментарии</a>
-                </li>
-            @endif
-            <li class="hidden-md hidden-xs">{{ $title }}</li>
-        </ol>
+        @include('widgets.breadcrumbs', ['items' => [
+            [
+                'title' => Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login) : 'Профиль пользователя ' . $user->login,
+                'url' => URL::route('user.profile', ['login' => $user->getLoginForUrl()])
+            ],
+            [
+                'title' => ($comment->is_answer) ? 'Мои ответы' : 'Мои комментарии',
+                'url' => ($comment->is_answer)
+                    ? URL::route('user.answers', ['login' => $user->getLoginForUrl()])
+                    : URL::route('user.comments', ['login' => $user->getLoginForUrl()])
+            ],
+            [
+                'title' => $title
+            ]
+        ]])
 
         <div class="row">
             <div class="col-lg-12 content">

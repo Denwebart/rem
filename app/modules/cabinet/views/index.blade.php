@@ -10,14 +10,12 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
 ?>
 
 @section('content')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>{{ $title }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => $title
+        ]
+    ]])
 
     <section id="content">
         <h2>{{ $title }}</h2>

@@ -12,7 +12,7 @@ $params = $parentPage ? ['parent_id' => $parentPage->id] : [];
             </h1>
         </div>
     </div>
-    {{--<ol class="breadcrumb">--}}
+    {{--<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">--}}
         {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
         {{--@if(isset($parentPage))--}}
             {{--<li class="active">--}}

@@ -20,7 +20,7 @@ View::share('title', $title);
                 @endif
             </small>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.advertising.index') }}">Реклама и виджеты</a></li>
             <li>Редактирование {{ $advertising->title }}</li>

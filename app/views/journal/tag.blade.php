@@ -1,16 +1,20 @@
 @extends('layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li><a href="{{ URL::to($tagsParent->getUrl()) }}">{{ $tagsParent->getTitle() }}</a></li>
-        <li><a href="{{ URL::to($tags->getUrl()) }}">{{ $tags->getTitle() }}</a></li>
-        <li class="hidden-md hidden-xs">{{ $page->title }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => $tagsParent->getTitle(),
+            'url' => URL::to($tagsParent->getUrl())
+        ],
+        [
+            'title' => $tags->getTitle(),
+            'url' => URL::to($tags->getUrl())
+        ],
+        [
+            'title' => $page->title
+        ]
+    ]])
 @stop
 
 @section('content')

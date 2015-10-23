@@ -18,7 +18,7 @@ View::share('title', $title);
             <div class="col-md-2 col-sm-3 col-xs-12">
             </div>
         </div>
-        {{--<ol class="breadcrumb">--}}
+        {{--<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">--}}
             {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
             {{--<li class="active"><a href="{{ URL::to('admin.letters.index') }}">Письма</a></li>--}}
             {{--<li class="active">{{ $title }}</li>--}}

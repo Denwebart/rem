@@ -6,14 +6,12 @@ View::share('areaWidget', $areaWidget);
 ?>
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>{{ $page->getTitle() }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => $page->getTitle()
+        ]
+    ]])
 @stop
 
 @section('content')

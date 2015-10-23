@@ -12,7 +12,7 @@ View::share('title', $title);
             {{ $title }}
             <small>заполните все необходимые формы</small>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.articles.index') }}">Статьи пользователей</a></li>
             <li>{{ $title }}</li>

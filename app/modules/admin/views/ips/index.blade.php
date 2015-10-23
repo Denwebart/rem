@@ -19,7 +19,7 @@ View::share('title', $title);
             </div>
         </div>
 
-        {{--<ol class="breadcrumb">--}}
+        {{--<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">--}}
             {{--<li><a href="{{ URL::to('admin') }}">Главная</a></li>--}}
             {{--<li class="active"><a href="{{ URL::route('admin.users.index') }}">Пользователи</a></li>--}}
             {{--<li class="active">{{ $title }}</li>--}}

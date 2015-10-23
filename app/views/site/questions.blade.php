@@ -1,14 +1,12 @@
 @extends('layouts.main')
 
 @section('breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>{{ $page->getTitleForBreadcrumbs() }}</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+    [
+        'title' => $page->getTitleForBreadcrumbs()
+    ]
+    ]])
 @stop
 
 @section('content')

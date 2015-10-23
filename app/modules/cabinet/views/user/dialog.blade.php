@@ -10,24 +10,19 @@ View::share('title', $title);
     </div>
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-            <li class="home-page">
-                <a href="{{ URL::to('/') }}">
-                    <i class="material-icons">home</i>
-                </a>
-            </li>
-            <li>
-                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                    {{ (Auth::user()->is($user)) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ URL::route('user.messages', ['login' => $user->getLoginForUrl()]) }}">
-                    {{ (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login }}
-                </a>
-            </li>
-            <li class="hidden-md hidden-xs">{{ $title }}</li>
-        </ol>
+        @include('widgets.breadcrumbs', ['items' => [
+            [
+                'title' => Auth::check() ? (Auth::user()->is($user) ? 'Мой профиль' : 'Профиль пользователя ' . $user->login) : 'Профиль пользователя ' . $user->login,
+                'url' => URL::route('user.profile', ['login' => $user->getLoginForUrl()])
+            ],
+            [
+                'title' => (Auth::user()->is($user)) ? 'Личные сообщения' : 'Личные сообщения пользователя ' . $user->login,
+                'url' => URL::route('user.messages', ['login' => $user->getLoginForUrl()])
+            ],
+            [
+                'title' => $title
+            ]
+        ]])
 
         <div class="row">
             <div class="col-lg-12" id="content">

@@ -12,7 +12,7 @@ View::share('title', $title);
             {{ $title }}
             <small>редактирование статьи из бортового журнала</small>
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li><a href="{{ URL::to('admin') }}">Главная</a></li>
             <li class="active"><a href="{{ URL::route('admin.articles.index') }}">Статьи пользователей</a></li>
             <li>{{ Str::limit($page->getTitle(), 60, '...') }}</li>

@@ -1,14 +1,12 @@
 @extends('cabinet::layouts.honors')
 
 @section('content')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>Награды</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => 'Награды'
+        ]
+    ]])
 
     <section id="content" class="well">
 

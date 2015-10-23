@@ -6,14 +6,12 @@ View::share('title', $title);
 ?>
 
 @section('content')
-    <ol class="breadcrumb">
-        <li class="home-page">
-            <a href="{{ URL::to('/') }}">
-                <i class="material-icons">home</i>
-            </a>
-        </li>
-        <li>Поиск</li>
-    </ol>
+    <!-- Breadcrumbs -->
+    @include('widgets.breadcrumbs', ['items' => [
+        [
+            'title' => 'Поиск'
+        ]
+    ]])
 
     <section id="content" class="well">
         @if($tag)

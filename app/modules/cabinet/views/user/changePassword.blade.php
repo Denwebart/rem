@@ -11,19 +11,15 @@ View::share('title', $title);
     </div>
     <div class="col-lg-7 col-md-7">
         <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-            <li class="home-page">
-                <a href="{{ URL::to('/') }}">
-                    <i class="material-icons">home</i>
-                </a>
-            </li>
-            <li>
-                <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                    Мой профиль
-                </a>
-            </li>
-            <li class="hidden-md hidden-xs">{{ $title }}</li>
-        </ol>
+        @include('widgets.breadcrumbs', ['items' => [
+            [
+                'title' => 'Мой профиль',
+                'url' => URL::route('user.profile', ['login' => $user->getLoginForUrl()])
+            ],
+            [
+                'title' => $title
+            ]
+        ]])
 
         <div class="row">
             <div class="col-lg-12" id="content">
