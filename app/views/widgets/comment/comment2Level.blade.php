@@ -1,4 +1,4 @@
-<div id="comment-{{ $commentLevel2->id }}" class="comment">
+<div id="comment-{{ $commentLevel2->id }}" class="comment" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
     @if(!$commentLevel2->is_deleted)
         <div class="comment-text @if($commentLevel2->mark == Comment::MARK_BEST) best @endif">
             <div class="row">
@@ -22,26 +22,28 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left">
-                                        @if($commentLevel2->user)
-                                            <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}" class="login {{ ($page->user_id == $commentLevel2->user_id) ? ' page-author' : '' }}">
-                                                {{ $commentLevel2->user->login }}
-                                            </a>
-                                        @else
-                                            <a href="javascript:void(0)" class="login">
-                                                {{ $commentLevel2->user_name }}
-                                            </a>
-                                        @endif
-                                        <span class="date">
+                                        <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="display-inline-block">
+                                            @if($commentLevel2->user)
+                                                <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}" class="login {{ ($page->user_id == $commentLevel2->user_id) ? ' page-author' : '' }}" itemprop="name url">
+                                                    {{ $commentLevel2->user->login }}
+                                                </a>
+                                            @else
+                                                <a href="javascript:void(0)" class="login" itemprop="name">
+                                                    {{ $commentLevel2->user_name }}
+                                                </a>
+                                            @endif
+                                        </div>
+                                        <time class="date" datetime="{{ DateHelper::dateFormatForSchema($commentLevel2->created_at) }}" itemprop="dateCreated">
                                             {{ DateHelper::dateFormat($commentLevel2->created_at) }}
-                                        </span>
-                                        <a href="{{ URL::to($page->getUrl()) }}#comment-{{ $commentLevel2->id }}" class="get-link pull-left margin-top-10" data-comment-id="{{ $commentLevel2->id }}" title="Ссылка на комментарий" data-toggle="tooltip" data-placement="bottom">
+                                        </time>
+                                        <a href="{{ URL::to($page->getUrl()) }}#comment-{{ $commentLevel2->id }}" class="get-link pull-left margin-top-10" data-comment-id="{{ $commentLevel2->id }}" title="Ссылка на комментарий" data-toggle="tooltip" data-placement="bottom" itemprop="url">
                                             <span>#</span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-content" data-parent-id="{{ $commentLevel2->parent_id }}">
+                        <div class="comment-content" data-parent-id="{{ $commentLevel2->parent_id }}" itemprop="text">
                             {{ StringHelper::addFancybox($commentLevel2->comment, 'group-comment-' . $commentLevel2->id) }}
                         </div>
                     </div>

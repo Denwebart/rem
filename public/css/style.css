@@ -730,6 +730,8 @@ form .page-image {
 #submenu-sidebar-widget {
     padding-right: 0;
     font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    display: inline-block;
+    width: 100%;
 }
 #submenu-sidebar-widget h3 {
     text-align: center;

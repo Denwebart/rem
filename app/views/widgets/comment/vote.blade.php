@@ -8,6 +8,8 @@ $canVote = (!$isBannedIp) ? Auth::check() ? !Auth::user()->is($comment->user) ? 
         </a>
     @endif
     <span class="vote-result" title="Рейтинг комментария" data-toggle="tooltip" data-placement="left">
+        <meta itemprop="downvoteCount" content="{{ $comment->votes_dislike }}">
+        <meta itemprop="upvoteCount" content="{{ $comment->votes_like }}">
         {{ $comment->votes_like - $comment->votes_dislike }}
     </span>
     @if($canVote)

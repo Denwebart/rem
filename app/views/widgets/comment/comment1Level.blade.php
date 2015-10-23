@@ -3,7 +3,7 @@
         <i class="material-icons">keyboard_arrow_up</i>
     </a>
     @if(!$comment->is_deleted)
-        <div class="parent-comment comment-text @if($comment->mark == Comment::MARK_BEST) best @endif">
+        <div class="parent-comment comment-text @if($comment->mark == Comment::MARK_BEST) best @endif" @if(Page::TYPE_QUESTION != $page->type) itemprop="comment" itemscope itemtype="http://schema.org/Comment" @else itemprop="answer @if($comment->mark == Comment::MARK_BEST) acceptedAnswer @endif" itemscope itemtype="http://schema.org/Answer" @endif>
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-xs-10">
                     @if($comment->user)
@@ -25,20 +25,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left">
-                                        @if($comment->user)
-                                            <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="login {{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}">
-                                                {{ $comment->user->login }}
-                                            </a>
-                                        @else
-                                            <a href="javascript:void(0)" class="login">
-                                                {{ $comment->user_name }}
-                                            </a>
-                                        @endif
+                                        <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="display-inline-block">
+                                            @if($comment->user)
+                                                <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}" class="login {{ ($page->user_id == $comment->user_id) ? ' page-author' : '' }}" itemprop="name url">
+                                                    {{ $comment->user->login }}
+                                                </a>
+                                            @else
+                                                <a href="javascript:void(0)" class="login" itemprop="name">
+                                                    {{ $comment->user_name }}
+                                                </a>
+                                            @endif
+                                        </div>
                                         <br>
-                                        <span class="date">
+                                        <time class="date" datetime="{{ DateHelper::dateFormatForSchema($comment->created_at) }}" itemprop="dateCreated">
                                             {{ DateHelper::dateFormat($comment->created_at) }}
-                                        </span>
-                                        <a href="{{ URL::to($page->getUrl()) }}#comment-{{ $comment->id }}" class="get-link" data-comment-id="{{ $comment->id }}" title="Ссылка на комментарий" data-toggle="tooltip">
+                                        </time>
+                                        <a href="{{ URL::to($page->getUrl()) }}#comment-{{ $comment->id }}" class="get-link" data-comment-id="{{ $comment->id }}" title="Ссылка на комментарий" data-toggle="tooltip" itemprop="url">
                                             <span>#</span>
                                         </a>
                                     </div>
@@ -51,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-content" data-parent-id="{{ $comment->id }}">
+                        <div class="comment-content" data-parent-id="{{ $comment->id }}" itemprop="text">
                             {{ StringHelper::addFancybox($comment->comment, 'group-comment-' . $comment->id) }}
                         </div>
                     </div>

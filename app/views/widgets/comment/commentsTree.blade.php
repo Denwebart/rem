@@ -179,7 +179,7 @@
     <script type="text/javascript">
 
         // Отправка комментария
-        $("#comments").on('submit', "form[id^='comment-form']", function(event) {
+        $("#comments, #answers").on('submit', "form[id^='comment-form']", function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var parentCommentId = $(this).find('textarea').data('parentCommentId');
             if(tinyMCE.get("comment-textarea-" + parentCommentId))

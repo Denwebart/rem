@@ -69,6 +69,23 @@ class DateHelper
 	}
 
 	/**
+	 * Формат даты для Schema.org формата 2015-01-26T16:55:03Z
+	 *
+	 * @param string $date Дата
+	 * @param bool $withTime Если нужно время
+	 * @return string
+	 */
+	public static function dateFormatForSchema($date, $withTime = true)
+	{
+		if(!is_null($date)) {
+			$timestamp = strtotime($date);
+
+			$time = ($withTime) ? '\T' . "H:i": "";
+			return date("Y-m-d" . $time, $timestamp);
+		}
+	}
+
+	/**
 	 * Формат даты для всего сайта
 	 *
 	 * @param string $date Дата
