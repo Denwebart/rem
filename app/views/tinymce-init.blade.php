@@ -78,15 +78,10 @@
             });
         }
     });
-//    window.onload = function() {
-////        tinyMCE.activeEditor.windowManager.close(function() {
-////            console.log('close');
-////        });
-//        $('[aria-label="Insert/edit link"]').on('click', function() {
-//            console.log('asfdasf');
-////            console.log($('[aria-label="Insert link"]'));
-//
-//            $('[aria-label="Insert link"]').find('.mce-open').remove();
-//        });
-//    };
+
+    window.onload = function() {
+        $('[aria-label="Insert/edit image"]').addClass('tinymce-insert-image');
+        $('[aria-label="Insert/edit video"]').addClass('tinymce-insert-video');
+        $('[aria-label="Insert/edit link"]').addClass('tinymce-insert-link');
+    };
 </script>

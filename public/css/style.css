@@ -2334,6 +2334,10 @@ footer .counter {
         display: none !important;
     }
     /* TinyMCE */
+    .tinymce-insert-image,
+    .tinymce-insert-video {
+        display: none !important;
+    }
     /*.mce-window {*/
         /*width: calc(100% - 50px) !important;*/
         /*left: 25px !important;*/

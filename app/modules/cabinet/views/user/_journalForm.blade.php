@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-3">
-                        <a href="javascript:void(0)" class="btn btn-success btn-sm btn-circle add-tag">
+                        <a href="javascript:void(0)" class="btn btn-success btn-sm btn-circle add-tag" title="Добавить тег" data-toggle="tooltip">
                             <i class="material-icons">done</i>
                         </a>
                     </div>
