@@ -228,6 +228,7 @@
                     }
                     if(data.success) {
                         $('#form-area').hide();
+                        $('.mce-floatpanel').hide();
                         $('#preview').show().html(data.previewHtml);
                         $("#jRate").jRate({
                             rating: '<?php echo $article->getRating(); ?>',
@@ -249,7 +250,7 @@
         });
 
         $('#preview').on('click', '.preview-save', function() {
-            $("#questionForm").submit();
+            $("#articleForm").submit();
         });
     </script>
 

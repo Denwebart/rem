@@ -163,6 +163,7 @@
                     }
                     if(data.success) {
                         $('#form-area').hide();
+                        $('.mce-floatpanel').hide();
                         $('#preview').show().html(data.previewHtml);
                         $("#jRate").jRate({
                             rating: '<?php echo $question->getRating(); ?>',
