@@ -147,6 +147,8 @@ class Page extends \Eloquent
 		{
 			TranslitHelper::generateAlias($page);
 			$page->title = StringHelper::mbUcFirst($page->title);
+			$page->introtext = StringHelper::nofollowLinks($page->introtext);
+			$page->content = StringHelper::nofollowLinks($page->content);
 		});
 
         static::deleting(function($page) {

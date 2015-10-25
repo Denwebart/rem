@@ -100,6 +100,11 @@ class Comment extends \Eloquent
 	{
 		parent::boot();
 
+		static::saving(function($comment)
+		{
+			$comment->comment = StringHelper::nofollowLinks($comment->comment);
+		});
+
 		/**
 		 * Подписка
 		 */
