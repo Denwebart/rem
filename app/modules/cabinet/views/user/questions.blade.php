@@ -78,8 +78,15 @@ View::share('title', $title);
                             Всего: <span>{{ $questions->getTotal() }}</span>.
                         </div>
                         @foreach($questions as $question)
-                            <div class="well item" data-question-id="{{ $question->id }}">
+                            <div class="well item @if(!$question->is_published) not-published @endif" data-question-id="{{ $question->id }}">
                                 <div class="row">
+                                    @if(!$question->is_published)
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <div class="not-published-text pull-right margin-bottom-10">
+                                                (ожидает модерации)
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12">

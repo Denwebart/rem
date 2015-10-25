@@ -56,6 +56,8 @@
 
                 {{ $articles->links() }}
             </section><!--blog-area-->
+        @else
+            Статей нет
         @endif
 
         {{ $areaWidget->contentBottom() }}

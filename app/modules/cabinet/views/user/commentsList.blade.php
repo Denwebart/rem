@@ -7,12 +7,15 @@
         </div>
 
         @foreach($comments as $comment)
-            <div data-comment-id="{{ $comment->id }}" id="comment-{{ $comment->id }}" class="well comment @if($comment->is_deleted) deleted @endif">
+            <div data-comment-id="{{ $comment->id }}" id="comment-{{ $comment->id }}" class="well comment @if($comment->is_deleted) deleted @endif @if(!$comment->is_published) not-published @endif">
                 <div class="row">
                     <div class="col-md-8 col-xs-8">
                         <div class="date date-created pull-left">
                             <span class="text">Комментарий оставлен</span>
                             <span class="date display-inline-block">{{ DateHelper::dateFormat($comment->created_at) }}</span>
+                        </div>
+                        <div class="not-published-text pull-right">
+                            (ожидает модерации)
                         </div>
                     </div>
                     <div class="col-md-4 col-xs-4">

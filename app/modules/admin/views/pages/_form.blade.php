@@ -56,7 +56,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                     <div class="form-group">
                         {{ Form::label('is_container', 'Категория') }}
                         {{ Form::hidden('is_container', 0) }}
-                        {{ Form::checkbox('is_container', 1) }}
+                        {{ Form::checkbox('is_container', 1, $page->is_container) }}
                     </div>
                     <div class="form-group">
                         {{ Form::label('is_show_title', 'Показывать заголовок') }}

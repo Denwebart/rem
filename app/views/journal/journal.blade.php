@@ -153,8 +153,15 @@
                             Всего: <span>{{ $articles->getTotal() }}</span>.
                         </div>
                         @foreach($articles as $article)
-                            <div data-article-id="{{ $article->id }}" class="well">
+                            <div data-article-id="{{ $article->id }}" class="well @if(!$article->is_published) not-published @endif">
                                 <div class="row">
+                                    @if(!$article->is_published)
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <div class="not-published-text pull-right">
+                                                (ожидает модерации)
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="col-lg-10 col-md-9 col-xs-9">
                                         <h3>
                                             <a href="{{ URL::to($article->getUrl()) }}">

@@ -2,6 +2,15 @@
     @if(Session::has('errorMessage'))
         @include('widgets.siteMessages.danger', ['siteMessage' => Session::get('errorMessage')])
     @endif
+    @if(Session::has('warningMessage'))
+        @include('widgets.siteMessages.warning', ['siteMessage' => Session::get('warningMessage')])
+    @endif
+    @if(Session::has('infoMessage'))
+        @include('widgets.siteMessages.info', ['siteMessage' => Session::get('infoMessage')])
+    @endif
+    @if(Session::has('successMessage'))
+        @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
+    @endif
     @yield('siteMessages')
 </div>
 

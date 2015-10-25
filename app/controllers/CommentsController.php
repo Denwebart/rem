@@ -21,6 +21,13 @@ class CommentsController extends BaseController
 				])
 				->findOrFail($id);
 
+			if(Auth::check()) {
+				$premoderation = Setting::whereKey('commentsPremoderationForRegistered')->select('value')->first();
+			} else {
+				$premoderation = Setting::whereKey('commentsPremoderationForUnregistered')->select('value')->first();
+			}
+			$isPublished = $premoderation->value ? 0 : 1;
+
 			$userData = [
 				'is_answer' => (Page::TYPE_QUESTION == $page->type && 0 == $formFields['parent_id']) ? 1 : 0,
 				'page_id' => $id,
@@ -30,7 +37,7 @@ class CommentsController extends BaseController
 				'ip_id' => $ip->id,
 				'user_email' => isset($formFields['user_email']) ? $formFields['user_email'] : null,
 				'comment' => StringHelper::nofollowLinks($formFields['comment']),
-				'is_published' => Auth::check() ? 1 : 0,
+				'is_published' => $isPublished,
 				'g-recaptcha-response' => Auth::check() ? '' : $formFields['g-recaptcha-response'],
 			];
 
@@ -99,18 +106,23 @@ class CommentsController extends BaseController
 						}
 					}
 					// return success message
-					if(Auth::check()) {
+					if($isPublished) {
 						$commentHtml = (0 == $comment->parent_id)
 							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->render()
 							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->with('commentLevel2', $comment)->render();
 					} else {
 						$commentHtml = '';
 					}
+
 					return Response::json(array(
 						'success' => true,
 						'parent_id' => $comment->parent_id,
 						'comment_id' => $comment->id,
+						'is_published' => $isPublished,
 						'commentHtml' => $commentHtml,
+						'message' => $isPublished
+							? (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ваш комментарий успешно отправлен!'])->render()
+							: (string) View::make('widgets.siteMessages.info', ['siteMessage' => 'Ваш комментарий отправлен и будет опубликован после проверки модератором.'])->render(),
 						'countComments' => (Page::TYPE_QUESTION == $page->type)
 							? count($page->publishedAnswers) - count($page->bestComments)
 							: count($page->publishedComments),

@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="pull-left">
-                                        <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="display-inline-block">
+                                        <div itemprop="author" itemscope itemtype="http://schema.org/Person" class="display-inline-block pull-left">
                                             @if($commentLevel2->user)
                                                 <a href="{{ URL::route('user.profile', ['login' => $commentLevel2->user->getLoginForUrl()]) }}" class="login {{ ($page->user_id == $commentLevel2->user_id) ? ' page-author' : '' }}" itemprop="name url">
                                                     {{ $commentLevel2->user->login }}

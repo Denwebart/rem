@@ -8,7 +8,15 @@
         <td>{{ $setting->description }}</td>
         <td>
             @if($setting->key != 'categoriesOnMainPage')
-                {{ $setting->value }}
+                @if($setting->type == Setting::TYPE_BOOLEAN)
+                    @if($setting->value)
+                        <span class="label label-success">Включена</span>
+                    @else
+                        <span class="label label-warning">Отключена</span>
+                    @endif
+                @else
+                    {{ $setting->value }}
+                @endif
             @else
                 <ul>
                     @foreach(Page::whereIn('id', explode(',', $setting->value))->whereParentId(0)->get() as $item)

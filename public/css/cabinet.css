@@ -7,6 +7,13 @@ h2, .h2 {
 .btn {
     margin: 0 !important;
 }
+.not-published {
+    opacity: 0.7;
+}
+.not-published .not-published-text {
+    line-height: 24px;
+    color: #FF5722;
+}
 
 /*-- Правила сайта --*/
 #rules .checkbox {
@@ -399,6 +406,11 @@ h2, .h2 {
 #comments-area .comment.deleted .comment-text,
 #answers-area .comment.deleted .comment-text {
     border-bottom: 2px solid #F44336;
+}
+
+#comments-area .comment.not-published .comment-text,
+#answers-area .comment.not-published .comment-text {
+    border-bottom: 2px solid #FF5722;
 }
 
 /*-- Личные сообщения --*/

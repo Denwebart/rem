@@ -443,12 +443,15 @@ class CabinetUserController extends \BaseController
 
 	public function storeQuestion($login)
 	{
+		$premoderation = Setting::whereKey('articlesPremoderation')->select('value')->first();
+		$isPublished = $premoderation->value ? 0 : 1;
+
 		$data = Input::all();
 
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 1;
+		$data['is_published'] = $isPublished;
 		$data['published_at'] = \Carbon\Carbon::now();
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
@@ -476,7 +479,12 @@ class CabinetUserController extends \BaseController
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')
 			: URL::route('user.questions', ['login' => $login]);
-		return Redirect::to($backUrl);
+
+		if ($isPublished) {
+			return Redirect::to($backUrl)->with('successMessage', 'Ваш вопрос опубликован!');
+		} else {
+			return Redirect::to($backUrl)->with('infoMessage', 'Ваш вопрос создан и будет опубликован после проверки модератором.');
+		}
 	}
 
 	public function editQuestion($login, $id)
@@ -572,7 +580,6 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 1;
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 
@@ -647,13 +654,16 @@ class CabinetUserController extends \BaseController
 
 	public function storeJournal($login)
 	{
+		$premoderation = Setting::whereKey('articlesPremoderation')->select('value')->first();
+		$isPublished = $premoderation->value ? 0 : 1;
+
 		$data = Input::all();
 
 		$data['type'] = Page::TYPE_ARTICLE;
 		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = Auth::user()->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 1;
+		$data['is_published'] = $isPublished;
 		$data['published_at'] = \Carbon\Carbon::now();
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
@@ -685,7 +695,12 @@ class CabinetUserController extends \BaseController
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')
 			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
-		return Redirect::to($backUrl);
+
+		if ($isPublished) {
+			return Redirect::to($backUrl)->with('successMessage', 'Статья в журнале опубликована!');
+		} else {
+			return Redirect::to($backUrl)->with('infoMessage', 'Ваша статья создана и будет опубликована после проверки модератором.');
+		}
 	}
 
 	public function editJournal($login, $id)
@@ -727,7 +742,6 @@ class CabinetUserController extends \BaseController
 		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = $page->user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
-		$data['is_published'] = 1;
 
 		$validator = Validator::make($data, Page::$rulesForUsers);
 

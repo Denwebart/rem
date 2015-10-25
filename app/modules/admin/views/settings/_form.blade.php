@@ -6,8 +6,15 @@
         <div class="box-body">
             <div class="form-group">
                 @if($setting->key != 'categoriesOnMainPage')
-                    {{ Form::textarea('value', $setting->value, ['class' => 'form-control']) }}
-                    {{ $errors->first('value') }}
+                    @if($setting->type == Setting::TYPE_BOOLEAN)
+                        {{ Form::label('value', 'Включена') }}
+                        {{ Form::hidden('value', 0, ['id' => 'value_uncheck']) }}
+                        {{ Form::checkbox('value', 1, $setting->value, ['class' => 'form-control']) }}
+                        {{ $errors->first('value') }}
+                    @else
+                        {{ Form::textarea('value', $setting->value, ['class' => 'form-control']) }}
+                        {{ $errors->first('value') }}
+                    @endif
                 @else
                     {{ Form::select('value[]', Page::getContainer(true, false), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
                 @endif

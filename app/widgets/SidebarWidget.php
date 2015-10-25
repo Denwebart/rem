@@ -307,6 +307,9 @@ class SidebarWidget
 					$query->select('id');
 				}
 			])
+			->whereHas('pages', function($query) {
+				$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
+			})
 			->limit($limit)
 			->get()
 			->sortBy(function($tag) {

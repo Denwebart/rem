@@ -207,8 +207,6 @@
                         });
                     }
                     if(data.success) {
-                        var successContent = '@include('widgets.siteMessages.info', ['siteMessage' => $successMessage])';
-                        $('#site-messages').prepend(successContent);
                         $form.trigger('reset');
                         tinyMCE.activeEditor.setContent('');
                         $form.find('.error').empty();
@@ -216,33 +214,46 @@
                         // сворачивание формы
                         $('#comment-' + data.parent_id).find("[id^='reply-comment-form']").hide();
 
-                        // вывод комментария
-                        if(0 == data.parent_id){
-                            $('.comments').prepend(data.commentHtml);
-                        } else {
-                            $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
-                        }
-                        $('.count-comments').text(data.countComments);
-
-                        $('#comment-' + data.parent_id).find('.close-comment').show();
-                        $('.mce-floatpanel').hide();
-                        // скролл на новый комментарий
-                        $('html, body').animate({
-                            scrollTop: $('#comment-' + data.comment_id).offset().top - 50
-                        }, 1000);
-
-                        // отметить комментарий как новый
-                        $('#comment-' + data.comment_id).addClass('new-comment');
-                        setTimeout(function() {
+                        // если комментари опубликован
+                        if(data.is_published) {
+                            // вывод комментария
                             if(0 == data.parent_id){
-                                $('#comment-' + data.comment_id).find('.comment-text')
-                                        .css('background', '#F2F2F2')
-                                        .css('border-color', '#03A9F4');
+                                $('.comments').prepend(data.commentHtml);
                             } else {
-                                $('#comment-' + data.comment_id).find('.comment-text')
-                                        .css('background', '#FFFFFF');
+                                $('#comment-' + data.parent_id).find('.children-comments').append(data.commentHtml);
                             }
-                        }, 3000);
+                            $('.count-comments').text(data.countComments);
+
+                            $('#comment-' + data.parent_id).find('.close-comment').show();
+                            $('.mce-floatpanel').hide();
+                            // скролл на новый комментарий
+                            $('html, body').animate({
+                                scrollTop: $('#comment-' + data.comment_id).offset().top - 50
+                            }, 1000);
+
+                            // отметить комментарий как новый
+                            $('#comment-' + data.comment_id).addClass('new-comment');
+                            setTimeout(function() {
+                                if(0 == data.parent_id){
+                                    $('#comment-' + data.comment_id).find('.comment-text')
+                                            .css('background', '#F2F2F2')
+                                            .css('border-color', '#03A9F4');
+                                } else {
+                                    $('#comment-' + data.comment_id).find('.comment-text')
+                                            .css('background', '#FFFFFF');
+                                }
+                            }, 3000);
+
+                            // сообщение об успехе
+                            setTimeout(function() {
+                                $('#site-messages').prepend(data.message);
+                            }, 1500);
+                        }
+                        // если комментарий ожидает модерацию
+                        else {
+                            // сообщение об успехе
+                            $('#site-messages').prepend(data.message);
+                        }
                     } //success
                 }
             });

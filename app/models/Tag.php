@@ -126,7 +126,12 @@ class Tag extends \Eloquent
 
 	public static function getByAlphabet()
 	{
-		$tags = self::orderBy('title', 'ASC')->has('pages')->with('pages')->get();
+		$tags = self::orderBy('title', 'ASC')
+			->whereHas('pages', function($query) {
+				$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
+			})->with(['pages' => function($query) {
+				$query->select('id', 'is_published', 'published_at');
+			}])->get();
 
 		$tagsByAlphabet = [];
 		foreach ($tags as $item) {

@@ -244,7 +244,9 @@ class JournalController extends BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
 		View::share('areaWidget', $areaWidget);
 
-		$tag = Tag::whereTitle($tag)->firstOrFail();
+		$tag = Tag::whereTitle($tag)->whereHas('pages', function($query) {
+			$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
+		})->firstOrFail();
 		$tags = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title')
 			->whereAlias('tag')
 			->firstOrFail();
@@ -260,6 +262,8 @@ class JournalController extends BaseController
 		$tags->parent_id = $tagsParent->id;
 
 		$articles = $tag->pages()
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
 				'parent' => function($query) {
 					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
