@@ -717,7 +717,6 @@ form .page-image {
 #navbar-main .dropdown-menu li > a:hover {
     color: #ffffff;
     background: #1B609C;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -749,7 +748,6 @@ form .page-image {
 #submenu-sidebar-widget ul > li:focus,
 #submenu-sidebar-widget ul > li.active {
     background: #1B609C none repeat scroll 0% 0%;
-    box-shadow: -3px 2px 3px rgba(0, 0, 0, 0.5) inset;
 }
 #submenu-sidebar-widget ul > li:hover a,
 #submenu-sidebar-widget ul > li:focus a,

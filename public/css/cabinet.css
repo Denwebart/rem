@@ -90,7 +90,6 @@ h2, .h2 {
 #users-menu ul > li:focus,
 #users-menu ul > li.active {
     background: #1B609C none repeat scroll 0% 0%;
-    box-shadow: -3px 2px 3px rgba(0, 0, 0, 0.5) inset;
 }
 #users-menu ul > li:hover a,
 #users-menu ul > li:focus a,
