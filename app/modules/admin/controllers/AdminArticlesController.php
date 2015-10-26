@@ -175,12 +175,14 @@ class AdminArticlesController extends \BaseController {
 
 		$page = Page::create($data);
 
-		// начисление баллов за статью, уведомление
-		$page->user->addPoints(User::POINTS_FOR_ARTICLE);
-		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
-			'[pageTitle]' => $page->getTitle(),
-			'[linkToPage]' => URL::to($page->getUrl())
-		]);
+		if($page->is_published) {
+			// начисление баллов за статью, уведомление
+			$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl())
+			]);
+		}
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
@@ -268,11 +270,28 @@ class AdminArticlesController extends \BaseController {
 		// загрузка изображения
 		$data['image'] = $page->setImage($data['image']);
 
+		$publishedStatusBeforeSave = $page->is_published;
 		$page->update($data);
 
 		$page->content = $page->saveEditorImages($data['tempPath']);
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
+
+		if ($publishedStatusBeforeSave == 0 && $page->is_published == 1) {
+			// начисление баллов за статью, уведомление
+			$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl())
+			]);
+		} elseif($publishedStatusBeforeSave == 1 && $page->is_published == 0) {
+			// вычтание баллов за статью, уведомление
+			$page->user->removePoints(User::POINTS_FOR_ARTICLE);
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl())
+			]);
+		}
 
 		// добавление похожих статей, вопросов
 		RelatedPage::addRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
@@ -303,7 +322,9 @@ class AdminArticlesController extends \BaseController {
 		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
 			'[pageTitle]' => $page->getTitle(),
 		]);
-		$page->user->removePoints(User::POINTS_FOR_ARTICLE);
+		if($page->is_published) {
+			$page->user->removePoints(User::POINTS_FOR_ARTICLE);
+		}
 		$page->delete();
 
         $backUrl = Request::has('backUrl')

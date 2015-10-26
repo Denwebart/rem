@@ -158,7 +158,7 @@
                                     @if(!$article->is_published)
                                         <div class="col-lg-12 col-md-12 col-xs-12">
                                             <div class="not-published-text pull-right">
-                                                (ожидает модерации)
+                                                Ожидает модерации
                                             </div>
                                         </div>
                                     @endif

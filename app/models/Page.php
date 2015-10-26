@@ -313,7 +313,7 @@ class Page extends \Eloquent
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id')
-			->select('id', 'login', 'alias', 'avatar', 'email', 'firstname', 'lastname', 'is_online', 'last_activity');
+			->select('id', 'login', 'alias', 'avatar', 'email', 'firstname', 'lastname', 'is_online', 'last_activity', 'points');
 	}
 
 	/**

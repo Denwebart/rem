@@ -261,15 +261,17 @@ class AdminPagesController extends \BaseController {
 
 		$page = Page::create($data);
 
-		// начисление баллов за статью, уведомление
-		if(Page::TYPE_QUESTION == $page->type) {
-			$page->user->addPoints(User::POINTS_FOR_QUESTION);
-		} else {
-			$page->user->addPoints(User::POINTS_FOR_ARTICLE);
-			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
-				'[pageTitle]' => $page->getTitle(),
-				'[linkToPage]' => URL::to($page->getUrl())
-			]);
+		if($page->is_published) {
+			// начисление баллов за статью, уведомление
+			if(Page::TYPE_QUESTION == $page->type) {
+				$page->user->addPoints(User::POINTS_FOR_QUESTION);
+			} elseif(Page::TYPE_ARTICLE == $page->type) {
+				$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+				$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+					'[pageTitle]' => $page->getTitle(),
+					'[linkToPage]' => URL::to($page->getUrl())
+				]);
+			}
 		}
 
 		// загрузка изображения
@@ -391,6 +393,7 @@ class AdminPagesController extends \BaseController {
 		// загрузка изображения
 		$data['image'] = $page->setImage($data['image']);
 
+		$publishedStatusBeforeSave = $page->is_published;
 		$page->update($data);
 
 		if($page->menuItem) {
@@ -400,6 +403,28 @@ class AdminPagesController extends \BaseController {
 		$page->content = $page->saveEditorImages($data['tempPath']);
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
+
+		if ($publishedStatusBeforeSave == 0 && $page->is_published == 1) {
+			// начисление баллов за статью, уведомление
+			if(Page::TYPE_QUESTION == $page->type) {
+				$page->user->addPoints(User::POINTS_FOR_QUESTION);
+			} elseif(Page::TYPE_ARTICLE == $page->type) {
+				$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+				$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+					'[pageTitle]' => $page->getTitle(),
+					'[linkToPage]' => URL::to($page->getUrl())
+				]);
+			}
+		} elseif($publishedStatusBeforeSave == 1 && $page->is_published == 0) {
+			// вычтание баллов за статью, уведомление
+			if(Page::TYPE_ARTICLE == $page->type) {
+				$page->user->removePoints(User::POINTS_FOR_ARTICLE);
+				$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+					'[pageTitle]' => $page->getTitle(),
+					'[linkToPage]' => URL::to($page->getUrl())
+				]);
+			}
+		}
 
         // удаление тегов
         Tag::deleteTag($page, Input::get('tags'));
@@ -431,17 +456,19 @@ class AdminPagesController extends \BaseController {
 	{
 		$page = Page::find($id);
         if($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_JOURNAL && $page->type != Page::TYPE_QUESTIONS) {
-            if(Page::TYPE_QUESTION == $page->type) {
-                $page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
-                    '[pageTitle]' => $page->getTitle(),
-                ]);
-                $page->user->removePoints(User::POINTS_FOR_QUESTION);
-            } else {
-                $page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
-                    '[pageTitle]' => $page->getTitle(),
-                ]);
-                $page->user->removePoints(User::POINTS_FOR_ARTICLE);
-            }
+	        if($page->is_published) {
+		        if (Page::TYPE_QUESTION == $page->type) {
+			        $page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+				        '[pageTitle]' => $page->getTitle(),
+			        ]);
+			        $page->user->removePoints(User::POINTS_FOR_QUESTION);
+		        } elseif (Page::TYPE_ARTICLE == $page->type) {
+			        $page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+				        '[pageTitle]' => $page->getTitle(),
+			        ]);
+			        $page->user->removePoints(User::POINTS_FOR_ARTICLE);
+		        }
+	        }
             $page->delete();
         }
 

@@ -230,7 +230,9 @@ class AdminQuestionsController extends \BaseController {
 		$page = Page::create($data);
 
 		// начисление баллов за вопрос
-		$page->user->addPoints(User::POINTS_FOR_QUESTION);
+		if($page->is_published) {
+			$page->user->addPoints(User::POINTS_FOR_QUESTION);
+		}
 
 		// загрузка изображения
 		$page->image = $page->setImage($data['image']);
@@ -317,7 +319,17 @@ class AdminQuestionsController extends \BaseController {
 		// загрузка изображения
 		$data['image'] = $page->setImage($data['image']);
 
+		$publishedStatusBeforeSave = $page->is_published;
 		$page->update($data);
+
+		if ($publishedStatusBeforeSave == 0 && $page->is_published == 1) {
+			// начисление баллов за статью
+			$page->user->addPoints(User::POINTS_FOR_QUESTION);
+
+		} elseif($publishedStatusBeforeSave == 1 && $page->is_published == 0) {
+			// вычтание баллов за статью
+			$page->user->removePoints(User::POINTS_FOR_QUESTION);
+		}
 
 		$page->content = $page->saveEditorImages($data['tempPath']);
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
@@ -347,7 +359,9 @@ class AdminQuestionsController extends \BaseController {
 		$page->user->setNotification(Notification::TYPE_QUESTION_DELETED, [
 			'[pageTitle]' => $page->getTitle(),
 		]);
-		$page->user->removePoints(User::POINTS_FOR_QUESTION);
+		if($page->is_published) {
+			$page->user->removePoints(User::POINTS_FOR_QUESTION);
+		}
 		$page->delete();
 
         $backUrl = Request::has('backUrl')
