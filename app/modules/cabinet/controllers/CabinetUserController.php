@@ -474,7 +474,10 @@ class CabinetUserController extends \BaseController
 		$subscription->page_id = $page->id;
 		$subscription->save();
 
-		$page->user->addPoints(User::POINTS_FOR_QUESTION);
+		// добавление баллов, уведомления
+		if($isPublished) {
+			$page->user->addPoints(User::POINTS_FOR_QUESTION);
+		}
 
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')
@@ -622,11 +625,14 @@ class CabinetUserController extends \BaseController
 			}
 
 			$pageTitle = $question->getTitle();
+			$publishedStatusBeforeDelete = $question->id_published;
 			if($question->delete()) {
-				$user->removePoints(User::POINTS_FOR_QUESTION);
-				$user->setNotification(Notification::TYPE_QUESTION_DELETED, [
-					'[pageTitle]' => $pageTitle,
-				]);
+				if($publishedStatusBeforeDelete) {
+					$user->removePoints(User::POINTS_FOR_QUESTION);
+					$user->setNotification(Notification::TYPE_QUESTION_DELETED, [
+						'[pageTitle]' => $pageTitle,
+					]);
+				}
 			}
 
 			return Response::json([
@@ -686,11 +692,13 @@ class CabinetUserController extends \BaseController
 		Tag::addTag($page, Input::get('tags'));
 
 		// добавление баллов, уведомления
-		$page->user->addPoints(User::POINTS_FOR_ARTICLE);
-		$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
-			'[pageTitle]' => $page->getTitle(),
-			'[linkToPage]' => URL::to($page->getUrl())
-		]);
+		if($isPublished) {
+			$page->user->addPoints(User::POINTS_FOR_ARTICLE);
+			$page->user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_ADDED, [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl())
+			]);
+		}
 
 		$backUrl = Input::has('backUrl')
 			? Input::get('backUrl')
@@ -787,11 +795,14 @@ class CabinetUserController extends \BaseController
 				]);
 			}
 			$pageTitle = $article->getTitle();
+			$publishedStatusBeforeDelete = $article->is_published;
 			if($article->delete()) {
-				$user->removePoints(User::POINTS_FOR_ARTICLE);
-				$user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
-					'[pageTitle]' => $pageTitle,
-				]);
+				if($publishedStatusBeforeDelete) {
+					$user->removePoints(User::POINTS_FOR_ARTICLE);
+					$user->setNotification(Notification::TYPE_POINTS_FOR_ARTICLE_REMOVED, [
+						'[pageTitle]' => $pageTitle,
+					]);
+				}
 			}
 
 			return Response::json([
@@ -1215,9 +1226,13 @@ class CabinetUserController extends \BaseController
 	/**
 	 * Отметить сообщение как прочитанное
 	 */
-	public function markMessageAsRead()
+	public function markMessageAsRead($login)
 	{
 		if(Request::ajax()) {
+
+			$user = (Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 
 			$messageId = Input::get('messageId');
 
@@ -1226,7 +1241,7 @@ class CabinetUserController extends \BaseController
 
 			if ($message->save())
 			{
-				$messages = Message::whereUserIdRecipient(Auth::user()->id)
+				$messages = Message::whereUserIdRecipient($user->id)
 					->whereNull('read_at')
 					->orderBy('created_at', 'DESC')
 					->get();
