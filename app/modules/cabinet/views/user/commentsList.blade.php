@@ -15,7 +15,7 @@
                             <span class="date display-inline-block">{{ DateHelper::dateFormat($comment->created_at) }}</span>
                         </div>
                         <div class="not-published-text pull-right">
-                            (ожидает модерации)
+                            Ожидает модерации
                         </div>
                     </div>
                     <div class="col-md-4 col-xs-4">

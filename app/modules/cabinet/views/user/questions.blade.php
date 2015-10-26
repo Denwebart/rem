@@ -83,7 +83,7 @@ View::share('title', $title);
                                     @if(!$question->is_published)
                                         <div class="col-lg-12 col-md-12 col-xs-12">
                                             <div class="not-published-text pull-right margin-bottom-10">
-                                                (ожидает модерации)
+                                                Ожидает модерации
                                             </div>
                                         </div>
                                     @endif
