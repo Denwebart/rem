@@ -82,6 +82,8 @@ class SiteController extends BaseController {
 
 		$page->setViews();
 
+		View::share('page', $page);
+
 		// вывод страниц блогом, учитывая подкатегории
 		if($page->is_container) {
 			$categoryArray = Page::select(['id', 'parent_id'])
@@ -122,12 +124,10 @@ class SiteController extends BaseController {
 			} else {
 				$children = [];
 			}
+			return View::make('site.category', compact('children'));
 		} else {
-			$children = [];
+			return View::make('site.page');
 		}
-
-		View::share('page', $page);
-		return View::make('site.page', compact('children'));
 	}
 
 	public function secondLevel($categoryAlias, $alias, $suffix = null)
@@ -162,6 +162,8 @@ class SiteController extends BaseController {
 		}
 
 		$page->setViews();
+
+		View::share('page', $page);
 
 		if($page->is_container) {
 			$categoryArray = Page::select(['id', 'parent_id'])
@@ -202,12 +204,11 @@ class SiteController extends BaseController {
 			} else {
 				$children = [];
 			}
-		} else {
-			$children = [];
-		}
 
-		View::share('page', $page);
-		return View::make('site.page', compact('children'));
+			return View::make('site.category', compact('children'));
+		} else {
+			return View::make('site.page');
+		}
 	}
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
@@ -226,9 +227,8 @@ class SiteController extends BaseController {
 
 		$page->setViews();
 
-		$children = [];
 		View::share('page', $page);
-		return View::make('site.page', compact('children'));
+		return View::make('site.page');
 	}
 
 	public function questions($alias)

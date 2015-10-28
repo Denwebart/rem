@@ -18,11 +18,11 @@
 @stop
 
 @section('content')
-    <section id="content" class="well">
+    <section id="content" class="well" itemscope itemtype="http://schema.org/Article">
 
         <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-9 col-xs-12">
-                <h2>{{ $page->title }}</h2>
+                <h2 itemprop="headline">{{ $page->title }}</h2>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12">
                 {{-- Рейтинг --}}
@@ -37,15 +37,17 @@
 
         <div class="page-info">
             <div class="pull-left">
-                <div class="user pull-left">
-                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" itemprop="url">
                         {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                        <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
+                        <span class="login pull-left hidden-xs" itemprop="name">{{ $page->user->login }}</span>
                     </a>
                 </div>
                 <div class="date pull-left hidden-xs">
                     <i class="material-icons">today</i>
-                    <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
+                    <time datetime="{{ DateHelper::dateFormatForSchema($page->published_at) }}" itemprop="datePublished">
+                        {{ DateHelper::dateFormat($page->published_at) }}
+                    </time>
                 </div>
             </div>
 
@@ -57,7 +59,7 @@
                 <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">chat_bubble</i>
                     <a href="#comments">
-                    <span class="count-comments">
+                    <span class="count-comments" itemprop="commentCount">
                         {{ count($page->publishedComments) }}
                     </span>
                     </a>
@@ -69,7 +71,7 @@
 
         {{ $areaWidget->contentTop() }}
 
-        <div class="content">
+        <div class="content" itemprop="articleBody">
             @if($page->image)
                 <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
                     {{ $page->getImage('origin', ['class' => 'page-image']) }}

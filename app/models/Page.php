@@ -566,6 +566,7 @@ class Page extends \Eloquent
 	public function getImage($prefix = null, $options = [])
 	{
 		$options['title'] = $this->image_alt ? $this->image_alt : $this->getTitle();
+		$options['itemprop'] = 'image';
 		if(isset($options['class'])) {
 			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 		} else {

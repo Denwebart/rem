@@ -25,12 +25,12 @@
 @stop
 
 @section('content')
-	<section id="content" class="well">
+	<section id="content" class="well" itemscope itemtype="http://schema.org/Article">
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                 @if($page->is_show_title)
-                    <h2>{{ $page->title }}</h2>
+                    <h2 itemprop="headline">{{ $page->title }}</h2>
                 @endif
             </div>
             @if($page->showRating())
@@ -49,87 +49,67 @@
             @endif
         </div>
 
-        @if(!$page->is_container)
-            <div class="page-info">
-                <div class="pull-left">
-                    @if($page->isLastLevel())
-                        <div class="user pull-left">
-                            <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                                {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                                <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
-                            </a>
-                        </div>
-                        <div class="date pull-left hidden-xs">
-                            <i class="material-icons">today</i>
-                            <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="pull-right">
-                    @if($page->showViews())
-                        <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="bottom">
-                            <i class="material-icons">visibility</i>
-                            <span>{{ $page->views }}</span>
-                        </div>
-                    @endif
-
-                    @if($page->showComments())
-                        <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
-                            <i class="material-icons">chat_bubble</i>
-                            <a href="#comments">
-                            <span class="count-comments">
-                                {{ count($page->publishedComments) }}
-                            </span>
-                            </a>
-                        </div>
-                    @endif
-                    @if($page->isLastLevel())
-                        <!-- Сохранение страницы в сохраненное -->
-                        @include('widgets.savedPages')
-                    @endif
+        <div class="page-info">
+            <div class="pull-left">
+                @if($page->isLastLevel())
+                    <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                        <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" itemprop="url">
+                            {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                            <span class="login pull-left hidden-xs" itemprop="name">{{ $page->user->login }}</span>
+                        </a>
+                    </div>
+                @endif
+                <div class="date pull-left hidden-xs">
+                    <i class="material-icons">today</i>
+                    <time datetime="{{ DateHelper::dateFormatForSchema($page->published_at) }}" itemprop="datePublished">
+                        {{ DateHelper::dateFormat($page->published_at) }}
+                    </time>
                 </div>
             </div>
-        @endif
+            <div class="pull-right">
+                @if($page->showViews())
+                    <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="bottom">
+                        <i class="material-icons">visibility</i>
+                        <span>{{ $page->views }}</span>
+                    </div>
+                @endif
+
+                @if($page->showComments())
+                    <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
+                        <i class="material-icons">chat_bubble</i>
+                        <a href="#comments">
+                        <span class="count-comments" itemprop="commentCount">
+                            {{ count($page->publishedComments) }}
+                        </span>
+                        </a>
+                    </div>
+                @endif
+                @if($page->isLastLevel())
+                    <!-- Сохранение страницы в сохраненное -->
+                    @include('widgets.savedPages')
+                @endif
+            </div>
+        </div>
 
         {{ $areaWidget->contentTop() }}
 
 		@if($page->content)
-			<div class="content">
+			<div class="content" itemprop="articleBody">
                 @if($page->image)
                     <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage('origin', ['class' => 'page-image']) }}
                     </a>
                 @endif
 				{{ $page->getContentWithWidget() }}
-
-                @if(!$page->is_container)
-                    <div class="clearfix"></div>
-                    @include('widgets.sidebar.socialButtons')
-                @endif
 			</div>
+
+            <div class="clearfix"></div>
+            @include('widgets.sidebar.socialButtons')
 		@endif
 
 		{{ $areaWidget->contentMiddle() }}
 
-		@if($page->is_container)
-            @if(count($children))
-                <section id="blog-area" class="blog margin-top-10">
-                    <div class="count">
-                        Показано: <span>{{ $children->count() }}</span>.
-                        Всего: <span>{{ $children->getTotal() }}</span>.
-                    </div>
-                    @foreach($children as $key => $child)
-                        @if(0 != $key)
-                            <hr/>
-                        @endif
-                        @include('site.postInfo', ['article' => $child])
-                    @endforeach
-                    {{ $children->links() }}
-                </section><!--blog-area-->
-            @endif
-		@endif
-
-		@if(!$page->is_container && $page->parent_id != 0)
+		@if($page->parent_id != 0)
 			{{-- Читайте также --}}
 			<?php $relatedWidget = app('RelatedWidget') ?>
 			{{ $relatedWidget->show($page) }}
@@ -144,6 +124,5 @@
 		@endif
 
 		{{ $areaWidget->contentBottom() }}
-
 	</section>
 @stop

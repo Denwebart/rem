@@ -26,7 +26,7 @@
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
-                <h2 itemprop="name">
+                <h2 itemprop="headline">
                     {{ $page->title }}
                     @if(count($page->bestComments))
                         <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="bottom" style="font-size: 26px">done</i>
@@ -91,7 +91,7 @@
 
         <div class="content" itemprop="text">
             @if($page->image)
-                <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}" itemprop="image">
+                <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
                     {{ $page->getImage('origin', ['class' => 'page-image']) }}
                 </a>
             @endif
