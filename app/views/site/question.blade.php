@@ -22,11 +22,11 @@
 @stop
 
 @section('content')
-    <section id="content" class="well">
+    <section id="content" class="well" itemscope itemtype="http://schema.org/Question">
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
-                <h2>
+                <h2 itemprop="name">
                     {{ $page->title }}
                     @if(count($page->bestComments))
                         <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="bottom" style="font-size: 26px">done</i>
@@ -48,15 +48,17 @@
 
         <div class="page-info">
             <div class="pull-left">
-                <div class="user pull-left">
-                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
+                <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" itemprop="url">
                         {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                        <span class="login pull-left hidden-xs">{{ $page->user->login }}</span>
+                        <span class="login pull-left hidden-xs" itemprop="name">{{ $page->user->login }}</span>
                     </a>
                 </div>
                 <div class="date pull-left hidden-xs">
                     <i class="material-icons">today</i>
-                    <span>{{ DateHelper::dateFormat($page->published_at) }}</span>
+                    <time datetime="{{ DateHelper::dateFormatForSchema($page->published_at) }}" itemprop="datePublished">
+                        {{ DateHelper::dateFormat($page->published_at) }}
+                    </time>
                 </div>
             </div>
             <div class="pull-right">
@@ -68,7 +70,7 @@
                 <div class="answers-count pull-left" title="Количество ответов" data-toggle="tooltip" data-placement="bottom">
                     <i class="material-icons">question_answer</i>
                     <a href="#answers">
-                        <span class="count-comments">
+                        <span class="count-comments" itemprop="answerCount">
                             {{ count($page->publishedAnswers) }}
                         </span>
                     </a>
@@ -87,17 +89,17 @@
 
         {{ $areaWidget->contentTop() }}
 
-        <div class="content">
+        <div class="content" itemprop="text">
             @if($page->image)
-                <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}" itemprop="image">
                     {{ $page->getImage('origin', ['class' => 'page-image']) }}
                 </a>
             @endif
             {{ $page->getContentWithWidget() }}
-
-            <div class="clearfix"></div>
-            @include('widgets.sidebar.socialButtons')
         </div>
+
+        <div class="clearfix"></div>
+        @include('widgets.sidebar.socialButtons')
 
         <!-- Подписка на вопрос ("Подписки") -->
         <div class="clearfix"></div>

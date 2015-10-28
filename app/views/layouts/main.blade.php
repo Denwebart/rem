@@ -120,7 +120,7 @@
                 @endif
             @endif
 
-            {{ $areaWidget->leftSidebar() }}
+{{--            {{ $areaWidget->leftSidebar() }}--}}
         </div>
 
         <div class="col-lg-6 col-md-6">
@@ -156,7 +156,7 @@
             <!-- Поиск -->
             @include('search')
 
-            {{ $areaWidget->rightSidebar() }}
+{{--            {{ $areaWidget->rightSidebar() }}--}}
         </div>
     </div>
 </div>
