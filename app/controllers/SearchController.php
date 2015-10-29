@@ -21,14 +21,16 @@ class SearchController extends BaseController
 		$tag = trim(Input::get('tag'));
 
 		if($query) {
-			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+			$results = Page::select('id', 'type', 'alias', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
 				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->where('title', 'LIKE', "%$query%")
-				->orWhereHas('menuItem', function($q) use($query) {
-					$q->where('menu_title', 'LIKE', "%$query%");
+				->where(function($qu) use($query) {
+					$qu->where('title', 'LIKE', "%$query%")
+						->orWhereHas('menuItem', function($q) use($query) {
+							$q->where('menu_title', 'LIKE', "%$query%");
+						})
+						->orWhere('content', 'LIKE', "%$query%");
 				})
-				->orWhere('content', 'LIKE', "%$query%")
 				->with([
 					'parent' => function($query) {
 						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
@@ -42,7 +44,7 @@ class SearchController extends BaseController
 				])
 				->paginate(10);
 		} elseif($tag) {
-			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+			$results = Page::select('id', 'type', 'alias', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
 				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
 				->whereHas('tags', function($q) use($tag) {
@@ -61,7 +63,7 @@ class SearchController extends BaseController
 				])
 				->paginate(10);
 		} else {
-			$results = Page::select('id', 'type', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
+			$results = Page::select('id', 'type', 'alias', 'is_published', 'parent_id', 'is_container', 'user_id', 'title', 'introtext', 'content', 'image', 'image_alt')
 				->whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
 				->with([
