@@ -16,6 +16,9 @@
             </li>
         @else
             <li class="hidden-md hidden-xs" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="{{ $page->getUrl() }}" itemprop="item" class="hidden">
+                    {{ $item['title'] }}
+                </a>
                 <span itemprop="name">{{ $item['title'] }}</span>
                 <meta itemprop="position" content="{{ $key + 2 }}" />
             </li>

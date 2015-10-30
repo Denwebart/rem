@@ -3,7 +3,7 @@
         <i class="material-icons">keyboard_arrow_up</i>
     </a>
     @if(!$comment->is_deleted)
-        <div class="parent-comment comment-text @if($comment->mark == Comment::MARK_BEST) best @endif" @if(Page::TYPE_QUESTION != $page->type) itemprop="comment" itemscope itemtype="http://schema.org/Comment" @else itemprop="answer @if($comment->mark == Comment::MARK_BEST) acceptedAnswer @endif" itemscope itemtype="http://schema.org/Answer" @endif>
+        <div class="parent-comment comment-text @if($comment->mark == Comment::MARK_BEST) best @endif" @if(Page::TYPE_QUESTION != $page->type) itemprop="comment" itemscope itemtype="http://schema.org/Comment" @else itemprop="@if($comment->mark == Comment::MARK_BEST) acceptedAnswer @else suggestedAnswer @endif" itemscope itemtype="http://schema.org/Answer" @endif>
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-xs-10">
                     @if($comment->user)
@@ -16,9 +16,9 @@
                             @endif
                         </a>
                     @else
-                        <a class="pull-left avatar-link" href="javascript:void(0)">
+                        <div class="pull-left avatar-link">
                             {{ (new User)->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                        </a>
+                        </div>
                     @endif
                     <div class="media-body">
                         <div class="media-heading author">
@@ -31,9 +31,9 @@
                                                     {{ $comment->user->login }}
                                                 </a>
                                             @else
-                                                <a href="javascript:void(0)" class="login" itemprop="name">
+                                                <span class="login" itemprop="name">
                                                     {{ $comment->user_name }}
-                                                </a>
+                                                </span>
                                             @endif
                                         </div>
                                         <br>

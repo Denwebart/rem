@@ -13,9 +13,9 @@
                             @endif
                         </a>
                     @else
-                        <a class="pull-left avatar-link" href="javascript:void(0)">
+                        <div class="pull-left avatar-link">
                             {{ (new User)->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                        </a>
+                        </div>
                     @endif
                     <div class="media-body">
                         <div class="media-heading author">
@@ -28,9 +28,9 @@
                                                     {{ $commentLevel2->user->login }}
                                                 </a>
                                             @else
-                                                <a href="javascript:void(0)" class="login" itemprop="name">
+                                                <span class="login" itemprop="name">
                                                     {{ $commentLevel2->user_name }}
-                                                </a>
+                                                </span>
                                             @endif
                                         </div>
                                         <time class="date" datetime="{{ DateHelper::dateFormatForSchema($commentLevel2->created_at) }}" itemprop="dateCreated">
