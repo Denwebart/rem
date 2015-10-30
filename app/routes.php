@@ -6,7 +6,7 @@ Route::get('/fill', function() {
     ];
 	$i = 0;
 	foreach($result_data as $item) {
-		if(DB::table('comments')->insert($item)) {
+		if(Comment::whereId($item['id'])->update($item)) {
 			echo 'Данные заполнены! ';
 			echo $item['id'];
 			echo '</br>';

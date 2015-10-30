@@ -11,8 +11,12 @@
 
     <meta name="description" content="{{ isset($page) ? $page->meta_desc : '' }}"/>
     <meta name="keywords" content="{{ isset($page) ? $page->meta_key : '' }}"/>
-    <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
-    <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
+    @if(isset($settings['metaCopyright']))
+        <meta name="copyright" lang="ru" content="{{ $settings['metaCopyright']['value'] }}" />
+    @endif
+    @if(isset($settings['metaAuthor']))
+        <meta name="author" lang="ru" content="{{ $settings['metaAuthor']['value'] }}" />
+    @endif
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Favicon -->

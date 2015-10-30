@@ -12,8 +12,12 @@
     <meta name="title" content="{{ $page->getMetaTitle() }}"/>
     <meta name="description" content="{{ $page->getMetaDesc() }}"/>
     <meta name="keywords" content="{{ $page->getMetaKey() }}"/>
-    <meta name="copyright" lang="ru" content="{{ Config::get('settings.metaCopyright') }}" />
-    <meta name="author" content="{{ Config::get('settings.metaAuthor') }}" />
+    @if(isset($settings['metaCopyright']))
+        <meta name="copyright" lang="ru" content="{{ $settings['metaCopyright']['value'] }}" />
+    @endif
+    @if(isset($settings['metaAuthor']))
+        <meta name="author" lang="ru" content="{{ $settings['metaAuthor']['value'] }}" />
+    @endif
     <meta name="robots" content="{{ Config::get('settings.metaRobots') }}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
