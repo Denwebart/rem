@@ -1007,11 +1007,14 @@ class CabinetUserController extends \BaseController
 				? Auth::user()
 				: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 
-			if($comment = Comment::find($commentId)) {
-				$comment->markAsDeleted();
+			$comment = Comment::find($commentId);
+			if($comment) {
+				$comment->sendNotificationsAboutDelete();
+				$comment->delete();
 
 				$comments = Comment::whereUserId($user->id)
 					->whereIsAnswer(0)
+					->whereIsDeleted(0)
 					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
@@ -1133,11 +1136,14 @@ class CabinetUserController extends \BaseController
 				? Auth::user()
 				: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 
-			if($answer = Comment::find($answerId)) {
-				$answer->markAsDeleted();
+			$answer = Comment::find($answerId);
+			if($answer) {
+				$answer->sendNotificationsAboutDelete();
+				$answer->delete();
 
 				$answers = Comment::whereUserId($user->id)
 					->whereIsAnswer(1)
+					->whereIsDeleted(0)
 					->with('page.parent.parent', 'user', 'publishedChildren', 'parent.user')
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
