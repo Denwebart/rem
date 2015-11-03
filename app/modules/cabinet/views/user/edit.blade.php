@@ -11,9 +11,12 @@ View::share('title', $title);
             <div class="row">
                 <div class="col-md-10 col-xs-10" style="padding-right: 0">
                     <div class="profile-user-avatar">
-                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="">
-                            {{ $user->getAvatar(null, ['class' => 'avatar']) }}
-                        </a>
+                        {{ $user->getAvatar(null, ['class' => 'avatar']) }}
+                        @if($user->avatar)
+                            <a href="javascript:void(0)" class="delete-avatar" title="Удалить аватарку" data-toggle="tooltip">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        @endif
                     </div>
                     <div class="form-group">
                         {{ Form::file('avatar', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
@@ -23,11 +26,6 @@ View::share('title', $title);
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-2" style="padding: 0">
-                    {{--@if($user->avatar)--}}
-                        {{--<a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">--}}
-                            {{--<i class="material-icons">delete</i>--}}
-                        {{--</a>--}}
-                    {{--@endif--}}
                 </div>
             </div>
         </div>
@@ -48,27 +46,23 @@ View::share('title', $title);
 
                     <div class="row hidden-lg hidden-md">
                         <div class="col-sm-12 col-xs-12">
-                            <div id="user-info-mobile">
-                                <a class="pull-left avatar-link gray-background @if($user->is_banned) banned @endif" href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
+                            <div id="user-info-mobile" class="pull-left">
+                                <a class="pull-left avatar-link gray-background @if($user->is_banned) banned @endif" href="javascript:void(0)">
                                     {{ $user->getAvatar('mini', ['class' => 'media-object avatar circle']) }}
-                                    @if($user->isOnline())
-                                        <span class="is-online-status online" title="Сейчас на сайте" data-toggle="tooltip" data-placement="top"></span>
-                                    @else
-                                        <span class="is-online-status offline" title="Последний раз был {{ DateHelper::getRelativeTime($user->last_activity) }}" data-toggle="tooltip" data-placement="top"></span>
-                                    @endif
-                                </a>
-                                <div class="pull-left">
-                                    <div class="form-group">
-                                        {{ Form::file('avatar_mobile', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-                                        {{ $errors->first('avatar') }}
-                                    </div>
-                                </div>
-                                <div class="pull-left">
                                     @if($user->avatar)
                                         <a href="javascript:void(0)" class="delete-avatar pull-right" title="Удалить аватарку" data-toggle="tooltip">
                                             <i class="material-icons">delete</i>
                                         </a>
                                     @endif
+                                    <a href="javascript:void(0)" id="delete-temp-image" class="delete-temp-image pull-right" style="display: none">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </a>
+                            </div>
+                            <div class="pull-left margin-left-20">
+                                <div class="form-group">
+                                    {{ Form::file('avatar_mobile', ['title' => 'Загрузить аватарку', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
+                                    {{ $errors->first('avatar') }}
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -213,6 +207,7 @@ View::share('title', $title);
                         if(response.success){
                             $('#site-messages').prepend(response.message);
                             $('.delete-avatar').css('display', 'none');
+                            $('.delete-temp-image').hide();
                             $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
                             $('.avatar-link img').attr('src', response.imageUrlMini).addClass('avatar-default');
                             $('.widget-user img').attr('src', response.imageUrlMini).addClass('avatar-default');
@@ -235,7 +230,7 @@ View::share('title', $title);
                 fileData.append('class', ' avatar');
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
+                    url: '<?php echo URL::route('uploadIntoTemp', ['field' => 'avatar']) ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,
@@ -246,6 +241,11 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success) {
                             $('.profile-user-avatar').html(response.imageHtml);
+
+                            $('.delete-temp-image').show();
+                            $('.delete-avatar').hide();
+                            $('.avatar-link img').attr('src', response.imagePath + 'mini_' + response.imageName).removeClass('avatar-default');
+                            $('.widget-user img').attr('src', response.imagePath + 'mini_' + response.imageName).removeClass('avatar-default');
                         }
                     }
                 });
@@ -253,7 +253,7 @@ View::share('title', $title);
         });
 
         <!-- Удаление временного изображения ajax -->
-        $('.profile-user-avatar').on('click', '#delete-temp-image', function(){
+        $('.profile-user-avatar, #user-info-mobile').on('click', '#delete-temp-image', function(){
             var $button = $(this);
             if(confirm('Вы уверены, что хотите удалить изображение?')) {
                 var imageName = $(this).parent().parent().find('.file-input-name');
@@ -269,8 +269,12 @@ View::share('title', $title);
                         if(response.success){
                             $('#site-messages').prepend(response.message);
                             $button.css('display', 'none');
-                            $('.avatar').remove();
+                            $('.delete-temp-image, #delete-temp-image').hide();
                             imageName.text('');
+
+                            $('.profile-user-avatar img').attr('src', '<?php echo Config::get('settings.defaultAvatar') ?>').addClass('avatar-default');
+                            $('.avatar-link img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');
+                            $('.widget-user img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');
                         }
                     }
                 });

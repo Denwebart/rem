@@ -10,7 +10,6 @@ class ImageUploadController extends BaseController
 	public function uploadIntoTemp()
 	{
 		if(Request::ajax()) {
-
 			$data = Input::all();
 
 			$rules = [
@@ -51,10 +50,20 @@ class ImageUploadController extends BaseController
 				File::delete($imagePath . 'watermark.png');
 			}
 
+			if(Request::get('field', 'image') == 'avatar') {
+				$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
+				$image->crop($cropSize, $cropSize)
+					->resize(50, null, function ($constraint) {
+						$constraint->aspectRatio();
+					})->save($imagePath . 'mini_' . $fileName);
+			}
+
             $class = Request::has('class') ? Request::get('class') : ' page-image';
 			return Response::json(array(
 				'success' => true,
 				'imageUrl' => $imageUrl,
+				'imageName' => $fileName,
+				'imagePath' => $tempPath,
                 'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl, 'class' => $class])->render(),
 			));
 		}

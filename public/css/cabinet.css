@@ -45,7 +45,7 @@ h2, .h2 {
 
 #user-info-mobile {
     display: inline-block;
-    width: 100%;
+    /*width: 100%;*/
     margin-bottom: 10px;
 }
 #user-info-mobile .avatar-link {
@@ -55,7 +55,8 @@ h2, .h2 {
     line-height: 44px;
     margin-right: 10px;
 }
-#user-info-mobile .delete-avatar {
+#user-info-mobile .delete-avatar,
+#user-info-mobile .delete-temp-image {
     line-height: 44px;
     margin-left: 10px;
 }
@@ -239,11 +240,13 @@ h2, .h2 {
 #page-image {
     position: relative;
 }
+.profile-user-avatar .delete-avatar,
+.profile-user-avatar #delete-temp-image,
 #page-image #delete-image,
 #page-image #delete-temp-image {
     position: absolute;
     top: 0;
-    right: 0;
+    right: -25px;
 }
 
 #tags-area .tag .btn {
