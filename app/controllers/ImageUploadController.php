@@ -36,13 +36,17 @@ class ImageUploadController extends BaseController
 			$image = Image::make($file->getRealPath());
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
-			$watermark = Image::make(public_path('images/watermark.png'));
-			$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
-				$constraint->aspectRatio();
-			})->save($imagePath . 'watermark.png');
+			// водяной знак
+			if(Request::get('field', 'image') != 'avatar') {
+				$watermark = Image::make(public_path('images/watermark.png'));
+				$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
+					$constraint->aspectRatio();
+				})->save($imagePath . 'watermark.png');
 
-			$image->insert($imagePath . 'watermark.png', 'center')
-				->save($imagePath . $fileName);
+				$image->insert($imagePath . 'watermark.png', 'center');
+			}
+
+			$image->save($imagePath . $fileName);
 
 			$imageUrl = $tempPath . $fileName;
 
