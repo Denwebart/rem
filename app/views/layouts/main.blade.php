@@ -104,8 +104,11 @@
     <div class="row">
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs sidebar left-sidebar">
 
-            {{ $sidebarWidget->rss() }}
-            {{ $sidebarWidget->addToFavorites() }}
+            <div class="center">
+                {{ $sidebarWidget->rss() }}
+                {{ $sidebarWidget->addToFavorites() }}
+            </div>
+
             <div class="clearfix"></div>
 
             @if($page->parent_id == 0)
@@ -130,7 +133,7 @@
         <div class="col-lg-6 col-md-6">
             @yield('breadcrumbs')
 
-            <div class="hidden-lg hidden-md">
+            <div class="hidden-lg hidden-md margin-bottom-5">
                 {{ $sidebarWidget->rss() }}
                 {{ $sidebarWidget->addToFavorites() }}
 
