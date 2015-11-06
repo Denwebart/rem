@@ -1,6 +1,6 @@
-<div class="row item" data-article-id="{{ $article->id }}">
+<div class="row item" data-article-id="{{ $article->id }}" itemscope itemprop="https://schema.org/BlogPosting">
     <div class="col-md-12">
-        <h3>
+        <h3 itemprop="name">
             <a href="{{ URL::to($article->getUrl()) }}">
                 {{ $article->title }}
             </a>
@@ -13,15 +13,17 @@
         </div>
         <div class="page-info">
             <div class="pull-left">
-                <div class="user pull-left">
-                    <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}">
+                <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}" itemprop="url">
                         {{ $article->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
-                        <span class="login pull-left">{{ $article->user->login }}</span>
+                        <span class="login pull-left" itemprop="name">{{ $article->user->login }}</span>
                     </a>
                 </div>
                 <div class="date pull-left hidden-xs">
                     <i class="material-icons">today</i>
-                    <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
+                    <time datetime="{{ DateHelper::dateFormatForSchema($article->published_at) }}" itemprop="datePublished">
+                        {{ DateHelper::dateFormat($article->published_at) }}
+                    </time>
                 </div>
             </div>
             <div class="pull-right">
@@ -32,7 +34,7 @@
                 <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="top">
                     <i class="material-icons">chat_bubble</i>
                     <a href="{{ URL::to($article->getUrl() . '#comments') }}">
-                        <span>{{ count($article->publishedComments) }}</span>
+                        <span itemprop="commentCount">{{ count($article->publishedComments) }}</span>
                     </a>
                 </div>
                 <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
@@ -76,7 +78,7 @@
                 <div class="text pull-left">
                     Категория:
                 </div>
-                <div class="link pull-left">
+                <div class="link pull-left" itemprop="articleSection">
                     <a href="{{ URL::to($article->parent->getUrl()) }}">
                         {{ $article->parent->getTitle() }}
                     </a>
@@ -89,7 +91,9 @@
                 {{ $article->getImage() }}
             </a>
         @endif
-        <p>{{ $article->getIntrotext() }}</p>
+        <div itemprop="description">
+            {{ $article->getIntrotext() }}
+        </div>
     </div>
     @if(Page::TYPE_ARTICLE == $article->type)
         @if(count($article->tags))
