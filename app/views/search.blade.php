@@ -24,18 +24,6 @@
                 </div>
             </div>
             {{ Form::close() }}
-            @section('script')
-                @parent
-
-                <script type="text/javascript">
-                    // исключение пустых полей формы
-                    $("#search-form").submit(function() {
-                        if($("#query").val() == "") {
-                            $("#query").prop("disabled", true);
-                        }
-                    });
-                </script>
-            @stop
         </div>
     </div>
 </div>
