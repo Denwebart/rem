@@ -48,10 +48,10 @@ View::share('title', $title);
                         </label>
                     </div>
                     <div class="form-group">
-                        {{ Form::captcha() }}
-                        @if ($errors->has('g-recaptcha-response'))
-                            <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
-                        @endif
+                        {{--{{ Form::captcha() }}--}}
+                        {{--@if ($errors->has('g-recaptcha-response'))--}}
+                            {{--<p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>--}}
+                        {{--@endif--}}
                     </div>
 
                     <div class="form-group">
