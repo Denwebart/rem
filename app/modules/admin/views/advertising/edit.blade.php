@@ -34,7 +34,7 @@ View::share('title', $title);
             </div>
             <div class="col-md-2">
                 {{ Form::open(array('method' => 'DELETE', 'route' => array('admin.advertising.destroy', $advertising->id, 'backUrl' => urlencode(URL::previous())), 'class' => 'as-button')) }}
-                    <button type="submit" class="btn btn-danger btn-sm pull-right" name="destroy">
+                    <button type="submit" class="btn btn-danger btn-sm pull-right margin-bottom-10" name="destroy">
                         <i class='fa fa-trash-o'></i>
                         Удалить
                     </button>

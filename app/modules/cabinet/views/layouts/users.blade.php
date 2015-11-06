@@ -101,13 +101,13 @@
 <div class="container">
     <div class="row">
 
+        <div class="col-lg-9 col-md-9">
+            @yield('content')
+        </div>
+
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
             @yield('leftSidebar')
             {{ $areaWidget->leftSidebar() }}
-        </div>
-
-        <div class="col-lg-9 col-md-9">
-            @yield('content')
         </div>
 
         <div class="col-sm-6 col-xs-12 hidden-lg hidden-md">

@@ -148,15 +148,7 @@
                     </div>
                     <!-- Области для страниц с 2-мя колонками -->
                     <div id="two-columns" class="tab" style="display: none;">
-                        <div class="col-xs-4" style="padding-right: 5px">
-                            <div class="area{{ (Advertising::AREA_LEFT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_LEFT_SIDEBAR }}">
-                                <p class="area-title">
-                                    {{ Advertising::$areas[Advertising::AREA_LEFT_SIDEBAR] }}
-                                </p>
-                                <span class="area-size">(max 325px)</span>
-                            </div>
-                        </div>
-                        <div class="col-xs-8" style="padding: 0 5px">
+                        <div class="col-xs-8" style="padding-right: 5px">
                             <h5>Заголовок страницы</h5>
                             <p>Контент страницы</p>
                             <div class="area area-not-for-widget{{ (Advertising::AREA_CONTENT_BOTTOM == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_CONTENT_BOTTOM }}">
@@ -164,6 +156,14 @@
                                     {{ Advertising::$areas[Advertising::AREA_CONTENT_BOTTOM] }}
                                 </p>
                                 <span class="area-size">(max 620px)</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4" style="padding-left: 5px">
+                            <div class="area{{ (Advertising::AREA_RIGHT_SIDEBAR == $advertising->area) ? ' selected-area' : '' }}" data-area="{{ Advertising::AREA_RIGHT_SIDEBAR }}">
+                                <p class="area-title">
+                                    {{ Advertising::$areas[Advertising::AREA_RIGHT_SIDEBAR] }}
+                                </p>
+                                <span class="area-size">(max 325px)</span>
                             </div>
                         </div>
                         <div class="col-xs-12">

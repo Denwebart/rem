@@ -108,6 +108,7 @@
             </ul>
         </div>
     @endif
+    <div class="clearfix"></div>
     <div class="col-md-12">
         <a href="{{ URL::to($article->getUrl()) }}" class="read-more">
             <span class="link-text">

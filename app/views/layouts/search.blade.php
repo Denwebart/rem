@@ -98,15 +98,14 @@
 
 <div class="container">
     <div class="row">
+        <div class="col-lg-9 col-md-9">
+            @yield('content')
+        </div>
         <div class="col-lg-3 col-md-3">
             <!-- Поиск -->
             @include('search')
 
             {{ $areaWidget->leftSidebar() }}
-        </div>
-
-        <div class="col-lg-9 col-md-9">
-            @yield('content')
         </div>
     </div>
 </div>
