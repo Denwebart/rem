@@ -479,9 +479,13 @@ class CabinetUserController extends \BaseController
 			$page->user->addPoints(User::POINTS_FOR_QUESTION);
 		}
 
-		$backUrl = Input::has('backUrl')
-			? Input::get('backUrl')
-			: URL::route('user.questions', ['login' => $login]);
+		if($page->is_published) {
+			$backUrl = URL::to($page->getUrl());
+		} else {
+			$backUrl = Input::has('backUrl')
+				? Input::get('backUrl')
+				: URL::route('user.questions', ['login' => $login]);
+		}
 
 		if ($isPublished) {
 			return Redirect::to($backUrl)->with('successMessage', 'Ваш вопрос опубликован!');
@@ -699,10 +703,13 @@ class CabinetUserController extends \BaseController
 				'[linkToPage]' => URL::to($page->getUrl())
 			]);
 		}
-
-		$backUrl = Input::has('backUrl')
-			? Input::get('backUrl')
-			: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+		if($page->is_published) {
+			$backUrl = URL::to($page->getUrl());
+		} else {
+			$backUrl = Input::has('backUrl')
+				? Input::get('backUrl')
+				: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
+		}
 
 		if ($isPublished) {
 			return Redirect::to($backUrl)->with('successMessage', 'Статья в журнале опубликована!');

@@ -296,7 +296,12 @@ class AdminPagesController extends \BaseController {
 		// добавление в меню
 		Menu::inMenu($page);
 
-		$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
+		if($page->is_published) {
+			$backUrl = URL::to($page->getUrl());
+		} else {
+			$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
+		}
+
 		return Redirect::to($backUrl);
 	}
 
