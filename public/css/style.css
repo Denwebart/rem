@@ -2309,6 +2309,10 @@ footer .counter {
     #header-widget .navbar-nav .open:not(.widget-user) .dropdown-menu {
         right: -90px !important;
     }
+    /* Content */
+    .breadcrumb {
+        font-size: 10px;
+    }
     .blog .avatar-link img {
         width: 40px;
         height: 40px;

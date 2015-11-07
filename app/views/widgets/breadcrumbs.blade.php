@@ -15,7 +15,7 @@
                 <meta itemprop="position" content="{{ $key + 2 }}" />
             </li>
         @else
-            <li class="hidden-md hidden-xs" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <li class="@if(count($items) > 2 || mb_strlen($item['title']) > 20) hidden-md hidden-xs @endif" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                 <a href="{{ URL::current() }}" itemprop="item" class="hidden">
                     {{ $item['title'] }}
                 </a>
