@@ -69,4 +69,10 @@
             });
         }
     });
+
+    window.onload = function() {
+        $('[aria-label="Insert/edit image"]').addClass('tinymce-insert-image');
+        $('[aria-label="Insert/edit video"]').addClass('tinymce-insert-video');
+        $('[aria-label="Insert/edit link"]').addClass('tinymce-insert-link');
+    };
 </script>

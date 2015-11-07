@@ -453,8 +453,9 @@ class CabinetUserController extends \BaseController
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = $isPublished;
 		$data['published_at'] = \Carbon\Carbon::now();
+		$data['alias'] = TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::$rulesForUsers);
+		$validator = Validator::make($data, Page::rules('create', 'forUser'), Page::$messages['question']);
 
 		if ($validator->fails())
 		{
@@ -542,6 +543,7 @@ class CabinetUserController extends \BaseController
 		$data['user_id'] = $user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['published_at'] = \Carbon\Carbon::now();
+		$data['alias'] = TranslitHelper::make($data['title']);
 
         if(isset($data['tags'])) {
             $newTag = isset($data['tags']['newTags']) ? $data['tags']['newTags'] : [];
@@ -551,12 +553,14 @@ class CabinetUserController extends \BaseController
             $tags = [];
         }
 
-		unset(Page::$rulesForUsers['image']);
+		// validation
+		$action = !Request::has('id') ? 'create' : 'update';
+		$rules = Page::rules($action, 'forUser', $page->id);
+		unset($rules['image']);
 		if($data['type'] == Page::TYPE_ARTICLE) {
-			unset(Page::$rulesForUsers['parent_id']);
+			unset($rules['parent_id']);
 		}
-		$validator = Validator::make($data, Page::$rulesForUsers);
-
+		$validator = Validator::make($data, $rules, ($data['type'] == Page::TYPE_ARTICLE) ? Page::$messages['article'] : Page::$messages['question']);
 		if ($validator->fails())
 		{
 			return Response::json(array(
@@ -587,8 +591,9 @@ class CabinetUserController extends \BaseController
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['user_id'] = $page->user->id;;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['alias'] = TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::$rulesForUsers);
+		$validator = Validator::make($data, Page::rules('update', 'forUser', $page->id), Page::$messages['question']);
 
 		if ($validator->fails())
 		{
@@ -675,8 +680,9 @@ class CabinetUserController extends \BaseController
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
 		$data['is_published'] = $isPublished;
 		$data['published_at'] = \Carbon\Carbon::now();
+		$data['alias'] = TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::$rulesForUsers);
+		$validator = Validator::make($data, Page::rules('create', 'forUser'), Page::$messages['article']);
 
 		if ($validator->fails())
 		{
@@ -757,8 +763,9 @@ class CabinetUserController extends \BaseController
 		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
 		$data['user_id'] = $page->user->id;
 		$data['content'] = StringHelper::nofollowLinks($data['content']);
+		$data['alias'] = TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::$rulesForUsers);
+		$validator = Validator::make($data, Page::rules('update', 'forUser', $page->id), Page::$messages['article']);
 
 		if ($validator->fails())
 		{

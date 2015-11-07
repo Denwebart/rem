@@ -239,6 +239,13 @@ View::share('title', $title);
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function(response) {
+                        if(response.fail) {
+                            $.each(response.errors, function(index, value) {
+                                var errorDiv = '.' + index + '_error';
+                                $('form').find(errorDiv).parent().addClass('has-error');
+                                $('form').find(errorDiv).empty().append(value).show();
+                            });
+                        }
                         if(response.success) {
                             $('.profile-user-avatar').html(response.imageHtml);
 

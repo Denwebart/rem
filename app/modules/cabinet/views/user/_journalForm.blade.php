@@ -70,6 +70,9 @@
             <small class="title_error error text-danger">
                 {{ $errors->first('title') }}
             </small>
+            <small class="alias_error error text-danger">
+                {{ $errors->first('alias') }}
+            </small>
         </div>
     </div>
 </div>
@@ -280,6 +283,13 @@
                         return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                     },
                     success: function(response) {
+                        if(response.fail) {
+                            $.each(response.errors, function(index, value) {
+                                var errorDiv = '.' + index + '_error';
+                                $('form').find(errorDiv).parent().addClass('has-error');
+                                $('form').find(errorDiv).empty().append(value).show();
+                            });
+                        }
                         if(response.success) {
                             $('#page-image').html(response.imageHtml);
                             $('#image_url').val(response.imageUrl);

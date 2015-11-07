@@ -108,36 +108,100 @@ class Page extends \Eloquent
 		'meta_key',
 	];
 
+	public static $messages = [
+		'question' => [
+			'alias.unique' => 'Вопрос с таким заголовком уже существует.',
+		],
+		'article' => [
+			'alias.unique' => 'Статья с таким заголовком уже существует.',
+		]
+	];
 	public static $rules = [
-		'type' => 'integer',
-		'parent_id' => 'integer',
-		'user_id' => 'required|integer',
-		'is_published' => 'boolean',
-		'alias' => 'max:300|regex:/^[A-Za-z0-9\-\']+$/u',
-		'is_container' => 'boolean',
-		'is_show_title' => 'boolean',
-		'image' => 'mimes:jpeg,bmp,png|max:3072',
-		'image_alt' => 'max:1000',
-		'title' => 'required|max:500',
-		'views' => 'integer',
-		'votes' => 'integer',
-		'voters' => 'integer',
-		'meta_title' => 'max:600',
-		'meta_desc' => 'max:1500',
-		'meta_key' => 'max:1500',
+		'create' => [
+			'forAdmin' => [
+				'type' => 'integer',
+				'parent_id' => 'integer',
+				'user_id' => 'required|integer',
+				'is_published' => 'boolean',
+				'alias' => 'max:300|regex:/^[A-Za-z0-9\-\']+$/u|unique:pages',
+				'is_container' => 'boolean',
+				'is_show_title' => 'boolean',
+				'image' => 'mimes:jpeg,bmp,png|max:3072',
+				'image_alt' => 'max:1000',
+				'title' => 'required|max:500',
+				'views' => 'integer',
+				'votes' => 'integer',
+				'voters' => 'integer',
+				'meta_title' => 'max:600',
+				'meta_desc' => 'max:1500',
+				'meta_key' => 'max:1500',
+			],
+			'forUser' => [
+				'type' => 'integer',
+				'parent_id' => 'required|integer',
+				'user_id' => 'required|integer',
+				'image' => 'mimes:jpeg,bmp,png|max:3072',
+				'title' => 'required|max:500',
+				'alias' => 'unique:pages',
+				'content' => 'required',
+				'meta_title' => 'max:600',
+				'meta_desc' => 'max:1500',
+				'meta_key' => 'max:1500',
+			]
+		],
+		'update' => [
+			'forAdmin' => [
+				'type' => 'integer',
+				'parent_id' => 'integer',
+				'user_id' => 'required|integer',
+				'is_published' => 'boolean',
+				'alias' => 'max:300|regex:/^[A-Za-z0-9\-\']+$/u|unique:pages,alias,:id',
+				'is_container' => 'boolean',
+				'is_show_title' => 'boolean',
+				'image' => 'mimes:jpeg,bmp,png|max:3072',
+				'image_alt' => 'max:1000',
+				'title' => 'required|max:500',
+				'views' => 'integer',
+				'votes' => 'integer',
+				'voters' => 'integer',
+				'meta_title' => 'max:600',
+				'meta_desc' => 'max:1500',
+				'meta_key' => 'max:1500',
+			],
+			'forUser' => [
+				'type' => 'integer',
+				'parent_id' => 'required|integer',
+				'user_id' => 'required|integer',
+				'image' => 'mimes:jpeg,bmp,png|max:3072',
+				'title' => 'required|max:500',
+				'alias' => 'unique:pages,alias,:id',
+				'content' => 'required',
+				'meta_title' => 'max:600',
+				'meta_desc' => 'max:1500',
+				'meta_key' => 'max:1500',
+			]
+		],
 	];
 
-	public static $rulesForUsers = [
-		'type' => 'integer',
-		'parent_id' => 'required|integer',
-		'user_id' => 'required|integer',
-		'image' => 'mimes:jpeg,bmp,png|max:3072',
-		'title' => 'required|max:500',
-		'content' => 'required',
-		'meta_title' => 'max:600',
-		'meta_desc' => 'max:1500',
-		'meta_key' => 'max:1500',
-	];
+	/**
+	 * Правила
+	 *
+	 * @param $action
+	 * @param $user
+	 * @param array $merge
+	 * @param bool|false $id
+	 * @return array
+	 */
+	public static function rules($action, $user = 'forAdmin', $id = false, $merge=[])
+	{
+		$rules = SELF::$rules[$action][$user];
+		if ($id) {
+			foreach ($rules as &$rule) {
+				$rule = str_replace(':id', $id, $rule);
+			}
+		}
+		return array_merge($rules, $merge);
+	}
 
 	public static function boot()
 	{

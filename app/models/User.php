@@ -198,26 +198,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		],
 	];
 
-	/**
-	 * Пока нигде не используется
-	 * @param $action
-	 * @param array $merge
-	 * @param bool $id
-	 * @return array
-	 */
-	public static function rules($action, $merge=[], $id=false)
-	{
-		$rules = SELF::$rules[$action];
-
-		if ($id) {
-			foreach ($rules as &$rule) {
-				$rule = str_replace(':id', $id, $rule);
-			}
-		}
-
-		return array_merge( $rules, $merge );
-	}
-
 	public static function boot()
 	{
 		parent::boot();

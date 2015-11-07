@@ -153,6 +153,18 @@ class AdminArticlesController extends \BaseController {
 	{
 		$data = Input::all();
 
+		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
+		$data['user_id'] = Auth::user()->id;
+		$data['type'] = Page::TYPE_ARTICLE;
+		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
+
+		$validator = Validator::make($data, Page::rules('create'));
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput($data);
+		}
+
 		if(Input::get('is_published') && Input::get('published_at')) {
 			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
 			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
@@ -160,17 +172,6 @@ class AdminArticlesController extends \BaseController {
 			$data['published_at'] = date('Y:m:d H:i:s');
 		} else {
 			$data['published_at'] = null;
-		}
-
-		$data['parent_id'] = Page::whereType(Page::TYPE_JOURNAL)->first()->id;
-		$data['user_id'] = Auth::user()->id;
-		$data['type'] = Page::TYPE_ARTICLE;
-
-		$validator = Validator::make($data, Page::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		$page = Page::create($data);
@@ -252,6 +253,18 @@ class AdminArticlesController extends \BaseController {
 
 		$data = Input::all();
 
+		$data['parent_id'] = $page->parent_id;
+		$data['user_id'] = $page->user_id;
+		$data['type'] = Page::TYPE_ARTICLE;
+		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
+
+		$validator = Validator::make($data, Page::rules('update', 'forAdmin', $page->id));
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput($data);
+		}
+
 		if(Input::get('is_published') && Input::get('published_at')) {
 			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
 			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
@@ -259,17 +272,6 @@ class AdminArticlesController extends \BaseController {
 			$data['published_at'] = \Carbon\Carbon::now();
 		} else {
 			$data['published_at'] = null;
-		}
-
-		$data['parent_id'] = $page->parent_id;
-		$data['user_id'] = $page->user_id;
-		$data['type'] = Page::TYPE_ARTICLE;
-
-		$validator = Validator::make($data, Page::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
 		// загрузка изображения

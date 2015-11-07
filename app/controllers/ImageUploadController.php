@@ -13,7 +13,7 @@ class ImageUploadController extends BaseController
 			$data = Input::all();
 
 			$rules = [
-				'image' => 'image|max:15000|required_without_all:avatar',
+				'image' => 'mimes:jpeg,bmp,png|max:3072|required_without_all:avatar',
 			];
 
 			$validation = Validator::make($data, $rules);

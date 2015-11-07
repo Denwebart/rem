@@ -224,15 +224,6 @@ class AdminPagesController extends \BaseController {
 	{
 		$data = Input::all();
 
-		if(Input::get('is_published') && Input::get('published_at')) {
-			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
-			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
-		} elseif(Input::get('is_published') && !Input::get('published_at')) {
-			$data['published_at'] = \Carbon\Carbon::now();
-		} else {
-			$data['published_at'] = null;
-		}
-
 		$data['parent_id'] = isset($data['parent_id']) ? $data['parent_id'] : 0;
 		$parent = Page::find($data['parent_id']);
 		$parentParentId = $parent ? $parent->parent_id : 0;
@@ -251,12 +242,22 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = Auth::user()->id;
+		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::$rules);
+		$validator = Validator::make($data, Page::rules('create'));
 
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return Redirect::back()->withErrors($validator)->withInput($data);
+		}
+
+		if(Input::get('is_published') && Input::get('published_at')) {
+			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
+			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
+		} elseif(Input::get('is_published') && !Input::get('published_at')) {
+			$data['published_at'] = \Carbon\Carbon::now();
+		} else {
+			$data['published_at'] = null;
 		}
 
 		$page = Page::create($data);
@@ -349,15 +350,6 @@ class AdminPagesController extends \BaseController {
 
 		$data = Input::all();
 
-		if(Input::get('is_published') && Input::get('published_at')) {
-			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
-			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
-		} elseif(Input::get('is_published') && !Input::get('published_at')) {
-			$data['published_at'] = date('Y:m:d H:i:s');
-		} else {
-			$data['published_at'] = null;
-		}
-
 		if(Page::TYPE_SYSTEM_PAGE != $page->type || Page::TYPE_QUESTIONS != $page->type || Page::TYPE_JOURNAL != $page->type) {
 			$data['parent_id'] = isset($data['parent_id']) ? $data['parent_id'] : 0;
 			$parent = Page::find($data['parent_id']);
@@ -378,12 +370,18 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = $page->user_id;
+		$data['alias'] = $data['alias']
+			? $data['alias']
+			: (!is_null($page->menuItem)
+				? TranslitHelper::make($page->menuItem->menu_title)
+				: TranslitHelper::make($data['title']));
 
+		$rules = Page::rules('update', 'forAdmin', $page->id);
 		if(1 != $page->id) {
-			$rules = Page::$rules;
+			$rules = $rules;
 		} else {
-			unset(Page::$rules['alias']);
-			$rules = Page::$rules + ['alias' => 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u'];
+			unset($rules['alias']);
+			$rules = $rules + ['alias' => 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u'];
 		}
 		if($page->menuItem) {
 			$rules = $rules + ['menu_title' => Menu::$rules['menu_title']];
@@ -392,7 +390,16 @@ class AdminPagesController extends \BaseController {
 		$validator = Validator::make($data, $rules);
 		if ($validator->fails())
 		{
-			return Redirect::back()->withErrors($validator)->withInput();
+			return Redirect::back()->withErrors($validator)->withInput($data);
+		}
+
+		if(Input::get('is_published') && Input::get('published_at')) {
+			$published_at = Input::get('published_at') . ' ' . (Input::get('publishedTime') ? Input::get('publishedTime') : Config::get('settings.defaultPublishedTime'));
+			$data['published_at'] = date('Y:m:d H:i:s', strtotime($published_at));
+		} elseif(Input::get('is_published') && !Input::get('published_at')) {
+			$data['published_at'] = date('Y:m:d H:i:s');
+		} else {
+			$data['published_at'] = null;
 		}
 
 		// загрузка изображения

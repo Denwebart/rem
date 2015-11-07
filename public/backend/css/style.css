@@ -3499,6 +3499,12 @@ footer ul li a {
     .pagination {
         margin: 20px 10px;
     }
+
+    /* TinyMCE */
+    .tinymce-insert-image,
+    .tinymce-insert-video {
+        display: none !important;
+    }
 }
 
 @media (max-width: 520px) {

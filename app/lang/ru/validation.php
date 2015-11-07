@@ -46,7 +46,7 @@ return [
 		"string"  => "Поле должно содержать не более :max символов.",
 		"array"   => "The :attribute may not have more than :max items.",
 	],
-	"mimes"                => "Поле должно быть файлом одного из следующих типов: :values.",
+	"mimes"                => "Файл должен быть одним из следующих типов: :values.",
 	"min"                  => [
 		"numeric" => "Значение не может быть меньше :min.",
 		"file"    => "The :attribute must be at least :min kilobytes.",
@@ -90,6 +90,7 @@ return [
 		],
 		'alias' => [
 			'regex' => 'Поле может содержать только латинские буквы, дефис и цыфры.',
+			'unique' => 'Страница с таким алиасом уже существует'
 		],
 		'parent_id' => [
 			'required' => 'Выбор категории обязателен.',
@@ -132,6 +133,12 @@ return [
 		],
 		'g-recaptcha-response' => [
 			'required_without_all' => 'Поле обязательно для неавторизованных пользователей.',
+		],
+		'image' => [
+			"mimes" => "Изображение может быть в формате :values.",
+		],
+		'avatar' => [
+			"mimes" => "Изображение может быть в формате :values.",
 		],
 	],
 
