@@ -63,16 +63,16 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="form-group">
-            {{ Form::label('parent_id', 'Категория') }} <!-- класс control-label, если нужно выделять цветом label при валидации -->
+        <div class="form-group @if($errors->first('parent_id')) has-error @endif">
+            {{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }} <!-- класс control-label, если нужно выделять цветом label при валидации -->
             {{ Form::select('parent_id', Page::getQuestionsCategory(), $question->parent_id, ['class' => 'form-control']) }}
             <small class="parent_id_error error text-danger">
                 {{ $errors->first('parent_id') }}
             </small>
         </div>
-        <div class="form-group">
+        <div class="form-group @if($errors->first('title') || $errors->first('alias')) has-error @endif">
             {{ Form::hidden('type', $question->type) }}
-            {{ Form::label('title', 'Заголовок') }}
+            {{ Form::label('title', 'Заголовок', ['class' => 'control-label']) }}
             {{ Form::text('title', $question->title, ['class' => 'form-control']) }}
             <small class="title_error error text-danger">
                 {{ $errors->first('title') }}
@@ -85,8 +85,8 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group">
-            {{ Form::label('content', 'Текст вопроса') }}
+        <div class="form-group @if($errors->first('content')) has-error @endif">
+            {{ Form::label('content', 'Текст вопроса', ['class' => 'control-label']) }}
             {{ Form::textarea('content', $question->content, ['class' => 'form-control editor']) }}
             <small class="content_error error text-danger">
                 {{ $errors->first('content') }}

@@ -119,22 +119,28 @@ View::share('title', $title);
 
                                             <div class="row">
                                                 <div class="col-xs-12 col-md-6">
-                                                    <div class="form-group">
+                                                    <div class="form-group @if($errors->has('image')) has-error @endif">
                                                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-                                                        {{ $errors->first('image') }}
+                                                        <small class="image_error error text-danger">
+                                                            {{ $errors->first('image') }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                                 <div class="clearfix"></div>
                                                 <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        {{ Form::label('title', 'Заголовок изображения') }}
+                                                    <div class="form-group @if($errors->has('title')) has-error @endif">
+                                                        {{ Form::label('title', 'Заголовок изображения', ['class' => 'control-label']) }}
                                                         {{ Form::text('title', null, ['class' => 'form-control']) }}
-                                                        {{ $errors->first('title') }}
+                                                        <small class="title_error error text-danger">
+                                                            {{ $errors->first('title') }}
+                                                        </small>
                                                     </div>
-                                                    <div class="form-group">
-                                                        {{ Form::label('description', 'Описание изображения') }}
+                                                    <div class="form-group @if($errors->has('description')) has-error @endif">
+                                                        {{ Form::label('description', 'Описание изображения', ['class' => 'control-label']) }}
                                                         {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
-                                                        {{ $errors->first('description') }}
+                                                        <small class="description_error error text-danger">
+                                                            {{ $errors->first('description') }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 col-xs-offset-0">

@@ -46,7 +46,7 @@ class UserImage extends \Eloquent
 		'is_published' => 'boolean',
 		'title' => 'max:300',
 		'image' => 'required|mimes:jpeg,bmp,png|max:3072',
-		'desctiption' => 'max:2000',
+		'description' => 'max:2000',
 		'votes_like' => 'integer',
 		'votes_dislike' => 'integer',
 	];
@@ -56,7 +56,7 @@ class UserImage extends \Eloquent
 		'is_published' => 'boolean',
 		'title' => 'max:300',
 		'image' => 'mimes:jpeg,bmp,png|max:3072',
-		'desctiption' => 'max:2000',
+		'description' => 'max:2000',
 		'votes_like' => 'integer',
 		'votes_dislike' => 'integer',
 	];

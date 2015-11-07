@@ -45,22 +45,28 @@ View::share('title', $title);
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="form-group">
-                                {{ Form::label('password', 'Текущий пароль') }}
+                            <div class="form-group @if($errors->has('password')) has-error @endif">
+                                {{ Form::label('password', 'Текущий пароль', ['class' => 'control-label']) }}
                                 {{ Form::password('password', ['class' => 'form-control']) }}
-                                @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                                <small class="image_error error text-danger">
+                                    {{ $errors->first('password') }}
+                                </small>
                             </div>
 
-                            <div class="form-group">
-                                {{ Form::label('newpassword', 'Новый пароль') }}
+                            <div class="form-group @if($errors->has('newpassword')) has-error @endif">
+                                {{ Form::label('newpassword', 'Новый пароль', ['class' => 'control-label']) }}
                                 {{ Form::password('newpassword', ['class' => 'form-control']) }}
-                                @if ($errors->has('newpassword')) <p class="text-danger">{{ $errors->first('newpassword') }}</p> @endif
+                                <small class="image_error error text-danger">
+                                    {{ $errors->first('newpassword') }}
+                                </small>
                             </div>
 
-                            <div class="form-group">
-                                {{ Form::label('newpassword_confirmation', 'Повтор нового пароля') }}
+                            <div class="form-group @if($errors->has('newpassword')) has-error @endif">
+                                {{ Form::label('newpassword_confirmation', 'Повтор нового пароля', ['class' => 'control-label']) }}
                                 {{ Form::password('newpassword_confirmation', ['class' => 'form-control']) }}
-                                @if ($errors->has('newpassword_confirmation')) <p class="text-danger">{{ $errors->first('newpassword_confirmation') }}</p> @endif
+                                <small class="image_error error text-danger">
+                                    {{ $errors->first('newpassword_confirmation') }}
+                                </small>
                             </div>
                             {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}

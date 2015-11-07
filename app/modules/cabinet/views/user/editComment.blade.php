@@ -53,10 +53,12 @@ View::share('title', $title);
 
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    {{ Form::label('comment', ($comment->is_answer) ? 'Текст ответа' : 'Текст комментария') }}
+                                <div class="form-group @if($errors->has('comment')) has-error @endif">
+                                    {{ Form::label('comment', ($comment->is_answer) ? 'Текст ответа' : 'Текст комментария', ['class' => 'control-label']) }}
                                     {{ Form::textarea('comment', $comment->comment, ['class' => 'form-control editor']) }}
-                                    {{ $errors->first('comment') }}
+                                    <small class="comment_error error text-danger">
+                                        {{ $errors->first('comment') }}
+                                    </small>
                                 </div>
 
                                 <!-- TinyMCE image -->

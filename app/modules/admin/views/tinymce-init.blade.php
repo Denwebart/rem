@@ -67,6 +67,10 @@
                     }
                 });
             });
+            editor.on('focus', function(e) {
+                $('.editor').parent().find('.error').text('');
+                $('.editor').parent().removeClass('has-error');
+            });
         }
     });
 

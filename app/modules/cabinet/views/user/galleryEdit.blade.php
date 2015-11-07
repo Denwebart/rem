@@ -34,42 +34,47 @@ View::share('title', $title);
 
                 <h2>{{ $title }}</h2>
                 <div class="well">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="button-group margin-bottom-20 pull-right">
-                                <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
-                                    <i class="material-icons">keyboard_arrow_left</i>
-                                    <span class="hidden-xxs">Отмена</span>
-                                </a>
-                                {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+                    {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="button-group margin-bottom-20 pull-right">
+                                    <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}" class="btn btn-primary btn-sm">
+                                        <i class="material-icons">keyboard_arrow_left</i>
+                                        <span class="hidden-xxs">Отмена</span>
+                                    </a>
+                                    {{ Form::submit('Сохранить', ['class' => 'btn btn-success btn-sm']) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    {{ Form::model($image, ['method' => 'POST', 'route' => ['user.gallery.editPhoto', 'login' => $user->getLoginForUrl(), 'id' => $image->id], 'files' => true, 'id' => 'editPhoto']) }}
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-4">
                                         {{ $image->getImage(null, ['class' => 'margin-bottom-10']) }}
-                                        <div class="form-group">
+                                        <div class="form-group @if($errors->has('image')) has-error @endif">
                                             {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
-                                            {{ $errors->first('image') }}
+                                            <small class="image_error error text-danger">
+                                                {{ $errors->first('image') }}
+                                            </small>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
-                                        <div class="form-group">
-                                            {{ Form::label('title', 'Заголовок изображения') }}
+                                        <div class="form-group @if($errors->has('title')) has-error @endif">
+                                            {{ Form::label('title', 'Заголовок изображения', ['class' => 'control-label']) }}
                                             {{ Form::text('title', $image->title, ['class' => 'form-control']) }}
-                                            {{ $errors->first('title') }}
+                                            <small class="title_error error text-danger">
+                                                {{ $errors->first('title') }}
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    {{ Form::label('description', 'Описание изображения') }}
+                                <div class="form-group @if($errors->has('description')) has-error @endif">
+                                    {{ Form::label('description', 'Описание изображения', ['class' => 'control-label']) }}
                                     {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
-                                    {{ $errors->first('description') }}
+                                    <small class="description_error error text-danger">
+                                        {{ $errors->first('description') }}
+                                    </small>
                                 </div>
                             </div>
                         </div>

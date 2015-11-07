@@ -72,9 +72,11 @@ View::share('title', $title);
                                     ])
                                 }}
 
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->has('message')) has-error @endif">
                                         {{ Form::textarea('message', '', ['class' => 'form-control editor', 'id' => 'message', 'placeholder' => 'Сообщение*', 'rows' => 3]); }}
-                                        <div id="message_error"></div>
+                                        <small class="message_error error text-danger">
+                                            {{ $errors->first('message') }}
+                                        </small>
                                     </div>
 
                                     <!-- TinyMCE image -->
@@ -232,11 +234,10 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.fail) {
                             $.each(response.errors, function(index, value) {
-                                var errorDiv = '#' + index + '_error';
-                                $(errorDiv).addClass('required');
+                                var errorDiv = '.' + index + '_error';
+                                $(errorDiv).parent().addClass('has-error');
                                 $(errorDiv).empty().append(value);
                             });
-                            $('#successMessage').empty();
                         }
                         if(response.success) {
                             $("#scroll").removeClass('without-border').append(response.newMessageHtml);
