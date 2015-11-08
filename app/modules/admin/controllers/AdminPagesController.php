@@ -380,11 +380,10 @@ class AdminPagesController extends \BaseController {
 		if(1 != $page->id) {
 			$rules = $rules;
 		} else {
-			unset($rules['alias']);
-			$rules = $rules + ['alias' => 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u'];
+			$rules['alias'] = 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u';
 		}
 		if($page->menuItem) {
-			$rules = $rules + ['menu_title' => Menu::$rules['menu_title']];
+			$rules['menu_title'] = Menu::$rules['menu_title'];
 		}
 
 		$validator = Validator::make($data, $rules);

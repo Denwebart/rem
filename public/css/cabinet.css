@@ -584,6 +584,9 @@ h2, .h2 {
         padding: 0px;
     }
     /* Личные сообщения */
+    #companions .body {
+        min-height: auto;
+    }
     #companions .companion {
         width: auto;
     }
@@ -628,6 +631,7 @@ h2, .h2 {
     /* Личные сообщения */
     #companions .body {
         max-height: 200px;
+        min-height: auto;
     }
     #companions .companion {
         width: auto;

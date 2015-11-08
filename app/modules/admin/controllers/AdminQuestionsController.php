@@ -212,7 +212,10 @@ class AdminQuestionsController extends \BaseController {
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
 
-		$validator = Validator::make($data, Page::rules('create'));
+		$rules = Page::rules('create');
+		$rules['parent_id'] = 'required|integer';
+
+		$validator = Validator::make($data, $rules);
 
 		if ($validator->fails())
 		{
@@ -306,8 +309,10 @@ class AdminQuestionsController extends \BaseController {
 		$data['user_id'] = $page->user_id;
 		$data['type'] = Page::TYPE_QUESTION;
 		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
+		$rules = Page::rules('update', 'forAdmin', $page->id);
+		$rules['parent_id'] = 'required|integer';
 
-		$validator = Validator::make($data, Page::rules('update', 'forAdmin', $page->id));
+		$validator = Validator::make($data, $rules);
 
 		if ($validator->fails())
 		{

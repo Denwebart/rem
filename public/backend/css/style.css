@@ -134,13 +134,13 @@ table tr.link td {
     text-decoration: underline;
 }
 .button-column.one-button {
-    width: 65px;
+    min-width: 65px;
 }
 .button-column.two-buttons {
-    width: 90px;
+     min-width: 90px;
 }
 .button-column.three-buttons {
-    width: 140px;
+    min-width: 140px;
 }
 .button-column .btn.btn-sm {
     padding: 4px 9px;

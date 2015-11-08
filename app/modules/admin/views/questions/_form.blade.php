@@ -10,21 +10,34 @@
             </a>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('parent_id')) has-error @endif">
                 {{ Form::label('parent_id', 'Категория', ['class' => 'control-label']) }}
                 {{ Form::select('parent_id', Page::getQuestionsCategory(), $page->parent_id, ['class' => 'form-control']) }}
+                @if($errors->has('parent_id'))
+                    <small class="help-block">
+                        {{ $errors->first('parent_id') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('alias')) has-error @endif">
                 {{ Form::label('alias', 'Алиас') }}
                 {{ Form::text('alias', $page->alias, ['class' => 'form-control']) }}
-                {{ $errors->first('alias') }}
+                @if($errors->has('alias'))
+                    <small class="help-block">
+                        {{ $errors->first('alias') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Заголовок') }}
                 {{ Form::text('title', $page->title, ['class' => 'form-control']) }}
-                {{ $errors->first('title') }}
+                @if($errors->has('title'))
+                    <small class="help-block">
+                        {{ $errors->first('title') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('image')) has-error @endif">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-6">
                         <div class="form-group display-inline-block @if($errors->has('image')) has-error @endif">
@@ -101,20 +114,32 @@
             <h3>Мета-теги SEO</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_title')) has-error @endif">
                 {{ Form::label('meta_title', 'Мета-тег Title') }}
                 {{ Form::textarea('meta_title', $page->meta_title, ['class' => 'form-control', 'rows' => 4]) }}
-                {{ $errors->first('meta_title') }}
+                @if($errors->has('meta_title'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_title') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_desc')) has-error @endif">
                 {{ Form::label('meta_desc', 'Мета-тег Description') }}
                 {{ Form::textarea('meta_desc', $page->meta_desc, ['class' => 'form-control', 'rows' => 5]) }}
-                {{ $errors->first('meta_desc') }}
+                @if($errors->has('meta_desc'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_desc') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('meta_key')) has-error @endif">
                 {{ Form::label('meta_key', 'Мета-тег Keywords') }}
                 {{ Form::textarea('meta_key', $page->meta_key, ['class' => 'form-control', 'rows' => 5]) }}
-                {{ $errors->first('meta_key') }}
+                @if($errors->has('meta_key'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_key') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>
@@ -124,35 +149,33 @@
             <h3>Дата публикации</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-5 col-md-12 col-sm-6">
-                        <div class="form-group margin-top-25 md-margin-top-0 xs-margin-top-0">
-                            {{ Form::label('is_published', 'Опубликован') }}
-                            {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
-                            {{ Form::checkbox('is_published', 1) }}
-                        </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-12 col-sm-6">
+                    <div class="form-group @if($errors->has('is_published')) has-error @endif margin-top-25 md-margin-top-0 xs-margin-top-0">
+                        {{ Form::label('is_published', 'Опубликован') }}
+                        {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
+                        {{ Form::checkbox('is_published', 1) }}
                     </div>
-                    <div class="col-lg-7 col-md-12 col-sm-6">
-                        <div class="form-group @if($errors->has('published_at')) has-error @endif">
-                            {{ Form::label('published_at', 'Дата публикации') }}
+                </div>
+                <div class="col-lg-7 col-md-12 col-sm-6">
+                    <div class="form-group @if($errors->has('published_at')) has-error @endif">
+                        {{ Form::label('published_at', 'Дата публикации') }}
 
-                            <div class="input-group">
-                                {{ Form::text('published_at',
-                                    !is_null($page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
-                                    ['class' => 'form-control datepicker-input'])
-                                }}
-                                <span id="published_at_time" class="input-group-addon">
-                                {{ Form::hidden('publishedTime', !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
-                                    {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
-                            </span>
-                            </div>
-                            @if($errors->has('published_at'))
-                                <small class="help-block">
-                                    {{ $errors->first('published_at') }}
-                                </small>
-                            @endif
+                        <div class="input-group">
+                            {{ Form::text('published_at',
+                                !is_null($page->published_at) ? date('d-m-Y', strtotime($page->published_at)) : '',
+                                ['class' => 'form-control datepicker-input'])
+                            }}
+                            <span id="published_at_time" class="input-group-addon">
+                            {{ Form::hidden('publishedTime', !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : Config::get('settings.defaultPublishedTime'), ['id' => 'publishedTime'])}}
+                                {{ !is_null($page->published_at) ? date('H:i:s', strtotime($page->published_at)) : '' }}
+                        </span>
                         </div>
+                        @if($errors->has('published_at'))
+                            <small class="help-block">
+                                {{ $errors->first('published_at') }}
+                            </small>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -166,9 +189,13 @@
         </div>
         <div class="box-body">
 
-            <div class="form-group">
+            <div class="form-group @if($errors->has('content')) has-error @endif">
                 {{ Form::textarea('content', $page->content, ['class' => 'form-control editor']) }}
-                {{ $errors->first('content') }}
+                @if($errors->has('content'))
+                    <small class="help-block">
+                        {{ $errors->first('content') }}
+                    </small>
+                @endif
             </div>
 
             <!-- TinyMCE image -->

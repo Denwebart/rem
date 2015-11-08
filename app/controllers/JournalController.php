@@ -23,7 +23,7 @@ class JournalController extends BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_JOURNAL]);
 		View::share('areaWidget', $areaWidget);
 
-		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
+		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 			->whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -87,7 +87,7 @@ class JournalController extends BaseController
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
+				$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 					->whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
 					->with('parent.parent', 'tags', 'whoSaved', 'publishedComments', 'user')
@@ -262,6 +262,7 @@ class JournalController extends BaseController
 		$tags->parent_id = $tagsParent->id;
 
 		$articles = $tag->pages()
+			->select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
