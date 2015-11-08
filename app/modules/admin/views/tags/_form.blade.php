@@ -5,10 +5,12 @@
         </div>
         <div class="box-body row">
             <div class="col-md-3">
-                <div class="form-group">
+                <div class="form-group @if($errors->has('image')) has-error @endif">
                     {{ Form::label('image', 'Изображение') }}<br/>
                     {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                    {{ $errors->first('image') }}
+                    <small class="image_error error help-block">
+                        {{ $errors->first('image') }}
+                    </small>
 
                     @if($tag->image)
                         {{ $tag->getImage(null, ['class' => 'page-image']) }}
@@ -43,10 +45,14 @@
                 </div>
             </div>
             <div class="col-md-7">
-                <div class="form-group">
+                <div class="form-group @if($errors->has('title')) has-error @endif">
                     {{ Form::label('title', 'Тег') }}
                     {{ Form::text('title', $tag->title, ['class' => 'form-control', 'placeholder' => 'Новый тег']) }}
-                    {{ $errors->first('title') }}
+                    @if($errors->has('title'))
+                        <small class="help-block">
+                            {{ $errors->first('title') }}
+                        </small>
+                    @endif
                 </div>
             </div>
             <div class="col-md-2">

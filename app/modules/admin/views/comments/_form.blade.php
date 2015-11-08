@@ -15,9 +15,13 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('comment')) has-error @endif">
                 {{ Form::textarea('comment', $comment->comment, ['class' => 'form-control editor']) }}
-                {{ $errors->first('comment') }}
+                @if($errors->has('comment'))
+                    <small class="help-block">
+                        {{ $errors->first('comment') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>

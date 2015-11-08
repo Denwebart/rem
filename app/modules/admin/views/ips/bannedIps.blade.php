@@ -52,11 +52,16 @@ View::share('title', $title);
 
                 <div class="message"></div>
 
-                <div class="input-group">
-                    {{ Form::text('ip', null, ['class' => 'form-control', 'placeholder' => 'Забанить ip-адрес', 'id' => 'ip']) }}
-                    <span class="input-group-btn">
-                        {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
-                    </span>
+                <div class="form-group @if($errors->has('ip')) has-error @endif">
+                    <div class="input-group">
+                        {{ Form::text('ip', null, ['class' => 'form-control', 'placeholder' => 'Забанить ip-адрес', 'id' => 'ip']) }}
+                        <span class="input-group-btn">
+                            {{ Form::submit('Забанить', ['class' => 'btn btn-success']) }}
+                        </span>
+                    </div>
+                    <small class="ip_error error help-block">
+                        {{ $errors->first('ip') }}
+                    </small>
                 </div>
 
                 {{--<div class="col-md-10">--}}
@@ -177,6 +182,14 @@ View::share('title', $title);
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function(response) {
+                    if(response.fail) {
+                        $.each(response.errors, function(index, value) {
+                            var errorDiv = '.' + index + '_error';
+                            $form.find(errorDiv).parent().addClass('has-error');
+                            $form.find(errorDiv).empty().append(value);
+                        });
+                        $form.find('.message').empty();
+                    }
                     if(response.success){
                         var successContent = '<h3>IP-адрес забанен.</h3>';
                         $form.find('.message').html(successContent);
@@ -186,16 +199,7 @@ View::share('title', $title);
                         // вывод ip-адреса
                         $('#banned-ips-table').find('tbody').prepend(response.ipRowHtml);
                     } else {
-                        if(response.fail) {
-                            $.each(response.errors, function(index, value) {
-                                var errorDiv = '.' + index + '_error';
-                                $form.find(errorDiv).parent().addClass('has-error');
-                                $form.find(errorDiv).empty().append(value);
-                            });
-                            $form.find('.message').empty();
-                        } else {
-                            $form.find('.message').html(data.message);
-                        }
+                        $form.find('.message').html(data.message);
                     }
                 }
             });
