@@ -95,7 +95,7 @@ class AdminTagsController extends \BaseController {
 
         $backUrl = Request::has('backUrl')
             ? urldecode(Request::get('backUrl'))
-            : URL::route('admin.pages.index');
+            : URL::route('admin.tags.index');
 
 		return View::make('admin::tags.create', compact('tag', 'backUrl'));
 	}
@@ -151,7 +151,7 @@ class AdminTagsController extends \BaseController {
 
         $backUrl = Request::has('backUrl')
             ? urldecode(Request::get('backUrl'))
-            : URL::route('admin.pages.index');
+            : URL::route('admin.tags.index');
 
 		return View::make('admin::tags.edit', compact('tag', 'backUrl'));
 	}

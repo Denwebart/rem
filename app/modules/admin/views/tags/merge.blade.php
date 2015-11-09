@@ -44,8 +44,13 @@ View::share('title', $title);
                                 <div class="col-md-4">
                                     <div class="original-tags">
                                         {{--{{ Form::label('tags[1]', 'Тег', ['class' => 'col-sm-2 control-label']) }}--}}
-                                        <div class="form-group input first">
-                                            {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]']) }}
+                                        <div class="form-group input first @if($errors->has('tags')) has-error @endif">
+                                            {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]', 'readonly' => 'readonly']) }}
+                                            @if($errors->has('tags'))
+                                                <small class="help-block">
+                                                    {{ $errors->first('tags') }}
+                                                </small>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -55,9 +60,11 @@ View::share('title', $title);
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->has('resultTag')) has-error @endif">
                                         {{ Form::text('resultTag', null, ['class' => 'form-control autocomplete', 'placeholder' => '', 'id' => 'resultTag']) }}
-                                        {{ $errors->first('resultTag') }}
+                                        <small class="resultTag_error error help-block">
+                                            {{ $errors->first('resultTag') }}
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -73,10 +80,14 @@ View::share('title', $title);
                         <div class="row">
                             {{ Form::open(['method' => 'GET', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
 
-                            <div class="form-group">
+                            <div class="form-group @if($errors->has('query')) has-error @endif">
                                 {{ Form::label('query', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
                                 {{ Form::text('query', null, ['class' => 'form-control', 'placeholder' => '']) }}
-                                {{ $errors->first('query') }}
+                                @if($errors->has('query'))
+                                    <small class="help-block">
+                                        {{ $errors->first('query') }}
+                                    </small>
+                                @endif
                             </div>
 
                                 {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
@@ -133,54 +144,38 @@ View::share('title', $title);
         });
 
         // объединение тегов + валидация
-        $('#merge-tags-form').bootstrapValidator({
-            fields: {
-                'tags[1]': {
-                    validators: {
-                        notEmpty: {
-                            message: 'Поле не может быть пустым'
-                        }
-                    }
+        $('#merge-tags-form').submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $('#merge-tags-form'),
+                data = $form.serialize(),
+                url = $form.attr('action');
+            $.ajax({
+                url: url,
+                dataType: "text json",
+                type: "POST",
+                data: {formData: data},
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
-                resultTag: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Поле не может быть пустым'
-                        }
+                success: function(response) {
+                    if(response.success) {
+                        var messageHtml = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+ response.message +'</div>';
+                        $('.message').html(messageHtml);
+                        $form.trigger('reset');
+                        var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
+                        $('.original-tags').html('');
+                        $('.original-tags').append('<div class="input first">' + inputHtml + '</div>');
+                        $('.has-success').removeClass('has-success');
+                        $('#search-result').html('');
+                        inputNumber = 1;
+                    } else {
+                        var errorDiv = '.resultTag_error';
+                        $form.find(errorDiv).parent().addClass('has-error');
+                        $form.find(errorDiv).empty().append(response.message).show();
+                        $('#merge-tags-button').removeAttr('disabled');
                     }
                 }
-            },
-            submitHandler: function(form) {
-                var $form = $('#merge-tags-form'),
-                    data = $form.serialize(),
-                    url = $form.attr('action');
-                $.ajax({
-                    url: url,
-                    dataType: "text json",
-                    type: "POST",
-                    data: {formData: data},
-                    beforeSend: function(request) {
-                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-                    },
-                    success: function(response) {
-                        if(response.success) {
-                            var messageHtml = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+ response.message +'</div>';
-                            $('.message').html(messageHtml);
-                            $form.trigger('reset');
-                            var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
-                            $('.original-tags').html('');
-                            $('.original-tags').append('<div class="input first">' + inputHtml + '</div>');
-                            $('.has-success').removeClass('has-success');
-                            $('#search-result').html('');
-                            inputNumber = 1;
-                        } else {
-                            $('#resultTag').parent().append('<small class="help-block" data-bv-validator-for="resultTag" data-bv-validator="notEmpty">'+ response.message +'</small>');
-                            $('#resultTag').parent().toggleClass("has-error has-success");
-                            $('#merge-tags-button').removeAttr('disabled');
-                        }
-                    }
-                });
-            }
+            });
         });
 
         // поиск тегов
@@ -224,7 +219,7 @@ View::share('title', $title);
                     }
                 } else {
                     var plusHtml = '<button type="button" class="btn btn-default btn-circle btn-outline plus"><i class="glyphicon glyphicon-plus"></i></button>';
-                    var inputHtml = '<input value="'+ linkText +'" class="form-control" placeholder="" name="tags['+inputNumber+']" id="tags['+inputNumber+']" type="text">';
+                    var inputHtml = '<input value="'+ linkText +'" class="form-control" placeholder="" name="tags['+inputNumber+']" id="tags['+inputNumber+']" type="text" readonly="readonly">';
                     $('.original-tags').append('<div class="form-group input has-success" data-tag-id="'+ tagId +'">' + plusHtml + inputHtml + deleteInputHtml + '</div>');
                 }
                 $('#merge-tags-button').removeAttr('disabled');
