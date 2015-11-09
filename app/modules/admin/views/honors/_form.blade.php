@@ -2,17 +2,25 @@
     <div class="box">
         <div class="box-title"></div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Название', ['class' => 'control-label']) }}
                 {{ Form::text('title', $honor->title, ['class' => 'form-control']) }}
-                {{ $errors->first('title') }}
+                @if($errors->has('title'))
+                    <small class="help-block">
+                        {{ $errors->first('title') }}
+                    </small>
+                @endif
             </div>
-            <div class="form-group">
+            <div class="form-group @if($errors->has('image')) has-error @endif">
                 <div class="row">
                     <div class="col-sm-6">
-                        {{ Form::label('image', 'Изображение') }}<br/>
+                        {{ Form::label('image', 'Изображение', ['class' => 'control-label']) }}<br/>
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                        {{ $errors->first('image') }}
+                        @if($errors->has('image'))
+                            <small class="help-block">
+                                {{ $errors->first('image') }}
+                            </small>
+                        @endif
                     </div>
                     <div class="col-sm-6">
                         @if($honor->image)
@@ -58,9 +66,13 @@
     <div class="box">
         <div class="box-title"></div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('description')) has-error @endif">
                 {{ Form::textarea('description', $honor->description, ['class' => 'form-control editor']) }}
-                {{ $errors->first('description') }}
+                @if($errors->has('description'))
+                    <small class="help-block">
+                        {{ $errors->first('description') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>

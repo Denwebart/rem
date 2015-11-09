@@ -1,46 +1,73 @@
 <div class="col-md-7">
     <div class="box">
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Заголовок') }}
                 {{ Form::text('title', $advertising->title, ['class' => 'form-control']) }}
-                {{ $errors->first('title') }}
+                @if($errors->has('title'))
+                    <small class="help-block">
+                        {{ $errors->first('title') }}
+                    </small>
+                @endif
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('description')) has-error @endif">
                         {{ Form::label('description', 'Описание') }}
                         {{ Form::textarea('description', $advertising->description, ['class' => 'form-control']) }}
-                        {{ $errors->first('description') }}
+                        @if($errors->has('description'))
+                            <small class="help-block">
+                                {{ $errors->first('description') }}
+                            </small>
+                        @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('position')) has-error @endif">
                         {{ Form::label('position', 'Позиция') }}
-                        {{ Form::number('position', $advertising->position, ['class' => 'form-control']) }}
-                        {{ $errors->first('position') }}
+                        {{ Form::text('position', $advertising->position, ['class' => 'form-control', 'id' => 'position']) }}
+                        @if($errors->has('position'))
+                            <small class="help-block">
+                                {{ $errors->first('position') }}
+                            </small>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="types">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('type')) has-error @endif">
                             {{ Form::radio('type', Advertising::TYPE_ADVERTISING, (Advertising::TYPE_ADVERTISING == $advertising->type || is_null($advertising->type)) ? true : false, ['id' => 'type-advertising', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_ADVERTISING != $advertising->type) ? 'disabled' : '']) }}
                             {{ Form::label('type-advertising', Advertising::$types[Advertising::TYPE_ADVERTISING], ['class' => (Request::is('admin/advertising/*/edit') && Advertising::TYPE_ADVERTISING != $advertising->type) ? 'disabled' : '']) }}
 
                             {{ Form::radio('type', Advertising::TYPE_WIDGET, (Advertising::TYPE_WIDGET == $advertising->type) ? true : false, ['id' => 'type-widget', 'class'=>'radio', (Request::is('admin/advertising/*/edit') && Advertising::TYPE_WIDGET != $advertising->type) ? 'disabled' : '']) }}
                             {{ Form::label('type-widget', Advertising::$types[Advertising::TYPE_WIDGET], ['class' => (Request::is('admin/advertising/*/edit') && Advertising::TYPE_WIDGET != $advertising->type) ? 'disabled' : '']) }}
                         </div>
-                        <div class="form-group advertising" style="display: none">
+                        <div class="form-group advertising @if($errors->has('code')) has-error @endif" style="display: none">
                             {{ Form::label('code-advertising', 'HTML/JavaScript') }}
                             {{ Form::textarea('code-advertising', $advertising->code, ['class' => 'form-control']) }}
-                            {{ $errors->first('code') }}
+                            @if($errors->has('code'))
+                                <small class="help-block">
+                                    {{ $errors->first('code') }}
+                                </small>
+                            @endif
                         </div>
-                        <div class="form-group widget" style="display: none">
-                            {{ Form::label('code-widget', 'Выберите виджет') }}
-                            {{ Form::select('code-widget', ['' => '-'] + Advertising::$widgets, $advertising->code, ['class' => 'form-control']) }}
-                            {{ $errors->first('code') }}
-
-                            {{ Form::label('limit', 'Количество элементов') }}
-                            {{ Form::number('limit', $advertising->limit, ['class' => 'form-control']) }}
-                            {{ $errors->first('limit') }}
+                        <div class="widget" style="display: none">
+                            <div class="form-group @if($errors->has('code')) has-error @endif">
+                                {{ Form::label('code-widget', 'Выберите виджет') }}
+                                {{ Form::select('code-widget', ['' => '-'] + Advertising::$widgets, $advertising->code, ['class' => 'form-control']) }}
+                                @if($errors->has('code'))
+                                    <small class="help-block">
+                                        {{ $errors->first('code') }}
+                                    </small>
+                                @endif
+                            </div>
+                            <div class="form-group @if($errors->has('limit')) has-error @endif">
+                                {{ Form::label('limit', 'Количество элементов') }}
+                                {{ Form::text('limit', $advertising->limit, ['class' => 'form-control', 'id' => 'limit']) }}
+                                @if($errors->has('limit'))
+                                    <small class="help-block">
+                                        {{ $errors->first('limit') }}
+                                    </small>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

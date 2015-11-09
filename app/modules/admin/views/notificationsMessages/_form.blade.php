@@ -4,9 +4,13 @@
             <h3>Текст уведомления</h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('message')) has-error @endif">
                 {{ Form::textarea('message', $notificationMessage->message, ['class' => 'form-control']) }}
-                {{ $errors->first('message') }}
+                @if($errors->has('message'))
+                    <small class="help-block">
+                        {{ $errors->first('message') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>

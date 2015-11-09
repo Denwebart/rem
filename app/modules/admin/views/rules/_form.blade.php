@@ -4,16 +4,24 @@
             <h3></h3>
         </div>
         <div class="box-body">
-            <div class="form-group">
+            <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Заголовок') }}
                 {{ Form::text('title', $rule->title, ['class' => 'form-control']) }}
-                {{ $errors->first('title') }}
+                @if($errors->has('title'))
+                    <small class="help-block">
+                        {{ $errors->first('title') }}
+                    </small>
+                @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group @if($errors->has('description')) has-error @endif">
                 {{ Form::label('description', 'Текст правила') }}
                 {{ Form::textarea('description', $rule->description, ['class' => 'form-control editor']) }}
-                {{ $errors->first('description') }}
+                @if($errors->has('description'))
+                    <small class="help-block">
+                        {{ $errors->first('description') }}
+                    </small>
+                @endif
             </div>
         </div>
     </div>
@@ -26,16 +34,20 @@
 
         </div>
         <div class="box-body">
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            {{ Form::label('position', 'Номер правила') }}
-                            {{ Form::text('position', $rule->position, ['class' => 'form-control']) }}
-                            {{ $errors->first('position') }}
-                        </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('position')) has-error @endif">
+                        {{ Form::label('position', 'Номер правила') }}
+                        {{ Form::text('position', $rule->position, ['class' => 'form-control']) }}
+                        @if($errors->has('position'))
+                            <small class="help-block">
+                                {{ $errors->first('position') }}
+                            </small>
+                        @endif
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group @if($errors->has('is_published')) has-error @endif">
                         {{ Form::label('is_published', 'Статус') }}
                         {{ Form::hidden('is_published', 0, ['id' => 'is_published_uncheck']) }}
                         {{ Form::checkbox('is_published', 1) }}

@@ -38,7 +38,7 @@ return [
 	"exists"               => "The selected :attribute is invalid.",
 	"image"                => "The :attribute must be an image.",
 	"in"                   => "The selected :attribute is invalid.",
-	"integer"              => "The :attribute must be an integer.",
+	"integer"              => "Значение в поле должно быть целым числом.",
 	"ip"                   => "Неверный ip-адрес.",
 	"max"                  => [
 		"numeric" => "Значение не может быть больше :max.",
@@ -54,7 +54,7 @@ return [
 		"array"   => "The :attribute must have at least :min items.",
 	],
 	"not_in"               => "The selected :attribute is invalid.",
-	"numeric"              => "The :attribute must be a number.",
+	"numeric"              => "Значение в поле должно быть числом.",
 	"regex"                => "Поле содержит недопустимые символы.",
 	"required"             => "Поле обязательно для заполнения.",
 	"required_if"          => "The :attribute field is required when :other is :value.",
