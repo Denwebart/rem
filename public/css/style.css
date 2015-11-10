@@ -976,14 +976,10 @@ form .page-image {
 #rss-widget {
     margin-right: 10px;
 }
-#favorites-widget {
-    margin-right: 0;
-}
 #favorites-widget,
 #rss-widget {
     display: inline-block;
     height: 34px;
-    width: calc(50% - 10px);
     background: #F5F5F5;
     border-radius: 4px;
 }
@@ -996,6 +992,7 @@ form .page-image {
     font-size: 16px;
     line-height: 34px;
     text-align: center;
+    padding: 0 20px;
 }
 #favorites-widget a:hover,
 #rss-widget a:hover {
@@ -1018,9 +1015,6 @@ form .page-image {
     margin: 5px 7px 0 0;
     width: 22px;
     float: left;
-}
-#rss-widget .text {
-    margin-left: 37px;
 }
 
 /* Area Widget */
@@ -2617,6 +2611,7 @@ footer .counter {
         font-size: 12px;
         padding: 10px 5px 10px 6px;
     }
+
     /* Награды */
     #honors-sidebar-widget .honor {
         width: calc(33% - 20px);
@@ -2685,23 +2680,17 @@ footer .counter {
         height: 40px;
     }
     #rss-widget {
-        margin-right: 10px;
+        margin-right: 5px;
     }
     #favorites-widget,
     #rss-widget {
-        height: 28px;
+        height: 32px;
     }
     #favorites-widget a,
     #rss-widget a {
-        font-size: 18px;
+        font-size: 16px;
         line-height: 28px;
-    }
-    #favorites-widget i.material-icons,
-    #rss-widget i.material-icons {
-        margin: 2px 5px 0 0;
-    }
-    #rss-widget img {
-        margin: 2px 5px 0 0;
+        padding: 0 7px;
     }
     /* Рейтинг */
     #rating {
@@ -2787,6 +2776,10 @@ footer .counter {
     #questions-sidebar-widget .best .material-icons.mdi-success {
         font-size: 34px;
         line-height: 34px;
+    }
+    #favorites-widget a,
+    #rss-widget a {
+        padding: 0 18px;
     }
 }
 
