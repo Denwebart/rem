@@ -64,6 +64,9 @@ View::share('title', $title);
                     @if(!Ip::isBanned())
                         @if(!$user->is_banned)
                             <div id="message-form-container">
+                                <a href="javascript:void(0)" class="reload-message pull-right" title="Обновить" data-toggle="tooltip">
+                                    <i class="material-icons">autorenew</i>
+                                </a>
                                 <h3>Отправить сообщение</h3>
 
                                 {{ Form::open([
@@ -184,13 +187,18 @@ View::share('title', $title);
                                 $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.newMessages);
                                 $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.newMessages);
                                 $('#header-widget .dropdown-messages .dropdown-menu [data-message-id= ' + messageId + ']').remove();
-                                $('#companions small').text(response.newMessages);
-                                $('#users-menu .messages small').text(response.newMessages);
+                                var companionsMessages = $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]').find('small').text();
+                                if(companionsMessages - 1 == 0) {
+                                    $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]').find('small').text('').hide();
+                                } else {
+                                    $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]').find('small').text(companionsMessages - 1).show();
+                                }
+                                $('#users-menu .messages small').text(response.newMessages).show();
                             } else {
                                 $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
                                 $('#header-widget .dropdown-messages .dropdown-menu').remove();
-                                $('#companions small').remove();
-                                $('#users-menu .messages small').remove();
+                                $('#companions small').text('').hide();
+                                $('#users-menu .messages small').text('').hide();
                                 // как ссылка
                                 $('#header-widget .dropdown-messages .dropdown-toggle').remove();
                                 $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
@@ -212,6 +220,17 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('#scroll').html(response.messagesListHtml);
+
+                            var scrollArea = document.getElementById('scroll');
+                            scrollArea.scrollTop = scrollArea.scrollHeight;
+
+                            $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.allNewMessages);
+                            $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.allNewMessages);
+                            $('#header-widget .dropdown-messages .dropdown-menu [data-sender-id="<?php echo $companion->id ?>"]').remove();
+                            $('#users-menu .messages small').text(response.allNewMessages).show();
+
+                            $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]')
+                                    .find('small').text(response.newMessage).show();
                         }
                     }
                 });
@@ -251,6 +270,26 @@ View::share('title', $title);
                             setTimeout(function() {
                                 $("[data-message-id=" + response.messageId + "]").find('.new-message').css('background', '#ffffff');
                             }, 3000);
+
+                            // отметить предыдущие сообщения как прочитанные
+                            $('#messages-area').find('.message').removeClass('new-message');
+                            var countNewMessages = $('#header-widget .dropdown-messages .dropdown-toggle span').text();
+                            if((countNewMessages - response.countUnreadMessages) <= 0) {
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').text(countNewMessages - response.countUnreadMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu .header span').text(countNewMessages - response.countUnreadMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu [data-sender-id="<?php echo $companion->id ?>"]').remove();
+                                $('#users-menu .messages small').text(countNewMessages - response.countUnreadMessages).show();
+                                $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]').find('small').remove();
+                            } else {
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-messages .dropdown-menu').remove();
+                                $('#companions small').text('').hide();
+                                $('#users-menu .messages small').text('').hide();
+                                // как ссылка
+                                $('#header-widget .dropdown-messages .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
+                            }
+
                         } //success
                     }
                 });

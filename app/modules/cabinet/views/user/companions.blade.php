@@ -17,9 +17,11 @@
                         </span>
                         <span class="login-link">
                             <span class="hidden-sm hidden-xs">{{ $item->login }}</span>
-                            @if($numberOfMessages = count($item->sentMessagesForUser))
-                                <small class="label label-info pull-right">{{ $numberOfMessages }}</small>
-                            @endif
+                            <small class="label label-info pull-right" @if(!$numberOfMessages = count($item->sentMessagesForUser)) style="display: none;" @endif>
+                                @if(count($item->sentMessagesForUser))
+                                    {{ $numberOfMessages }}
+                                @endif
+                            </small>
                         </span>
                     </a>
                 </div>

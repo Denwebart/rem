@@ -10,7 +10,7 @@
         </a>
     </div>
     <div class="col-md-7">
-        <div class="message">
+        <div class="message outgoing">
             <span class="date">
                 {{ DateHelper::dateForMessage($message->created_at) }}
             </span>

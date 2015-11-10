@@ -1290,12 +1290,13 @@ class CabinetUserController extends \BaseController
                     $q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
                 })
                 ->with('userSender', 'userRecipient')
-                ->orderBy('created_at', 'DESC')
-                ->get();
+                ->orderBy('created_at', 'DESC');
 
             return Response::json(array(
                 'success' => true,
-                'messagesListHtml' => (string) View::make('cabinet::user.messagesList', compact('messages', 'companion', 'user'))->render(),
+                'messagesListHtml' => (string) View::make('cabinet::user.messagesList', compact('companion', 'user'))->with('messages', $messages->get())->render(),
+	            'newMessage' => count($messages->whereUserIdSender($companion->id)->whereNull('read_at')->get()),
+	            'allNewMessages' => count(Message::whereUserIdRecipient(Auth::user()->id)->whereNull('read_at')->get()),
             ));
         }
     }
@@ -1328,11 +1329,22 @@ class CabinetUserController extends \BaseController
 				if ($message = Message::create($messageData)) {
                     $message->message = $message->saveEditorImages($formFields['tempPath']);
                     $message->save();
+
+					// отметить предыдущие сообщения как прочитанные
+					$unreadMessages = Message::whereUserIdSender($companionId)
+						->whereUserIdRecipient(Auth::user()->id)
+						->whereNull('read_at');
+					$countUnreadMessages = count($unreadMessages->get());
+					$unreadMessages->update([
+						'read_at' => \Carbon\Carbon::now(),
+					]);
+
 					//return success message
 					return Response::json(array(
 						'success' => true,
 						'messageId' => $message->id,
 						'newMessageHtml' => (string) View::make('cabinet::user.newMessage', compact('message'))->render(),
+						'countUnreadMessages' => $countUnreadMessages,
 					));
 				}
 			}

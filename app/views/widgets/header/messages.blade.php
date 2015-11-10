@@ -25,7 +25,7 @@
             <li>
                 <ul>
                     @foreach($messages as $message)
-                    <li data-message-id="{{ $message->id }}">
+                    <li data-message-id="{{ $message->id }}" data-sender-id="{{ $message->user_id_sender }}">
                         <a href="{{ URL::route('user.dialog', ['login' => Auth::user()->getLoginForUrl(), 'companion' => $message->userSender->getLoginForUrl()]) }}">
                             <div class="pull-left avatar-link">
                                 {{ $message->userSender->getAvatar('mini', ['class' => 'avatar circle']) }}
