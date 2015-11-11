@@ -540,13 +540,6 @@ class SiteController extends BaseController {
 
 	public function rss()
 	{
-//		$feed = Rss::feed('2.0', 'UTF-8');
-//		$feed->channel([
-//			'title' => 'Школа авторемонта',
-//			'description' => 'Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками',
-//			'link' => Config::get('app.url'),
-//		]);
-
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)

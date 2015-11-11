@@ -126,7 +126,6 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
-		'Thujohn\Rss\RssServiceProvider',
 
 	),
 
@@ -196,8 +195,6 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'Debugbar'          => 'Barryvdh\Debugbar\Facade',
 		'Image'             => 'Intervention\Image\Facades\Image',
-		'Rss'               => 'Thujohn\Rss\RssFacade',
-
 	),
 
 );

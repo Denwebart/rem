@@ -188,7 +188,7 @@ Route::post('contact_request', ['before' => 'csrf', 'uses' => 'SiteController@co
 
 Route::get('{sitemapHtmlAlias}.html', 'SiteController@sitemapHtml')->where('sitemapHtmlAlias', 'karta-sajta');
 Route::get('sitemap.xml', 'SiteController@sitemapXml');
-Route::get('rss', 'SiteController@rss');
+Route::get('rss.xml', ['as' => 'rss', 'uses' => 'SiteController@rss']);
 
 Route::get('{journalAlias}', 'JournalController@index')->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/tag', ['as' => 'journal.tags', 'uses' => 'JournalController@tags'])->where('journalAlias', 'bortovoj-zhurnal');

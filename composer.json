@@ -9,7 +9,6 @@
 	  	"doctrine/dbal": "~2.3",
 	    "anhskohbo/no-captcha": "1.*",
 		"intervention/image": "~2.1",
-	    "thujohn/rss": "~1.0",
 		"barryvdh/laravel-ide-helper": "1.11.x-dev"
 	},
 	"require-dev": {
