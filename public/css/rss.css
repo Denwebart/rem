@@ -1,0 +1,118 @@
+/* Material Icons */
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,100,100italic,700,700italic&subset=latin,cyrillic,cyrillic-ext);
+
+@font-face {
+    font-family:  'Material Icons';
+    font-style:  normal;
+    font-weight:  400;
+    src:  url('../fonts/iconfont/MaterialIcons-Regular.eot'); /* For IE6-8 */
+    src:  local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('../fonts/iconfont/MaterialIcons-Regular.woff2') format('woff2'),
+    url('../fonts/iconfont/MaterialIcons-Regular.woff') format('woff'),
+    url('../fonts/iconfont/MaterialIcons-Regular.ttf') format('truetype');
+}
+.material-icons {
+    font-family:  'Material Icons';
+    font-weight:  normal;
+    font-style:  normal;
+    font-size:  24px;  /* Preferred icon size */
+    display:  inline-block;
+    width:  1em;
+    height:  1em;
+    line-height:  1;
+    text-transform:  none;
+    letter-spacing:  normal;
+    word-wrap:  normal;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing:  antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering:  optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing:  grayscale;
+
+    /* Support for IE. */
+    font-feature-settings:  'liga';
+}
+channel link, channel language, channel managingEditor, channel webMaster, channel docs, channel lastBuildDate {
+    display: none;
+}
+
+rss {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 130%;
+    background: #E5E5E5 url('../images/bg.jpg') repeat;
+}
+
+/* HEADER */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+channel title {
+    display: block;
+    padding: 0.4em 0.2em;
+    color: #FFF;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    font-size: 140%;
+    background-color: #4483C7;
+}
+
+channel description {
+    display: block;
+    float: left;
+    font-size: 120%;
+    font-weight: bold;
+    margin: 1em 0.5em 0;
+}
+
+/* CONTENT */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+channel item {
+    background-color: #FFFFEE;
+    border: 1px solid #538620;
+    clear: both;
+    display: block;
+    padding: 0 0 0.5em;
+    margin: 1em;
+}
+
+channel item title {
+    background-color: #538620;
+    border-bottom-width: 0;
+    color: #FFF;
+    display: block;
+    font-size: 110%;
+    font-weight: bold;
+    margin: 0;
+    padding: 0.3em 0.5em;
+}
+
+channel item description {
+    display:  block;
+    float: none;
+    margin: 0;
+    text-align:  left;
+    padding: 0.2em 0.5em 0.4em;
+    color:  black;
+    font-size: 100%;
+    font-weight: normal;
+}
+
+channel item link {
+    color: #666;
+    display: block;
+    font-size: 86%;
+    padding: 0 0.5em;
+}
+
+channel item pubDate {
+    color: #666;
+    display: block;
+    font-size: 86%;
+    padding: 0 0.5em;
+}
+img {
+    float: left !important;
+}

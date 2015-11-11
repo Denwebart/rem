@@ -636,7 +636,7 @@ class Page extends \Eloquent
 		} else {
 			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
 		}
-		if($this->image){
+		if($this->image) {
 			return HTML::image($this->getImageLink($prefix), $options['title'], $options);
 		} else {
 			$prefix = is_null($prefix) ? '' : ($prefix . '_');

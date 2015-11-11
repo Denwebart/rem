@@ -540,12 +540,12 @@ class SiteController extends BaseController {
 
 	public function rss()
 	{
-		$feed = Rss::feed('2.0', 'UTF-8');
-		$feed->channel([
-			'title' => 'Школа авторемонта',
-			'description' => 'Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками',
-			'link' => Config::get('app.url'),
-		]);
+//		$feed = Rss::feed('2.0', 'UTF-8');
+//		$feed->channel([
+//			'title' => 'Школа авторемонта',
+//			'description' => 'Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками',
+//			'link' => Config::get('app.url'),
+//		]);
 
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -554,17 +554,8 @@ class SiteController extends BaseController {
 			->limit(10)
 			->get();
 
-		foreach($pages as $page) {
-			$feed->item([
-				'title' => $page->getTitle(),
-				'description|cdata' => $page->getIntrotext(),
-				'link' => URL::to($page->getUrl()),
-				'author' => $page->user->getFullName(),
-				'pubDate' => $page->published_at,
-			]);
-		}
-
-		return Response::make($feed, 200, array('Content-Type' => 'text/xml'));
+		$content = View::make('site.rssXml', compact('pages'));
+		return Response::make($content, '200')->header('Content-Type', 'text/xml');
 	}
 
 }
