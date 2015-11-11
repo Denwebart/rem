@@ -144,7 +144,9 @@
                             <img src="/images/logo-circle-footer.png" width="60"/>
                         </a>
                         <div class="text">
-                            При использовании авторских статей ссылка на сайт обязательна. © <a href="http://www.avtorem.info" title="Школа авторемонта">www.avtorem.info</a>
+                            При использовании авторских статей ссылка на сайт обязательна. ©
+                            <a href="http://www.avtorem.info" title="Школа авторемонта">www.avtorem.info</a>
+                            2010 - 2015
                         </div>
                     </div>
                 </div>

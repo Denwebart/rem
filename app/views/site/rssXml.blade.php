@@ -6,7 +6,7 @@
         <title>{{ isset($settings) ? $settings['siteTitle']['value'] : '' }}</title>
         <description>{{ isset($settings) ? $settings['siteSlogan']['value'] : '' }}</description>
         <link>{{ URL::to(Config::get('app.url')) }}</link>
-        <copyright><![CDATA[{{ isset($settings) ? $settings['copyright']['value'] : '' }}]]></copyright>
+        <copyright><![CDATA[{{ isset($settings) ? $settings['copyright']['value'] : '' }}]]> 2010 - 2015</copyright>
         <image>
             <url>{{ URL::to('/images/logo.png') }}</url>
             <title>{{ isset($settings) ? $settings['siteTitle']['value'] : '' }}</title>
