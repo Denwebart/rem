@@ -361,7 +361,7 @@ form .page-image {
 
 .blog .image {
     float: left;
-    margin: 10px 10px 5px 0;
+    margin: 0 10px 5px 0;
 }
 .blog img {
     margin: 5px;
@@ -374,6 +374,7 @@ form .page-image {
 .blog .category {
     line-height: 24px;
     display: inline-block;
+    margin-bottom: 10px;
 }
 .blog .category .text {
     margin-right: 5px;

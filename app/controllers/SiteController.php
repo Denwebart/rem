@@ -29,10 +29,16 @@ class SiteController extends BaseController {
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
 				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
 				},
 				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
 				},
 				'user' => function($query) {
 					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
@@ -99,7 +105,10 @@ class SiteController extends BaseController {
 				})->whereIsContainer(0)
 					->with([
 						'parent' => function($query) {
-							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+						},
+						'parent.menuItem' => function($query) {
+							$query->select('id', 'page_id', 'menu_title');
 						},
 						'parent.parent' => function($query) {
 							$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
@@ -245,6 +254,9 @@ class SiteController extends BaseController {
 				},
 				'parent.parent' => function($query) {
 					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+				},
+				'parent.menuItem' => function($query) {
+					$query->select('id', 'page_id', 'menu_title');
 				},
 				'user' => function($query) {
 					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');

@@ -63,12 +63,20 @@
                 <div class="link pull-left">
                     @if($article->parent->parent)
                         <a href="{{ URL::to($article->parent->parent->getUrl()) }}">
-                            {{ $article->parent->parent->getTitle() }}
+                            @if($article->parent->parent->menuItem)
+                                {{ $article->parent->parent->menuItem->menu_title }}
+                            @else
+                                {{ $article->parent->parent->title }}
+                            @endif
                         </a>
                         /
                     @endif
                     <a href="{{ URL::to($article->parent->getUrl()) }}">
-                        {{ $article->parent->getTitle() }}
+                        @if($article->parent->menuItem)
+                            {{ $article->parent->menuItem->menu_title }}
+                        @else
+                            {{ $article->parent->title }}
+                        @endif
                     </a>
                 </div>
             </div>
@@ -80,7 +88,11 @@
                 </div>
                 <div class="link pull-left" itemprop="articleSection">
                     <a href="{{ URL::to($article->parent->getUrl()) }}">
-                        {{ $article->parent->getTitle() }}
+                        @if($article->parent->menuItem)
+                            {{ $article->parent->menuItem->menu_title }}
+                        @else
+                            {{ $article->parent->title }}
+                        @endif
                     </a>
                 </div>
             </div>
