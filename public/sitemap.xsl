@@ -1,97 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
-                xmlns:html="http://www.w3.org/TR/REC-html40"
-                xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    xmlns:html="http://www.w3.org/TR/REC-html40"
+    xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
     <xsl:template match="/">
         <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
-                <title>Sitemap</title>
+                <title>Sitemap - Avtorem.info</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <style type="text/css">
                     body {
-                        font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
-                        font-size: 13px;
-                        margin: 0px;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        font-family: 'Open Sans', sans-serif;
+                        font-weight: 400;
+                        background: #E5E5E5 url('../images/bg.jpg') repeat;
                     }
-
-                    #header {
+                    a {
+                        color: #337AB7;
+                    }
+                    .clearfix {
+                        clear: both;
+                    }
+                    #logo {
+                        margin: 10px auto;
+                        max-width: 900px;
+                        min-width: calc(600px - 2em);
+                    }
+                    #logo .image {
+                        float: left;
+                        width: 50%;
+                        margin-bottom: 10px;
+                    }
+                    #logo .image img {
+                        width: 100%;
+                    }
+                    #logo h1 {
+                        text-align: left;
+                        margin: 0 0 0 30px;
+                        font-size: 26px;
+                        font-weight: 400;
+                        color: #2f68a1;
+                        display: inline-block;
+                        float: left;
+                        width: calc(50% - 30px);
+                    }
+                    #logo h1 span {
+                        display: inline-block;
+                        font-size: 18px;
+                        color: #333333;
+                    }
+                    .content {
+                        clear: both;
+                        border-width:0;
+                        background-color:#FFF;
+                        max-width: 900px;
+                        min-width: calc(600px - 2em);
+                        margin: 0 auto;
+                        padding: 1em;
+                    }
+                    .content tr td {
+                        border-bottom: 1px solid #eee;
+                    }
+                    #footer {
+                        background: url("../images/footer.jpg");
+                        margin: 30px 0 0;
+                        min-height: 100px;
+                        color: #ffffff;
                         text-align: center;
                     }
-
-                    #header h1 {
-                        color: #F56734
+                    #footer .copyright {
+                        color: #E1E1E1;
+                        line-height: 60px;
+                        width: auto;
+                        display: inline-block;
                     }
-
-                    #intro {
-                        background-color: #4BA1B2;
-                        padding: 5px 13px 5px 13px;
-                        margin: 10px;
+                    #footer .copyright a {
+                        color: #03A9F4;
                     }
-
-                    #intro p {
-                        line-height: 16.8667px;
-                        class: #ffffff;
-                        font-size: 18px;
+                    #footer .copyright .text,
+                    #footer .logo {
+                        margin: 20px 20px 0 0;
+                        float: left;
                     }
-
-                    table {
-                        width: 100%;
-                        margin: 10px 20px;
-                    }
-
-                    td {
-                        font-size: 11px;
-                    }
-
-                    th {
-                        text-align: left;
-                        padding-right: 30px;
-                        font-size: 11px;
-                    }
-
-                    tr.high {
-                        background-color: whitesmoke;
-                    }
-
-                    #footer {
-                        padding: 2px;
-                        margin: 10px;
-                        font-size: 8pt;
-                        color: gray;
-                    }
-
-                    #footer a {
-                        color: gray;
-                    }
-
-                    a {
-                        color: black;
-                    }
-
-                    #content {
-                        background: #F7F7F7;
-                        border-top: 1px solid #DFDFDF;
-                    }
-
                 </style>
             </head>
             <body>
-                <div id="header">
-                    <h1>Avtorem.info</h1>
+                <div id="logo">
+                    <a href="/" class="image">
+                        <img src="/images/logo.png" />
+                    </a>
+                    <h1>
+                        <a href="/">
+                            Школа авторемонта.
+                        </a>
+                        <span class="slogan">
+                            Статьи, советы и рекомендации по ремонту и обслуживанию автомобилей своими руками.
+                        </span>
+                    </h1>
                 </div>
-                <div id="intro">
-                    Sitemap XML
-                </div>
-                <div id="content">
+                <div class="content">
                     <table cellpadding="5">
                         <tr style="border-bottom:1px black solid;">
-
                             <th>URL</th>
                             <th>Priority</th>
                             <th>Change Frequency</th>
-                            <th>Last Change</th>
+                            <th width="150px">Last Change</th>
                         </tr>
                         <xsl:variable name="lower" select="'abcdefghijklmnopqrstuvwxyz'"/>
                         <xsl:variable name="upper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
@@ -100,7 +115,6 @@
                                 <xsl:if test="position() mod 2 != 1">
                                     <xsl:attribute name="class">high</xsl:attribute>
                                 </xsl:if>
-
                                 <td>
                                     <xsl:variable name="itemURL1">
                                         <xsl:value-of select="sitemap:loc"/>
@@ -116,13 +130,23 @@
                                     <xsl:value-of
                                             select="concat(translate(substring(sitemap:changefreq, 1, 1),concat($lower, $upper),concat($upper, $lower)),substring(sitemap:changefreq, 2))"/>
                                 </td>
-                                <td>
+                                <td width="150px">
                                     <xsl:value-of
                                             select="concat(substring(sitemap:lastmod,0,11),concat(' ', substring(sitemap:lastmod,12,5)))"/>
                                 </td>
                             </tr>
                         </xsl:for-each>
                     </table>
+                </div>
+                <div id="footer">
+                    <div class="copyright">
+                        <a href="/" class="logo">
+                            <img src="/images/logo-circle-footer.png" width="60"/>
+                        </a>
+                        <div class="text">
+                            <xsl:value-of select="channel/copyright" disable-output-escaping="yes" />
+                        </div>
+                    </div>
                 </div>
             </body>
         </html>

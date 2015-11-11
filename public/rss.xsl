@@ -3,6 +3,8 @@
 <xsl:template match="/rss">
 	<html>
 	<head>
+        <title>RSS - Avtorem.info</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<link href="rss.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
             body {
