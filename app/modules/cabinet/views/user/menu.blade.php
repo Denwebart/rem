@@ -11,25 +11,25 @@
             <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
         </a>
     </li>
-    <li class="{{ (Route::is('user.questions') || Route::is('user.questions.edit') || Route::is('user.questions.create')) ? 'active' : '' }}">
+    <li class="questions {{ (Route::is('user.questions') || Route::is('user.questions.edit') || Route::is('user.questions.create')) ? 'active' : '' }}">
         <a href="{{ URL::route('user.questions', ['login' => $user->getLoginForUrl()]) }}">
             <i class="material-icons">help</i>
             <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои вопросы' : 'Вопросы') : 'Вопросы' }}</span>
         </a>
     </li>
-    <li class="{{ (Route::is('user.journal') || Route::is('user.journal.edit') || Route::is('user.journal.create')) ? 'active' : '' }}">
+    <li class="articles {{ (Route::is('user.journal') || Route::is('user.journal.edit') || Route::is('user.journal.create')) ? 'active' : '' }}">
         <a href="{{ URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $user->getLoginForUrl()]) }}">
             <i class="material-icons">chrome_reader_mode</i>
             <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой журнал' : 'Бортовой журнал') : 'Бортовой журнал' }}</span>
         </a>
     </li>
-    <li class="{{ Route::is('user.comments') ? 'active' : '' }}">
+    <li class="comments {{ Route::is('user.comments') ? 'active' : '' }}">
         <a href="{{ URL::route('user.comments', ['login' => $user->getLoginForUrl()]) }}">
             <i class="material-icons">chat_bubble</i>
             <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои комментарии' : 'Комментарии') : 'Комментарии' }}</span>
         </a>
     </li>
-    <li class="{{ Route::is('user.answers') ? 'active' : '' }}">
+    <li class="answers {{ Route::is('user.answers') ? 'active' : '' }}">
         <a href="{{ URL::route('user.answers', ['login' => $user->getLoginForUrl()]) }}">
             <i class="material-icons">question_answer</i>
             <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои ответы' : 'Ответы') : 'Ответы' }}</span>
@@ -49,14 +49,14 @@
                     @endif
                 </a>
             </li>
-            <li class="messages {{ Route::is('user.savedPages') ? 'active' : '' }}">
+            <li class="saved {{ Route::is('user.savedPages') ? 'active' : '' }}">
                 <a href="{{ URL::route('user.savedPages', ['login' => $user->getLoginForUrl()]) }}">
                     <i class="material-icons">archive</i>
                     <span>Сохранённое</span>
                 </a>
             </li>
         @endif
-        <li class="{{ Route::is('user.subscriptions') ? 'active' : '' }}">
+        <li class="subscriptions {{ Route::is('user.subscriptions') ? 'active' : '' }}">
             <a href="{{ URL::route('user.subscriptions', ['login' => $user->getLoginForUrl()]) }}">
                 <i class="material-icons">local_library</i>
                 <span>{{ Auth::user()->is($user) ? 'Мои подписки' : 'Подписки'}}</span>
@@ -71,12 +71,12 @@
             <li class="notifications {{ Route::is('user.notifications') ? 'active' : '' }}">
                 <a href="{{ URL::route('user.notifications', ['login' => $user->getLoginForUrl()]) }}">
                     <i class="material-icons">notifications</i>
-                                <span class="hidden-md hidden-sm">
-                                    {{ Auth::user()->is($user) ? 'Мои уведомления' : 'Уведомления'}}
-                                </span>
-                                <span class="hidden-lg hidden-xs">
-                                    Уведомления
-                                </span>
+                    <span class="hidden-md hidden-sm">
+                        {{ Auth::user()->is($user) ? 'Мои уведомления' : 'Уведомления'}}
+                    </span>
+                    <span class="hidden-lg hidden-xs">
+                        Уведомления
+                    </span>
                     @if(Auth::user()->is($user))
                         @if(count($headerWidget->newNotifications))
                             <small class="label label-info">{{ $headerWidget->newNotifications->getTotal() }}</small>

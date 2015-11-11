@@ -106,9 +106,9 @@ class Comment extends \Eloquent
 		});
 
 		/**
-		 * Подписка
+		 * Подписка (уведомления о новых комментариях)
 		 */
-		static::saved(function($comment)
+		static::created(function($comment)
 		{
 			if(Page::TYPE_QUESTION == $comment->page->type) {
 				if(0 == $comment->parent_id) {

@@ -323,6 +323,12 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('[data-notification-id=' + notificationId + ']').remove();
+                            var countNotifications = $('#users-menu .subscriptions small').text();
+                            if((countNotifications - 1) > 0) {
+                                $('#users-menu .subscriptions small').text(countNotifications - 1);
+                            } else {
+                                $('#users-menu .subscriptions small').remove();
+                            }
                         }
                     }
                 });

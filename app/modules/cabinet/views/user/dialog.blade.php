@@ -274,7 +274,7 @@ View::share('title', $title);
                             // отметить предыдущие сообщения как прочитанные
                             $('#messages-area').find('.message').removeClass('new-message');
                             var countNewMessages = $('#header-widget .dropdown-messages .dropdown-toggle span').text();
-                            if((countNewMessages - response.countUnreadMessages) <= 0) {
+                            if((countNewMessages - response.countUnreadMessages) > 0) {
                                 $('#header-widget .dropdown-messages .dropdown-toggle span').text(countNewMessages - response.countUnreadMessages);
                                 $('#header-widget .dropdown-messages .dropdown-menu .header span').text(countNewMessages - response.countUnreadMessages);
                                 $('#header-widget .dropdown-messages .dropdown-menu [data-sender-id="<?php echo $companion->id ?>"]').remove();
