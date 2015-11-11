@@ -144,7 +144,7 @@
                             <img src="/images/logo-circle-footer.png" width="60"/>
                         </a>
                         <div class="text">
-                            <xsl:value-of select="channel/copyright" disable-output-escaping="yes" />
+                            При использовании авторских статей ссылка на сайт обязательна. © <a href="http://www.avtorem.info" title="Школа авторемонта">www.avtorem.info</a>
                         </div>
                     </div>
                 </div>
