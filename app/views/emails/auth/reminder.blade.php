@@ -1,10 +1,9 @@
 @extends('layouts.email')
 
 @section('content')
-	<h2>Восстановление пароля</h2>
-
-	<div>
-		Для того, чтобы поменять пароль, перейдите по ссылке: {{ URL::to('password/reset', array($token)) }}.<br/>
-		Это ссылка истекает через {{ Config::get('auth.reminder.expire', 60) }} минут.
-	</div>
+    {{ EmailTemplate::getTemplate('changePassword', [
+        'siteUrl' => Config::get('settings.siteUrl'),
+        'resetUrl' => URL::to('password/reset', array($token)),
+        'expireTime' => Config::get('auth.reminder.expire', 60),
+    ]) }}
 @stop

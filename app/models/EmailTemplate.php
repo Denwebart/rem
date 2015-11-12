@@ -41,4 +41,12 @@ class EmailTemplate extends \Eloquent {
 	public function getImageEditorPath() {
 		return '/uploads/' . $this->getTable() . '/' . $this->key . '/';
 	}
+
+	public static function getTemplate($key, $variables)
+	{
+		$template = EmailTemplate::whereKey($key)->first();
+		if($template) {
+			return strtr($template->html, $variables);
+		}
+	}
 }
