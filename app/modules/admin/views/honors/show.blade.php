@@ -36,13 +36,11 @@ View::share('title', $title);
                         'id' => 'to-reward-form',
                     ]) }}
 
-                        <div class="message"></div>
-
                         <div class="col-md-10">
                             <div class="form-group">
                                 {{ Form::hidden('honor_id', $honor->id, ['id' => 'honor_id']) }}
                                 {{ Form::text('name', null, ['class' => 'form-control', 'id' => 'name']) }}
-                                <div class="error"></div>
+                                <small class="name_error error help-block"></small>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -116,7 +114,8 @@ View::share('title', $title);
             minLength: 1,
             select: function(e, ui) {
                 $(this).val(ui.item.value);
-                $("#to-reward-form").find('.error').empty();
+                $("#to-reward-form").find('.name_error').empty();
+                $("#to-reward-form").find('.name_error').parent().removeClass('has-error');
             }
         });
 
@@ -134,13 +133,14 @@ View::share('title', $title);
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function(response) {
-                    if(response.userNotFound) {
-                        var errorContent = 'Такого пользователя нет';
-                        $form.find('.error').html(errorContent);
+                    if(response.fail) {
+                        $form.find('.name_error').html(response.message);
+                        $form.find('.name_error').parent().addClass('has-error');
                     } else {
+                        $form.find('.name_error').empty();
+                        $form.find('.name_error').parent().removeClass('has-error');
                         if(response.success) {
-                            var successContent = '<h3>Пользователь награжден</h3>';
-                            $form.find('.message').html(successContent);
+                            $('#site-messages').prepend(response.message);
                             $form.trigger('reset');
                             $form.find('.error').empty();
                             // вывод пользователя
@@ -148,8 +148,7 @@ View::share('title', $title);
                             $('.empty-users-table').remove();
                         } // success
                         else {
-                            var errorContent = '<h3>У пользователя уже есть эта награда</h3>';
-                            $form.find('.message').html(errorContent);
+                            $('#site-messages').prepend(response.message);
                         } // user not found
                     }
                 }

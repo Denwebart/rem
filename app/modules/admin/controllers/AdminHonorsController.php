@@ -150,15 +150,24 @@ class AdminHonorsController extends \BaseController {
 				->orWhere(DB::raw('CONCAT(firstname, " ", lastname)'), '=', $formFields['name'])
 				->first();
 
+			$honor = Honor::select()->whereId($formFields['honor_id'])->whereNull('key')->first();
+
 			if(is_null($user)) {
 				return Response::json(array(
-					'userNotFound' => true,
+					'fail' => true,
+					'message' => 'Такого пользователя нет'
+				));
+			}
+			if(is_null($honor)) {
+				return Response::json(array(
+					'fail' => true,
+					'message' => 'Такой награды нет'
 				));
 			}
 
 			$data = array(
 				'user_id' => $user->id,
-				'honor_id' => $formFields['honor_id'],
+				'honor_id' => $honor->id,
 			);
 
 			$userHonor = UserHonor::whereUserId($user->id)->whereHonorId($formFields['honor_id'])->first();
@@ -168,12 +177,14 @@ class AdminHonorsController extends \BaseController {
 					$userRowView = 'admin::honors.userRow';
 					return Response::json(array(
 						'success' => true,
-						'userRowHtml' => (string) View::make($userRowView, compact('user'))->render()
+						'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Пользователь награжден'])->render(),
+						'userRowHtml' => (string) View::make($userRowView, compact('user', 'honor'))->render()
 					));
 				}
 			} else {
 				return Response::json(array(
 					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'У пользователя уже есть эта награда'])->render(),
 				));
 			}
 		}
