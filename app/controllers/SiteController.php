@@ -510,7 +510,7 @@ class SiteController extends BaseController {
 				];
 				$content = strtr($template->html, $variables);
 
-				Mail::queue('layout.email', $content, function($message) use ($data, $template)
+				Mail::queue('layout.email', ['content' => $content], function($message) use ($data, $template)
 				{
 					if(Auth::check()) {
 						$message->from(Auth::user()->email, Auth::user()->login);
@@ -529,7 +529,7 @@ class SiteController extends BaseController {
 					$variables['[subject]'] = $template->subject;
 					$content = strtr($template->html, $variables);
 
-					Mail::queue('layout.email', $content, function($message) use ($data, $template)
+					Mail::queue('layout.email', ['content' => $content], function($message) use ($data, $template)
 					{
 						$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 							? $siteEmailModel->value
