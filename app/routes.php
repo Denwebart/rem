@@ -82,6 +82,8 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::resource('rules', 'AdminRulesController', ['except' => ['show']]);
         Route::get('notificationsMessages/search', ['as' => 'admin.notificationsMessages.search', 'before' => 'csrf-ajax', 'uses' => 'AdminNotificationsMessagesController@search']);
 		Route::resource('notificationsMessages', 'AdminNotificationsMessagesController', ['except' => ['show', 'create', 'destroy']]);
+		Route::get('emailTemplates/search', ['as' => 'admin.emailTemplates.search', 'before' => 'csrf-ajax', 'uses' => 'AdminEmailTemplatesController@search']);
+		Route::resource('emailTemplates', 'AdminEmailTemplatesController', ['except' => ['show', 'create', 'destroy']]);
 		Route::get('menus', ['as' => 'admin.menus.index', 'uses' => 'AdminMenusController@index']);
 		Route::get('menus/items/{type}', ['as' => 'admin.menus.items', 'uses' => 'AdminMenusController@items']);
 		Route::post('menus/items/{type}/changePosition', ['as' => 'admin.menus.changePosition', 'before' => 'csrf-ajax', 'uses' => 'AdminMenusController@changePosition']);

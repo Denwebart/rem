@@ -38,6 +38,9 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-dashed">
                     <span>Шаблоны уведомлений</span>
                 </a>
+                <a href="{{ URL::route('admin.emailTemplates.index') }}" class="btn btn-dashed">
+                    <span>Шаблоны email писем</span>
+                </a>
                 <a href="{{ URL::route('admin.menus.index') }}" class="btn btn-dashed">
                     <span>Меню сайта</span>
                 </a>
@@ -75,9 +78,9 @@ View::share('title', $title);
                             <thead>
                             <tr>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ключ', 'key') }}</th>
+{{--                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ключ', 'key') }}</th>--}}
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Категория', 'key') }}</th>
-                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тип', 'type') }}</th>
+                                {{--<th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тип', 'type') }}</th>--}}
                                 <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Описание', 'description') }}</th>
                                 <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Значение', 'value') }}</th>
@@ -115,7 +118,7 @@ View::share('title', $title);
         $('#query').keyup(function () {
             $("#search-settings-form").submit();
         });
-        $("form[id^='search-settings-form']").submit(function(event) {
+        $("#search-settings-form").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),
                     data = $form.serialize(),

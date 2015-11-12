@@ -1,7 +1,7 @@
 @extends('admin::layouts.admin')
 
 <?php
-$title = 'Правила сайта';
+$title = 'Шаблоны email писем';
 View::share('title', $title);
 ?>
 
@@ -15,6 +15,8 @@ View::share('title', $title);
                     <small></small>
                 </h1>
             </div>
+            <div class="col-md-2 col-sm-3 col-xs-12">
+            </div>
         </div>
 
         {{--<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">--}}
@@ -23,43 +25,37 @@ View::share('title', $title);
             {{--<li class="active">{{ $title }}</li>--}}
         {{--</ol>--}}
     </div>
+
     <div class="content">
         <!-- Main row -->
         <div class="row">
 
-            <div class="col-md-10 col-sm-9 col-xs-12 margin-bottom-15">
+            <div class="col-xs-12 margin-bottom-15">
                 <a href="{{ URL::route('admin.settings.index') }}" class="btn btn-dashed">
                     <span>Все настройки</span>
                 </a>
-                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-primary">
+                <a href="{{ URL::route('admin.rules.index') }}" class="btn btn-dashed">
                     <span>Правила сайта</span>
                 </a>
                 <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-dashed">
                     <span>Шаблоны уведомлений</span>
                 </a>
-                <a href="{{ URL::route('admin.emailTemplates.index') }}" class="btn btn-dashed">
+                <a href="{{ URL::route('admin.emailTemplates.index') }}" class="btn btn-primary">
                     <span>Шаблоны email писем</span>
                 </a>
                 <a href="{{ URL::route('admin.menus.index') }}" class="btn btn-dashed">
                     <span>Меню сайта</span>
                 </a>
             </div>
-            <div class="col-md-2 col-sm-3 col-xs-12 margin-bottom-15">
-                <div class="buttons">
-                    <a class="btn btn-success btn-sm btn-full" href="{{ URL::route('admin.rules.create', ['backUrl' => Session::has('user.url') ? urlencode(Session::get('user.url')) : urlencode(Request::fullUrl())]) }}">
-                        <i class="fa fa-plus "></i> Создать
-                    </a>
-                </div>
-            </div>
 
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div id="count" class="count">
-                            @include('admin::parts.count', ['models' => $rules])
+                            @include('admin::parts.count', ['models' => $emailTemplates])
                         </div>
                     </div>
-                    {{ Form::open(['method' => 'GET', 'route' => ['admin.rules.search'], 'id' => 'search-rules-form', 'class' => 'table-search']) }}
+                    {{ Form::open(['method' => 'GET', 'route' => ['admin.emailTemplates.search'], 'id' => 'search-email-templates-form', 'class' => 'table-search']) }}
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -83,25 +79,20 @@ View::share('title', $title);
                         <table class="table table-hover table-striped">
                             <thead>
                             <tr>
-                                <th>
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Номер', 'position') }}
-                                </th>
-                                <th max-width="20%">
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Заголовок', 'title') }}
-                                </th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'ID', 'id') }}</th>
+                                <th>{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Ключ', 'key') }}</th>
                                 <th>Описание</th>
-                                <th class="status">
-                                    {{ SortingHelper::sortingLink(Route::currentRouteName(), 'Статус', 'is_published') }}
-                                </th>
+                                <th max-width="20%">{{ SortingHelper::sortingLink(Route::currentRouteName(), 'Тема', 'subject') }}</th>
+                                <th>Текст письма</th>
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody id="rules-list">
-                                @include('admin::rules.list', ['rules' => $rules])
+                            <tbody id="email-templates-list">
+                                @include('admin::emailTemplates.list', ['emailTemplates' => $emailTemplates])
                             </tbody>
                         </table>
                         <div id="pagination" class="pull-left">
-                            {{ SortingHelper::paginationLinks($rules) }}
+                            {{ SortingHelper::paginationLinks($emailTemplates) }}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -114,19 +105,11 @@ View::share('title', $title);
     @parent
 
     <script type="text/javascript">
-        $('button[name="destroy"]').on('click', function(e){
-            var $form=$(this).closest('form');
-            e.preventDefault();
-            $('#confirm').modal({ backdrop: 'static', keyboard: false })
-                .one('click', '#delete', function() {
-                    $form.trigger('submit'); // submit the form
-                });
+        $('#query').keyup(function () {
+            $("#search-email-templates-form").submit();
         });
 
-        $('#query').keyup(function () {
-            $("#search-rules-form").submit();
-        });
-        $("form[id^='search-rules-form']").submit(function(event) {
+        $("form[id^='search-email-templates-form']").submit(function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             var $form = $(this),
                     data = $form.serialize(),
@@ -143,9 +126,9 @@ View::share('title', $title);
                     window.history.pushState({parent: response.url}, '', response.url);
 
                     if(response.success) {
-                        $('#rules-list').html(response.rulesListHtmL);
-                        $('#pagination').html(response.rulesPaginationHtmL);
-                        $('#count').html(response.rulesCountHtmL);
+                        $('#email-templates-list').html(response.listHtmL);
+                        $('#pagination').html(response.paginationHtmL);
+                        $('#count').html(response.countHtmL);
                     }
                 },
             });

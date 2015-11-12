@@ -130,7 +130,8 @@ class Notification extends \Eloquent
 					? $siteEmailModel->value
 					: Config::get('settings.adminEmail');
 				$message->from($siteEmail, Config::get('settings.adminName'));
-				$message->to($userModel->email, $userModel->login)->subject(Config::get('settings.contactSubjectToUser'));
+				$message->to($userModel->email, $userModel->login)
+					->subject(Config::get('settings.contactSubjectToUser'));
 			});
 			Log::info("Email with notification for [{$userModel->login}] successfully sent. Notfication: [{$notificationMessage}]");
 		}

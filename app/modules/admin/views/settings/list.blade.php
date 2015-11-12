@@ -1,9 +1,9 @@
 @foreach($settings as $setting)
     <tr>
         <td>{{ $setting->id }}</td>
-        <td>{{ $setting->key }}</td>
+        {{--<td>{{ $setting->key }}</td>--}}
         <td>{{ $setting->category }}</td>
-        <td>{{ Setting::$types[$setting->type] }}</td>
+        {{--<td>{{ Setting::$types[$setting->type] }}</td>--}}
         <td>{{ $setting->title }}</td>
         <td>{{ $setting->description }}</td>
         <td>
@@ -15,7 +15,7 @@
                         <span class="label label-warning">Отключена</span>
                     @endif
                 @else
-                    {{ $setting->value }}
+                    {{{ $setting->value }}}
                 @endif
             @else
                 <ul>

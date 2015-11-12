@@ -40,6 +40,9 @@ View::share('title', $title);
                 <a href="{{ URL::route('admin.notificationsMessages.index') }}" class="btn btn-primary">
                     <span>Шаблоны уведомлений</span>
                 </a>
+                <a href="{{ URL::route('admin.emailTemplates.index') }}" class="btn btn-dashed">
+                    <span>Шаблоны email писем</span>
+                </a>
                 <a href="{{ URL::route('admin.menus.index') }}" class="btn btn-dashed">
                     <span>Меню сайта</span>
                 </a>
