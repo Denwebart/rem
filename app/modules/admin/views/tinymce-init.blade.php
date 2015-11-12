@@ -1,3 +1,8 @@
+<?php
+    if(!isset($watermark)) {
+        $watermark = 1;
+    }
+?>
 <script type="text/javascript">
     tinymce.init({
         plugins: [
@@ -32,7 +37,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
+                    url: '<?php echo URL::route('uploadIntoTemp', ['watermark' => $watermark]) ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,

@@ -250,7 +250,7 @@ View::share('title', $title);
                 fileData.append('class', ' avatar');
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('uploadIntoTemp', ['field' => 'avatar']) ?>',
+                    url: '<?php echo URL::route('uploadIntoTemp', ['field' => 'avatar', 'watermark' => 0]) ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,

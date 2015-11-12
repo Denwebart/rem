@@ -37,7 +37,7 @@ class ImageUploadController extends BaseController
 			File::exists($imagePath) or File::makeDirectory($imagePath, 0755, true);
 
 			// водяной знак
-			if(Request::get('field', 'image') != 'avatar') {
+			if(Request::get('watermark', true)) {
 				$watermark = Image::make(public_path('images/watermark.png'));
 				$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
 					$constraint->aspectRatio();

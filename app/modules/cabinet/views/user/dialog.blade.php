@@ -118,7 +118,7 @@ View::share('title', $title);
 
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
-    @include('tinymce-init', ['toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'])
+    @include('tinymce-init', ['toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview', 'watermark' => 0])
 @stop
 
 @section('script')

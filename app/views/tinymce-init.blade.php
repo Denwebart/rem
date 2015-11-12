@@ -2,6 +2,9 @@
     if(!isset($toolbar)) {
         $toolbar = 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image media emoticons';
     }
+    if(!isset($watermark)) {
+        $watermark = 1;
+    }
 ?>
 <script type="text/javascript">
     tinymce.init({
@@ -38,7 +41,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '<?php echo URL::route('uploadIntoTemp') ?>',
+                    url: '<?php echo URL::route('uploadIntoTemp', ['watermark' => $watermark]) ?>',
                     data: fileData,
                     processData: false,
                     contentType: false,
