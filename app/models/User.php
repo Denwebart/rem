@@ -251,7 +251,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$content = strtr($template->html, $variables);
 
 		$that = $this;
-		Mail::queue('layout.email', ['content' => $content], function($message) use ($that, $template)
+		Mail::queue('layouts.email', ['content' => $content], function($message) use ($that, $template)
 		{
 			$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 				? $siteEmailModel->value
