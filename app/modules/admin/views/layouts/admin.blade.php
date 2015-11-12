@@ -170,6 +170,7 @@
     </div>
 
 </div><!-- /.wrapper -->
+@include('widgets.siteMessages.siteMessages')
 
 <!-- Javascript -->
 <script src="/backend/js/plugins/jquery/jquery-1.10.2.min.js" type="text/javascript"></script>

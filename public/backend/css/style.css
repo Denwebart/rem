@@ -3338,6 +3338,29 @@ footer ul li a {
     font-size: 12px;
 }
 
+/* Всплывающие сообщения */
+#site-messages {
+    position: fixed;
+    top: 45px;
+    right: 0;
+    opacity: 0.8;
+    width: 400px;
+    max-width: calc(100% - 40px);
+    margin: 20px;
+    z-index: 1000;
+}
+#site-messages .site-message {
+    cursor: pointer;
+    position: relative;
+    right: 0;
+}
+#site-messages .site-message a {
+    text-decoration: underline;
+}
+#site-messages .site-message a:hover {
+    text-decoration: none;
+}
+
 /* Responsive Layout */
 @media screen and (max-width: 1329px) {
     /* Pages Tree */

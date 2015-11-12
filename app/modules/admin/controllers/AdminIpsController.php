@@ -195,14 +195,14 @@ class AdminIpsController extends \BaseController
             if($ip->is_banned) {
                 return Response::json(array(
                     'success' => false,
-                    'message' => 'IP-адрес уже забанен.',
+                    'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'IP-адрес уже забанен.']),
                 ));
             }
 
             if(Request::ip() == $ip->ip) {
                 return Response::json(array(
                     'success' => false,
-                    'message' => 'Ваш текущий ip-адрес нельзя забанить.',
+                    'message' => (string) View::make('widgets.siteMessages.warning', ['siteMessage' => 'Ваш текущий ip-адрес нельзя забанить.']),
                 ));
             }
 
@@ -213,13 +213,13 @@ class AdminIpsController extends \BaseController
                 $ipRowView = 'admin::ips.bannedIpRow';
                 return Response::json(array(
                     'success' => true,
-                    'message' => 'Ip-адрес забанен.',
+                    'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ip-адрес забанен.']),
                     'ipRowHtml' => is_null($ipId) ? (string) View::make($ipRowView, compact('ip'))->render() : '',
                 ));
             } else {
                 return Response::json(array(
                     'success' => false,
-                    'message' => 'Ошибка. Ip-адрес не был забанен.',
+                    'message' => (string) View::make('widgets.siteMessages.danger', ['siteMessage' => 'Ошибка. Ip-адрес не был забанен.']),
                 ));
             }
         }
@@ -240,7 +240,7 @@ class AdminIpsController extends \BaseController
             if($ip->save()) {
                 return Response::json(array(
                     'success' => true,
-                    'message' => 'Ip-адрес разбанен.'
+                    'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ip-адрес разбанен.']),
                 ));
             }
 

@@ -319,9 +319,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @param null $prefix
 	 * @param array $options
+	 * @param boolean $tooltip
 	 * @return string
 	 */
-	public function getAvatar($prefix = null, $options = [])
+	public function getAvatar($prefix = null, $options = [], $tooltip = true)
 	{
 		$alt = $this->id
 			? ($this->getFullName()
@@ -329,8 +330,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 				: $this->login)
 			: 'Незарегистрированный пользователь';
 		$options['title'] = $alt;
-		$options['data-toggle'] = 'tooltip';
-		$options['data-placement'] = isset($options['data-placement']) ? $options['data-placement'] : 'bottom';
+		if($tooltip) {
+			$options['data-toggle'] = 'tooltip';
+			$options['data-placement'] = isset($options['data-placement']) ? $options['data-placement'] : 'bottom';
+		}
 		if(isset($options['class'])) {
 			$options['class'] = ($this->avatar) ? 'img-responsive ' . $options['class'] : 'img-responsive avatar-default ' . $options['class'];
 		} else {

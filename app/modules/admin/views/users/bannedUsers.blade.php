@@ -45,8 +45,6 @@ View::share('title', $title);
                 </a>
             </div>
 
-            <div id="message"></div>
-
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -160,9 +158,9 @@ View::share('title', $title);
                         success: function(response) {
                             if(response.success){
                                 $('[data-user-id='+ userId +']').remove();
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             } else {
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             }
                         }
                     });

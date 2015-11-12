@@ -50,8 +50,6 @@ View::share('title', $title);
                     'id' => 'ban-ip-form',
                 ]) }}
 
-                <div class="message"></div>
-
                 <div class="form-group @if($errors->has('ip')) has-error @endif">
                     <div class="input-group">
                         {{ Form::text('ip', null, ['class' => 'form-control', 'placeholder' => 'Забанить ip-адрес', 'id' => 'ip']) }}
@@ -193,14 +191,14 @@ View::share('title', $title);
                     if(response.success){
                         var successContent = '<h3>IP-адрес забанен.</h3>';
                         $form.find('.message').html(successContent);
-                        $form.trigger('reset');
                         $form.find('.error').empty();
                         $form.find('.error').parent().removeClass('has-error');
                         // вывод ip-адреса
                         $('#banned-ips-table').find('tbody').prepend(response.ipRowHtml);
                     } else {
-                        $form.find('.message').html(data.message);
+                        $('#site-messages').prepend(response.message);
                     }
+                    $form.trigger('reset');
                 }
             });
         });
@@ -222,9 +220,9 @@ View::share('title', $title);
                         success: function(response) {
                             if(response.success){
                                 $('[data-ip-id='+ ipId +']').remove();
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             } else {
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             }
                         }
                     });

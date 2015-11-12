@@ -44,8 +44,6 @@ View::share('title', $title);
                 </a>
             </div>
 
-            <div id="message"></div>
-
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -149,13 +147,13 @@ View::share('title', $title);
                             },
                             success: function(response) {
                                 if(response.success){
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                     var $ipTr = $('[data-ip-id='+ ipId +']');
                                     $ipTr.addClass('danger');
                                     $ipTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
                                     $form.find('#message').val('');
                                 } else {
-                                    $('#message').text(response.message);
+                                    $('#site-messages').prepend(response.message);
                                 }
                             }
                         });
@@ -178,12 +176,12 @@ View::share('title', $title);
                         },
                         success: function(response) {
                             if(response.success){
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                                 var $ipTr = $('[data-ip-id='+ ipId +']');
                                 $ipTr.removeClass('danger');
                                 $ipTr.find('.banned-link').removeClass('unban').addClass('ban').html('<i class="fa fa-lock"></i>');
                             } else {
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             }
                         }
                     });

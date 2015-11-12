@@ -68,7 +68,7 @@
             .content .item:last-child {
                 border: none;
             }
-            .content .item .image {
+            .content .item img {
                 float: left;
                 margin: 16px 10px 10px;
             }
@@ -94,7 +94,7 @@
             .content .item .info-item.author img,
             .content .item .info-item.author span {
                 float: left;
-                margin-right: 5px;
+                margin: 0 5px 0 0;
             }
             #footer {
                 background: url("../images/footer.jpg");
@@ -166,7 +166,9 @@
                     <img src="/images/logo-circle-footer.png" width="60"/>
                 </a>
                 <div class="text">
-                    <xsl:value-of select="channel/copyright" disable-output-escaping="yes" />
+                    ??? ????????????? ????????? ?????? ?????? ?? ???? ???????????. ©
+                    <a href="http://www.avtorem.info" title="????? ???????????">www.avtorem.info</a>
+                    2010 - 2015
                 </div>
             </div>
 		</div>

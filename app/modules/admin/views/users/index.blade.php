@@ -42,9 +42,6 @@ View::share('title', $title);
                     <span>Забаненные IP-адреса</span>
                 </a>
             </div>
-
-            <div id="message"></div>
-
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -192,7 +189,7 @@ View::share('title', $title);
                         },
                         success: function(response) {
                             if(response.success){
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.addClass('danger');
                                 $userTr.find('.banned-link')
@@ -201,7 +198,7 @@ View::share('title', $title);
                                         .attr('data-original-title', 'Разбанить');
                                 $form.find('#message').val('');
                             } else {
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             }
                         }
                     });
@@ -224,7 +221,7 @@ View::share('title', $title);
                         },
                         success: function(response) {
                             if(response.success){
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.removeClass('danger');
                                 $userTr.find('.banned-link')
@@ -232,7 +229,7 @@ View::share('title', $title);
                                         .html('<i class="fa fa-lock"></i>')
                                         .attr('data-original-title', 'Забанить');
                             } else {
-                                $('#message').text(response.message);
+                                $('#site-messages').prepend(response.message);
                             }
                         }
                     });
