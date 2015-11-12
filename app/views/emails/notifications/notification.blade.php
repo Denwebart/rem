@@ -2,7 +2,7 @@
 
 @section('content')
     <h2>
-        Сообщение с сайта
+        Уведомление с сайта
         <a href="{{ Config::get('app.url') }}">
             {{ Config::get('settings.siteUrl') }}
         </a>

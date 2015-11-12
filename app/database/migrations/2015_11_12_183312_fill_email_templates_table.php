@@ -34,7 +34,7 @@ class FillEmailTemplatesTable extends Migration {
 				'subject' => 'Спасибо за регистрацию!',
 				'html' => '<h2>Спасибо за регистрацию.</h2><p>Для подтверждения регистрации перейдите по ссылке [activationUrl].</p>',
 				'description' => 'Письмо пользователю: активация аккаунта.',
-				'variables' => '<ul><li>[activationUrl]</li></ul>',
+				'variables' => '<ul><li>[siteUrl]</li><li>[activationUrl]</li></ul>',
 			],
 		]);
 	}

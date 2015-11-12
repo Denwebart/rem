@@ -243,14 +243,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			]
 		);
 
+		$template = EmailTemplate::whereKey('activation')->first();
+		$variables = [
+			'[siteUrl]' => Config::get('settings.siteUrl'),
+			'[activationUrl]' => Config::get('settings.siteUrl'),
+		];
+		$content = strtr($template->html, $variables);
+
 		$that = $this;
-		Mail::queue('emails.activation', ['activationUrl' => $activationUrl], function($message) use ($that)
+		Mail::queue('layout.email', $content, function($message) use ($that, $template)
 		{
 			$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 				? $siteEmailModel->value
 				: Config::get('settings.adminEmail');
 			$message->from($siteEmail, Config::get('settings.adminName'));
-			$message->to($that->email)->subject('Спасибо за регистрацию!');
+			$message->to($that->email)->subject($template->subject);
 		});
 
 		Log::info("Mail to user [{$this->username}] has been sent. Activation url: {$activationUrl}");
