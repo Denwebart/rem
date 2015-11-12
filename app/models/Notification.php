@@ -126,7 +126,10 @@ class Notification extends \Eloquent
 		if($sendMessage) {
 			Mail::queue('emails.notifications.notification', ['user' => $userModel, 'notificationMessage' => $notificationMessage], function($message) use ($userModel)
 			{
-				$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
+				$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+					? $siteEmailModel->value
+					: Config::get('settings.adminEmail');
+				$message->from($siteEmail, Config::get('settings.adminName'));
 				$message->to($userModel->email, $userModel->login)->subject(Config::get('settings.contactSubjectToUser'));
 			});
 			Log::info("Email with notification for [{$userModel->login}] successfully sent. Notfication: [{$notificationMessage}]");

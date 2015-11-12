@@ -503,14 +503,20 @@ class SiteController extends BaseController {
 					} else {
 						$message->from($data['user_email'], $data['user_name']);
 					}
-					$message->to(Config::get('settings.adminEmail'), Config::get('settings.adminName'))->subject($data['subject']);
+					$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+						? $siteEmailModel->value
+						: Config::get('settings.adminEmail');
+					$message->to($siteEmail, Config::get('settings.adminName'))->subject($data['subject']);
 				});
 
 				if(Input::get('sendCopy'))
 				{
 					Mail::queue('emails.contactToUser', $data, function($message) use ($data)
 					{
-						$message->from(Config::get('settings.adminEmail'), Config::get('settings.adminName'));
+						$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+							? $siteEmailModel->value
+							: Config::get('settings.adminEmail');
+						$message->from($siteEmail, Config::get('settings.adminName'));
 						if(Auth::check()) {
 							$message->to(Auth::user()->email, Auth::user()->login)->subject(Config::get('settings.contactSubjectToUser'));
 						} else {
