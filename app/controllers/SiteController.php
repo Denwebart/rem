@@ -496,7 +496,21 @@ class SiteController extends BaseController {
 					$data['user_alias'] = Auth::user()->getLoginForUrl();
 					$data['user_email'] = Auth::user()->email;
 				}
-				Mail::queue('emails.contactToAdmin', $data, function($message) use ($data)
+
+				$template = EmailTemplate::whereKey('contactToAdmin')->first();
+				$variables = [
+					'[siteUrl]' => Config::get('settings.siteUrl'),
+					'[subject]' => $data['subject'],
+					'[message_text]' => $data['message_text'],
+					'[created_at]' => $data['created_at'],
+					'[user_name]' => Auth::check()
+						? HTML::link(URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]), Auth::user()->login)
+						: $data['user_name'],
+					'[user_email]' => $data['user_email'],
+				];
+				$content = strtr($template->html, $variables);
+
+				Mail::queue('layout.email', $content, function($message) use ($data, $template)
 				{
 					if(Auth::check()) {
 						$message->from(Auth::user()->email, Auth::user()->login);
@@ -506,21 +520,25 @@ class SiteController extends BaseController {
 					$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 						? $siteEmailModel->value
 						: Config::get('settings.adminEmail');
-					$message->to($siteEmail, Config::get('settings.adminName'))->subject($data['subject']);
+					$message->to($siteEmail, Config::get('settings.adminName'))->subject($template->subject);
 				});
 
 				if(Input::get('sendCopy'))
 				{
-					Mail::queue('emails.contactToUser', $data, function($message) use ($data)
+					$template = EmailTemplate::whereKey('contactToUser')->first();
+					$variables['[subject]'] = $template->subject;
+					$content = strtr($template->html, $variables);
+
+					Mail::queue('layout.email', $content, function($message) use ($data, $template)
 					{
 						$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 							? $siteEmailModel->value
 							: Config::get('settings.adminEmail');
 						$message->from($siteEmail, Config::get('settings.adminName'));
 						if(Auth::check()) {
-							$message->to(Auth::user()->email, Auth::user()->login)->subject(Config::get('settings.contactSubjectToUser'));
+							$message->to(Auth::user()->email, Auth::user()->login)->subject($template->subject);
 						} else {
-							$message->to($data['user_email'], $data['user_name'])->subject(Config::get('settings.contactSubjectToUser'));
+							$message->to($data['user_email'], $data['user_name'])->subject($template->subject);
 						}
 					});
 				}
