@@ -251,6 +251,7 @@
                             $('.page-image').remove();
                             imageName.text('');
                             $('#image_url').val('');
+                            $('.ajax-upload').val('');
                         }
                     }
                 });

@@ -298,7 +298,7 @@ View::share('title', $title);
                             $button.css('display', 'none');
                             $('.delete-temp-image, #delete-temp-image').hide();
                             imageName.text('');
-
+                            $('.ajax-upload').val('');
                             $('.profile-user-avatar img').attr('src', '<?php echo Config::get('settings.defaultAvatar') ?>').addClass('avatar-default');
                             $('.avatar-link img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');
                             $('.widget-user img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');

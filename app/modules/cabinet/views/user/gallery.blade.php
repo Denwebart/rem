@@ -120,11 +120,14 @@ View::share('title', $title);
                                             <div class="row">
                                                 <div class="col-xs-12 col-md-6">
                                                     <div class="form-group @if($errors->has('image')) has-error @endif">
-                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs']) }}
+                                                        {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
                                                         <small class="image_error error text-danger">
                                                             {{ $errors->first('image') }}
                                                         </small>
                                                     </div>
+                                                </div>
+                                                <div class="col-xs-11 col-md-5">
+                                                    <div class="new-image"></div>
                                                 </div>
                                                 <div class="clearfix"></div>
                                                 <div class="col-lg-12">
@@ -149,6 +152,7 @@ View::share('title', $title);
                                             </div>
 
                                             {{ Form::hidden('_token', csrf_token()) }}
+                                            {{ Form::hidden('tempPath', $user->getTempPath(), ['id' => 'tempPath']) }}
 
                                             {{ Form::close() }}
                                         </div>
@@ -257,4 +261,66 @@ View::share('title', $title);
             </script>
         @endif
     @endif
+
+    <!-- Загрузка изображения ajax -->
+    <script type="text/javascript">
+        $('.ajax-upload').on('change', function () {
+            if (this.files[0].size > 5242880) {
+                $(this).parent().parent().append('Недопустимый размер файла.');
+            } else {
+                var fileData = new FormData();
+                fileData.append('image', $(this)[0].files[0]);
+                fileData.append('tempPath', $('#tempPath').val());
+                fileData.append('class', ' avatar');
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo URL::route('uploadIntoTemp', ['watermark' => 0]) ?>',
+                    data: fileData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.fail) {
+                            $.each(response.errors, function(index, value) {
+                                var errorDiv = '.' + index + '_error';
+                                $('form').find(errorDiv).parent().addClass('has-error');
+                                $('form').find(errorDiv).empty().append(value).show();
+                            });
+                        }
+                        if(response.success) {
+                            $('.new-image').html(response.imageHtml);
+                        }
+                    }
+                });
+            }
+        });
+
+        <!-- Удаление временного изображения ajax -->
+        $('.new-image').on('click', '#delete-temp-image', function(){
+            var $button = $(this);
+            if(confirm('Вы уверены, что хотите удалить изображение?')) {
+                var imageName = $('.file-input-name');
+                $.ajax({
+                    url: '<?php echo URL::route('deleteFromTemp') ?>',
+                    dataType: "text json",
+                    type: "POST",
+                    data: {'imageName': imageName.text(), 'tempPath': $('#tempPath').val()},
+                    beforeSend: function(request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response) {
+                        if(response.success){
+                            $('#site-messages').prepend(response.message);
+                            $('.new-image').html('');
+                            imageName.text('');
+                            $('.ajax-upload').val('');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 @stop

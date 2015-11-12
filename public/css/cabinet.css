@@ -243,7 +243,9 @@ h2, .h2 {
 .profile-user-avatar .delete-avatar,
 .profile-user-avatar #delete-temp-image,
 #page-image #delete-image,
-#page-image #delete-temp-image {
+#page-image #delete-temp-image,
+.new-image #delete-image,
+.new-image #delete-temp-image {
     position: absolute;
     top: 0;
     right: -25px;

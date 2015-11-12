@@ -45,6 +45,7 @@ class ImageUploadController extends BaseController
 
 				$image->insert($imagePath . 'watermark.png', 'center');
 			}
+			$isDeleted = Request::get('isDeleted', true);
 
 			$image->save($imagePath . $fileName);
 
@@ -68,7 +69,7 @@ class ImageUploadController extends BaseController
 				'imageUrl' => $imageUrl,
 				'imageName' => $fileName,
 				'imagePath' => $tempPath,
-                'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl, 'class' => $class])->render(),
+                'imageHtml' => (string) View::make('cabinet::user._pageImage', ['imageUrl' => $imageUrl, 'class' => $class, 'isDeleted' => $isDeleted])->render(),
 			));
 		}
 	}
