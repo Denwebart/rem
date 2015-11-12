@@ -34,23 +34,24 @@ View::share('title', $title);
                 }}
                     <h2 class="form-signin-heading">Вход</h2>
 
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('login')) has-error @endif">
                         {{ Form::text('login', '', ['class' => 'form-control floating-label', 'placeholder' => 'Email или логин*', 'autofocus'=>'autofocus']); }}
-                        @if ($errors->has('login')) <p class="text-danger">{{ $errors->first('login') }}</p> @endif
+                        @if($errors->has('login')) <small class="text-danger">{{ $errors->first('login') }}</small> @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('password')) has-error @endif">
                         {{ Form::password('password', ['class' => 'form-control floating-label', 'placeholder' => 'Пароль*']); }}
-                        @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                        @if($errors->has('password')) <small class="text-danger">{{ $errors->first('password') }}</small> @endif
                     </div>
                     <div class="checkbox">
                         <label>
                             {{ Form::checkbox('remember', 'remember-me', ['class' => 'form-control']); }} Запомнить меня
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('g-recaptcha-response')) has-error @endif">
                         {{--{{ Form::captcha() }}--}}
                         {{--@if ($errors->has('g-recaptcha-response'))--}}
-                            {{--<p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>--}}
+                            {{--<div class="clearfix"></div>--}}
+                            {{--<small class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>--}}
                         {{--@endif--}}
                     </div>
 

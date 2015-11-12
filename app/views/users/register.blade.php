@@ -20,30 +20,31 @@ View::share('title', $title);
 
                 @if(!Ip::isBanned())
                     {{ Form::open(['url' => 'register_request', 'role' => 'form', 'class' => '']) }}
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('login')) has-error @endif">
                             {{ Form::text('login', null, array('class' => 'form-control floating-label', 'placeholder' => 'Логин*', 'autofocus'=>'autofocus')) }}
                             @if ($errors->has('login'))
-                                <p class="text-danger">{{ $errors->first('login') }}</p>
+                                <small class="text-danger">{{ $errors->first('login') }}</small>
                             @elseif ($errors->has('alias'))
-                                <p class="text-danger">{{ $errors->first('alias') }}</p>
+                                <small class="text-danger">{{ $errors->first('alias') }}</small>
                             @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('email')) has-error @endif">
                             {{ Form::text('email', null, array('class' => 'form-control floating-label', 'placeholder' => 'E-Mail*')) }}
-                            @if ($errors->has('email')) <p class="text-danger">{{ $errors->first('email') }}</p> @endif
+                            @if ($errors->has('email')) <small class="text-danger">{{ $errors->first('email') }}</small> @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('password')) has-error @endif">
                             {{ Form::password('password', array('class' => 'form-control floating-label', 'placeholder' => 'Пароль*')) }}
-                            @if ($errors->has('password')) <p class="text-danger">{{ $errors->first('password') }}</p> @endif
+                            @if ($errors->has('password')) <small class="text-danger">{{ $errors->first('password') }}</small> @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
                             {{ Form::password('password_confirmation', array('class' => 'form-control floating-label', 'placeholder' => 'Повтор пароля*')) }}
-                            @if ($errors->has('password_confirmation')) <p class="text-danger">{{ $errors->first('password_confirmation') }}</p> @endif
+                            @if ($errors->has('password_confirmation')) <small class="text-danger">{{ $errors->first('password_confirmation') }}</small> @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('g-recaptcha-response')) has-error @endif">
                             {{ Form::captcha() }}
                             @if ($errors->has('g-recaptcha-response'))
-                                <p class="text-danger">{{ $errors->first('g-recaptcha-response') }}</p>
+                                <div class="clearfix"></div>
+                                <small class="text-danger">{{ $errors->first('g-recaptcha-response') }}</small>
                             @endif
                         </div>
                         <div class="form-group">

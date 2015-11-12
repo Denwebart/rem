@@ -75,7 +75,7 @@
 
                             <div class="form-group">
                                 {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                                <div class="comment_error error text-danger"></div>
+                                <small class="comment_error error text-danger"></small>
                             </div>
 
                             <div class="row">
@@ -102,17 +102,17 @@
                     <div class="row">
                         <div class="col-md-6 form-group">
                             {{ Form::text('user_name', Session::has('user.user_name') ? Session::get('user.user_name') : '', ['class' => 'form-control', 'placeholder' => 'Имя*']); }}
-                            <div class="user_name_error error text-danger"></div>
+                            <small class="user_name_error error text-danger"></small>
                         </div>
                         <div class="col-md-6 form-group">
                             {{ Form::text('user_email', Session::has('user.user_email') ? Session::get('user.user_email') : '', ['class' => 'form-control', 'placeholder' => 'Email*']); }}
-                            <div class="user_email_error error text-danger"></div>
+                            <small class="user_email_error error text-danger"></small>
                         </div>
                     </div>
 
                     <div class="form-group">
                         {{ Form::textarea('comment', '', ['class' => 'form-control editor', 'id' => 'comment-textarea-0', 'data-parent-comment-id' => '0', 'placeholder' => 'Комментарий*', 'rows' => 3]); }}
-                        <div class="comment_error error text-danger"></div>
+                        <small class="comment_error error text-danger"></small>
                     </div>
 
                     <!-- captcha -->
@@ -124,7 +124,7 @@
                                 'theme' : 'light'
                             });
                     @stop
-                    <div class="g-recaptcha-response_error error text-danger"></div>
+                    <small class="g-recaptcha-response_error error text-danger"></small>
 
                     {{ Form::hidden('_token', csrf_token()) }}
 
