@@ -132,8 +132,9 @@ View::share('title', $title);
                         }
                         $button.nextAll('.tooltip:first').remove();
                         $button.attr('data-is-active', response.isActive);
+                        $('#site-messages').prepend(response.message);
                     } else {
-                        alert(response.message)
+                        $('#site-messages').prepend(response.message);
                     }
                 }
             });

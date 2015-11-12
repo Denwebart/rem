@@ -266,7 +266,7 @@ class AdminTagsController extends \BaseController {
 
 			return Response::json(array(
 				'success' => true,
-				'message' => 'Объединено в тег "' . $resultTag->title . '".',
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Объединено в тег "' . $resultTag->title . '".'])->render(),
 			));
 		}
 	}

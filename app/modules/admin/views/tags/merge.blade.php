@@ -36,9 +36,6 @@ View::share('title', $title);
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-
-                        <div class="message"></div>
-
                         <div class="row">
                             {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.postMerge'], 'id' => 'merge-tags-form']) }}
                                 <div class="col-md-4">
@@ -159,8 +156,7 @@ View::share('title', $title);
                 },
                 success: function(response) {
                     if(response.success) {
-                        var messageHtml = '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+ response.message +'</div>';
-                        $('.message').html(messageHtml);
+                        $('#site-messages').prepend(response.message);
                         $form.trigger('reset');
                         var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
                         $('.original-tags').html('');
