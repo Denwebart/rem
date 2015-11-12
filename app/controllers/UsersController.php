@@ -4,6 +4,9 @@ class UsersController extends BaseController
 {
 	public function getRegister()
 	{
+		if(URL::previous() != URL::current()) {
+			Session::put('user.previousUrl', URL::previous());
+		}
 		return View::make('users.register');
 	}
 
@@ -54,7 +57,11 @@ class UsersController extends BaseController
 	public function getLogin()
 	{
 		if(URL::previous() != URL::current()) {
-			Session::put('user.previousUrl', URL::previous());
+			if(URL::previous() != URL::route('register')) {
+				Session::put('user.previousUrl', URL::previous());
+			} else {
+				Session::put('user.previousUrl', Session::has('user.previousUrl') ? Session::get('user.previousUrl') : '/');
+			}
 		}
 		return View::make('users.login');
 	}
