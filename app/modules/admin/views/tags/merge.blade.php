@@ -40,14 +40,11 @@ View::share('title', $title);
                             {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.postMerge'], 'id' => 'merge-tags-form']) }}
                                 <div class="col-md-4">
                                     <div class="original-tags">
-                                        {{--{{ Form::label('tags[1]', 'Тег', ['class' => 'col-sm-2 control-label']) }}--}}
                                         <div class="form-group input first @if($errors->has('tags')) has-error @endif">
                                             {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]', 'readonly' => 'readonly']) }}
-                                            @if($errors->has('tags'))
-                                                <small class="help-block">
-                                                    {{ $errors->first('tags') }}
-                                                </small>
-                                            @endif
+                                            <small class="tags_error error help-block">
+                                                {{ $errors->first('tags') }}
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +103,6 @@ View::share('title', $title);
 
 @section('style')
     @parent
-    <link rel="stylesheet" href="/backend/css/bootstrapValidator/bootstrapValidator.min.css" />
     <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
 @stop
 
@@ -155,6 +151,14 @@ View::share('title', $title);
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function(response) {
+                    if(response.fail) {
+                        $.each(response.errors, function(index, value) {
+                            var errorDiv = '.' + index + '_error';
+                            $form.find(errorDiv).parent().addClass('has-error');
+                            $form.find(errorDiv).empty().append(value);
+                        });
+                        $('#merge-tags-button').removeAttr('disabled');
+                    }
                     if(response.success) {
                         $('#site-messages').prepend(response.message);
                         $form.trigger('reset');
@@ -164,11 +168,6 @@ View::share('title', $title);
                         $('.has-success').removeClass('has-success');
                         $('#search-result').html('');
                         inputNumber = 1;
-                    } else {
-                        var errorDiv = '.resultTag_error';
-                        $form.find(errorDiv).parent().addClass('has-error');
-                        $form.find(errorDiv).empty().append(response.message).show();
-                        $('#merge-tags-button').removeAttr('disabled');
                     }
                 }
             });

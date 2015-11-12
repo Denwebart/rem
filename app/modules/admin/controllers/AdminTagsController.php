@@ -243,13 +243,25 @@ class AdminTagsController extends \BaseController {
 			$formData = Input::get('formData');
 			parse_str($formData, $formFields);
 
-			$tags = Tag::whereIn('title', $formFields['tags'])->with('pagesTags')->get();
-			$resultTag = Tag::whereTitle($formFields['resultTag'])->first();
+			$errors = [];
+			if(trim($formFields['resultTag']) != "") {
+				$resultTag = Tag::whereTitle($formFields['resultTag'])->first();
+				if(is_null($resultTag)) {
+					$errors['resultTag'] = ['Такого тега не существует.'];
+				}
+			} else {
+				$errors['resultTag'] = ['Поле не может быть пустым.'];
+			}
 
-			if(is_null($resultTag)) {
+			$tags = Tag::whereIn('title', $formFields['tags'])->with('pagesTags')->get();
+			if(!count($tags)) {
+				$errors['tags'] = ['Поле не может быть пустым.'];
+			}
+
+			if(count($errors)) {
 				return Response::json(array(
-					'success' => false,
-					'message' => 'Такого тега не существует',
+					'fail' => true,
+					'errors' => $errors,
 				));
 			}
 
