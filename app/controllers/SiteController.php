@@ -499,44 +499,41 @@ class SiteController extends BaseController {
 
 				$template = EmailTemplate::whereKey('contactToAdmin')->first();
 				$variables = [
-					'[siteUrl]' => Config::get('settings.siteUrl'),
+					'[siteUrl]' => Config::get('app.url'),
 					'[subject]' => $data['subject'],
 					'[message_text]' => $data['message_text'],
 					'[created_at]' => $data['created_at'],
 					'[user_name]' => Auth::check()
-						? HTML::link(URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]), Auth::user()->login)
+						? HTML::link(URL::route('user.profile', ['login' => Auth::user()->getLoginForUrl()]), Auth::user()->login, ['style' => 'color:#03A9F4'])
 						: $data['user_name'],
 					'[user_email]' => $data['user_email'],
 				];
 				$content = strtr($template->html, $variables);
 
-				Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template)
+				$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+					? $siteEmailModel->value
+					: Config::get('settings.adminEmail');
+
+				Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template, $siteEmail)
 				{
 					if(Auth::check()) {
 						$message->from(Auth::user()->email, Auth::user()->login);
 					} else {
 						$message->from($data['user_email'], $data['user_name']);
 					}
-					$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
-						? $siteEmailModel->value
-						: Config::get('settings.adminEmail');
 					$message->to($siteEmail, Config::get('settings.adminName'))->subject($template->subject);
 				});
 
 				if(Input::get('sendCopy'))
 				{
 					$template = EmailTemplate::whereKey('contactToUser')->first();
-					$variables['[subject]'] = $template->subject;
 					$content = strtr($template->html, $variables);
 
 					Mail::queue('layouts.email', [
 						'content' => $content,
 						'userModel' => Auth::check() ? Auth::user() : false,
 						'getRegistered' => Auth::check() ? false : true,
-					], function($message) use ($data, $template) {
-						$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
-							? $siteEmailModel->value
-							: Config::get('settings.adminEmail');
+					], function($message) use ($data, $template, $siteEmail) {
 						$message->from($siteEmail, Config::get('settings.adminName'));
 						if(Auth::check()) {
 							$message->to(Auth::user()->email, Auth::user()->login)->subject($template->subject);

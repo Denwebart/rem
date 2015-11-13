@@ -245,8 +245,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		$template = EmailTemplate::whereKey('activation')->first();
 		$variables = [
-			'[siteUrl]' => Config::get('settings.siteUrl'),
-			'[activationUrl]' => Config::get('settings.siteUrl'),
+			'[siteUrl]' => Config::get('app.url'),
+			'[activationUrl]' => $activationUrl,
 		];
 		$content = strtr($template->html, $variables);
 

@@ -13,7 +13,7 @@ return [
     'metaKey' => 'Ключевые слова по умолчанию',
 
 	'adminEmail' => 'denwebart@yandex.ua',
-	'adminName' => 'Admin',
+	'adminName' => 'Avtorem.info',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
 	'journalAlias' => 'bortovoj-zhurnal',

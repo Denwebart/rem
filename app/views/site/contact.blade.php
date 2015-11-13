@@ -33,14 +33,6 @@
 
 		<section id="contact-form-area">
 
-            <!-- всплывающее сообщение - отправка контактной формы -->
-			@if(Session::has('successMessage'))
-                @section('siteMessages')
-                    @include('widgets.siteMessages.info', ['siteMessage' => Session::get('successMessage')])
-                    @parent
-                @stop
-			@endif
-
 			{{ Form::open([
 				  'action' => ['SiteController@contactPost'],
 				  'id' => 'contact-form',

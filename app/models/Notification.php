@@ -126,7 +126,7 @@ class Notification extends \Eloquent
 		if($sendMessage) {
 			$template = EmailTemplate::whereKey('notification')->first();
 			$variables = [
-				'[siteUrl]' => Config::get('settings.siteUrl'),
+				'[siteUrl]' => Config::get('app.url'),
 				'[notificationMessage]' => $notificationMessage,
 			];
 			$content = strtr($template->html, $variables);
