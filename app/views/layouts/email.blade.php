@@ -1,5 +1,6 @@
 <?php
-    $userIsRegistered = isset($userIsRegistered) ? $userIsRegistered : false;
+    $userModel = isset($userModel) ? $userModel : false;
+    $getRegistered = isset($getRegistered) ? $getRegistered : false;
 ?>
 <!-- HEADER -->
 <table width="100%" bgcolor="#eeeeee">
@@ -44,18 +45,22 @@
                 <a style="color:#03A9F4" href="{{ URL::to(Config::get('app.url')) }}">Avtorem.info</a>
                 <span>2010 - 2015</span>
             </p>
-            @if($userIsRegistered)
+            @if($userModel)
                 <p style="font-size:11px; color:#cccccc; font-face:Arial;">
                     Вы получили это письмо, так как являетесь зарегистрированным пользователем сайта
                     <a style="color:#03A9F4"href="{{ URL::to(Config::get('app.url')) }}">avtorem.info</a>.
-                    Настроить рассылку писем вы можете в разделе "Настройки" своего профиля.
+                    Настроить рассылку писем вы можете в разделе
+                    <a href="{{ URL::route('user.settings', ['login' => $userModel->getLoginForUrl()]) }}">"Настройки"</a>
+                    своего профиля.
                 </p>
             @endif
-            {{--<p>--}}
-            {{--<a href="#">Terms</a> |--}}
-            {{--<a href="#">Privacy</a> |--}}
-            {{--<a href="#"><unsubscribe>Unsubscribe</unsubscribe></a>--}}
-            {{--</p>--}}
+            @if($getRegistered)
+                <p style="font-size:11px; color:#cccccc; font-face:Arial;">
+                    Зарегистрироваться на сайте
+                    <a style="color:#03A9F4"href="{{ URL::to(Config::get('app.url')) }}">avtorem.info</a>
+                    Вы можете по ссылке <a href="{{ URL::route('register') }}">"Регистрация"</a>.
+                </p>
+            @endif
         </td>
         <td></td>
     </tr>

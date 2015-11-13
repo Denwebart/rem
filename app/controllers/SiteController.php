@@ -529,8 +529,11 @@ class SiteController extends BaseController {
 					$variables['[subject]'] = $template->subject;
 					$content = strtr($template->html, $variables);
 
-					Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template)
-					{
+					Mail::queue('layouts.email', [
+						'content' => $content,
+						'userModel' => Auth::check() ? Auth::user() : false,
+						'getRegistered' => Auth::check() ? false : true,
+					], function($message) use ($data, $template) {
 						$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 							? $siteEmailModel->value
 							: Config::get('settings.adminEmail');
