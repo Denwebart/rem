@@ -825,9 +825,9 @@ form .page-image {
     height: 36px;
     margin-top: 10px;
     text-align: center;
-    /*background: #1B609C; /!* #1292CE *!/*/
+    background: #1B609C; /* #1292CE */
     /*box-shadow: -3px 2px 3px rgba(0, 0, 0, 0.5) inset;*/
-    background: #F5F5F5; /**/
+    /*background: #F5F5F5; /!**!/*/
     border-radius: 4px; /**/
 }
 .read-more .link-text {
@@ -836,15 +836,15 @@ form .page-image {
 .read-more .link-text span,
 .read-more .link-text .material-icons {
     float: left;
-    line-height: 30px;
-    /*color: #ffffff;*/
-    color: #337AB7; /**/
-    font-size: 16px; /**/
-    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5); /**/
+    line-height: 36px;
+    color: #ffffff;
+    /*color: #337AB7; /!**!/*/
+    /*font-size: 16px; /!**!/*/
+    /*text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5); /!**!/*/
 }
 .read-more .link-text .material-icons { /**/
-    font-size: 24px; /**/
-    margin-top: 2px; /**/
+    /*font-size: 24px; /!**!/*/
+    /*margin-top: 2px; /!**!/*/
 } /**/
 
 /*-- Sidebar Widget --*/
