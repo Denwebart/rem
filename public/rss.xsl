@@ -78,7 +78,7 @@
             }
             .content .item h3 {
                 margin: 0 0 10px;
-                font-family: RobotoDraft,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+                font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
                 font-size: 22px;
             }
             .content .item h3 a {
