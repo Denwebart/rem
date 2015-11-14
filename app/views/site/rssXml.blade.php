@@ -27,24 +27,26 @@
                             </a>
                         </div>
                         <div class="category info-item">
-                            Категория:
-                            @if($page->parent->parent)
-                                <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                                    @if($page->parent->parent->menuItem)
-                                        {{ $page->parent->parent->menuItem->menu_title }}
+                            @if($page->parent)
+                                Категория:
+                                @if($page->parent->parent)
+                                    <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
+                                        @if($page->parent->parent->menuItem)
+                                            {{ $page->parent->parent->menuItem->menu_title }}
+                                        @else
+                                            {{ $page->parent->parent->title }}
+                                        @endif
+                                    </a>
+                                    /
+                                @endif
+                                <a href="{{ URL::to($page->parent->getUrl()) }}">
+                                    @if($page->parent->menuItem)
+                                        {{ $page->parent->menuItem->menu_title }}
                                     @else
-                                        {{ $page->parent->parent->title }}
+                                        {{ $page->parent->title }}
                                     @endif
                                 </a>
-                                /
                             @endif
-                            <a href="{{ URL::to($page->parent->getUrl()) }}">
-                                @if($page->parent->menuItem)
-                                    {{ $page->parent->menuItem->menu_title }}
-                                @else
-                                    {{ $page->parent->title }}
-                                @endif
-                            </a>
                         </div>
                         <div class="clearfix"></div>
                         @if($page->image)

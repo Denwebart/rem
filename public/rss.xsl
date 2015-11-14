@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
 <xsl:template match="/rss">
 	<html>
 	<head>
@@ -16,6 +17,9 @@
             }
             a {
                 color: #337AB7;
+            }
+            a:hover {
+                text-decoration: none;
             }
             .clearfix {
                 clear: both;
@@ -87,6 +91,7 @@
                 float: left;
                 padding: 5px 7px;
                 background: #F2F2F2;
+                font-size: 14px;
             }
             .content .item .info-item a {
                 line-height: 25px;
@@ -95,6 +100,21 @@
             .content .item .info-item.author span {
                 float: left;
                 margin: 0 5px 0 0;
+            }
+            .content .item .description {
+                display: inline-block !important;
+            }
+            .content .item .read-more {
+                display: block;
+                width: 100%;
+                height: 36px;
+                margin-top: 10px;
+                text-align: center;
+                background: #1B609C;
+                border-radius: 4px;
+                line-height: 36px;
+                color: #ffffff;
+                text-decoration: none;
             }
             #footer {
                 background: url("../images/footer.jpg");
@@ -157,6 +177,15 @@
                         </div>
                         <xsl:value-of select="description" disable-output-escaping="yes"/>
                     </div>
+                    <xsl:element name="a">
+                        <xsl:attribute name="href">
+                            <xsl:value-of select="link"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="class">
+                            <xsl:text>read-more</xsl:text>
+                        </xsl:attribute>
+                        <xsl:text>Читать полностью</xsl:text>
+                    </xsl:element>
                 </div>
             </xsl:for-each>
 		</div>
@@ -166,8 +195,8 @@
                     <img src="/images/logo-circle-footer.png" width="60"/>
                 </a>
                 <div class="text">
-                    ??? ????????????? ????????? ?????? ?????? ?? ???? ???????????. �
-                    <a href="http://www.avtorem.info" title="????? ???????????">www.avtorem.info</a>
+                    При использовании авторских статей ссылка на сайт обязательна. ©
+                    <a href="http://www.avtorem.info" title="Avtorem.info">www.avtorem.info</a>
                     2010 - 2015
                 </div>
             </div>

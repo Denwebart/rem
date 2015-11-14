@@ -567,6 +567,7 @@ class SiteController extends BaseController {
 		$pages = Page::whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->whereIsContainer(0)
+			->where('parent_id', '!=', 0)
 			->orderBy('published_at', 'DESC')
 			->limit(10)
 			->get();
