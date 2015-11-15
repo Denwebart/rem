@@ -22,8 +22,21 @@ class RemindersController extends Controller {
 		$validator = Validator::make(Input::only('email'), ['email' => 'required|email']);
 
 		if($validator->passes()) {
-			switch ($response = Password::remind(Input::only('email'), function($message){
-				$message->subject('Восстановление пароля на сайте avtorem.info');
+			$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+				? $siteEmailModel->value
+				: Config::get('settings.adminEmail');
+			$template = EmailTemplate::whereKey('changePassword')->first();
+			switch ($response = Password::remind(Input::only('email'), function($message) use ($siteEmail, $template) {
+				$variables = [
+					'[siteUrl]' => Config::get('settings.siteUrl'),
+					'[resetUrl]' => URL::to('password/reset', array($message->token)),
+					'[expireTime]' => Config::get('auth.reminder.expire', 60),
+				];
+				$content = strtr($template->html, $variables);
+
+				$message->with(['content' => $content]);
+				$message->from($siteEmail, Config::get('settings.adminName'));
+				$message->subject($template->subject);
 			}))
 			{
 				case Password::INVALID_USER:
@@ -64,7 +77,6 @@ class RemindersController extends Controller {
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			$user->password = Hash::make($password);
-
 			$user->save();
 		});
 
