@@ -40,17 +40,21 @@
         @endif
 
 		<section id="blog-area" class="blog margin-top-10">
-            <div class="count">
-                Показано: <span>{{ $articles->count() }}</span>.
-                Всего: <span>{{ $articles->getTotal() }}</span>.
-            </div>
+            @if(count($articles))
+                <div class="count">
+                    Показано: <span>{{ $articles->count() }}</span>.
+                    Всего: <span>{{ $articles->getTotal() }}</span>.
+                </div>
+            @endif
 			@foreach($articles as $key => $article)
                 @if(0 != $key)
                     <hr/>
                 @endif
 				@include('site.postInfo')
 			@endforeach
-			{{ $articles->links() }}
+            @if(count($articles))
+			    {{ $articles->links() }}
+            @endif
 		</section><!--blog-area-->
 
 		{{ $areaWidget->contentBottom() }}

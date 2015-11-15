@@ -1,22 +1,25 @@
 <?php
 
 /* Заполнение данных */
-Route::get('/fill', function() {
-    $result_data = [
-    ];
-	$i = 0;
-	foreach($result_data as $item) {
-		if(Comment::whereId($item['id'])->update($item)) {
-			echo 'Данные заполнены! ';
-			echo $item['id'];
-			echo '</br>';
-			$i++;
-		}
-	}
-	echo '</br>-----------</br>';
-	echo 'Заполнено ' . $i . ' из ' . count($result_data);
-});
+//Route::get('/fill', function() {
+//    $result_data = [
+//    ];
+//	$i = 0;
+//	foreach($result_data as $item) {
+//		if(Comment::whereId($item['id'])->update($item)) {
+//			echo 'Данные заполнены! ';
+//			echo $item['id'];
+//			echo '</br>';
+//			$i++;
+//		}
+//	}
+//	echo '</br>-----------</br>';
+//	echo 'Заполнено ' . $i . ' из ' . count($result_data);
+//});
 
+
+Route::filter('cache.fetch', 'CacheFilter@fetch');
+Route::filter('cache.put', 'CacheFilter@put');
 
 Route::pattern('alias', '[A-Za-z0-9-_]+');
 

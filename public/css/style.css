@@ -282,16 +282,16 @@ h1, h2, h3, h4, h5, h6,
     display: inline-block;
 }
 .btn-login span .text,
-.btn-login span .material-icons,
-.btn-logout span .text,
-.btn-logout span .material-icons {
+.btn-logout span .text {
     float: left;
-    line-height: 24px;
+    margin-top: 2px;
+    line-height: 22px;
 }
 .btn-login span .material-icons,
 .btn-logout span .material-icons {
     margin: 0 0 0 5px;
     float: right;
+    line-height: 24px;
 }
 
 /*-- Content --*/
