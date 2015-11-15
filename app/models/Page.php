@@ -140,7 +140,7 @@ class Page extends \Eloquent
 				'type' => 'integer',
 				'parent_id' => 'required|integer',
 				'user_id' => 'required|integer',
-				'image' => 'mimes:jpeg,bmp,png|max:3072',
+				'image' => 'mimes:jpeg,bmp,png|max:2000',
 				'title' => 'required|max:500',
 				'alias' => 'unique:pages',
 				'content' => 'required',

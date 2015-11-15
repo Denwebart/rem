@@ -136,7 +136,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			'lastname' => 'max:100|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄє \-\']+$/u',
 			'role' => 'integer',
 			'points' => 'integer',
-			'avatar' => 'mimes:jpeg,bmp,png|max:3072',
+			'avatar' => 'mimes:jpeg,bmp,png|max:2000',
 			'description' => 'max:3000',
 			'car_brand' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ0-9 \-\']+$/u',
 			'profession' => 'max:150|regex:/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u',
