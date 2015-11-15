@@ -135,7 +135,7 @@ class Honor extends \Eloquent
 
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
+				->resize(Config::get('settings.maxHonorImageWidth'), null, function ($constraint) {
 					$constraint->aspectRatio();
 				})->save($imagePath . $newFileName);
 

@@ -114,7 +114,7 @@ class Tag extends \Eloquent
 
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 			$image->crop($cropSize, $cropSize)
-				->resize(300, null, function ($constraint) {
+				->resize(Config::get('settings.maxTagImageWidth'), null, function ($constraint) {
 					$constraint->aspectRatio();
 				})->save($imagePath . $fileName);
 

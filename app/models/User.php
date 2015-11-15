@@ -384,9 +384,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 				File::delete($imagePath . 'mini_' . $this->avatar);
 			}
 
+			if(Config::get('settings.maxImageWidth') && $image->width() > Config::get('settings.maxImageWidth')) {
+				$image->resize(Config::get('settings.maxImageWidth'), null, function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+			if(Config::get('settings.maxImageHeight') && $image->height() > Config::get('settings.maxImageHeight')) {
+				$image->resize(null, Config::get('settings.maxImageHeight'), function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+			$image->save($imagePath . 'origin_' . $fileName);
+
 			if($image->width() > 260) {
-				$image->save($imagePath . 'origin_' . $fileName)
-					->resize(260, null, function ($constraint) {
+				$image->resize(260, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);

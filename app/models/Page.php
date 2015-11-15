@@ -680,21 +680,32 @@ class Page extends \Eloquent
 			// delete old image
 			$this->deleteImage();
 
+			if(Config::get('settings.maxImageWidth') && $image->width() > Config::get('settings.maxImageWidth')) {
+				$image->resize(Config::get('settings.maxImageWidth'), null, function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+			if(Config::get('settings.maxImageHeight') && $image->height() > Config::get('settings.maxImageHeight')) {
+				$image->resize(null, Config::get('settings.maxImageHeight'), function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+
 			$watermark = Image::make(public_path('images/watermark.png'));
 			$watermark->resize(($image->width() * 2) / 3, null, function ($constraint) {
-					$constraint->aspectRatio();
-				})->save($imagePath . 'watermark.png');
+				$constraint->aspectRatio();
+			})->save($imagePath . 'watermark.png');
+
+			$image->insert($imagePath . 'watermark.png', 'center')
+				->save($imagePath . 'origin_' . $fileName);
 
 			if($image->width() > 225) {
-				$image->insert($imagePath . 'watermark.png', 'center')
-					->save($imagePath . 'origin_' . $fileName)
-					->resize(225, null, function ($constraint) {
+				$image->resize(225, null, function ($constraint) {
 						$constraint->aspectRatio();
 					})
 					->save($imagePath . $fileName);
 			} else {
-				$image->insert($imagePath . 'watermark.png', 'center')
-					->save($imagePath . $fileName);
+				$image->save($imagePath . $fileName);
 			}
 			$cropSize = ($image->width() < $image->height()) ? $image->width() : $image->height();
 

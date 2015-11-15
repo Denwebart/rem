@@ -30,12 +30,12 @@ View::share('title', $title);
                     </div>
 
                     <div class="form-group @if($errors->has('password')) has-error @endif">
-                        {{ Form::text('password', '', ['class' => 'form-control floating-label', 'placeholder' => 'Новый пароль*']); }}
+                        {{ Form::password('password', '', ['class' => 'form-control floating-label', 'placeholder' => 'Новый пароль*']); }}
                         @if ($errors->has('password')) <small class="text-danger">{{ $errors->first('password') }}</small> @endif
                     </div>
 
                     <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
-                        {{ Form::text('password_confirmation', '', ['class' => 'form-control floating-label', 'placeholder' => 'Повторите пароль*']); }}
+                        {{ Form::password('password_confirmation', '', ['class' => 'form-control floating-label', 'placeholder' => 'Повторите пароль*']); }}
                         @if ($errors->has('password_confirmation')) <small class="text-danger">{{ $errors->first('password_confirmation') }}</small> @endif
                     </div>
 
