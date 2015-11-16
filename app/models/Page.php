@@ -230,7 +230,13 @@ class Page extends \Eloquent
 			// удаление подстатей при удалении
 			$page->children()->delete();
 			// удаление пункта меню
-			$page->menuItem()->delete();
+			if($page->menuItem) {
+				if($page->menuItem->type == Menu::TYPE_TOP) Cache::forget('menu.top');
+				if($page->menuItem->type == Menu::TYPE_MAIN) Cache::forget('menu.main');
+				if($page->menuItem->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+
+				$page->menuItem()->delete();
+			}
 			//удаление папки с изображениями
 			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
 		});

@@ -45,6 +45,18 @@ class Menu extends \Eloquent
 		'menu_title' => 'required|max:200',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saved(function($item)
+		{
+		    if($item->type == Menu::TYPE_TOP) Cache::forget('menu.top');
+			if($item->type == Menu::TYPE_MAIN) Cache::forget('menu.main');
+			if($item->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+		});
+	}
+
 	public function page()
 	{
 		return $this->belongsTo('Page', 'page_id');
