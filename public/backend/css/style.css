@@ -221,6 +221,13 @@ select {
 .icheckbox_minimal {
     margin-left: 5px;
 }
+small.info {
+    margin-top: 10px;
+    display: block;
+    color: #777;
+    font-size: 78%;
+    clear: both;
+}
 
 /* Похожие */
 .related > ul {

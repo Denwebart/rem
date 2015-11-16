@@ -21,6 +21,10 @@
                                 {{ $errors->first('image') }}
                             </small>
                         @endif
+
+                        <small class="info">
+                            {{ Config::get('settings.maxImageSizeInfo') }}
+                        </small>
                     </div>
                     <div class="col-sm-6">
                         @if($honor->image)

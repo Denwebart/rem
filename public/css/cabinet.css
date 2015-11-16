@@ -17,6 +17,13 @@ h2, .h2 {
 .tooltip {
     z-index: 999;
 }
+.info {
+    margin-top: 10px;
+    display: block;
+    color: #777;
+    font-size: 78%;
+    clear: both;
+}
 
 /*-- Правила сайта --*/
 #rules .checkbox {

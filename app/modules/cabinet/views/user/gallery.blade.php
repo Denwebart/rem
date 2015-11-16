@@ -124,6 +124,9 @@ View::share('title', $title);
                                                         <small class="image_error error text-danger">
                                                             {{ $errors->first('image') }}
                                                         </small>
+                                                        <small class="info">
+                                                            {{ Config::get('settings.maxImageSizeInfo') }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-11 col-md-5">

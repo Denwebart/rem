@@ -23,6 +23,9 @@ View::share('title', $title);
                         <small class="image_error error text-danger">
                             {{ $errors->first('avatar') }}
                         </small>
+                        <small class="info">
+                            {{ Config::get('settings.maxImageSizeInfo') }}
+                        </small>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-2" style="padding: 0">

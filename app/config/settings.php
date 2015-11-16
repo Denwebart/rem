@@ -19,11 +19,13 @@ return [
 	'journalAlias' => 'bortovoj-zhurnal',
 
 	//images
-	'maxImageSize' => '',
+	'maxImageSize' => 2048,
 	'maxImageHeight' => 1200,
 	'maxImageWidth' => 1200,
 	'maxTagImageWidth' => 150,
 	'maxHonorImageWidth' => 300,
+
+	'maxImageSizeInfo' => 'Максимальный вес изображения 2 МБ.',
 
 	'bannedImage' => '/images/banned.png',
 

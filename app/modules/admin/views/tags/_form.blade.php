@@ -11,6 +11,9 @@
                     <small class="image_error error help-block">
                         {{ $errors->first('image') }}
                     </small>
+                    <small class="info">
+                        {{ Config::get('settings.maxImageSizeInfo') }}
+                    </small>
 
                     @if($tag->image)
                         {{ $tag->getImage(null, ['class' => 'page-image']) }}

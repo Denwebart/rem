@@ -109,6 +109,10 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                             </small>
                         @endif
 
+                        <small class="info">
+                            {{ Config::get('settings.maxImageSizeInfo') }}
+                        </small>
+
                         @if($page->image)
                             <div class="clearfix"></div>
                             {{ $page->getImage(null, ['class' => 'page-image margin-top-10']) }}
