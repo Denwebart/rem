@@ -34,7 +34,7 @@ class Tag extends \Eloquent
 
 	public static function rules($id = false, $merge = [])
 	{
-		$rules = self::$rules;
+		$rules = Tag::$rules;
 		if ($id) {
 			foreach ($rules as &$rule) {
 				$rule = str_replace(':id', $id, $rule);
@@ -51,11 +51,20 @@ class Tag extends \Eloquent
 		{
 			$tag->pagesTags()->delete();
 			File::delete(public_path() . '/uploads/' . $tag->getTable() . '/' . $tag->image);
+
+			Cache::forget('widgets.tags');
 		});
 
 		static::saving(function($tag)
 		{
 			$tag->title = mb_strtolower($tag->title);
+		});
+
+		static::updated(function($tag)
+		{
+			if(count($tag->pages)) {
+				Cache::forget('widgets.tags');
+			}
 		});
 	}
 
@@ -142,7 +151,7 @@ class Tag extends \Eloquent
 	}
 
 	/**
-	 * Добавление тегов
+	 * Добавление тегов (прикрепить к статье)
 	 *
 	 * @param $page
 	 * @param $addedArray
@@ -179,12 +188,13 @@ class Tag extends \Eloquent
 
             if(count($dataAdded)) {
                 DB::table('pages_tags')->insert($dataAdded);
+	            Cache::forget('widgets.tags');
             }
         }
 	}
 
 	/**
-	 * Удаление тегов
+	 * Удаление тегов (открепить от статьи)
 	 *
 	 * @param $page
 	 * @param $deletedArray
@@ -199,6 +209,7 @@ class Tag extends \Eloquent
                 PageTag::wherePageId($page->id)
                     ->whereIn('tag_id', array_flip($deleted))
                     ->delete();
+	            Cache::forget('widgets.tags');
             }
         }
 	}

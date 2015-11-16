@@ -206,6 +206,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		{
 			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->getLoginForUrl() . '/');
 		});
+
+		static::deleting(function($user) {
+			if(count($user->bestPublishedAnswers)) {
+				Cache::forget('widgets.answers');
+			}
+			foreach($user->allComments as $comment) {
+				$comment->user_name = $user->login;
+				$comment->user_email = $user->email;
+				$comment->user_id = null;
+				$comment->save();
+			}
+		});
 	}
 
 	public function register()
@@ -526,6 +538,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Все ответы и комментарии
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function allComments()
+	{
+		return $this->hasMany('Comment', 'user_id');
+	}
+
+	/**
 	 * Оставленные комментарии
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -567,6 +589,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->hasMany('Comment', 'user_id')
 			->whereIsAnswer(1)
+			->whereIsPublished(1)
+			->select(['id', 'is_answer', 'is_published']);
+	}
+
+	/**
+	 * Лучшие опубликованные ответы
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function bestPublishedAnswers()
+	{
+		return $this->hasMany('Comment', 'user_id')
+			->whereIsAnswer(1)
+			->whereMark(Comment::MARK_BEST)
 			->whereIsPublished(1)
 			->select(['id', 'is_answer', 'is_published']);
 	}

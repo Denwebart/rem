@@ -979,6 +979,7 @@ form .page-image {
 #social-buttons-widget {
     display: inline-block;
     float: left;
+    margin-top: 10px;
 }
 .b-share_theme_counter .b-share_type_small .b-share-btn__wrap {
     margin-bottom: 5px;

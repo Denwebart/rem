@@ -38,7 +38,7 @@ class Rule extends \Eloquent
 
 	public static function rules($id = false, $merge = [])
 	{
-		$rules = SELF::$rules;
+		$rules = Rule::$rules;
 		if ($id) {
 			foreach ($rules as &$rule) {
 				$rule = str_replace(':id', $id, $rule);

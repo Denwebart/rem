@@ -324,6 +324,8 @@ class CommentsController extends BaseController
 						->get();
 					$page = $comment->page()->with('publishedComments', 'bestComments')->first();
 
+					Cache::forget('widgets.answers');
+
 					// return success message
 					return Response::json(array(
 						'success' => true,

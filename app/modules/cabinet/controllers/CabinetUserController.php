@@ -141,6 +141,10 @@ class CabinetUserController extends \BaseController
         $user->description = $user->saveEditorImages($data['tempPath']);
         $user->save();
 
+		if(count($user->bestPublishedAnswers)) {
+			Cache::forget('widgets.answers');
+		}
+
         $backUrl = Input::has('backUrl')
             ? Input::get('backUrl')
             : URL::route('user.profile', ['login' => $user->getLoginForUrl()]);

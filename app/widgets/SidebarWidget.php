@@ -232,29 +232,35 @@ class SidebarWidget
 	 */
 	public function answers($limit = 9)
 	{
-		$answers = Comment::whereIsPublished(1)
-            ->whereIsDeleted(0)
-			->whereIsAnswer(1)
-			->whereMark(Comment::MARK_BEST)
-			->limit($limit)
-			->with([
-				'page' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
-				},
-				'page.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'page.parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->orderBy('updated_at', 'DESC')
-			->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+		if(Cache::has('widgets.answers')) {
+			return Cache::get('widgets.answers');
+		} else {
+			$answers = Comment::whereIsPublished(1)
+				->whereIsDeleted(0)
+				->whereIsAnswer(1)
+				->whereMark(Comment::MARK_BEST)
+				->limit($limit)
+				->with([
+					'page' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+					},
+					'page.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'page.parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+				])
+				->orderBy('updated_at', 'DESC')
+				->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
-		return (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
+			$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
+			Cache::forever('widgets.answers', $view);
+			return $view;
+		}
 	}
 
 	/**
@@ -300,23 +306,29 @@ class SidebarWidget
 	 */
 	public function tags($limit = 20)
 	{
-		$tags = Tag::select('id', 'title')
-			->has('pages')
-			->with([
-				'pages' => function($query) {
-					$query->select('id');
-				}
-			])
-			->whereHas('pages', function($query) {
-				$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
-			})
-			->limit($limit)
-			->get()
-			->sortBy(function($tag) {
-				return $tag->pages->count();
-			})->reverse();
+		if(Cache::has('widgets.tags')) {
+			return Cache::get('widgets.tags');
+		} else {
+			$tags = Tag::select('id', 'title')
+				->has('pages')
+				->with([
+					'pages' => function($query) {
+						$query->select('id');
+					}
+				])
+				->whereHas('pages', function($query) {
+					$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
+				})
+				->limit($limit)
+				->get()
+				->sortBy(function($tag) {
+					return $tag->pages->count();
+				})->reverse();
 
-		return (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
+			$view = (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
+			Cache::forever('widgets.tags', $view);
+			return $view;
+		}
 	}
 
 	/**

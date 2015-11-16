@@ -196,5 +196,4 @@ return array(
 		'Debugbar'          => 'Barryvdh\Debugbar\Facade',
 		'Image'             => 'Intervention\Image\Facades\Image',
 	),
-
 );

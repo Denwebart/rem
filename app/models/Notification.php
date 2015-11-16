@@ -110,7 +110,7 @@ class Notification extends \Eloquent
 	{
 		$notificationMessage = $this->getMessage($notificationType, $variables);
 
-		$settingsColumns = self::$notificationSettingColumns[$notificationType];
+		$settingsColumns = Notification::$notificationSettingColumns[$notificationType];
 
 		if(is_object($userModel->settings)) {
 			foreach($settingsColumns as $column) {
@@ -143,7 +143,7 @@ class Notification extends \Eloquent
 			Log::info("Email with notification for [{$userModel->login}] successfully sent. Notfication: [{$notificationMessage}]");
 		}
 
-		self::create([
+		Notification::create([
 			'user_id' => $userModel->id,
 			'type' => $notificationType,
 			'message' => $notificationMessage,
