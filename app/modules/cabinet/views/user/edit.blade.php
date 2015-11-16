@@ -242,7 +242,8 @@ View::share('title', $title);
     <script type="text/javascript">
         $('.ajax-upload').on('change', function () {
             if (this.files[0].size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
             } else {
                 var fileData = new FormData();
                 fileData.append('image', $(this)[0].files[0]);
@@ -273,6 +274,9 @@ View::share('title', $title);
                             $('.delete-avatar').hide();
                             $('.avatar-link img').attr('src', response.imagePath + 'mini_' + response.imageName).removeClass('avatar-default');
                             $('.widget-user img').attr('src', response.imagePath + 'mini_' + response.imageName).removeClass('avatar-default');
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });
@@ -302,6 +306,9 @@ View::share('title', $title);
                             $('.profile-user-avatar img').attr('src', '<?php echo Config::get('settings.defaultAvatar') ?>').addClass('avatar-default');
                             $('.avatar-link img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');
                             $('.widget-user img').attr('src', '<?php echo Config::get('settings.mini_defaultAvatar') ?>').addClass('avatar-default');
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });

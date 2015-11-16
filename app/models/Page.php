@@ -140,7 +140,7 @@ class Page extends \Eloquent
 				'type' => 'integer',
 				'parent_id' => 'required|integer',
 				'user_id' => 'required|integer',
-				'image' => 'mimes:jpeg,bmp,png|max:2000',
+				'image' => 'mimes:jpeg,bmp,png|max:2048',
 				'title' => 'required|max:500',
 				'alias' => 'unique:pages',
 				'content' => 'required',
@@ -194,7 +194,7 @@ class Page extends \Eloquent
 	 */
 	public static function rules($action, $user = 'forAdmin', $id = false, $merge=[])
 	{
-		$rules = SELF::$rules[$action][$user];
+		$rules = Page::$rules["$action"]["$user"];
 		if ($id) {
 			foreach ($rules as &$rule) {
 				$rule = str_replace(':id', $id, $rule);

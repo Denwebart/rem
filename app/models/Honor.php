@@ -35,7 +35,7 @@ class Honor extends \Eloquent
 		return [
 			'alias' => 'max:100|regex:/^[A-Za-z0-9\-\']+$/u',
 			'title' => 'required|unique:honors,title,' . $this->id . '|max:100',
-			'image' => 'mimes:jpeg,bmp,png|max:2000',
+			'image' => 'mimes:jpeg,bmp,png|max:2048',
 			'description' => 'max:2000',
 		];
 	}

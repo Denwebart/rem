@@ -225,13 +225,6 @@ View::share('title', $title);
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
-
-        $(".file-inputs").on("change", function(){
-            var file = this.files[0];
-            if (file.size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
-            }
-        });
     </script>
 
     <!-- Delete Photo -->
@@ -266,7 +259,8 @@ View::share('title', $title);
     <script type="text/javascript">
         $('.ajax-upload').on('change', function () {
             if (this.files[0].size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
             } else {
                 var fileData = new FormData();
                 fileData.append('image', $(this)[0].files[0]);
@@ -292,6 +286,9 @@ View::share('title', $title);
                         }
                         if(response.success) {
                             $('.new-image').html(response.imageHtml);
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });
@@ -317,6 +314,9 @@ View::share('title', $title);
                             $('.new-image').html('');
                             imageName.text('');
                             $('.ajax-upload').val('');
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });

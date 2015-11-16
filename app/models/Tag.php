@@ -24,7 +24,7 @@ class Tag extends \Eloquent
 	];
 
 	public static $rules = [
-		'image' => 'mimes:jpeg,bmp,png|max:2000',
+		'image' => 'mimes:jpeg,bmp,png|max:2048',
 		'title' => 'required|unique:tags,title,:id|max:100',
 	];
 

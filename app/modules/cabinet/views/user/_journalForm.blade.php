@@ -267,7 +267,8 @@
     <script type="text/javascript">
         $('.ajax-upload').on('change', function () {
             if (this.files[0].size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
             } else {
                 var fileData = new FormData();
                 fileData.append('image', $(this)[0].files[0]);
@@ -293,6 +294,9 @@
                         if(response.success) {
                             $('#page-image').html(response.imageHtml);
                             $('#image_url').val(response.imageUrl);
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });
@@ -322,6 +326,9 @@
                             imageName.text('');
                             $('#image_url').val('');
                             $('.ajax-upload').val('');
+
+                            $('form').find('.image_error').parent().removeClass('has-error');
+                            $('form').find('.image_error').empty().hide();
                         }
                     }
                 });

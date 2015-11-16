@@ -242,7 +242,7 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = Auth::user()->id;
-		$data['alias'] = $data['alias'] ? $data['alias'] : TranslitHelper::make($data['title']);
+		$data['alias'] = isset($data['alias']) ? $data['alias'] : TranslitHelper::make($data['title']);
 
 		$validator = Validator::make($data, Page::rules('create'));
 
@@ -370,7 +370,7 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = $page->user_id;
-		$data['alias'] = $data['alias']
+		$data['alias'] = isset($data['alias'])
 			? $data['alias']
 			: (!is_null($page->menuItem)
 				? TranslitHelper::make($page->menuItem->menu_title)
