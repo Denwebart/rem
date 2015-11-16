@@ -175,7 +175,7 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@getLogout']);
 Route::controller('password', 'RemindersController');
 
 /* Правила сайта */
-Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@getRules'])->where('rulesAlias', 'rules');
+Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@getRules'])->where('rulesAlias', 'pravila-sajta');
 Route::post('rules_request', ['as' => 'postRules', 'before' => ['csrf', 'authInCabinet'], 'uses' => 'UsersController@postRules']);
 
 /* Загрузка изображений TinyMCE */
