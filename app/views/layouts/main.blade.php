@@ -133,8 +133,10 @@
             @yield('breadcrumbs')
 
             <div class="hidden-lg hidden-md margin-bottom-5">
-                {{ $sidebarWidget->rss() }}
-                {{ $sidebarWidget->addToFavorites() }}
+                <div class="widget-buttons">
+                    {{ $sidebarWidget->rss() }}
+                    {{ $sidebarWidget->addToFavorites() }}
+                </div>
 
                 @if($page->parent_id == 0)
                     {{ $sidebarWidget->submenu($page) }}
