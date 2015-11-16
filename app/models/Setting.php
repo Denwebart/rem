@@ -61,6 +61,16 @@ class Setting extends \Eloquent
 		'is_active' => 'required',
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saved(function($setting)
+		{
+			Cache::forget('settings.' . $setting->category);
+		});
+	}
+
 	/**
 	 * Получение настроек для сайта
 	 *

@@ -9,7 +9,13 @@ class BaseController extends Controller {
 			Auth::user()->setLastActivity();
 		}
 
-		View::share('settings', Setting::getSettings(['Site']));
+		if(Cache::has('settings.Site')) {
+			$settings = Cache::get('settings.Site');
+		} else {
+			$settings = Setting::getSettings(['Site']);
+			Cache::forever('settings.Site', $settings);
+		}
+		View::share('settings', $settings);
 	}
 
 	/**
