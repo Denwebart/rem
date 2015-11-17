@@ -326,6 +326,7 @@ class CommentsController extends BaseController
 
 					// очистка кэша
 					Cache::forget('widgets.answers');
+					Cache::forget('widgets.questions');
 
 					// return success message
 					return Response::json(array(

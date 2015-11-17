@@ -215,6 +215,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			if(count($user->publishedComments)) {
 				Cache::forget('widgets.comments');
 			}
+			if(count($user->publishedQuestions)) {
+				Cache::forget('widgets.questions');
+			}
 			// сохранение комментариев при удалении пользователя
 			foreach($user->allComments as $comment) {
 				$comment->user_name = $user->login;

@@ -218,6 +218,18 @@ class Page extends \Eloquent
 			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
 				Cache::forget('widgets.latest');
 			}
+			if(count($page->publishedComments)) {
+				Cache::forget('widgets.comments');
+			}
+			if(count($page->bestComments)) {
+				Cache::forget('widgets.answers');
+			}
+			if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
+				Cache::forget('widgets.answers');
+			}
+			if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
+				Cache::forget('widgets.questions');
+			}
 		});
 
         static::deleting(function($page) {
@@ -230,6 +242,12 @@ class Page extends \Eloquent
 	        }
 	        if(count($page->bestComments)) {
 		        Cache::forget('widgets.answers');
+	        }
+	        if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
+		        Cache::forget('widgets.answers');
+	        }
+	        if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
+		        Cache::forget('widgets.questions');
 	        }
             // удаление комментариев
             foreach($page->allComments as $comment) {

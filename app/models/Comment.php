@@ -108,6 +108,10 @@ class Comment extends \Eloquent
 			if(!$comment->is_answer && $comment->is_published) {
 				Cache::forget('widgets.comments');
 			}
+			if($comment->is_answer && $comment->is_published) {
+				Cache::forget('widgets.answers');
+				Cache::forget('widgets.questions');
+			}
 		});
 
 		/**
@@ -133,6 +137,10 @@ class Comment extends \Eloquent
 			// очистка кэша
 			if(!$comment->is_answer && $comment->is_published) {
 				Cache::forget('widgets.comments');
+			}
+			if($comment->is_answer && $comment->is_published) {
+				Cache::forget('widgets.answers');
+				Cache::forget('widgets.questions');
 			}
 		});
 	}

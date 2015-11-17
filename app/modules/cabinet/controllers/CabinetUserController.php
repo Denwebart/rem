@@ -148,6 +148,9 @@ class CabinetUserController extends \BaseController
 		if(count($user->publishedComments)) {
 			Cache::forget('widgets.comments');
 		}
+		if(count($user->publishedQuestions)) {
+			Cache::forget('widgets.questions');
+		}
 
         $backUrl = Input::has('backUrl')
             ? Input::get('backUrl')
