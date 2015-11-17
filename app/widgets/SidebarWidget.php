@@ -203,31 +203,38 @@ class SidebarWidget
 	 */
 	public function comments($limit = 9)
 	{
-		$comments = Comment::whereIsPublished(1)
-            ->whereIsDeleted(0)
-			->whereIsAnswer(0)
-			->limit($limit)
-			->with([
-				'page' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
-				},
-				'page.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'page.parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'page.user' => function($query) {
-					$query->select('id', 'login', 'alias');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->orderBy('created_at', 'DESC')
-			->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+		if(Cache::has('widgets.comments')) {
+			return Cache::get('widgets.comments');
+		} else {
+			$comments = Comment::whereIsPublished(1)
+				->whereIsDeleted(0)
+				->whereIsAnswer(0)
+				->limit($limit)
+				->with([
+					'page' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+					},
+					'page.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'page.parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'page.user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+				])
+				->orderBy('created_at', 'DESC')
+				->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
-		return (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+			$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+
+			Cache::put('widgets.comments', $view, 60);
+			return $view;
+		}
 	}
 
 	/**

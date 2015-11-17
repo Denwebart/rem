@@ -103,6 +103,11 @@ class Comment extends \Eloquent
 		static::saving(function($comment)
 		{
 			$comment->comment = StringHelper::nofollowLinks($comment->comment);
+
+			// очистка кэша
+			if(!$comment->is_answer && $comment->is_published) {
+				Cache::forget('widgets.comments');
+			}
 		});
 
 		/**
@@ -120,6 +125,14 @@ class Comment extends \Eloquent
 			} elseif(Page::TYPE_ARTICLE == $comment->page->type) {
 				$message = 'Добавлен новый комментарий к статье "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
 				SubscriptionNotification::addNotification($comment->page, $message);
+			}
+		});
+
+		static::deleted(function($comment)
+		{
+			// очистка кэша
+			if(!$comment->is_answer && $comment->is_published) {
+				Cache::forget('widgets.comments');
 			}
 		});
 	}

@@ -208,9 +208,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		});
 
 		static::deleting(function($user) {
+			// очистка кэша
 			if(count($user->bestPublishedAnswers)) {
 				Cache::forget('widgets.answers');
 			}
+			if(count($user->publishedComments)) {
+				Cache::forget('widgets.comments');
+			}
+			// сохранение комментариев при удалении пользователя
 			foreach($user->allComments as $comment) {
 				$comment->user_name = $user->login;
 				$comment->user_email = $user->email;

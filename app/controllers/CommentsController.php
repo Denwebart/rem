@@ -324,6 +324,7 @@ class CommentsController extends BaseController
 						->get();
 					$page = $comment->page()->with('publishedComments', 'bestComments')->first();
 
+					// очистка кэша
 					Cache::forget('widgets.answers');
 
 					// return success message

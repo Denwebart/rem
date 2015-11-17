@@ -141,8 +141,12 @@ class CabinetUserController extends \BaseController
         $user->description = $user->saveEditorImages($data['tempPath']);
         $user->save();
 
+		// очистка кэша
 		if(count($user->bestPublishedAnswers)) {
 			Cache::forget('widgets.answers');
+		}
+		if(count($user->publishedComments)) {
+			Cache::forget('widgets.comments');
 		}
 
         $backUrl = Input::has('backUrl')

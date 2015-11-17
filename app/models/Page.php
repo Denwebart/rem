@@ -214,12 +214,23 @@ class Page extends \Eloquent
 			$page->introtext = StringHelper::nofollowLinks($page->introtext);
 			$page->content = StringHelper::nofollowLinks($page->content);
 
+			// очистка кэша
 			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
 				Cache::forget('widgets.latest');
 			}
 		});
 
         static::deleting(function($page) {
+	        // очистка кэша
+	        if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
+		        Cache::forget('widgets.latest');
+	        }
+	        if(count($page->publishedComments)) {
+		        Cache::forget('widgets.comments');
+	        }
+	        if(count($page->bestComments)) {
+		        Cache::forget('widgets.answers');
+	        }
             // удаление комментариев
             foreach($page->allComments as $comment) {
                 $comment->sendNotificationsAboutDelete();
@@ -243,10 +254,6 @@ class Page extends \Eloquent
 			}
 			//удаление папки с изображениями
 			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
-
-			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
-				Cache::forget('widgets.latest');
-			}
 		});
 
 		static::updated(function($page)

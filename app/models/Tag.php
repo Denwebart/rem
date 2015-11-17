@@ -52,6 +52,7 @@ class Tag extends \Eloquent
 			$tag->pagesTags()->delete();
 			File::delete(public_path() . '/uploads/' . $tag->getTable() . '/' . $tag->image);
 
+			// очистка кэша
 			Cache::forget('widgets.tags');
 		});
 
@@ -62,6 +63,7 @@ class Tag extends \Eloquent
 
 		static::updated(function($tag)
 		{
+			// очистка кэша
 			if(count($tag->pages)) {
 				Cache::forget('widgets.tags');
 			}
