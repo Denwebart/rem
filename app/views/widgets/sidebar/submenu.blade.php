@@ -18,9 +18,11 @@
                                 {{ $item->title }}
                             @endif
                         </span>
-                        <small class="label label-info">
-                            {{ $item->pagesCount }}
-                        </small>
+                        @if($item->pagesCount)
+                            <small class="label label-info">
+                                {{ $item->pagesCount }}
+                            </small>
+                        @endif
                     </a>
                 </li>
             @endforeach
