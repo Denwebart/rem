@@ -213,6 +213,10 @@ class Page extends \Eloquent
 			$page->title = StringHelper::mbUcFirst($page->title);
 			$page->introtext = StringHelper::nofollowLinks($page->introtext);
 			$page->content = StringHelper::nofollowLinks($page->content);
+
+			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
+				Cache::forget('widgets.latest');
+			}
 		});
 
         static::deleting(function($page) {
@@ -239,6 +243,10 @@ class Page extends \Eloquent
 			}
 			//удаление папки с изображениями
 			File::deleteDirectory(public_path() . '/uploads/' . $page->getTable() . '/' . $page->id . '/');
+
+			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
+				Cache::forget('widgets.latest');
+			}
 		});
 
 		static::updated(function($page)

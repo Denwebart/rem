@@ -44,27 +44,33 @@ class SidebarWidget
 	 */
 	public function latest($limit = 7)
 	{
-		$pages = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->where('type', '!=', Page::TYPE_QUESTION)
-			->orderBy('published_at', 'DESC')
-			->limit($limit)
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias');
-				},
-			])
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
+		if(Cache::has('widgets.latest')) {
+			return Cache::get('widgets.latest');
+		} else {
+			$pages = Page::whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->whereIsContainer(0)
+				->where('parent_id', '!=', 0)
+				->where('type', '!=', Page::TYPE_QUESTION)
+				->orderBy('published_at', 'DESC')
+				->limit($limit)
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+				])
+				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
 
-		return (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
+			$view = (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
+			Cache::put('widgets.latest', $view, 60);
+			return $view;
+		}
 	}
 
 	/**
