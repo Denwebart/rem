@@ -7,7 +7,7 @@ class RatingController extends BaseController {
 		if(Request::ajax()) {
 
 			$isVote = Session::has('user.rating.page') ? (in_array($id, Session::get('user.rating.page')) ? 1 : 0) : 0;
-			$page = Page::select('id', 'user_id', 'parent_id', 'type', 'is_container', 'votes', 'voters', 'title')
+			$page = Page::select('id', 'user_id', 'parent_id', 'type', 'is_container', 'votes', 'voters', 'title', 'is_published')
 				->with([
 					'user' => function($query) {
 						$query->select('id', 'login', 'alias', 'firstname', 'lastname', 'email');
@@ -74,6 +74,11 @@ class RatingController extends BaseController {
 					$sessionArray[] = $page->id;
 
 					Session::put('user.rating.page', $sessionArray);
+
+					// очистка кэша
+					if($page->is_published == 1 && $page->is_container == 0) {
+						Cache::forget('widgets.best');
+					}
 
 					//return success message
 					return Response::json(array(

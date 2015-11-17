@@ -230,6 +230,16 @@ class Page extends \Eloquent
 			if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
 				Cache::forget('widgets.questions');
 			}
+			if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() < 3) {
+				Cache::forget('widgets.notBest');
+			}
+			if($page->is_published == 1 && $page->is_container == 1) {
+				if($page->parent_id != 0) {
+					Cache::forget('widgets.sidebar.' . $page->parent_id);
+				} else {
+					Cache::forget('widgets.sidebar.' . $page->id);
+				}
+			}
 		});
 
         static::deleting(function($page) {
@@ -248,6 +258,19 @@ class Page extends \Eloquent
 	        }
 	        if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
 		        Cache::forget('widgets.questions');
+	        }
+	        if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() > 4) {
+		        Cache::forget('widgets.best');
+	        }
+	        if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() < 3) {
+		        Cache::forget('widgets.notBest');
+	        }
+	        if($page->is_published == 1 && $page->is_container == 1) {
+		        if($page->parent_id != 0) {
+			        Cache::forget('widgets.sidebar.' . $page->parent_id);
+		        } else {
+			        Cache::forget('widgets.sidebar.' . $page->id);
+		        }
 	        }
             // удаление комментариев
             foreach($page->allComments as $comment) {

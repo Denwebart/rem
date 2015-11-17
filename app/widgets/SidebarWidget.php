@@ -81,25 +81,31 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
-		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
-			->whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->orderBy('rating', 'DESC')
-			->limit($limit)
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias');
-				},
-			])
-			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+		if(Cache::has('widgets.best')) {
+			$pages = Cache::get('widgets.best');
+		} else {
+			$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
+				->whereIsPublished(1)
+				->where('published_at', '<', date('Y-m-d H:i:s'))
+				->whereIsContainer(0)
+				->where('parent_id', '!=', 0)
+				->orderBy('rating', 'DESC')
+				->limit($limit)
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias');
+					},
+				])
+				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+
+			Cache::put('widgets.best', $pages, 60);
+		}
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
 	}
@@ -112,25 +118,31 @@ class SidebarWidget
      */
     public function notBest($limit = 10)
     {
-        $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
-            ->whereIsPublished(1)
-            ->where('published_at', '<', date('Y-m-d H:i:s'))
-            ->whereIsContainer(0)
-            ->where('parent_id', '!=', 0)
-            ->orderBy('rating', 'ASC')
-            ->limit($limit)
-	        ->with([
-		        'parent' => function($query) {
-			        $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-		        },
-		        'parent.parent' => function($query) {
-			        $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-		        },
-		        'user' => function($query) {
-			        $query->select('id', 'login', 'alias');
-		        },
-	        ])
-            ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+	    if(Cache::has('widgets.notBest')) {
+		    $pages = Cache::get('widgets.notBest');
+	    } else {
+		    $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
+			    ->whereIsPublished(1)
+			    ->where('published_at', '<', date('Y-m-d H:i:s'))
+			    ->whereIsContainer(0)
+			    ->where('parent_id', '!=', 0)
+			    ->orderBy('rating', 'ASC')
+			    ->limit($limit)
+			    ->with([
+				    'parent' => function($query) {
+					    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				    },
+				    'parent.parent' => function($query) {
+					    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				    },
+				    'user' => function($query) {
+					    $query->select('id', 'login', 'alias');
+				    },
+			    ])
+			    ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+
+		    Cache::put('widgets.notBest', $pages, 60);
+	    }
 
         return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
     }
@@ -374,20 +386,26 @@ class SidebarWidget
 	public function submenu($page)
 	{
 		if($page->is_container) {
-			$items = Page::select(DB::raw('pages.id, pages.alias, pages.title, menus.menu_title, menus.position, pages.is_published, pages.published_at, pages.parent_id, pages.is_container, count(children.id) as pagesCount'))
-				->where('pages.parent_id', '=', $page->id)
-				->where('pages.is_container', '=', 1)
-				->where('pages.is_published', '=', 1)
-				->where('pages.published_at', '<', date('Y-m-d H:i:s'))
-				->with('parent')
-				->join('menus', 'pages.id', '=', 'menus.page_id')
-				->leftJoin(DB::raw('pages children'), 'pages.id', '=', 'children.parent_id')
-				->where('children.is_published', '=', 1)
-				->where('children.published_at', '<', date('Y-m-d H:i:s'))
-				->groupBy('pages.id')
-				->orderBy('menus.position', 'ASC')
-				->orderBy('pages.id', 'ASC')
-				->get();
+			if(Cache::has('widgets.sidebar.' . $page->id)) {
+				$items = Cache::get('widgets.sidebar.' . $page->id);
+			} else {
+				$items = Page::select(DB::raw('pages.id, pages.alias, pages.title, menus.menu_title, menus.position, pages.is_published, pages.published_at, pages.parent_id, pages.is_container, count(children.id) as pagesCount'))
+					->where('pages.parent_id', '=', $page->id)
+					->where('pages.is_container', '=', 1)
+					->where('pages.is_published', '=', 1)
+					->where('pages.published_at', '<', date('Y-m-d H:i:s'))
+					->with('parent')
+					->join('menus', 'pages.id', '=', 'menus.page_id')
+					->leftJoin(DB::raw('pages children'), 'pages.id', '=', 'children.parent_id')
+					->where('children.is_published', '=', 1)
+					->where('children.published_at', '<', date('Y-m-d H:i:s'))
+					->groupBy('pages.id')
+					->orderBy('menus.position', 'ASC')
+					->orderBy('pages.id', 'ASC')
+					->get();
+
+				Cache::forever('widgets.sidebar.' . $page->id, $items);
+			}
 
 			return (string) View::make('widgets.sidebar.submenu', compact('items', 'page'))->render();
 		}
@@ -400,7 +418,14 @@ class SidebarWidget
 	 */
 	public function addToFavorites()
 	{
-		return (string) View::make('widgets.sidebar.addToFavorites')->render();
+		if(Cache::has('widgets.addToFavorites')) {
+			return Cache::get('widgets.addToFavorites');
+		} else {
+			$view = (string) View::make('widgets.sidebar.addToFavorites')->render();
+
+			Cache::put('widgets.addToFavorites', $view, 60*24);
+			return $view;
+		}
 	}
 
 	/**
@@ -410,7 +435,14 @@ class SidebarWidget
 	 */
 	public function rss()
 	{
-		return (string) View::make('widgets.sidebar.rss')->render();
+		if(Cache::has('widgets.rss')) {
+			return Cache::get('widgets.rss');
+		} else {
+			$view = (string) View::make('widgets.sidebar.rss')->render();
+
+			Cache::put('widgets.rss', $view, 60*24);
+			return $view;
+		}
 	}
 
 	/**
@@ -420,7 +452,14 @@ class SidebarWidget
 	 */
 	public function socialButtons()
 	{
-		return (string) View::make('widgets.sidebar.socialButtons')->render();
+		if(Cache::has('widgets.socialButtons')) {
+			return Cache::get('widgets.socialButtons');
+		} else {
+			$view = (string) View::make('widgets.sidebar.socialButtons')->render();
+
+			Cache::put('widgets.socialButtons', $view, 60);
+			return $view;
+		}
 	}
 
 }

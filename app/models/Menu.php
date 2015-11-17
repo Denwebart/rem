@@ -52,8 +52,19 @@ class Menu extends \Eloquent
 		static::saved(function($item)
 		{
 		    if($item->type == Menu::TYPE_TOP) Cache::forget('menu.top');
-			if($item->type == Menu::TYPE_MAIN) Cache::forget('menu.main');
 			if($item->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+
+			if($item->type == Menu::TYPE_MAIN) {
+				Cache::forget('menu.main');
+
+				if($item->parent_id != 0) {
+					if($item->page) {
+						Cache::forget('widgets.sidebar.' . $item->page->parent_id);
+				    }
+				} else {
+					Cache::forget('widgets.sidebar.' . $item->page_id);
+				}
+			}
 		});
 	}
 
