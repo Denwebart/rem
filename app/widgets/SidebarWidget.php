@@ -258,7 +258,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
 
-			Cache::put('widgets.comments', $view, 60);
+			Cache::put('widgets.comments', $view, 5);
 			return $view;
 		}
 	}
@@ -297,7 +297,7 @@ class SidebarWidget
 				->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
 			$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
-			Cache::forever('widgets.answers', $view);
+			Cache::put('widgets.answers', $view, 5);
 			return $view;
 		}
 	}
@@ -339,7 +339,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 
-			Cache::put('widgets.questions', $view, 60);
+			Cache::put('widgets.questions', $view, 5);
 			return $view;
 		}
 	}
