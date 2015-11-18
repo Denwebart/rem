@@ -266,6 +266,11 @@
             $('#published_at').datepicker().on('changeDate', function(ev){
                 $('#is_published').iCheck('check');
             });
+
+            // кнопка "Сохранить"
+            $(document).on('click', '.save-button', function() {
+                $("#articlesForm").submit();
+            });
         });
     </script>
 

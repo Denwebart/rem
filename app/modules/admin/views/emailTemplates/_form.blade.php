@@ -50,3 +50,14 @@
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('admin::tinymce-init', ['imagePath' => $emailTemplate->getImageEditorPath()])
 @stop
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#emailTemplateForm").submit();
+        });
+    </script>
+@stop

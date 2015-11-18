@@ -82,6 +82,11 @@
                 radioClass: 'iradio_minimal'
             });
         });
+
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#commentsForm").submit();
+        });
     </script>
 
 @stop

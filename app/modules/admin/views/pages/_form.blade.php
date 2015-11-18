@@ -342,5 +342,10 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                 n.slideToggle("slow")
             });
         });
+
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#pagesForm").submit();
+        });
     </script>
 @stop

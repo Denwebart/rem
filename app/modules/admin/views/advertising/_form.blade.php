@@ -231,6 +231,11 @@
 
     <!-- Select area -->
     <script type="text/javascript">
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#advertisingForm").submit();
+        });
+
         $(document).ready(function() {
             $('#areas').on('click', '.area', function(){
                 if(!$(this).hasClass('not-active')) {

@@ -33,3 +33,14 @@
     {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
     <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
 </div>
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#notificationsMessagesForm").submit();
+        });
+    </script>
+@stop

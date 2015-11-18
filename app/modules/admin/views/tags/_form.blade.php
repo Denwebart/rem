@@ -83,6 +83,11 @@
                 $(this).parent().parent().append('Недопустимый размер файла.');
             }
         });
+
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#tagsForm").submit();
+        });
     </script>
 
 @stop

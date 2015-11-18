@@ -318,5 +318,4 @@ View::share('title', $title);
             }
         });
     </script>
-
 @stop

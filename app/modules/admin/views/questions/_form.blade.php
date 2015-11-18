@@ -277,6 +277,11 @@
                 $('#is_published').iCheck('check');
             });
         });
+
+        // кнопка "Сохранить"
+        $(document).on('click', '.save-button', function() {
+            $("#questionsForm").submit();
+        });
     </script>
 
 @stop
