@@ -58,15 +58,13 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-2">
-
-                {{ Form::hidden('backUrl', $backUrl) }}
-
-                {{ Form::submit('Сохранить', ['class' => 'btn btn-success margin-top-25']) }}
-                <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
-            </div>
         </div>
     </div>
+
+    {{ Form::hidden('backUrl', $backUrl) }}
+
+    {{ Form::submit('Сохранить', ['class' => 'btn btn-success']) }}
+    <a href="{{ $backUrl }}" class="btn btn-primary">Отмена</a>
 </div><!-- ./col -->
 
 @section('script')
