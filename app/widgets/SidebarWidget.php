@@ -2,7 +2,6 @@
 
 class SidebarWidget
 {
-
 	public function show($type, $limit)
 	{
 		switch ($type) {
@@ -44,8 +43,8 @@ class SidebarWidget
 	 */
 	public function latest($limit = 7)
 	{
-		if(Cache::has('widgets.latest')) {
-			return Cache::get('widgets.latest');
+		if(Cache::has('widgets.latest.' . $limit)) {
+			return Cache::get('widgets.latest.' . $limit);
 		} else {
 			$pages = Page::whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -68,7 +67,7 @@ class SidebarWidget
 				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
 
 			$view = (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
-			Cache::put('widgets.latest', $view, 60);
+			Cache::put('widgets.latest.' . $limit, $view, 60);
 			return $view;
 		}
 	}
@@ -81,8 +80,8 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
-		if(Cache::has('widgets.best')) {
-			$pages = Cache::get('widgets.best');
+		if(Cache::has('widgets.best.' . $limit)) {
+			$pages = Cache::get('widgets.best.' . $limit);
 		} else {
 			$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
 				->whereIsPublished(1)
@@ -104,7 +103,7 @@ class SidebarWidget
 				])
 				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
-			Cache::put('widgets.best', $pages, 60);
+			Cache::put('widgets.best.' . $limit, $pages, 60);
 		}
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
@@ -118,8 +117,8 @@ class SidebarWidget
      */
     public function notBest($limit = 10)
     {
-	    if(Cache::has('widgets.notBest')) {
-		    $pages = Cache::get('widgets.notBest');
+	    if(Cache::has('widgets.notBest.' . $limit)) {
+		    $pages = Cache::get('widgets.notBest.' . $limit);
 	    } else {
 		    $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
 			    ->whereIsPublished(1)
@@ -141,7 +140,7 @@ class SidebarWidget
 			    ])
 			    ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
 
-		    Cache::put('widgets.notBest', $pages, 60);
+		    Cache::put('widgets.notBest.' . $limit, $pages, 60);
 	    }
 
         return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
@@ -155,8 +154,8 @@ class SidebarWidget
 	 */
 	public function popular($limit = 5)
 	{
-		if(Cache::has('widgets.popular')) {
-			return Cache::get('widgets.popular');
+		if(Cache::has('widgets.popular.' . $limit)) {
+			return Cache::get('widgets.popular.' . $limit);
 		} else {
 			$pages = Page::whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -179,7 +178,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
 
-			Cache::put('widgets.popular', $view, 60);
+			Cache::put('widgets.popular.' . $limit, $view, 60);
 			return $view;
 		}
 	}
@@ -192,8 +191,8 @@ class SidebarWidget
 	 */
 	public function unpopular($limit = 7)
 	{
-		if(Cache::has('widgets.popular')) {
-			return Cache::get('widgets.popular');
+		if(Cache::has('widgets.popular.' . $limit)) {
+			return Cache::get('widgets.popular.' . $limit);
 		} else {
 			$pages = Page::whereIsPublished(1)
 				->where('published_at', '<', date('Y-m-d H:i:s'))
@@ -216,7 +215,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
 
-			Cache::put('widgets.popular', $view, 60);
+			Cache::put('widgets.popular.' . $limit, $view, 60);
 			return $view;
 		}
 	}
@@ -229,8 +228,8 @@ class SidebarWidget
 	 */
 	public function comments($limit = 9)
 	{
-		if(Cache::has('widgets.comments')) {
-			return Cache::get('widgets.comments');
+		if(Cache::has('widgets.comments.' . $limit)) {
+			return Cache::get('widgets.comments.' . $limit);
 		} else {
 			$comments = Comment::whereIsPublished(1)
 				->whereIsDeleted(0)
@@ -258,7 +257,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
 
-			Cache::put('widgets.comments', $view, 5);
+			Cache::put('widgets.comments.' . $limit, $view, 5);
 			return $view;
 		}
 	}
@@ -271,8 +270,8 @@ class SidebarWidget
 	 */
 	public function answers($limit = 9)
 	{
-		if(Cache::has('widgets.answers')) {
-			return Cache::get('widgets.answers');
+		if(Cache::has('widgets.answers.' . $limit)) {
+			return Cache::get('widgets.answers.' . $limit);
 		} else {
 			$answers = Comment::whereIsPublished(1)
 				->whereIsDeleted(0)
@@ -297,7 +296,7 @@ class SidebarWidget
 				->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
 			$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
-			Cache::put('widgets.answers', $view, 5);
+			Cache::put('widgets.answers.' . $limit, $view, 5);
 			return $view;
 		}
 	}
@@ -310,8 +309,8 @@ class SidebarWidget
 	 */
 	public function questions($limit = 3)
 	{
-		if(Cache::has('widgets.questions')) {
-			return Cache::get('widgets.questions');
+		if(Cache::has('widgets.questions.' . $limit)) {
+			return Cache::get('widgets.questions.' . $limit);
 		} else {
 			$questions = Page::whereType(Page::TYPE_QUESTION)
 				->whereIsPublished(1)
@@ -339,7 +338,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 
-			Cache::put('widgets.questions', $view, 5);
+			Cache::put('widgets.questions.' . $limit, $view, 5);
 			return $view;
 		}
 	}
@@ -352,8 +351,8 @@ class SidebarWidget
 	 */
 	public function tags($limit = 20)
 	{
-		if(Cache::has('widgets.tags')) {
-			return Cache::get('widgets.tags');
+		if(Cache::has('widgets.tags.' . $limit)) {
+			return Cache::get('widgets.tags.' . $limit);
 		} else {
 			$tags = Tag::select('id', 'title')
 				->has('pages')
@@ -372,7 +371,7 @@ class SidebarWidget
 				})->reverse();
 
 			$view = (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
-			Cache::forever('widgets.tags', $view);
+			Cache::forever('widgets.tags.' . $limit, $view);
 			return $view;
 		}
 	}
@@ -461,5 +460,4 @@ class SidebarWidget
 			return $view;
 		}
 	}
-
 }

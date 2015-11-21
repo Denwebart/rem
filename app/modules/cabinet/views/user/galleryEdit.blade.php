@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = (Auth::user()->is($user)) ? 'Редактирование информации о фотографии' : 'Редактирование информации о фотографии пользователя ' . $user->login;
+$title = (Auth::user()->is($user)) ? 'Редактирование информации об автомобиле' : 'Редактирование информации об автомобиле пользователя ' . $user->login;
 View::share('title', $title);
 ?>
 
@@ -17,7 +17,7 @@ View::share('title', $title);
                 'url' => URL::route('user.profile', ['login' => $user->getLoginForUrl()])
             ],
             [
-                'title' => (Auth::user()->is($user)) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login,
+                'title' => (Auth::user()->is($user)) ? 'Мои автомобили' : 'Автомобили пользователя ' . $user->login,
                 'url' => URL::route('user.gallery', ['login' => $user->getLoginForUrl()])
             ],
             [
@@ -66,7 +66,7 @@ View::share('title', $title);
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group @if($errors->has('title')) has-error @endif">
-                                            {{ Form::label('title', 'Заголовок изображения', ['class' => 'control-label']) }}
+                                            {{ Form::label('title', 'Марка автомобиля', ['class' => 'control-label']) }}
                                             {{ Form::text('title', $image->title, ['class' => 'form-control']) }}
                                             <small class="title_error error text-danger">
                                                 {{ $errors->first('title') }}
@@ -75,7 +75,7 @@ View::share('title', $title);
                                     </div>
                                 </div>
                                 <div class="form-group @if($errors->has('description')) has-error @endif">
-                                    {{ Form::label('description', 'Описание изображения', ['class' => 'control-label']) }}
+                                    {{ Form::label('description', 'Описание', ['class' => 'control-label']) }}
                                     {{ Form::textarea('description', $image->description, ['class' => 'form-control editor']) }}
                                     <small class="description_error error text-danger">
                                         {{ $errors->first('description') }}

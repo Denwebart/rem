@@ -107,7 +107,7 @@
                         <li>
                             <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl() ]) }}">
                                 <i class="material-icons">directions_car</i>
-                                Мой автомобиль
+                                Мои автомобили
                             </a>
                         </li>
                         <li>

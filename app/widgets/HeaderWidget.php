@@ -2,7 +2,7 @@
 
 class HeaderWidget
 {
-	public $newLetters;
+	public $newLetters = [];
 	public $deletedLetters;
 	public $newMessages;
 	public $newNotifications;
@@ -19,42 +19,103 @@ class HeaderWidget
 	public function __construct()
 	{
 		if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
-			$this->newQuestions = $this->newQuestions();
-			$this->newArticles = $this->newArticles();
-			$this->newComments = $this->newComments();
-			$this->newAnswers = $this->newAnswers();
-			$this->newUsers = $this->newUsers();
-			$this->notPublishedAnswers = $this->notPublishedAnswers();
-			$this->notPublishedComments = $this->notPublishedComments();
+			if(Cache::has('headerWidget.newQuestions.' . Auth::user()->id)) {
+				$this->newQuestions = Cache::get('headerWidget.newQuestions.' . Auth::user()->id);
+			} else {
+				$this->newQuestions = $this->newQuestions();
+				Cache::put('headerWidget.newQuestions.' . Auth::user()->id, $this->newQuestions, 60);
+			}
+			if(Cache::has('headerWidget.newArticles.' . Auth::user()->id)) {
+				$this->newArticles = Cache::get('headerWidget.newArticles.' . Auth::user()->id);
+			} else {
+				$this->newArticles = $this->newArticles();
+				Cache::put('headerWidget.newArticles.' . Auth::user()->id, $this->newArticles, 60);
+			}
+			if(Cache::has('headerWidget.newComments.' . Auth::user()->id)) {
+				$this->newComments = Cache::get('headerWidget.newComments.' . Auth::user()->id);
+			} else {
+				$this->newComments = $this->newComments();
+				Cache::put('headerWidget.newComments.' . Auth::user()->id, $this->newComments, 60);
+			}
+			if(Cache::has('headerWidget.newAnswers.' . Auth::user()->id)) {
+				$this->newAnswers = Cache::get('headerWidget.newAnswers.' . Auth::user()->id);
+			} else {
+				$this->newAnswers = $this->newAnswers();
+				Cache::put('headerWidget.newAnswers.' . Auth::user()->id, $this->newAnswers, 60);
+			}
+			if(Cache::has('headerWidget.newUsers.' . Auth::user()->id)) {
+				$this->newUsers = Cache::get('headerWidget.newUsers.' . Auth::user()->id);
+			} else {
+				$this->newUsers = $this->newUsers();
+				Cache::put('headerWidget.newUsers.' . Auth::user()->id, $this->newUsers, 60);
+			}
+			if(Cache::has('headerWidget.notPublishedAnswers.' . Auth::user()->id)) {
+				$this->notPublishedAnswers = Cache::get('headerWidget.notPublishedAnswers.' . Auth::user()->id);
+			} else {
+				$this->notPublishedAnswers = $this->notPublishedAnswers();
+				Cache::put('headerWidget.notPublishedAnswers.' . Auth::user()->id, $this->notPublishedAnswers, 60);
+			}
+			if(Cache::has('headerWidget.notPublishedComments.' . Auth::user()->id)) {
+				$this->notPublishedComments = Cache::get('headerWidget.notPublishedComments.' . Auth::user()->id);
+			} else {
+				$this->notPublishedComments = $this->notPublishedComments();
+				Cache::put('headerWidget.notPublishedComments.' . Auth::user()->id, $this->notPublishedComments, 60);
+			}
 		}
 		if(Auth::user()->isAdmin()) {
-			$this->newLetters = $this->newLetters();
+			if(Cache::has('headerWidget.newLetters.' . Auth::user()->id)) {
+				$this->newLetters = Cache::get('headerWidget.newLetters.' . Auth::user()->id);
+			} else {
+				$this->newLetters = $this->newLetters();
+				Cache::put('headerWidget.newLetters.' . Auth::user()->id, $this->newLetters, 60);
+			}
 		}
-		$this->newMessages = $this->newMessages();
-		$this->newNotifications = $this->newNotifications();
-		$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
-		$this->isBannedIp = Ip::isBanned();
+		if(Cache::has('headerWidget.newMessages.' . Auth::user()->id)) {
+			$this->newMessages = Cache::get('headerWidget.newMessages.' . Auth::user()->id);
+		} else {
+			$this->newMessages = $this->newMessages();
+			Cache::put('headerWidget.newMessages.' . Auth::user()->id, $this->newMessages, 60);
+		}
+		if(Cache::has('headerWidget.newNotifications.' . Auth::user()->id)) {
+			$this->newNotifications = Cache::get('headerWidget.newNotifications.' . Auth::user()->id);
+		} else {
+			$this->newNotifications = $this->newNotifications();
+			Cache::put('headerWidget.newNotifications.' . Auth::user()->id, $this->newNotifications, 60);
+		}
+		if(Cache::has('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id)) {
+			$this->newSubscriptionsNotifications = Cache::get('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id);
+		} else {
+			$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
+			Cache::put('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id, $this->newSubscriptionsNotifications, 60);
+		}
+		if(Cache::has('headerWidget.isBannedIp.' . Auth::user()->id)) {
+			$this->isBannedIp = Cache::get('headerWidget.isBannedIp.' . Auth::user()->id);
+		} else {
+			$this->isBannedIp = Ip::isBanned();
+			Cache::put('headerWidget.isBannedIp.' . Auth::user()->id, $this->isBannedIp, 60);
+		}
 	}
 
 	public function show($page = null)
 	{
 		if(Auth::user()->isAdmin()) {
 			$letters = $this->newLetters;
-			$letters = (string) View::make('widgets.header.letters', compact('letters'));
+			$letters = (string) View::make('widgets.header.letters', compact('letters'))->with('limit', 5);
 		} else {
-			$letters = '';
+			$letters = [];
 		}
+
 		$messages = $this->newMessages;
-		$messages = (string) View::make('widgets.header.messages', compact('messages'));
+		$messages = (string) View::make('widgets.header.messages', compact('messages'))->with('limit', 5);
 
 		$notifications = $this->newNotifications;
-		$notifications = (string) View::make('widgets.header.notifications', compact('notifications'));
+		$notifications = (string) View::make('widgets.header.notifications', compact('notifications'))->with('limit', 5);
 
 		return (string) View::make('widgets.header.index', compact('letters', 'messages', 'notifications', 'page'))->with('user', Auth::user())->render();
 	}
 
 
-	public function newLetters($limit = 5) {
+	public function newLetters() {
 		return Letter::select('id', 'user_id', 'user_name', 'user_email', 'subject', 'created_at')
 			->whereNull('read_at')
 			->whereNull('deleted_at')
@@ -64,10 +125,10 @@ class HeaderWidget
 				}
 			])
 			->orderBy('created_at', 'DESC')
-			->paginate($limit);
+			->get();
 	}
 
-	public function newMessages($limit = 5) {
+	public function newMessages() {
 		return Message::select('id', 'user_id_sender', 'user_id_recipient', 'message', 'created_at')
 			->whereUserIdRecipient(Auth::user()->id)
 			->whereNull('read_at')
@@ -77,10 +138,10 @@ class HeaderWidget
 				}
 			])
 			->orderBy('created_at', 'DESC')
-			->paginate($limit);
+			->get();
 	}
 
-	public function newNotifications($limit = 5) {
+	public function newNotifications() {
 		return Notification::select('id', 'user_id', 'type', 'message', 'created_at')
 			->whereUserId(Auth::user()->id)
 			->with([
@@ -90,7 +151,7 @@ class HeaderWidget
 			])
 			->orderBy('created_at', 'DESC')
 			->orderBy('id', 'DESC')
-			->paginate($limit);
+			->get();
 	}
 
 	public function newSubscriptionsNotifications() {

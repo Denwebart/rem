@@ -616,7 +616,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	 * Изображения пользователя ("Мой автомобиль")
+	 * Изображения пользователя ("Мои автомобили")
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
@@ -626,7 +626,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	 * Опубликованные изображения пользователя ("Мой автомобиль")
+	 * Опубликованные изображения пользователя ("Мои автомобили")
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */

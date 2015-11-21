@@ -1,7 +1,7 @@
 @extends('cabinet::layouts.cabinet')
 
 <?php
-$title = Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Автомобиль пользователя ' . $user->login) : 'Автомобиль пользователя ' . $user->login;
+$title = Auth::check() ? (Auth::user()->is($user) ? 'Мои автомобили' : 'Автомобили пользователя ' . $user->login) : 'Автомобиль пользователя ' . $user->login;
 View::share('title', $title);
 ?>
 
@@ -113,7 +113,7 @@ View::share('title', $title);
                                     @if(Config::get('settings.numberOfUserImages') > count($images))
                                         <div id="new-photo">
 
-                                            <h3>Добавить фотографию</h3>
+                                            <h3>Добавить фотографию автомобиля</h3>
 
                                             {{ Form::open(['method' => 'POST', 'route' => ['user.gallery.uploadPhoto', $user->getLoginForUrl()], 'files' => true], ['id' => 'uploadPhoto']) }}
 
@@ -135,14 +135,14 @@ View::share('title', $title);
                                                 <div class="clearfix"></div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group @if($errors->has('title')) has-error @endif">
-                                                        {{ Form::label('title', 'Заголовок изображения', ['class' => 'control-label']) }}
+                                                        {{ Form::label('title', 'Марка автомобиля', ['class' => 'control-label']) }}
                                                         {{ Form::text('title', null, ['class' => 'form-control']) }}
                                                         <small class="title_error error text-danger">
                                                             {{ $errors->first('title') }}
                                                         </small>
                                                     </div>
                                                     <div class="form-group @if($errors->has('description')) has-error @endif">
-                                                        {{ Form::label('description', 'Описание изображения', ['class' => 'control-label']) }}
+                                                        {{ Form::label('description', 'Описание', ['class' => 'control-label']) }}
                                                         {{ Form::textarea('description', null, ['class' => 'form-control editor']) }}
                                                         <small class="description_error error text-danger">
                                                             {{ $errors->first('description') }}

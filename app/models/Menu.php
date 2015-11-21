@@ -93,17 +93,19 @@ class Menu extends \Eloquent
 		$menuItem = Menu::wherePageId($page->id)->first();
 		if($page->is_published) {
 			if(Page::TYPE_SYSTEM_PAGE == $page->type || Page::TYPE_QUESTIONS == $page->type || Page::TYPE_JOURNAL == $page->type || Page::TYPE_PAGE == $page->type) {
-				if($page->parent_id == 0) {
+				if($page->parent_id == 0 && $page->is_container == 1) {
 					if(!$menuItem) {
 						Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'menu_title' => $page->title]);
 					}
 				} else {
 					if($page->is_container) {
 						$parentMenuItem = Menu::wherePageId($page->parent_id)->first();
-						if(!$menuItem) {
-							Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'parent_id' => $parentMenuItem->id, 'menu_title' => $page->title]);
-						} else {
-							Menu::wherePageId($page->id)->update(['parent_id' => $parentMenuItem->id]);
+						if($parentMenuItem) {
+							if(!$menuItem) {
+								Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'parent_id' => $parentMenuItem->id, 'menu_title' => $page->title]);
+							} else {
+								Menu::wherePageId($page->id)->update(['parent_id' => $parentMenuItem->id]);
+							}
 						}
 					}
 				}

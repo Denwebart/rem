@@ -8,7 +8,7 @@
     <li class="{{ (Route::is('user.gallery') || Route::is('user.gallery.editPhoto')) ? 'active' : '' }}">
         <a href="{{ URL::route('user.gallery', ['login' => $user->getLoginForUrl()]) }}">
             <i class="material-icons">directions_car</i>
-            <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мой автомобиль' : 'Aвтомобиль') : 'Автомобиль' }}</span>
+            <span>{{ Auth::check() ? (Auth::user()->is($user) ? 'Мои автомобили' : 'Aвтомобили') : 'Автомобили' }}</span>
         </a>
     </li>
     <li class="questions {{ (Route::is('user.questions') || Route::is('user.questions.edit') || Route::is('user.questions.create')) ? 'active' : '' }}">

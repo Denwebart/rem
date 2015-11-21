@@ -3,7 +3,7 @@
         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons">notifications</i>
             <span class="label label-warning">
-                {{ $notifications->getTotal() }}
+                {{ count($notifications) }}
             </span>
         </a>
     @else
@@ -16,10 +16,10 @@
             <i class="material-icons">notifications</i>
             Уведомления:
             @if(count($notifications))
-                @if($notifications->count() < $notifications->getTotal())
-                    <span>{{ $notifications->count() }} из {{ $notifications->getTotal() }}</span>
+                @if($limit < count($notifications))
+                    <span>{{ $limit }} из {{ count($notifications) }}</span>
                 @else
-                    <span>{{ $notifications->count() }}</span>
+                    <span>{{ count($notifications) }}</span>
                 @endif
             @else
                 <span>{{ count($notifications) }}</span>
@@ -27,16 +27,18 @@
         </li>
         <li>
             <ul>
-                @foreach($notifications as $notification)
-                    <li data-notification-id="{{ $notification->id }}">
-                        <a href="{{ URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) }}#notification-{{$notification->id}}">
-                            {{ Notification::$typeIcons[$notification->type] }}
-                            <small>
-                                {{ DateHelper::getRelativeTime($notification->created_at) }}
-                            </small>
-                            <p>{{ strip_tags($notification->message) }}</p>
-                        </a>
-                    </li>
+                @foreach($notifications as $key => $notification)
+                    @if($key < $limit)
+                        <li data-notification-id="{{ $notification->id }}">
+                            <a href="{{ URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) }}#notification-{{$notification->id}}">
+                                {{ Notification::$typeIcons[$notification->type] }}
+                                <small>
+                                    {{ DateHelper::getRelativeTime($notification->created_at) }}
+                                </small>
+                                <p>{{ strip_tags($notification->message) }}</p>
+                            </a>
+                        </li>
+                    @endif
                 @endforeach
             </ul>
         </li>

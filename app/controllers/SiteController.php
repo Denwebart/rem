@@ -22,6 +22,16 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
+		$page = Page::getPageByAlias()->firstOrFail();
+		$page->setViews();
+
+//		if(Cache::has('articles.' . $page->id)) {
+//            $articles = Cache::get('articles.' . $page->id);
+//		} else {
+//			$articles = [];
+//			Cache::put('articles.' . $page->id, $articles, 5);
+//		}
+
 		$categories = Setting::select('id', 'key', 'value')->whereKey('categoriesOnMainPage')->first();
 
 		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
@@ -56,9 +66,6 @@ class SiteController extends BaseController {
 			->whereIsContainer(0)
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
-
-		$page = Page::getPageByAlias()->firstOrFail();
-		$page->setViews();
 
 		View::share('page', $page);
 		return View::make('site.index', compact('articles'));
