@@ -2,7 +2,7 @@
 
 class HeaderWidget
 {
-	public $newLetters = [];
+	public $newLetters;
 	public $deletedLetters;
 	public $newMessages;
 	public $newNotifications;

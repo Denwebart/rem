@@ -44,7 +44,7 @@
                     <span class="hidden-lg hidden-xs">Сообщения</span>
                     @if(Auth::user()->is($user))
                         @if(count($headerWidget->newMessages))
-                            <small class="label label-info">{{ $headerWidget->newMessages->getTotal() }}</small>
+                            <small class="label label-info">{{ count($headerWidget->newMessages) }}</small>
                         @endif
                     @endif
                 </a>
@@ -79,7 +79,7 @@
                     </span>
                     @if(Auth::user()->is($user))
                         @if(count($headerWidget->newNotifications))
-                            <small class="label label-info">{{ $headerWidget->newNotifications->getTotal() }}</small>
+                            <small class="label label-info">{{ count($headerWidget->newNotifications) }}</small>
                         @endif
                     @endif
                 </a>

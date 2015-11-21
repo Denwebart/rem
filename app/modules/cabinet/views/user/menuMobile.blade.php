@@ -36,7 +36,7 @@
                     <i class="material-icons">send</i>
                     @if(Auth::user()->is($user))
                         @if(count($headerWidget->newMessages))
-                            <small class="label label-info">{{ $headerWidget->newMessages->getTotal() }}</small>
+                            <small class="label label-info">{{ count($headerWidget->newMessages) }}</small>
                         @endif
                     @endif
                 </a>
@@ -63,7 +63,7 @@
                     <i class="material-icons">notifications</i>
                     @if(Auth::user()->is($user))
                         @if(count($headerWidget->newNotifications))
-                            <small class="label label-info">{{ $headerWidget->newNotifications->getTotal() }}</small>
+                            <small class="label label-info">{{ count($headerWidget->newNotifications) }}</small>
                         @endif
                     @endif
                 </a>
