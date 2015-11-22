@@ -1,18 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic,500italic,500&subset=latin,cyrillic);
-
-/* Material Icons */
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: url('../fonts/iconfont/MaterialIcons-Regular.eot'); /* For IE6-8 */
-    src: local('Material Icons'),
-    local('MaterialIcons-Regular'),
-    url('../fonts/iconfont/MaterialIcons-Regular.woff2') format('woff2'),
-    url('../fonts/iconfont/MaterialIcons-Regular.woff') format('woff'),
-    url('../fonts/iconfont/MaterialIcons-Regular.ttf') format('truetype');
-}
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext);*/
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic,500italic,500&subset=latin,cyrillic);*/
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -43,6 +30,29 @@
 select:-moz-focusring {
     color: transparent;
     text-shadow: 0 0 0 #000;
+}
+
+/*-- Заголовки --*/
+.h3, h3,
+.h4, h4 {
+    font-size: 22px;
+    font-weight: 400;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4 {
+    font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+}
+.h2, h2 {
+    font-size: 26px;
+    font-weight: 300;
+}
+h2 .login {
+    display: inline-block;
+    margin-top: 5px;
 }
 
 /* Отступы */
@@ -159,7 +169,7 @@ select:-moz-focusring {
     opacity: 0.3;
 }
 .loader-checkbox {
-    background: url('../images/loader-button.gif');
+    background: url('images/loader-button.gif');
 }
 /* Автокомплит jQueryUI */
 .ui-widget-content {
@@ -945,7 +955,7 @@ form .page-image {
 }
 #sitemap ul li {
     margin-bottom: 5px;
-    list-style-image: url('../images/dash.png');
+    list-style-image: url('images/dash.png');
 }
 
 /* Контактная форма */
@@ -1240,7 +1250,7 @@ blockquote .author {
     font-weight: 400;
 }
 #leaders-sidebar-widget .award {
-     background: #ffffff url("../images/award.png") no-repeat;
+     background: #ffffff url("images/award.png") no-repeat;
      height: 300px;
      margin-bottom: 30px;
 }
@@ -1413,7 +1423,7 @@ blockquote .author {
 
 /*-- Footer --*/
 footer {
-    background: url("../images/footer.jpg");
+    background: url("images/footer.jpg");
     margin: 30px 0 0;
     min-height: 200px;
     color: #ffffff;
@@ -1616,9 +1626,6 @@ footer .counter {
 }
 #header-widget .navbar .nav > li {
     height: 50px;
-}
-#header-widget .navbar .nav > li > a {
-    display: inline-block;
 }
 #header-widget .navbar .nav > li > a:hover,
 #header-widget .navbar .nav > li > a:focus {

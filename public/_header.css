@@ -1,6 +1,6 @@
 body {
     padding: 0 !important;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif !important;
     font-weight: 400;
     background: #E5E5E5 url('images/bg.jpg') repeat;
 }
@@ -11,27 +11,6 @@ body .well p,
 a:hover,
 a:focus {
     outline: none;
-}
-/*-- Заголовки --*/
-.h2, h2 {
-    font-size: 26px;
-}
-h2 .login {
-    display: inline-block;
-    margin-top: 5px;
-}
-.h3, h3,
-.h4, h4 {
-    font-size: 22px;
-    font-weight: 400;
-}
-.h1, .h2, .h3, h1, h2, h3 {
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4 {
-    font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 .display-block {
     display: block;
@@ -81,8 +60,8 @@ h1, h2, h3, h4, h5, h6,
 .btn-login,
 .btn-logout {
     width: 140px;
-    padding-top: 1px;
-    padding-bottom: 2px;
+    padding-top: 1px !important;
+    padding-bottom: 2px !important;
     line-height: 24px;
 }
 .btn-login span,
@@ -150,8 +129,8 @@ h1, h2, h3, h4, h5, h6,
     font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif !important;
 }
 .navbar .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
 }
 .navbar #navbar-main .navbar-nav > li > a {
     font-size: 16px;
@@ -186,7 +165,7 @@ h1, h2, h3, h4, h5, h6,
 /*-- Подменю (слева на странице) --*/
 #submenu-sidebar-widget {
     padding-right: 0;
-    font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;
     display: inline-block;
     width: 100%;
 }

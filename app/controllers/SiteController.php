@@ -4,7 +4,6 @@ class SiteController extends BaseController {
 
 	public function __construct()
 	{
-		dd('njk');
 		parent::__construct();
 
 		if(Auth::check()){
@@ -20,7 +19,6 @@ class SiteController extends BaseController {
 
 	public function index()
 	{
-		dd('njk');
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_MAIN]);
 		View::share('areaWidget', $areaWidget);
 
@@ -70,6 +68,7 @@ class SiteController extends BaseController {
 			->paginate(10);
 
 		View::share('page', $page);
+
 		return View::make('site.index', compact('articles'));
 	}
 

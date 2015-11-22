@@ -1,5 +1,4 @@
 <?php
-
 /* Заполнение данных */
 //Route::get('/fill', function() {
 //    $result_data = [
@@ -184,7 +183,6 @@ Route::post('deleteFromTemp', ['as' => 'deleteFromTemp', 'before' => 'csrf-ajax'
 
 /* Фронт */
 Route::get('/', 'SiteController@index');
-
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
 Route::get('top', ['as' => 'top', 'uses' => 'TopController@index']);
 
