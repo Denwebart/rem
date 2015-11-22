@@ -108,8 +108,8 @@ View::share('areaWidget', $areaWidget);
                             var $nextRule = $('[data-rule-id="'+ nextId +'"]');
                             $nextRule.find('.check').css('color', '#4CAF50').removeClass('loader-checkbox');
                             $nextRule.find('.checkbox-input').removeAttr('disabled');
-                        }, 2500, nextId);
-                    }, 2500, nextId);
+                        }, 1000, nextId);
+                    }, 1000, nextId);
                 }
                 else {
                     $('#submit').removeAttr('disabled');
