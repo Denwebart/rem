@@ -2,7 +2,7 @@ body {
     padding: 0 !important;
     font-family: 'Open Sans', sans-serif !important;
     font-weight: 400;
-    background: #E5E5E5 url('images/bg.jpg') repeat;
+    background: #E5E5E5 url('/images/bg.jpg') repeat;
 }
 body .well p,
 .container .well p {

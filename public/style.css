@@ -1,5 +1,17 @@
 /*@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext);*/
 /*@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic,500italic,500&subset=latin,cyrillic);*/
+/* Material Icons */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/iconfont/MaterialIcons-Regular.eot'); /* For IE6-8 */
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('/fonts/iconfont/MaterialIcons-Regular.woff2') format('woff2'),
+    url('/fonts/iconfont/MaterialIcons-Regular.woff') format('woff'),
+    url('/fonts/iconfont/MaterialIcons-Regular.ttf') format('truetype');
+}
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -1486,9 +1498,7 @@ footer .counter {
 }
 #navbar-bottom li {
     margin: 0 20px 0 0;
-}
-#navbar-bottom li {
-    margin: 0 20px 0 0;
+    float: left;
 }
 #navbar-bottom li a {
     color: #E1E1E1;
