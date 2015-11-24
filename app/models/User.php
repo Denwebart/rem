@@ -202,8 +202,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		parent::boot();
 
+		static::created(function($letter)
+		{
+			// очистка кэша
+			Cache::forget('headerWidget.newUsers');
+		});
+
 		static::deleted(function($user)
 		{
+			// очистка кэша
+			Cache::forget('headerWidget.newUsers');
+
 			File::deleteDirectory(public_path() . '/uploads/' . $user->getTable() . '/' . $user->getLoginForUrl() . '/');
 		});
 

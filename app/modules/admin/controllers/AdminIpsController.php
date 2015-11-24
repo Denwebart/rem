@@ -210,6 +210,8 @@ class AdminIpsController extends \BaseController
             $ip->ban_at = date('Y:m:d H:i:s');
 
             if ($ip->save()) {
+	            Cache::forget('headerWidget.isBannedIp.' . $ip->ip);
+
                 $ipRowView = 'admin::ips.bannedIpRow';
                 return Response::json(array(
                     'success' => true,
@@ -238,6 +240,8 @@ class AdminIpsController extends \BaseController
             $ip->is_banned = 0;
             $ip->unban_at = date('Y:m:d H:i:s');
             if($ip->save()) {
+	            Cache::forget('headerWidget.isBannedIp.' . $ip->ip);
+
                 return Response::json(array(
                     'success' => true,
                     'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ip-адрес разбанен.']),

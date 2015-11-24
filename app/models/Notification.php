@@ -148,6 +148,9 @@ class Notification extends \Eloquent
 			'type' => $notificationType,
 			'message' => $notificationMessage,
 		]);
+
+		// сброс кэша
+		Cache::forget('headerWidget.newNotifications.' . $userModel->id);
 	}
 
 	private function getMessage($notificationType, $variables)

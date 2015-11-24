@@ -51,6 +51,23 @@ class Letter extends \Eloquent
 		'g-recaptcha-response' => 'required_without_all:user_id|captcha'
 	];
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::created(function($letter)
+		{
+			// очистка кэша
+			Cache::forget('headerWidget.newLetters');
+		});
+
+		static::deleted(function($letter) {
+			// очистка кэша
+			Cache::forget('headerWidget.newLetters');
+			Cache::forget('headerWidget.deletedLetters');
+		});
+	}
+
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id');

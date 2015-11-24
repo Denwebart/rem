@@ -119,6 +119,23 @@ class Comment extends \Eloquent
 		 */
 		static::created(function($comment)
 		{
+			// очистка кэша
+			if($comment->is_answer) {
+				if($comment->is_published) {
+					Cache::forget('headerWidget.newAnswers');
+				} else {
+					Cache::forget('headerWidget.notPublishedAnswers');
+				}
+			} else {
+				if($comment->is_published) {
+					Cache::forget('headerWidget.newComments');
+				} else {
+					Cache::forget('headerWidget.notPublishedComments');
+				}
+			}
+
+			Cache::forget('headerWidget.newLetters');
+
 			if(Page::TYPE_QUESTION == $comment->page->type) {
 				if(0 == $comment->parent_id) {
 					$message = 'Добавлен новый ответ к вопросу "<a href="' . URL::to($comment->getUrl()) . '">' . $comment->page->getTitle() . '</a>".';
@@ -132,7 +149,7 @@ class Comment extends \Eloquent
 			}
 		});
 
-		static::deleted(function($comment)
+		static::deleting(function($comment)
 		{
 			// очистка кэша
 			if(!$comment->is_answer && $comment->is_published) {
@@ -141,6 +158,20 @@ class Comment extends \Eloquent
 			if($comment->is_answer && $comment->is_published) {
 				Cache::forget('widgets.answers');
 				Cache::forget('widgets.questions');
+			}
+
+			if($comment->is_answer) {
+				if($comment->is_published) {
+					Cache::forget('headerWidget.newAnswers');
+				} else {
+					Cache::forget('headerWidget.notPublishedAnswers');
+				}
+			} else {
+				if($comment->is_published) {
+					Cache::forget('headerWidget.newComments');
+				} else {
+					Cache::forget('headerWidget.notPublishedComments');
+				}
 			}
 		});
 	}

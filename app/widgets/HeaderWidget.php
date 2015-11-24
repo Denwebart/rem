@@ -2,72 +2,72 @@
 
 class HeaderWidget
 {
-	public $newLetters;
-	public $deletedLetters;
-	public $newMessages;
-	public $newNotifications;
-	public $newSubscriptionsNotifications;
-	public $newUsers;
 	public $newQuestions;
 	public $newArticles;
 	public $newComments;
 	public $newAnswers;
 	public $notPublishedAnswers;
 	public $notPublishedComments;
+	public $newLetters;
+	public $deletedLetters;
+	public $newUsers;
+	public $newMessages;
+    public $newNotifications;
+	public $newSubscriptionsNotifications;
 	public $isBannedIp;
 
 	public function __construct()
 	{
 		if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
-			if(Cache::has('headerWidget.newQuestions.' . Auth::user()->id)) {
-				$this->newQuestions = Cache::get('headerWidget.newQuestions.' . Auth::user()->id);
+			if(Cache::has('headerWidget.newQuestions')) {
+				$this->newQuestions = Cache::get('headerWidget.newQuestions');
 			} else {
 				$this->newQuestions = $this->newQuestions();
-				Cache::put('headerWidget.newQuestions.' . Auth::user()->id, $this->newQuestions, 60);
+				Cache::put('headerWidget.newQuestions', $this->newQuestions, 60);
 			}
-			if(Cache::has('headerWidget.newArticles.' . Auth::user()->id)) {
-				$this->newArticles = Cache::get('headerWidget.newArticles.' . Auth::user()->id);
+			if(Cache::has('headerWidget.newArticles')) {
+				$this->newArticles = Cache::get('headerWidget.newArticles');
 			} else {
 				$this->newArticles = $this->newArticles();
-				Cache::put('headerWidget.newArticles.' . Auth::user()->id, $this->newArticles, 60);
+				Cache::put('headerWidget.newArticles', $this->newArticles, 60);
 			}
-			if(Cache::has('headerWidget.newComments.' . Auth::user()->id)) {
-				$this->newComments = Cache::get('headerWidget.newComments.' . Auth::user()->id);
+			if(Cache::has('headerWidget.newComments')) {
+				$this->newComments = Cache::get('headerWidget.newComments');
 			} else {
 				$this->newComments = $this->newComments();
-				Cache::put('headerWidget.newComments.' . Auth::user()->id, $this->newComments, 60);
+				Cache::put('headerWidget.newComments', $this->newComments, 60);
 			}
-			if(Cache::has('headerWidget.newAnswers.' . Auth::user()->id)) {
-				$this->newAnswers = Cache::get('headerWidget.newAnswers.' . Auth::user()->id);
+			if(Cache::has('headerWidget.newAnswers')) {
+				$this->newAnswers = Cache::get('headerWidget.newAnswers');
 			} else {
 				$this->newAnswers = $this->newAnswers();
-				Cache::put('headerWidget.newAnswers.' . Auth::user()->id, $this->newAnswers, 60);
+				Cache::put('headerWidget.newAnswers', $this->newAnswers, 60);
 			}
-			if(Cache::has('headerWidget.newUsers.' . Auth::user()->id)) {
-				$this->newUsers = Cache::get('headerWidget.newUsers.' . Auth::user()->id);
-			} else {
-				$this->newUsers = $this->newUsers();
-				Cache::put('headerWidget.newUsers.' . Auth::user()->id, $this->newUsers, 60);
-			}
-			if(Cache::has('headerWidget.notPublishedAnswers.' . Auth::user()->id)) {
-				$this->notPublishedAnswers = Cache::get('headerWidget.notPublishedAnswers.' . Auth::user()->id);
+			if(Cache::has('headerWidget.notPublishedAnswers')) {
+				$this->notPublishedAnswers = Cache::get('headerWidget.notPublishedAnswers');
 			} else {
 				$this->notPublishedAnswers = $this->notPublishedAnswers();
-				Cache::put('headerWidget.notPublishedAnswers.' . Auth::user()->id, $this->notPublishedAnswers, 60);
+				Cache::put('headerWidget.notPublishedAnswers', $this->notPublishedAnswers, 60);
 			}
-			if(Cache::has('headerWidget.notPublishedComments.' . Auth::user()->id)) {
-				$this->notPublishedComments = Cache::get('headerWidget.notPublishedComments.' . Auth::user()->id);
+			if(Cache::has('headerWidget.notPublishedComments')) {
+				$this->notPublishedComments = Cache::get('headerWidget.notPublishedComments');
 			} else {
 				$this->notPublishedComments = $this->notPublishedComments();
-				Cache::put('headerWidget.notPublishedComments.' . Auth::user()->id, $this->notPublishedComments, 60);
+				Cache::put('headerWidget.notPublishedComments', $this->notPublishedComments, 60);
 			}
 		}
 		if(Auth::user()->isAdmin()) {
-			if(Cache::has('headerWidget.newLetters.' . Auth::user()->id)) {
-				$this->newLetters = Cache::get('headerWidget.newLetters.' . Auth::user()->id);
+			if(Cache::has('headerWidget.newLetters')) {
+				$this->newLetters = Cache::get('headerWidget.newLetters');
 			} else {
 				$this->newLetters = $this->newLetters();
-				Cache::put('headerWidget.newLetters.' . Auth::user()->id, $this->newLetters, 60);
+				Cache::put('headerWidget.newLetters', $this->newLetters, 60);
+			}
+			if(Cache::has('headerWidget.newUsers')) {
+				$this->newUsers = Cache::get('headerWidget.newUsers');
+			} else {
+				$this->newUsers = $this->newUsers();
+				Cache::put('headerWidget.newUsers', $this->newUsers, 60);
 			}
 		}
 		if(Cache::has('headerWidget.newMessages.' . Auth::user()->id)) {
@@ -88,11 +88,11 @@ class HeaderWidget
 			$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
 			Cache::put('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id, $this->newSubscriptionsNotifications, 60);
 		}
-		if(Cache::has('headerWidget.isBannedIp.' . Auth::user()->id)) {
-			$this->isBannedIp = Cache::get('headerWidget.isBannedIp.' . Auth::user()->id);
+		if(Cache::has('headerWidget.isBannedIp.' . Request::ip())) {
+			$this->isBannedIp = Cache::get('headerWidget.isBannedIp.' . Request::ip());
 		} else {
 			$this->isBannedIp = Ip::isBanned();
-			Cache::put('headerWidget.isBannedIp.' . Auth::user()->id, $this->isBannedIp, 60);
+			Cache::put('headerWidget.isBannedIp.' . Request::ip(), $this->isBannedIp, 60 * 24);
 		}
 	}
 
@@ -171,12 +171,15 @@ class HeaderWidget
 	}
 
 	public function deletedLetters() {
-		$letters = Letter::whereNotNull('deleted_at')
-			->orderBy('deleted_at', 'DESC')
-			->get();
-
-		$this->deletedLetters = count($letters);
-
+		if(Cache::has('headerWidget.deletedLetters')) {
+			$letters = Cache::get('headerWidget.deletedLetters');
+		} else {
+			$letters = Letter::whereNotNull('deleted_at')
+				->orderBy('deleted_at', 'DESC')
+				->get();
+			Cache::put('headerWidget.deletedLetters', count($letters), 60);
+		}
+		$this->deletedLetters = $letters;
 		return $letters;
 	}
 

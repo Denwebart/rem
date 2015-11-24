@@ -30,19 +30,19 @@ class CabinetUserController extends \BaseController
 		}, ['except' => ['index', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'getChangePassword', 'postChangePassword', 'getSettings', 'postSettings', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		// бан пользователя
-		$this->beforeFilter(function()
+		$this->beforeFilter(function() use ($headerWidget)
 		{
 			if(Auth::check()) {
 				$login = Route::current()->getParameter('login');
 				if(Auth::user()->getLoginForUrl() == $login) {
 					if(Auth::user()->is_banned) {
 						return View::make('cabinet::user.ban')->with('user', Auth::user());
-					} elseif(IP::isBanned()) {
+					} elseif($headerWidget->isBannedIp) {
 						return View::make('cabinet::user.banIp')->with('user', Auth::user());
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		$this->beforeFilter(function()
 		{
@@ -1272,6 +1272,9 @@ class CabinetUserController extends \BaseController
 
 			if ($message->save())
 			{
+				// сброс кэша
+				Cache::forget('headerWidget.newMessages.' . Auth::user()->id);
+
 				$messages = Message::whereUserIdRecipient($user->id)
 					->whereNull('read_at')
 					->orderBy('created_at', 'DESC')
@@ -1314,6 +1317,10 @@ class CabinetUserController extends \BaseController
 
 	/**
 	 * Отправить личное сообщение
+	 *
+	 * @param $login
+	 * @param $companionId
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function addMessage($login, $companionId)
 	{
@@ -1340,6 +1347,9 @@ class CabinetUserController extends \BaseController
 				if ($message = Message::create($messageData)) {
                     $message->message = $message->saveEditorImages($formFields['tempPath']);
                     $message->save();
+
+					// сброс кэша
+					Cache::forget('headerWidget.newMessages.' . $companionId);
 
 					// отметить предыдущие сообщения как прочитанные
 					$unreadMessages = Message::whereUserIdSender($companionId)
@@ -1653,6 +1663,10 @@ class CabinetUserController extends \BaseController
 
 			if($notification = SubscriptionNotification::find($notificationId)) {
 				$notification->delete();
+
+				// сброс кэша
+				Cache::forget('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id);
+
 				return Response::json(array(
 					'success' => true,
 				));
@@ -1700,6 +1714,9 @@ class CabinetUserController extends \BaseController
 					->orderBy('id', 'DESC')
 					->paginate(10);
 
+				// сброс кэша
+				Cache::forget('headerWidget.newNotifications.' . Auth::user()->id);
+
 				return Response::json(array(
 					'success' => true,
 					'newNotifications' => count($notifications),
@@ -1721,6 +1738,9 @@ class CabinetUserController extends \BaseController
 
 			if($notifications->count()) {
 				$notifications->delete();
+
+				// сброс кэша
+				Cache::forget('headerWidget.newNotifications.' . Auth::user()->id);
 
 				return Response::json(array(
 					'success' => true,

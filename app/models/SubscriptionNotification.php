@@ -50,6 +50,8 @@ class SubscriptionNotification extends \Eloquent
 					'message' => $message,
 					'created_at'=> date('Y-m-d H:i:s'),
 				];
+				// сброс кэша
+				Cache::forget('headerWidget.newSubscriptionsNotifications.' . $user->id);
 			}
 			SubscriptionNotification::insert($data);
 		}

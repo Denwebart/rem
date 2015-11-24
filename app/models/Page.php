@@ -227,8 +227,14 @@ class Page extends \Eloquent
 			if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
 				Cache::forget('widgets.answers');
 			}
-			if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
-				Cache::forget('widgets.questions');
+			if($page->type == self::TYPE_QUESTION) {
+				if($page->is_published == 1) {
+					Cache::forget('widgets.questions');
+				}
+				Cache::forget('headerWidget.newQuestions');
+			}
+			if($page->type == self::TYPE_ARTICLE) {
+				Cache::forget('headerWidget.newArticles');
 			}
 			if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() < 3) {
 				Cache::forget('widgets.notBest');
@@ -256,8 +262,14 @@ class Page extends \Eloquent
 	        if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
 		        Cache::forget('widgets.answers');
 	        }
-	        if($page->type == self::TYPE_QUESTION && $page->is_published == 1) {
-		        Cache::forget('widgets.questions');
+	        if($page->type == self::TYPE_QUESTION) {
+		        if($page->is_published == 1) {
+			        Cache::forget('widgets.questions');
+		        }
+		        Cache::forget('headerWidget.newQuestions');
+	        }
+	        if($page->type == self::TYPE_ARTICLE) {
+		        Cache::forget('headerWidget.newArticles');
 	        }
 	        if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() > 4) {
 		        Cache::forget('widgets.best');

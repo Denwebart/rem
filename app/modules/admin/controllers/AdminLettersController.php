@@ -201,6 +201,9 @@ class AdminLettersController extends \BaseController {
 		$letter->read_at = date('Y:m:d H:i:s');
 		$letter->save();
 
+		// очистка кэша
+		Cache::forget('headerWidget.newLetters');
+
 		return View::make('admin::letters.show', compact('letter'));
 	}
 
@@ -229,6 +232,10 @@ class AdminLettersController extends \BaseController {
 		$letter->deleted_at = date('Y:m:d H:i:s');
 		$letter->save();
 
+		// очистка кэша
+		Cache::forget('headerWidget.newLetters');
+		Cache::forget('headerWidget.deletedLetters');
+
 		return Redirect::route('admin.letters.index');
 	}
 
@@ -243,6 +250,10 @@ class AdminLettersController extends \BaseController {
 		$letter = Letter::findOrFail($id);
 		$letter->deleted_at = null;
 		$letter->save();
+
+		// очистка кэша
+		Cache::forget('headerWidget.newLetters');
+		Cache::forget('headerWidget.deletedLetters');
 
 		return Redirect::route('admin.letters.trash');
 	}
