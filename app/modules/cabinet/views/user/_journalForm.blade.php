@@ -138,6 +138,21 @@
 @section('script')
     @parent
 
+    <!-- File Input -->
+    <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('.file-inputs').bootstrapFileInput();
+    </script>
+
+    <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css?v=2.1.5" type="text/css" media="screen" />
+    {{HTML::script('fancybox/jquery.fancybox.pack.min.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             // убираем ошибку при изменении поля
@@ -258,12 +273,6 @@
         $('#preview').on('click', '.preview-save', function() {
             $("#articleForm").submit();
         });
-    </script>
-
-    <!-- File Input -->
-    <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $('.file-inputs').bootstrapFileInput();
     </script>
 
     <!-- Загрузка изображения ajax -->
