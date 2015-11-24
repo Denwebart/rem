@@ -151,7 +151,6 @@ View::share('title', $title);
                                     var $ipTr = $('[data-ip-id='+ ipId +']');
                                     $ipTr.addClass('danger');
                                     $ipTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
-                                    $form.find('#message').val('');
                                 } else {
                                     $('#site-messages').prepend(response.message);
                                 }

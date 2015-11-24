@@ -24,8 +24,8 @@ Route::pattern('alias', '[A-Za-z0-9-_]+');
 
 /* Админка */
 Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
-
 	Route::get('/', 'AdminController@index');
+	Route::post('clearCache', ['as' => 'admin.cache.clear', 'before' => 'csrf-ajax', 'uses' => 'AdminController@clearCache']);
     Route::get('pages/search', ['as' => 'admin.pages.search', 'before' => 'csrf-ajax', 'uses' => 'AdminPagesController@search']);
 	Route::get('pages/articlesAutocomplete', ['as' => 'admin.pages.articlesAutocomplete', 'uses' => 'AdminPagesController@articlesAutocomplete']);
 	Route::get('pages/questionsAutocomplete', ['as' => 'admin.pages.questionsAutocomplete', 'uses' => 'AdminPagesController@questionsAutocomplete']);

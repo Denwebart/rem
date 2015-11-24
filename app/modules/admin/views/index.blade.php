@@ -49,14 +49,60 @@
                 </a>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box" id="cache">
+                    <div class="box-title">
+                        <h3>Кэш сайта</h3>
+                    </div>
+                    <div class="box-body">
+                        Количество файлов/папок:
+                        <span class="files-count">
+                            {{ $cacheSize['filesCount'] }}
+                        </span>
+                        <br>
+                        Вес:
+                        <span class="files-size">
+                            {{ StringHelper::fileSize($cacheSize['filesSize']) }}
+                        </span>
+                    </div>
+                    <div class="box-footer">
+                        <a href="javascript:void(0)" class="btn btn-success btn-block" id="clear-cache">
+                            Очистить кэш
+                        </a>
+                    </div>
+                </div><!-- /.box -->
+            </div>
+        </div>
     </div>
 @stop
 
 @section('script')
+    @parent
+
     <script type="text/javascript">
         (function($) {
             // number count
             $('.timer').countTo();
         })(jQuery);
+
+        $('#clear-cache').on('click', function(){
+            $.ajax({
+                url: '{{ URL::route('admin.cache.clear') }}',
+                dataType: "text json",
+                type: "POST",
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    if(response.success){
+                        $('#site-messages').prepend(response.message);
+                        $('#cache').find('.files-count').text(0);
+                        $('#cache').find('.files-size').text(0);
+                    }
+                }
+            });
+        });
     </script>
 @stop

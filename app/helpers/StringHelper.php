@@ -186,4 +186,25 @@ class StringHelper
 		return str_replace('</a>', '', preg_replace('/<a\b[^>]*+>|<\/a\b[^>]*+>/', '', $html));
 	}
 
+	/**
+	 * Формат байтов
+	 *
+	 * @param $fsizebyte
+	 * @return string
+	 */
+	public static function fileSize($fsizebyte) {
+		if ($fsizebyte < 1024) {
+			$fsize = $fsizebyte." bytes";
+		}elseif (($fsizebyte >= 1024) && ($fsizebyte < 1048576)) {
+			$fsize = round(($fsizebyte/1024), 2);
+			$fsize = $fsize." KB";
+		}elseif (($fsizebyte >= 1048576) && ($fsizebyte < 1073741824)) {
+			$fsize = round(($fsizebyte/1048576), 2);
+			$fsize = $fsize." MB";
+		}elseif ($fsizebyte >= 1073741824) {
+			$fsize = round(($fsizebyte/1073741824), 2);
+			$fsize = $fsize." GB";
+		};
+		return $fsize;
+	}
 }
