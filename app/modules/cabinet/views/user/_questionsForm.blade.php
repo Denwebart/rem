@@ -108,9 +108,6 @@
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
     @include('tinymce-init')
-
-    <!-- FancyBox2 -->
-    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 @stop
 
 @section('script')
@@ -123,6 +120,7 @@
     </script>
 
     <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
     <script type="text/javascript">
         $(document).ready(function() {
@@ -130,7 +128,7 @@
         });
     </script>
 
-    {{ HTML::script('js/jRate.js') }}
+    {{ HTML::script('js/jRate.min.js') }}
     <script type="text/javascript">
         // убираем ошибку при изменении поля
         $('input, textarea').on('focus', function(){

@@ -208,7 +208,7 @@
         });
     </script>
 
-    {{ HTML::script('js/jRate.js') }}
+    {{ HTML::script('js/jRate.min.js') }}
     <script type="text/javascript">
         $('.preview').on('click', function() {
             tinyMCE.get("content").save();

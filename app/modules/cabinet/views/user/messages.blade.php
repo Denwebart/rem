@@ -95,17 +95,11 @@ View::share('title', $title);
     </div>
 @stop
 
-@section('style')
-    @parent
-
-    <!-- FancyBox2 -->
-    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-@stop
-
 @section('script')
     @parent
 
     <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
     <script type="text/javascript">
         $(document).ready(function() {

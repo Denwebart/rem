@@ -16,7 +16,7 @@
 @section('script')
     @parent
 
-    {{ HTML::script('js/jRate.js') }}
+    {{ HTML::script('js/jRate.min.js') }}
 
     <script type="text/javascript">
         $("#jRate").jRate({

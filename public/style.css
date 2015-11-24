@@ -1627,9 +1627,14 @@ footer .counter {
 #header-widget .dropdown-messages .dropdown-menu .tooltip {
     display: none !important;
 }
+#header-widget .navbar .nav .widget-user a {
+    display: block;
+}
 #header-widget .navbar .nav a {
     color: #5e5e5e;
     line-height: 20px;
+    display: inline-block;
+    width: 100%;
 }
 #header-widget .navbar .nav > li.open:not(.widget-user) {
     width: 50px;

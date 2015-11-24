@@ -43,7 +43,7 @@
 @section('script')
     @parent
 
-    {{ HTML::script('js/jRate.js') }}
+    {{ HTML::script('js/jRate.min.js') }}
 
     @yield('ratingNotBest')
 @stop

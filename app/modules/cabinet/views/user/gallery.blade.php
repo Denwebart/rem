@@ -183,9 +183,6 @@ View::share('title', $title);
 @section('style')
     @parent
 
-    <!-- FancyBox2 -->
-    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-
     <!-- TinyMCE -->
     {{ HTML::script('js/tinymce/tinymce.min.js') }}
 
@@ -217,6 +214,7 @@ View::share('title', $title);
     @parent
 
     <!-- FancyBox2 -->
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     {{HTML::script('fancybox/jquery.fancybox.pack.js?v=2.1.5')}}
     <script type="text/javascript">
         $(document).ready(function() {
