@@ -9,6 +9,7 @@ class CabinetUserController extends \BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CABINET]);
 		View::share('areaWidget', $areaWidget);
 
+		$headerWidget = null;
 		if(Auth::check()) {
 			$headerWidget = app('HeaderWidget');
 			View::share('headerWidget', $headerWidget);
