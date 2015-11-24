@@ -43,6 +43,7 @@ class AdminMenusController extends \BaseController {
 	 * Изменение позиции пункта меню
 	 *
 	 * @param $type
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function changePosition($type)
 	{
@@ -55,6 +56,11 @@ class AdminMenusController extends \BaseController {
 			$menu->save();
 			$i++;
 		}
+
+		return Response::json(array(
+			'success' => true,
+			'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Позиция пункта меню изменена.']),
+		));
 	}
 
 }
