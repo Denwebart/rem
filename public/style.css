@@ -755,8 +755,18 @@ form .page-image {
     float: left;
     margin-top: 10px;
 }
+.b-share {
+    padding: 0 !important;
+}
+.b-share_theme_counter .b-share-btn__wrap {
+    margin-left: 8px !important;
+}
 .b-share_theme_counter .b-share_type_small .b-share-btn__wrap {
     margin-bottom: 5px;
+    margin-left: 7px !important;
+}
+.b-share_theme_counter .b-share-btn__wrap:first-child {
+    margin-left: 0 !important;
 }
 .left-sidebar .center {
     text-align: center;
