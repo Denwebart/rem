@@ -813,8 +813,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function setLastActivity()
 	{
-		$this->last_activity = \Carbon\Carbon::now();
-		$this->save();
+		if(!Cache::has('user.lastActivity.' . Auth::user()->id)) {
+			$this->last_activity = \Carbon\Carbon::now();
+			$this->save();
+			Cache::put('user.lastActivity.' . Auth::user()->id, $this->last_activity, Config::get('settings.userActivityTime'));
+		}
 	}
 
 	public function setOnline($is_online)
@@ -828,7 +831,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		if(0 == $this->is_online) {
 			return false;
 		} else {
-			return ($this->last_activity < \Carbon\Carbon::now()->subMinutes(2))
+			return ($this->last_activity < \Carbon\Carbon::now()->subMinutes(Config::get('settings.userActivityTime')))
 				? false
 				: true;
 		}

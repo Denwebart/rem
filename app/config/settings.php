@@ -41,6 +41,7 @@ return [
 	//end images
 
 	'defaultPublishedTime' => '10:00:00',
+	'userActivityTime' => 5, // minutes
 
 	'numberOfUserImages' => 5,
 

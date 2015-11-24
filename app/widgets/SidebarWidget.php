@@ -257,7 +257,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
 
-			Cache::put('widgets.comments.' . $limit, $view, 5);
+			Cache::put('widgets.comments.' . $limit, $view, Config::get('settings.userActivityTime'));
 			return $view;
 		}
 	}
@@ -296,7 +296,7 @@ class SidebarWidget
 				->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
 
 			$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
-			Cache::put('widgets.answers.' . $limit, $view, 5);
+			Cache::put('widgets.answers.' . $limit, $view, Config::get('settings.userActivityTime'));
 			return $view;
 		}
 	}
@@ -338,7 +338,7 @@ class SidebarWidget
 
 			$view = (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
 
-			Cache::put('widgets.questions.' . $limit, $view, 5);
+			Cache::put('widgets.questions.' . $limit, $view, Config::get('settings.userActivityTime'));
 			return $view;
 		}
 	}
