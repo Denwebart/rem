@@ -91,7 +91,7 @@
 
                 <div class="content">
                     @if($page->image)
-                        <a class="fancybox pull-left" rel="group-content" href="{{ $page->image }}">
+                        <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->image }}">
                             <img src="{{ $page->image }}" alt="{{ $page->title }}" class="img-responsive page-image"/>
                         </a>
                     @endif

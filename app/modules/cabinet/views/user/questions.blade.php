@@ -172,7 +172,7 @@ View::share('title', $title);
                                                                 <i class="material-icons">edit</i>
                                                             </a>
                                                         </div>
-                                                    @elseif((Auth::user()->is($question->user) && !IP::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
+                                                    @elseif((Auth::user()->is($question->user) && !Ip::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
                                                         <div class="buttons pull-right">
                                                             <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
                                                                 <i class="material-icons">delete</i>

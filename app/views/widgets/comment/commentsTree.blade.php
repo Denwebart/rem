@@ -168,7 +168,7 @@
     @parent
 
     <!-- captcha -->
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&amp;render=explicit" async defer></script>
     <script>
         var onloadCaptcha = function() {
            @yield('captcha')

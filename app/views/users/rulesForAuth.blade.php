@@ -32,7 +32,7 @@ View::share('areaWidget', $areaWidget);
 
                     @if($page->content)
                         @if($page->image)
-                            <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                            <a class="fancybox" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                                 {{ $page->getImage('origin') }}
                             </a>
                         @endif

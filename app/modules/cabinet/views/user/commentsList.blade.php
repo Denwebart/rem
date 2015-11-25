@@ -30,7 +30,7 @@
                                             <i class="material-icons">mode_edit</i>
                                         </a>
                                     </div>
-                                @elseif((Auth::user()->is($comment->user) && !IP::isBanned() && !Auth::user()->is_banned && $comment->isEditable()))
+                                @elseif((Auth::user()->is($comment->user) && !Ip::isBanned() && !Auth::user()->is_banned && $comment->isEditable()))
                                     <div class="buttons pull-right">
                                         <a href="javascript:void(0)" class="delete-comment pull-right" data-id="{{ $comment->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">delete</i>

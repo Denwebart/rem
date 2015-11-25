@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <span class="login pull-left">{{ $question->user->login }}</span>
-                <p class="list-group-item-text row" style="clear: both">
+                <div class="list-group-item-text row" style="clear: both; margin-left: 0">
                     <div class="col-md-10" style="padding: 0">
                         <a href="{{ URL::to($question->getUrl()) }}">
                             {{ $question->getTitle() }}
@@ -34,7 +34,7 @@
                             </a>
                         @endif
                     </div>
-                </p>
+                </div>
                 <div class="clearfix"></div>
                 <div class="answers pull-right">
                     <a href="{{ URL::to($question->getUrl()) }}#answers" class="icon pull-left @if(count($question->bestComments)) best @endif">

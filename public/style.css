@@ -410,6 +410,9 @@ form .page-image {
     margin: 0 7px 0 0;
 }
 
+.pagination > li > a, .pagination > li > span {
+    margin-right: 5px;
+}
 .pagination a {
     text-decoration: none !important;
 }

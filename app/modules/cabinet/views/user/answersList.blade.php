@@ -26,7 +26,7 @@
                                             <i class="material-icons">edit</i>
                                         </a>
                                     </div>
-                                @elseif((Auth::user()->is($answer->user) && !IP::isBanned() && !Auth::user()->is_banned && $answer->isEditable()))
+                                @elseif((Auth::user()->is($answer->user) && !Ip::isBanned() && !Auth::user()->is_banned && $answer->isEditable()))
                                     <div class="buttons pull-right">
                                         <a href="javascript:void(0)" class="pull-right delete-answer" data-id="{{ $answer->id }}" title="Удалить комментарий" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">delete</i>

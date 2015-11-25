@@ -124,7 +124,7 @@
                                     <i class="material-icons">edit</i>
                                 </a>
                             </div>
-                        @elseif((Auth::user()->is($page->user) && !IP::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
+                        @elseif((Auth::user()->is($page->user) && !Ip::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
                             <div class="buttons">
                                 <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip" data-placement="top">
                                     <i class="material-icons">edit</i>

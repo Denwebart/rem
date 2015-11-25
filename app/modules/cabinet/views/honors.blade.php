@@ -53,7 +53,7 @@
         @if($page->content)
             <div class="content">
                 @if($page->image)
-                    <a class="fancybox" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                    <a class="fancybox" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage() }}
                     </a>
                 @endif

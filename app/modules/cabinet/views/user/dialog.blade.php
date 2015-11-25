@@ -122,7 +122,8 @@ View::share('title', $title);
     @parent
 
     <!-- FancyBox2 -->
-    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css?v=2.1.5" type="text/css" media="screen" />
+    {{-- стили в fonts.css --}}
+    {{--<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css?v=2.1.5" type="text/css" media="screen" />--}}
     {{HTML::script('fancybox/jquery.fancybox.pack.min.js?v=2.1.5')}}
     <script type="text/javascript">
         $(document).ready(function() {

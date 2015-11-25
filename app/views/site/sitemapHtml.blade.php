@@ -21,7 +21,7 @@
 		@if($page->content)
 			<div class="content">
                 @if($page->image)
-                    <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                    <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage('origin', ['class' => 'page-image']) }}
                     </a>
                 @endif
@@ -31,7 +31,7 @@
 
 		{{ $areaWidget->contentMiddle() }}
 
-		<section id="sitemap-area">
+		<div id="sitemap-area">
 			<ul id="sitemap">
 				@foreach($pages as $item)
 					<li>
@@ -71,7 +71,7 @@
 					</li>
 				@endforeach
 			</ul>
-		</section><!--sitemap-area-->
+		</div><!--sitemap-area-->
 
 		{{ $areaWidget->contentBottom() }}
 

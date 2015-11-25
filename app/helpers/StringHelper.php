@@ -165,7 +165,7 @@ class StringHelper
 	public static function addFancybox($html, $group = false)
 	{
 		return preg_replace_callback('/(<img(.+?)src="(.*?)"(.+?)>)/iu', function($image) use($group) {
-			$group = ($group) ? 'rel="'. $group .'"' : '';
+			$group = ($group) ? 'data-fancybox-group="'. $group .'"' : '';
 			if(!strpos($image[3], '/emoticons/img/smiley')) {
 				$imageTag = '<img'. $image[2] . 'src="'. $image[3] .'"' . $image[4] . ' itemprop="image">';
 				return '<a href="' . $image[3] . '" class="fancybox" '. $group .'>' . $imageTag . '</a>';

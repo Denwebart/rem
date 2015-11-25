@@ -25,6 +25,10 @@
         <!-- Header CSS (First Sections of Website: compress & paste after release from _header.css here) -->
         <style>#site-title h1,.container .well p,body,body .well p{font-weight:400}#navbar-main,#site-title h1,#submenu-sidebar-widget h3{text-align:center}body{padding:0!important;font-family:'Open Sans',sans-serif!important;background:url(/images/bg.jpg) #E5E5E5}#submenu-sidebar-widget,.navbar #navbar-main .navbar-nav{font-family:Roboto,Helvetica Neue,Helvetica,Arial,sans-serif!important}a:focus,a:hover{outline:0}.display-block{display:block}.display-inline-block{display:inline-block}.visible-xxs{display:none}.logo{float:left;width:100%;margin:10px 0}.logo img{width:auto}#site-title{text-align:left}#site-title h1{margin-top:0;font-size:40px;color:#2f68a1}#site-title h1 span{display:inline-block}#site-title h1 .slogan{font-size:24px;color:#333}#login-layout header{height:60px}.btn-login,.btn-logout{width:140px;padding-top:1px!important;padding-bottom:2px!important;line-height:24px}.btn-login span,.btn-logout span{text-align:center;vertical-align:middle;display:inline-block}.btn-login span .text,.btn-logout span .text{float:left;margin-top:2px;line-height:22px}.btn-login span .material-icons,.btn-logout span .material-icons{margin:0 0 0 5px;float:right;line-height:24px}.header .buttons,.navbar-top{margin-top:7px}.navbar-top{padding:0;display:inline-block}.navbar-top .navbar-nav{float:left}.navbar-top .navbar-nav>li>a{padding:5px;color:#1292CE;text-decoration:underline}.navbar-top .navbar-nav>li.active>a,.navbar-top .navbar-nav>li>a:focus,.navbar-top .navbar-nav>li>a:hover{text-decoration:none;background:0 0}.header .btn-login,.header .btn-logout{margin:0}.header .btn-register{line-height:20px;padding:5px 0;margin:0 10px 0 0;text-decoration:underline}.header .btn-register:hover{text-decoration:none}#navbar-main{background:#1B609C;box-shadow:0 5px 5px rgba(0,0,0,.3)}.navbar #navbar-main .navbar-nav{float:none;display:inline-block}.navbar .navbar-nav>li>a{padding-top:15px!important;padding-bottom:15px!important}.navbar #navbar-main .navbar-nav>li>a{font-size:16px;color:#fff!important;font-weight:400}.navbar #navbar-main .navbar-nav>li>a:focus,.navbar #navbar-main .navbar-nav>li>a:hover{color:inherit;background-color:rgba(255,255,255,.1)!important}#navbar-main{padding:0;height:50px!important}#navbar-main .dropdown:hover .dropdown-menu{display:block}#navbar-main .dropdown-menu li>a:hover{color:#fff;background:#1B609C;text-shadow:0 -1px 0 rgba(0,0,0,.2)}.navbar-custom{background:#337AB7!important;box-shadow:0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);transition:box-shadow .28s cubic-bezier(.4,0,.2,1) 0s}#submenu-sidebar-widget{padding-right:0;display:inline-block;width:100%}#submenu-sidebar-widget ul{list-style:none;padding:0}#submenu-sidebar-widget ul>li{position:relative;border-bottom:1px solid rgba(255,255,255,.1);margin:7px 0}#submenu-sidebar-widget ul>li.active,#submenu-sidebar-widget ul>li:focus,#submenu-sidebar-widget ul>li:hover{background:#1B609C}#submenu-sidebar-widget ul>li.active a,#submenu-sidebar-widget ul>li:focus a,#submenu-sidebar-widget ul>li:hover a{color:#FFF;text-shadow:0 -1px 0 rgba(0,0,0,.2)}#submenu-sidebar-widget ul>li>a{color:#232323;text-shadow:none;padding:5px 40px 0 10px;width:100%;display:inline-block;text-align:left}#submenu-sidebar-widget ul>li>a span{float:left;font-size:14px;line-height:22px}#submenu-sidebar-widget li a .label{position:absolute;top:7px;right:7px;font-size:10px;line-height:1em;text-align:center;padding:.3em .5em}</style>
 
+        <!-- Fonts -->
+        <noscript>
+            {{ HTML::style('fonts.css') }}
+        </noscript>
         <!-- Load CSS Compilled without JS -->
         {{ HTML::style('compiled.min.css') }}
         {{ HTML::style('css/cabinet.min.css') }}
@@ -89,9 +93,13 @@
 
 @include('footer')
 
-<!-- Fonts -->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic,500italic,500&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+<!-- Load CSS compiled without Bootstrap & Header styles (after release) -->
+<script>
+    var ms=document.createElement("link");
+    ms.rel="stylesheet";
+    ms.href="{{ URL::to('fonts.css') }}";
+    document.getElementsByTagName("head")[0].appendChild(ms);
+</script>
 
 <!-- JS -->
 <script src="/material/js/ripples.min.js"></script>

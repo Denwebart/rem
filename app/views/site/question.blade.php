@@ -91,7 +91,7 @@
 
         <div class="content" itemprop="text">
             @if($page->image)
-                <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
+                <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                     {{ $page->getImage('origin', ['class' => 'page-image']) }}
                 </a>
             @endif
