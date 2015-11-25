@@ -8,15 +8,19 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="copyright">
-                    <a href="{{ URL::to('/') }}" class="logo">
+                    <a href="{{ URL::to('/') }}" class="logo pull-left">
                         {{ HTML::image('images/logo-circle-footer.png', '', [
                             'class' => 'img-responsive margin-bottom-20 logo',
                         ]) }}
                     </a>
                     <!-- Копирайт -->
                     @if(isset($settings['copyright']))
-                        {{ $settings['copyright']['value'] }}
-                        2010 - {{ \Carbon\Carbon::now()->year }}
+                        <div class="text pull-left">
+                            {{ $settings['copyright']['value'] }}
+                            <span style="white-space:nowrap;">
+                                2010 - {{ \Carbon\Carbon::now()->year }}
+                            </span>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -25,7 +29,7 @@
         @if(isset($settings['counter']))
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="counter">
+                    <div class="counter margin-top-10 margin-bottom-20">
                         {{ $settings['counter']['value'] }}
                     </div>
                 </div>
