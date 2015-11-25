@@ -1018,7 +1018,6 @@ form .page-image {
 #comments-widget .comment {
     position: relative;
     text-align: left;
-    z-index: 0;
 }
 #comments-widget .comment .close-comment {
     position: absolute;
