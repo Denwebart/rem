@@ -150,7 +150,8 @@ h2 .login {
 .file-input-name {
     margin-left: 0;
     font-size: 12px;
-    display: inline-block;
+    /*display: inline-block;*/
+    display: none;
     width: 100%;
     overflow: hidden;
 }

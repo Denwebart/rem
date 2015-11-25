@@ -4,13 +4,13 @@
             <div class="list-group-separator"></div>
         @endif
         <div class="list-group-item">
-            <div class="rating pull-left" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+            <div class="rating pull-left">
                 <span class="rate-voters pull-right">
                     <span class="text">Проголосовало:</span>
-                    <span class="count" itemprop="reviewCount">{{ $page->voters }}</span>
+                    <span class="count">{{ $page->voters }}</span>
                 </span>
                 <div class="pull-left">
-                    <span class="rate-votes pull-left" itemprop="ratingValue">
+                    <span class="rate-votes pull-left">
                         {{ $page->getRating() }}
                     </span>
                     <div class="rate-stars pull-left">

@@ -699,17 +699,20 @@ class Page extends \Eloquent
 	 *
 	 * @param null $prefix
 	 * @param array $options
+	 * @param bool|true $itemprop
 	 * @return string
 	 */
-	public function getImage($prefix = null, $options = [])
+	public function getImage($prefix = null, $options = [], $itemprop = true)
 	{
 		if(false !== $options) {
-			$options['itemprop'] = 'image';
 			if(isset($options['class'])) {
 				$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 			} else {
 				$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
 			}
+		}
+		if($itemprop && false !== $options) {
+			$options['itemprop'] = 'image';
 		}
 		$options['title'] = $this->image_alt ? $this->image_alt : $this->getTitle();
 		if($this->image) {

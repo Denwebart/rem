@@ -6,7 +6,7 @@
         <div class="list-group-item">
             <div class="row-picture">
                 <a href="{{ URL::to($page->getUrl()) }}">
-                    {{ $page->getImage('mini', ['class' => 'square']) }}
+                    {{ $page->getImage('mini', ['class' => 'square'], false) }}
                 </a>
             </div>
             <div class="row-content">

@@ -1,13 +1,14 @@
 @extends('layouts.main')
 
 @section('content')
-	<section id="content" class="well">
+	<section id="content" class="well" itemscope itemtype="http://schema.org/Article">
 
+        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
         @if(!Request::has('stranitsa') || Request::get('stranitsa') == 1)
             <div class="row">
                 <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                     @if($page->is_show_title)
-                        <h2>{{ $page->title }}</h2>
+                        <h2 itemprop="headline">{{ $page->title }}</h2>
                     @endif
                 </div>
                 @if($page->showRating())
@@ -23,7 +24,7 @@
             {{ $areaWidget->contentTop() }}
 
             @if($page->content)
-                <div class="content">
+                <div class="content" itemprop="articleBody">
                     @if($page->image)
                         <a class="fancybox pull-left" rel="group-content" href="{{ $page->getImageLink('origin') }}">
                             {{ $page->getImage('origin', ['class' => 'page-image']) }}
