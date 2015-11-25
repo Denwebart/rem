@@ -167,6 +167,7 @@
                             precision: 0, // целое число
                             width: 25,
                             height: 25,
+                            shapeGap: '5px',
                             startColor: '#03A9F4',
                             endColor: '#004B7D',
                             readOnly: 1

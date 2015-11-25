@@ -24,6 +24,7 @@
             precision: 0, // целое число
             width: 25,
             height: 25,
+            shapeGap: '5px',
             startColor: '#03A9F4',
             endColor: '#004B7D',
             //readOnly: "<?php //echo Auth::check() ? (!Auth::user()->is($page->user) ? 1 : 0) : 1 ?>",
@@ -56,6 +57,7 @@
                             precision: 0, // целое число
                             width: 25,
                             height: 25,
+                            shapeGap: '10px',
                             startColor: '#03A9F4',
                             endColor: '#004B7D',
                             onSet: function(rating) {
@@ -73,6 +75,7 @@
                             precision: 0, // целое число
                             width: 25,
                             height: 25,
+                            shapeGap: '10px',
                             startColor: '#03A9F4',
                             endColor: '#004B7D',
                             onSet: function(rating) {

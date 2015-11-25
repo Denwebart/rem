@@ -31,6 +31,7 @@
                     precision: 0, // целое число
                     width: 20,
                     height: 20,
+                    shapeGap: '3px',
                     startColor: '#03A9F4',
                     endColor: '#004B7D',
                     readOnly: true
