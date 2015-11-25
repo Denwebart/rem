@@ -15,33 +15,33 @@ View::share('areaWidget', $areaWidget);
 @stop
 
 @section('content')
-    <section id="content" class="well">
+    <section id="content" class="well" itemscope itemtype="http://schema.org/Article">
 
-        <h2>{{ $page->title }}</h2>
+        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
 
-        @if($page->content)
-            <div class="content">
-                @if($page->image)
-                    <a class="fancybox" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage('origin') }}
-                    </a>
-                @endif
-                {{ $page->getContentWithWidget() }}
-            </div>
-        @endif
+        <h2 itemprop="headline">{{ $page->title }}</h2>
 
-        @if(count($rules))
-            <section id="rules-area">
-                @foreach($rules as $rule)
-                    <div class="row rule">
-                        <div class="col-md-12">
-                            <h3>{{ $rule->position }}. {{ $rule->title }}</h3>
-                            {{ $rule->description }}
+        <div class="content" itemprop="articleBody">
+            @if($page->image)
+                <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
+                    {{ $page->getImage('origin', ['class' => 'page-image']) }}
+                </a>
+            @endif
+            {{ $page->getContentWithWidget() }}
+
+            @if(count($rules))
+                <div class="clearfix"></div>
+                <div id="rules-area" class="margin-top-20">
+                    @foreach($rules as $rule)
+                        <div class="row rule">
+                            <div class="col-md-12">
+                                <h3>{{ $rule->position }}. {{ $rule->title }}</h3>
+                                {{ $rule->description }}
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </section><!--rules-area-->
-        @endif
-
+                    @endforeach
+                </div><!--rules-area-->
+            @endif
+        </div>
     </section>
 @stop

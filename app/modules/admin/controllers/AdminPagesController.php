@@ -371,11 +371,13 @@ class AdminPagesController extends \BaseController {
 		}
 
 		$data['user_id'] = $page->user_id;
-		$data['alias'] = isset($data['alias'])
-			? $data['alias']
-			: (!is_null($page->menuItem)
-				? TranslitHelper::make($page->menuItem->menu_title)
-				: TranslitHelper::make($data['title']));
+		if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type){
+			$data['alias'] = isset($data['alias'])
+				? $data['alias']
+				: (!is_null($page->menuItem)
+					? TranslitHelper::make($page->menuItem->menu_title)
+					: TranslitHelper::make($data['title']));
+		}
 
 		$rules = Page::rules('update', 'forAdmin', $page->id);
 		if(1 != $page->id) {

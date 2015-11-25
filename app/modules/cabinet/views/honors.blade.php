@@ -8,12 +8,14 @@
         ]
     ]])
 
-    <section id="content" class="well">
+    <section id="content" class="well" itemscope itemtype="http://schema.org/Article">
+
+        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                 @if($page->title)
-                    <h2>{{ $page->title }}</h2>
+                    <h2 itemprop="headline">{{ $page->title }}</h2>
                 @endif
             </div>
             @if($page->showRating())
@@ -38,7 +40,7 @@
                         <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="bottom">
                             <i class="material-icons">chat_bubble</i>
                             <a href="#comments">
-                            <span class="count-comments">
+                            <span class="count-comments" itemprop="commentCount">
                                 {{ count($page->publishedComments) }}
                             </span>
                             </a>
@@ -51,10 +53,10 @@
         {{ $areaWidget->contentTop() }}
 
         @if($page->content)
-            <div class="content">
+            <div class="content" itemprop="articleBody">
                 @if($page->image)
-                    <a class="fancybox" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage() }}
+                    <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
+                        {{ $page->getImage('origin', ['class' => 'page-image']) }}
                     </a>
                 @endif
                 {{ $page->getContentWithWidget() }}
