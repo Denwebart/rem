@@ -83,22 +83,22 @@ a:focus {
     line-height: 24px;
 }
 /*-- Navbar --*/
-#navbar-top {
+.navbar-top {
     margin-top: 7px;
     padding: 0;
     display: inline-block;
 }
-#navbar-top .navbar-nav {
+.navbar-top .navbar-nav {
     float: left;
 }
-#navbar-top .navbar-nav > li > a {
+.navbar-top .navbar-nav > li > a {
     padding: 5px 5px;
     color: #1292CE;
     text-decoration: underline;
 }
-#navbar-top .navbar-nav > li > a:hover,
-#navbar-top .navbar-nav > li > a:focus,
-#navbar-top .navbar-nav > li.active > a {
+.navbar-top .navbar-nav > li > a:hover,
+.navbar-top .navbar-nav > li > a:focus,
+.navbar-top .navbar-nav > li.active > a {
     text-decoration: none;
     background: none;
 }

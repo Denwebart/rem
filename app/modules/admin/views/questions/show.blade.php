@@ -53,7 +53,7 @@ View::share('title', $title);
                                 <td>Пользователь</td>
                                 <td>
                                     <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                                        {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
+                                        {{ $page->user->getAvatar('mini', ['width' => '25']) }}
                                         {{ $page->user->login }}
                                     </a>
                                 </td>

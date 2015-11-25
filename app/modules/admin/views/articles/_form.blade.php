@@ -3,7 +3,7 @@
         <div class="box-title" style="padding: 7px 10px">
             <h3>Основная информация</h3>
             <div class="pull-right author">
-                {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
+                {{ $page->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-right']) }}
                 <span class="pull-right">
                     {{ $page->user->login }}
                 </span>

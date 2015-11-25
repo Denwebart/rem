@@ -22,7 +22,7 @@
                         <div class="author info-item">
                             <span>Автор:</span>
                             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                                {{ $page->user->getAvatar('mini', ['width' => '25px'], false) }}
+                                {{ $page->user->getAvatar('mini', ['width' => '25'], false) }}
                                 <span>{{ $page->user->login }}</span>
                             </a>
                         </div>

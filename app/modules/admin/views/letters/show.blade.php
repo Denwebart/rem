@@ -88,7 +88,7 @@ View::share('title', $title);
                                             @if($letter->user)
                                                 Отправитель:
                                                 <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
-                                                    {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
+                                                    {{ $letter->user->getAvatar('mini', ['width' => '25']) }}
                                                     {{ $letter->user->login }} ({{ $letter->user->email }})
                                                 </a>
                                             @else

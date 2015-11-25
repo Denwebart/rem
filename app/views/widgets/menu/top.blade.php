@@ -1,4 +1,4 @@
-<div id="navbar-top">
+<div class="navbar-top">
     <ul class="nav navbar-nav">
         @foreach($items as $item)
             <li class="{{ Request::is($item->getUrl()) ? 'active' : '' }}">

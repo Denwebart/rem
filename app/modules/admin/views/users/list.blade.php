@@ -44,7 +44,7 @@
                     @if($key < 3)
                         <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
                             {{ $userHonor->honor->getImage(null, [
-                                'width' => '25px',
+                                'width' => '25',
                                 'title' => !is_null($userHonor->comment)
                                     ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
                                     : $userHonor->honor->title,

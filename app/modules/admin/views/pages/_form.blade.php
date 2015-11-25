@@ -9,7 +9,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
         <div class="box-title">
             <h3>Основная информация</h3>
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" target="_blank" class="pull-right author">
-                {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
+                {{ $page->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-right']) }}
                 <span class="pull-right">
                     {{ $page->user->login }}
                 </span>

@@ -4,7 +4,7 @@
             <h3>Текст комментария</h3>
             <div class="pull-right author">
                 @if($comment->user)
-                    {{ $comment->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-right']) }}
+                    {{ $comment->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-right']) }}
                     <span class="pull-right">
                         {{ $comment->user->login }}
                     </span>

@@ -774,18 +774,18 @@ form .page-image {
     display: inline-block;
     width: 100%;
 }
-#rss-widget {
+.rss-widget {
     margin-right: 10px;
 }
-#favorites-widget,
-#rss-widget {
+.favorites-widget,
+.rss-widget {
     display: inline-block;
     height: 34px;
     background: #F5F5F5;
     border-radius: 4px;
 }
-#favorites-widget a,
-#rss-widget a {
+.favorites-widget a,
+.rss-widget a {
     display: inline-block;
     width: 100%;
     margin-top: 0;
@@ -795,26 +795,26 @@ form .page-image {
     text-align: center;
     padding: 0 20px;
 }
-#favorites-widget a:hover,
-#rss-widget a:hover {
+.favorites-widget a:hover,
+.rss-widget a:hover {
     text-decoration: none !important;
     box-shadow: 0 3px 7px 0 rgba(0,0,0,.1),
                 0 3px 7px 0 rgba(0,0,0,.1);
 }
-#favorites-widget i.material-icons,
-#rss-widget i.material-icons {
+.favorites-widget i.material-icons,
+.rss-widget i.material-icons {
     color: #FFAD00;
     font-size: 24px;
     margin: 5px 7px 0 0;
     float: left;
 }
-#favorites-widget span,
-#rss-widget span {
+.favorites-widget span,
+.rss-widget span {
     float: left;
     text-transform: none;
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
-#rss-widget img {
+.rss-widget img {
     margin: 5px 7px 0 0;
     width: 22px;
     float: left;
@@ -2173,10 +2173,10 @@ footer .counter {
         /*width: 100% !important;*/
     /*}*/
     /*Header*/
-    #navbar-top .navbar-nav {
+    .navbar-top .navbar-nav {
         margin: 0;
     }
-    #navbar-top .navbar-nav > li {
+    .navbar-top .navbar-nav > li {
         float: left;
     }
     #search {
@@ -2354,12 +2354,12 @@ footer .counter {
         display: inline-block;
         width: 100%;
     }
-    #rss-widget {
+    .rss-widget {
         margin-right: 10px;
         float: left;
         width: calc(40% - 10px);
     }
-    #favorites-widget {
+    .favorites-widget {
         float: right;
         width: calc(60% - 10px);
     }
@@ -2443,15 +2443,15 @@ footer .counter {
         display: inline-block;
         width: 100%;
     }
-    #rss-widget {
+    .rss-widget {
         margin-right: 20px;
         float: left;
     }
-    #favorites-widget {
+    .favorites-widget {
         float: right;
     }
-    #rss-widget,
-    #favorites-widget {
+    .rss-widget,
+    .favorites-widget {
         width: calc(50% - 15px);
     }
     /* Награды */
@@ -2532,15 +2532,15 @@ footer .counter {
         width: 40px;
         height: 40px;
     }
-    #rss-widget {
+    .rss-widget {
         margin-right: 5px;
     }
-    #favorites-widget,
-    #rss-widget {
+    .favorites-widget,
+    .rss-widget {
         height: 32px;
     }
-    #favorites-widget a,
-    #rss-widget a {
+    .favorites-widget a,
+    .rss-widget a {
         font-size: 16px;
         line-height: 28px;
         padding: 0 7px;
@@ -2630,8 +2630,8 @@ footer .counter {
         font-size: 34px;
         line-height: 34px;
     }
-    #favorites-widget a,
-    #rss-widget a {
+    .favorites-widget a,
+    .rss-widget a {
         padding: 0 18px;
     }
 }

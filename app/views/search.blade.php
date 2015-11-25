@@ -19,7 +19,7 @@
                 <div class="col-xs-1" style="padding: 0">
                     <button type="submit" style="width: 100%">
                         <i class="material-icons">search</i>
-                        <div class="ripple-wrapper"></div>
+                        <span class="ripple-wrapper"></span>
                     </button>
                 </div>
             </div>

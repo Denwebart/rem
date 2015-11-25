@@ -1,4 +1,4 @@
-<div id="favorites-widget" class="sidebar-widget">
+<div class="sidebar-widget favorites-widget">
     <a href="javascript:void(0)" onclick="return addFavorite(this);" title="Добавить сайт в закладки браузера" data-toggle="tooltip" class="">
         <span class="text">
             <i class="material-icons">grade</i>

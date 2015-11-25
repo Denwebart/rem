@@ -3,7 +3,7 @@
         <td>{{ $page->id }}</td>
         <td class="author">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                {{ $page->user->getAvatar('mini', ['width' => '25px']) }}
+                {{ $page->user->getAvatar('mini', ['width' => '25']) }}
             </a>
         </td>
         @if($page->is_container)

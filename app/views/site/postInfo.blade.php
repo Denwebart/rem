@@ -15,7 +15,7 @@
             <div class="pull-left">
                 <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
                     <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}" itemprop="url">
-                        {{ $article->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                        {{ $article->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-left']) }}
                         <span class="login pull-left" itemprop="name">{{ $article->user->login }}</span>
                     </a>
                 </div>

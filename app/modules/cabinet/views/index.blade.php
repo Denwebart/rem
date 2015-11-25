@@ -44,7 +44,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                     <button type="submit" class="btn btn-success btn-sm btn-full">
                         <i class="material-icons">search</i>
                         <span class="hidden-md hidden-sm">Найти</span>
-                        <div class="ripple-wrapper"></div>
+                        <span class="ripple-wrapper"></span>
                     </button>
                 </div>
             </div>
@@ -137,7 +137,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                             @if($key < 3)
                                                                 <a href="{{ URL::route('honor.info', ['alias' => $userHonor->honor->alias]) }}">
                                                                     {{ $userHonor->honor->getImage(null, [
-                                                                        'width' => '25px',
+                                                                        'width' => '25',
                                                                         'title' => !is_null($userHonor->comment)
                                                                             ? $userHonor->honor->title . ' ('. $userHonor->comment .')'
                                                                             : $userHonor->honor->title,

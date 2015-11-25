@@ -4,7 +4,7 @@
         <td class="users">
             @foreach($ip->users as $key => $user)
                 <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="pull-left margin-right-10">
-                    {{ $user->getAvatar('mini', ['width' => '25px']) }}
+                    {{ $user->getAvatar('mini', ['width' => '25']) }}
                 </a>
             @endforeach
         </td>

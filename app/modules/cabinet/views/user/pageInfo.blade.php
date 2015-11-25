@@ -44,7 +44,7 @@
     <div class="page-info">
         <div class="user pull-left">
             <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}">
-                {{ $page->user->getAvatar('mini', ['width' => '25px', 'class' => 'pull-left']) }}
+                {{ $page->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-left']) }}
                 <span class="login pull-left">{{ $page->user->login }}</span>
             </a>
         </div>

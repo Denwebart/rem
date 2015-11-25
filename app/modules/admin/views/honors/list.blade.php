@@ -13,7 +13,7 @@
             @foreach($honor->users as $key => $user)
                 <div class="user pull-left margin-right-10">
                     <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}">
-                        {{ $user->getAvatar('mini', ['width' => '25px']) }}
+                        {{ $user->getAvatar('mini', ['width' => '25']) }}
                     </a>
                     @if($user->awardsNumber > 1)
                         <span>

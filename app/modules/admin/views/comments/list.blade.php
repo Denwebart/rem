@@ -4,7 +4,7 @@
         <td>
             @if($comment->user)
                 <a href="{{ URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) }}">
-                    {{ $comment->user->getAvatar('mini', ['width' => '25px']) }}
+                    {{ $comment->user->getAvatar('mini', ['width' => '25']) }}
                 </a>
             @else
                 {{{ $comment->user_name }}}

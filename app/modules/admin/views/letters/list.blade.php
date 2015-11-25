@@ -7,7 +7,7 @@
             <td>
                 @if($letter->user)
                     <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
-                        {{ $letter->user->getAvatar('mini', ['width' => '25px']) }}
+                        {{ $letter->user->getAvatar('mini', ['width' => '25']) }}
                     </a>
                 @else
                     {{{ $letter->user_name }}}
