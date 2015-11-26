@@ -47,6 +47,9 @@ View::share('title', $title);
                         Показано сообщений: <span>{{ $messages->count() }}</span>.
 {{--                            Всего: <span>{{ $messages->getTotal() }}</span>.--}}
                     </div>
+                    <a href="javascript:void(0)" class="delete-all-messages pull-right margin-left-10" title="Удалить всю переписку" data-toggle="tooltip">
+                        <i class="material-icons">delete</i>
+                    </a>
                     <a href="javascript:void(0)" class="reload-message pull-right" title="Обновить" data-toggle="tooltip">
                         <i class="material-icons">autorenew</i>
                     </a>
@@ -169,7 +172,7 @@ View::share('title', $title);
     @if(Auth::user()->is($user))
         {{-- Отметить сообщение как прочитанное --}}
         <script type="text/javascript">
-            $('.new-message').click(function(){
+            $('#messages-area').on('click', '.new-message', function(){
                 var messageId = $(this).data('messageId');
                 $.ajax({
                     url: '<?php echo URL::route('user.markMessageAsRead', ['login' => $user->getLoginForUrl()]) ?>',
@@ -292,6 +295,40 @@ View::share('title', $title);
                         } //success
                     }
                 });
+            });
+
+            // Удаление сообщений
+            $('.delete-all-messages').on('click', function(){
+                var $button = $(this);
+                if(confirm('Вы уверены, что хотите удалить всю переписку?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.deleteAllMessages', ['login' => Auth::user()->getLoginForUrl()])}}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {userId: '<?php echo Auth::user()->id ?>', companionId: '<?php echo $companion->id ?>'},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $button.parent().find('.tooltip').remove();
+                                $('#site-messages').prepend(response.message);
+                                $('.delete-all-messages').remove();
+                                $('#scroll').html('<p class="no-messages">Сообщений нет.</p>');
+
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-messages .dropdown-menu').remove();
+                                $('#companions small').text('').hide();
+                                $('#users-menu .messages small').text('').hide();
+                                // как ссылка
+                                $('#header-widget .dropdown-messages .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
+                            } else {
+                                $('#site-messages').prepend(response.message);
+                            }
+                        }
+                    });
+                }
             });
         </script>
     @endif

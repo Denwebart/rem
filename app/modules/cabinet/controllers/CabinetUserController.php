@@ -43,7 +43,7 @@ class CabinetUserController extends \BaseController
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'messages', 'dialog', 'markMessageAsRead', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'messages', 'dialog', 'markMessageAsRead', 'deleteAllMessages', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		$this->beforeFilter(function()
 		{
@@ -1209,6 +1209,7 @@ class CabinetUserController extends \BaseController
 
 		$messages = Message::from(DB::raw('(select * from messages where user_id_recipient = ' . $user->id . ' order by created_at DESC) t'))
 			->groupBy('user_id_sender')
+			->whereNull('deleted_recipient')
 			->with('userSender')
 			->get();
 
@@ -1230,7 +1231,13 @@ class CabinetUserController extends \BaseController
 		*/
 		$messages = Message::query()
 			->whereNested(function($q) use ($user) {
-				$q->where('user_id_sender', $user->id)->orWhere('user_id_recipient', $user->id);
+				$q->where(function($query) use ($user) {
+					$query->where('user_id_sender', $user->id)
+						->whereNull('deleted_sender');
+				})->orWhere(function($query) use ($user) {
+					$query->where('user_id_recipient', $user->id)
+						->whereNull('deleted_recipient');
+				});
 			})
 			->whereNested(function($q) use ($companion) {
 				$q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
@@ -1276,8 +1283,20 @@ class CabinetUserController extends \BaseController
 				// сброс кэша
 				Cache::forget('headerWidget.newMessages.' . Auth::user()->id);
 
-				$messages = Message::whereUserIdRecipient($user->id)
-					->whereNull('read_at')
+				$messages = Message::query()
+					->whereNested(function($q) use ($user) {
+						$q->where(function($query) use ($user) {
+							$query->where('user_id_sender', $user->id)
+								->whereNull('deleted_sender');
+						})->orWhere(function($query) use ($user) {
+							$query->where('user_id_recipient', $user->id)
+								->whereNull('deleted_recipient');
+						});
+					})
+					->whereNested(function($q) use ($message) {
+						$q->where('user_id_sender', $message->user_id_sender)->orWhere('user_id_recipient', $companion->id);
+					})
+					->with('userSender', 'userRecipient')
 					->orderBy('created_at', 'DESC')
 					->get();
 
@@ -1299,7 +1318,13 @@ class CabinetUserController extends \BaseController
 
             $messages = Message::query()
                 ->whereNested(function($q) use ($user) {
-                    $q->where('user_id_sender', $user->id)->orWhere('user_id_recipient', $user->id);
+	                $q->where(function($query) use ($user) {
+		                $query->where('user_id_sender', $user->id)
+			                ->whereNull('deleted_sender');
+	                })->orWhere(function($query) use ($user) {
+		                $query->where('user_id_recipient', $user->id)
+			                ->whereNull('deleted_recipient');
+	                });
                 })
                 ->whereNested(function($q) use ($companion) {
                     $q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
@@ -1369,6 +1394,71 @@ class CabinetUserController extends \BaseController
 						'countUnreadMessages' => $countUnreadMessages,
 					));
 				}
+			}
+		}
+	}
+
+	public function deleteAllMessages()
+	{
+		if(Request::ajax()) {
+
+			$userId = Request::has('userId') ? Request::get('userId') : Auth::user()->id;
+			$companionId = Request::has('companionId') ? Request::get('companionId') : null;
+
+			if($companionId) {
+				$messages = Message::whereNested(function($q) use ($userId) {
+						$q->where(function($query) use ($userId) {
+							$query->where('user_id_sender', $userId)
+								->whereNull('deleted_sender');
+						})->orWhere(function($query) use ($userId) {
+							$query->where('user_id_recipient', $userId)
+								->whereNull('deleted_recipient');
+						});
+					})
+					->whereNested(function($q) use ($companionId) {
+						$q->where('user_id_sender', $companionId)->orWhere('user_id_recipient', $companionId);
+					});
+			} else {
+				$messages = Message::whereNested(function($q) use ($userId) {
+					$q->where('user_id_sender', $userId)->orWhere('user_id_recipient', $userId);
+				});
+			}
+
+			if($messages->count()) {
+				foreach($messages->get() as $message) {
+					if($userId == $message->user_id_recipient) {
+						$message->deleted_recipient = \Carbon\Carbon::now();
+						if($message->deleted_sender) {
+							$message->delete();
+						} else {
+							$message->save();
+						}
+					} elseif($userId == $message->user_id_sender) {
+						$message->deleted_sender = \Carbon\Carbon::now();
+						if($message->deleted_recipient) {
+							$message->delete();
+						} else {
+							$message->save();
+						}
+					}
+				}
+
+				// сброс кэша
+				Cache::forget('headerWidget.newMessages.' . $userId);
+
+				return Response::json(array(
+					'success' => true,
+					'message' => (string) View::make('widgets.siteMessages.success', [
+						'siteMessage' => 'Личные сообщения удалены.'
+					]),
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+					'message' => (string) View::make('widgets.siteMessages.warning', [
+						'siteMessage' => 'У вас нет личных сообщений.'
+					]),
+				));
 			}
 		}
 	}
