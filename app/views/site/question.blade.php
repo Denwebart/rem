@@ -26,7 +26,7 @@
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
-                <h2 itemprop="headline">
+                <h2 itemprop="name">
                     {{ $page->title }}
                     @if(count($page->bestComments))
                         <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="bottom" style="font-size: 26px">done</i>

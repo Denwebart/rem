@@ -1,6 +1,6 @@
-<div class="row item" data-question-id="{{ $question->id }}">
+<div class="row item" data-question-id="{{ $question->id }}" itemscope itemtype="http://schema.org/Question">
     <div class="col-md-2 col-sm-2 col-xs-2">
-        <div class="user">
+        <div class="user" itemprop="author" itemscope itemtype="http://schema.org/Person">
             <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $question->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}
                 @if($question->user->isOnline())
@@ -10,8 +10,8 @@
                 @endif
             </a>
             <div class="clearfix"></div>
-            <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}">
-                <span class="login pull-left">{{ $question->user->login }}</span>
+            <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" itemprop="url">
+                <span class="login pull-left" itemprop="name">{{ $question->user->login }}</span>
             </a>
         </div>
     </div>
@@ -25,7 +25,9 @@
                 <div class="page-info">
                     <div class="date pull-left hidden-xs" title="Дата публикации" data-toggle="tooltip" data-placement="top">
                         <i class="material-icons">today</i>
-                        <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
+                        <time datetime="{{ DateHelper::dateFormatForSchema($question->published_at) }}" itemprop="datePublished">
+                            {{ DateHelper::dateFormat($question->published_at) }}
+                        </time>
                     </div>
                     <div class="pull-right">
                         <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
@@ -54,7 +56,7 @@
                 </div>
             </div>
             <div class="col-md-9 col-sm-9 col-xs-9">
-                <h3>
+                <h3 itemprop="name">
                     <a href="{{ URL::to($question->getUrl()) }}">
                         {{ $question->title }}
                     </a>
@@ -65,7 +67,7 @@
                     <span>Ответов:</span>
                 </div>
                 <div class="answers-value">
-                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
+                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif" itemprop="answerCount">
                         {{ count($question->publishedAnswers) }}
                     </a>
                     @if(count($question->bestComments))

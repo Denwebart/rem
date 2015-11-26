@@ -1,5 +1,5 @@
 @if(count($items))
-    <div id="submenu-sidebar-widget" class="sidebar-widget">
+    <div class="sidebar-widget submenu-sidebar-widget">
         <h3>
             @if($page->type == Page::TYPE_QUESTIONS)
                 Категории вопросов

@@ -167,7 +167,7 @@ class StringHelper
 		return preg_replace_callback('/(<img(.+?)src="(.*?)"(.+?)>)/iu', function($image) use($group) {
 			$group = ($group) ? 'data-fancybox-group="'. $group .'"' : '';
 			if(!strpos($image[3], '/emoticons/img/smiley')) {
-				$imageTag = '<img'. $image[2] . 'src="'. $image[3] .'"' . $image[4] . ' itemprop="image">';
+				$imageTag = '<img itemprop="image" '. $image[2] . 'src="'. $image[3] .'"' . $image[4] . '>';
 				return '<a href="' . $image[3] . '" class="fancybox" '. $group .'>' . $imageTag . '</a>';
 			} else {
 				return $image[0];

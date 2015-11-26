@@ -163,36 +163,36 @@ a:focus {
     transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 /*-- Подменю (слева на странице) --*/
-#submenu-sidebar-widget {
+.submenu-sidebar-widget {
     padding-right: 0;
     font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;
     display: inline-block;
     width: 100%;
 }
-#submenu-sidebar-widget h3 {
+.submenu-sidebar-widget h3 {
     text-align: center;
 }
-#submenu-sidebar-widget ul {
+.submenu-sidebar-widget ul {
     list-style: none;
     padding: 0;
 }
-#submenu-sidebar-widget ul > li {
+.submenu-sidebar-widget ul > li {
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin: 7px 0;
 }
-#submenu-sidebar-widget ul > li:hover,
-#submenu-sidebar-widget ul > li:focus,
-#submenu-sidebar-widget ul > li.active {
+.submenu-sidebar-widget ul > li:hover,
+.submenu-sidebar-widget ul > li:focus,
+.submenu-sidebar-widget ul > li.active {
     background: #1B609C none repeat scroll 0% 0%;
 }
-#submenu-sidebar-widget ul > li:hover a,
-#submenu-sidebar-widget ul > li:focus a,
-#submenu-sidebar-widget ul > li.active a {
+.submenu-sidebar-widget ul > li:hover a,
+.submenu-sidebar-widget ul > li:focus a,
+.submenu-sidebar-widget ul > li.active a {
     color: #FFF;
     text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
 }
-#submenu-sidebar-widget ul > li > a {
+.submenu-sidebar-widget ul > li > a {
     color: #232323;
     text-shadow: none;
     padding: 5px 40px 0 10px;
@@ -200,12 +200,12 @@ a:focus {
     display: inline-block;
     text-align: left;
 }
-#submenu-sidebar-widget ul > li > a span {
+.submenu-sidebar-widget ul > li > a span {
     float: left;
     font-size: 14px;
     line-height: 22px;
 }
-#submenu-sidebar-widget li a .label {
+.submenu-sidebar-widget li a .label {
     position: absolute;
     top: 7px;
     right: 7px;

@@ -10,16 +10,18 @@
 @stop
 
 @section('content')
-    <section id="content" class="well">
+    <section id="content" class="well" itemscope itemtype="http://schema.org/Article">
+
+        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
 
         @if($page->is_show_title)
-            <h2>{{ $page->title }}</h2>
+            <h2 itemprop="headline">{{ $page->title }}</h2>
         @endif
 
         {{ $areaWidget->contentTop() }}
 
         @if($page->content)
-            <div class="content">
+            <div class="content" itemprop="articleBody">
                 @if($page->image)
                     <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage('origin', ['class' => 'page-image']) }}
