@@ -55,7 +55,8 @@ select:-moz-focusring {
     margin-bottom: 15px;
 }
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4 {
+.h1, .h2, .h3, .h4,
+.title-h5 {
     font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif !important;
 }
 .h2, h2 {
@@ -66,7 +67,10 @@ h2 .login {
     display: inline-block;
     margin-top: 5px;
 }
-
+.title-h5 {
+    font-size: 18px;
+    font-weight: 400;
+}
 /* Отступы */
 .without-padding {
     padding: 0 !important;
