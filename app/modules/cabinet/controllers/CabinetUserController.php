@@ -1449,7 +1449,9 @@ class CabinetUserController extends \BaseController
 				return Response::json(array(
 					'success' => true,
 					'message' => (string) View::make('widgets.siteMessages.success', [
-						'siteMessage' => 'Личные сообщения удалены.'
+						'siteMessage' => $companionId
+							? 'Личные сообщения удалены.'
+							: 'Все личные сообщения удалены.'
 					]),
 				));
 			} else {

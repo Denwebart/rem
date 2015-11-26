@@ -313,7 +313,6 @@ View::share('title', $title);
                             if (response.success) {
                                 $button.parent().find('.tooltip').remove();
                                 $('#site-messages').prepend(response.message);
-                                $('.delete-all-messages').remove();
                                 $('#scroll').html('<p class="no-messages">Сообщений нет.</p>');
 
                                 $('#header-widget .dropdown-messages .dropdown-toggle span').remove();

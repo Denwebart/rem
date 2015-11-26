@@ -50,6 +50,9 @@ View::share('title', $title);
                     <div class="count pull-left">
                         Недавние диалоги: <span>{{ $messages->count() }}</span>.
                     </div>
+                    <a href="javascript:void(0)" class="delete-all-dialogs pull-right margin-left-10" title="Удалить все диалоги" data-toggle="tooltip">
+                        <i class="material-icons">delete</i>
+                    </a>
                     <div class="clearfix"></div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))
@@ -107,4 +110,41 @@ View::share('title', $title);
             $(".fancybox").fancybox();
         });
     </script>
+
+    @if(Auth::user()->is($user))
+        <script type="text/javascript">
+            // Удаление диалогов
+            $('.delete-all-dialogs').on('click', function(){
+                var $button = $(this);
+                if(confirm('Вы уверены, что хотите удалить все диалоги?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.deleteAllMessages', ['login' => Auth::user()->getLoginForUrl()])}}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {userId: '<?php echo Auth::user()->id ?>'},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $button.parent().find('.tooltip').remove();
+                                $('#site-messages').prepend(response.message);
+                                $('#scroll').html('<p class="no-messages">Сообщений нет.</p>');
+
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
+                                $('#header-widget .dropdown-messages .dropdown-menu').remove();
+                                $('#companions small').text('').hide();
+                                $('#users-menu .messages small').text('').hide();
+                                // как ссылка
+                                $('#header-widget .dropdown-messages .dropdown-toggle').remove();
+                                $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
+                            } else {
+                                $('#site-messages').prepend(response.message);
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    @endif
 @stop
