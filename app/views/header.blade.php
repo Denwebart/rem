@@ -68,12 +68,12 @@
                         <div id="site-title">
                             @if(isset($settings))
                                 <h1>
-                            <span>
-                                {{ $settings['siteTitle']['value'] }}
-                            </span>
-                            <span class="slogan">
-                                {{ $settings['siteSlogan']['value'] }}
-                            </span>
+                                    <a href="{{ URL::to('/') }}">
+                                        {{ $settings['siteTitle']['value'] }}
+                                    </a>
+                                    <span class="slogan">
+                                        {{ $settings['siteSlogan']['value'] }}
+                                    </span>
                                 </h1>
                             @endif
                         </div>

@@ -41,6 +41,9 @@ a:focus {
     font-weight: 400;
     color: #2f68a1;
 }
+#site-title h1 a:hover {
+    text-decoration: none;
+}
 #site-title h1 span {
     display: inline-block;
 }
