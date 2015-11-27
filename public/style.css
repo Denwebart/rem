@@ -2640,6 +2640,9 @@ footer .counter {
     .rss-widget a {
         padding: 0 18px;
     }
+    #jRate svg {
+        margin-right: 0 !important;
+    }
 }
 
 @media (min-width: 1330px) {

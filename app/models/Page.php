@@ -211,8 +211,12 @@ class Page extends \Eloquent
 		{
 			TranslitHelper::generateAlias($page);
 			$page->title = StringHelper::mbUcFirst($page->title);
-			$page->introtext = StringHelper::nofollowLinks($page->introtext);
-			$page->content = StringHelper::nofollowLinks($page->content);
+			if($page->introtext) {
+				$page->introtext = StringHelper::nofollowLinks($page->introtext);
+			}
+			if($page->content) {
+				$page->content = StringHelper::nofollowLinks($page->content);
+			}
 
 			// очистка кэша
 			if($page->type != Page::TYPE_QUESTION && $page->is_continer == 0 && $page->is_published == 1) {
