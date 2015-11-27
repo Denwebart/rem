@@ -9,8 +9,15 @@
             @endif
         </a>
     </div>
-    <div class="col-md-7">
+    <div class="col-lg-7 col-md-11 col-sm-7 col-xs-11">
         <div class="message outgoing">
+            <a href="javascript:void(0)" class="delete-message pull-right" data-id="{{ $message->id }}">
+                <i class="material-icons">clear</i>
+            </a>
+
+            <div class="login pull-left hidden-lg hidden-sm">
+                я
+            </div>
             <span class="date">
                 {{ DateHelper::dateForMessage($message->created_at) }}
             </span>

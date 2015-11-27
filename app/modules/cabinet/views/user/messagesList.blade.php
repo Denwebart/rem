@@ -17,6 +17,10 @@
             @if($user->id == $message->userSender->id)
                 <div class="col-lg-7 col-md-11 col-sm-7 col-xs-11">
                     <div class="message outgoing">
+                        <a href="javascript:void(0)" class="delete-message pull-right" data-id="{{ $message->id }}">
+                            <i class="material-icons">clear</i>
+                        </a>
+
                         <div class="login pull-left hidden-lg hidden-sm">
                             я
                         </div>
@@ -30,6 +34,10 @@
             @else
                 <div class="col-lg-7 col-lg-offset-1 col-md-11 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-11 col-xs-offset-1">
                     <div class="message {{ is_null($message->read_at) ? 'new-message' : ''}}" data-message-id="{{ $message->id }}">
+                        <a href="javascript:void(0)" class="delete-message pull-right" data-id="{{ $message->id }}">
+                            <i class="material-icons">clear</i>
+                        </a>
+
                         <div class="login pull-left hidden-lg hidden-sm">
                             {{ $message->userSender->login }}
                         </div>

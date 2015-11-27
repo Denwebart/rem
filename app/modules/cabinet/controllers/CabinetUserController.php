@@ -1398,6 +1398,69 @@ class CabinetUserController extends \BaseController
 		}
 	}
 
+	public function deleteMessage($login)
+	{
+		if(Request::ajax()) {
+			$messageId = Request::get('messageId');
+			$message = Message::find($messageId);
+
+			$user = (Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
+
+			if($message) {
+				if($user->id == $message->user_id_recipient) {
+					$message->deleted_recipient = \Carbon\Carbon::now();
+					if($message->deleted_sender) {
+						$message->delete();
+					} else {
+						$message->save();
+					}
+				} elseif($user->id == $message->user_id_sender) {
+					$message->deleted_sender = \Carbon\Carbon::now();
+					if($message->deleted_recipient) {
+						$message->delete();
+					} else {
+						$message->save();
+					}
+				}
+
+				$companionId = Request::has('companionId') ? Request::get('companionId') : null;
+				$companion = User::find($companionId);
+
+				$messages = Message::query()
+					->whereNested(function($q) use ($user) {
+						$q->where(function($query) use ($user) {
+							$query->where('user_id_sender', $user->id)
+								->whereNull('deleted_sender');
+						})->orWhere(function($query) use ($user) {
+							$query->where('user_id_recipient', $user->id)
+								->whereNull('deleted_recipient');
+						});
+					})
+					->whereNested(function($q) use ($companion) {
+						$q->where('user_id_sender', $companion->id)->orWhere('user_id_recipient', $companion->id);
+					})
+					->with('userSender', 'userRecipient')
+					->orderBy('created_at', 'DESC');
+
+				// сброс кэша
+				Cache::forget('headerWidget.newMessages.' . Auth::user()->id);
+
+				return Response::json(array(
+					'success' => true,
+					'messagesListHtml' => (string) View::make('cabinet::user.messagesList', compact('companion', 'user'))->with('messages', $messages->get())->render(),
+					'newMessage' => count($messages->whereUserIdSender($companion->id)->whereNull('read_at')->get()),
+					'allNewMessages' => count(Message::whereUserIdRecipient(Auth::user()->id)->whereNull('read_at')->get()),
+				));
+			} else {
+				return Response::json(array(
+					'success' => false,
+				));
+			}
+		}
+	}
+
 	public function deleteAllMessages()
 	{
 		if(Request::ajax()) {

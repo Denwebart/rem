@@ -329,6 +329,40 @@ View::share('title', $title);
                     });
                 }
             });
+
+            $('#messages-area').on('click', '.delete-message', function(){
+                var $button = $(this);
+                var messageId = $(this).data('id');
+                if(confirm('Вы уверены, что хотите удалить сообщение?')) {
+                    $.ajax({
+                        url: "{{ URL::route('user.deleteMessage', ['login' => Auth::user()->getLoginForUrl()])}}",
+                        dataType: "text json",
+                        type: "POST",
+                        data: {companionId: '<?php echo $companion->id ?>', messageId: messageId},
+                        beforeSend: function (request) {
+                            return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#scroll').html(response.messagesListHtml);
+
+                                var scrollArea = document.getElementById('scroll');
+                                scrollArea.scrollTop = scrollArea.scrollHeight;
+
+                                $('#header-widget .dropdown-messages .dropdown-toggle span').text(response.allNewMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu .header span').text(response.allNewMessages);
+                                $('#header-widget .dropdown-messages .dropdown-menu [data-sender-id="<?php echo $companion->id ?>"]').remove();
+                                $('#users-menu .messages small').text(response.allNewMessages).show();
+
+                                $('#companions').find('[data-user-id="<?php echo $companion->id ?>"]')
+                                        .find('small').text(response.newMessage).show();
+                            } else {
+                                $('#site-messages').prepend(response.message);
+                            }
+                        }
+                    });
+                }
+            });
         </script>
     @endif
 @stop

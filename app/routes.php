@@ -138,6 +138,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/messages/addMessage/{companionId}', ['as' => 'user.addMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@addMessage']);
 	Route::post('{login}/messages/{companion}', ['as' => 'user.reloadMessages', 'uses' => 'CabinetUserController@reloadMessages']);
 	Route::post('{login}/deleteAllMessages', ['as' => 'user.deleteAllMessages', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteAllMessages']);
+	Route::post('{login}/deleteMessage', ['as' => 'user.deleteMessage', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteMessage']);
 	Route::get('{login}/comments/{id}/edit', ['as' => 'user.comments.edit', 'uses' => 'CabinetUserController@editComment']);
 	Route::put('{login}/comments/{id}', ['as' => 'user.comments.update', 'before' => 'csrf', 'uses' => 'CabinetUserController@updateComment']);
 	Route::post('{login}/deleteComment', ['as' => 'user.deleteComment', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deleteComment']);
