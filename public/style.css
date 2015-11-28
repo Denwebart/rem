@@ -218,7 +218,7 @@ h2 .login {
     /*text-align: justify;*/
 /*}*/
 #content {
-    min-height: 200px;
+    min-height: 250px;
 }
 #content h2, .content h2 {
     margin-top: 0;
@@ -414,11 +414,19 @@ form .page-image {
     margin: 0 7px 0 0;
 }
 
-.pagination > li > a, .pagination > li > span {
-    margin-right: 5px;
+.pagination {
+    width: 100%;
+    text-align: center;
 }
 .pagination a {
     text-decoration: none !important;
+}
+.pagination > li {
+    display: inline-block;
+}
+.pagination > li > a,
+.pagination > li > span {
+    margin-right: 5px;
 }
 
 /* Subscriptions Area, Saved Pages Area */
