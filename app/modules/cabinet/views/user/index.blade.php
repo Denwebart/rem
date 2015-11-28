@@ -194,7 +194,7 @@ View::share('title', $title);
                         <div class="col-md-12">
                             <div class="content">
                                 @if($user->description)
-                                    {{ $user->description }}
+                                    {{ StringHelper::addFancybox($user->description, 'group-content') }}
                                 @endif
                             </div>
                         </div>
@@ -256,6 +256,16 @@ View::share('title', $title);
 
 @section('script')
     @parent
+
+    <!-- FancyBox2 -->
+    {{-- стили в fonts.css --}}
+    {{--<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css?v=2.1.5" type="text/css" media="screen" />--}}
+    {{HTML::script('fancybox/jquery.fancybox.pack.min.js?v=2.1.5')}}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
 
     @if(Auth::check())
         @if(Auth::user()->isAdmin())

@@ -47,6 +47,17 @@ class ImageUploadController extends BaseController
 			}
 			$isDeleted = Request::get('isDeleted', true);
 
+			if(Config::get('settings.maxImageWidth') && $image->width() > Config::get('settings.maxImageWidth')) {
+				$image->resize(Config::get('settings.maxImageWidth'), null, function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+			if(Config::get('settings.maxImageHeight') && $image->height() > Config::get('settings.maxImageHeight')) {
+				$image->resize(null, Config::get('settings.maxImageHeight'), function ($constraint) {
+					$constraint->aspectRatio();
+				});
+			}
+			
 			$image->save($imagePath . $fileName);
 
 			$imageUrl = $tempPath . $fileName;
