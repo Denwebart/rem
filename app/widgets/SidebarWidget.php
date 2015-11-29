@@ -43,33 +43,36 @@ class SidebarWidget
 	 */
 	public function latest($limit = 7)
 	{
-		if(Cache::has('widgets.latest.' . $limit)) {
-			return Cache::get('widgets.latest.' . $limit);
-		} else {
-			$pages = Page::whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->whereIsContainer(0)
-				->where('parent_id', '!=', 0)
-				->where('type', '!=', Page::TYPE_QUESTION)
-				->orderBy('published_at', 'DESC')
-				->limit($limit)
-				->with([
-					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias');
-					},
-				])
-				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
+		$cache = Cache::has('widgets.latest') ? Cache::get('widgets.latest') : [];
 
-			$view = (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
-			Cache::put('widgets.latest.' . $limit, $view, 60);
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$pages = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->whereIsContainer(0)
+			->where('parent_id', '!=', 0)
+			->where('type', '!=', Page::TYPE_QUESTION)
+			->orderBy('published_at', 'DESC')
+			->limit($limit)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title']);
+
+		$view = (string) View::make('widgets.sidebar.latest', compact('pages'))->render();
+		$cache[$limit] = $view;
+		Cache::put('widgets.latest.' . $limit, $cache, 60);
+		return $view;
 	}
 
 	/**
@@ -80,31 +83,34 @@ class SidebarWidget
 	 */
 	public function best($limit = 10)
 	{
-		if(Cache::has('widgets.best.' . $limit)) {
-			$pages = Cache::get('widgets.best.' . $limit);
-		} else {
-			$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
-				->whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->whereIsContainer(0)
-				->where('parent_id', '!=', 0)
-				->orderBy('rating', 'DESC')
-				->limit($limit)
-				->with([
-					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias');
-					},
-				])
-				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+		$cache = Cache::has('widgets.best') ? Cache::get('widgets.best') : [];
 
-			Cache::put('widgets.best.' . $limit, $pages, 60);
+		if(isset($cache[$limit])) {
+			$pages = $cache[$limit];
 		}
+
+		$pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->whereIsContainer(0)
+			->where('parent_id', '!=', 0)
+			->orderBy('rating', 'DESC')
+			->limit($limit)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+
+		$cache[$limit] = $pages;
+		Cache::put('widgets.best.' . $limit, $cache, 60);
 
 		return (string) View::make('widgets.sidebar.best', compact('pages'))->render();
 	}
@@ -117,31 +123,34 @@ class SidebarWidget
      */
     public function notBest($limit = 10)
     {
-	    if(Cache::has('widgets.notBest.' . $limit)) {
-		    $pages = Cache::get('widgets.notBest.' . $limit);
-	    } else {
-		    $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
-			    ->whereIsPublished(1)
-			    ->where('published_at', '<', date('Y-m-d H:i:s'))
-			    ->whereIsContainer(0)
-			    ->where('parent_id', '!=', 0)
-			    ->orderBy('rating', 'ASC')
-			    ->limit($limit)
-			    ->with([
-				    'parent' => function($query) {
-					    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				    },
-				    'parent.parent' => function($query) {
-					    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				    },
-				    'user' => function($query) {
-					    $query->select('id', 'login', 'alias');
-				    },
-			    ])
-			    ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+	    $cache = Cache::has('widgets.notBest') ? Cache::get('widgets.notBest') : [];
 
-		    Cache::put('widgets.notBest.' . $limit, $pages, 60);
+	    if(isset($cache[$limit])) {
+		    $pages = $cache[$limit];
 	    }
+
+	    $pages = Page::select([DB::raw('id, parent_id, published_at, is_published, title, alias, votes, voters, (votes/voters) AS rating')])
+		    ->whereIsPublished(1)
+		    ->where('published_at', '<', date('Y-m-d H:i:s'))
+		    ->whereIsContainer(0)
+		    ->where('parent_id', '!=', 0)
+		    ->orderBy('rating', 'ASC')
+		    ->limit($limit)
+		    ->with([
+			    'parent' => function($query) {
+				    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+			    },
+			    'parent.parent' => function($query) {
+				    $query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+			    },
+			    'user' => function($query) {
+				    $query->select('id', 'login', 'alias');
+			    },
+		    ])
+		    ->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'votes', 'voters']);
+
+	    $cache[$limit] = $pages;
+	    Cache::put('widgets.notBest.' . $limit, $cache, 60);
 
         return (string) View::make('widgets.sidebar.notBest', compact('pages'))->render();
     }
@@ -154,33 +163,35 @@ class SidebarWidget
 	 */
 	public function popular($limit = 5)
 	{
-		if(Cache::has('widgets.popular.' . $limit)) {
-			return Cache::get('widgets.popular.' . $limit);
-		} else {
-			$pages = Page::whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->whereIsContainer(0)
-				->where('parent_id', '!=', 0)
-				->orderBy('views', 'DESC')
-				->limit($limit)
-				->with([
-					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias');
-					},
-				])
-				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
+		$cache = Cache::has('widgets.popular') ? Cache::get('widgets.popular') : [];
 
-			$view = (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
-
-			Cache::put('widgets.popular.' . $limit, $view, 60);
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$pages = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->whereIsContainer(0)
+			->where('parent_id', '!=', 0)
+			->orderBy('views', 'DESC')
+			->limit($limit)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
+
+		$view = (string) View::make('widgets.sidebar.popular', compact('pages'))->render();
+		$cache[$limit] = $view;
+		Cache::put('widgets.popular.' . $limit, $cache, 60);
+		return $view;
 	}
 
 	/**
@@ -191,33 +202,35 @@ class SidebarWidget
 	 */
 	public function unpopular($limit = 7)
 	{
-		if(Cache::has('widgets.popular.' . $limit)) {
-			return Cache::get('widgets.popular.' . $limit);
-		} else {
-			$pages = Page::whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->whereIsContainer(0)
-				->where('parent_id', '!=', 0)
-				->orderBy('views', 'ASC')
-				->limit($limit)
-				->with([
-					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias');
-					},
-				])
-				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
+		$cache = Cache::has('widgets.unpopular') ? Cache::get('widgets.unpopular') : [];
 
-			$view = (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
-
-			Cache::put('widgets.popular.' . $limit, $view, 60);
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$pages = Page::whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->whereIsContainer(0)
+			->where('parent_id', '!=', 0)
+			->orderBy('views', 'ASC')
+			->limit($limit)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+			])
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'alias', 'title', 'views', 'image', 'image_alt']);
+
+		$view = (string) View::make('widgets.sidebar.unpopular', compact('pages'))->render();
+		$cache[$limit] = $view;
+		Cache::put('widgets.unpopular.' . $limit, $cache, 60);
+		return $view;
 	}
 
 	/**
@@ -228,38 +241,40 @@ class SidebarWidget
 	 */
 	public function comments($limit = 9)
 	{
-		if(Cache::has('widgets.comments.' . $limit)) {
-			return Cache::get('widgets.comments.' . $limit);
-		} else {
-			$comments = Comment::whereIsPublished(1)
-				->whereIsDeleted(0)
-				->whereIsAnswer(0)
-				->limit($limit)
-				->with([
-					'page' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
-					},
-					'page.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'page.parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'page.user' => function($query) {
-						$query->select('id', 'login', 'alias');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-					},
-				])
-				->orderBy('created_at', 'DESC')
-				->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+		$cache = Cache::has('widgets.comments') ? Cache::get('widgets.comments') : [];
 
-			$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
-
-			Cache::put('widgets.comments.' . $limit, $view, Config::get('settings.userActivityTime'));
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$comments = Comment::whereIsPublished(1)
+			->whereIsDeleted(0)
+			->whereIsAnswer(0)
+			->limit($limit)
+			->with([
+				'page' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+				},
+				'page.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.user' => function($query) {
+					$query->select('id', 'login', 'alias');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
+			->orderBy('created_at', 'DESC')
+			->get(['id', 'parent_id', 'page_id', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+
+		$view = (string) View::make('widgets.sidebar.comments', compact('comments'))->render();
+		$cache[$limit] = $view;
+		Cache::put('widgets.comments.' . $limit, $cache, Config::get('settings.userActivityTime'));
+		return $view;
 	}
 
 	/**
@@ -270,35 +285,38 @@ class SidebarWidget
 	 */
 	public function answers($limit = 9)
 	{
-		if(Cache::has('widgets.answers.' . $limit)) {
-			return Cache::get('widgets.answers.' . $limit);
-		} else {
-			$answers = Comment::whereIsPublished(1)
-				->whereIsDeleted(0)
-				->whereIsAnswer(1)
-				->whereMark(Comment::MARK_BEST)
-				->limit($limit)
-				->with([
-					'page' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
-					},
-					'page.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'page.parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-					},
-				])
-				->orderBy('updated_at', 'DESC')
-				->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+		$cache = Cache::has('widgets.answers') ? Cache::get('widgets.answers') : [];
 
-			$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
-			Cache::put('widgets.answers.' . $limit, $view, Config::get('settings.userActivityTime'));
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$answers = Comment::whereIsPublished(1)
+			->whereIsDeleted(0)
+			->whereIsAnswer(1)
+			->whereMark(Comment::MARK_BEST)
+			->limit($limit)
+			->with([
+				'page' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'user_id');
+				},
+				'page.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'page.parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
+			->orderBy('updated_at', 'DESC')
+			->get(['id', 'parent_id', 'page_id', 'mark', 'is_answer', 'user_id', 'user_name', 'created_at', 'is_published', 'comment']);
+
+		$view = (string) View::make('widgets.sidebar.answers', compact('answers'))->render();
+		$cache[$limit] = $view;
+		Cache::put('widgets.answers.' . $limit, $cache, Config::get('settings.userActivityTime'));
+		return $view;
 	}
 
 	/**
@@ -309,38 +327,41 @@ class SidebarWidget
 	 */
 	public function questions($limit = 3)
 	{
-		if(Cache::has('widgets.questions.' . $limit)) {
-			return Cache::get('widgets.questions.' . $limit);
-		} else {
-			$questions = Page::whereType(Page::TYPE_QUESTION)
-				->whereIsPublished(1)
-				->where('published_at', '<', date('Y-m-d H:i:s'))
-				->limit($limit)
-				->with([
-					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-					},
-					'user' => function($query) {
-						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-					},
-					'publishedAnswers' => function($query) {
-						$query->select('id', 'page_id');
-					},
-					'bestComments' => function($query) {
-						$query->select('id', 'page_id');
-					},
-				])
-				->orderBy('published_at', 'DESC')
-				->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title']);
+		$cache = Cache::has('widgets.questions') ? Cache::get('widgets.questions') : [];
 
-			$view = (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
-
-			Cache::put('widgets.questions.' . $limit, $view, Config::get('settings.userActivityTime'));
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$questions = Page::whereType(Page::TYPE_QUESTION)
+			->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->limit($limit)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+			])
+			->orderBy('published_at', 'DESC')
+			->get(['id', 'parent_id', 'user_id', 'type', 'published_at', 'is_published', 'is_container', 'alias', 'title']);
+
+		$view = (string) View::make('widgets.sidebar.questions', compact('questions'))->render();
+
+		$cache[$limit] = $view;
+		Cache::put('widgets.questions', $cache, Config::get('settings.userActivityTime'));
+		return $view;
 	}
 
 	/**
@@ -351,29 +372,33 @@ class SidebarWidget
 	 */
 	public function tags($limit = 20)
 	{
-		if(Cache::has('widgets.tags.' . $limit)) {
-			return Cache::get('widgets.tags.' . $limit);
-		} else {
-			$tags = Tag::select('id', 'title')
-				->has('pages')
-				->with([
-					'pages' => function($query) {
-						$query->select('id');
-					}
-				])
-				->whereHas('pages', function($query) {
-					$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
-				})
-				->limit($limit)
-				->get()
-				->sortBy(function($tag) {
-					return $tag->pages->count();
-				})->reverse();
+		$cache = Cache::has('widgets.tags') ? Cache::get('widgets.tags') : [];
 
-			$view = (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
-			Cache::forever('widgets.tags.' . $limit, $view);
-			return $view;
+		if(isset($cache[$limit])) {
+			return $cache[$limit];
 		}
+
+		$tags = Tag::select('id', 'title')
+			->has('pages')
+			->with([
+				'pages' => function($query) {
+					$query->select('id');
+				}
+			])
+			->whereHas('pages', function($query) {
+				$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
+			})
+			->limit($limit)
+			->get()
+			->sortBy(function($tag) {
+				return $tag->pages->count();
+			})->reverse();
+
+		$view = (string) View::make('widgets.sidebar.tags', compact('tags'))->render();
+
+		$cache[$limit] = $view;
+		Cache::forever('widgets.tags.' . $limit, $cache);
+		return $view;
 	}
 
 	/**
