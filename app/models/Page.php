@@ -209,7 +209,9 @@ class Page extends \Eloquent
 
 		static::saving(function($page)
 		{
-			TranslitHelper::generateAlias($page);
+			if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type) {
+				TranslitHelper::generateAlias($page);
+			}
 			$page->title = StringHelper::mbUcFirst($page->title);
 			if($page->introtext) {
 				$page->introtext = StringHelper::nofollowLinks($page->introtext);

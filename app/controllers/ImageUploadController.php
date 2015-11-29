@@ -57,7 +57,7 @@ class ImageUploadController extends BaseController
 					$constraint->aspectRatio();
 				});
 			}
-			
+
 			$image->save($imagePath . $fileName);
 
 			$imageUrl = $tempPath . $fileName;
