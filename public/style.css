@@ -546,6 +546,10 @@ form .page-image {
 /* Rating */
 #rating {
     margin-top: 1px;
+    text-align: center;
+}
+#rating .rating {
+    display: inline-block;
 }
 #rating #rate-votes {
     font-size: 26px;
