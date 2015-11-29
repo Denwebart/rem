@@ -455,7 +455,7 @@ class CabinetUserController extends \BaseController
 
 	public function storeQuestion($login)
 	{
-		$premoderation = Setting::whereKey('articlesPremoderation')->select('value')->first();
+		$premoderation = Setting::whereKey('questionsPremoderation')->select('value')->first();
 		$isPublished = $premoderation->value ? 0 : 1;
 
 		$data = Input::all();
@@ -492,13 +492,13 @@ class CabinetUserController extends \BaseController
 			$page->user->addPoints(User::POINTS_FOR_QUESTION);
 		}
 
-		if($page->is_published) {
-			$backUrl = URL::to($page->getUrl());
-		} else {
+//		if($page->is_published) {
+//			$backUrl = URL::to($page->getUrl());
+//		} else {
 			$backUrl = Input::has('backUrl')
 				? Input::get('backUrl')
 				: URL::route('user.questions', ['login' => $login]);
-		}
+//		}
 
 		if ($isPublished) {
 			return Redirect::to($backUrl)->with('successMessage', 'Ваш вопрос опубликован!');
@@ -721,13 +721,13 @@ class CabinetUserController extends \BaseController
 				'[linkToPage]' => URL::to($page->getUrl())
 			]);
 		}
-		if($page->is_published) {
-			$backUrl = URL::to($page->getUrl());
-		} else {
+//		if($page->is_published) {
+//			$backUrl = URL::to($page->getUrl());
+//		} else {
 			$backUrl = Input::has('backUrl')
 				? Input::get('backUrl')
 				: URL::route('user.journal', ['journalAlias' => Config::get('settings.journalAlias'), 'login' => $login]);
-		}
+//		}
 
 		if ($isPublished) {
 			return Redirect::to($backUrl)->with('successMessage', 'Статья в журнале опубликована!');
