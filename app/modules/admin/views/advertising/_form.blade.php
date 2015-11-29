@@ -1,4 +1,4 @@
-<div class="col-md-7">
+<div class="col-lg-7 col-md-12">
     <div class="box">
         <div class="box-body">
             <div class="form-group @if($errors->has('title')) has-error @endif">
@@ -97,7 +97,7 @@
     </div>
 </div>
 
-<div class="col-md-5">
+<div class="col-lg-5 col-md-12">
 
     <div class="box" id="widget">
         <div class="box-body">
@@ -105,7 +105,7 @@
                 <h4>Выберите страницу</h4>
                 <div class="row">
                     @foreach(AdvertisingPage::$pages as $pageTypeKey => $pageTypeValue)
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             {{ Form::checkbox('pages['.$pageTypeKey.']', 1, isset($pages[$pageTypeKey]) ? true : false) }}
                             {{ Form::label('pages['.$pageTypeKey.']', $pageTypeValue) }}
                         </div>

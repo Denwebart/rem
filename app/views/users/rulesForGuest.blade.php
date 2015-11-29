@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 <?php
-$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SYSTEM]);
 View::share('areaWidget', $areaWidget);
 ?>
 

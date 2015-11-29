@@ -27,18 +27,22 @@ class AdvertisingPage extends \Eloquent
 	const PAGE_USER_JOURNAL = 8;
 	const PAGE_ARTICLE_JOURNAL = 9;
 	const PAGE_CABINET = 10;
+	const PAGE_CATEGORY = 11;
+	const PAGE_SYSTEM = 12;
 
 	public static $pages = [
 		self::PAGE_MAIN => 'На главной странице',
 		self::PAGE_QUESTIONS => 'На странице "Вопрос-ответ"',
-		self::PAGE_SITE => 'На страницах сайта',
+		self::PAGE_SITE => 'На статьях сайта',
 		self::PAGE_QUESTIONS_CATEGORY => 'На категории вопросов',
-		self::PAGE_JOURNAL => 'На странице "Бортовой журнал"',
+		self::PAGE_CATEGORY => 'На категориях',
 		self::PAGE_QUESTION => 'На вопросах',
+		self::PAGE_JOURNAL => 'На стр. "Бортовой журнал"',
 		self::PAGE_USER_JOURNAL => 'В журнале пользователя',
 		self::PAGE_SEARCH => 'На страницах поиска',
 		self::PAGE_ARTICLE_JOURNAL => 'На статьях в журнале',
 		self::PAGE_CABINET => 'В личном кабинете',
+		self::PAGE_SYSTEM => 'К. сайта, контакты, 404, правила',
 	];
 
 	protected $fillable = [

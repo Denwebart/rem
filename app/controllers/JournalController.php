@@ -220,7 +220,7 @@ class JournalController extends BaseController
 	 */
 	public function tags($journalAlias)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CATEGORY]);
 		View::share('areaWidget', $areaWidget);
 
 		$tagsByAlphabet = Tag::getByAlphabet();
@@ -241,7 +241,7 @@ class JournalController extends BaseController
 	 */
 	public function tag($journalAlias, $tag)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CATEGORY]);
 		View::share('areaWidget', $areaWidget);
 
 		$tag = Tag::whereTitle($tag)->whereHas('pages', function($query) {

@@ -74,9 +74,6 @@ class SiteController extends BaseController {
 
 	public function firstLevel($alias, $suffix = null)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
-		View::share('areaWidget', $areaWidget);
-
 		$page = Page::getPageByAlias($alias)
 			->with([
 				'publishedComments' => function($query) {
@@ -141,17 +138,21 @@ class SiteController extends BaseController {
 			} else {
 				$children = [];
 			}
+
+			$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CATEGORY]);
+			View::share('areaWidget', $areaWidget);
+
 			return View::make('site.category', compact('children'));
 		} else {
+			$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+			View::share('areaWidget', $areaWidget);
+
 			return View::make('site.page');
 		}
 	}
 
 	public function secondLevel($categoryAlias, $alias, $suffix = null)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
-		View::share('areaWidget', $areaWidget);
-
 		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
 
 		$page = Page::getPageByAlias($alias)
@@ -222,17 +223,20 @@ class SiteController extends BaseController {
 				$children = [];
 			}
 
+			$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_CATEGORY]);
+			View::share('areaWidget', $areaWidget);
+
 			return View::make('site.category', compact('children'));
 		} else {
+			$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+			View::share('areaWidget', $areaWidget);
+
 			return View::make('site.page');
 		}
 	}
 
 	public function thirdLevel($parentCategoryAlias, $categoryAlias, $alias)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
-		View::share('areaWidget', $areaWidget);
-
 		$category = Page::select('id')->getPageByAlias($categoryAlias)->firstOrFail();
 		$page = Page::getPageByAlias($alias)
 			->whereParentId($category->id)
@@ -243,6 +247,9 @@ class SiteController extends BaseController {
 		}
 
 		$page->setViews();
+
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		View::share('areaWidget', $areaWidget);
 
 		View::share('page', $page);
 		return View::make('site.page');
@@ -400,7 +407,7 @@ class SiteController extends BaseController {
 
 	public function sitemapHtml($alias)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SYSTEM]);
 		View::share('areaWidget', $areaWidget);
 
 		$pages = Page::whereParentId(0)
@@ -455,7 +462,7 @@ class SiteController extends BaseController {
 
 	public function contact($alias)
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SYSTEM]);
 		View::share('areaWidget', $areaWidget);
 
 		$page = Page::getPageByAlias($alias)
@@ -564,7 +571,7 @@ class SiteController extends BaseController {
 
 	public function error404()
 	{
-		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SITE]);
+		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_SYSTEM]);
 		View::share('areaWidget', $areaWidget);
 
 		return Response::view('errors.404', [], 404);
