@@ -154,7 +154,7 @@
     <a id="add-quote" href="javascript:void(0)">Цитировать</a>
 @stop
 
-@section('style')
+@section('script')
     @parent
 
     <!-- TinyMCE -->
@@ -162,10 +162,6 @@
     @include('tinymce-init', [
         'toolbar' => 'bold italic | bullist numlist | link image media emoticons | print preview'
     ])
-@stop
-
-@section('script')
-    @parent
 
     <!-- captcha -->
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&amp;render=explicit" async defer></script>
