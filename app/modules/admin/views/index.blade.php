@@ -98,6 +98,10 @@
                 success: function(response) {
                     if(response.success){
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
+
                         $('#cache').find('.files-count').text(0);
                         $('#cache').find('.files-size').text(0);
                     }

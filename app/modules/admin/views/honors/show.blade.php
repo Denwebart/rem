@@ -141,6 +141,10 @@ View::share('title', $title);
                         $form.find('.name_error').parent().removeClass('has-error');
                         if(response.success) {
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $form.trigger('reset');
                             $form.find('.error').empty();
                             // вывод пользователя
@@ -149,6 +153,9 @@ View::share('title', $title);
                         } // success
                         else {
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         } // user not found
                     }
                 }

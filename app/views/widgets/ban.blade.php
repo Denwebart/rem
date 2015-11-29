@@ -78,6 +78,10 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link')
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock_open</i>')
@@ -87,6 +91,9 @@
                                     $('.profile-user-avatar .avatar-link').append(response.bannedImage);
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });
@@ -110,6 +117,10 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('[data-ban-button-id='+ userId +']').find('.banned-link')
                                             .toggleClass('ban unban')
                                             .html('<i class="material-icons">lock</i>')
@@ -119,6 +130,9 @@
                                     $('.profile-user-avatar .avatar-link').find('.banned-image').remove();
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });

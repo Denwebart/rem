@@ -133,8 +133,14 @@ View::share('title', $title);
                         $button.nextAll('.tooltip:first').remove();
                         $button.attr('data-is-active', response.isActive);
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     } else {
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     }
                 }
             });

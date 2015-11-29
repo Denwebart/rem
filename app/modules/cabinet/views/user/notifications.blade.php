@@ -113,6 +113,10 @@ View::share('title', $title);
                                 if (response.success) {
                                     $button.parent().find('.tooltip').remove();
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('#delete-all-notifications').remove();
                                     $('#content .list').html('<p>У вас нет уведомлений.</p>');
 
@@ -124,6 +128,9 @@ View::share('title', $title);
                                     $('#header-widget .dropdown-notifications').prepend('<a href="<?php echo URL::route('user.notifications', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">notifications</i></a>');
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });

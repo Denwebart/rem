@@ -1,5 +1,5 @@
 <div class="sidebar-widget favorites-widget">
-    <a href="javascript:void(0)" onclick="return addFavorite(this);" title="Добавить сайт в закладки браузера" data-toggle="tooltip" class="">
+    <a href="javascript:void(0)" title="Добавить сайт в закладки браузера" data-toggle="tooltip" class="add-to-favorites">
         <span class="text">
             <i class="material-icons">grade</i>
             <span>В закладки</span>
@@ -10,7 +10,7 @@
     @parent
 
     <script type="text/javascript">
-        function addFavorite(a) {
+        $('.add-to-favorites').on('click', function() {
 //            var title = document.title;
 //            var url = document.location;
             var title = "Школа авторемонта - Ремонт автомобиля своими руками";
@@ -34,11 +34,13 @@
                         // Unknown
                         var message = '@include('widgets.siteMessages.warning', ['siteMessage' => 'Нажмите Ctrl-D чтобы добавить страницу в закладки.'])';
                         $('#site-messages').prepend(message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     }
                 }
             }
             return false;
-        }
+        });
     </script>
-
 @stop

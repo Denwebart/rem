@@ -148,11 +148,18 @@ View::share('title', $title);
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     var $ipTr = $('[data-ip-id='+ ipId +']');
                                     $ipTr.addClass('danger');
                                     $ipTr.find('.banned-link').removeClass('ban').addClass('unban').html('<i class="fa fa-unlock"></i>');
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });
@@ -176,11 +183,18 @@ View::share('title', $title);
                         success: function(response) {
                             if(response.success){
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
+
                                 var $ipTr = $('[data-ip-id='+ ipId +']');
                                 $ipTr.removeClass('danger');
                                 $ipTr.find('.banned-link').removeClass('unban').addClass('ban').html('<i class="fa fa-lock"></i>');
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });

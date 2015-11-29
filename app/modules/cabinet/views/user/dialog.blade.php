@@ -313,6 +313,10 @@ View::share('title', $title);
                             if (response.success) {
                                 $button.parent().find('.tooltip').remove();
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
+
                                 $('#scroll').html('<p class="no-messages">Сообщений нет.</p>');
 
                                 $('#header-widget .dropdown-messages .dropdown-toggle span').remove();
@@ -324,6 +328,9 @@ View::share('title', $title);
                                 $('#header-widget .dropdown-messages').prepend('<a href="<?php echo URL::route('user.messages', ['login' => Auth::user()->getLoginForUrl()]) ?>"><i class="material-icons">send</i></a>');
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });
@@ -358,6 +365,9 @@ View::share('title', $title);
                                         .find('small').text(response.newMessage).show();
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });

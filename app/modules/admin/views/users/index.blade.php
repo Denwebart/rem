@@ -190,6 +190,10 @@ View::share('title', $title);
                         success: function(response) {
                             if(response.success){
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
+
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.addClass('danger');
                                 $userTr.find('.banned-link')
@@ -199,6 +203,9 @@ View::share('title', $title);
                                 $form.find('#message').val('');
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });
@@ -222,6 +229,10 @@ View::share('title', $title);
                         success: function(response) {
                             if(response.success){
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
+
                                 var $userTr = $('[data-user-id='+ userId +']');
                                 $userTr.removeClass('danger');
                                 $userTr.find('.banned-link')
@@ -230,6 +241,9 @@ View::share('title', $title);
                                         .attr('data-original-title', 'Забанить');
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });

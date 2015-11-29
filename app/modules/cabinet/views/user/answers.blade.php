@@ -77,6 +77,9 @@ View::share('title', $title);
                                     if (response.success) {
                                         $('#content .list').html(response.answersList);
                                         $('#site-messages').prepend(response.message);
+                                        setTimeout(function() {
+                                            hideSiteMessage($('.site-message'));
+                                        }, 2000);
                                     }
                                 }
                             });

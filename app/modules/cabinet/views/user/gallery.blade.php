@@ -247,6 +247,10 @@ View::share('title', $title);
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('[data-image-id=' + imageId + ']').remove();
                                 }
                             }
@@ -313,6 +317,10 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $('.new-image').html('');
                             imageName.text('');
                             $('.ajax-upload').val('');

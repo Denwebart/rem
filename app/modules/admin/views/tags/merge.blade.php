@@ -161,6 +161,10 @@ View::share('title', $title);
                     }
                     if(response.success) {
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
+                        
                         $form.trigger('reset');
                         var inputHtml = '<input value="" class="form-control" placeholder="" name="tags[1]" id="tags[1]" type="text">';
                         $('.original-tags').html('');

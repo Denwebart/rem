@@ -44,6 +44,10 @@
                                 success: function(response) {
                                     if(response.success){
                                         $('#site-messages').prepend(response.message);
+                                        setTimeout(function() {
+                                            hideSiteMessage($('.site-message'));
+                                        }, 2000);
+
                                         $('#delete-image').css('display', 'none');
                                         $('.page-image').remove();
                                     }
@@ -247,6 +251,10 @@
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $button.css('display', 'none');
                             $('.page-image').remove();
                             imageName.text('');

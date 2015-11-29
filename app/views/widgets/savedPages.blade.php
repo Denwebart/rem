@@ -33,13 +33,20 @@
                     },
                     success: function(response) {
                         if(response.success){
-                            $("#site-messages").prepend(response.message);
+                            $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $link.html('<i class="material-icons mdi-success">archive</i><span class="hidden-xs hidden-md">Убрать</span>');
                             $link.attr('id', 'remove-page');
                             $link.attr('title', 'Убрать статью из сохраненного');
                             $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
                         } else {
-                            $("#site-messages").prepend(response.message);
+                            $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     }
                 });
@@ -58,13 +65,20 @@
                     },
                     success: function(response) {
                         if(response.success){
-                            $("#site-messages").prepend(response.message);
+                            $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $link.html('<i class="material-icons">archive</i><span class="hidden-xs hidden-md">Сохранить</span>');
                             $link.attr('id', 'save-page');
                             $link.attr('title', 'Если вам понравилась статья, вы можете добавить ее в "Сохраненное"');
                             $("#saved-pages .whoSaved").find('span').text(response.whoSaved);
                         } else {
-                            $("#site-messages").prepend(response.message);
+                            $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     }
                 });

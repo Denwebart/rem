@@ -317,9 +317,16 @@
                             success: function(response) {
                                 if(response.success){
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('[data-article-id=' + articleId + ']').remove();
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });

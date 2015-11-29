@@ -229,6 +229,10 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $('.delete-avatar').css('display', 'none');
                             $('.delete-temp-image').hide();
                             $('.profile-user-avatar img').attr('src', response.imageUrl).addClass('avatar-default');
@@ -302,6 +306,10 @@ View::share('title', $title);
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $button.css('display', 'none');
                             $('.delete-temp-image, #delete-temp-image').hide();
                             imageName.text('');

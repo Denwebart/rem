@@ -197,6 +197,9 @@ View::share('title', $title);
                         $('#banned-ips-table').find('tbody').prepend(response.ipRowHtml);
                     } else {
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     }
                     $form.trigger('reset');
                 }
@@ -221,8 +224,14 @@ View::share('title', $title);
                             if(response.success){
                                 $('[data-ip-id='+ ipId +']').remove();
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });

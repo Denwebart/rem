@@ -159,8 +159,14 @@ View::share('title', $title);
                             if(response.success){
                                 $('[data-user-id='+ userId +']').remove();
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             } else {
                                 $('#site-messages').prepend(response.message);
+                                setTimeout(function() {
+                                    hideSiteMessage($('.site-message'));
+                                }, 2000);
                             }
                         }
                     });

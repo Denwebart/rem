@@ -177,7 +177,6 @@
     <!-- captcha -->
 
     <script type="text/javascript">
-
         // Отправка комментария
         $("#comments, #answers").on('submit', "form[id^='comment-form']", function(event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
@@ -229,7 +228,7 @@
                             // скролл на новый комментарий
                             $('html, body').animate({
                                 scrollTop: $('#comment-' + data.comment_id).offset().top - 50
-                            }, 1000);
+                            }, 1500);
 
                             // отметить комментарий как новый
                             $('#comment-' + data.comment_id).addClass('new-comment');
@@ -245,14 +244,18 @@
                             }, 3000);
 
                             // сообщение об успехе
+                            $('#site-messages').prepend(data.message);
                             setTimeout(function() {
-                                $('#site-messages').prepend(data.message);
-                            }, 1500);
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                         // если комментарий ожидает модерацию
                         else {
                             // сообщение об успехе
                             $('#site-messages').prepend(data.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     } //success
                 }
@@ -309,6 +312,10 @@
                 success: function(response) {
                     if(response.success){
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
+
                         $markTag.html('<i class="material-icons mdi-success" title="Лучший ответ" data-toggle="tooltip" data-placement="top" style="font-size: 40pt;">done</i>');
                         $markTag.append('<div class="message">' + response.message + '</div>');
                         $('#comment-' + commentId).remove();
@@ -339,8 +346,14 @@
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     } else {
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     }
                 }
             });
@@ -359,8 +372,14 @@
                     if(response.success){
                         $('[data-vote-comment-id='+ commentId +']').find('.vote-result').text(response.votesLike - response.votesDislike);
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     } else {
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
                     }
                 }
             });
@@ -382,6 +401,9 @@
                         if (response.success) {
                             $('[id="comment-' + commentId + '"]').remove();
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     }
                 });

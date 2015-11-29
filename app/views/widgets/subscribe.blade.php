@@ -49,11 +49,18 @@
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $link.find('.text-link').text('<?php echo $unsubscribeButtonTitle ?>');
                             $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'unsubscribe');
                         } else {
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     }
                 });
@@ -73,11 +80,18 @@
                     success: function(response) {
                         if(response.success){
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
+
                             $link.find('.text-link').text('<?php echo $subscribeButtonTitle ?>');
                             $link.parent().find('.subscribers').text(response.subscribers);
                             $link.attr('id', 'subscribe');
                         } else {
                             $('#site-messages').prepend(response.message);
+                            setTimeout(function() {
+                                hideSiteMessage($('.site-message'));
+                            }, 2000);
                         }
                     }
                 });

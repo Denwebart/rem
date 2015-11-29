@@ -47,6 +47,9 @@
                     if(response.success){
                         // всплывающее сообщение
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
 
                         $('#rate-votes').text(response.rating);
                         $('#rate-voters span').text(response.voters);
@@ -67,6 +70,9 @@
                     } else {
                         // всплывающее сообщение
                         $('#site-messages').prepend(response.message);
+                        setTimeout(function() {
+                            hideSiteMessage($('.site-message'));
+                        }, 2000);
 
                         $('#jRate').remove();
                         $('#rate-stars').append('<div id="jRate"></div>');

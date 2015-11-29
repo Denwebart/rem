@@ -238,9 +238,16 @@ View::share('title', $title);
                             success: function(response) {
                                 if(response.success) {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
+
                                     $('[data-question-id=' + questionId + ']').remove();
                                 } else {
                                     $('#site-messages').prepend(response.message);
+                                    setTimeout(function() {
+                                        hideSiteMessage($('.site-message'));
+                                    }, 2000);
                                 }
                             }
                         });
