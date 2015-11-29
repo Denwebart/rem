@@ -2,7 +2,7 @@
     @if(Request::is('admin*'))
         <div class="logo">
             <a href="{{ URL::to('admin') }}">
-                {{ HTML::image('images/admin-panel.png') }}
+                {{ HTML::image('images/admin-panel.png', 'Административная панель') }}
             </a>
             <div class="button pull-right">
                 <a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i></a>
