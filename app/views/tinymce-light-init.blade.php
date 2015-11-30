@@ -7,7 +7,8 @@
     tinymce.init({
         plugins: [
             "link image",
-            "emoticons"
+            "emoticons",
+            "paste"
         ],
         menubar:false,
         toolbar: false,

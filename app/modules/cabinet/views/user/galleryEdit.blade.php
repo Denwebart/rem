@@ -94,7 +94,7 @@ View::share('title', $title);
     </div>
 @stop
 
-@section('style')
+@section('script')
     @parent
 
     <!-- TinyMCE -->
@@ -105,7 +105,8 @@ View::share('title', $title);
             plugins: [
                 "advlist lists link",
                 "wordcount",
-                "emoticons"
+                "emoticons",
+                "paste"
             ],
             menubar:false,
             toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
@@ -125,10 +126,6 @@ View::share('title', $title);
             }
         });
     </script>
-@stop
-
-@section('script')
-    @parent
 
     <!-- File Input -->
     <script src="/backend/js/plugins/bootstrap-file-input/bootstrap-file-input.js" type="text/javascript"></script>
