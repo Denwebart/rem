@@ -850,7 +850,7 @@ form .page-image {
 .area .widget {
     margin-bottom: 10px;
 }
-.area .widget.type-a {
+.area-sidebar .widget.type-a {
     padding: 0 15px;
 }
 .area .widget a {
