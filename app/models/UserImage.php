@@ -44,7 +44,7 @@ class UserImage extends \Eloquent
 	public static $rules = [
 		'user_id' => 'required|integer',
 		'is_published' => 'boolean',
-		'title' => 'max:300',
+		'title' => 'required|max:300',
 		'image' => 'required|mimes:jpeg,bmp,png|max:2048',
 		'description' => '',
 		'votes_like' => 'integer',
@@ -95,9 +95,7 @@ class UserImage extends \Eloquent
 		} else {
 			$options['class'] = 'img-responsive';
 		}
-		$options['title'] = $this->title
-			? $this->title
-			: StringHelper::limit(trim(strip_tags($this->description)), 200);
+		$options['title'] = $this->title;
 		if($this->image){
 			return HTML::image($this->getImageLink($prefix), $options['title'], $options);
 		}
@@ -147,9 +145,12 @@ class UserImage extends \Eloquent
 						$constraint->aspectRatio();
 					});
 			}
-			$image->save($imagePath . $fileName);
 
-			return $fileName;
+			$newFileName = $this->id . '-' . TranslitHelper::make($this->title) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+
+			$image->save($imagePath . $newFileName);
+
+			return $newFileName;
 		} else {
 			return $this->image;
 		}
