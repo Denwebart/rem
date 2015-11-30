@@ -194,10 +194,14 @@ View::share('title', $title);
                 "emoticons"
             ],
             menubar:false,
-            relative_urls: true,
             toolbar1: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link emoticons",
             language: 'ru',
             selector: ".editor",
+            relative_urls: false,
+            remove_script_host : true,
+            convert_urls : false,
+            paste_text_sticky: true,
+            paste_text_sticky_default: true,
             setup: function (editor) {
                 editor.on('init', function() {
                     editor.getDoc().body.style.fontSize = '14px';
