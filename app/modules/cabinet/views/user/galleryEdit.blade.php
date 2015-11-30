@@ -56,11 +56,12 @@ View::share('title', $title);
                                         </div>
                                         <div class="form-group @if($errors->has('image')) has-error @endif">
                                             {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary btn-sm btn-full file-inputs ajax-upload']) }}
-                                            <small class="image_error error text-danger">
-                                                {{ $errors->first('image') }}
-                                            </small>
+                                            <div class="clearfix"></div>
                                             <small class="info">
                                                 {{ Config::get('settings.maxImageSizeInfo') }}
+                                            </small>
+                                            <small class="image_error error text-danger">
+                                                {{ $errors->first('image') }}
                                             </small>
                                         </div>
                                     </div>
@@ -135,11 +136,16 @@ View::share('title', $title);
 
     <!-- Загрузка изображения ajax -->
     <script type="text/javascript">
+
+        var isValidFileSize = true;
+
         $('.ajax-upload').on('change', function () {
             if (this.files[0].size > 5242880) {
                 $('form').find('.image_error').parent().addClass('has-error');
                 $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
+                isValidFileSize = false;
             } else {
+                isValidFileSize = true;
                 var fileData = new FormData();
                 fileData.append('image', $(this)[0].files[0]);
                 fileData.append('tempPath', $('#tempPath').val());
@@ -171,6 +177,11 @@ View::share('title', $title);
                     }
                 });
             }
+        });
+
+        // кнопка "Сохранить"
+        $('form').on('submit', function(event) {
+            if(isValidFileSize) { return true; } else { return false; }
         });
     </script>
 

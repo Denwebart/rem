@@ -16,14 +16,13 @@
                     <div class="col-sm-6">
                         {{ Form::label('image', 'Изображение', ['class' => 'control-label']) }}<br/>
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                        @if($errors->has('image'))
-                            <small class="help-block">
-                                {{ $errors->first('image') }}
-                            </small>
-                        @endif
 
                         <small class="info">
                             {{ Config::get('settings.maxImageSizeInfo') }}
+                        </small>
+
+                        <small class="image_error error text-danger">
+                            {{ $errors->first('image') }}
                         </small>
                     </div>
                     <div class="col-sm-6">
@@ -109,16 +108,26 @@
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
 
+        var isValidFileSize = true;
         $(".file-inputs").on("change", function(){
             var file = this.files[0];
             if (file.size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().parent().parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
+                isValidFileSize = false;
+            } else {
+                $('form').find('.image_error').parent().parent().parent().removeClass('has-error');
+                $('form').find('.image_error').empty().hide();
+                isValidFileSize = true;
             }
         });
 
         // кнопка "Сохранить"
         $(document).on('click', '.save-button', function() {
             $("#honorsForm").submit();
+        });
+        $('form').on('submit', function(event) {
+            if(isValidFileSize) { return true; } else { return false; }
         });
     </script>
 

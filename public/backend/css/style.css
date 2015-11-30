@@ -221,12 +221,20 @@ select {
 .icheckbox_minimal {
     margin-left: 5px;
 }
+.file-input-name,
+small.error,
 small.info {
-    margin-top: 10px;
+    margin: 10px 0 0;
     display: block;
-    color: #777;
     font-size: 78%;
     clear: both;
+}
+.file-input-name,
+small.info {
+    color: #777;
+}
+.file-input-name {
+    display: none;
 }
 
 /* Похожие */

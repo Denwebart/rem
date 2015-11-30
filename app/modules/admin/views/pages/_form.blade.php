@@ -68,6 +68,11 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-6">
                     <div class="form-group display-inline-block @if($errors->has('image')) has-error @endif">
+                        @if($page->image)
+                            {{ $page->getImage(null, ['class' => 'page-image margin-bottom-10']) }}
+                            <div class="clearfix"></div>
+                        @endif
+
                         {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs pull-left']) }}
 
                         @if($page->image)
@@ -102,21 +107,14 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                                 </script>
                             @stop
                         @endif
-
-                        @if($errors->has('image'))
-                            <small class="help-block">
-                                {{ $errors->first('image') }}
-                            </small>
-                        @endif
-
+                        <div class="clearfix"></div>
                         <small class="info">
                             {{ Config::get('settings.maxImageSizeInfo') }}
                         </small>
 
-                        @if($page->image)
-                            <div class="clearfix"></div>
-                            {{ $page->getImage(null, ['class' => 'page-image margin-top-10']) }}
-                        @endif
+                        <small class="image_error error text-danger">
+                            {{ $errors->first('image') }}
+                        </small>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-6">
@@ -286,10 +284,17 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
 
+        var isValidFileSize = true;
         $(".file-inputs").on("change", function(){
             var file = this.files[0];
             if (file.size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
+                isValidFileSize = false;
+            } else {
+                $('form').find('.image_error').parent().removeClass('has-error');
+                $('form').find('.image_error').empty().hide();
+                isValidFileSize = true;
             }
         });
     </script>
@@ -346,6 +351,9 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
         // кнопка "Сохранить"
         $(document).on('click', '.save-button', function() {
             $("#pagesForm").submit();
+        });
+        $('form').on('submit', function(event) {
+            if(isValidFileSize) { return true; } else { return false; }
         });
     </script>
 @stop

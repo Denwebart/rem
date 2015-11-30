@@ -7,18 +7,17 @@
             <div class="col-md-3">
                 <div class="form-group @if($errors->has('image')) has-error @endif">
                     {{ Form::label('image', 'Изображение') }}<br/>
-                    {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs']) }}
-                    <small class="image_error error help-block">
-                        {{ $errors->first('image') }}
-                    </small>
-                    <small class="info">
-                        {{ Config::get('settings.maxImageSizeInfo') }}
-                    </small>
+                    @if($tag->image)
+                        {{ $tag->getImage(null, ['class' => 'page-image margin-bottom-10']) }}
+                        <div class="clearfix"></div>
+                    @endif
+
+                    {{ Form::file('image', ['title' => 'Загрузить изображение', 'class' => 'btn btn-primary file-inputs pull-left']) }}
 
                     @if($tag->image)
-                        {{ $tag->getImage(null, ['class' => 'page-image']) }}
-
-                        <a href="javascript:void(0)" id="delete-image">Удалить</a>
+                        <a href="javascript:void(0)" id="delete-image">
+                            <i class="material-icons">delete</i>
+                        </a>
                         @section('script')
                             @parent
 
@@ -45,6 +44,13 @@
                             </script>
                         @stop
                     @endif
+                    <div class="clearfix"></div>
+                    <small class="info">
+                        {{ Config::get('settings.maxImageSizeInfo') }}
+                    </small>
+                    <small class="image_error error text-danger">
+                        {{ $errors->first('image') }}
+                    </small>
                 </div>
             </div>
             <div class="col-md-7">
@@ -75,16 +81,26 @@
     <script type="text/javascript">
         $('.file-inputs').bootstrapFileInput();
 
+        var isValidFileSize = true;
         $(".file-inputs").on("change", function(){
             var file = this.files[0];
             if (file.size > 5242880) {
-                $(this).parent().parent().append('Недопустимый размер файла.');
+                $('form').find('.image_error').parent().addClass('has-error');
+                $('form').find('.image_error').empty().append('Недопустимый размер файла.').show();
+                isValidFileSize = false;
+            } else {
+                $('form').find('.image_error').parent().removeClass('has-error');
+                $('form').find('.image_error').empty().hide();
+                isValidFileSize = true;
             }
         });
 
         // кнопка "Сохранить"
         $(document).on('click', '.save-button', function() {
             $("#tagsForm").submit();
+        });
+        $('form').on('submit', function(event) {
+            if(isValidFileSize) { return true; } else { return false; }
         });
     </script>
 
