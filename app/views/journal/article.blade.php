@@ -22,7 +22,20 @@
 
         <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-9 col-xs-12">
-                <h2 itemprop="headline">{{ $page->title }}</h2>
+                <h2 itemprop="headline" style="width: auto;display: inline-block;">
+                    {{ $page->title }}
+                </h2>
+                @if(Auth::check())
+                    @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                        <a href="{{ URL::route('admin.articles.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-10" title="Редактировать статью">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    @elseif((Auth::user()->is($page->user) && !Ip::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
+                        <a href="{{ URL::route('user.journal.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-10" title="Редактировать статью">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    @endif
+                @endif
             </div>
             <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12">
                 {{-- Рейтинг --}}

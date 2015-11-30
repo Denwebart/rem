@@ -26,12 +26,23 @@
 
         <div class="row">
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
-                <h2 itemprop="name">
+                <h2 itemprop="name" style="width: auto;display: inline-block;">
                     {{ $page->title }}
                     @if(count($page->bestComments))
                         <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip" data-placement="bottom" style="font-size: 26px">done</i>
                     @endif
                 </h2>
+                @if(Auth::check())
+                    @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                        <a href="{{ URL::route('admin.questions.edit', ['id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-10" title="Редактировать вопрос">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+                    @elseif((Auth::user()->is($page->user) && !Ip::isBanned() && !Auth::user()->is_banned && $page->isEditable()))
+                        <a href="{{ URL::route('user.questions.edit', ['login' => $page->user->getLoginForUrl(),'id' => $page->id, 'backUrl' => urlencode(Request::url())]) }}" class="margin-left-10" title="Редактировать вопрос">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+                    @endif
+                @endif
             </div>
             @if($page->showRating())
                 <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12">
