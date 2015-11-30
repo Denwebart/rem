@@ -88,7 +88,7 @@ View::share('title', $title);
                                 </tr>
                                 <tr>
                                     <td>Заголовок меню</td>
-                                    <td>{{ $page->menuItem ? $page->menuItem->menu_title : '' }}</td>
+                                    <td>{{ $page->menu_title ? $page->menu_title : '' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Статус публикации</td>

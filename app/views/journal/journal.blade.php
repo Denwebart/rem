@@ -10,7 +10,7 @@
         <!-- Breadcrumbs -->
         @include('widgets.breadcrumbs', ['items' => [
             [
-                'title' => ($journalParent->menuItem) ? $journalParent->menuItem->getTitle() : $journalParent->getTitle(),
+                'title' => $journalParent->getTitle(),
                 'url' => URL::to($journalParent->getUrl())
             ],
             [

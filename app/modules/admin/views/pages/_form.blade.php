@@ -43,7 +43,7 @@ $disabled = ($page->type != Page::TYPE_SYSTEM_PAGE && $page->type != Page::TYPE_
                     @if($page->menuItem)
                         <div class="form-group @if($errors->has('menu_title')) has-error @endif">
                             {{ Form::label('menu_title', 'Заголовок меню') }}
-                            {{ Form::text('menu_title', $page->menuItem->menu_title, ['class' => 'form-control']) }}
+                            {{ Form::text('menu_title', $page->menu_title, ['class' => 'form-control']) }}
                             @if($errors->has('menu_title'))
                                 <small class="help-block">
                                     {{ $errors->first('menu_title') }}

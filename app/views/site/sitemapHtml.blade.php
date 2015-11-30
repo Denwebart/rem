@@ -36,22 +36,14 @@
 				@foreach($pages as $item)
 					<li>
 						<a href="{{ URL::to($item->getUrl()) }}">
-                            @if($item->menuItem)
-                                {{ $item->menuItem->menu_title }}
-                            @else
-                                {{ $item->getTitle() }}
-                            @endif
+                            {{ $item->getTitle() }}
                         </a>
 						@if(count($item->publishedChildren))
 							<ul>
 								@foreach($item->publishedChildren as $secondLevel)
 									<li>
 										<a href="{{ URL::to($secondLevel->getUrl()) }}">
-                                            @if($secondLevel->menuItem)
-                                                {{ $secondLevel->menuItem->menu_title }}
-                                            @else
-                                                {{ $secondLevel->getTitle() }}
-                                            @endif
+                                            {{ $secondLevel->getTitle() }}
 										</a>
 										@if(count($secondLevel->publishedChildren))
 											<ul>

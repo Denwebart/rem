@@ -23,13 +23,13 @@ class JournalController extends BaseController
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_JOURNAL]);
 		View::share('areaWidget', $areaWidget);
 
-		$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
+		$articles = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 			->whereType(Page::TYPE_ARTICLE)
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
 				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 				},
 				'user' => function($query) {
 					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
@@ -47,13 +47,7 @@ class JournalController extends BaseController
 			->orderBy('published_at', 'DESC')
 			->paginate(10);
 
-		$page = Page::getPageByAlias($alias)
-			->with([
-				'menuItem' => function($query) {
-					$query->select('id', 'page_id', 'menu_title');
-				}
-			])
-			->firstOrFail();
+		$page = Page::getPageByAlias($alias)->firstOrFail();
 		$page->setViews();
 
 		View::share('page', $page);
@@ -77,26 +71,22 @@ class JournalController extends BaseController
 		$page->meta_key = 'Бортовой журнал пользователя ' . $user->login;
 		$page->title = $page->meta_title;
 
-		$journalParent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title')
+		$journalParent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
 			->getPageByAlias($journalAlias)
-			->with([
-				'menuItem' => function($query) {
-					$query->select('id', 'page_id', 'menu_title');
-				},
-			])->first();
+			->first();
 
 		if(Auth::check()){
 			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
+				$articles = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content', 'image', 'image_alt'])
 					->whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
 					->with('parent.parent', 'tags', 'whoSaved', 'publishedComments', 'user')
 					->with([
 						'parent' => function($query) {
-							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 						},
 						'parent.parent' => function($query) {
-							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 						},
 						'user' => function($query) {
 							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
@@ -114,16 +104,16 @@ class JournalController extends BaseController
 					->orderBy('created_at', 'DESC')
 					->paginate(10);
 			} else {
-				$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
+				$articles = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
 					->whereType(Page::TYPE_ARTICLE)
 					->whereUserId($user->id)
 					->whereIsPublished(1)
 					->with([
 						'parent' => function($query) {
-							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 						},
 						'parent.parent' => function($query) {
-							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+							$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 						},
 						'user' => function($query) {
 							$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
@@ -142,16 +132,16 @@ class JournalController extends BaseController
 					->paginate(10);
 			}
 		} else {
-			$articles = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
+			$articles = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
 				->whereType(Page::TYPE_ARTICLE)
 				->whereUserId($user->id)
 				->whereIsPublished(1)
 				->with([
 					'parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 					},
 					'parent.parent' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 					},
 					'user' => function($query) {
 						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
@@ -187,14 +177,8 @@ class JournalController extends BaseController
 		$page = Page::getPageByAlias($alias)
 			->whereUserId($user->id)
 			->with([
-				'menuItem' => function($query) {
-					$query->select('id', 'page_id', 'menu_title');
-				},
 				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
-				},
-				'parent.menuItem' => function($query) {
-					$query->select('id', 'page_id', 'menu_title');
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 				},
 				'publishedComments' => function($query) {
 					$query->select('id', 'page_id');
@@ -225,7 +209,7 @@ class JournalController extends BaseController
 
 		$tagsByAlphabet = Tag::getByAlphabet();
 
-        $parent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title')
+        $parent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
 			->whereAlias($journalAlias)
 	        ->firstOrFail();
 		$page = Page::whereAlias('tag')->firstOrFail();
@@ -247,10 +231,10 @@ class JournalController extends BaseController
 		$tag = Tag::whereTitle($tag)->whereHas('pages', function($query) {
 			$query->whereIsPublished(1)->where('published_at', '<', date('Y-m-d H:i:s'));
 		})->firstOrFail();
-		$tags = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title')
+		$tags = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
 			->whereAlias('tag')
 			->firstOrFail();
-        $tagsParent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title')
+        $tagsParent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
 			->whereAlias($journalAlias)
 	        ->firstOrFail();
 
@@ -262,12 +246,12 @@ class JournalController extends BaseController
 		$tags->parent_id = $tagsParent->id;
 
 		$articles = $tag->pages()
-			->select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
+			->select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters', 'introtext', 'content'])
 			->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
 			->with([
 				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title');
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 				},
 				'user' => function($query) {
 					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');

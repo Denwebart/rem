@@ -374,8 +374,8 @@ class AdminPagesController extends \BaseController {
 		if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type){
 			$data['alias'] = isset($data['alias'])
 				? $data['alias']
-				: (!is_null($page->menuItem)
-					? TranslitHelper::make($page->menuItem->menu_title)
+				: ($data['menu_title']
+					? TranslitHelper::make($data['menu_title'])
 					: TranslitHelper::make($data['title']));
 		}
 
@@ -384,9 +384,6 @@ class AdminPagesController extends \BaseController {
 			$rules = $rules;
 		} else {
 			$rules['alias'] = 'max:300|regex:#^[A-Za-z0-9\-\'/]+$#u';
-		}
-		if($page->menuItem) {
-			$rules['menu_title'] = Menu::$rules['menu_title'];
 		}
 
 		$validator = Validator::make($data, $rules);
@@ -410,10 +407,6 @@ class AdminPagesController extends \BaseController {
 		$publishedStatusBeforeSave = $page->is_published;
 		$page->update($data);
 
-		if($page->menuItem) {
-			$page->menuItem->menu_title = $data['menu_title'];
-			$page->menuItem->save();
-		}
 		$page->content = $page->saveEditorImages($data['tempPath']);
         $page->introtext = $page->saveEditorImages($data['tempPath'], 'introtext');
 		$page->save();
@@ -520,9 +513,9 @@ class AdminPagesController extends \BaseController {
 			$parentId = Input::get('pageId');
 
 			$pages = Page::whereParentId($parentId)
-				->with('children.menuItem', 'menuItem')
+				->with('children')
 				->whereIsContainer(1)
-				->get(['id', 'title', 'is_published', 'is_container']);
+				->get(['id', 'title', 'menu_title', 'is_published', 'is_container']);
 
 			return Response::json(array(
 				'success' => true,

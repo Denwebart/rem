@@ -6,15 +6,11 @@
             if($page->parent) {
                 if($page->parent->parent_id != 0) {
                     if($page->parent->parent) {
-                        $breadcrumbs[0]['title'] = ($page->parent->parent->menuItem)
-                                ? $page->parent->parent->menuItem->getTitle()
-                                : $page->parent->parent->getTitle();
+                        $breadcrumbs[0]['title'] = $page->parent->parent->getTitle();
                         $breadcrumbs[0]['url'] = URL::to($page->parent->parent->getUrl());
                     }
                 }
-                $breadcrumbs[1]['title'] = ($page->parent->menuItem)
-                    ? $page->parent->menuItem->getTitle()
-                    : $page->parent->getTitle();
+                $breadcrumbs[1]['title'] = $page->parent->getTitle();
                 $breadcrumbs[1]['url'] = URL::to($page->parent->getUrl());
             }
         }

@@ -13,7 +13,7 @@
                 @foreach($items as $item)
                     <li class="dropdown {{ (Request::is($item->page->alias . '/*') || Request::is($item->page->getUrl())) ? 'active' : '' }}">
                         <a href="{{ URL::to($item->page->getUrl()) }}">
-                            {{ $item->getTitle() }}
+                            {{ $item->page->getTitle() }}
                             @if(count($item->children))
                                 <b class="caret hidden-xs"></b>
                             @endif
@@ -23,7 +23,7 @@
                                 @foreach($item->children as $child)
                                     <li>
                                         <a href="{{ URL::to($child->page->getUrl()) }}">
-                                            {{ $child->getTitle() }}
+                                            {{ $child->page->getTitle() }}
                                         </a>
                                     </li>
                                 @endforeach

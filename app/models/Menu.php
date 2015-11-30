@@ -7,12 +7,10 @@
  * @property boolean $type 
  * @property integer $page_id 
  * @property integer $position
- * @property string $menu_title 
  * @method static \Illuminate\Database\Query\Builder|\Menu whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Menu whereType($value)
  * @method static \Illuminate\Database\Query\Builder|\Menu wherePageId($value)
  * @method static \Illuminate\Database\Query\Builder|\Menu wherePosition($value)
- * @method static \Illuminate\Database\Query\Builder|\Menu whereMenuTitle($value)
  */
 
 class Menu extends \Eloquent
@@ -35,14 +33,12 @@ class Menu extends \Eloquent
 		'page_id',
 		'parent_id',
 		'position',
-		'menu_title',
 	];
 
 	public static $rules = [
 		'type' => 'required|integer',
 		'page_id' => 'required|integer',
 		'position' => 'required|integer',
-		'menu_title' => 'required|max:200',
 	];
 
 	public static function boot()
@@ -66,6 +62,24 @@ class Menu extends \Eloquent
 				}
 			}
 		});
+
+		static::deleted(function($item)
+		{
+			if($item->type == Menu::TYPE_TOP) Cache::forget('menu.top');
+			if($item->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+
+			if($item->type == Menu::TYPE_MAIN) {
+				Cache::forget('menu.main');
+
+				if($item->parent_id != 0) {
+					if($item->page) {
+						Cache::forget('widgets.sidebar.' . $item->page->parent_id);
+					}
+				} else {
+					Cache::forget('widgets.sidebar.' . $item->page_id);
+				}
+			}
+		});
 	}
 
 	public function page()
@@ -83,11 +97,6 @@ class Menu extends \Eloquent
 		return $this->belongsTo('Menu', 'parent_id');
 	}
 
-	public function getTitle()
-	{
-		return $this->menu_title ? $this->menu_title : $this->page->getTitle();
-	}
-
 	public static function inMenu($page)
 	{
 		$menuItem = Menu::wherePageId($page->id)->first();
@@ -95,14 +104,14 @@ class Menu extends \Eloquent
 			if(Page::TYPE_SYSTEM_PAGE == $page->type || Page::TYPE_QUESTIONS == $page->type || Page::TYPE_JOURNAL == $page->type || Page::TYPE_PAGE == $page->type) {
 				if($page->parent_id == 0 && $page->is_container == 1) {
 					if(!$menuItem) {
-						Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'menu_title' => $page->title]);
+						Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id]);
 					}
 				} else {
 					if($page->is_container) {
 						$parentMenuItem = Menu::wherePageId($page->parent_id)->first();
 						if($parentMenuItem) {
 							if(!$menuItem) {
-								Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'parent_id' => $parentMenuItem->id, 'menu_title' => $page->title]);
+								Menu::create(['type' => self::TYPE_MAIN, 'page_id' => $page->id, 'parent_id' => $parentMenuItem->id]);
 							} else {
 								Menu::wherePageId($page->id)->update(['parent_id' => $parentMenuItem->id]);
 							}

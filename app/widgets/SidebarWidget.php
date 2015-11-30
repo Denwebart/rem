@@ -413,7 +413,7 @@ class SidebarWidget
 			if(Cache::has('widgets.sidebar.' . $page->id)) {
 				$items = Cache::get('widgets.sidebar.' . $page->id);
 			} else {
-				$items = Page::select(DB::raw('pages.id, pages.alias, pages.title, menus.menu_title, menus.position, pages.is_published, pages.published_at, pages.parent_id, pages.is_container, count(children.id) as pagesCount'))
+				$items = Page::select(DB::raw('pages.id, pages.alias, pages.title, pages.menu_title, menus.position, pages.is_published, pages.published_at, pages.parent_id, pages.is_container, count(children.id) as pagesCount'))
 					->where('pages.parent_id', '=', $page->id)
 					->where('pages.is_container', '=', 1)
 					->where('pages.is_published', '=', 1)

@@ -17,7 +17,7 @@ class MenuWidget
 		if(Cache::has('menu.top')) {
 			$items = Cache::get('menu.top');
 		} else {
-			$items = Page::select(DB::raw('pages.alias, pages.type, pages.parent_id, pages.is_container, pages.title, menus.menu_title, menus.position'))
+			$items = Page::select(DB::raw('pages.alias, pages.type, pages.parent_id, pages.is_container, pages.title, pages.menu_title, menus.position'))
 				->join('menus', 'pages.id', '=', 'menus.page_id')
 				->where('menus.type', '=', Menu::TYPE_TOP)
 				->orderBy('menus.position', 'ASC')
@@ -33,18 +33,18 @@ class MenuWidget
 		if(Cache::has('menu.main')) {
 			$items = Cache::get('menu.main');
 		} else {
-			$items = Menu::select('id', 'type', 'page_id', 'parent_id', 'position', 'menu_title')
+			$items = Menu::select('id', 'type', 'page_id', 'parent_id', 'position')
 				->whereType(Menu::TYPE_MAIN)
 				->whereParentId(0)
 				->with([
 					'page' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 					},
 					'children' => function($query) {
-						$query->select('id', 'type', 'page_id', 'parent_id', 'position', 'menu_title');
+						$query->select('id', 'type', 'page_id', 'parent_id', 'position');
 					},
 					'children.page' => function($query) {
-						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
 					},
 					'children.page.parent' => function($query) {
 						$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
@@ -63,7 +63,7 @@ class MenuWidget
 		if(Cache::has('menu.bottom')) {
 			$items = Cache::get('menu.bottom');
 		} else {
-			$items = Page::select(DB::raw('pages.alias, pages.type, pages.parent_id, pages.is_container, pages.title, menus.menu_title, menus.position'))
+			$items = Page::select(DB::raw('pages.alias, pages.type, pages.parent_id, pages.is_container, pages.title, pages.menu_title, menus.position'))
 				->join('menus', 'pages.id', '=', 'menus.page_id')
 				->where('menus.type', '=', Menu::TYPE_BOTTOM)
 				->orderBy('menus.position', 'ASC')

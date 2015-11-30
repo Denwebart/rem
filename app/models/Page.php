@@ -12,7 +12,8 @@
  * @property boolean $is_container 
  * @property boolean $is_show_title 
  * @property string $title 
- * @property string $image 
+ * @property string $menu_title
+ * @property string $image
  * @property string $image_alt 
  * @property integer $views 
  * @property integer $voters 
@@ -51,6 +52,7 @@
  * @method static \Illuminate\Database\Query\Builder|\Page whereIsContainer($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereIsShowTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Page whereMenuTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereImage($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereImageAlt($value)
  * @method static \Illuminate\Database\Query\Builder|\Page whereViews($value)
@@ -100,6 +102,7 @@ class Page extends \Eloquent
 		'image',
 		'image_alt',
 		'title',
+		'menu_title',
 		'introtext',
 		'content',
 		'published_at',
@@ -129,6 +132,7 @@ class Page extends \Eloquent
 				'image' => 'mimes:jpeg,bmp,png|max:3072',
 				'image_alt' => 'max:1000',
 				'title' => 'required|max:500',
+				'menu_title' => 'max:200',
 				'views' => 'integer',
 				'votes' => 'integer',
 				'voters' => 'integer',
@@ -142,6 +146,7 @@ class Page extends \Eloquent
 				'user_id' => 'required|integer',
 				'image' => 'mimes:jpeg,bmp,png|max:2048',
 				'title' => 'required|max:500',
+				'menu_title' => 'max:200',
 				'alias' => 'unique:pages',
 				'content' => 'required',
 				'meta_title' => 'max:600',
@@ -161,6 +166,7 @@ class Page extends \Eloquent
 				'image' => 'mimes:jpeg,bmp,png|max:3072',
 				'image_alt' => 'max:1000',
 				'title' => 'required|max:500',
+				'menu_title' => 'max:200',
 				'views' => 'integer',
 				'votes' => 'integer',
 				'voters' => 'integer',
@@ -174,6 +180,7 @@ class Page extends \Eloquent
 				'user_id' => 'required|integer',
 				'image' => 'mimes:jpeg,bmp,png|max:3072',
 				'title' => 'required|max:500',
+				'menu_title' => 'max:200',
 				'alias' => 'unique:pages,alias,:id',
 				'content' => 'required',
 				'meta_title' => 'max:600',
@@ -252,6 +259,20 @@ class Page extends \Eloquent
 					Cache::forget('widgets.sidebar.' . $page->id);
 				}
 			}
+			if($page->menuItem) {
+				if($page->menuItem->type == Menu::TYPE_TOP) Cache::forget('menu.top');
+				if($page->menuItem->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+
+				if($page->menuItem->type == Menu::TYPE_MAIN) {
+					Cache::forget('menu.main');
+
+					if($page->parent_id != 0) {
+						Cache::forget('widgets.sidebar.' . $page->parent_id);
+					} else {
+						Cache::forget('widgets.sidebar.' . $page->id);
+					}
+				}
+			}
 		});
 
         static::deleting(function($page) {
@@ -306,8 +327,17 @@ class Page extends \Eloquent
 			// удаление пункта меню
 			if($page->menuItem) {
 				if($page->menuItem->type == Menu::TYPE_TOP) Cache::forget('menu.top');
-				if($page->menuItem->type == Menu::TYPE_MAIN) Cache::forget('menu.main');
 				if($page->menuItem->type == Menu::TYPE_BOTTOM) Cache::forget('menu.bottom');
+
+				if($page->menuItem->type == Menu::TYPE_MAIN) {
+					Cache::forget('menu.main');
+
+					if($page->parent_id != 0) {
+						Cache::forget('widgets.sidebar.' . $page->parent_id);
+					} else {
+						Cache::forget('widgets.sidebar.' . $page->id);
+					}
+				}
 
 				$page->menuItem()->delete();
 			}
@@ -524,7 +554,7 @@ class Page extends \Eloquent
 
 	public function getTitle()
 	{
-		return $this->title;
+		return $this->menu_title ? $this->menu_title : $this->title;
 	}
 
     public function getMetaTitle()
@@ -559,15 +589,11 @@ class Page extends \Eloquent
 		$maxLength = 72;
 		if($this->parent_id != 0) {
 			if($this->parent) {
-				$title = $this->parent->menuItem
-					? $this->parent->menuItem->menu_title
-					: $this->parent->getTitle();
+				$title = $this->parent->getTitle();
 				$parentLength = Str::length($title);
 				if ($this->parent->parent_id != 0) {
 					if ($this->parent->parent) {
-						$title = $this->parent->parent->menuItem
-							? $this->parent->parent->menuItem->menu_title
-							: $this->parent->parent->getTitle();
+						$title = $this->parent->parent->getTitle();
 						$parentLength = $parentLength + Str::length($title);
 					}
 				}
@@ -579,8 +605,7 @@ class Page extends \Eloquent
 		} else {
 			$length = $maxLength;
 		}
-		$title = $this->menuItem ? $this->menuItem->menu_title : $this->getTitle();
-		return Str::limit($title, $length);
+		return Str::limit($this->getTitle(), $length);
 	}
 
 	public function getContentWithWidget()
@@ -643,12 +668,12 @@ class Page extends \Eloquent
 	public static function getContainer($withChildren = true, $withEmptyField = true)
 	{
 		$categoriesArray = [];
-        $pages = self::whereIsContainer(1)->whereParentId(0)->with('menuItem')->where('type', '!=', self::TYPE_SYSTEM_PAGE)->get();
+        $pages = self::whereIsContainer(1)->whereParentId(0)->where('type', '!=', self::TYPE_SYSTEM_PAGE)->get();
 		foreach ($pages as $page) {
-			$categoriesArray[$page->id] = $page->menuItem ? $page->menuItem->menu_title : $page->title;
+			$categoriesArray[$page->id] = $page->getTitle();
 			if($withChildren && $page->type != Page::TYPE_JOURNAL) {
 				foreach($page->children()->whereIsContainer(1)->get() as $child) {
-					$categoriesArray[$child->id] = ' --- ' . ($child->menuItem ? $child->menuItem->menu_title : $child->title);
+					$categoriesArray[$child->id] = ' --- ' . $child->getTitle();
 				}
 			}
 		}
@@ -658,11 +683,11 @@ class Page extends \Eloquent
 	public static function getQuestionsCategory()
 	{
 		$page = self::whereType(self::TYPE_QUESTIONS)->firstOrFail();
-		$items = $page->children()->with('menuItem')->whereIsContainer(1)->get();
+		$items = $page->children()->whereIsContainer(1)->get();
 
 		$result = ['' => 'Нет'];
 		foreach($items as $item) {
-			$result[$item->id] = $item->menuItem ? $item->menuItem->menu_title : $item->title;
+			$result[$item->id] = $item->getTitle();
 		}
 		return $result;
 //		return  + $page->children()->whereIsContainer(1)->lists('title', 'id');

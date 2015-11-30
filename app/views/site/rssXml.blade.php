@@ -31,20 +31,12 @@
                                 Категория:
                                 @if($page->parent->parent)
                                     <a href="{{ URL::to($page->parent->parent->getUrl()) }}">
-                                        @if($page->parent->parent->menuItem)
-                                            {{ $page->parent->parent->menuItem->menu_title }}
-                                        @else
-                                            {{ $page->parent->parent->title }}
-                                        @endif
+                                        {{ $page->parent->parent->getTitle() }}
                                     </a>
                                     /
                                 @endif
                                 <a href="{{ URL::to($page->parent->getUrl()) }}">
-                                    @if($page->parent->menuItem)
-                                        {{ $page->parent->menuItem->menu_title }}
-                                    @else
-                                        {{ $page->parent->title }}
-                                    @endif
+                                    {{ $page->parent->getTitle() }}
                                 </a>
                             @endif
                         </div>

@@ -4,7 +4,7 @@
     <!-- Breadcrumbs -->
     @include('widgets.breadcrumbs', ['items' => [
         [
-            'title' => ($page->parent->menuItem) ? $page->parent->menuItem->menu_title : $page->parent->getTitle(),
+            'title' => $page->parent->getTitle(),
             'url' => URL::to($page->parent->getUrl())
         ],
         [

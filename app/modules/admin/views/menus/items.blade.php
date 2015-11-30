@@ -50,7 +50,7 @@ View::share('title', $title);
                     @foreach($menuItems as $item)
                         <li id="{{ $item->id }}">
                             <span class="title pull-left">
-                                {{ $item->menu_title }}
+                                {{ $item->page->menu_title }}
                             </span>
                             <a href="{{ URL::route('admin.pages.edit', ['id' => $item->page->id]) }}" class="pull-right margin-right-5" title="Редактировать страницу" data-toggle="tooltip">
                                 <i class="fa fa-edit"></i>
@@ -61,7 +61,7 @@ View::share('title', $title);
                                     @foreach($item->children as $itemChild)
                                         <li id="{{ $itemChild->id }}">
                                             <span class="title pull-left">
-                                                {{ $itemChild->menu_title }}
+                                                {{ $itemChild->page->menu_title }}
                                             </span>
                                             <a href="{{ URL::route('admin.pages.edit', ['id' => $itemChild->page->id]) }}" class="pull-right" title="Редактировать страницу" data-toggle="tooltip">
                                                 <i class="fa fa-edit"></i>

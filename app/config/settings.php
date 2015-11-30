@@ -12,8 +12,8 @@ return [
     'metaDesc' => 'Описание по умолчанию',
     'metaKey' => 'Ключевые слова по умолчанию',
 
-	'adminEmail' => 'denwebart@yandex.ua',
-	'adminName' => 'Avtorem.info',
+	'adminEmail' => 'contact@avtorem.info',
+	'adminName' => 'Школа авторемонта',
 	'contactSubjectToUser' => 'Копия сообщения с сайта avtorem.info',
 
 	'journalAlias' => 'bortovoj-zhurnal',
