@@ -2,7 +2,7 @@
 
 class RelatedWidget
 {
-	public function show($page, $limit = 5)
+	public function show($page, $limit = 3)
 	{
 		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
 		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
@@ -126,7 +126,7 @@ class RelatedWidget
 		return (string) View::make('widgets.related.index', compact('pages'))->render();
 	}
 
-	public function questions($page, $limit = 5)
+	public function questions($page, $limit = 3)
 	{
 		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
 		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
@@ -239,7 +239,7 @@ class RelatedWidget
 		return (string) View::make('widgets.related.questions', compact('pages'))->render();
 	}
 
-	public function articles($page, $limit = 5)
+	public function articles($page, $limit = 3)
 	{
 		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
 		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
