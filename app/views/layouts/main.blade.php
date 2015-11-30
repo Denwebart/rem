@@ -86,7 +86,7 @@
     <div class="row">
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs sidebar left-sidebar">
 
-            <div class="center">
+            <div class="center margin-bottom-10">
                 {{ $sidebarWidget->rss() }}
                 {{ $sidebarWidget->addToFavorites() }}
             </div>

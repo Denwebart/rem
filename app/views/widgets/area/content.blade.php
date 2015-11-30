@@ -9,13 +9,13 @@
             @foreach($advertising as $item)
                 @if(Auth::check())
                     @if(Auth::user()->isAdmin())
-                        <div class="widget access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}}" {{ $item->is_active ? '' : 'style="display: none"'}} data-widget-id="{{ $item->id }}">
+                        <div class="widget access-{{ $item->access }}{{ $item->is_active ? '' : ' not-active'}} @if(Advertising::TYPE_ADVERTISING == $item->type) type-a @endif" {{ $item->is_active ? '' : 'style="display: none"'}} data-widget-id="{{ $item->id }}">
                         @include('widgets.area.controlAdvertising')
                     @else
-                        <div class="widget">
+                        <div class="widget @if(Advertising::TYPE_ADVERTISING == $item->type) type-a @endif">
                     @endif
                 @else
-                    <div class="widget">
+                    <div class="widget @if(Advertising::TYPE_ADVERTISING == $item->type) type-a @endif">
                 @endif
                     <div class="widget-body">
                         @if($item->is_show_title)

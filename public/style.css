@@ -845,9 +845,13 @@ form .page-image {
     position: relative;
     text-align: center;
     width: 100%;
+    clear: both;
 }
 .area .widget {
     margin-bottom: 10px;
+}
+.area .widget.type-a {
+    padding: 0 15px;
 }
 .area .widget a {
     /*color: #1292CE;*/
@@ -874,16 +878,20 @@ form .page-image {
 .widget-body img {
     max-width: 100% !important;
 }
-.area-content .widget-body h4 {
+.area-content .widget-body iframe, .area-content .widget-body imgontent .widget-body h4 {
     text-align: center !important;
     margin-top: 0;
 }
 .area-content .widget-body iframe,
 .area-content .widget-body img  {
+    padding-right: 0;
+    padding-left: 0;
+}
+.area-content.area-in-content,
+.area-content.area-in-content {
     padding-right: 15px;
     padding-left: 15px;
 }
-
 .area .widget.edit .widget-body {
     border: 2px dashed #337AB7;
 }
@@ -929,7 +937,7 @@ form .page-image {
     text-shadow: 0 2px 0 rgba(255, 255, 255, 0.5);
 }
 #content .widget {
-    margin: 5px 0 10px 0;
+    margin: 5px 0 15px 0;
 }
 #content .content .widget {
     margin: 5px 0;

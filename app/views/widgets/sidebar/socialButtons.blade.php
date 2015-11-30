@@ -1,4 +1,4 @@
-<div id="social-buttons-widget" class="sidebar-widget">
+<div id="social-buttons-widget" class="sidebar-widget margin-bottom-10">
     @if(isset($settings['socialButtonsTitle']))
         <span class="title-h5 margin-bottom-5 display-inline-block">
             {{ $settings['socialButtonsTitle']['value'] }}
