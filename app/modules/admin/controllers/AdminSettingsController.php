@@ -39,7 +39,7 @@ class AdminSettingsController extends \BaseController {
             $query = $query->orderBy('id', 'ASC');
         }
 
-        $settings = $query->paginate(10);
+        $settings = $query->paginate(20);
 
 		return View::make('admin::settings.index', compact('settings'));
 	}
@@ -77,7 +77,7 @@ class AdminSettingsController extends \BaseController {
                 $query = $query->orderBy('id', 'ASC');
             }
 
-            $settings = $query->paginate(10);
+            $settings = $query->paginate(20);
             $url = URL::route('admin.settings.index', $data);
 
             return Response::json([
