@@ -35,7 +35,7 @@
 
                         @if($page->image)
                             <a href="javascript:void(0)" id="delete-image" title="Удалить изображение" data-toggle="tooltip">
-                                <i class="fa fa-trash"></i>
+                                <i class="material-icons">delete</i>
                             </a>
                         @section('script')
                             @parent
