@@ -232,12 +232,18 @@ class AdminPagesController extends \BaseController {
 
 		if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
 			$data['type'] = Page::TYPE_ARTICLE;
-		} elseif($questions->first()->id == $data['parent_id'] && $parentParentId == $data['parent_id']) {
+		} elseif($questions->id == $data['parent_id']) {
 			if($data['is_container'] == 1) {
-                $data['type'] = Page::TYPE_PAGE;
-            } else {
-                $data['type'] = Page::TYPE_QUESTION;
-            }
+				$data['type'] = Page::TYPE_PAGE;
+			} else {
+				$data['type'] = Page::TYPE_QUESTION;
+			}
+		} elseif($questions->id == $parentParentId) {
+			if($data['is_container'] == 1) {
+				$data['type'] = Page::TYPE_PAGE;
+			} else {
+				$data['type'] = Page::TYPE_QUESTION;
+			}
 		} else {
 			$data['type'] = Page::TYPE_PAGE;
 		}
@@ -298,11 +304,11 @@ class AdminPagesController extends \BaseController {
 		// добавление в меню
 		Menu::inMenu($page);
 
-		if($page->is_published) {
-			$backUrl = URL::to($page->getUrl());
-		} else {
+//		if($page->is_published) {
+//			$backUrl = URL::to($page->getUrl());
+//		} else {
 			$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.pages.index');
-		}
+//		}
 
 		return Redirect::to($backUrl);
 	}
@@ -359,7 +365,13 @@ class AdminPagesController extends \BaseController {
 
 			if(Page::whereType(Page::TYPE_JOURNAL)->first()->id == $data['parent_id']) {
 				$data['type'] = Page::TYPE_ARTICLE;
-			} elseif($questions->id == $data['parent_id'] && $questions->id == $parentParentId) {
+			} elseif($questions->id == $data['parent_id']) {
+				if($data['is_container'] == 1) {
+					$data['type'] = Page::TYPE_PAGE;
+				} else {
+					$data['type'] = Page::TYPE_QUESTION;
+				}
+			} elseif($questions->id == $parentParentId) {
 				if($data['is_container'] == 1) {
 					$data['type'] = Page::TYPE_PAGE;
 				} else {

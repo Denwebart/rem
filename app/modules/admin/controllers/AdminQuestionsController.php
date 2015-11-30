@@ -252,11 +252,11 @@ class AdminQuestionsController extends \BaseController {
 		RelatedPage::deleteRelated($page, Input::get('relatedarticles'), RelatedPage::TYPE_ARTICLE);
 		RelatedPage::deleteRelated($page, Input::get('relatedquestions'), RelatedPage::TYPE_QUESTION);
 
-		if($page->is_published) {
-			$backUrl = URL::to($page->getUrl());
-		} else {
+//		if($page->is_published) {
+//			$backUrl = URL::to($page->getUrl());
+//		} else {
 			$backUrl = Input::has('backUrl') ? Input::get('backUrl') : URL::route('admin.questions.index');
-		}
+//		}
 
 		return Redirect::to($backUrl);
 	}
