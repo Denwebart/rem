@@ -8,7 +8,7 @@
             'url' => URL::to($page->parent->parent->getUrl())
         ],
         [
-            'title' => $page->parent->getTitle(),
+            'title' => Str::limit($page->parent->getTitle(), 50),
             'url' => URL::to($page->parent->getUrl())
         ],
         [

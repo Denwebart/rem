@@ -589,7 +589,7 @@ class Page extends \Eloquent
 		$maxLength = 72;
 		if($this->parent_id != 0) {
 			if($this->parent) {
-				$title = $this->parent->getTitle();
+				$title = Str::limit($this->parent->getTitle(), 50);
 				$parentLength = Str::length($title);
 				if ($this->parent->parent_id != 0) {
 					if ($this->parent->parent) {
