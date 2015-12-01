@@ -8,23 +8,23 @@ class AddAndFillColumnMenuTitleIntoPagesTable extends Migration {
 	public function up()
 	{
 		Schema::table('pages', function (Blueprint $table) {
-			$table->dropColumn('menu_title');
+			$table->string('menu_title', 200)->after('title');
 		});
+
+		$items = Menu::all();
+		foreach($items as $item) {
+			if($item->page) {
+				$item->page->menu_title = $item->menu_title;
+				$item->page->save();
+			}
+		}
 	}
 
 	public function down()
 	{
 		Schema::table('pages', function (Blueprint $table) {
-			$table->string('menu_title', 200);
+			$table->dropColumn('menu_title');
 		});
-
-		$items = Menu::all();
-		foreach($items as $item) {
-			if($items->page) {
-				$item->menu_title = $items->page->menu_title;
-				$item->save();
-			}
-		}
 	}
 
 }
