@@ -210,6 +210,10 @@ class JournalController extends BaseController
 
 		$tagsByAlphabet = Tag::getByAlphabet();
 
+		if(!count($tagsByAlphabet)) {
+			return Response::view('errors.404', [], 404);
+		}
+
         $parent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
 			->whereAlias($journalAlias)
 	        ->firstOrFail();
