@@ -6,7 +6,11 @@
                 {{ $honor->getImage(null, ['width' => '50px']) }}
             </a>
         </td>
-        <td>{{ $honor->title }}</td>
+        <td>
+            <a href="{{ URL::route('honor.info', ['alias' => $honor->alias]) }}" target="_blank">
+                {{ $honor->title }}
+            </a>
+        </td>
         <td>{{ $honor->alias }}</td>
         <td>{{ $honor->description }}</td>
         <td class="users">

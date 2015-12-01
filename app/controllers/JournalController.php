@@ -66,9 +66,9 @@ class JournalController extends BaseController
 			: User::whereAlias($login)->firstOrFail();
 
 		$page = new Page();
-		$page->meta_title = 'Бортовой журнал пользователя ' . $user->login;
-		$page->meta_desc = 'Бортовой журнал пользователя ' . $user->login;
-		$page->meta_key = 'Бортовой журнал пользователя ' . $user->login;
+		$page->meta_title = 'Авторские материалы по ремонту автомобилей от пользователя ' . $user->login;
+		$page->meta_desc = 'Страница пользователя ' . $user->login . ' с информацией по всем материалам (статьи, фото отчёты, видеоролики, комментарии, вопросы, ответы), которые он создал и опубликованным на страницах веб-проекта Школа авторемонта – ремонт автомобиля своими руками.';
+		$page->meta_key = 'материалы пользователя по ремонту автомобиля, статьи пользователя Бортовой журнал, статьи по ремонту автомобилей, вопросы по ремонту авто, ответы пользователя на вопросы, комментарии пользователя';
 		$page->title = $page->meta_title;
 
 		$journalParent = Page::select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title')
@@ -160,6 +160,7 @@ class JournalController extends BaseController
 				->paginate(10);
 		}
 
+		View::share('metaRobots', Config::get('settings.metaRobots'));
 		View::share('page', $page);
 		return View::make('journal.journal', compact('articles', 'user', 'journalAlias', 'journalParent'));
 	}
@@ -240,9 +241,12 @@ class JournalController extends BaseController
 
 		$page = new Page();
 		$page->title = 'Статьи по тегу "' . $tag->title . '"';
-		$page->meta_title = 'Статьи по тегу "' . $tag->title . '"';
-		$page->meta_desc = 'Статьи по тегу "' . $tag->title . '"';
-		$page->meta_key = 'Статьи по тегу "' . $tag->title . '"';
+		$page->meta_title = 'Статьи по тегу ' . $tag->title;
+		$page->meta_desc = 'Статьи по тегу ' . $tag->title;
+		$page->meta_key = 'Статьи по тегу ' . $tag->title;
+
+		View::share('metaRobots', 'noindex, nofollow');
+
 		$tags->parent_id = $tagsParent->id;
 
 		$articles = $tag->pages()

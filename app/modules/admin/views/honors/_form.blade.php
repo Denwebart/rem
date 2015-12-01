@@ -1,6 +1,8 @@
-<div class="col-md-5">
+<div class="col-md-7">
     <div class="box">
-        <div class="box-title"></div>
+        <div class="box-title">
+            <h3>Основная информация</h3>
+        </div>
         <div class="box-body">
             <div class="form-group @if($errors->has('title')) has-error @endif">
                 {{ Form::label('title', 'Название', ['class' => 'control-label']) }}
@@ -61,19 +63,48 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-7">
-    <div class="box">
-        <div class="box-title"></div>
-        <div class="box-body">
             <div class="form-group @if($errors->has('description')) has-error @endif">
                 {{ Form::textarea('description', $honor->description, ['class' => 'form-control editor']) }}
                 @if($errors->has('description'))
                     <small class="help-block">
                         {{ $errors->first('description') }}
+                    </small>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-5">
+    <div class="box">
+        <div class="box-title">
+            <h3>Мета-теги SEO</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group @if($errors->has('meta_title')) has-error @endif">
+                {{ Form::label('meta_title', 'Мета-тег Title') }}
+                {{ Form::textarea('meta_title', $honor->meta_title, ['class' => 'form-control', 'rows' => 4]) }}
+                @if($errors->has('meta_title'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_title') }}
+                    </small>
+                @endif
+            </div>
+            <div class="form-group @if($errors->has('meta_desc')) has-error @endif">
+                {{ Form::label('meta_desc', 'Мета-тег Description') }}
+                {{ Form::textarea('meta_desc', $honor->meta_desc, ['class' => 'form-control', 'rows' => 5]) }}
+                @if($errors->has('meta_desc'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_desc') }}
+                    </small>
+                @endif
+            </div>
+            <div class="form-group @if($errors->has('meta_key')) has-error @endif">
+                {{ Form::label('meta_key', 'Мета-тег Keywords') }}
+                {{ Form::textarea('meta_key', $honor->meta_key, ['class' => 'form-control', 'rows' => 5]) }}
+                @if($errors->has('meta_key'))
+                    <small class="help-block">
+                        {{ $errors->first('meta_key') }}
                     </small>
                 @endif
             </div>

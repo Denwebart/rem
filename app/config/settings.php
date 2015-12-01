@@ -5,12 +5,12 @@ return [
 	'siteUrl' => 'avtorem.dev',
 
 	'metaAuthor' => '',
-	'metaRobots' => 'noindex, nofollow',
+	'metaRobots' => 'index, follow',
 	'metaCopyright' => '',
 
     'metaTitle' => ' - Школа авторемонта',
-    'metaDesc' => 'Описание по умолчанию',
-    'metaKey' => 'Ключевые слова по умолчанию',
+    'metaDesc' => 'Школа авторемонта - www.avtorem.info',
+    'metaKey' => 'Школа авторемонта - www.avtorem.info',
 
 	'adminEmail' => 'contact@avtorem.info',
 	'adminName' => 'Школа авторемонта',

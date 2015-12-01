@@ -9,13 +9,19 @@
  * @property string $title
  * @property string $image 
  * @property string $description 
- * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users 
+ * @property string $meta_title
+ * @property string $meta_desc
+ * @property string $meta_key
+ * @property-read \Illuminate\Database\Eloquent\Collection|\User[] $users
  * @method static \Illuminate\Database\Query\Builder|\Honor whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereKey($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereAlias($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereImage($value)
  * @method static \Illuminate\Database\Query\Builder|\Honor whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereMetaTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereMetaDesc($value)
+ * @method static \Illuminate\Database\Query\Builder|\Honor whereMetaKey($value)
  */
 class Honor extends \Eloquent
 {
@@ -28,6 +34,9 @@ class Honor extends \Eloquent
 		'title',
 		'image',
 		'description',
+		'meta_title',
+		'meta_desc',
+		'meta_key',
 	];
 
 	public function getValidationRules()
@@ -37,14 +46,20 @@ class Honor extends \Eloquent
 			'title' => 'required|unique:honors,title,' . $this->id . '|max:100',
 			'image' => 'mimes:jpeg,bmp,png|max:2048',
 			'description' => 'max:2000',
+			'meta_title' => 'max:600',
+			'meta_desc' => 'max:1500',
+			'meta_key' => 'max:1500',
 		];
 	}
 
 	public static $rules = [
 		'alias' => 'max:100|regex:/^[A-Za-z0-9\-\']+$/u',
 		'title' => 'required|unique:honors|max:100',
-		'image' => 'mimes:jpeg,bmp,png|max:3072',
-		'description' => 'max:500',
+		'image' => 'mimes:jpeg,bmp,png|max:2048',
+		'description' => 'max:2000',
+		'meta_title' => 'max:600',
+		'meta_desc' => 'max:1500',
+		'meta_key' => 'max:1500',
 	];
 
 	public static function boot()
@@ -176,6 +191,31 @@ class Honor extends \Eloquent
 	 */
 	public function getImageEditorPath() {
 		return '/uploads/' . $this->getTable() . '/' . $this->id . '/editor/';
+	}
+
+	public function getMetaTitle()
+	{
+		return $this->meta_title ? $this->meta_title : $this->title . Config::get('settings.metaTitle');
+	}
+
+	public function getMetaDesc()
+	{
+		return $this->meta_desc
+			? $this->meta_desc
+			: ($this->description
+			    ? StringHelper::limit($this->description, 255, '')
+			    : Config::get('settings.metaDesc')
+			);
+	}
+
+	public function getMetaKey()
+	{
+		return $this->meta_key
+			? $this->meta_key
+			: ($this->description
+				? StringHelper::autoMetaKeywords($this->title . ' ' . $this->description)
+				: Config::get('settings.metaKey')
+			);
 	}
 
 }

@@ -312,7 +312,14 @@ class CabinetUserController extends \BaseController
 			])
 			->get();
 
+		$page = new Page();
+		$page->meta_title = 'Мои автомобили – фотографии и описания автомобилей пользователя ' . $user->login;
+		$page->meta_desc = 'На данной странице личного профиля, пользователь ' . $user->login . ', может размещаться текстовые описания и фотографии своего автомобиля или автомобилей';
+		$page->meta_key = 'фотографии автомобилей пользователя, описание личного автомобиля,  мои автомобили страница профиля, описание и фотографии своего автомобиля';
+
+		View::share('metaRobots', Config::get('settings.metaRobots'));
 		View::share('user', $user);
+		View::share('page', $page);
 		return View::make('cabinet::user.gallery', compact('images'));
 	}
 

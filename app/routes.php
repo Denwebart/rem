@@ -1,22 +1,4 @@
 <?php
-/* Заполнение данных */
-//Route::get('/fill', function() {
-//    $result_data = [
-//    ];
-//	$i = 0;
-//	foreach($result_data as $item) {
-//		if(Comment::whereId($item['id'])->update($item)) {
-//			echo 'Данные заполнены! ';
-//			echo $item['id'];
-//			echo '</br>';
-//			$i++;
-//		}
-//	}
-//	echo '</br>-----------</br>';
-//	echo 'Заполнено ' . $i . ' из ' . count($result_data);
-//});
-
-
 Route::filter('cache.fetch', 'CacheFilter@fetch');
 Route::filter('cache.put', 'CacheFilter@put');
 
@@ -186,7 +168,6 @@ Route::post('deleteFromTemp', ['as' => 'deleteFromTemp', 'before' => 'csrf-ajax'
 /* Фронт */
 Route::get('/', 'SiteController@index');
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
-Route::get('top', ['as' => 'top', 'uses' => 'TopController@index']);
 
 Route::get('{contactAlias}.html', 'SiteController@contact')->where('contactAlias', 'kontakty');
 Route::post('contact_request', ['before' => 'csrf', 'uses' => 'SiteController@contactPost']);
@@ -219,8 +200,3 @@ Route::get('{categoryAlias}/{alias}{suffix}', 'SiteController@secondLevel')->whe
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
 Route::get('{parentCategoryAlias}/{categoryAlias}/{alias}.html', 'SiteController@thirdLevel');
-
-//Route::controller('slug', 'MyController', [
-//	'method'  => 'alias1',
-//	'method2'  => 'alias2'
-//]);

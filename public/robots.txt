@@ -1,0 +1,41 @@
+User-agent: Mediapartners-Google
+Disallow:
+
+User-agent: Yandex
+Disallow: /backend/
+Disallow: /*?
+Disallow: /search*
+Disallow: /login*
+Disallow: /logout*
+Disallow: /register*
+Disallow: /activate*
+Disallow: /password*
+Disallow: /admin*
+Disallow: /users*
+Disallow: /user*
+Disallow: /tagAutocomplete*
+Disallow: /bortovoj-zhurnal/tag/*
+Allow: /user/*/gallery*
+Allow: /bortovoj-zhurnal*
+Allow: /bortovoj-zhurnal/tag
+Host: www.avtorem.info
+Sitemap: http://www.avtorem.info/sitemap.xml
+
+User-agent: *
+Disallow: /backend/
+Disallow: /*?
+Disallow: /search*
+Disallow: /login*
+Disallow: /logout*
+Disallow: /register*
+Disallow: /activate*
+Disallow: /password*
+Disallow: /admin*
+Disallow: /users*
+Disallow: /user*
+Disallow: /tagAutocomplete*
+Disallow: /bortovoj-zhurnal/tag/*
+Allow: /user/*/gallery*
+Allow: /bortovoj-zhurnal*
+Allow: /bortovoj-zhurnal/tag
+Sitemap: http://www.avtorem.info/sitemap.xml

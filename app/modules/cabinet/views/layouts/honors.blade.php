@@ -4,17 +4,17 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{{ isset($page) ? $page->meta_title : $title }}</title>
+    <title>{{ isset($honor) ? $honor->getMetaTitle() : $title }}</title>
 
-    <meta name="description" content="{{ isset($page) ? $page->meta_desc : '' }}"/>
-    <meta name="keywords" content="{{ isset($page) ? $page->meta_key : '' }}"/>
+    <meta name="description" content="{{ isset($honor) ? $honor->getMetaDesc() : '' }}"/>
+    <meta name="keywords" content="{{ isset($honor) ? $honor->getMetaKey() : '' }}"/>
     @if(isset($settings['metaCopyright']))
         <meta name="copyright" lang="ru" content="{{ $settings['metaCopyright']['value'] }}" />
     @endif
     @if(isset($settings['metaAuthor']))
         <meta name="author" lang="ru" content="{{ $settings['metaAuthor']['value'] }}" />
     @endif
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="{{ Config::get('settings.metaRobots') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Стили -->
@@ -63,11 +63,7 @@
 <body class="{{ (Auth::check()) ? 'margin-top-50' : ''}}">
 
 @if(Auth::check())
-    @if(!isset($page))
-        {{ $headerWidget->show() }}
-    @else
-        {{ $headerWidget->show($page) }}
-    @endif
+    {{ $headerWidget->show() }}
 @endif
 
 <!-- Header -->
