@@ -88,7 +88,7 @@ Route::group(['prefix' => 'users', 'before' => 'authInCabinet'], function(){
 /* Награды */
 Route::get('nagrady', ['as' => 'honors', 'uses' => 'CabinetController@honors']);
 Route::get('nagrady.html', 'SiteController@error404');
-Route::get('nagrady/{alias}', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
+Route::get('nagrady/{alias}.html', ['as' => 'honor.info', 'uses' => 'CabinetController@honor']);
 
 Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::get('{login}/settings', ['as' => 'user.settings', 'uses' => 'CabinetUserController@getSettings']);
