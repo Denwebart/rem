@@ -227,12 +227,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			if(count($user->publishedQuestions)) {
 				Cache::forget('widgets.questions');
 			}
+			if(count($user->publishedArticles)) {
+				Cache::forget('widgets.latest');
+				Cache::forget('widgets.best');
+				Cache::forget('widgets.notBest');
+				Cache::forget('widgets.popular');
+				Cache::forget('widgets.unpopular');
+			}
 			// сохранение комментариев при удалении пользователя
 			foreach($user->allComments as $comment) {
 				$comment->user_name = $user->login;
 				$comment->user_email = $user->email;
 				$comment->user_id = null;
 				$comment->save();
+			}
+			// удаление статей и вопросов после удаления пользователя
+			foreach($user->questions as $question) {
+				$question->delete();
+			}
+			foreach($user->articles as $article) {
+				$article->delete();
 			}
 		});
 	}
