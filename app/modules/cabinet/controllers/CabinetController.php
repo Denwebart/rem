@@ -32,7 +32,7 @@ class CabinetController extends \BaseController
 
 		$query = new User;
 		$query = $query->where('users.is_active', '=', 1);
-		$query = $query->with($relations);
+//		$query = $query->with($relations);
 
 		if($name) {
 			$name = mb_strtolower(trim(preg_replace('/ {2,}/', ' ', preg_replace('%/^[A-Za-zА-Яа-яЁёЇїІіЄєЭэ \-\']+$/u%', '', $name))));
