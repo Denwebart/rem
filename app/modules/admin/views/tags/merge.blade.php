@@ -38,7 +38,7 @@ View::share('title', $title);
                     <div class="box-body">
                         <div class="row">
                             {{ Form::open(['method' => 'POST', 'route' => ['admin.tags.postMerge'], 'id' => 'merge-tags-form']) }}
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="original-tags">
                                         <div class="form-group input first @if($errors->has('tags')) has-error @endif">
                                             {{ Form::text('tags[1]', null, ['class' => 'form-control', 'placeholder' => '', 'id' => 'tags[1]', 'readonly' => 'readonly']) }}
@@ -61,9 +61,9 @@ View::share('title', $title);
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    {{ Form::submit('Объединить', ['class' => 'btn btn-success margin-top-25', 'id' => 'merge-tags-button']) }}
-                                    <a href="javascript:void(0)" class="btn btn-primary" id="cancel-merge-tags-button">Отмена</a>
+                                <div class="col-md-3">
+                                    <a href="javascript:void(0)" class="btn btn-primary pull-right margin-left-10" id="cancel-merge-tags-button">Отмена</a>
+                                    {{ Form::submit('Объединить', ['class' => 'btn btn-success pull-left', 'id' => 'merge-tags-button']) }}
                                 </div>
                                 {{ Form::hidden('_token', csrf_token()) }}
                             {{ Form::close() }}
@@ -72,25 +72,33 @@ View::share('title', $title);
                         <hr/>
 
                         <div class="row">
-                            {{ Form::open(['method' => 'GET', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
+                            <div class="col-md-6">
+                                <h4>Поиск тега</h4>
 
-                            <div class="form-group @if($errors->has('query')) has-error @endif">
-                                {{ Form::label('query', 'Поиск тега', ['class' => 'col-sm-2 control-label']) }}
-                                {{ Form::text('query', null, ['class' => 'form-control', 'placeholder' => '']) }}
-                                @if($errors->has('query'))
-                                    <small class="help-block">
-                                        {{ $errors->first('query') }}
-                                    </small>
-                                @endif
-                            </div>
+                                {{ Form::open(['method' => 'GET', 'route' => ['admin.tags.search'], 'id' => 'search-tags-form', 'class' => 'form-inline']) }}
 
-                                {{ Form::submit('Найти', ['class' => 'btn btn-success margin-top-25']) }}
+                                <div class="form-group @if($errors->has('query')) has-error @endif" style="width: 100%;">
+                                    <div class="input-group" style="width: 100%;">
+                                        {{ Form::text('query', null, ['class' => 'form-control', 'placeholder' => '']) }}
+                                        <div class="input-group-btn">
+                                            <button type="submit" id="search-tag" class="btn btn-success">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @if($errors->has('query'))
+                                        <small class="help-block">
+                                            {{ $errors->first('query') }}
+                                        </small>
+                                    @endif
+                                </div>
+
                                 {{ Form::hidden('_token', csrf_token()) }}
-                            {{ Form::close() }}
-
+                                {{ Form::close() }}
+                            </div>
                         </div>
 
-                        <div id="search-result">
+                        <div id="search-result" class="margin-top-10">
 
                         </div>
 
