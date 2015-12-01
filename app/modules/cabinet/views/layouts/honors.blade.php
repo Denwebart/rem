@@ -4,10 +4,16 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{{ isset($honor) ? $honor->getMetaTitle() : $title }}</title>
+    <title>
+        @if(isset($page))
+            {{ $page->getMetaTitle() }}
+        @elseif(isset($honor))
+            {{ $honor->getMetaTitle() }}
+        @endif
+    </title>
 
-    <meta name="description" content="{{ isset($honor) ? $honor->getMetaDesc() : '' }}"/>
-    <meta name="keywords" content="{{ isset($honor) ? $honor->getMetaKey() : '' }}"/>
+    <meta name="description" content="{{ isset($page) ? $page->getMetaDesc() : (isset($honor) ? $honor->getMetaDesc() : '') }}"/>
+    <meta name="keywords" content="{{ isset($page) ? $page->getMetaKey() : (isset($honor) ? $honor->getMetaKey() : '') }}"/>
     @if(isset($settings['metaCopyright']))
         <meta name="copyright" lang="ru" content="{{ $settings['metaCopyright']['value'] }}" />
     @endif
