@@ -57,7 +57,7 @@ class Setting extends \Eloquent
 		'type' => 'numeric',
 		'title' => 'max:100',
 		'description' => 'max:500',
-		'value' => 'required|max:1500',
+		'value' => 'required',
 		'is_active' => 'required',
 	];
 
