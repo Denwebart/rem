@@ -2050,6 +2050,12 @@ footer .counter {
 /*-- End Полоса уведомлений для авторизованных пользователей --*/
 
 /*-- Адаптивность --*/
+@media (max-width: 360px) {
+    .g-recaptcha,
+    .captcha {
+        margin-left: -15px;
+    }
+}
 @media (max-width: 400px) {
     /* Header */
     #site-title {
