@@ -14,9 +14,11 @@
                             <span class="text">Комментарий оставлен</span>
                             <span class="date display-inline-block">{{ DateHelper::dateFormat($comment->created_at) }}</span>
                         </div>
-                        <div class="not-published-text pull-right">
-                            Ожидает модерации
-                        </div>
+                        @if(!$comment->is_published)
+                            <div class="not-published-text pull-right">
+                                Ожидает модерации
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-4 col-xs-4">
                         @if(!$comment->is_deleted)

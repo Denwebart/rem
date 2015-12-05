@@ -6,13 +6,18 @@
         </div>
 
         @foreach($answers as $answer)
-            <div data-comment-id="{{ $answer->id }}" id="answer-{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif">
+            <div data-comment-id="{{ $answer->id }}" id="answer-{{ $answer->id }}" class="well comment @if($answer->is_deleted) deleted @endif @if(!$answer->is_published) not-published @endif">
                 <div class="row">
                     <div class="col-md-8 col-xs-8">
                         <div class="date date-created pull-left">
                             <span class="text">Ответ оставлен</span>
                             <span class="date">{{ DateHelper::dateFormat($answer->created_at) }}</span>
                         </div>
+                        @if(!$answer->is_published)
+                            <div class="not-published-text pull-right">
+                                Ожидает модерации
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-4 col-xs-4">
                         @if(!$answer->is_deleted)
