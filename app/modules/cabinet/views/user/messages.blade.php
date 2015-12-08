@@ -50,9 +50,11 @@ View::share('title', $title);
                     <div class="count pull-left">
                         Недавние диалоги: <span>{{ $messages->count() }}</span>.
                     </div>
-                    <a href="javascript:void(0)" class="delete-all-dialogs pull-right margin-left-10" title="Удалить все диалоги" data-toggle="tooltip">
-                        <i class="material-icons">delete</i>
-                    </a>
+                    @if($messages->count())
+                        <a href="javascript:void(0)" class="delete-all-dialogs pull-right margin-left-10" title="Удалить все диалоги" data-toggle="tooltip">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    @endif
                     <div class="clearfix"></div>
                     <div id="scroll" @if(!count($messages)) class="without-border" @endif>
                         @if(count($messages))

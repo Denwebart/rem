@@ -47,9 +47,11 @@ View::share('title', $title);
                         Показано сообщений: <span>{{ $messages->count() }}</span>.
 {{--                            Всего: <span>{{ $messages->getTotal() }}</span>.--}}
                     </div>
-                    <a href="javascript:void(0)" class="delete-all-messages pull-right margin-left-10" title="Удалить всю переписку" data-toggle="tooltip">
-                        <i class="material-icons">delete</i>
-                    </a>
+                    @if($messages->count())
+                        <a href="javascript:void(0)" class="delete-all-messages pull-right margin-left-10" title="Удалить всю переписку" data-toggle="tooltip">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    @endif
                     <a href="javascript:void(0)" class="reload-message pull-right" title="Обновить" data-toggle="tooltip">
                         <i class="material-icons">autorenew</i>
                     </a>
