@@ -21,8 +21,8 @@ Allow: /bortovoj-zhurnal/tag
 Allow: /images*
 Allow: /fancybox/jquery.fancybox.min.css?v=2.1.5
 Allow: /fancybox/jquery.fancybox.pack.min.js?v=2.1.5
-Allow: http://mc.yandex.ru/metrika/watch.js
-Allow: https://mc.yandex.ru/metrika/watch.js
+Allow: /mc.yandex.ru/metrika/watch.js
+Allow: /mc.yandex.ru/metrika/watch.js
 Host: www.avtorem.info
 Sitemap: http://www.avtorem.info/sitemap.xml
 
@@ -46,6 +46,6 @@ Allow: /bortovoj-zhurnal/tag
 Allow: /images*
 Allow: /fancybox/jquery.fancybox.min.css?v=2.1.5
 Allow: /fancybox/jquery.fancybox.pack.min.js?v=2.1.5
-Allow: http://mc.yandex.ru/metrika/watch.js
-Allow: https://mc.yandex.ru/metrika/watch.js
+Allow: /mc.yandex.ru/metrika/watch.js
+Allow: /mc.yandex.ru/metrika/watch.js
 Sitemap: http://www.avtorem.info/sitemap.xml
