@@ -52,9 +52,13 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
 
         <div class="row">
             <div class="col-md-12">
-                @if(count($users))
-                    <div id="users">
-                        <div class="well">
+                <div id="users">
+                    <div class="count">
+                        Показано: <span>{{ $users->count() }}</span>.
+                        Всего: <span>{{ $users->getTotal() }}</span>.
+                    </div>
+                    <div class="well">
+                        @if(count($users))
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -169,12 +173,12 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                 'direction' => Request::get('direction'),
                                 'is_online' => Request::get('is_online')
                             ])->links() }}
-                        </div>
+                        @else
+                            <p>Пользователей не найдено.</p>
+                        @endif
                     </div>
                 </div>
-            @else
-                <p>Пользователей не найдено.</p>
-            @endif
+            </div>
         </div>
 
         {{ $areaWidget->contentBottom() }}

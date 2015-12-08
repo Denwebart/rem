@@ -604,6 +604,7 @@ form .page-image {
 
 /*-- Blog area --*/
 .blog .count,
+#users .count,
 #comments-area .count {
     font-size: 13px;
     color: #777777;
