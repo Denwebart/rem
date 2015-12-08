@@ -1,5 +1,5 @@
 <?php
-$canVote = (!$isBannedIp) ? Auth::check() ? !Auth::user()->is($comment->user) ? true : false : false : false;
+$canVote = (!$isBannedIp) ? (Auth::check() ? (!Auth::user()->is($comment->user) ? true : false) : true) : false;
 ?>
 <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}" @if(!$canVote) style="margin: 0" @endif>
     @if($canVote)
