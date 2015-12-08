@@ -4,7 +4,7 @@
     @foreach($pages as $page)
         <url>
             <loc>{{ URL::to($page->getUrl()) }}</loc>
-            <lastmod>{{ $page->updated_at }}</lastmod>
+            <lastmod>{{ DateHelper::dateFormatForSchema($page->updated_at, false) }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.7</priority>
         </url>
@@ -12,7 +12,7 @@
             @foreach($page->publishedChildren as $secondLevel)
                 <url>
                     <loc>{{ URL::to($secondLevel->getUrl()) }}</loc>
-                    <lastmod>{{ $secondLevel->updated_at }}</lastmod>
+                    <lastmod>{{ DateHelper::dateFormatForSchema($secondLevel->updated_at, false) }}</lastmod>
                     <changefreq>daily</changefreq>
                     <priority>0.8</priority>
                 </url>
@@ -20,7 +20,7 @@
                     @foreach($secondLevel->publishedChildren as $thirdLevel)
                         <url>
                             <loc>{{ URL::to($thirdLevel->getUrl()) }}</loc>
-                            <lastmod>{{ $thirdLevel->updated_at }}</lastmod>
+                            <lastmod>{{ DateHelper::dateFormatForSchema($thirdLevel->updated_at, false) }}</lastmod>
                             <changefreq>daily</changefreq>
                             <priority>1.0</priority>
                         </url>
