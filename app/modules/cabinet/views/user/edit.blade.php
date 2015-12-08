@@ -108,7 +108,7 @@ View::share('title', $title);
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                @if(Auth::user()->isAdmin() && 1 != $user->id)
+                                @if(Auth::user()->isAdmin() && (1 != $user->id && Auth::user()->id != $user->id))
                                     <div class="form-group @if($errors->has('role')) has-error @endif">
                                         {{ Form::label('role', 'Роль', ['class' => 'control-label']) }}
                                         {{ Form::select('role', User::$roles, $user->role, ['class' => 'form-control']) }}

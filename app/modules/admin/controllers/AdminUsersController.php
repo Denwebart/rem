@@ -142,6 +142,7 @@ class AdminUsersController extends \BaseController {
 				]);
 				return Response::json(array(
 					'success' => true,
+					'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Права пользователя изменены.'])
 				));
 			}
 		}

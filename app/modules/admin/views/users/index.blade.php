@@ -163,6 +163,11 @@ View::share('title', $title);
                     return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
                 },
                 success: function(response) {
+                    $('#site-messages').prepend(response.message);
+                    setTimeout(function() {
+                        hideSiteMessage($('.site-message'));
+                    }, 2000);
+
                     if(response.success){
                         $form.find('.buttons').html('');
                         $form.find("select option[value='0']").remove();

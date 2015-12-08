@@ -7,7 +7,7 @@
             </a>
         </td>
         <td>
-            @if($user->isAdmin() && 1 == $user->id)
+            @if($user->isAdmin() && (1 == $user->id || Auth::user()->id == $user->id))
                 {{ User::$roles[$user->role] }}
             @else
                 {{ Form::open([

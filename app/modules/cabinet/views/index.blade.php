@@ -104,6 +104,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                                                     <p class="full-name">{{ $user->getFullName() }}</p>
                                                 @endif
                                                 @if($user->isAdmin() || $user->isModerator())
+                                                    <div class="clearfix"></div>
                                                     <span class="label label-success">{{ User::$roles[$user->role] }}</span>
                                                 @endif
                                             </td>
