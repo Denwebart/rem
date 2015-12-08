@@ -110,12 +110,15 @@ class Honor extends \Eloquent
 	 * @param array $options
 	 * @return string
 	 */
-	public function getImage($prefix = null, $options = [])
+	public function getImage($prefix = null, $options = [], $itemprop = false)
 	{
 		if(isset($options['class'])) {
 			$options['class'] = ($this->image) ? 'img-responsive ' . $options['class'] : 'img-responsive image-default ' . $options['class'];
 		} else {
 			$options['class'] = ($this->image) ? 'img-responsive' : 'img-responsive image-default';
+		}
+		if($itemprop && false !== $options) {
+			$options['itemprop'] = 'image';
 		}
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->image){

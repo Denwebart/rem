@@ -22,18 +22,22 @@ View::share('title', $title);
         <div class="row">
             <div class="col-md-7">
                 <div class="well">
-                    <div id="honor-info">
-                        <h2>{{ $honor->title }}</h2>
+                    <div id="honor-info" itemscope itemtype="http://schema.org/Article">
 
-                        <div class="honor-image">
-                            {{ $honor->getImage() }}
-                        </div>
+                        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema(\Carbon\Carbon::now()) }}">
+                        <h2 itemprop="headline">{{ $honor->title }}</h2>
 
-                        @if($honor->description)
-                            <div class="honor-description">
-                                {{ $honor->description }}
+                        <div itemprop="articleBody">
+                            <div class="honor-image">
+                                {{ $honor->getImage(null, [], true) }}
                             </div>
-                        @endif
+
+                            @if($honor->description)
+                                <div class="honor-description">
+                                    {{ $honor->description }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

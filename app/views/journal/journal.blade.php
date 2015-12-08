@@ -25,15 +25,20 @@
                     @include('cabinet::user.userInfoMobile')
                 </div>
 
-                <h2 class="margin-bottom-20">
-                    Бортовой журнал пользователя
-                    <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
-                        {{ $user->login }}
-                        @if($user->getFullName())
-                            ({{ $user->getFullName() }})
-                        @endif
-                    </a>
-                </h2>
+                <div itemscope itemtype="http://schema.org/Article">
+                    <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($user->created_at) }}">
+                    <meta itemprop="image" content="{{ URL::to($user->getAvatarUrl()) }}">
+
+                    <h2 class="margin-bottom-20" itemprop="headline">
+                        Бортовой журнал пользователя
+                        <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="login">
+                            {{ $user->login }}
+                            @if($user->getFullName())
+                                ({{ $user->getFullName() }})
+                            @endif
+                        </a>
+                    </h2>
+                </div>
 
                 <div class="journal-user-info">
                     <div class="row">
@@ -153,7 +158,7 @@
                             Всего: <span>{{ $articles->getTotal() }}</span>.
                         </div>
                         @foreach($articles as $article)
-                            <div data-article-id="{{ $article->id }}" class="well @if(!$article->is_published) not-published @endif">
+                            <div data-article-id="{{ $article->id }}" class="well @if(!$article->is_published) not-published @endif" itemscope itemtype="https://schema.org/BlogPosting">
                                 <div class="row">
                                     @if(!$article->is_published)
                                         <div class="col-lg-12 col-md-12 col-xs-12">
@@ -163,12 +168,13 @@
                                         </div>
                                     @endif
                                     <div class="col-lg-10 col-md-9 col-xs-9">
-                                        <h3>
+                                        <h3 itemprop="headline name">
                                             <a href="{{ URL::to($article->getUrl()) }}">
                                                 {{ $article->title }}
                                             </a>
                                         </h3>
                                     </div>
+                                    <meta itemprop="author" content="{{ $article->user->login }}">
                                     <div class="col-lg-2 col-md-3 col-xs-3">
                                         @if(Auth::check())
                                             @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
@@ -203,7 +209,9 @@
                                         <div class="page-info">
                                             <div class="date pull-left hidden-xs">
                                                 <i class="material-icons">today</i>
-                                                <span>{{ DateHelper::dateFormat($article->published_at) }}</span>
+                                                <time datetime="{{ DateHelper::dateFormatForSchema($article->published_at) }}" itemprop="datePublished">
+                                                    {{ DateHelper::dateFormat($article->published_at) }}
+                                                </time>
                                             </div>
                                             <div class="pull-right">
                                                 <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip" data-placement="top">
@@ -213,7 +221,7 @@
                                                 <div class="comments-count pull-left" title="Количество комментариев" data-toggle="tooltip" data-placement="top">
                                                     <i class="material-icons">chat_bubble</i>
                                                     <a href="{{ URL::to($article->getUrl() . '#comments') }}">
-                                                        {{ count($article->publishedComments) }}
+                                                        <span itemprop="commentCount">{{ count($article->publishedComments) }}</span>
                                                     </a>
                                                 </div>
                                                 <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip" data-placement="top">
@@ -223,6 +231,7 @@
                                                 <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                                                     <i class="material-icons">grade</i>
                                                     <span>
+                                                        <meta itemprop="worstRating" content="0" />
                                                         <span itemprop="ratingValue">{{ $article->getRating() }}</span>
                                                         <meta itemprop="ratingCount" content="{{ $article->votes }}" />
                                                         (
@@ -239,8 +248,12 @@
                                             <a href="{{ URL::to($article->getUrl()) }}" class="image">
                                                 {{ $article->getImage(null, ['width' => '200px']) }}
                                             </a>
+                                        @else
+                                            <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
                                         @endif
-                                        <p>{{ $article->getIntrotext() }}</p>
+                                        <div itemprop="description">
+                                            {{ $article->getIntrotext() }}
+                                        </div>
                                     </div>
                                     @if(count($article->tags))
                                         <div class="col-md-12">

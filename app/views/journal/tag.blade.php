@@ -36,6 +36,8 @@
                     <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage('origin', ['class' => 'page-image']) }}
                     </a>
+                @else
+                    <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
                 @endif
                 {{ $page->getContentWithWidget() }}
             </div>

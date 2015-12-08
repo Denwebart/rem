@@ -27,6 +27,8 @@
             <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                 @if($page->is_show_title)
                     <h2 itemprop="headline">{{ $page->title }}</h2>
+                @else
+                    <meta itemprop="headline" content="{{ $page->getTitle() }}">
                 @endif
             </div>
             @if($page->showRating())
@@ -95,6 +97,8 @@
                     <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
                         {{ $page->getImage('origin', ['class' => 'page-image']) }}
                     </a>
+                @else
+                    <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
                 @endif
 				{{ $page->getContentWithWidget() }}
 			</div>

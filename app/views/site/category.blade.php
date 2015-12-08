@@ -21,32 +21,40 @@
 @stop
 
 @section('content')
-	<section id="content" class="well" itemscope itemtype="http://schema.org/Article">
+	<section id="content" class="well">
 
-        <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
+        <div itemscope itemtype="http://schema.org/Article">
+            <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
 
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                @if($page->is_show_title)
-                    <h2 itemprop="headline">{{ $page->title }}</h2>
-                @endif
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @if($page->is_show_title)
+                        <h2 itemprop="headline">{{ $page->title }}</h2>
+                    @else
+                        <meta itemprop="headline" content="{{ $page->getTitle() }}">
+                    @endif
+                </div>
             </div>
+
+            {{ $areaWidget->contentTop() }}
+
+            @if($page->content)
+                <div class="content" itemprop="articleBody">
+                    @if($page->image)
+                        <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
+                            {{ $page->getImage('origin', ['class' => 'page-image']) }}
+                        </a>
+                    @else
+                        <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
+                    @endif
+                    {{ $page->getContentWithWidget() }}
+                </div>
+            @else
+                <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
+            @endif
+
+            {{ $areaWidget->contentMiddle() }}
         </div>
-
-        {{ $areaWidget->contentTop() }}
-
-		@if($page->content)
-			<div class="content" itemprop="articleBody">
-                @if($page->image)
-                    <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage('origin', ['class' => 'page-image']) }}
-                    </a>
-                @endif
-				{{ $page->getContentWithWidget() }}
-			</div>
-		@endif
-
-		{{ $areaWidget->contentMiddle() }}
 
         @if(count($children))
             <section id="blog-area" class="blog margin-top-10">

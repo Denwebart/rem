@@ -12,24 +12,34 @@
 @section('content')
 	<section id="content" class="well">
 
-		@if($page->is_show_title)
-			<h2>{{ $page->title }}</h2>
-		@endif
+        <div itemscope itemtype="http://schema.org/Article">
 
-		{{ $areaWidget->contentTop() }}
+            <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
+            @if($page->is_show_title)
+                <h2 itemprop="headline">{{ $page->title }}</h2>
+            @else
+                <meta itemprop="headline" content="{{ $page->getTitle() }}">
+            @endif
 
-		@if($page->content)
-			<div class="content">
-                @if($page->image)
-                    <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
-                        {{ $page->getImage('origin', ['class' => 'page-image']) }}
-                    </a>
-                @endif
-				{{ $page->getContentWithWidget() }}
-			</div>
-		@endif
+            {{ $areaWidget->contentTop() }}
 
-		{{ $areaWidget->contentMiddle() }}
+            @if($page->content)
+                <div class="content" itemprop="articleBody">
+                    @if($page->image)
+                        <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
+                            {{ $page->getImage('origin', ['class' => 'page-image']) }}
+                        </a>
+                    @else
+                        <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
+                    @endif
+                    {{ $page->getContentWithWidget() }}
+                </div>
+            @else
+                <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
+            @endif
+
+            {{ $areaWidget->contentMiddle() }}
+        </div>
 
 		<div id="sitemap-area">
 			<ul id="sitemap">

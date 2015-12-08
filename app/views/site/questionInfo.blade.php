@@ -41,6 +41,7 @@
                         <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                             <i class="material-icons">grade</i>
                             <span>
+                                <meta itemprop="worstRating" content="0" />
                                 <span itemprop="ratingValue">{{ $question->getRating() }}</span>
                                 <meta itemprop="ratingCount" content="{{ $question->votes }}" />
                                 (

@@ -1,6 +1,6 @@
-<div class="row item" data-article-id="{{ $article->id }}" itemscope itemprop="https://schema.org/BlogPosting">
+<div class="row item" data-article-id="{{ $article->id }}" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="col-md-12">
-        <h3 itemprop="name">
+        <h3 itemprop="headline name">
             <a href="{{ URL::to($article->getUrl()) }}">
                 {{ $article->title }}
             </a>
@@ -44,6 +44,7 @@
                 <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" data-placement="top" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                     <i class="material-icons">grade</i>
                     <span>
+                        <meta itemprop="worstRating" content="0" />
                         <span itemprop="ratingValue">{{ $article->getRating() }}</span>
                         <meta itemprop="ratingCount" content="{{ $article->votes }}" />
                         (
@@ -90,6 +91,8 @@
             <a href="{{ URL::to($article->getUrl()) }}" class="image">
                 {{ $article->getImage() }}
             </a>
+        @else
+            <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
         @endif
         <div itemprop="description">
             {{ $article->getIntrotext() }}

@@ -2,7 +2,7 @@
     <div class="pull-right">
         <div class="rating">
             <div id="rate-votes" itemprop="ratingValue">{{ $page->getRating() }}</div>
-            <meta itemprop="worstRating" content="1" />
+            <meta itemprop="worstRating" content="0" />
             <meta itemprop="bestRating" content="5" />
             <meta itemprop="ratingCount" content="{{ $page->votes }}" />
             <div id="rate-voters" title="Количество проголосовавших" data-toggle="tooltip">

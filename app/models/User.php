@@ -394,10 +394,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		}
 		$prefix = is_null($prefix) ? '' : ($prefix . '_');
 		if($this->avatar){
-			return HTML::image('/uploads/' . $this->getTable() . '/' . $this->getLoginForUrl() . '/' . $prefix . $this->avatar, $alt, $options);
+			return HTML::image($this->getAvatarUrl($prefix), $alt, $options);
 		} else {
 			return HTML::image(Config::get('settings.' . $prefix . 'defaultAvatar'), $alt, $options);
 		}
+	}
+
+	/**
+	 * Получение URL изображения
+	 *
+	 * @param null $prefix
+	 * @return string
+	 */
+	public function getAvatarUrl($prefix = null)
+	{
+        return '/uploads/' . $this->getTable() . '/' . $this->getLoginForUrl() . '/' . $prefix . $this->avatar;
 	}
 
 	/**
