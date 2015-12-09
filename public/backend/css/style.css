@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;amp");
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,300italic,400italic,600italic,700italic,700&subset=latin,cyrillic-ext);
 
 /* Material Icons */
 @font-face {
@@ -356,6 +356,9 @@ form.as-button {
 #header-widget .material-icons {
     font-size: 20px;
     float: left;
+}
+#header-widget .dropdown-menu {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 #header-widget .widget-user a {
     padding: 14px 15px 11px;
