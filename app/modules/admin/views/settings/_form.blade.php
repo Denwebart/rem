@@ -5,31 +5,23 @@
         </div>
         <div class="box-body">
             <div class="form-group @if($errors->has('value')) has-error @endif">
-                @if($setting->key != 'categoriesOnMainPage')
+                @if($setting->key == 'categoriesOnMainPage')
+                    {{ Form::select('value[]', Page::getContainer(true, false), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
+                @elseif($setting->key == 'theme')
+                    {{ Form::select('value', Setting::$themeValues, $setting->value, ['class' => 'form-control']) }}
+                @else
                     @if($setting->type == Setting::TYPE_BOOLEAN)
                         {{ Form::label('value', 'Включена') }}
                         {{ Form::hidden('value', 0, ['id' => 'value_uncheck']) }}
                         {{ Form::checkbox('value', 1, $setting->value, ['class' => 'form-control']) }}
-                        @if($errors->has('value'))
-                            <small class="help-block">
-                                {{ $errors->first('value') }}
-                            </small>
-                        @endif
                     @else
                         {{ Form::textarea('value', $setting->value, ['class' => 'form-control']) }}
-                        @if($errors->has('value'))
-                            <small class="help-block">
-                                {{ $errors->first('value') }}
-                            </small>
-                        @endif
                     @endif
-                @else
-                    {{ Form::select('value[]', Page::getContainer(true, false), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
-                    @if($errors->has('value'))
-                        <small class="help-block">
-                            {{ $errors->first('value') }}
-                        </small>
-                    @endif
+                @endif
+                @if($errors->has('value'))
+                    <small class="help-block">
+                        {{ $errors->first('value') }}
+                    </small>
                 @endif
             </div>
         </div>

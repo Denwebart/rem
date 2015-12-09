@@ -29,8 +29,11 @@
             <div class="col-md-6 col-sm-2 col-xs-3">
                 <div class="logo">
                     <a href="{{ URL::to('/') }}">
-                        <?php $alt = isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : ''; ?>
-                        {{ HTML::image('images/logo.png', $alt, ['title' => $alt, 'class' => 'img-responsive hidden-sm hidden-xs']) }}
+                        <?php
+                            $alt = isset($settings) ? $settings['siteTitle']['value'] . ' ' .$settings['siteSlogan']['value'] : '';
+                            $theme = isset($settings) ? isset($settings['theme']['value']) ? ($settings['theme']['value'] ? '-' . $settings['theme']['value'] : '') : '' : '';
+                        ?>
+                        {{ HTML::image('images/logo'. $theme .'.png', $alt, ['title' => $alt, 'class' => 'img-responsive hidden-sm hidden-xs']) }}
                         {{ HTML::image('images/logo-circle.png', $alt, ['title' => $alt, 'class' => 'img-responsive hidden-lg hidden-md']) }}
                     </a>
                 </div>

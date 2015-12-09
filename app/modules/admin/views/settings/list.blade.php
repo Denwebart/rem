@@ -7,17 +7,7 @@
         <td>{{ $setting->title }}</td>
         <td>{{ $setting->description }}</td>
         <td>
-            @if($setting->key != 'categoriesOnMainPage')
-                @if($setting->type == Setting::TYPE_BOOLEAN)
-                    @if($setting->value)
-                        <span class="label label-success">Включена</span>
-                    @else
-                        <span class="label label-warning">Отключена</span>
-                    @endif
-                @else
-                    {{{ $setting->value }}}
-                @endif
-            @else
+            @if($setting->key == 'categoriesOnMainPage')
                 <ul>
                     @foreach(Page::whereIn('id', explode(',', $setting->value))->whereParentId(0)->get() as $item)
                         <li>
@@ -34,6 +24,18 @@
                         </li>
                     @endforeach
                 </ul>
+            @elseif($setting->key == 'theme')
+                {{ Setting::$themeValues[$setting->value] }}
+            @else
+                @if($setting->type == Setting::TYPE_BOOLEAN)
+                    @if($setting->value)
+                        <span class="label label-success">Включена</span>
+                    @else
+                        <span class="label label-warning">Отключена</span>
+                    @endif
+                @else
+                    {{{ $setting->value }}}
+                @endif
             @endif
         </td>
         <td class="status">

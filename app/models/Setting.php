@@ -34,12 +34,24 @@ class Setting extends \Eloquent
 	const TYPE_TEXT = 3;
 	const TYPE_HTML = 4;
 
-	public static $types = array(
+	public static $types = [
 		self::TYPE_BOOLEAN => 'Логическое значение',
 		self::TYPE_INTEGER => 'Целое число',
 		self::TYPE_TEXT => 'Короткий текст',
 		self::TYPE_HTML => 'HTML-код',
-	);
+	];
+
+	const THEME_VALUE_DEFAULT = '';
+	const THEME_VALUE_NEW_YEAR = 'new-year';
+	const THEME_VALUE_HALLOWEEN = 'halloween';
+	const THEME_VALUE_8_MARCH = '8-march';
+
+	public static $themeValues = [
+		self::THEME_VALUE_DEFAULT => 'Обычная',
+//		self::THEME_VALUE_NEW_YEAR => 'Новогодняя',
+//		self::THEME_VALUE_HALLOWEEN => 'Halloween',
+//		self::THEME_VALUE_8_MARCH => '8 марта',
+	];
 
 	protected $fillable = [
 		'key',

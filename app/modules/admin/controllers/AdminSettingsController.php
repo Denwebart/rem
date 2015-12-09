@@ -135,7 +135,11 @@ class AdminSettingsController extends \BaseController {
 			$data['value'] = implode($data['value'], ', ');
 		}
 
-		$validator = Validator::make($data, Setting::$rules);
+		$rules = Setting::$rules;
+		if($setting->key == 'theme') {
+			$rules['value'] = '';
+		}
+		$validator = Validator::make($data, $rules);
 
 		if ($validator->fails())
 		{
