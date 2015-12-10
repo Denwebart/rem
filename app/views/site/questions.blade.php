@@ -53,23 +53,76 @@
             </div>
         @endif
 
-        @if(count($questions))
-            <section id="questions-area" class="blog margin-top-10">
-                <div class="count margin-bottom-20">
-                    Показано: <span>{{ $questions->count() }}</span>.
-                    Всего: <span>{{ $questions->getTotal() }}</span>.
-                </div>
-                @foreach($questions as $key => $question)
-                    @if(0 != $key)
-                        <hr>
-                    @endif
-                    @include('site.questionInfo')
-                @endforeach
-                {{ $questions->links() }}
-            </section><!--blog-area-->
-        @endif
+        <section id="questions-area" class="blog margin-top-10">
+            <div class="count margin-bottom-20 pull-left">
+                @include('count', ['models' => $questions])
+            </div>
+            <div class="pull-right">
+                {{ Form::open(['method' => 'GET', 'route' => ['search.questions'], 'id' => 'filter-form']) }}
+                {{ Form::hidden('without-answer', 0, ['id' => 'without-answer']) }}
+                {{ Form::hidden('without-best-answer', 0, ['id' => 'without-best-answer']) }}
+                <a href="javascript:void(0)" data-attr="without-answer" class="filter-link @if(Request::get('without-answer')) active @endif">
+                    <span>Без ответов</span>
+                </a>
+                <a href="javascript:void(0)" data-attr="without-best-answer" class="filter-link margin-left-10 @if(Request::get('without-best-answer')) active @endif">
+                    <span>Не решенные</span>
+                </a>
+                {{ Form::close() }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="list">
+                @include('site.questionsList', ['pageId' => $page->id])
+            </div>
+        </section><!--blog-area-->
 
         {{ $areaWidget->contentBottom() }}
 
     </section>
+@stop
+
+@section('script')
+    @parent
+
+    <script type="text/javascript">
+        $('.blog').on('click', '.filter-link', function () {
+            var $link = $(this);
+            if($link.hasClass('active')) {
+                $link.removeClass('active');
+                $('#' + $link.data('attr')).val(0);
+            } else {
+                $link.addClass('active');
+                $('#' + $link.data('attr')).val(1);
+            }
+            $("#filter-form").submit();
+        });
+
+        $("form[id^='filter-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {
+                    searchData: data,
+                    pageId: '<?php echo $page->id ?>',
+                    url: '<?php echo Request::url(); ?>',
+                    pageType: '<?php echo $page->type ?>'
+                },
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('.blog .count').html(response.countHtmL);
+                        $('.list').html(response.listHtmL);
+                    }
+                },
+            });
+        });
+    </script>
 @stop

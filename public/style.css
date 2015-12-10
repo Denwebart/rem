@@ -141,6 +141,19 @@ h2 .login {
 .btn-full {
     width: 100%;
 }
+.btn-lower {
+    text-transform: none !important;
+}
+.btn-dashed {
+    background-color: none !important;
+}
+.btn-dashed span {
+    border-bottom: 1px dashed;
+    color: #337AB7;
+}
+.btn-dashed:hover {
+    /*color: #007FC3 !important;*/
+}
 .btn i {
     float: left;
     margin-right: 5px;
@@ -272,6 +285,24 @@ form .page-image {
 #content h3 a, .content h3 a,
 #content h4 a, .content h4 a {
     text-decoration: none !important;
+}
+.filter-link {
+    text-decoration: none !important;
+}
+.filter-link span {
+    border-bottom: 1px dashed;
+}
+.filter-link:hover span,
+.filter-link.active span {
+    border-bottom: none;
+}
+.filter-link.active {
+    background: #337AB7;
+    color: #ffffff !important;
+    padding: 1px 7px 2px 10px;
+    border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
 }
 
 .blog .image {

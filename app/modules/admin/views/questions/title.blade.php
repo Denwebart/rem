@@ -8,5 +8,5 @@ View::share('title', $title);
 <i class="fa fa-question"></i>
 {{ $title }}
 @if(!$parentPage)
-    <small>вопросы пользователей</small>
+    <small class="hidden-md hidden-sm">вопросы пользователей</small>
 @endif

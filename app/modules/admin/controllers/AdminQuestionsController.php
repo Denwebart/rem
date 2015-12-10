@@ -28,6 +28,8 @@ class AdminQuestionsController extends \BaseController {
         $parent_id = Request::get('parent_id');
         $author = Request::get('author');
         $searchQuery = Request::get('query');
+        $withoutAnswer = Request::get('without-answer');
+        $withoutBestAnswer = Request::get('without-best-answer');
 
         $limit = 10;
         $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
@@ -63,6 +65,15 @@ class AdminQuestionsController extends \BaseController {
                     ->orWhere(DB::raw('LOWER(meta_title)'), 'LIKE', "%$title%");
             });
         }
+
+		if($withoutAnswer) {
+			$query = $query->whereHas('publishedAnswers', function($q) {
+			}, '<', 1);
+		}
+		if($withoutBestAnswer) {
+			$query = $query->whereHas('bestComments', function($q) {
+			}, '<', 1);
+		}
 
         if ($sortBy && $direction) {
             if(in_array($sortBy, $relations)) {
@@ -106,6 +117,8 @@ class AdminQuestionsController extends \BaseController {
             $parent_id = $data['parent_id'];
             $author = $data['author'];
             $searchQuery = $data['query'];
+	        $withoutAnswer = $data['without-answer'];
+	        $withoutBestAnswer = $data['without-best-answer'];
 
             $limit = 10;
             $relations = ['parent.parent', 'user', 'publishedAnswers', 'bestComments'];
@@ -142,6 +155,15 @@ class AdminQuestionsController extends \BaseController {
                 });
             }
 
+	        if($withoutAnswer) {
+		        $query = $query->whereHas('publishedAnswers', function($q) {
+		        }, '<', 1);
+	        }
+	        if($withoutBestAnswer) {
+		        $query = $query->whereHas('bestComments', function($q) {
+		        }, '<', 1);
+	        }
+
             if ($sortBy && $direction) {
                 if(in_array($sortBy, $relations)) {
                     $page = Request::get('stranitsa', 1);
@@ -168,8 +190,10 @@ class AdminQuestionsController extends \BaseController {
                 $pages = $query->paginate($limit);
             }
 
+	        $pages->setBaseUrl(URL::route('admin.questions.index'));
+
             $url = URL::route('admin.questions.index', $data);
-            Session::set('user.url', $url);
+	        Session::set('user.url', $url);
 
             return Response::json([
                 'success' => true,

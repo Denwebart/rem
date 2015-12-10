@@ -10,10 +10,20 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
 @section('content')
     <div class="page-head">
         <div class="row">
-            <div class="col-md-10 col-sm-9 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <h1>
                     @include('admin::questions.title', ['parentPage' => $parentPage])
                 </h1>
+            </div>
+            <div class="col-md-7 col-sm-6 col-xs-12">
+                <div class="buttons">
+                    <a href="javascript:void(0)" data-attr="without-answer" class="btn filter-link @if(Request::get('without-answer')) active btn-primary @else btn-dashed @endif">
+                        <span>Без ответов</span>
+                    </a>
+                    <a href="javascript:void(0)" data-attr="without-best-answer" class="btn filter-link @if(Request::get('without-best-answer')) active btn-primary @else btn-dashed @endif">
+                        <span>Не решенные</span>
+                    </a>
+                </div>
             </div>
             <div class="col-md-2 col-sm-3 col-xs-12">
                 <div class="buttons">
@@ -40,6 +50,9 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                     </div>
                 </div>
                 {{ Form::open(['method' => 'GET', 'route' => ['admin.questions.search'], 'id' => 'search-pages-form', 'class' => 'table-search']) }}
+                {{ Form::hidden('without-answer', 0, ['id' => 'without-answer']) }}
+                {{ Form::hidden('without-best-answer', 0, ['id' => 'without-best-answer']) }}
+
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                     <div class="input-group">
                         {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
@@ -48,8 +61,8 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                             'placeholder' => 'Логин или имя пользователя'
                         ]) }}
                         <span class="input-group-btn">
-                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
+                            <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -67,8 +80,8 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                             'placeholder' => 'Введите заголовок вопроса'
                         ]) }}
                         <span class="input-group-btn">
-                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
+                            <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                        </span>
                     </div>
                 </div>
                 {{ Form::close() }}
@@ -116,11 +129,7 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                         </tbody>
                     </table>
                     <div id="pagination" class="pull-left">
-                        {{ $pages->appends([
-                            //'name' => $name,
-                            'sortBy' => Request::get('sortBy'),
-                            'direction' => Request::get('direction'),
-                        ])->links() }}
+                        @include('admin::parts.pagination', ['models' => $pages])
                     </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
@@ -146,6 +155,17 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
             $("#search-pages-form").submit();
         });
         $('#author, #query').keyup(function () {
+            $("#search-pages-form").submit();
+        });
+        $('.filter-link').on('click', function () {
+            var $link = $(this);
+            if($link.hasClass('active')) {
+                $link.removeClass('active').removeClass('btn-primary').addClass('btn-dashed');
+                $('#' + $link.data('attr')).val(0);
+            } else {
+                $link.addClass('active').removeClass('btn-dashed').addClass('btn-primary');
+                $('#' + $link.data('attr')).val(1);
+            }
             $("#search-pages-form").submit();
         });
 

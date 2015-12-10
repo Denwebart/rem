@@ -184,10 +184,11 @@ Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->
 
 Route::get('tagAutocomplete', ['as' => 'tagAutocomplete', 'uses' => 'JournalController@tagAutocomplete']);
 
-Route::get('{questionsAlias}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
-Route::get('{questionsAlias}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
-Route::get('{questionsAlias}/{alias}.html', 'SiteController@error404')->where('questionsAlias', 'vopros-otvet');
-Route::get('{questionsAlias}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
+Route::get('search/questions', ['as' => 'search.questions', 'uses' => 'SiteController@searchQuestions']);
+Route::get('{questionsAlias?}', 'SiteController@questions')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias?}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias?}/{alias}.html', 'SiteController@error404')->where('questionsAlias', 'vopros-otvet');
+Route::get('{questionsAlias?}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
 
 Route::post('add_comment/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@addComment']);
 Route::post('comment/vote/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@vote']);

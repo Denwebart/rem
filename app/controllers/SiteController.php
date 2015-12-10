@@ -242,7 +242,11 @@ class SiteController extends BaseController {
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS]);
 		View::share('areaWidget', $areaWidget);
 
-		$questions = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+		$withoutAnswer = Request::get('without-answer');
+		$withoutBestAnswer = Request::get('without-best-answer');
+
+		$query = new Page;
+		$query = $query->select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
 			->whereType(Page::TYPE_QUESTION)
 			->whereIsPublished(1)
 			->with([
@@ -268,8 +272,18 @@ class SiteController extends BaseController {
 					$query->select('id', 'page_id');
 				}
 			])
-			->orderBy('published_at', 'DESC')
-			->paginate(10);
+			->orderBy('published_at', 'DESC');
+
+		if($withoutAnswer) {
+			$query = $query->whereHas('publishedAnswers', function($q) {
+			}, '<', 1);
+		}
+		if($withoutBestAnswer) {
+			$query = $query->whereHas('bestComments', function($q) {
+			}, '<', 1);
+		}
+
+		$questions = $query->paginate(10);
 
 		$page = Page::getPageByAlias($alias)->firstOrFail();
 		$page->setViews();
@@ -278,10 +292,87 @@ class SiteController extends BaseController {
 		return View::make('site.questions', compact('questions'));
 	}
 
+	public function searchQuestions() {
+		if(Request::ajax()) {
+			$inputData = Request::get('searchData');
+			$pageId = Request::get('pageId');
+			$url = Request::get('url');
+			$pageType = Request::get('pageType');
+			parse_str($inputData, $data);
+
+			$withoutAnswer = $data['without-answer'];
+			$withoutBestAnswer = $data['without-best-answer'];
+
+			$query = new Page;
+			$query = $query->select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+				->whereType(Page::TYPE_QUESTION)
+				->whereIsPublished(1)
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+					'publishedAnswers' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'bestComments' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'whoSaved' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'subscribers' => function($query) {
+						$query->select('id', 'page_id');
+					}
+				])
+				->orderBy('published_at', 'DESC');
+
+			if(Page::TYPE_QUESTIONS != $pageType) {
+				$query->whereParentId($pageId);
+			}
+
+			if($withoutAnswer) {
+				$query = $query->whereHas('publishedAnswers', function($q) {
+				}, '<', 1);
+			}
+			if($withoutBestAnswer) {
+				$query = $query->whereHas('bestComments', function($q) {
+				}, '<', 1);
+			}
+
+			$questions = $query->paginate(10);
+			$questions->setBaseUrl($url);
+
+			foreach($data as $key => $value) {
+				if(!$value) {
+					unset($data[$key]);
+				}
+			}
+
+			$url = URL::to((http_build_query($data)) ? $url . '?' . http_build_query($data) : $url);
+			Session::set('user.url', $url);
+
+			return Response::json([
+				'success' => true,
+				'url' => $url,
+				'listHtmL' => (string) View::make('site.questionsList', compact('questions', 'url', 'pageId', 'data'))->render(),
+				'countHtmL' => (string) View::make('count')->with('models', $questions)->render(),
+			]);
+		}
+	}
+
 	public function questionsCategory($questionsAlias, $alias)
 	{
 		$areaWidget = App::make('AreaWidget', ['pageType' => AdvertisingPage::PAGE_QUESTIONS_CATEGORY]);
 		View::share('areaWidget', $areaWidget);
+
+		$withoutAnswer = Request::get('without-answer');
+		$withoutBestAnswer = Request::get('without-best-answer');
 
 		$page = Page::getPageByAlias($alias)
 			->with([
@@ -292,7 +383,8 @@ class SiteController extends BaseController {
 			->firstOrFail();
 		$page->setViews();
 
-		$questions = Page::select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+		$query = new Page;
+		$query = $query->select(['id', 'alias', 'title', 'menu_title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
 			->whereType(Page::TYPE_QUESTION)
 			->whereParentId($page->id)
 			->whereIsPublished(1)
@@ -319,8 +411,18 @@ class SiteController extends BaseController {
 					$query->select('id', 'page_id');
 				}
 			])
-			->orderBy('published_at', 'DESC')
-			->paginate(10);
+			->orderBy('published_at', 'DESC');
+
+		if($withoutAnswer) {
+			$query = $query->whereHas('publishedAnswers', function($q) {
+			}, '<', 1);
+		}
+		if($withoutBestAnswer) {
+			$query = $query->whereHas('bestComments', function($q) {
+			}, '<', 1);
+		}
+
+		$questions = $query->paginate(10);
 
 		View::share('page', $page);
 		return View::make('site.questionsCategory', compact('questions'));

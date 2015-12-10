@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="col-md-8 col-sm-8 col-xs-8">
-                @if($page->id != $question->parent_id)
+                @if($pageId != $question->parent_id)
                     <div class="category">
                         <div class="text pull-left hidden-xs">
                             Категория:
