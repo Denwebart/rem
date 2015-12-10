@@ -16,6 +16,8 @@ Disallow: /user*
 Disallow: /tagAutocomplete*
 Disallow: /bortovoj-zhurnal/tag/*
 Allow: /user/*/gallery*
+Disallow: /user/*/gallery/edit*
+Disallow: /user/*/gallery/create*
 Allow: /bortovoj-zhurnal*
 Allow: /bortovoj-zhurnal/tag
 Allow: /images*
@@ -41,6 +43,8 @@ Disallow: /user*
 Disallow: /tagAutocomplete*
 Disallow: /bortovoj-zhurnal/tag/*
 Allow: /user/*/gallery*
+Disallow: /user/*/gallery/edit*
+Disallow: /user/*/gallery/create*
 Allow: /bortovoj-zhurnal*
 Allow: /bortovoj-zhurnal/tag
 Allow: /images*

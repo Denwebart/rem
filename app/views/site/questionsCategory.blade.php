@@ -69,7 +69,7 @@
                     <span>Без ответов</span>
                 </a>
                 <a href="javascript:void(0)" data-attr="without-best-answer" class="filter-link margin-left-10 @if(Request::get('without-best-answer')) active @endif">
-                    <span>Не решенные</span>
+                    <span>Нерешённые</span>
                 </a>
                 {{ Form::close() }}
             </div>

@@ -17,7 +17,7 @@
                     @if(isset($settings['copyright']))
                         <div class="text pull-left">
                             {{ $settings['copyright']['value'] }}
-                            <span style="white-space:nowrap;">
+                            <span> <!-- style="white-space:nowrap;" -->
                                 2010 - {{ \Carbon\Carbon::now()->year }}
                             </span>
                         </div>
@@ -72,11 +72,10 @@
             $back_to_top.on('click', function(event){
                 event.preventDefault();
                 $('body,html').animate({
-                            scrollTop: 0
-                        }, scroll_top_duration
+                        scrollTop: 0
+                    }, scroll_top_duration
                 );
             });
-
         });
     </script>
 @stop

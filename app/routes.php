@@ -102,6 +102,7 @@ Route::group(['prefix' => 'user', 'before' => 'authInCabinet'], function(){
 	Route::post('{login}/gallery/deletePhoto', ['as' => 'user.gallery.deletePhoto', 'before' => 'csrf-ajax', 'uses' => 'CabinetUserController@deletePhoto']);
 	Route::get('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'uses' => 'CabinetUserController@editPhoto']);
 	Route::post('{login}/gallery/editPhoto/{id}', ['as' => 'user.gallery.editPhoto', 'before' => 'csrf', 'uses' => 'CabinetUserController@editPhoto']);
+	Route::get('{login}/questions/search', ['as' => 'user.questions.search', 'uses' => 'CabinetUserController@searchQuestions']);
 	Route::get('{login}/questions/create', ['as' => 'user.questions.create', 'uses' => 'CabinetUserController@createQuestion']);
 	Route::post('{login}/questions/store', ['as' => 'user.questions.store', 'before' => 'csrf', 'uses' => 'CabinetUserController@storeQuestion']);
 	Route::get('{login}/questions/{id}/edit', ['as' => 'user.questions.edit', 'uses' => 'CabinetUserController@editQuestion']);

@@ -21,7 +21,7 @@ $params = isset($parentPage) ? ['parent_id' => $parentPage->id] : [];
                         <span>Без ответов</span>
                     </a>
                     <a href="javascript:void(0)" data-attr="without-best-answer" class="btn filter-link @if(Request::get('without-best-answer')) active btn-primary @else btn-dashed @endif">
-                        <span>Не решенные</span>
+                        <span>Нерешённые</span>
                     </a>
                 </div>
             </div>

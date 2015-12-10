@@ -411,34 +411,142 @@ class CabinetUserController extends \BaseController
 				: User::whereAlias($login)->whereIsActive(1)->firstOrFail())
 			: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
 
+		$withoutAnswer = Request::get('without-answer');
+		$withoutBestAnswer = Request::get('without-best-answer');
+
+		$query = new Page;
+		$query = $query->select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+			->whereType(Page::TYPE_QUESTION)
+			->whereUserId($user->id)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+				'publishedAnswers' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'bestComments' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'whoSaved' => function($query) {
+					$query->select('id', 'page_id');
+				},
+				'subscribers' => function($query) {
+					$query->select('id', 'page_id');
+				}
+			])
+			->orderBy('published_at', 'DESC');
+
 		if(Auth::check()){
-			if(Auth::user()->getLoginForUrl() == $login || Auth::user()->isAdmin()) {
-				$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
-					->whereType(Page::TYPE_QUESTION)
-					->whereUserId($user->id)
-					->with('parent.parent', 'publishedComments', 'bestComments')
-					->orderBy('created_at', 'DESC')
-					->paginate(10);
-			} else {
-				$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
-					->whereType(Page::TYPE_QUESTION)
-					->whereUserId($user->id)
-					->whereIsPublished(1)
-					->with('parent.parent', 'publishedComments', 'bestComments')
-					->orderBy('created_at', 'DESC')
-					->paginate(10);
+			if(Auth::user()->getLoginForUrl() !== $login && !Auth::user()->isAdmin()) {
+				$query = $query->whereIsPublished(1);
 			}
 		} else {
-			$questions = Page::select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
-				->whereType(Page::TYPE_QUESTION)
-				->whereUserId($user->id)
-				->whereIsPublished(1)
-				->with('parent.parent', 'publishedComments', 'bestComments')
-				->orderBy('created_at', 'DESC')
-				->paginate(10);
+			$query = $query->whereIsPublished(1);
 		}
+
+		if($withoutAnswer) {
+			$query = $query->whereHas('publishedAnswers', function($q) {
+			}, '<', 1);
+		}
+		if($withoutBestAnswer) {
+			$query = $query->whereHas('bestComments', function($q) {
+			}, '<', 1);
+		}
+
+		$questions = $query->paginate(10);
+
 		View::share('user', $user);
 		return View::make('cabinet::user.questions', compact('questions'));
+	}
+
+	public function searchQuestions($login)
+	{
+		$user = Auth::check()
+			? ((Auth::user()->getLoginForUrl() == $login)
+				? Auth::user()
+				: User::whereAlias($login)->whereIsActive(1)->firstOrFail())
+			: User::whereAlias($login)->whereIsActive(1)->firstOrFail();
+
+		if(Request::ajax()) {
+			$inputData = Request::get('searchData');
+			$url = Request::get('url');
+			parse_str($inputData, $data);
+
+			$withoutAnswer = $data['without-answer'];
+			$withoutBestAnswer = $data['without-best-answer'];
+
+			$query = new Page;
+			$query = $query->select(['id', 'alias', 'title', 'type', 'is_published', 'is_container', 'user_id', 'parent_id', 'published_at', 'views', 'votes', 'voters'])
+				->whereType(Page::TYPE_QUESTION)
+				->whereUserId($user->id)
+				->with([
+					'parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+					},
+					'parent.parent' => function($query) {
+						$query->select('id', 'type', 'alias', 'is_container', 'parent_id', 'title', 'menu_title');
+					},
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+					'publishedAnswers' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'bestComments' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'whoSaved' => function($query) {
+						$query->select('id', 'page_id');
+					},
+					'subscribers' => function($query) {
+						$query->select('id', 'page_id');
+					}
+				])
+				->orderBy('published_at', 'DESC');
+
+			if(Auth::check()){
+				if(Auth::user()->getLoginForUrl() !== $login && !Auth::user()->isAdmin()) {
+					$query = $query->whereIsPublished(1);
+				}
+			} else {
+				$query = $query->whereIsPublished(1);
+			}
+
+			if($withoutAnswer) {
+				$query = $query->whereHas('publishedAnswers', function($q) {
+				}, '<', 1);
+			}
+			if($withoutBestAnswer) {
+				$query = $query->whereHas('bestComments', function($q) {
+				}, '<', 1);
+			}
+
+			$questions = $query->paginate(10);
+			$questions->setBaseUrl($url);
+
+			foreach($data as $key => $value) {
+				if(!$value) {
+					unset($data[$key]);
+				}
+			}
+
+			$url = URL::to((http_build_query($data)) ? $url . '?' . http_build_query($data) : $url);
+			Session::set('user.url', $url);
+
+			return Response::json([
+				'success' => true,
+				'url' => $url,
+				'listHtmL' => (string) View::make('cabinet::user.questionsList', compact('questions', 'url', 'pageId', 'data'))->render(),
+				'countHtmL' => (string) View::make('count')->with('models', $questions)->render(),
+			]);
+		}
 	}
 
 	public function createQuestion($login)

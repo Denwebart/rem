@@ -71,144 +71,27 @@ View::share('title', $title);
                     @endif
                 </div>
 
-                @if(count($questions))
-                    <section id="questions-area" class="blog">
-                        <div class="count">
-                            Показано вопросов: <span>{{ $questions->count() }}</span>.
-                            Всего: <span>{{ $questions->getTotal() }}</span>.
-                        </div>
-                        @foreach($questions as $question)
-                            <div class="well item @if(!$question->is_published) not-published @endif" data-question-id="{{ $question->id }}">
-                                <div class="row">
-                                    @if(!$question->is_published)
-                                        <div class="col-lg-12 col-md-12 col-xs-12">
-                                            <div class="not-published-text pull-right margin-bottom-10">
-                                                Ожидает модерации
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="date pull-left hidden-lg hidden-md hidden-sm">
-                                                    <i class="material-icons pull-left">today</i>
-                                                    <span class="pull-left">{{ DateHelper::dateFormat($question->published_at) }}</span>
-                                                </div>
-                                                <div class="page-info">
-                                                    <div class="date pull-left hidden-xs">
-                                                        <i class="material-icons">today</i>
-                                                        <span>{{ DateHelper::dateFormat($question->published_at) }}</span>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <div class="views pull-left" title="Количество просмотров" data-toggle="tooltip">
-                                                            <i class="material-icons">visibility</i>
-                                                            <span>{{ $question->views }}</span>
-                                                        </div>
-                                                        <div class="saved-count pull-left" title="Сколько пользователей сохранили" data-toggle="tooltip">
-                                                            <i class="material-icons">archive</i>
-                                                            <span>{{ count($question->whoSaved) }}</span>
-                                                        </div>
-                                                        <div class="rating pull-left" title="Рейтинг (количество проголосовавших)" data-toggle="tooltip" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                                                            <i class="material-icons">grade</i>
-                                                            <span>
-                                                                <span itemprop="ratingValue">{{ $question->getRating() }}</span>
-                                                                <meta itemprop="ratingCount" content="{{ $question->votes }}" />
-                                                                (
-                                                                <span itemprop="reviewCount">{{ $question->voters }}</span>
-                                                                )
-                                                            </span>
-                                                        </div>
-                                                        <div class="subscribers pull-left" title="Количество подписавшихся на вопрос" data-toggle="tooltip">
-                                                            <i class="material-icons">local_library</i>
-                                                            <span>{{ count($question->subscribers) }}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9 col-xs-9">
-                                                <h3>
-                                                    <a href="{{ URL::to($question->getUrl()) }}">
-                                                        {{ $question->title }}
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                            <div class="col-md-3 col-xs-3">
-                                                <div class="answers-text">
-                                                    <span>Ответов:</span>
-                                                </div>
-                                                <div class="answers-value">
-                                                    <a href="{{ URL::to($question->getUrl()) }}#answers" class="count @if(count($question->bestComments)) best @endif">
-                                                        {{ count($question->publishedAnswers) }}
-                                                    </a>
-                                                    @if(count($question->bestComments))
-                                                        <a href="{{ URL::to($question->getUrl()) }}#answers">
-                                                            <i class="material-icons mdi-success" title="Есть решение" data-toggle="tooltip">done</i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9 col-xs-8">
-                                                <div class="category">
-                                                    <div class="text pull-left hidden-xs">
-                                                        Категория:
-                                                    </div>
-                                                    <div class="link pull-left">
-                                                        <a href="{{ URL::to($question->parent->getUrl()) }}">
-                                                            {{ $question->parent->getTitle() }}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 col-xs-4">
-                                                @if(Auth::check())
-                                                    @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
-                                                        <div class="buttons pull-right">
-                                                            @if(Auth::user()->isAdmin())
-                                                                <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
-                                                                    <i class="material-icons">delete</i>
-                                                                </a>
-                                                            @endif
-                                                            <a href="{{ URL::route('admin.questions.edit', ['id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
-                                                                <i class="material-icons">edit</i>
-                                                            </a>
-                                                        </div>
-                                                    @elseif((Auth::user()->is($question->user) && !Ip::isBanned() && !Auth::user()->is_banned && $question->isEditable()) || Auth::user()->isAdmin())
-                                                        <div class="buttons pull-right">
-                                                            <a href="javascript:void(0)" class="pull-right delete-question" data-id="{{ $question->id }}" title="Удалить вопрос" data-toggle="tooltip" data-placement="top">
-                                                                <i class="material-icons">delete</i>
-                                                            </a>
-                                                            <a href="{{ URL::route('user.questions.edit', ['login' => $question->user->getLoginForUrl(),'id' => $question->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-right" title="Редактировать вопрос" data-toggle="tooltip">
-                                                                <i class="material-icons">edit</i>
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-
-                        {{ $questions->links() }}
-                    </section>
-                @else
-                    @if(Auth::check())
-                        @if(Auth::user()->is($user))
-                            <p>
-                                Вы еще не задали ни одного вопроса.
-                            </p>
-                        @else
-                            <p>
-                                Вопросов нет.
-                            </p>
-                        @endif
-                    @else
-                        <p>
-                            Вопросов нет.
-                        </p>
-                    @endif
-                @endif
+                <section id="questions-area" class="blog">
+                    <div class="count pull-left">
+                        @include('count', ['models' => $questions])
+                    </div>
+                    <div class="pull-right">
+                        {{ Form::open(['method' => 'GET', 'route' => ['user.questions.search', 'login' => Auth::user()->getLoginForUrl()], 'id' => 'filter-form']) }}
+                        {{ Form::hidden('without-answer', 0, ['id' => 'without-answer']) }}
+                        {{ Form::hidden('without-best-answer', 0, ['id' => 'without-best-answer']) }}
+                        <a href="javascript:void(0)" data-attr="without-answer" class="filter-link @if(Request::get('without-answer')) active @endif">
+                            <span>Без ответов</span>
+                        </a>
+                        <a href="javascript:void(0)" data-attr="without-best-answer" class="filter-link margin-left-10 @if(Request::get('without-best-answer')) active @endif">
+                            <span>Нерешённые</span>
+                        </a>
+                        {{ Form::close() }}
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="list">
+                        @include('cabinet::user.questionsList', ['questions' => $questions])
+                    </div>
+                </section>
             </div>
             <div class="col-lg-12">
                 {{ $areaWidget->contentBottom() }}
@@ -256,4 +139,45 @@ View::share('title', $title);
             </script>
         @endif
     @endif
+
+    <script type="text/javascript">
+        $('.blog').on('click', '.filter-link', function () {
+            var $link = $(this);
+            if($link.hasClass('active')) {
+                $link.removeClass('active');
+                $('#' + $link.data('attr')).val(0);
+            } else {
+                $link.addClass('active');
+                $('#' + $link.data('attr')).val(1);
+            }
+            $("#filter-form").submit();
+        });
+
+        $("form[id^='filter-form']").submit(function(event) {
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            var $form = $(this),
+                    data = $form.serialize(),
+                    url = $form.attr('action');
+            $.ajax({
+                url: url,
+                type: "get",
+                data: {
+                    searchData: data,
+                    url: '<?php echo Request::url(); ?>'
+                },
+                beforeSend: function(request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response) {
+                    //to change the browser URL to the given link location
+                    window.history.pushState({parent: response.url}, '', response.url);
+
+                    if(response.success) {
+                        $('.blog .count').html(response.countHtmL);
+                        $('.list').html(response.listHtmL);
+                    }
+                },
+            });
+        });
+    </script>
 @stop

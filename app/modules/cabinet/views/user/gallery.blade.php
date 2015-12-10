@@ -99,9 +99,11 @@ View::share('title', $title);
                                 </p>
                             @endif
                         @else
-                            <p>
-                                Фотографий нет.
-                            </p>
+                            @if(!count($images))
+                                <p>
+                                    Фотографий нет.
+                                </p>
+                            @endif
                         @endif
                     </div>
 
