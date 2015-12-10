@@ -76,7 +76,7 @@ View::share('title', $title);
                         @include('count', ['models' => $questions])
                     </div>
                     <div class="pull-right">
-                        {{ Form::open(['method' => 'GET', 'route' => ['user.questions.search', 'login' => Auth::user()->getLoginForUrl()], 'id' => 'filter-form']) }}
+                        {{ Form::open(['method' => 'GET', 'route' => ['user.questions.search', 'login' => $user->getLoginForUrl()], 'id' => 'filter-form']) }}
                         {{ Form::hidden('without-answer', 0, ['id' => 'without-answer']) }}
                         {{ Form::hidden('without-best-answer', 0, ['id' => 'without-best-answer']) }}
                         <a href="javascript:void(0)" data-attr="without-answer" class="filter-link @if(Request::get('without-answer')) active @endif">

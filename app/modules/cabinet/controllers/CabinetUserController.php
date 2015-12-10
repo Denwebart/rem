@@ -43,7 +43,7 @@ class CabinetUserController extends \BaseController
 					}
 				}
 			}
-		}, ['except' => ['index', 'gallery', 'questions', 'journal', 'comments', 'answers', 'messages', 'dialog', 'markMessageAsRead', 'deleteAllMessages', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
+		}, ['except' => ['index', 'gallery', 'questions', 'searchQuestions', 'journal', 'comments', 'answers', 'messages', 'dialog', 'markMessageAsRead', 'deleteAllMessages', 'savedPages', 'savePage', 'removePage', 'removeAllPages', 'subscriptions', 'subscribe', 'unsubscribe', 'unsubscribeFromAll', 'deleteSubscriptionNotification', 'notifications', 'deleteNotification', 'deleteAllNotifications']]);
 
 		$this->beforeFilter(function()
 		{
@@ -64,7 +64,7 @@ class CabinetUserController extends \BaseController
 			}
 			View::share('backUrlLogout', '/');
 
-		}, ['except' => ['index', 'gallery', 'editPhoto', 'deletePhoto', 'questions', 'journal', 'comments', 'deleteComment', 'deleteAnswer', 'answers', 'subscriptions']]);
+		}, ['except' => ['index', 'gallery', 'editPhoto', 'deletePhoto', 'questions', 'searchQuestions', 'journal', 'comments', 'deleteComment', 'deleteAnswer', 'answers', 'subscriptions']]);
 	}
 
 	public function index($login)
