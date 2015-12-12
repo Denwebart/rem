@@ -16,6 +16,10 @@ class BaseController extends Controller {
 			Cache::forever('settings.Site', $settings);
 		}
 		View::share('settings', $settings);
+
+		Request::setTrustedProxies(array(
+			'176.9.158.138' // IP address of your intermediary
+		));
 	}
 
 	/**
