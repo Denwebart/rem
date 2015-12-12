@@ -88,7 +88,7 @@ class StringHelper
     public function checkLinksAndReplace($link)
     {
 	    if($link[2][0] == '/' || (strpos($link[2], Config::get('settings.siteUrl')) !== false)) {
-		    return '<a' . $link[1] . 'href="' . $link[2] . '">';
+		    return '<a' . $link[1] . 'href="' . $link[2] . '" '. $link[3] .'>';
 	    }
 	    else {
 		    if (!preg_match("~^(?:f|ht)tps?://~i", $link[2])) {
