@@ -46,41 +46,41 @@ class RelatedWidget
 					$pages = $pages->merge($pagesWithTags);
 				}
 			}
+		}
 
-			if(count($pages) < $limit) {
-				/* по маркам машин (цифрам) в заголовках */
+		if(count($pages) < $limit) {
+			/* по маркам машин (цифрам) в заголовках */
 
-				$carModel = $this->getCarModels($page);
+			$carModel = $this->getCarModels($page);
 
-				if(count($carModel)) {
-					$query = new Page;
-					$query = $this->getCriteria($page, $query);
-					$query = $query->where(function($q) {
-						$q->where('type', '=', Page::TYPE_PAGE)
-							->orWhere('type', '=', Page::TYPE_ARTICLE);
-					});
-					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
-					$query = $query->orderBy(DB::raw('RAND()'));
-					$query = $query->limit($limit - count($pages));
-					$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-					$pages = $pages->merge($pagesCarModel);
-				}
-			}
-
-			if(count($pages) < $limit) {
-				/* рандомно в категории */
+			if(count($carModel)) {
 				$query = new Page;
 				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
 				});
-				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->whereRaw('LOWER(title) REGEXP LOWER("'. implode('|', $carModel) .'")');
 				$query = $query->orderBy(DB::raw('RAND()'));
 				$query = $query->limit($limit - count($pages));
-				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-				$pages = $pages->merge($pagesInCategory);
+				$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesCarModel);
 			}
+		}
+
+		if(count($pages) < $limit) {
+			/* рандомно в категории */
+			$query = new Page;
+			$query = $this->getCriteria($page, $query);
+			$query = $query->where(function($q) {
+				$q->where('type', '=', Page::TYPE_PAGE)
+					->orWhere('type', '=', Page::TYPE_ARTICLE);
+			});
+			$query = $query->where('parent_id', '=', $page->parent_id);
+			$query = $query->orderBy(DB::raw('RAND()'));
+			$query = $query->limit($limit - count($pages));
+			$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			$pages = $pages->merge($pagesInCategory);
 		}
 
 		$view = (string) View::make('widgets.related.index', compact('pages'))->render();
@@ -109,7 +109,7 @@ class RelatedWidget
 				$query = new Page;
 				$query = $this->getCriteria($page, $query);
 				$query = $query->whereType(Page::TYPE_QUESTION);
-				$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
+				$query = $query->whereRaw('LOWER(title) REGEXP LOWER("'. implode('|', $carModel) .'")');
 				$query = $query->orderBy(DB::raw('RAND()'));
 				$query = $query->limit($limit - count($pages));
 				$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
@@ -118,17 +118,26 @@ class RelatedWidget
 		}
 
 		if(count($pages) < $limit) {
-			if(count($pages) < $limit) {
-				/* рандомно в категории */
-				$query = new Page;
-				$query = $this->getCriteria($page, $query);
-				$query = $query->whereType(Page::TYPE_QUESTION);
-				$query = $query->where('parent_id', '=', $page->parent_id);
-				$query = $query->orderBy(DB::raw('RAND()'));
-				$query = $query->limit($limit - count($pages));
-				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-				$pages = $pages->merge($pagesInCategory);
-			}
+			/* рандомно в категории */
+			$query = new Page;
+			$query = $this->getCriteria($page, $query);
+			$query = $query->whereType(Page::TYPE_QUESTION);
+			$query = $query->where('parent_id', '=', $page->parent_id);
+			$query = $query->orderBy(DB::raw('RAND()'));
+			$query = $query->limit($limit - count($pages));
+			$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			$pages = $pages->merge($pagesInCategory);
+		}
+
+		if(count($pages) < $limit) {
+			/* рандомно из всех вопросов */
+			$query = new Page;
+			$query = $this->getCriteria($page, $query);
+			$query = $query->whereType(Page::TYPE_QUESTION);
+			$query = $query->orderBy(DB::raw('RAND()'));
+			$query = $query->limit($limit - count($pages));
+			$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			$pages = $pages->merge($pagesInCategory);
 		}
 
 		$view = (string) View::make('widgets.related.questions', compact('pages'))->render();
@@ -148,7 +157,7 @@ class RelatedWidget
 		/* установленные админом */
 		$pages = $page->relatedArticles;
 
-		if(count($pages) < $limit) {
+		if(count($pages) < $limit && $page->type != Page::TYPE_QUESTION) {
 			if($page->pagesTags) {
 				/* по тегам в этой-же категории */
 				$query = new Page;
@@ -181,41 +190,55 @@ class RelatedWidget
 					$pages = $pages->merge($pagesWithTags);
 				}
 			}
+		}
 
-			if(count($pages) < $limit) {
-				/* по маркам машин (цифрам) в заголовках */
+		if(count($pages) < $limit) {
+			/* по маркам машин (цифрам) в заголовках */
 
-				$carModel = $this->getCarModels($page);
+			$carModel = $this->getCarModels($page);
 
-				if(count($carModel)) {
-					$query = new Page;
-					$query = $this->getCriteria($page, $query);
-					$query = $query->where(function($q) {
-						$q->where('type', '=', Page::TYPE_PAGE)
-							->orWhere('type', '=', Page::TYPE_ARTICLE);
-					});
-					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
-					$query = $query->orderBy(DB::raw('RAND()'));
-					$query = $query->limit($limit - count($pages));
-					$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-					$pages = $pages->merge($pagesCarModel);
-				}
-			}
-
-			if(count($pages) < $limit) {
-				/* рандомно в категории */
+			if(count($carModel)) {
 				$query = new Page;
 				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
 				});
-				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->whereRaw('LOWER(title) REGEXP LOWER("'. implode('|', $carModel) .'")');
 				$query = $query->orderBy(DB::raw('RAND()'));
 				$query = $query->limit($limit - count($pages));
-				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-				$pages = $pages->merge($pagesInCategory);
+				$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesCarModel);
 			}
+		}
+
+		if(count($pages) < $limit) {
+			/* рандомно в категории */
+			$query = new Page;
+			$query = $this->getCriteria($page, $query);
+			$query = $query->where(function($q) {
+				$q->where('type', '=', Page::TYPE_PAGE)
+					->orWhere('type', '=', Page::TYPE_ARTICLE);
+			});
+			$query = $query->where('parent_id', '=', $page->parent_id);
+			$query = $query->orderBy(DB::raw('RAND()'));
+			$query = $query->limit($limit - count($pages));
+			$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			$pages = $pages->merge($pagesInCategory);
+		}
+
+		if(count($pages) < $limit) {
+			/* рандомно со всего сайта */
+			$query = new Page;
+			$query = $this->getCriteria($page, $query);
+			$query = $query->where(function($q) {
+				$q->where('type', '=', Page::TYPE_PAGE)
+					->orWhere('type', '=', Page::TYPE_ARTICLE);
+			});
+			$query = $query->orderBy(DB::raw('RAND()'));
+			$query = $query->limit($limit - count($pages));
+			$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			$pages = $pages->merge($pagesInCategory);
 		}
 
 		$view = (string) View::make('widgets.related.articles', compact('pages'))->render();
@@ -233,17 +256,11 @@ class RelatedWidget
 
 	protected function getCarModels($page)
 	{
-		preg_match_all('/[0-9]{1,9}/', $page->title, $array);
+		preg_match_all('/(?: |\-)[0-9a-zA-Z]{3,9}/', $page->title . ' ' . strip_tags($page->content), $array);
 		$result = [];
 		foreach($array[0] as $key => $item) {
-			$result[$key] = str_replace('-', '', $item);
-		}
-		if(!count($result)) {
-			preg_match_all('/[0-9]{1,9}/', $page->content, $array);
-			foreach($array[0] as $key => $item) {
-				$result[$key] = str_replace('-', '', $item);
-				if($key > 5) break;
-			}
+			if($key >= 3) break;
+			$result[$key] = str_replace(' ', '', str_replace('-', '', $item));
 		}
 		return $result;
 	}

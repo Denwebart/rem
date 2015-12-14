@@ -117,11 +117,6 @@
 
         {{ $areaWidget->contentMiddle() }}
 
-        {{-- Читайте также --}}
-        <?php $relatedWidget = app('RelatedWidget') ?>
-        {{ $relatedWidget->questions($page) }}
-        {{ $relatedWidget->articles($page) }}
-
         <div id="answers">
             {{-- Комментарии --}}
             <?php
@@ -132,6 +127,11 @@
             ?>
             {{ $commentWidget->show($page) }}
         </div>
+
+        {{-- Читайте также --}}
+        <?php $relatedWidget = app('RelatedWidget') ?>
+        {{ $relatedWidget->questions($page) }}
+        {{ $relatedWidget->articles($page) }}
 
         {{ $areaWidget->contentBottom() }}
 
