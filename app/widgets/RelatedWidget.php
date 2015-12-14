@@ -17,7 +17,7 @@ class RelatedWidget
 			if($page->pagesTags) {
 				/* по тегам в этой-же категории */
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -33,7 +33,7 @@ class RelatedWidget
 				if(count($pages) < $limit) {
 					/* по тегам на всем сайте */
 					$query = new Page;
-					$query = $this->getCriteria($page, $query, $limit);
+					$query = $this->getCriteria($page, $query);
 					$query = $query->where(function($q) {
 						$q->where('type', '=', Page::TYPE_PAGE)
 							->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -54,7 +54,7 @@ class RelatedWidget
 
 				if(count($carModel)) {
 					$query = new Page;
-					$query = $this->getCriteria($page, $query, $limit);
+					$query = $this->getCriteria($page, $query);
 					$query = $query->where(function($q) {
 						$q->where('type', '=', Page::TYPE_PAGE)
 							->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -62,15 +62,15 @@ class RelatedWidget
 					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
 					$query = $query->orderBy(DB::raw('RAND()'));
 					$query = $query->limit($limit - count($pages));
-					$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-					$pages = $pages->merge($pagesInCategory);
+					$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesCarModel);
 				}
 			}
 
 			if(count($pages) < $limit) {
 				/* рандомно в категории */
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -107,13 +107,13 @@ class RelatedWidget
 
 			if(count($carModel)) {
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->whereType(Page::TYPE_QUESTION);
 				$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
 				$query = $query->orderBy(DB::raw('RAND()'));
 				$query = $query->limit($limit - count($pages));
-				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-				$pages = $pages->merge($pagesInCategory);
+				$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesCarModel);
 			}
 		}
 
@@ -121,7 +121,7 @@ class RelatedWidget
 			if(count($pages) < $limit) {
 				/* рандомно в категории */
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->whereType(Page::TYPE_QUESTION);
 				$query = $query->where('parent_id', '=', $page->parent_id);
 				$query = $query->orderBy(DB::raw('RAND()'));
@@ -152,7 +152,7 @@ class RelatedWidget
 			if($page->pagesTags) {
 				/* по тегам в этой-же категории */
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -168,7 +168,7 @@ class RelatedWidget
 				if(count($pages) < $limit) {
 					/* по тегам на всем сайте */
 					$query = new Page;
-					$query = $this->getCriteria($page, $query, $limit);
+					$query = $this->getCriteria($page, $query);
 					$query = $query->where(function($q) {
 						$q->where('type', '=', Page::TYPE_PAGE)
 							->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -189,7 +189,7 @@ class RelatedWidget
 
 				if(count($carModel)) {
 					$query = new Page;
-					$query = $this->getCriteria($page, $query, $limit);
+					$query = $this->getCriteria($page, $query);
 					$query = $query->where(function($q) {
 						$q->where('type', '=', Page::TYPE_PAGE)
 							->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -197,15 +197,15 @@ class RelatedWidget
 					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
 					$query = $query->orderBy(DB::raw('RAND()'));
 					$query = $query->limit($limit - count($pages));
-					$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-					$pages = $pages->merge($pagesInCategory);
+					$pagesCarModel = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesCarModel);
 				}
 			}
 
 			if(count($pages) < $limit) {
 				/* рандомно в категории */
 				$query = new Page;
-				$query = $this->getCriteria($page, $query, $limit);
+				$query = $this->getCriteria($page, $query);
 				$query = $query->where(function($q) {
 					$q->where('type', '=', Page::TYPE_PAGE)
 						->orWhere('type', '=', Page::TYPE_ARTICLE);
@@ -242,12 +242,13 @@ class RelatedWidget
 			preg_match_all('/[0-9]{1,9}/', $page->content, $array);
 			foreach($array[0] as $key => $item) {
 				$result[$key] = str_replace('-', '', $item);
+				if($key > 5) break;
 			}
 		}
 		return $result;
 	}
 
-	protected function getCriteria($page, $query, $limit)
+	protected function getCriteria($page, $query)
 	{
 		return $query->whereIsPublished(1)
 			->where('published_at', '<', date('Y-m-d H:i:s'))
