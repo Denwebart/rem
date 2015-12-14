@@ -41,7 +41,7 @@
 @include('widgets.siteMessages.siteMessages')
 
 <!-- Back To Top -->
-<a href="javascript:void(0)" class="back-to-top">
+<a href="javascript:void(0)" rel="nofollow" class="back-to-top">
     <i class="material-icons">keyboard_arrow_up</i>
 </a>
 

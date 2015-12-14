@@ -1,12 +1,12 @@
 @if(Auth::check())
     <div id="saved-pages" class="saved pull-left">
         @if(!Auth::user()->hasInSaved($page->id))
-            <a href="javascript:void(0)" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"' data-toggle="tooltip" data-placement="bottom">
+            <a href="javascript:void(0)" rel="nofollow" id="save-page" data-page-id="{{ $page->id }}" title='Если вам понравилась статья, вы можете добавить ее в "Сохраненное"' data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons">archive</i>
                 <span class="hidden-xs hidden-md">Сохранить</span>
             </a>
         @else
-            <a href="javascript:void(0)" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного' data-toggle="tooltip" data-placement="bottom">
+            <a href="javascript:void(0)" rel="nofollow" id="remove-page" data-page-id="{{ $page->id }}" title='Убрать статью из сохраненного' data-toggle="tooltip" data-placement="bottom">
                 <i class="material-icons mdi-success">archive</i>
                 <span class="hidden-xs hidden-md">Убрать</span>
             </a>

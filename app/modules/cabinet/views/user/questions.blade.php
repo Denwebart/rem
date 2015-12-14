@@ -79,10 +79,10 @@ View::share('title', $title);
                         {{ Form::open(['method' => 'GET', 'route' => ['user.questions.search', 'login' => $user->getLoginForUrl()], 'id' => 'filter-form']) }}
                         {{ Form::hidden('without-answer', 0, ['id' => 'without-answer']) }}
                         {{ Form::hidden('without-best-answer', 0, ['id' => 'without-best-answer']) }}
-                        <a href="javascript:void(0)" data-attr="without-answer" class="filter-link @if(Request::get('without-answer')) active @endif">
+                        <a href="javascript:void(0)" rel="nofollow" data-attr="without-answer" class="filter-link @if(Request::get('without-answer')) active @endif">
                             <span>Без ответов</span>
                         </a>
-                        <a href="javascript:void(0)" data-attr="without-best-answer" class="filter-link margin-left-10 @if(Request::get('without-best-answer')) active @endif">
+                        <a href="javascript:void(0)" rel="nofollow" data-attr="without-best-answer" class="filter-link margin-left-10 @if(Request::get('without-best-answer')) active @endif">
                             <span>Нерешённые</span>
                         </a>
                         {{ Form::close() }}

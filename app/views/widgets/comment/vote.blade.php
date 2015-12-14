@@ -3,7 +3,7 @@ $canVote = (!$isBannedIp) ? (Auth::check() ? (!Auth::user()->is($comment->user) 
 ?>
 <div class="vote pull-right" data-vote-comment-id="{{ $comment->id }}" @if(!$canVote) style="margin: 0" @endif>
     @if($canVote)
-        <a href="javascript:void(0)" class="vote-like" title="Нравится" data-toggle="tooltip" data-placement="top">
+        <a href="javascript:void(0)" rel="nofollow" class="vote-like" title="Нравится" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">arrow_drop_up</i>
         </a>
     @endif
@@ -13,7 +13,7 @@ $canVote = (!$isBannedIp) ? (Auth::check() ? (!Auth::user()->is($comment->user) 
         {{ $comment->votes_like - $comment->votes_dislike }}
     </span>
     @if($canVote)
-        <a href="javascript:void(0)" class="vote-dislike" title="Не нравится" data-toggle="tooltip" data-placement="bottom">
+        <a href="javascript:void(0)" rel="nofollow" class="vote-dislike" title="Не нравится" data-toggle="tooltip" data-placement="bottom">
             <i class="material-icons">arrow_drop_down</i>
         </a>
     @endif
