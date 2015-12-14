@@ -234,10 +234,17 @@ class RelatedWidget
 	protected function getCarModels($page)
 	{
 		preg_match_all('/[0-9]{1,9}/', $page->title, $array);
+		$result = [];
 		foreach($array[0] as $key => $item) {
 			$result[$key] = str_replace('-', '', $item);
 		}
-		return isset($result) ? $result : [];
+		if(!count($result)) {
+			preg_match_all('/[0-9]{1,9}/', $page->content, $array);
+			foreach($array[0] as $key => $item) {
+				$result[$key] = str_replace('-', '', $item);
+			}
+		}
+		return $result;
 	}
 
 	protected function getCriteria($page, $query, $limit)
