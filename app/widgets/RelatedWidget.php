@@ -4,387 +4,259 @@ class RelatedWidget
 {
 	public function show($page, $limit = 3)
 	{
-		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
-		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
-		$keywords = preg_replace('/\|{2,}/','|', $keywords);
+		$cache = Cache::has('related.articles') ? Cache::get('related.articles') : [];
 
-		$pages0 = $page->relatedArticles;
+		if(isset($cache[$page->id])) {
+			return $cache[$page->id];
+		}
 
-		$pages1 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_PAGE)
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+		/* установленные админом */
+		$pages = $page->relatedArticles;
 
-		$pages2 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_PAGE)
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+		if(count($pages) < $limit) {
+			if($page->pagesTags) {
+				/* по тегам в этой-же категории */
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->where(function($q) {
+					$q->where('type', '=', Page::TYPE_PAGE)
+						->orWhere('type', '=', Page::TYPE_ARTICLE);
+				});
+				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->whereHas('pagesTags', function($q) use($page) {
+					return $q->whereIn('tag_id', $page->pagesTags->lists('tag_id', 'tag_id'));
+				});
+				$query = $query->limit($limit - count($pages));
+				$pagesWithTagsInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesWithTagsInCategory);
 
+				if(count($pages) < $limit) {
+					/* по тегам на всем сайте */
+					$query = new Page;
+					$query = $this->getCriteria($page, $query, $limit);
+					$query = $query->where(function($q) {
+						$q->where('type', '=', Page::TYPE_PAGE)
+							->orWhere('type', '=', Page::TYPE_ARTICLE);
+					});
+					$query = $query->whereHas('pagesTags', function($q) use($page) {
+						$q->whereIn('tag_id', $page->pagesTags->lists('tag_id', 'tag_id'));
+					});
+					$query = $query->limit($limit - count($pages));
+					$pagesWithTags = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesWithTags);
+				}
+			}
 
-		$pages3 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_PAGE)
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			if(count($pages) < $limit) {
+				/* по маркам машин (цифрам) в заголовках */
 
-		$pages4 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_PAGE)
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$carModel = $this->getCarModels($page);
 
-		$pages5 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_PAGE)
-			->whereIsContainer(0)
-			->where('parent_id', '!=', 0)
-			->whereParentId($page->parent_id)
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				if(count($carModel)) {
+					$query = new Page;
+					$query = $this->getCriteria($page, $query, $limit);
+					$query = $query->where(function($q) {
+						$q->where('type', '=', Page::TYPE_PAGE)
+							->orWhere('type', '=', Page::TYPE_ARTICLE);
+					});
+					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
+					$query = $query->orderBy(DB::raw('RAND()'));
+					$query = $query->limit($limit - count($pages));
+					$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesInCategory);
+				}
+			}
 
-		$pages = $pages0->merge($pages1);
-		$pages = $pages->merge($pages2);
-		$pages = $pages->merge($pages3);
-		$pages = $pages->merge($pages4);
-		$pages = $pages->merge($pages5);
-		$pages = $pages->slice(0, $limit);
+			if(count($pages) < $limit) {
+				/* рандомно в категории */
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->where(function($q) {
+					$q->where('type', '=', Page::TYPE_PAGE)
+						->orWhere('type', '=', Page::TYPE_ARTICLE);
+				});
+				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->orderBy(DB::raw('RAND()'));
+				$query = $query->limit($limit - count($pages));
+				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesInCategory);
+			}
+		}
 
-		return (string) View::make('widgets.related.index', compact('pages'))->render();
+		$view = (string) View::make('widgets.related.index', compact('pages'))->render();
+		$cache[$page->id] = $view;
+		Cache::put('related.articles', $cache, 60 * 12);
+		return $view;
 	}
 
 	public function questions($page, $limit = 3)
 	{
-		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
-		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
+		$cache = Cache::has('related.questions') ? Cache::get('related.questions') : [];
 
-		$pages0 = $page->relatedQuestions;
+		if(isset($cache[$page->id])) {
+			return $cache[$page->id];
+		}
 
-		$pages1 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_QUESTION)
-			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+		/* установленные админом */
+		$pages = $page->relatedQuestions;
 
-		$pages2 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_QUESTION)
-			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+		if(count($pages) < $limit) {
+			/* по маркам машин (цифрам) в заголовках */
 
+			$carModel = $this->getCarModels($page);
 
-		$pages3 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_QUESTION)
-			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			if(count($carModel)) {
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->whereType(Page::TYPE_QUESTION);
+				$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
+				$query = $query->orderBy(DB::raw('RAND()'));
+				$query = $query->limit($limit - count($pages));
+				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesInCategory);
+			}
+		}
 
-		$pages4 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_QUESTION)
-			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+		if(count($pages) < $limit) {
+			if(count($pages) < $limit) {
+				/* рандомно в категории */
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->whereType(Page::TYPE_QUESTION);
+				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->orderBy(DB::raw('RAND()'));
+				$query = $query->limit($limit - count($pages));
+				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesInCategory);
+			}
+		}
 
-		$pages5 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->whereType(Page::TYPE_QUESTION)
-			->whereParentId($page->parent_id)
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-		
-		$pages = $pages0->merge($pages1);
-		$pages = $pages->merge($pages2);
-		$pages = $pages->merge($pages3);
-		$pages = $pages->merge($pages4);
-		$pages = $pages->merge($pages5);
-		$pages = $pages->slice(0, $limit);
-
-		return (string) View::make('widgets.related.questions', compact('pages'))->render();
+		$view = (string) View::make('widgets.related.questions', compact('pages'))->render();
+		$cache[$page->id] = $view;
+		Cache::put('related.questions', $cache, 60 * 12);
+		return $view;
 	}
 
 	public function articles($page, $limit = 3)
 	{
-		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
-		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
+		$cache = Cache::has('related.articles') ? Cache::get('related.articles') : [];
 
-		$pages0 = $page->relatedArticles;
+		if(isset($cache[$page->id])) {
+			return $cache[$page->id];
+		}
 
-		$pages1 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->where(function ($q) {
-				$q->whereType(Page::TYPE_ARTICLE)
-					->orWhere(function ($query) {
-						$query->where('type', '=', Page::TYPE_PAGE)
-							->whereIsContainer(0)
-							->where('parent_id', '!=', 0);
+		/* установленные админом */
+		$pages = $page->relatedArticles;
+
+		if(count($pages) < $limit) {
+			if($page->pagesTags) {
+				/* по тегам в этой-же категории */
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->where(function($q) {
+					$q->where('type', '=', Page::TYPE_PAGE)
+						->orWhere('type', '=', Page::TYPE_ARTICLE);
+				});
+				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->whereHas('pagesTags', function($q) use($page) {
+					return $q->whereIn('tag_id', $page->pagesTags->lists('tag_id', 'tag_id'));
+				});
+				$query = $query->limit($limit - count($pages));
+				$pagesWithTagsInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesWithTagsInCategory);
+
+				if(count($pages) < $limit) {
+					/* по тегам на всем сайте */
+					$query = new Page;
+					$query = $this->getCriteria($page, $query, $limit);
+					$query = $query->where(function($q) {
+						$q->where('type', '=', Page::TYPE_PAGE)
+							->orWhere('type', '=', Page::TYPE_ARTICLE);
 					});
-			})
-			->whereRaw('LOWER(title) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-
-		$pages2 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->where(function ($q) {
-				$q->whereType(Page::TYPE_ARTICLE)
-					->orWhere(function ($query) {
-						$query->where('type', '=', Page::TYPE_PAGE)
-							->whereIsContainer(0)
-							->where('parent_id', '!=', 0);
+					$query = $query->whereHas('pagesTags', function($q) use($page) {
+						$q->whereIn('tag_id', $page->pagesTags->lists('tag_id', 'tag_id'));
 					});
-			})
-			->whereRaw('LOWER(content) LIKE LOWER("%'. str_replace('|', '%', $keywords) .'%")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$query = $query->limit($limit - count($pages));
+					$pagesWithTags = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesWithTags);
+				}
+			}
 
+			if(count($pages) < $limit) {
+				/* по маркам машин (цифрам) в заголовках */
 
-		$pages3 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->where(function ($q) {
-				$q->whereType(Page::TYPE_ARTICLE)
-					->orWhere(function ($query) {
-						$query->where('type', '=', Page::TYPE_PAGE)
-							->whereIsContainer(0)
-							->where('parent_id', '!=', 0);
+				$carModel = $this->getCarModels($page);
+
+				if(count($carModel)) {
+					$query = new Page;
+					$query = $this->getCriteria($page, $query, $limit);
+					$query = $query->where(function($q) {
+						$q->where('type', '=', Page::TYPE_PAGE)
+							->orWhere('type', '=', Page::TYPE_ARTICLE);
 					});
-			})
-			->whereRaw('LOWER(title) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$query = $query->whereRaw('LOWER(title) LIKE LOWER("%'. implode('%', $carModel) .'%")');
+					$query = $query->orderBy(DB::raw('RAND()'));
+					$query = $query->limit($limit - count($pages));
+					$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+					$pages = $pages->merge($pagesInCategory);
+				}
+			}
 
-		$pages4 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->where(function ($q) {
-				$q->whereType(Page::TYPE_ARTICLE)
-					->orWhere(function ($query) {
-						$query->where('type', '=', Page::TYPE_PAGE)
-							->whereIsContainer(0)
-							->where('parent_id', '!=', 0);
-					});
-			})
-			->whereRaw('LOWER(content) REGEXP LOWER("' . $keywords . '")')
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+			if(count($pages) < $limit) {
+				/* рандомно в категории */
+				$query = new Page;
+				$query = $this->getCriteria($page, $query, $limit);
+				$query = $query->where(function($q) {
+					$q->where('type', '=', Page::TYPE_PAGE)
+						->orWhere('type', '=', Page::TYPE_ARTICLE);
+				});
+				$query = $query->where('parent_id', '=', $page->parent_id);
+				$query = $query->orderBy(DB::raw('RAND()'));
+				$query = $query->limit($limit - count($pages));
+				$pagesInCategory = $query->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
+				$pages = $pages->merge($pagesInCategory);
+			}
+		}
 
-		$pages5 = Page::whereIsPublished(1)
-			->where('published_at', '<', date('Y-m-d H:i:s'))
-			->where('id', '!=', $page->id)
-			->where(function ($q) {
-				$q->whereType(Page::TYPE_ARTICLE)
-					->orWhere(function ($query) {
-						$query->where('type', '=', Page::TYPE_PAGE)
-							->whereIsContainer(0)
-							->where('parent_id', '!=', 0);
-					});
-			})
-			->whereParentId($page->parent_id)
-			->with([
-				'parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'parent.parent' => function($query) {
-					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
-				},
-				'user' => function($query) {
-					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
-				},
-			])
-			->limit($limit)
-			->get(['id', 'parent_id', 'published_at', 'user_id', 'is_published', 'is_container', 'title', 'alias', 'type']);
-
-		$pages = $pages0->merge($pages1);
-		$pages = $pages->merge($pages2);
-		$pages = $pages->merge($pages3);
-		$pages = $pages->merge($pages4);
-		$pages = $pages->merge($pages5);
-		$pages = $pages->slice(0, $limit);
-
-		return (string) View::make('widgets.related.articles', compact('pages'))->render();
+		$view = (string) View::make('widgets.related.articles', compact('pages'))->render();
+		$cache[$page->id] = $view;
+		Cache::put('related.articles', $cache, 60 * 12);
+		return $view;
 	}
 
+	protected function getKeywords($page)
+	{
+		$metaKey = $page->meta_key ? str_replace(',', '|', $page->meta_key) . '|' : '';
+		$keywords = $metaKey . StringHelper::autoMetaKeywords($page->title . ' ' . $page->content, 5, '|');
+		return preg_replace('/\|{2,}/','|', $keywords);
+	}
+
+	protected function getCarModels($page)
+	{
+		preg_match_all('/[0-9]{1,9}/', $page->title, $array);
+		foreach($array[0] as $key => $item) {
+			$result[$key] = str_replace('-', '', $item);
+		}
+		return isset($result) ? $result : [];
+	}
+
+	protected function getCriteria($page, $query, $limit)
+	{
+		return $query->whereIsPublished(1)
+			->where('published_at', '<', date('Y-m-d H:i:s'))
+			->where('id', '!=', $page->id)
+			->whereIsContainer(0)
+			->with([
+				'parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'parent.parent' => function($query) {
+					$query->select('id', 'type', 'alias', 'is_container', 'parent_id');
+				},
+				'user' => function($query) {
+					$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+				},
+			])
+			->where('parent_id', '!=', 0);
+	}
 }

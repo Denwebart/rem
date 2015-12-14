@@ -240,9 +240,11 @@ class Page extends \Eloquent
 			if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
 				Cache::forget('widgets.answers');
 			}
+			Cache::forget('related.articles');
 			if($page->type == self::TYPE_QUESTION) {
 				if($page->is_published == 1) {
 					Cache::forget('widgets.questions');
+					Cache::forget('related.questions');
 				}
 				Cache::forget('headerWidget.newQuestions');
 			}
@@ -252,9 +254,13 @@ class Page extends \Eloquent
 			if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() < 3) {
 				Cache::forget('widgets.notBest');
 			}
-			if($page->is_published == 1 && $page->is_container == 1) {
+			if($page->is_published == 1) {
 				if($page->parent_id != 0) {
-					Cache::forget('widgets.sidebar.' . $page->parent_id);
+					if($page->parent->parent_id != 0) {
+						Cache::forget('widgets.sidebar.' . $page->parent->parent_id);
+					} else {
+						Cache::forget('widgets.sidebar.' . $page->parent_id);
+					}
 				} else {
 					Cache::forget('widgets.sidebar.' . $page->id);
 				}
@@ -289,9 +295,11 @@ class Page extends \Eloquent
 	        if($page->type == self::TYPE_QUESTION && count($page->publishedAnswers)) {
 		        Cache::forget('widgets.answers');
 	        }
+	        Cache::forget('related.articles');
 	        if($page->type == self::TYPE_QUESTION) {
 		        if($page->is_published == 1) {
 			        Cache::forget('widgets.questions');
+			        Cache::forget('related.questions');
 		        }
 		        Cache::forget('headerWidget.newQuestions');
 	        }
@@ -304,9 +312,13 @@ class Page extends \Eloquent
 	        if($page->is_published == 1 && $page->is_container == 0 && $page->getRating() < 3) {
 		        Cache::forget('widgets.notBest');
 	        }
-	        if($page->is_published == 1 && $page->is_container == 1) {
+	        if($page->is_published == 1) {
 		        if($page->parent_id != 0) {
-			        Cache::forget('widgets.sidebar.' . $page->parent_id);
+			        if($page->parent->parent_id != 0) {
+				        Cache::forget('widgets.sidebar.' . $page->parent->parent_id);
+			        } else {
+				        Cache::forget('widgets.sidebar.' . $page->parent_id);
+			        }
 		        } else {
 			        Cache::forget('widgets.sidebar.' . $page->id);
 		        }
@@ -528,6 +540,11 @@ class Page extends \Eloquent
 	public function tags()
 	{
 		return $this->belongsToMany('Tag', 'pages_tags')->orderBy('title', 'ASC');
+	}
+
+	public function pagesTags()
+	{
+		return $this->hasMany('PageTag', 'page_id');
 	}
 
 	public function tagsLine()
