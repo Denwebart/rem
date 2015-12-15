@@ -3,9 +3,9 @@
 @section('content')
 	<section id="content" class="well">
 
-        <div itemscope itemtype="http://schema.org/Article">
-            <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
-            @if(!Request::has('stranitsa') || Request::get('stranitsa') == 1)
+        @if(!Request::has('stranitsa') || Request::get('stranitsa') == 1)
+            <div itemscope itemtype="http://schema.org/Article">
+                <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
                 <div class="row">
                     <div class="@if($page->showRating()) col-lg-9 col-md-12 col-sm-9 col-xs-12 @else col-lg-12 col-md-12 col-sm-12 col-xs-12 @endif">
                         @if($page->is_show_title)
@@ -41,10 +41,9 @@
                         @include('widgets.sidebar.socialButtons')
                     </div>
                 @endif
-
                 {{ $areaWidget->contentMiddle() }}
-            @endif
-        </div>
+            </div>
+        @endif
 
         <section id="blog-area" class="blog margin-top-10">
             @if(count($articles))

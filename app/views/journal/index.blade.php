@@ -12,32 +12,33 @@
 @section('content')
     <section id="content" class="well">
 
-        <div itemscope itemtype="http://schema.org/Article">
+        @if(!Request::has('stranitsa') || Request::get('stranitsa') == 1)
+            <div itemscope itemtype="http://schema.org/Article">
+                <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
+                @if($page->title)
+                    <h2 itemprop="headline">{{ $page->title }}</h2>
+                @else
+                    <meta itemprop="headline" content="{{ $page->getTitle() }}">
+                @endif
 
-            <meta itemprop="datePublished" content="{{ DateHelper::dateFormatForSchema($page->published_at) }}">
-            @if($page->title)
-                <h2 itemprop="headline">{{ $page->title }}</h2>
-            @else
-                <meta itemprop="headline" content="{{ $page->getTitle() }}">
-            @endif
+                {{ $areaWidget->contentTop() }}
 
-            {{ $areaWidget->contentTop() }}
+                @if($page->content)
+                    <div class="content" itemprop="articleBody">
+                        @if($page->image)
+                            <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
+                                {{ $page->getImage('origin', ['class' => 'page-image']) }}
+                            </a>
+                        @else
+                            <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
+                        @endif
+                        {{ $page->getContentWithWidget() }}
+                    </div>
+                @endif
 
-            @if($page->content)
-                <div class="content" itemprop="articleBody">
-                    @if($page->image)
-                        <a class="fancybox pull-left" data-fancybox-group="group-content" href="{{ $page->getImageLink('origin') }}">
-                            {{ $page->getImage('origin', ['class' => 'page-image']) }}
-                        </a>
-                    @else
-                        <meta itemprop="image" content="{{ URL::to(Config::get('settings.defaultImage')) }}">
-                    @endif
-                    {{ $page->getContentWithWidget() }}
-                </div>
-            @endif
-
-            {{ $areaWidget->contentMiddle() }}
-        </div>
+                {{ $areaWidget->contentMiddle() }}
+            </div>
+        @endif
 
         @if(Auth::check())
             @if(!Ip::isBanned())
