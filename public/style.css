@@ -201,6 +201,11 @@ h2 .login {
 .loader-checkbox {
     background: url('images/loader-button.gif');
 }
+/* размер смайлов в редакторе */
+.mce-grid a img {
+    width: 20px !important;
+    height: 20px !important;
+}
 /* Автокомплит jQueryUI */
 .ui-widget-content {
     border: 1px solid #FFFFFF !important;
@@ -460,6 +465,10 @@ form .page-image {
 .pagination > li > a,
 .pagination > li > span {
     margin-right: 5px;
+    padding: 6px 10px;
+}
+.pagination > li.disabled > span {
+    padding: 6px !important;
 }
 
 /* Subscriptions Area, Saved Pages Area */

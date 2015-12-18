@@ -68,6 +68,8 @@ class Comment extends \Eloquent
 		'published_at',
 	];
 
+	protected $smileImageLength = 0;
+
 	const STATUS_NOT_PUBLISHED = 0;
 	const STATUS_PUBLISHED = 1;
 	const STATUS_DELETED = 2;
@@ -311,5 +313,41 @@ class Comment extends \Eloquent
 	{
 		$this->is_deleted = 0;
 		$this->save();
+	}
+
+	/**
+	 * Обрезанный комментарий для виджетов
+	 *
+	 * @param int $limit
+	 * @param string $end
+	 * @return string
+	 */
+	public function getCutComment($limit = 70, $end = '...')
+	{
+		$commentText = $this->deleteImageExceptSmyle($this->comment);
+		$limit = $limit + $this->smileImageLength;
+		if(mb_strlen($commentText) > $limit) {
+			$string = strip_tags($commentText, '<img>');
+			return mb_substr($string, 0, mb_strrpos(mb_substr($string, 0, $limit,'utf-8'),' ', 'utf-8'),'utf-8') . $end;
+		} else {
+			return strip_tags($commentText, '<img>');
+		}
+	}
+
+	/**
+	 * Удаление всех изображений, кроме смайликов
+	 *
+	 * @return mixed
+	 */
+	public function deleteImageExceptSmyle()
+	{
+		return preg_replace_callback('/(<img(.+?)src="(.*?)"(.+?)>)/iu', function($image) {
+			if(strpos($image[3], '/emoticons/img/smiley')) {
+				$this->smileImageLength = $this->smileImageLength + strlen($image[0]);
+				return $image[0];
+			} else {
+				return '';
+			}
+		}, $this->comment);
 	}
 }

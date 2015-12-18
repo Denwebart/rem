@@ -57,7 +57,12 @@ class Ip extends \Eloquent
 
 	public static function isBanned()
 	{
-		$ip = Ip::whereIp(Request::ip())->first(['id', 'ip', 'is_banned']);
-		return $ip ? $ip->is_banned : false;
+		if(Cache::has('isBannedIp')) {
+			return Cache::get('isBannedIp');
+		} else {
+			$ip = Ip::whereIp(Request::ip())->first(['id', 'ip', 'is_banned']);
+			Cache::put('isBannedIp', $ip ? $ip->is_banned : false, 5);
+			return $ip ? $ip->is_banned : false;
+		}
 	}
 }

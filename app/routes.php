@@ -182,6 +182,7 @@ Route::get('{journalAlias}/tag', ['as' => 'journal.tags', 'uses' => 'JournalCont
 Route::get('{journalAlias}/tag/{tag}', ['as' => 'journal.tag', 'uses' => 'JournalController@tag'])->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}', ['as' => 'user.journal', 'uses' => 'JournalController@journal'])->where('journalAlias', 'bortovoj-zhurnal');
 Route::get('{journalAlias}/{login}/{alias}.html', 'JournalController@article')->where('journalAlias', 'bortovoj-zhurnal');
+Route::post('{journalAlias}/{login}/{alias}.html', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@getCommentsPage'])->where('journalAlias', 'bortovoj-zhurnal');
 
 Route::get('tagAutocomplete', ['as' => 'tagAutocomplete', 'uses' => 'JournalController@tagAutocomplete']);
 
@@ -190,15 +191,19 @@ Route::get('{questionsAlias?}', 'SiteController@questions')->where('questionsAli
 Route::get('{questionsAlias?}/{alias}', 'SiteController@questionsCategory')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias?}/{alias}.html', 'SiteController@error404')->where('questionsAlias', 'vopros-otvet');
 Route::get('{questionsAlias?}/{categoryAlias}/{alias}.html', 'SiteController@question')->where('questionsAlias', 'vopros-otvet');
+Route::post('{questionsAlias?}/{categoryAlias}/{alias}.html', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@getCommentsPage'])->where('questionsAlias', 'vopros-otvet');
 
-Route::post('add_comment/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@addComment']);
-Route::post('comment/vote/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@vote']);
-Route::post('comment/mark/{id}', [ 'before' => 'csrf-ajax', 'uses' => 'CommentsController@mark']);
-Route::post('rating/stars/{id}', [ 'before' => 'csrf-ajax', 'as' => 'rating.stars', 'uses' => 'RatingController@stars']);
+Route::post('add_comment/{id}', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@addComment']);
+Route::post('comment/vote/{id}', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@vote']);
+Route::post('comment/mark/{id}', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@mark']);
+Route::post('rating/stars/{id}', ['before' => 'csrf-ajax', 'as' => 'rating.stars', 'uses' => 'RatingController@stars']);
 
 Route::get('{alias}{suffix}', 'SiteController@firstLevel')->where('suffix', '.html');
+Route::post('{alias}{suffix}', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@getCommentsPage'])->where('suffix', '.html');
 Route::get('{categoryAlias}/{alias}{suffix}', 'SiteController@secondLevel')->where('suffix', '.html');
+Route::post('{categoryAlias}/{alias}{suffix}', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@getCommentsPage'])->where('suffix', '.html');
 
 Route::get('{alias}', 'SiteController@firstLevel');
 Route::get('{categoryAlias}/{alias}', 'SiteController@secondLevel');
 Route::get('{parentCategoryAlias}/{categoryAlias}/{alias}.html', 'SiteController@thirdLevel');
+Route::post('{parentCategoryAlias}/{categoryAlias}/{alias}.html', ['before' => 'csrf-ajax', 'uses' => 'CommentsController@getCommentsPage']);

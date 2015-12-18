@@ -341,4 +341,43 @@ class CommentsController extends BaseController
 		}
 	}
 
+	/**
+	 * Постраничный вывод комментариев (ajax)
+	 *
+	 */
+	public function getCommentsPage()
+	{
+		if(Request::ajax()) {
+			$pageId = Input::get('pageId');
+			$page = Page::findOrFail($pageId);
+
+			$query = new Comment();
+			$query = $query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at')
+				->whereIsPublished(1)
+				->whereParentId(0)
+				->wherePageId($page->id)
+				->orderBy('created_at', 'DESC')
+				->with([
+					'user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+					'publishedChildren' => function($query) {
+						$query->select('id', 'is_answer', 'parent_id', 'user_id', 'ip_id', 'user_email', 'user_name', 'page_id', 'is_published', 'votes_like', 'votes_dislike', 'comment', 'mark', 'created_at');
+					},
+					'publishedChildren.user' => function($query) {
+						$query->select('id', 'login', 'alias', 'avatar', 'firstname', 'lastname', 'is_online', 'last_activity');
+					},
+				]);
+			$query = $query->whereMark(0);
+			$comments = $query->paginate(Config::get('settings.commentsCountOnPage', 10));
+
+			return Response::json(array(
+				'success' => true,
+				'message' => (string) View::make('widgets.siteMessages.success', ['siteMessage' => 'Ответ отмечен как лучший.'])->render(),
+				'commentsListHtml' => (string) View::make('widgets.comment.commentsList', compact('comments', 'page'))->with('isBannedIp', Ip::isBanned())->render(),
+				'url' => Request::get('stranitsa', 1) != 1 ? Request::fullUrl() : Request::url(),
+			));
+		}
+	}
+
 }

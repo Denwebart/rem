@@ -129,6 +129,11 @@ select:-moz-focusring {
 .collapse-box-panel {
     cursor: pointer;
 }
+/* размер смайлов в редакторе */
+.mce-grid a img {
+    width: 20px !important;
+    height: 20px !important;
+}
 /* Таблицы */
 table tr.link {
     cursor: pointer;

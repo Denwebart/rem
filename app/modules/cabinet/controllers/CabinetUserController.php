@@ -543,7 +543,7 @@ class CabinetUserController extends \BaseController
 			return Response::json([
 				'success' => true,
 				'url' => $url,
-				'listHtmL' => (string) View::make('cabinet::user.questionsList', compact('questions', 'url', 'pageId', 'data'))->render(),
+				'listHtmL' => (string) View::make('cabinet::user.questionsList', compact('questions', 'url', 'pageId', 'data', 'user'))->render(),
 				'countHtmL' => (string) View::make('count')->with('models', $questions)->render(),
 			]);
 		}

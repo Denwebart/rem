@@ -27,18 +27,12 @@
         @endif
     </h3>
 
-    <div id="comments-area" class="margin-top-20">
-        <div class="count">
-            Показано комментариев: <span>{{ $comments->count() }}</span>.
-            Всего: <span>{{ $comments->getTotal() }}</span>.
-        </div>
-        <div class="comments">
-            @foreach($comments as $comment)
-                <!-- Comment -->
-                @include('widgets.comment.comment1Level', ['page' => $page, 'comment' => $comment, 'isBannedIp' => $isBannedIp])
-            @endforeach
-        </div>
-        {{ $comments->links() }}
+    <div id="comments-area" class="margin-top-20 list">
+        @include('widgets.comment.commentsList', [
+            'comments' => $comments,
+            'page' => $page,
+            'isBannedIp' => $isBannedIp,
+        ])
     </div>
     <!-- end of .comments -->
     <div class="comment-form margin-top-20" id="add-comment">
@@ -405,6 +399,49 @@
                 });
             }
         });
+
+        <!-- пагинация ajax -->
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('?stranitsa=', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                } else {
+                    getPosts(page);
+                }
+            }
+        });
+        $(document).ready(function() {
+            $(document).on('click', '.pagination a', function (e) {
+                getPosts($(this).attr('href').split('stranitsa=')[1]);
+                e.preventDefault();
+            });
+        });
+        function getPosts(page) {
+            $.ajax({
+                url: '?stranitsa=' + page,
+                dataType: "text json",
+                type: "POST",
+                data: {pageId: '<?php echo $page->id ?>'},
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function (response) {
+                    if(response.success) {
+                        // скролл на начало списка комментариев
+                        var containerId = '<?php echo (Page::TYPE_QUESTION == $page->type) ? '#answers' : '#comments' ?>';
+                        $('html, body').animate({
+                            scrollTop: $(containerId).offset().top - 20
+                        }, 1000);
+                        $('.list').html(response.commentsListHtml);
+                        location.hash = page;
+                        //to change the browser URL to the given link location
+                        window.history.pushState({parent: response.url}, '', response.url);
+                    }
+                }
+            });
+        }
+
 
         <!-- Цитирование комментария, текста страницы -->
 
