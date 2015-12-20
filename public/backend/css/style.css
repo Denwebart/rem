@@ -163,6 +163,9 @@ table tr.link td {
     max-width: 100px;
     height: auto !important;
 }
+.table #settings-list img {
+    max-width: 300px;
+}
 .table .users > a {
     border: 1px solid #aaa;
 }

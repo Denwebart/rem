@@ -48,9 +48,9 @@ class Setting extends \Eloquent
 
 	public static $themeValues = [
 		self::THEME_VALUE_DEFAULT => 'Обычная',
-//		self::THEME_VALUE_NEW_YEAR => 'Новогодняя',
-//		self::THEME_VALUE_HALLOWEEN => 'Halloween',
-//		self::THEME_VALUE_8_MARCH => '8 марта',
+		self::THEME_VALUE_NEW_YEAR => 'Новогодняя',
+		self::THEME_VALUE_HALLOWEEN => 'Halloween',
+		self::THEME_VALUE_8_MARCH => '8 марта',
 	];
 
 	protected $fillable = [

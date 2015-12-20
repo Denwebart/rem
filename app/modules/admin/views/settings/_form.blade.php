@@ -8,7 +8,12 @@
                 @if($setting->key == 'categoriesOnMainPage')
                     {{ Form::select('value[]', Page::getContainer(true, false), explode(',', $setting->value), ['class' => 'form-control', 'multiple' => 'multiple', 'style' => 'height:300px']) }}
                 @elseif($setting->key == 'theme')
-                    {{ Form::select('value', Setting::$themeValues, $setting->value, ['class' => 'form-control']) }}
+                    {{ Form::select('value', Setting::$themeValues, $setting->value, ['class' => 'form-control change-theme']) }}
+                    @if($setting->value)
+                        {{ HTML::image('images/logo-'. $setting->value .'.png', '', ['class' => 'img-responsive margin-top-20 theme-image']) }}
+                    @else
+                        {{ HTML::image('images/logo.png', '', ['class' => 'img-responsive margin-top-20 theme-image']) }}
+                    @endif
                 @else
                     @if($setting->type == Setting::TYPE_BOOLEAN)
                         {{ Form::label('value', 'Включена') }}
@@ -74,6 +79,14 @@
         // кнопка "Сохранить"
         $(document).on('click', '.save-button', function() {
             $("#settingsForm").submit();
+        });
+
+        $('.change-theme').on('change', function() {
+            if($(this).val() == '') {
+                $('.theme-image').attr('src', '/images/logo.png')
+            } else {
+                $('.theme-image').attr('src', '/images/logo-'+ $(this).val() +'.png')
+            }
         });
     </script>
 

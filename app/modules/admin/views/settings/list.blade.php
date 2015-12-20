@@ -26,6 +26,11 @@
                 </ul>
             @elseif($setting->key == 'theme')
                 {{ Setting::$themeValues[$setting->value] }}
+                @if($setting->value)
+                    {{ HTML::image('images/logo-'. $setting->value .'.png', '', ['class' => 'img-responsive margin-top-20 theme-image']) }}
+                @else
+                    {{ HTML::image('images/logo.png', '', ['class' => 'img-responsive margin-top-20 theme-image']) }}
+                @endif
             @else
                 @if($setting->type == Setting::TYPE_BOOLEAN)
                     @if($setting->value)
