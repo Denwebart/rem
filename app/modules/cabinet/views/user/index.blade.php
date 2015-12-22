@@ -38,14 +38,6 @@ View::share('title', $title);
                                 @stop
                             @endif
 
-                            <!-- всплывающее сообщение - пароль изменен -->
-                            @if(Session::has('successMessage'))
-                                @section('siteMessages')
-                                    @include('widgets.siteMessages.success', ['siteMessage' => Session::get('successMessage')])
-                                    @parent
-                                @stop
-                            @endif
-
                             @if(Auth::check())
                                 @if(Auth::user()->is($user) && !Auth::user()->is_agree)
                                     @include('messages.rulesAgree')

@@ -41,9 +41,9 @@ View::share('title', $title);
                     {{--<li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>--}}
                     <li>
                         <a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
-                            @if($deletedLetters = count($headerWidget->deletedLetters()))
+                            @if(count($headerWidget->deletedLetters))
                                 <span class="label label-danger pull-right">
-                                    {{ $deletedLetters }}
+                                    {{ count($headerWidget->deletedLetters) }}
                                 </span>
                             @endif
                         </a>

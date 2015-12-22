@@ -55,10 +55,11 @@ class Letter extends \Eloquent
 	{
 		parent::boot();
 
-		static::created(function($letter)
+		static::saved(function($letter)
 		{
 			// очистка кэша
 			Cache::forget('headerWidget.newLetters');
+			Cache::forget('headerWidget.deletedLetters');
 		});
 
 		static::deleted(function($letter) {

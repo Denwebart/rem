@@ -84,15 +84,15 @@ View::share('title', $title);
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                        <h4 class="no-margin-top">
+                                        <h4 class="no-margin-top display-inline-block">
+                                            <span class="pull-left margin-right-10">Отправитель:</span>
                                             @if($letter->user)
-                                                Отправитель:
-                                                <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}">
-                                                    {{ $letter->user->getAvatar('mini', ['width' => '25']) }}
-                                                    {{ $letter->user->login }} ({{ $letter->user->email }})
+                                                <a href="{{ URL::route('user.profile', ['login' => $letter->user->getLoginForUrl()]) }}" class="pull-left">
+                                                    {{ $letter->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-left margin-right-10']) }}
+                                                    <span class="pull-left">{{ $letter->user->login }} ({{ $letter->user->email }})</span>
                                                 </a>
                                             @else
-                                                Отправитель: {{ $letter->user_name }} ({{ $letter->user_email }})
+                                                <span>{{ $letter->user_name }} ({{ $letter->user_email }})</span>
                                             @endif
                                         </h4>
                                     </div>

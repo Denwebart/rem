@@ -19,6 +19,12 @@ class UserSetting extends \Eloquent
 		'notification_question_subscribed',
 		'notification_banned',
 		'notification_role_changed',
+		/* for only admin */
+		'notification_all_new_user',
+		'notification_all_new_question',
+		'notification_all_new_article',
+		'notification_all_new_answer',
+		'notification_all_new_comment',
 	];
 
 	/**

@@ -112,6 +112,51 @@ View::share('title', $title);
                                         <span class="margin-left-10">Кто-то подписался / отписался на вопрос</span>
                                     </label>
                                 </div>
+
+                                @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                    <hr>
+
+                                    <h5>Для всего сайта</h5>
+
+                                    @if(Auth::user()->isAdmin())
+                                        <div class="checkbox">
+                                            <label>
+                                                {{ Form::hidden('notification_all_new_user', 0, ['id' => 'notification_all_new_user_uncheck']) }}
+                                                {{ Form::checkbox('notification_all_new_user', 1, $userSettings->notification_all_new_user) }}
+                                                <span class="margin-left-10">Новые пользователи</span>
+                                            </label>
+                                        </div>
+                                    @endif
+
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ Form::hidden('notification_all_new_question', 0, ['id' => 'notification_all_new_question_uncheck']) }}
+                                            {{ Form::checkbox('notification_all_new_question', 1, $userSettings->notification_all_new_question) }}
+                                            <span class="margin-left-10">Новые вопросы</span>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ Form::hidden('notification_all_new_article', 0, ['id' => 'notification_all_new_article_uncheck']) }}
+                                            {{ Form::checkbox('notification_all_new_article', 1, $userSettings->notification_all_new_article) }}
+                                            <span class="margin-left-10">Новые статьи</span>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ Form::hidden('notification_all_new_answer', 0, ['id' => 'notification_all_new_answer_uncheck']) }}
+                                            {{ Form::checkbox('notification_all_new_answer', 1, $userSettings->notification_all_new_answer) }}
+                                            <span class="margin-left-10">Новые ответы</span>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ Form::hidden('notification_all_new_comment', 0, ['id' => 'notification_all_new_comment_uncheck']) }}
+                                            {{ Form::checkbox('notification_all_new_comment', 1, $userSettings->notification_all_new_comment) }}
+                                            <span class="margin-left-10">Новые комментарии</span>
+                                        </label>
+                                    </div>
+                                @endif
                             </div>
 
                             {{ Form::hidden('_token', csrf_token()) }}

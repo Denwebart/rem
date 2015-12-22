@@ -69,42 +69,55 @@ class CommentsController extends BaseController
 				if ($comment = Comment::create($userData)) {
                     $comment->comment = $comment->saveEditorImages($tempPath);
                     $comment->save();
-					// adding points for comment
+
+					/* for notifications */
+					$variable = [
+						'[pageTitle]' => $comment->page->getTitle(),
+						'[linkToPage]' => URL::to($comment->page->getUrl())
+					];
+					if($comment->is_answer) {
+						$variable['[linkToAnswer]'] = URL::to($comment->getUrl());
+						$variable['[answer]'] = strip_tags($comment->comment);
+					} else {
+						$variable['[linkToComment]'] = URL::to($comment->getUrl());
+						$variable['[comment]'] = strip_tags($comment->comment);
+					}
 					if($comment->user) {
 						if($comment->is_answer) {
+							// adding points for comment
 							$comment->user->addPoints(User::POINTS_FOR_ANSWER);
-							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, [
-								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => strip_tags($comment->comment),
-								'[pageTitle]' => $comment->page->getTitle(),
-								'[linkToPage]' => URL::to($comment->page->getUrl())
-							]);
-							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER, [
-								'[user]' => $comment->user->login,
-								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
-								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => strip_tags($comment->comment),
-								'[pageTitle]' => $comment->page->getTitle(),
-								'[linkToPage]' => URL::to($comment->page->getUrl())
-							]);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_ANSWER_ADDED, $variable);
 						} else {
+							// adding points for comment
 							$comment->user->addPoints(User::POINTS_FOR_COMMENT);
-							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, [
-								'[linkToComment]' => URL::to($comment->getUrl()),
-								'[comment]' => strip_tags($comment->comment),
-								'[pageTitle]' => $comment->page->getTitle(),
-								'[linkToPage]' => URL::to($comment->page->getUrl())
-							]);
-							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT, [
-								'[user]' => $comment->user->login,
-								'[linkToUser]' => URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]),
-								'[linkToAnswer]' => URL::to($comment->getUrl()),
-								'[answer]' => strip_tags($comment->comment),
-								'[pageTitle]' => $comment->page->getTitle(),
-								'[linkToPage]' => URL::to($comment->page->getUrl())
-							]);
+							$comment->user->setNotification(Notification::TYPE_POINTS_FOR_COMMENT_ADDED, $variable);
 						}
 					}
+
+					/* уведомление автору статьи/вопроса о новом комментарии/ответе */
+					$variable['[user]'] = $comment->user->login;
+					$variable['[linkToUser]'] = URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]);
+					if($comment->page->user->id != $comment->user->id) {
+						if($comment->is_answer) {
+							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER, $variable);
+						} else {
+							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT, $variable);
+						}
+					}
+
+					/* уведомление админам и модераторам о новом комментарии/ответе */
+					$adminsModel = User::where(function($query) use ($comment) {
+						$query->whereRole(User::ROLE_ADMIN)
+							->orWhereRole(User::ROLE_MODERATOR);
+					})->where('id', '!=', $comment->user->id)->whereIsActive(1)->whereIsBanned(0)->get();
+					foreach ($adminsModel as $admin) {
+						if($comment->is_answer) {
+							$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_ANSWER, $variable);
+						} else {
+							$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_COMMENT, $variable);
+						}
+					}
+
 					// return success message
 					if($isPublished) {
 						$commentHtml = (0 == $comment->parent_id)

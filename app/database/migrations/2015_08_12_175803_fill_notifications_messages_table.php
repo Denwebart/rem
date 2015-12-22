@@ -142,7 +142,7 @@ class FillNotificationsMessagesTable extends Migration {
 
 	public function down()
 	{
-		DB::table('notifications_messages')->whereIn('id', range(1, 23))->delete();
+		DB::table('notifications_messages')->whereIn('id', range(1, 26))->delete();
 	}
 
 }

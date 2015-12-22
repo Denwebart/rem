@@ -574,19 +574,21 @@ class SiteController extends BaseController {
 				];
 				$content = strtr($template->html, $variables);
 
-				$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
+				$siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first();
+				$siteEmail = ($siteEmailModel)
 					? $siteEmailModel->value
 					: Config::get('settings.adminEmail');
 
-				Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template, $siteEmail)
-				{
-					if(Auth::check()) {
-						$message->from(Auth::user()->email, Auth::user()->login);
-					} else {
-						$message->from($data['user_email'], $data['user_name']);
-					}
-					$message->to($siteEmail, Config::get('settings.adminName'))->subject($template->subject);
-				});
+				$adminsModel = User::whereRole(User::ROLE_ADMIN)->whereIsActive(1)->whereIsBanned(0)->get();
+				
+				foreach ($adminsModel as $admin) {
+					Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template, $siteEmail, $admin)
+					{
+						$message->from($siteEmail, Config::get('settings.adminName'));
+						$message->to($admin->email, $admin->login)->subject($template->subject);
+					});
+					Log::info("The letter from contact form successfully sent to [{$admin->login} ({$admin->email})].");
+				}
 
 				if(Input::get('sendCopy'))
 				{
@@ -605,6 +607,7 @@ class SiteController extends BaseController {
 							$message->to($data['user_email'], $data['user_name'])->subject($template->subject);
 						}
 					});
+					Log::info("The copy of the letter from contact form successfully sent to [{$data['user_name']} ({$data['user_email']})].");
 				}
 
 				return Redirect::back()

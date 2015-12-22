@@ -30,6 +30,12 @@ class Notification extends \Eloquent
 	const TYPE_COMMENT_DELETED = 24;
 	const TYPE_ANSWER_DELETED = 25;
 	const TYPE_QUESTION_DELETED = 26;
+	/* for only admin */
+	const TYPE_FOR_ADMIN_NEW_USER = 27;
+	const TYPE_FOR_ADMIN_NEW_QUESTION = 28;
+	const TYPE_FOR_ADMIN_NEW_ARTICLE = 29;
+	const TYPE_FOR_ADMIN_NEW_ANSWER = 30;
+	const TYPE_FOR_ADMIN_NEW_COMMENT = 31;
 
 	public static $typeIcons = [
 		self::TYPE_POINTS_FOR_COMMENT_ADDED => '<i class="material-icons mdi-success">attach_money</i>',
@@ -58,6 +64,12 @@ class Notification extends \Eloquent
 		self::TYPE_COMMENT_DELETED => '<i class="material-icons mdi-danger">delete</i>',
 		self::TYPE_ANSWER_DELETED => '<i class="material-icons mdi-danger">delete</i>',
 		self::TYPE_QUESTION_DELETED => '<i class="material-icons mdi-danger">delete</i>',
+		/* for only admin */
+		self::TYPE_FOR_ADMIN_NEW_USER => '<i class="material-icons mdi-success">supervisor_account</i>',
+		self::TYPE_FOR_ADMIN_NEW_QUESTION => '<i class="material-icons mdi-success">content_copy</i>',
+		self::TYPE_FOR_ADMIN_NEW_ARTICLE => '<i class="material-icons mdi-success">content_copy</i>',
+		self::TYPE_FOR_ADMIN_NEW_ANSWER => '<i class="material-icons mdi-success">question_answer</i>',
+		self::TYPE_FOR_ADMIN_NEW_COMMENT => '<i class="material-icons mdi-success">chat_bubble</i>',
 	];
 
 	public static $notificationSettingColumns = [
@@ -87,6 +99,12 @@ class Notification extends \Eloquent
 		self::TYPE_COMMENT_DELETED => ['notification_deleted', 'notification_points'],
 		self::TYPE_ANSWER_DELETED => ['notification_deleted', 'notification_points'],
 		self::TYPE_QUESTION_DELETED => ['notification_deleted'],
+		/* for only admin */
+		self::TYPE_FOR_ADMIN_NEW_USER => ['notification_all_new_user'],
+		self::TYPE_FOR_ADMIN_NEW_QUESTION => ['notification_all_new_question'],
+		self::TYPE_FOR_ADMIN_NEW_ARTICLE => ['notification_all_new_article'],
+		self::TYPE_FOR_ADMIN_NEW_ANSWER => ['notification_all_new_answer'],
+		self::TYPE_FOR_ADMIN_NEW_COMMENT => ['notification_all_new_comment'],
 	];
 
 	protected $fillable = [

@@ -46,6 +46,16 @@ class UsersController extends BaseController
 		if ($user->activate($activationCode)) {
 			// В случае успеха авторизовываем его
 			Auth::login($user);
+
+			/* уведомление админам о новом пользователе */
+			$adminsModel = User::whereRole(User::ROLE_ADMIN)->whereIsActive(1)->whereIsBanned(0)->get();
+			foreach ($adminsModel as $admin) {
+				$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_USER, [
+					'[user]' => $user->login,
+					'[linkToUser]' => URL::route('user.profile', ['login' => $user->getLoginForUrl()]),
+				]);
+			}
+
 			// И выводим сообщение об успехе
 			return $this->getMessage("Аккаунт активирован", 'success',  "/");
 		}

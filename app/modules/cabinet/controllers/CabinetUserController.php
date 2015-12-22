@@ -232,6 +232,12 @@ class CabinetUserController extends \BaseController
 				'notification_question_subscribed' => 1,
 				'notification_banned' => 1,
 				'notification_role_changed' => 1,
+				/* for only admin */
+				'notification_all_new_user' => $user->isAdmin() ? 1 : 0,
+				'notification_all_new_question' => ($user->isAdmin() || $user->isModerator()) ? 1 : 0,
+				'notification_all_new_article' => ($user->isAdmin() || $user->isModerator()) ? 1 : 0,
+				'notification_all_new_answer' => ($user->isAdmin() || $user->isModerator()) ? 1 : 0,
+				'notification_all_new_comment' => ($user->isAdmin() || $user->isModerator()) ? 1 : 0,
 			]);
 		}
 

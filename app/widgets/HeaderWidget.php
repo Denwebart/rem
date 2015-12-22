@@ -63,6 +63,12 @@ class HeaderWidget
 				$this->newLetters = $this->newLetters();
 				Cache::put('headerWidget.newLetters', $this->newLetters, 60);
 			}
+			if(Cache::has('headerWidget.deletedLetters')) {
+				$this->deletedLetters = Cache::get('headerWidget.deletedLetters');
+			} else {
+				$this->deletedLetters = $this->deletedLetters();
+				Cache::put('headerWidget.deletedLetters', $this->deletedLetters, 60);
+			}
 			if(Cache::has('headerWidget.newUsers')) {
 				$this->newUsers = Cache::get('headerWidget.newUsers');
 			} else {
@@ -171,16 +177,9 @@ class HeaderWidget
 	}
 
 	public function deletedLetters() {
-		if(Cache::has('headerWidget.deletedLetters')) {
-			$letters = Cache::get('headerWidget.deletedLetters');
-		} else {
-			$letters = Letter::whereNotNull('deleted_at')
-				->orderBy('deleted_at', 'DESC')
-				->get();
-			Cache::put('headerWidget.deletedLetters', count($letters), 60);
-		}
-		$this->deletedLetters = $letters;
-		return $letters;
+		return Letter::whereNotNull('deleted_at')
+			->orderBy('deleted_at', 'DESC')
+			->get();
 	}
 
 	public function newQuestions() {

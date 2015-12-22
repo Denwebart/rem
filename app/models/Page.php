@@ -214,6 +214,28 @@ class Page extends \Eloquent
 	{
 		parent::boot();
 
+		static::created(function($page)
+		{
+			$adminsModel = User::where(function($query){
+				$query->whereRole(User::ROLE_ADMIN)
+					->orWhereRole(User::ROLE_MODERATOR);
+			})->where('id', '!=', $page->user->id)->whereIsActive(1)->whereIsBanned(0)->get();
+			/* уведомление админам и модераторам о новом вопросе/статье */
+			$variable = [
+				'[pageTitle]' => $page->getTitle(),
+				'[linkToPage]' => URL::to($page->getUrl()),
+				'[user]' => $page->user->login,
+				'[linkToUser]' => URL::route('user.profile', ['login' => $page->user->getLoginForUrl()])
+			];
+			foreach ($adminsModel as $admin) {
+				if($page->type == Page::TYPE_QUESTION) {
+					$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_QUESTION, $variable);
+				} elseif($page->type == Page::TYPE_ARTICLE) {
+					$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_ANSWER, $variable);
+				}
+			}
+		});
+
 		static::saving(function($page)
 		{
 			if(Page::TYPE_SYSTEM_PAGE != $page->type && Page::TYPE_QUESTIONS != $page->type && Page::TYPE_JOURNAL != $page->type) {
