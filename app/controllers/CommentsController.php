@@ -121,8 +121,8 @@ class CommentsController extends BaseController
 					// return success message
 					if($isPublished) {
 						$commentHtml = (0 == $comment->parent_id)
-							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->render()
-							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->with('commentLevel2', $comment)->render();
+							? (string) View::make('widgets.comment.comment1Level', compact('comment'))->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->with('backUrl', URL::previous())->render()
+							: (string) View::make('widgets.comment.comment2Level')->with('page', $comment->page)->with('isBannedIp', Ip::isBanned())->with('commentLevel2', $comment)->with('backUrl', URL::previous())->render();
 					} else {
 						$commentHtml = '';
 					}

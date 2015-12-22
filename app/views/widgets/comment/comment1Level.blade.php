@@ -84,7 +84,7 @@
                             @if(Auth::check())
                                 @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                                     <div class="buttons pull-right">
-                                        <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий" data-toggle="tooltip" data-placement="top">
+                                        <a href="{{ URL::route('admin.comments.edit', ['id' => $comment->id, 'backUrl' => isset($backUrl) ? urlencode($backUrl) : urlencode(Request::url())]) }}" class="pull-left margin-left-20" title="Редактировать комментарий" data-toggle="tooltip" data-placement="top">
                                             <i class="material-icons">edit</i>
                                         </a>
                                         <a href="javascript:void(0)" class="pull-left margin-left-10 delete-comment" title="Удалить комментарий" data-id="{{ $comment->id }}" data-toggle="tooltip" data-placement="top">
