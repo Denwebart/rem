@@ -94,22 +94,29 @@ class CommentsController extends BaseController
 						}
 					}
 
+					$variable['[user]'] = $comment->user ? $comment->user->login : $comment->user_name . '(' . $comment->user_email . ')';
+					$variable['[linkToUser]'] = $comment->user ? URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]) : '';
+
 					/* уведомление автору статьи/вопроса о новом комментарии/ответе */
-					$variable['[user]'] = $comment->user->login;
-					$variable['[linkToUser]'] = URL::route('user.profile', ['login' => $comment->user->getLoginForUrl()]);
-					if($comment->page->user->id != $comment->user->id) {
-						if($comment->is_answer) {
-							$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER, $variable);
-						} else {
-							$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT, $variable);
+					if($comment->user) {
+						if($comment->page->user->id != $comment->user->id) {
+							if($comment->is_answer) {
+								$comment->page->user->setNotification(Notification::TYPE_NEW_ANSWER, $variable);
+							} else {
+								$comment->page->user->setNotification(Notification::TYPE_NEW_COMMENT, $variable);
+							}
 						}
 					}
 
 					/* уведомление админам и модераторам о новом комментарии/ответе */
-					$adminsModel = User::where(function($query) use ($comment) {
+					$query = User::where(function($query) use ($comment) {
 						$query->where('role', '=', User::ROLE_ADMIN)
 							->orWhere('role', '=', User::ROLE_MODERATOR);
-					})->where('id', '!=', $comment->user->id)->whereIsActive(1)->whereIsBanned(0)->get();
+					});
+					if($comment->user) {
+						$query = $query->where('id', '!=', $comment->user->id);
+					}
+					$adminsModel = $query->whereIsActive(1)->whereIsBanned(0)->get();
 					foreach ($adminsModel as $admin) {
 						if($comment->is_answer) {
 							$admin->setNotification(Notification::TYPE_FOR_ADMIN_NEW_ANSWER, $variable);

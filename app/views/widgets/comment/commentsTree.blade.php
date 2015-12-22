@@ -189,6 +189,7 @@
                 },
                 success: function(data) {
                     if(data.fail) {
+                        grecaptcha.reset();
                         $.each(data.errors, function(index, value) {
                             var errorDiv = '.' + index + '_error';
                             $form.find(errorDiv).parent().addClass('has-error');
@@ -241,6 +242,7 @@
                         }
                         // если комментарий ожидает модерацию
                         else {
+                            grecaptcha.reset();
                             // сообщение об успехе
                             $('#site-messages').prepend(data.message);
                             setTimeout(function() {

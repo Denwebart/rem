@@ -112,9 +112,9 @@
                 <li class="{{ Request::is('admin/comments*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.comments.index') }}">
                         <i class="fa fa-comment"></i> <span>Комментарии</span>
-                        @if($newComments = count($headerWidget->newComments))
+                        @if(count($headerWidget->newComments) || count($headerWidget->newAnswers))
                             <small class="label pull-right">
-                                {{ $newComments }}
+                                {{ count($headerWidget->newComments) + count($headerWidget->newAnswers) }}
                             </small>
                         @endif
                     </a>
