@@ -107,8 +107,8 @@ class CommentsController extends BaseController
 
 					/* уведомление админам и модераторам о новом комментарии/ответе */
 					$adminsModel = User::where(function($query) use ($comment) {
-						$query->whereRole(User::ROLE_ADMIN)
-							->orWhereRole(User::ROLE_MODERATOR);
+						$query->where('role', '=', User::ROLE_ADMIN)
+							->orWhere('role', '=', User::ROLE_MODERATOR);
 					})->where('id', '!=', $comment->user->id)->whereIsActive(1)->whereIsBanned(0)->get();
 					foreach ($adminsModel as $admin) {
 						if($comment->is_answer) {

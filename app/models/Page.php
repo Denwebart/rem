@@ -217,8 +217,8 @@ class Page extends \Eloquent
 		static::created(function($page)
 		{
 			$adminsModel = User::where(function($query){
-				$query->whereRole(User::ROLE_ADMIN)
-					->orWhereRole(User::ROLE_MODERATOR);
+				$query->where('role', '=', User::ROLE_ADMIN)
+					->orWhere('role', '=', User::ROLE_MODERATOR);
 			})->where('id', '!=', $page->user->id)->whereIsActive(1)->whereIsBanned(0)->get();
 			/* уведомление админам и модераторам о новом вопросе/статье */
 			$variable = [
