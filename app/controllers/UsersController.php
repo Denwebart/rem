@@ -31,7 +31,7 @@ class UsersController extends BaseController
 		$id = $user->register();
 
 		// Вывод информационного сообщения об успешности регистрации
-		return $this->getMessage("Регистрация почти завершена. Вам необходимо подтвердить e-mail, указанный при регистрации, перейдя по ссылке в письме.", 'info');
+		return $this->getMessage("<b>Регистрация почти завершена!</b><br> Письмо с подтверждением отправлено на email, указанный при регистрации. Для активации аккаунта перейдите по ссылке, которая указана в письме.", 'info');
 	}
 
 	public function getActivate($userId, $activationCode)

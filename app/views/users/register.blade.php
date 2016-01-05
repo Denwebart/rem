@@ -48,6 +48,14 @@ View::share('title', $title);
                             @endif
                         </div>
                         <div class="form-group">
+                            <div class="row margin-bottom-10">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <small class="text-muted">
+                                        Указывайте ваш настоящий email-адрес,
+                                        так как на этот ящик будет выслано письмо с подтверждением регистрации.
+                                    </small>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-8 col-md-7 col-sm-7">
                                     {{ Form::submit('Зарегистрироваться', ['id'=> 'submit', 'class' => 'btn btn-primary btn-full']) }}
