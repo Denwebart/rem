@@ -59,11 +59,11 @@
                 <div class="user pull-left" itemprop="author" itemscope itemtype="http://schema.org/Person">
                     <a href="{{ URL::route('user.profile', ['login' => $page->user->getLoginForUrl()]) }}" itemprop="url">
                         {{ $page->user->getAvatar('mini', ['width' => '25', 'class' => 'pull-left']) }}
-                        <span class="login pull-left hidden-xs" itemprop="name">{{ $page->user->login }}</span>
+                        <span class="login pull-left hidden-xs hidden-md" itemprop="name">{{ $page->user->login }}</span>
                     </a>
                 </div>
                 <div class="date pull-left hidden-xs">
-                    <i class="material-icons">today</i>
+                    <i class="material-icons hidden-md">today</i>
                     <time datetime="{{ DateHelper::dateFormatForSchema($page->published_at) }}" itemprop="datePublished">
                         {{ DateHelper::dateFormat($page->published_at) }}
                     </time>

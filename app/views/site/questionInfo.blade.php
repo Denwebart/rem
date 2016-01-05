@@ -1,5 +1,5 @@
 <div class="row item" data-question-id="{{ $question->id }}" itemscope itemtype="http://schema.org/Question">
-    <div class="col-md-2 col-sm-2 col-xs-2">
+    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0">
         <div class="user" itemprop="author" itemscope itemtype="http://schema.org/Person">
             <a href="{{ URL::route('user.profile', ['login' => $question->user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $question->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}

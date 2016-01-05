@@ -474,6 +474,7 @@ h2, .h2 {
     max-height: 600px;
     padding: 20px 20px 20px 0;
     margin: 0;
+    overflow: scroll;
 }
 #scroll.without-border {
     border: none !important;

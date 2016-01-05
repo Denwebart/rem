@@ -23,7 +23,7 @@
             @endif
         @endif
     </div>
-    <div class="col-md-2 col-xs-2 col-sm-2">
+    <div class="col-md-2 col-xs-2 col-sm-2" style="padding: 0">
         <div class="user" itemprop="author" itemscope itemtype="http://schema.org/Person">
             <a href="{{ URL::route('user.profile', ['login' => $article->user->getLoginForUrl()]) }}" class="avatar-link">
                 {{ $article->user->getAvatar('mini', ['class' => 'pull-left avatar circle']) }}

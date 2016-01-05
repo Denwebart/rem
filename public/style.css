@@ -343,7 +343,7 @@ form .page-image {
     box-sizing: content-box;
     margin-left: -10px;
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 13px; /* 14 */
 }
 .blog .page-info {
     margin-bottom: 0;
@@ -2411,6 +2411,9 @@ footer .counter {
     .blog .image {
         margin-top: 0;
     }
+    .blog .user .login {
+        font-size: 12px;
+    }
     /* Все пользователи */
     #search-users-form .is-online .text {
         font-size: 12px;
@@ -2540,6 +2543,9 @@ footer .counter {
     .blog .image {
         margin-top: 0;
     }
+    .blog .user .login {
+        font-size: 12px;
+    }
     /* Ошибки */
     .error p {
         font-size: 14px;
@@ -2665,6 +2671,9 @@ footer .counter {
         font-size: 28px;
         line-height: 34px;
     }
+    .blog .user .login {
+        font-size: 12px;
+    }
     /* Профиль пользователя */
     .profile-user-status .text {
         font-size: 12px;
@@ -2701,6 +2710,15 @@ footer .counter {
     }
     .breadcrumb {
         font-size: 12px;
+    }
+    .blog .user .login {
+        font-size: 12px;
+    }
+    .page-info .date .material-icons {
+        display: none;
+    }
+    .page-info #saved-pages a span {
+        display: none;
     }
     /* Sidebar Widgets */
     #questions-sidebar-widget .best .material-icons.mdi-success {

@@ -237,7 +237,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
 
 @section('leftSidebar')
     @if(count($bestWriter) || count($bestRespondent) || count($bestCommentator))
-        <div id="leaders-sidebar-widget" class="list-group sidebar-widget">
+        <!--<div id="leaders-sidebar-widget" class="list-group sidebar-widget">
             <h4>Лидеры месяца
                 <span class="pull-right">
                     <?php $lastMonth = date_create(date('d-m-Y') . ' first day of last month'); ?>
@@ -273,7 +273,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                 @else
                     <div class="list-group-item">
                         <div class="row-picture">
-                            {{--{{ $key + 1 }}.--}}
+                            {{ $key + 1 }}.
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
@@ -327,7 +327,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                 @else
                     <div class="list-group-item">
                         <div class="row-picture">
-                            {{--{{ $key + 1 }}.--}}
+                            {{ $key + 1 }}.
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
@@ -381,7 +381,7 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                 @else
                     <div class="list-group-item">
                         <div class="row-picture">
-                            {{--{{ $key + 1 }}.--}}
+                            {{ $key + 1 }}.
                             <a href="{{ URL::route('user.profile', ['login' => $user->getLoginForUrl()]) }}" class="avatar-link gray-background">
                                 {{ $user->getAvatar('mini', ['class' => 'avatar circle']) }}
                                 @if($user->isOnline())
@@ -408,6 +408,6 @@ $bestCommentator = User::getBestCommentator(null, null, 1);
                 @endif
             @endforeach
 
-        </div>
+        </div>-->
     @endif
 @stop
