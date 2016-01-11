@@ -582,7 +582,7 @@ class SiteController extends BaseController {
 				$adminsModel = User::whereRole(User::ROLE_ADMIN)->whereIsActive(1)->whereIsBanned(0)->get();
 				
 				foreach ($adminsModel as $admin) {
-					Mail::queue('layouts.email', ['content' => $content], function($message) use ($data, $template, $siteEmail, $admin)
+					Mail::send('layouts.email', ['content' => $content], function($message) use ($data, $template, $siteEmail, $admin)
 					{
 						$message->from($siteEmail, Config::get('settings.adminName'));
 						$message->to($admin->email, $admin->login)->subject($template->subject);
@@ -595,7 +595,7 @@ class SiteController extends BaseController {
 					$template = EmailTemplate::whereKey('contactToUser')->first();
 					$content = strtr($template->html, $variables);
 
-					Mail::queue('layouts.email', [
+					Mail::send('layouts.email', [
 						'content' => $content,
 						'userModel' => Auth::check() ? Auth::user() : false,
 						'getRegistered' => Auth::check() ? false : true,

@@ -149,7 +149,7 @@ class Notification extends \Eloquent
 			];
 			$content = strtr($template->html, $variables);
 
-			Mail::queue('layouts.email', ['content' => $content, 'userModel' => $userModel], function($message) use ($userModel, $template)
+			Mail::send('layouts.email', ['content' => $content, 'userModel' => $userModel], function($message) use ($userModel, $template)
 			{
 				$siteEmail = ($siteEmailModel = Setting::whereKey('siteEmail')->whereIsActive(1)->first())
 					? $siteEmailModel->value
