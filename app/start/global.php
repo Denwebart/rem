@@ -63,8 +63,8 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Illuminate\Session\TokenMismatchException $exception)
 {
-    Redirect::back();
-    Log::error($exception);
+	Redirect::back();
+	Log::error($exception);
 });
 
 App::error(function(Exception $exception, $code)
@@ -77,7 +77,11 @@ App::error(function(Exception $exception, $code)
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception)
 {
-	Log::error($exception);
+	$url = Request::fullUrl();
+	$userAgent = Request::header('user-agent');
+	$referer = URL::previous();
+	//Log::error("404 for URL: [$url] requested by user agent: [$userAgent]");
+	Log::error("404 for URL: [$url] \n                                        requested by user agent: [$userAgent], \n                                        from: [$referer]");
 	if(!Request::is('admin*')) {
 		return Response::view('errors.404', [], 404);
 	} else {
@@ -87,7 +91,9 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 
 App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception)
 {
-	Log::error($exception);
+	$url = Request::fullUrl();
+	Log::error("404 for URL: [$url]");
+	//Log::error($exception);
 	if(!Request::is('admin*')) {
 		return Response::view('errors.404', [], 404);
 	} else {
@@ -116,7 +122,6 @@ App::error(function(Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpE
 		return Response::view('admin::errors.404', [], 404);
 	}
 });
-
 
 /*
 |--------------------------------------------------------------------------
