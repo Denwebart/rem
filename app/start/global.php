@@ -80,11 +80,15 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 	$url = Request::fullUrl();
 	$userAgent = Request::header('user-agent');
 	$referer = URL::previous();
-	//Log::error("404 for URL: [$url] requested by user agent: [$userAgent]");
-	Log::error("404 for URL: [$url] \n                                        requested by user agent: [$userAgent], \n                                        from: [$referer]");
 	if(!Request::is('admin*')) {
-		return Response::view('errors.404', [], 404);
+		if(Config::get('settings.error404Redirect')) {
+			return Redirect::to('/');
+		} else {
+		    Log::error("404 for URL: [$url] \n                                        requested by user agent: [$userAgent], \n                                        from: [$referer]");
+		    return Response::view('errors.404', [], 404);
+		}
 	} else {
+		Log::error("404 for URL: [$url] \n                                        requested by user agent: [$userAgent], \n                                        from: [$referer]");
 		return Response::view('admin::errors.404', [], 404);
 	}
 });
@@ -93,7 +97,6 @@ App::error(function(Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 {
 	$url = Request::fullUrl();
 	Log::error("404 for URL: [$url]");
-	//Log::error($exception);
 	if(!Request::is('admin*')) {
 		return Response::view('errors.404', [], 404);
 	} else {

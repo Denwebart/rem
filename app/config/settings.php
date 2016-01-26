@@ -48,6 +48,8 @@ return [
 	// count on page
 	'commentsCountOnPage' => 10,
 
+	'error404Redirect' => true,
+
 	// nocaptcha
 	'nocaptchaSecret'  => getenv('NOCAPTCHA_SECRET') ?: '6LdhyQETAAAAAIYg3kSuajrmL5HZoQ7OVfraZtk6',
 	'nocaptchaSitekey' => getenv('NOCAPTCHA_SITEKEY') ?: '6LdhyQETAAAAAD8bazOIeedB2t9po-JhWvSwBBfT',
