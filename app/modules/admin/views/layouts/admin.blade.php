@@ -92,9 +92,9 @@
                 <li class="{{ Request::is('admin/questions*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.questions.index') }}">
                         <i class="fa fa-question"></i> <span>Вопросы</span>
-                        @if($newQuestions = count($headerWidget->newQuestions))
+                        @if(count($headerWidget->newQuestions))
                             <small class="label pull-right">
-                                {{ $newQuestions }}
+                                {{ count($headerWidget->newQuestions) }}
                             </small>
                         @endif
                     </a>
@@ -102,9 +102,9 @@
                 <li class="{{ Request::is('admin/articles*') ? 'active' : ''}}">
                     <a href="{{ URL::route('admin.articles.index') }}">
                         <i class="fa fa-file-o"></i> <span>Статьи юзеров</span>
-                        @if($newArticles = count($headerWidget->newArticles))
+                        @if(count($headerWidget->newArticles))
                             <small class="label pull-right">
-                                {{ $newArticles }}
+                                {{ count($headerWidget->newArticles) }}
                             </small>
                         @endif
                     </a>
@@ -128,9 +128,9 @@
                     <li class="{{ Request::is('admin/letters*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.letters.index') }}">
                             <i class="fa fa-envelope"></i> <span>Письма</span>
-                            @if($newLetters = count($headerWidget->newLetters))
+                            @if(count($headerWidget->newLetters))
                                 <small class="label pull-right">
-                                    {{ $newLetters }}
+                                    {{ count($headerWidget->newLetters) }}
                                 </small>
                             @endif
                         </a>
@@ -138,9 +138,9 @@
                     <li class="{{ Request::is('admin/users*') ? 'active' : ''}}">
                         <a href="{{ URL::route('admin.users.index') }}">
                             <i class="fa fa-users"></i> <span>Пользователи</span>
-                            @if($newUsers = count($headerWidget->newUsers))
+                            @if(count($headerWidget->newUsers))
                                 <small class="label pull-right">
-                                    {{ $newUsers }}
+                                    {{ count($headerWidget->newUsers) }}
                                 </small>
                             @endif
                         </a>

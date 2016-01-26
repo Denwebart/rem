@@ -50,6 +50,7 @@ class TranslitHelper
 	public static function generateAlias($model, $rewrite = false)
 	{
 		if(!$rewrite) {
+			//fаlse
 			if(!$model->alias)
 			{
 				$model->alias = self::make($model->getTitle());
@@ -57,6 +58,7 @@ class TranslitHelper
 			}
 			return false;
 		} else {
+			//true
 			$model->alias = self::make($model->getTitle());
 			return true;
 		}

@@ -19,81 +19,22 @@ class HeaderWidget
 	public function __construct()
 	{
 		if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
-			if(Cache::has('headerWidget.newQuestions')) {
-				$this->newQuestions = Cache::get('headerWidget.newQuestions');
-			} else {
-				$this->newQuestions = $this->newQuestions();
-				Cache::put('headerWidget.newQuestions', $this->newQuestions, 60);
-			}
-			if(Cache::has('headerWidget.newArticles')) {
-				$this->newArticles = Cache::get('headerWidget.newArticles');
-			} else {
-				$this->newArticles = $this->newArticles();
-				Cache::put('headerWidget.newArticles', $this->newArticles, 60);
-			}
-			if(Cache::has('headerWidget.newComments')) {
-				$this->newComments = Cache::get('headerWidget.newComments');
-			} else {
-				$this->newComments = $this->newComments();
-				Cache::put('headerWidget.newComments', $this->newComments, 60);
-			}
-			if(Cache::has('headerWidget.newAnswers')) {
-				$this->newAnswers = Cache::get('headerWidget.newAnswers');
-			} else {
-				$this->newAnswers = $this->newAnswers();
-				Cache::put('headerWidget.newAnswers', $this->newAnswers, 60);
-			}
-			if(Cache::has('headerWidget.notPublishedAnswers')) {
-				$this->notPublishedAnswers = Cache::get('headerWidget.notPublishedAnswers');
-			} else {
-				$this->notPublishedAnswers = $this->notPublishedAnswers();
-				Cache::put('headerWidget.notPublishedAnswers', $this->notPublishedAnswers, 60);
-			}
-			if(Cache::has('headerWidget.notPublishedComments')) {
-				$this->notPublishedComments = Cache::get('headerWidget.notPublishedComments');
-			} else {
-				$this->notPublishedComments = $this->notPublishedComments();
-				Cache::put('headerWidget.notPublishedComments', $this->notPublishedComments, 60);
-			}
+			$this->newQuestions = $this->getFromCache('newQuestions');
+			$this->newArticles = $this->getFromCache('newArticles');
+			$this->newComments = $this->getFromCache('newComments');
+			$this->newAnswers = $this->getFromCache('newAnswers');
+			$this->notPublishedAnswers = $this->getFromCache('notPublishedAnswers');
+			$this->notPublishedComments = $this->getFromCache('notPublishedComments');
 		}
 		if(Auth::user()->isAdmin()) {
-			if(Cache::has('headerWidget.newLetters')) {
-				$this->newLetters = Cache::get('headerWidget.newLetters');
-			} else {
-				$this->newLetters = $this->newLetters();
-				Cache::put('headerWidget.newLetters', $this->newLetters, 60);
-			}
-			if(Cache::has('headerWidget.deletedLetters')) {
-				$this->deletedLetters = Cache::get('headerWidget.deletedLetters');
-			} else {
-				$this->deletedLetters = $this->deletedLetters();
-				Cache::put('headerWidget.deletedLetters', $this->deletedLetters, 60);
-			}
-			if(Cache::has('headerWidget.newUsers')) {
-				$this->newUsers = Cache::get('headerWidget.newUsers');
-			} else {
-				$this->newUsers = $this->newUsers();
-				Cache::put('headerWidget.newUsers', $this->newUsers, 60);
-			}
+			$this->newLetters = $this->getFromCache('newLetters');
+			$this->deletedLetters = $this->getFromCache('deletedLetters');
+			$this->newUsers = $this->getFromCache('newUsers');
 		}
-		if(Cache::has('headerWidget.newMessages.' . Auth::user()->id)) {
-			$this->newMessages = Cache::get('headerWidget.newMessages.' . Auth::user()->id);
-		} else {
-			$this->newMessages = $this->newMessages();
-			Cache::put('headerWidget.newMessages.' . Auth::user()->id, $this->newMessages, 60);
-		}
-		if(Cache::has('headerWidget.newNotifications.' . Auth::user()->id)) {
-			$this->newNotifications = Cache::get('headerWidget.newNotifications.' . Auth::user()->id);
-		} else {
-			$this->newNotifications = $this->newNotifications();
-			Cache::put('headerWidget.newNotifications.' . Auth::user()->id, $this->newNotifications, 60);
-		}
-		if(Cache::has('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id)) {
-			$this->newSubscriptionsNotifications = Cache::get('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id);
-		} else {
-			$this->newSubscriptionsNotifications = $this->newSubscriptionsNotifications();
-			Cache::put('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id, $this->newSubscriptionsNotifications, 60);
-		}
+		$this->newMessages = $this->getFromCacheForUser('newMessages');
+		$this->newNotifications = $this->getFromCacheForUser('newNotifications');
+		$this->newSubscriptionsNotifications = $this->getFromCacheForUser('newSubscriptionsNotifications');
+
 		if(Cache::has('headerWidget.isBannedIp.' . Request::ip())) {
 			$this->isBannedIp = Cache::get('headerWidget.isBannedIp.' . Request::ip());
 		} else {
@@ -235,5 +176,29 @@ class HeaderWidget
 		return Session::has('user.lastActivity')
 			? Session::get('user.lastActivity')
 			: Auth::user()->last_activity;
+	}
+
+	protected function getFromCache($key)
+	{
+		$cache = Cache::has('headerWidget.' . $key) ? Cache::get('headerWidget.' . $key) : [];
+		if(isset($cache[Auth::user()->id])) {
+			return  $cache[Auth::user()->id];
+		} else {
+			$result = $this->$key();
+			$cache[Auth::user()->id] = $result;
+			Cache::put('headerWidget.' . $key, $cache, 60);
+			return $result;
+		}
+	}
+
+	protected function getFromCacheForUser($key)
+	{
+		if(Cache::has('headerWidget.' . $key . '.' . Auth::user()->id)) {
+			return Cache::get('headerWidget.' . $key . '.' . Auth::user()->id);
+		} else {
+			$result = $this->$key();
+			Cache::put('headerWidget.' . $key . '.' . Auth::user()->id, $result, 60 * 24);
+			return $result;
+		}
 	}
 }

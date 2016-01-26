@@ -109,6 +109,24 @@ class UsersController extends BaseController
 
 				// Вытираем предыдущую сессию
 				Session::forget('user');
+				// HeaderWidget cache
+				if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
+					Cache::forget('headerWidget.newQuestions');
+					Cache::forget('headerWidget.newArticles');
+					Cache::forget('headerWidget.newComments');
+					Cache::forget('headerWidget.newAnswers');
+					Cache::forget('headerWidget.notPublishedAnswers');
+					Cache::forget('headerWidget.notPublishedComments');
+				}
+				if(Auth::user()->isAdmin()) {
+					Cache::forget('headerWidget.newLetters');
+					Cache::forget('headerWidget.deletedLetters');
+					Cache::forget('headerWidget.newUsers');
+				}
+				Cache::forget('headerWidget.newMessages.' . Auth::user()->id);
+				Cache::forget('headerWidget.newNotifications.' . Auth::user()->id);
+				Cache::forget('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id);
+				// end HeaderWidget cache
 
 				// Заносим в сессию время последнего визита
 				Session::set('user.entryTime', \Carbon\Carbon::now());
@@ -138,7 +156,28 @@ class UsersController extends BaseController
 	public function getLogout()
 	{
 		if(Auth::check()){
+
+			// Вытираем предыдущую сессию
 			Session::forget('user');
+			// HeaderWidget cache
+			if(Auth::user()->isAdmin() || Auth::user()->isModerator()) {
+				Cache::forget('headerWidget.newQuestions');
+				Cache::forget('headerWidget.newArticles');
+				Cache::forget('headerWidget.newComments');
+				Cache::forget('headerWidget.newAnswers');
+				Cache::forget('headerWidget.notPublishedAnswers');
+				Cache::forget('headerWidget.notPublishedComments');
+			}
+			if(Auth::user()->isAdmin()) {
+				Cache::forget('headerWidget.newLetters');
+				Cache::forget('headerWidget.deletedLetters');
+				Cache::forget('headerWidget.newUsers');
+			}
+			Cache::forget('headerWidget.newMessages.' . Auth::user()->id);
+			Cache::forget('headerWidget.newNotifications.' . Auth::user()->id);
+			Cache::forget('headerWidget.newSubscriptionsNotifications.' . Auth::user()->id);
+			// end HeaderWidget cache
+
 			Auth::user()->setOnline(0);
 			Auth::logout();
 		}

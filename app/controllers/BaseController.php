@@ -18,7 +18,8 @@ class BaseController extends Controller {
 		View::share('settings', $settings);
 
 		Request::setTrustedProxies(array(
-			'176.9.158.138' // IP address of your intermediary
+			'176.9.158.138', // IP address of your intermediary
+			'148.251.68.2'
 		));
 	}
 
