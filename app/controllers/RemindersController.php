@@ -27,14 +27,15 @@ class RemindersController extends Controller {
 				: Config::get('settings.adminEmail');
 			$template = EmailTemplate::whereKey('changePassword')->first();
 			switch ($response = Password::remind(Input::only('email'), function($message) use ($siteEmail, $template) {
-				$variables = [
-					'[siteUrl]' => Config::get('settings.siteUrl'),
-					'[resetUrl]' => URL::to('password/reset', array($message->token)),
-					'[expireTime]' => Config::get('auth.reminder.expire', 60),
-				];
-				$content = strtr($template->html, $variables);
+//				$variables = [
+//					'[siteUrl]' => Config::get('settings.siteUrl'),
+//					'[resetUrl]' => URL::to('password/reset'/*, array($message->token)*/),
+//					'[expireTime]' => Config::get('auth.reminder.expire', 60),
+//				];
+//				$content = strtr($template->html, $variables);
 
-				$message->with(['content' => $content]);
+//				dd($message);
+//				$message->with(['content' => $content]);
 				$message->from($siteEmail, Config::get('settings.adminName'));
 				$message->subject($template->subject);
 			}))
@@ -88,7 +89,7 @@ class RemindersController extends Controller {
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return Redirect::to('/')->with('successMessage', 'Ваш пароль успешно изменен. Теперь Вы можете входить на сайт, испольлуя новый пароль.');
 		}
 	}
 

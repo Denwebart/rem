@@ -156,7 +156,11 @@ Route::get('login', ['as' => 'login', 'uses' => 'UsersController@getLogin']);
 Route::post('login_request', ['as' => 'postLogin', 'before' => 'csrf', 'uses' => 'UsersController@postLogin']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@getLogout']);
 
-Route::controller('password', 'RemindersController');
+// Route::controller('password', 'RemindersController');
+Route::post('password/remind', ['as' => 'password.postRemind', 'before' => 'csrf', 'uses' => 'RemindersController@postRemind']);
+Route::get('password/remind', ['as' => 'password.remind', 'uses' => 'RemindersController@getRemind']);
+Route::post('password/reset/{token}', ['as' => 'password.getReset', 'before' => 'csrf', 'uses' => 'RemindersController@postReset']);
+Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'RemindersController@getReset']);
 
 /* Правила сайта */
 Route::get('{rulesAlias}.html', ['as' => 'rules', 'uses' => 'UsersController@getRules'])->where('rulesAlias', 'pravila-sajta');
