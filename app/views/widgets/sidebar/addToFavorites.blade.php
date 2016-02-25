@@ -10,37 +10,39 @@
     @parent
 
     <script type="text/javascript">
-        $('.add-to-favorites').on('click', function() {
-//            var title = document.title;
-//            var url = document.location;
-            var title = "Школа авторемонта - Ремонт автомобиля своими руками";
-            var url = "<?php echo Config::get('app.url')?>";
-            try {
-                // Internet Explorer
-                window.external.AddFavorite(url, title);
-            } catch (e) {
-                try {
-                    // Mozilla
-                    window.sidebar.addPanel(title, url, "");
-                } catch (e) {
-                    // Opera
-                    if (typeof(opera)=="object" || window.sidebar) {
-                        a.rel="sidebar";
-                        a.title=title;
-                        a.url=url;
-                        a.href=url;
-                        return true;
-                    } else {
-                        // Unknown
-                        var message = '@include('widgets.siteMessages.warning', ['siteMessage' => 'Нажмите Ctrl-D чтобы добавить страницу в закладки.'])';
-                        $('#site-messages').prepend(message);
-                        setTimeout(function() {
-                            hideSiteMessage($('.site-message'));
-                        }, 2000);
-                    }
-                }
+
+        $('.add-to-favorites').on('click', function(e) {
+            var bookmarkURL = window.location.href;
+            var bookmarkTitle = document.title;
+
+            //var bookmarkTitle = "Школа авторемонта - Ремонт автомобиля своими руками";
+            //var bookmarkURL = "<?php echo Config::get('app.url')?>";
+
+            if ('addToHomescreen' in window && window.addToHomescreen.isCompatible) {
+                // Mobile browsers
+                addToHomescreen({ autostart: false, startDelay: 0 }).show(true);
+            } else if (window.sidebar && window.sidebar.addPanel) {
+                // Firefox version < 23
+                window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+            } else if ((window.sidebar && /Firefox/i.test(navigator.userAgent)) || (window.opera && window.print)) {
+                // Firefox version >= 23 and Opera Hotlist
+                $(this).attr({
+                    href: bookmarkURL,
+                    title: bookmarkTitle,
+                    rel: 'sidebar'
+                }).off(e);
+                return true;
+            } else if (window.external && ('AddFavorite' in window.external)) {
+                // IE Favorite
+                window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+            } else {
+                // Other browsers (mainly WebKit - Chrome/Safari)
+                alert('Нажмите ' + (/Mac/i.test(navigator.userAgent) ? 'Cmd' : 'Ctrl') + '+D чтобы добавить эту страницу в закладки.');
             }
+
             return false;
         });
+
     </script>
 @stop
+
