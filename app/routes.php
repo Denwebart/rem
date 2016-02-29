@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authInAdminPanel'], function(){
 		Route::get('ips/ipsAutocomplete', ['as' => 'admin.ips.ipsAutocomplete', 'uses' => 'AdminIpsController@ipsAutocomplete']);
 		Route::post('users/{id}/changeRole', ['as' => 'admin.users.changeRole', 'before' => 'csrf-ajax', 'uses' => 'AdminUsersController@changeRole']);
         Route::get('letters/search', ['as' => 'admin.letters.search', 'before' => 'csrf-ajax', 'uses' => 'AdminLettersController@search']);
+        Route::get('letters/sent', ['as' => 'admin.letters.sent', 'uses' => 'AdminLettersController@sent']);
         Route::get('letters/trash', ['as' => 'admin.letters.trash', 'uses' => 'AdminLettersController@trash']);
 		Route::resource('letters', 'AdminLettersController');
 		Route::post('letters/markAsDeleted/{id}', ['as' => 'admin.letters.markAsDeleted', 'before' => 'csrf', 'uses' => 'AdminLettersController@markAsDeleted']);

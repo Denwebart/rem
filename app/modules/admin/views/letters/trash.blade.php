@@ -27,108 +27,64 @@ View::share('title', $title);
     <div class="content">
         <!-- Main row -->
         <div class="mailbox row">
-            <div class="col-md-3 col-sm-4">
-                <ul class="nav nav-pills nav-stacked">
-                    <li>
-                        <a href="{{ URL::route('admin.letters.index') }}"><i class="fa fa-inbox"></i> Входящие письма
-                            @if(count($headerWidget->newLetters()))
-                                <span class="label label-success pull-right">
-                                    {{ count($headerWidget->newLetters()) }}
-                                </span>
-                            @endif
-                        </a>
-                    </li>
-                    {{--<li><a href="#"><i class="fa fa-envelope"></i> Отправленные письма</a></li>--}}
-                    <li class="active">
-                        <a href="{{ URL::route('admin.letters.trash') }}"><i class="fa fa-trash-o"></i> Удаленные письма
-                            @if(count($headerWidget->deletedLetters))
-                                <span class="label label-danger pull-right">
-                                    {{ count($headerWidget->deletedLetters) }}
-                                </span>
-                            @endif
-                        </a>
-                    </li>
-                    {{--<li><a href="#"><i class="fa fa-star"></i> Важные письма</a></li>--}}
-                </ul>
+            <div class="col-md-12 col-sm-12">
+                @include('admin::letters.menu')
             </div>
 
-            <div class="col-md-9 col-sm-8">
+            <div class="col-md-12 col-sm-12">
 
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <div id="count" class="count">
-                            @include('admin::parts.count', ['models' => $letters])
-                        </div>
-                    </div>
-                    {{ Form::open(['method' => 'GET', 'route' => ['admin.letters.search'], 'id' => 'search-letters-form', 'class' => 'table-search']) }}
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <div class="input-group">
-                            {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
-                                'class' => 'form-control',
-                                'id' => 'author',
-                                'placeholder' => 'Логин или имя пользователя'
-                            ]) }}
-                            <span class="input-group-btn">
-                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <div class="input-group">
-                            {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
-                                'class' => 'form-control',
-                                'id' => 'query',
-                                'placeholder' => 'Введите запрос'
-                            ]) }}
-                            <span class="input-group-btn">
-                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                    {{ Form::close() }}
-                </div>
-
-                <div class="box">
-                    <div class="box-body">
+                    <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="table-responsive scroll">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'ID', 'id') }}
-                                            </th>
-                                            {{--<th></th>--}}
-                                            {{--<th></th>--}}
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Автор', 'user_id') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'IP', 'ip_id') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Тема', 'subject') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Получено', 'created_at') }}
-                                            </th>
-                                            <th>
-                                                {{ SortingHelper::sortingLink('admin.letters.trash', 'Удалено', 'deleted_at') }}
-                                            </th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="letters-list">
-                                            @include('admin::letters.trashList', ['letters' => $letters, 'notFoundLetters' => !count(Request::all()) ? 'Удаленных писем нет.' : 'Ничего не найдено.'])
-                                        </tbody>
-                                    </table>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div id="count" class="count">
+                                    @include('admin::parts.count', ['models' => $letters])
+                                </div>
+                            </div>
+                            {{ Form::open(['method' => 'GET', 'route' => ['admin.letters.search'], 'id' => 'search-letters-form', 'class' => 'table-search']) }}
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    {{ Form::text('author', Request::has('author') ? Request::get('author') : null, [
+                                        'class' => 'form-control',
+                                        'id' => 'author',
+                                        'placeholder' => 'Логин или имя пользователя'
+                                    ]) }}
+                                    <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    {{ Form::text('query', Request::has('query') ? Request::get('query') : null, [
+                                        'class' => 'form-control',
+                                        'id' => 'query',
+                                        'placeholder' => 'Введите запрос'
+                                    ]) }}
+                                    <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                                </div>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-5">
+                        <div class="box">
+                            <div class="box-body">
+                                <div class="scroll">
+                                    <div id="letters-list">
+                                        @include('admin::letters.list', ['letters' => $letters, 'notFoundLetters' => !count(Request::all()) ? 'Удаленных писем нет.' : 'Ничего не найдено.'])
+                                    </div>
                                     <div id="pagination" class="pull-left">
                                         {{ SortingHelper::paginationLinks($letters) }}
                                     </div>
                                 </div><!-- /.table-responsive -->
-                            </div><!-- /.col -->
-                        </div><!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 col-sm-7">
+                        Письмо
                     </div>
                 </div>
             </div>
