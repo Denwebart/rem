@@ -529,7 +529,7 @@
                 tinyMCE.get("comment-textarea-0").insertContent(value);
                 // скролл на форму
                 $('html, body').animate({
-                    scrollTop: $('#comment-form-0').offset().top - 50
+                    scrollTop: $('#comment-form-0').offset().top
                 }, 500);
             } else {
                 var value = $('#comment-textarea-' + commentParentId).val();
